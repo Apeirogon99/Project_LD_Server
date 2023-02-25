@@ -19,12 +19,6 @@
     <Filter Include="Soruce\Public\Framework">
       <UniqueIdentifier>{2d594c27-f261-4b73-80c1-8c0d39b6d7cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Soruce\Private\Utils">
-      <UniqueIdentifier>{7a1d080f-25c7-42c9-9d33-a573ee28502e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Soruce\Public\Utils">
-      <UniqueIdentifier>{55173c1d-cb50-4563-b4dd-c94e0f8dbf49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Packet">
       <UniqueIdentifier>{7f62471f-e6ad-4e2b-a126-9dcff6d50255}</UniqueIdentifier>
     </Filter>
@@ -66,9 +60,6 @@
     <ClInclude Include="IdentityGameState.h">
       <Filter>Soruce\Public\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Verified.h">
-      <Filter>Soruce\Public\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="IdentityPacket.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
@@ -97,9 +88,6 @@
     </ClCompile>
     <ClCompile Include="IdentityService.cpp">
       <Filter>Soruce\Private\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Verified.cpp">
-      <Filter>Soruce\Private\Utils</Filter>
     </ClCompile>
     <ClCompile Include="IdentityPacket.pb.cc">
       <Filter>Packet\Private</Filter>
