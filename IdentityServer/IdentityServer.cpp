@@ -528,12 +528,15 @@
 
 using namespace std;
 
-void StartServer()
+void DatabaseConnectionPool()
 {
 	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
 	ADOConnection conn;
 	conn.Open(ConnectionInfo);
+}
 
+void StartServer()
+{
 	IdentityServicePtr service = std::make_shared<IdentityService>();
 
 	service->ServiceOpen();
@@ -559,7 +562,11 @@ void StartServer()
 
 int main(void)
 {
+
+	DatabaseConnectionPool();
+
 	StartServer();
 
 	system("pause");
+
 }

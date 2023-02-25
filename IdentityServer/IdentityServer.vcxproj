@@ -19,11 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Appearance.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="DBError.h" />
     <ClInclude Include="IdentityForward.h" />
-    <ClInclude Include="IdentityDBHandler.h" />
     <ClInclude Include="IdentityGameState.h" />
     <ClInclude Include="IdentityLibaray.h" />
     <ClInclude Include="IdentityListener.h" />
@@ -35,9 +31,6 @@
     <ClInclude Include="Verified.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="DBError.cpp" />
-    <ClCompile Include="IdentityDBHandler.cpp" />
     <ClCompile Include="IdentityGameState.cpp" />
     <ClCompile Include="IdentityLibaray.cpp" />
     <ClCompile Include="IdentityListener.cpp" />

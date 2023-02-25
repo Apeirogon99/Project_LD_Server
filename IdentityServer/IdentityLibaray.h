@@ -4,13 +4,12 @@
 //		     TYPE			//
 //==========================//
 #include "IdentityForward.h"
-#include "Appearance.h"
+
 
 //==========================//
 //		     DB				//
 //==========================//
-#include "DBError.h"
-#include "IdentityDBHandler.h"
+
 
 //==========================//
 //		    Packet			//
@@ -21,7 +20,6 @@
 //==========================//
 //		 GameContent		//
 //==========================//
-#include "Character.h"
 
 //==========================//
 //		   Framework		//

@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "IdentityServerPacketHandler.h"
-#include "IdentityDBHandler.h"
-#include "Ticket.h"
-#include "Verified.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 

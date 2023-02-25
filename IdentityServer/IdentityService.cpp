@@ -56,7 +56,7 @@ bool IdentityService::SettingService()
 
 	//Logger
 	const WCHAR* LoggerName = L"IdentityServer";
-	const WCHAR* filePath = L"P:\\ApeirogonEngine\\ApeirogonEngine\\ApeirogonLogs\\Identity\\IdentityServer.log";
+	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\IdentityServer\\IdentityServer.log";
 	ELogMode LogMode = ELogMode::Console;
 	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, LogMode);
 	if (false == SetLoggerManager(Logger))
