@@ -5,6 +5,7 @@
 
 # Generator
 GeneratorTools/
+Protobuf/
 
 # User-specific files
 *.rsuser
