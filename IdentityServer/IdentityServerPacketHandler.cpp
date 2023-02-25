@@ -65,7 +65,7 @@ bool Handle_C2S_Singin(PacketSessionPtr& session, Protocol::C2S_Singin& pkt)
 		int32 global_id = cmd.GetOutputParam(L"@global_id");
 		std::string ticket = cmd.GetOutputParam(L"@ticket");
 
-		playerState->SetGlobalID(global_id);
+		playerState->mGlobalID = global_id;
 
 		singinPacket.set_error(ret);
 		singinPacket.set_ticket(ticket);
@@ -120,7 +120,7 @@ bool Handle_C2S_Singup(PacketSessionPtr& session, Protocol::C2S_Singup& pkt)
 	{
 		singupPacket.set_error(ret);
 		int32 global_id = cmd.GetOutputParam(L"@global_id");
-		playerState->SetGlobalID(global_id);
+		playerState->mGlobalID = global_id;
 	}
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, singupPacket);
@@ -143,7 +143,7 @@ bool Handle_C2S_EmailVerified(PacketSessionPtr& session, Protocol::C2S_EmailVeri
 		return false;
 	}
 
-	ADOVariant global_id = playerState->GetGlobalID();
+	ADOVariant global_id = playerState->mGlobalID;
 	if (static_cast<int32>(global_id) == -1)
 	{
 		return false;
@@ -216,7 +216,7 @@ bool Handle_C2S_LoadCharacters(PacketSessionPtr& session, Protocol::C2S_LoadChar
 	ADOConnection conn;
 	conn.Open(ConnectionInfo);
 
-	ADOVariant global_id = playerState->GetGlobalID();
+	ADOVariant global_id = playerState->mGlobalID;
 	ADOVariant server_id = 1;
 
 	ADOCommand cmd;
@@ -357,7 +357,7 @@ bool Handle_C2S_CreateCharacter(PacketSessionPtr& session, Protocol::C2S_CreateC
 	ADOVariant job					= pkt.data().job();
 	ADOVariant position				= pkt.data().position();
 	ADOVariant tribe				= pkt.data().tribe();
-	ADOVariant global_id			= playerState->GetGlobalID();
+	ADOVariant global_id			= playerState->mGlobalID;
 	ADOVariant server_id			= 1;
 
 	ADOVariant body_color			= static_cast<int32>(pkt.appearance().body_color());

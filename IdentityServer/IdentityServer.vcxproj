@@ -27,6 +27,7 @@
     <ClInclude Include="IdentityPlayerState.h" />
     <ClInclude Include="IdentityServerPacketHandler.h" />
     <ClInclude Include="IdentityService.h" />
+    <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +44,7 @@
     <ClCompile Include="IdentityServer.cpp" />
     <ClCompile Include="IdentityServerPacketHandler.cpp" />
     <ClCompile Include="IdentityService.cpp" />
+    <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>

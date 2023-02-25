@@ -7,7 +7,7 @@ IdentityService::IdentityService()
 {
 	setlocale(LC_ALL, "");
 	SocketUtils::Init();
-	IdentityServerPacketHandler::Init();
+	PacketHandler::Init();
 }
 
 IdentityService::~IdentityService()

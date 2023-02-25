@@ -14,7 +14,7 @@
 //==========================//
 //		    Packet			//
 //==========================//
-#include "IdentityPacket.pb.h"
+#include "PacketHandler.h"
 #include "IdentityServerPacketHandler.h"
 
 //==========================//

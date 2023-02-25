@@ -1,14 +1,6 @@
 #include "pch.h"
 #include "IdentityPlayerState.h"
 
-RemotePlayer::RemotePlayer()
-{
-}
-
-RemotePlayer::~RemotePlayer()
-{
-}
-
 IdentityPlayerState::IdentityPlayerState()
 {
 }
@@ -29,10 +21,7 @@ void IdentityPlayerState::OnConnected()
 	}
 	else
 	{
-		RemotePlayerPtr newRemotePlayer = std::make_shared<RemotePlayer>();
-		PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-		playerState->SetRemotePlayer(newRemotePlayer);
-		enterServer.set_error(0);
+		
 	}
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, enterServer);
@@ -67,30 +56,10 @@ void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 	PacketSessionPtr session = GetPacketSessionRef();
 
 	bool result = false;
-	result = IdentityServerPacketHandler::HandlePacket(session, buffer, len);
+	result = PacketHandler::HandlePacket(session, buffer, len);
 	if (false == result)
 	{
 		this->SessionLog(L"IdentityPlayerState::OnRecvPacket() : Failed to handle packet\n");
 		return;
 	}
-}
-
-RemotePlayerPtr IdentityPlayerState::GetRemotePlayer()
-{
-	return mRemotePlayer;
-}
-
-void IdentityPlayerState::SetRemotePlayer(RemotePlayerPtr& inRemotePlayer)
-{
-	mRemotePlayer = std::move(inRemotePlayer);
-}
-
-int32 IdentityPlayerState::GetGlobalID()
-{
-	return mGlobalID;
-}
-
-void IdentityPlayerState::SetGlobalID(int32 inGlobalID)
-{
-	mGlobalID = inGlobalID;
 }

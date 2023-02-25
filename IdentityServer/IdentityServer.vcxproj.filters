@@ -66,6 +66,9 @@
     <ClInclude Include="IdentityServerPacketHandler.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -93,6 +96,9 @@
       <Filter>Packet\Private</Filter>
     </ClCompile>
     <ClCompile Include="IdentityServerPacketHandler.cpp">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet\Private</Filter>
     </ClCompile>
   </ItemGroup>
