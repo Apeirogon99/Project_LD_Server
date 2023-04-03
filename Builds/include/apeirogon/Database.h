@@ -2,18 +2,18 @@
 
 using ADOConnections = std::pair<ADOConnection, ADOConnectionInfo>;
 
-class ADOService
+class Database
 {
 public:
-	APEIROGON_API ADOService(const size_t poolSize = 10);
-	APEIROGON_API ~ADOService();
+	APEIROGON_API Database(const size_t poolSize = 10);
+	APEIROGON_API ~Database();
 
 protected:
-	ADOService(const ADOService&) = delete;
-	ADOService(ADOService&&) = delete;
+	Database(const Database&) = delete;
+	Database(Database&&) = delete;
 
-	ADOService operator=(const ADOService&) = delete;
-	ADOService operator=(ADOService&&) = delete;
+	Database operator=(const Database&) = delete;
+	Database operator=(Database&&) = delete;
 
 public:
 	bool Prepare(const ServicePtr& service);
@@ -31,7 +31,7 @@ protected:
 private:
 	bool						mIsService;
 	size_t						mPoolSize;
-
+	
 	ServicePtr					mService;
 	std::vector<ADOConnections>	mConnections;
 };
