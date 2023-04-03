@@ -4,7 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 -- =============================================
--- Description:	check_email_verify(이메일 체크)
+-- Description:	send_email_verify(이메일 체크)
 --
 -- Params
 -- @global_id				: 글로벌 아이디
@@ -23,15 +23,19 @@ AS
 BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
-	
+		
+		--이메일 합치기
 		DECLARE @email AS NVARCHAR(319)
 		SET @email = @local + '@' + @domain
 
+		--랜덤 숫자 생성
 		DECLARE @temp_verify AS INT = CONVERT(INT, RAND() * 1000000)
-		UPDATE email_table SET temp_verify=@temp_verify WHERE global_id=@global_id
+		UPDATE confirm_email_tb SET verify_code=@temp_verify WHERE global_id=@global_id
 
+		--이메일 보내기
 		DECLARE @email_body AS NVARCHAR(255) = '이메일 인증 번호 [ ' + CONVERT(NVARCHAR(7), @temp_verify) + ' ]'
 		EXEC msdb.dbo.sp_send_dbmail @profile_name='smtp_database', @recipients=@email, @subject='Project_LD 이메일 인증', @body=@email_body
+		UPDATE confirm_email_tb SET expired_date=SYSDATETIME()
 
 		COMMIT TRANSACTION;
 		RETURN 0
@@ -50,7 +54,7 @@ BEGIN
 	EXEC dbo.send_email_verfiy_sp 1, 'gwanho0218', 'naver.com'
 
 	SELECT * FROM account_table
-	SELECT * FROM email_table
+	SELECT * FROM confirm_email_tb
 	SELECT * FROM information_table
 END
 GO

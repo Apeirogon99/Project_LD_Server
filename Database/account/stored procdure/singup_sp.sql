@@ -18,7 +18,7 @@ DROP PROCEDURE IF EXISTS singup_sp;
 GO
 
 CREATE PROCEDURE singup_sp
-	@id				NVARCHAR(24),
+	@name			NVARCHAR(24),
 	@password		NVARCHAR(24),
 	@local			NVARCHAR(64),
 	@domain			NVARCHAR(255),
@@ -28,30 +28,37 @@ BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
 
-		DECLARE @current_date AS SMALLDATETIME = CAST(GETUTCDATE() AS SMALLDATETIME);
+		DECLARE @current_date AS DATETIME = SYSDATETIME()
 
 		--아이디 중복
-		IF EXISTS (SELECT 1 FROM account_table WHERE id=@id)
+		IF EXISTS (SELECT 1 FROM user_tb WHERE name=@name)
 			BEGIN
-				ROLLBACK TRANSACTION;
 				RETURN 1002
 			END
 
 		--이메일 중복
-		IF EXISTS (SELECT 1 FROM email_table WHERE local=@local AND domain=@domain)
+		IF EXISTS (SELECT 1 FROM confirm_email_tb WHERE local=@local AND domain=@domain)
 			BEGIN
 				ROLLBACK TRANSACTION;
 				RETURN 1003
 			END
 
 		--회원가입
-		INSERT INTO account_table (id, password) VALUES (@id, @password);
-		
-		SELECT @global_id=global_id FROM account_table WHERE id=@id AND password=@password
-		INSERT INTO email_table(global_id, local, domain) VALUES (@global_id, @local, @domain);
-		INSERT INTO information_table (global_id, create_date, update_date) VALUES (@global_id, @current_date, @current_date);
+		INSERT INTO user_tb (name, enable) VALUES (@name, 0);
 
-		EXEC account_database.dbo.send_email_verfiy_sp @global_id, @local, @domain
+		SELECT @global_id=global_id FROM user_tb WHERE name=@name
+		INSERT INTO auth_password_tb (global_id, password, salt, update_date) VALUES (@global_id, @password, '0', @current_date)
+		INSERT INTO confirm_email_tb(global_id, local, domain, verify_code, verify, expired_date) VALUES (@global_id, @local, @domain, NULL, 0, @current_date);
+		INSERT INTO profile_tb(global_id, create_date, update_date) VALUES (@global_id, @current_date, @current_date);
+
+		IF (@domain <> 'example.com')
+			BEGIN
+				EXEC account_database.dbo.send_email_verfiy_sp @global_id, @local, @domain
+			END
+		ELSE
+			BEGIN
+				UPDATE user_tb SET enable=1 WHERE global_id=@global_id
+			END
 		
 		COMMIT TRANSACTION;
 		RETURN 0
@@ -69,10 +76,11 @@ BEGIN
 
 	DECLARE @global_id AS INT
 
-	EXEC dbo.singup_sp 'TEST_0002', '1234', 'gwanho0218', 'naver.com', @global_id OUTPUT
+	EXEC dbo.singup_sp 'TEST_0000', '1234', 'TEST_0000', 'example.com', @global_id OUTPUT
 
-	SELECT * FROM account_table
-	SELECT * FROM email_table
-	SELECT * FROM information_table
+	print @global_id
+	SELECT * FROM user_tb
+	SELECT * FROM confirm_email_tb
+	SELECT * FROM profile_tb
 END
 GO

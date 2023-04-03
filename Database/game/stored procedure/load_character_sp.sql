@@ -22,16 +22,23 @@ BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
 
+		--캐릭터 정보 확인
 		DECLARE @character_id AS INT;
-
-		IF NOT EXISTS (SELECT 1 FROM character_table WHERE global_id=@global_id AND server_id=@server_id)
+		IF NOT EXISTS (SELECT 1 FROM character_tb WHERE global_id=@global_id AND server_id=@server_id)
 			BEGIN
 				ROLLBACK TRANSACTION;
 				RETURN 2003
 			END
 
 		--커스텀 정보 및 위치정보
-		SELECT name, class, tribe, level, position, body_color, hair_color, eye_color, head, ears, feet, hair, facials_01, facials_02, helmet, shoulders, skirt, legs, legs_add, hands, hands_add, chest, chest_add, cape, bracers, bracers_add, boots, belt, tabard, back_2hl, back_shield, back_weapon_l, back_weapon_r, back_bow, quiver, weapon_r_arrow, weapon_shield, weapon_l, weapon_r, hip_l, hip_r FROM character_table AS character INNER JOIN appearance_table AS custom ON (character.id = custom.character_id) WHERE character.global_id=@global_id AND character.server_id=@server_id
+		SELECT c.name, a.character_calss_id, a.race_id, a.seat, a.skin_color, a.hair_color, a.eye_color, a.eyebrow_color, e.hair, e.helmet, e.shoulders, e.pants_add, e.hands_add, e.chest_add, e.bracers_add, e.boots, e.weapon_l, e.weapon_r 
+		FROM character_tb AS c INNER JOIN appearance_tb AS a ON (c.id = a.character_id) INNER JOIN eqipment_tb AS e ON (a.character_id = e.character_id)
+		WHERE c.global_id=@global_id AND c.server_id=@server_id
+
+		--SELECT e.ears, e.hair, e.facials_01, e.facials_02, e.helmet, e.shoulders, e.skirt, e.pants_add, e.legs_add, e.hands_add, e.chest_add, e.cape, e.bracers_add, e.boots, e.belt, e.tabard, e.weapon_l, e.weapon_r 
+		--FROM character_tb AS c INNER JOIN eqipment_tb AS e ON (c.id = e.character_id) 
+		--WHERE c.global_id=@global_id AND c.server_id=@server_id
+
 		COMMIT TRANSACTION;
 		RETURN 0
 
@@ -45,6 +52,6 @@ GO
 --TEST
 BEGIN
 	USE game_database;
-	--EXEC dbo.load_character_sp 37, 1
+	EXEC dbo.load_character_sp 1, 1
 END
 GO
