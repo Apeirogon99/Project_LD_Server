@@ -1,29 +1,29 @@
 #pragma once
 
 //CustomHandler
-void Handle_Singin_Requset(PacketSessionPtr& session, Protocol::C2S_Singin& pkt);
-void Handle_Singin_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_Singin_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singin& inPacket);
+bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_Singup_Requset(PacketSessionPtr& session, Protocol::C2S_Singup& pkt);
-void Handle_Singup_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_Singup_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singup& inPacket);
+bool Handle_Singup_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_EmailVerified_Requset(PacketSessionPtr& session, Protocol::C2S_EmailVerified& pkt);
-void Handle_EmailVerified_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, Protocol::C2S_EmailVerified& inPacket);
+bool Handle_EmailVerified_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_LoadCharacters_Requset(PacketSessionPtr& session, Protocol::C2S_LoadCharacters& pkt);
-void Handle_LoadCharacters_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_LoadCharacters& inPacket);
+bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_CreateCharacter_Requset(PacketSessionPtr& session, Protocol::C2S_CreateCharacter& pkt);
-void Handle_CreateCharacter_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_CreateCharacter& inPacket);
+bool Handle_CreateCharacter_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_UpdateAppearance_Requset(PacketSessionPtr& session, Protocol::C2S_UpdateAppearance& pkt);
-void Handle_UpdateAppearance_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_UpdateAppearance_Requset(PacketSessionPtr& inSession, Protocol::C2S_UpdateAppearance& inPacket);
+bool Handle_UpdateAppearance_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_DeleteCharacter_Requset(PacketSessionPtr& session, Protocol::C2S_DeleteCharacter& pkt);
-void Handle_DeleteCharacter_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteCharacter& inPacket);
+bool Handle_DeleteCharacter_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
-void Handle_UpdateNickName_Requset(PacketSessionPtr& session, Protocol::C2S_UpdateNickName& pkt);
-void Handle_UpdateNickName_Response(PacketSessionPtr& session, ADOCommand& singinCommand, ADORecordset& singinRecordSet);
+bool Handle_UpdateNickName_Requset(PacketSessionPtr& inSession, Protocol::C2S_UpdateNickName& inPacket);
+bool Handle_UpdateNickName_Response(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset);
 
 class IdentitiyDatabaseHandler
 {
