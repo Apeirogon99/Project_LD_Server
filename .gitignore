@@ -6,6 +6,9 @@
 # Generator
 GeneratorTools/
 
+# Engine Header
+Builds/include/apeirogon/
+
 # User-specific files
 *.rsuser
 *.suo
