@@ -14,5 +14,5 @@ void PacketHandler::Init()
 
 	IdentityServerPacketHandler::Init(PacketHandlers);
 
-	wprintf(L"[PacketHandler::Init] : Successful init packet handls");
+	wprintf(L"[PacketHandler::Init] : Successful init packet handls\n");
 }

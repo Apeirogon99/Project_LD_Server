@@ -44,12 +44,20 @@ bool IdentityService::SettingService()
 
 	//Listener
 	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetLoopbackAddress();
-	IdentityIpAddress->SetPort(9000);
+	IdentityIpAddress->SetIp(L"127.0.0.1", 9000, EProtocolType::IPv4);
+	//IdentityIpAddress->SetPort(9000);
 
 	IdentityListenerPtr identityListener = std::make_shared<IdentityListener>(IdentityIpAddress);
 	ListenerPtr listener = ::static_pointer_cast<Listener>(move(identityListener));
 	if (false == SetListener(listener))
+	{
+		return false;
+	}
+
+	//Database(ADO)
+	IdentityDatabasePtr identitydatabase = std::make_shared<IdentityDatabase>(10);
+	DatabaseManagerPtr  databaseManager = ::static_pointer_cast<DatabaseManager>(move(identitydatabase));
+	if (false == SetDatabaseManager(databaseManager))
 	{
 		return false;
 	}
