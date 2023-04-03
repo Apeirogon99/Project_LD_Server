@@ -5,22 +5,6 @@
 //==========================//
 #include "IdentityForward.h"
 
-
-//==========================//
-//		     DB				//
-//==========================//
-
-
-//==========================//
-//		    Packet			//
-//==========================//
-#include "PacketHandler.h"
-#include "IdentityServerPacketHandler.h"
-
-//==========================//
-//		 GameContent		//
-//==========================//
-
 //==========================//
 //		   Framework		//
 //==========================//
@@ -28,5 +12,21 @@
 #include "IdentityGameState.h"
 #include "IdentityPlayerState.h"
 #include "IdentityListener.h"
+#include "IdentityDatabase.h"
+
+//==========================//
+//		 GameContent		//
+//==========================//
+
+//==========================//
+//		    Packet			//
+//==========================//
+#include "PacketHandler.h"
+#include "IdentitiyDatabaseHandler.h"
+
+//==========================//
+//		     DB				//
+//==========================//
+#include "IdentityServerPacketHandler.h"
 
 

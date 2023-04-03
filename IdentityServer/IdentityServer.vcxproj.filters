@@ -37,6 +37,15 @@
     <Filter Include="Packet\Private">
       <UniqueIdentifier>{14f88996-76ce-45b8-8667-a43ca9369b40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{f5b459a5-ce30-446b-bb90-3bc785d7bfbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Private">
+      <UniqueIdentifier>{4364194e-dba0-4a87-ad05-ff36222358ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Public">
+      <UniqueIdentifier>{4c88973c-2988-41e8-a27f-62f0b3c19db3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -68,6 +77,18 @@
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketEnum.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStruct.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentityDatabase.h">
+      <Filter>Soruce\Public\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentitiyDatabaseHandler.h">
+      <Filter>Database\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,10 +122,17 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet\Private</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Protobuf\Generator\bin\ProtoSoruce\IdentityPacket.proto">
-      <Filter>Packet\Public</Filter>
-    </None>
+    <ClCompile Include="PacketEnum.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketStruct.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentityDatabase.cpp">
+      <Filter>Soruce\Private\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentitiyDatabaseHandler.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

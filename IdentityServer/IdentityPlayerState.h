@@ -16,6 +16,12 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	int32			mGlobalID = -1;
+	bool CompareRemoteID(int64 inRemoteID) const { return mRemoteID == inRemoteID; }
+
+public:
+	std::string	mToken;
+	int64		mRemoteID;
+	int32		mGlobalID;
+
 };
 

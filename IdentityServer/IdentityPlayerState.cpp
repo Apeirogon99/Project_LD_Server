@@ -11,7 +11,7 @@ IdentityPlayerState::~IdentityPlayerState()
 
 void IdentityPlayerState::OnConnected()
 {
-	Protocol::S2C_EnterServer enterServer;
+	Protocol::S2C_EnterIdentityServer enterServer;
 	PacketSessionPtr session = GetPacketSessionRef();
 
 	bool valid = session->IsValid();
@@ -35,7 +35,7 @@ void IdentityPlayerState::OnSend(uint32 len)
 
 void IdentityPlayerState::OnDisconnected()
 {
-	Protocol::S2C_LeaveServer leavePacket;
+	Protocol::S2C_LeaveIdentityServer leavePacket;
 	PacketSessionPtr session = GetPacketSessionRef();
 	bool valid = session->IsValid();
 	if (false == valid)
