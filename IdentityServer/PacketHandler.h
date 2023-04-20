@@ -35,13 +35,14 @@ private:
 		const uint16 packetSize = dataSize + sizeof(PacketHeader);
 
 		SessionManagerPtr manager = session->GetSessionManager();
-		SendRingBuffer& sendRingBuffer = manager->GetSendRingBuffer();
-		SendBufferPtr sendBuffer = sendRingBuffer.Writer(packetSize);
+		//SendRingBuffer& sendRingBuffer = manager->GetSendRingBuffer();
+		//SendBufferPtr sendBuffer = sendRingBuffer.Writer(packetSize);
+		SendBufferPtr sendBuffer = std::make_shared<SendBuffer>(packetSize);
 		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
 		header->size = packetSize;
 		header->id = pktId;
 		pkt.SerializeToArray(&header[1], dataSize);
-		sendRingBuffer.Reserve(packetSize);
+		//sendRingBuffer.Reserve(packetSize);
 
 		return sendBuffer;
 	}

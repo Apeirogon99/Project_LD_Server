@@ -28,10 +28,10 @@ bool Handle_UpdateNickName_Response(PacketSessionPtr& inSession, ADOCommand& inC
 class IdentitiyDatabaseHandler
 {
 public:
-	static void AddADOWork(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset, ADOCallBack inCallback)
+	static void AddADOTask(PacketSessionPtr& inSession, ADOCommand& inCommand, ADORecordset& inRecordset, ADOCallBack inCallback)
 	{
 		IdentityDatabasePtr identityDatabase = std::static_pointer_cast<IdentityDatabase>(inSession->GetSessionManager()->GetService()->GetDatabaseManager());
-		identityDatabase->GetAsync().AddWork(inSession, inCommand, inRecordset, inCallback);
+		identityDatabase->GetTask().AddWork(inSession, inCommand, inRecordset, inCallback);
 	}
 };
 

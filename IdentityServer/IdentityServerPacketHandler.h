@@ -23,8 +23,12 @@ enum class EPakcetID: uint16
 	S2C_DeleteCharacter = 1018,
 	C2S_UpdateNickName = 1019,
 	S2C_UpdateNickName = 1020,
-	C2S_TravelServer = 1021,
-	S2C_TravelServer = 1022,
+	C2S_TravelLevel = 1021,
+	S2C_TravelLevel = 1022,
+	C2S_TravelServer = 1023,
+	S2C_TravelServer = 1024,
+	C2S_Test = 1025,
+	S2C_Test = 1026,
 };
 
 // Custom Handlers
@@ -39,7 +43,9 @@ bool Handle_C2S_CreateCharacter(PacketSessionPtr& session, Protocol::C2S_CreateC
 bool Handle_C2S_UpdateAppearance(PacketSessionPtr& session, Protocol::C2S_UpdateAppearance& pkt);
 bool Handle_C2S_DeleteCharacter(PacketSessionPtr& session, Protocol::C2S_DeleteCharacter& pkt);
 bool Handle_C2S_UpdateNickName(PacketSessionPtr& session, Protocol::C2S_UpdateNickName& pkt);
+bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt);
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt);
+bool Handle_C2S_Test(PacketSessionPtr& session, Protocol::C2S_Test& pkt);
 
 class IdentityServerPacketHandler
 {
@@ -58,7 +64,9 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_UpdateAppearance)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_UpdateAppearance>(Handle_C2S_UpdateAppearance, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_DeleteCharacter)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_DeleteCharacter>(Handle_C2S_DeleteCharacter, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_UpdateNickName)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_UpdateNickName>(Handle_C2S_UpdateNickName, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_TravelLevel)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_TravelLevel>(Handle_C2S_TravelLevel, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_TravelServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_TravelServer>(Handle_C2S_TravelServer, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_Test)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_Test>(Handle_C2S_Test, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_EnterIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterIdentityServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LeaveIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveIdentityServer)); }
@@ -71,6 +79,8 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_UpdateAppearance& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateAppearance)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DeleteCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DeleteCharacter)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_UpdateNickName& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateNickName)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_TravelLevel& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_TravelLevel)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_TravelServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_TravelServer)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_Test& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_Test)); }
 
 };

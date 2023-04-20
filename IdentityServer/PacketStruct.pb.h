@@ -53,12 +53,16 @@ namespace Protocol {
 class SCharacterAppearance;
 struct SCharacterAppearanceDefaultTypeInternal;
 extern SCharacterAppearanceDefaultTypeInternal _SCharacterAppearance_default_instance_;
+class SCharacterData;
+struct SCharacterDataDefaultTypeInternal;
+extern SCharacterDataDefaultTypeInternal _SCharacterData_default_instance_;
 class SCharacterEqipment;
 struct SCharacterEqipmentDefaultTypeInternal;
 extern SCharacterEqipmentDefaultTypeInternal _SCharacterEqipment_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::SCharacterAppearance* Arena::CreateMaybeMessage<::Protocol::SCharacterAppearance>(Arena*);
+template<> ::Protocol::SCharacterData* Arena::CreateMaybeMessage<::Protocol::SCharacterData>(Arena*);
 template<> ::Protocol::SCharacterEqipment* Arena::CreateMaybeMessage<::Protocol::SCharacterEqipment>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
@@ -187,12 +191,11 @@ class SCharacterAppearance final :
 
   enum : int {
     kRaceFieldNumber = 1,
-    kCharacterClassFieldNumber = 2,
-    kSeatFieldNumber = 3,
-    kSkinColorFieldNumber = 4,
-    kHairColorFieldNumber = 5,
-    kEyeColorFieldNumber = 6,
-    kEyebrowColorFieldNumber = 7,
+    kSeatFieldNumber = 2,
+    kSkinColorFieldNumber = 3,
+    kHairColorFieldNumber = 4,
+    kEyeColorFieldNumber = 5,
+    kEyebrowColorFieldNumber = 6,
   };
   // .Protocol.ERace race = 1;
   void clear_race();
@@ -203,16 +206,7 @@ class SCharacterAppearance final :
   void _internal_set_race(::Protocol::ERace value);
   public:
 
-  // .Protocol.ECharacterClass character_class = 2;
-  void clear_character_class();
-  ::Protocol::ECharacterClass character_class() const;
-  void set_character_class(::Protocol::ECharacterClass value);
-  private:
-  ::Protocol::ECharacterClass _internal_character_class() const;
-  void _internal_set_character_class(::Protocol::ECharacterClass value);
-  public:
-
-  // int32 seat = 3;
+  // int32 seat = 2;
   void clear_seat();
   int32_t seat() const;
   void set_seat(int32_t value);
@@ -221,7 +215,7 @@ class SCharacterAppearance final :
   void _internal_set_seat(int32_t value);
   public:
 
-  // int32 skin_color = 4;
+  // int32 skin_color = 3;
   void clear_skin_color();
   int32_t skin_color() const;
   void set_skin_color(int32_t value);
@@ -230,7 +224,7 @@ class SCharacterAppearance final :
   void _internal_set_skin_color(int32_t value);
   public:
 
-  // int32 hair_color = 5;
+  // int32 hair_color = 4;
   void clear_hair_color();
   int32_t hair_color() const;
   void set_hair_color(int32_t value);
@@ -239,7 +233,7 @@ class SCharacterAppearance final :
   void _internal_set_hair_color(int32_t value);
   public:
 
-  // int32 eye_color = 6;
+  // int32 eye_color = 5;
   void clear_eye_color();
   int32_t eye_color() const;
   void set_eye_color(int32_t value);
@@ -248,7 +242,7 @@ class SCharacterAppearance final :
   void _internal_set_eye_color(int32_t value);
   public:
 
-  // int32 eyebrow_color = 7;
+  // int32 eyebrow_color = 6;
   void clear_eyebrow_color();
   int32_t eyebrow_color() const;
   void set_eyebrow_color(int32_t value);
@@ -266,7 +260,6 @@ class SCharacterAppearance final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int race_;
-    int character_class_;
     int32_t seat_;
     int32_t skin_color_;
     int32_t hair_color_;
@@ -403,10 +396,10 @@ class SCharacterEqipment final :
     kHairFieldNumber = 1,
     kHelmetFieldNumber = 2,
     kShouldersFieldNumber = 3,
-    kChestAddFieldNumber = 4,
-    kBracersAddFieldNumber = 5,
-    kHandsAddFieldNumber = 6,
-    kPantsAddFieldNumber = 7,
+    kChestFieldNumber = 4,
+    kBracersFieldNumber = 5,
+    kHandsFieldNumber = 6,
+    kPantsFieldNumber = 7,
     kBootsFieldNumber = 8,
     kWeaponLFieldNumber = 9,
     kWeaponRFieldNumber = 10,
@@ -438,40 +431,40 @@ class SCharacterEqipment final :
   void _internal_set_shoulders(int32_t value);
   public:
 
-  // int32 chest_add = 4;
-  void clear_chest_add();
-  int32_t chest_add() const;
-  void set_chest_add(int32_t value);
+  // int32 chest = 4;
+  void clear_chest();
+  int32_t chest() const;
+  void set_chest(int32_t value);
   private:
-  int32_t _internal_chest_add() const;
-  void _internal_set_chest_add(int32_t value);
+  int32_t _internal_chest() const;
+  void _internal_set_chest(int32_t value);
   public:
 
-  // int32 bracers_add = 5;
-  void clear_bracers_add();
-  int32_t bracers_add() const;
-  void set_bracers_add(int32_t value);
+  // int32 bracers = 5;
+  void clear_bracers();
+  int32_t bracers() const;
+  void set_bracers(int32_t value);
   private:
-  int32_t _internal_bracers_add() const;
-  void _internal_set_bracers_add(int32_t value);
+  int32_t _internal_bracers() const;
+  void _internal_set_bracers(int32_t value);
   public:
 
-  // int32 hands_add = 6;
-  void clear_hands_add();
-  int32_t hands_add() const;
-  void set_hands_add(int32_t value);
+  // int32 hands = 6;
+  void clear_hands();
+  int32_t hands() const;
+  void set_hands(int32_t value);
   private:
-  int32_t _internal_hands_add() const;
-  void _internal_set_hands_add(int32_t value);
+  int32_t _internal_hands() const;
+  void _internal_set_hands(int32_t value);
   public:
 
-  // int32 pants_add = 7;
-  void clear_pants_add();
-  int32_t pants_add() const;
-  void set_pants_add(int32_t value);
+  // int32 pants = 7;
+  void clear_pants();
+  int32_t pants() const;
+  void set_pants(int32_t value);
   private:
-  int32_t _internal_pants_add() const;
-  void _internal_set_pants_add(int32_t value);
+  int32_t _internal_pants() const;
+  void _internal_set_pants(int32_t value);
   public:
 
   // int32 boots = 8;
@@ -512,13 +505,228 @@ class SCharacterEqipment final :
     int32_t hair_;
     int32_t helmet_;
     int32_t shoulders_;
-    int32_t chest_add_;
-    int32_t bracers_add_;
-    int32_t hands_add_;
-    int32_t pants_add_;
+    int32_t chest_;
+    int32_t bracers_;
+    int32_t hands_;
+    int32_t pants_;
     int32_t boots_;
     int32_t weapon_l_;
     int32_t weapon_r_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_PacketStruct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SCharacterData final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.SCharacterData) */ {
+ public:
+  inline SCharacterData() : SCharacterData(nullptr) {}
+  ~SCharacterData() override;
+  explicit PROTOBUF_CONSTEXPR SCharacterData(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SCharacterData(const SCharacterData& from);
+  SCharacterData(SCharacterData&& from) noexcept
+    : SCharacterData() {
+    *this = ::std::move(from);
+  }
+
+  inline SCharacterData& operator=(const SCharacterData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SCharacterData& operator=(SCharacterData&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SCharacterData& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SCharacterData* internal_default_instance() {
+    return reinterpret_cast<const SCharacterData*>(
+               &_SCharacterData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(SCharacterData& a, SCharacterData& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SCharacterData* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SCharacterData* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SCharacterData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SCharacterData>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SCharacterData& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SCharacterData& from) {
+    SCharacterData::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SCharacterData* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.SCharacterData";
+  }
+  protected:
+  explicit SCharacterData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 1,
+    kAppearanceFieldNumber = 5,
+    kEqipmentFieldNumber = 6,
+    kLevelFieldNumber = 2,
+    kCharacterClassFieldNumber = 4,
+  };
+  // bytes name = 1;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // .Protocol.SCharacterAppearance appearance = 5;
+  bool has_appearance() const;
+  private:
+  bool _internal_has_appearance() const;
+  public:
+  void clear_appearance();
+  const ::Protocol::SCharacterAppearance& appearance() const;
+  PROTOBUF_NODISCARD ::Protocol::SCharacterAppearance* release_appearance();
+  ::Protocol::SCharacterAppearance* mutable_appearance();
+  void set_allocated_appearance(::Protocol::SCharacterAppearance* appearance);
+  private:
+  const ::Protocol::SCharacterAppearance& _internal_appearance() const;
+  ::Protocol::SCharacterAppearance* _internal_mutable_appearance();
+  public:
+  void unsafe_arena_set_allocated_appearance(
+      ::Protocol::SCharacterAppearance* appearance);
+  ::Protocol::SCharacterAppearance* unsafe_arena_release_appearance();
+
+  // .Protocol.SCharacterEqipment eqipment = 6;
+  bool has_eqipment() const;
+  private:
+  bool _internal_has_eqipment() const;
+  public:
+  void clear_eqipment();
+  const ::Protocol::SCharacterEqipment& eqipment() const;
+  PROTOBUF_NODISCARD ::Protocol::SCharacterEqipment* release_eqipment();
+  ::Protocol::SCharacterEqipment* mutable_eqipment();
+  void set_allocated_eqipment(::Protocol::SCharacterEqipment* eqipment);
+  private:
+  const ::Protocol::SCharacterEqipment& _internal_eqipment() const;
+  ::Protocol::SCharacterEqipment* _internal_mutable_eqipment();
+  public:
+  void unsafe_arena_set_allocated_eqipment(
+      ::Protocol::SCharacterEqipment* eqipment);
+  ::Protocol::SCharacterEqipment* unsafe_arena_release_eqipment();
+
+  // int32 level = 2;
+  void clear_level();
+  int32_t level() const;
+  void set_level(int32_t value);
+  private:
+  int32_t _internal_level() const;
+  void _internal_set_level(int32_t value);
+  public:
+
+  // .Protocol.ECharacterClass character_class = 4;
+  void clear_character_class();
+  ::Protocol::ECharacterClass character_class() const;
+  void set_character_class(::Protocol::ECharacterClass value);
+  private:
+  ::Protocol::ECharacterClass _internal_character_class() const;
+  void _internal_set_character_class(::Protocol::ECharacterClass value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.SCharacterData)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::Protocol::SCharacterAppearance* appearance_;
+    ::Protocol::SCharacterEqipment* eqipment_;
+    int32_t level_;
+    int character_class_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -555,27 +763,7 @@ inline void SCharacterAppearance::set_race(::Protocol::ERace value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.race)
 }
 
-// .Protocol.ECharacterClass character_class = 2;
-inline void SCharacterAppearance::clear_character_class() {
-  _impl_.character_class_ = 0;
-}
-inline ::Protocol::ECharacterClass SCharacterAppearance::_internal_character_class() const {
-  return static_cast< ::Protocol::ECharacterClass >(_impl_.character_class_);
-}
-inline ::Protocol::ECharacterClass SCharacterAppearance::character_class() const {
-  // @@protoc_insertion_point(field_get:Protocol.SCharacterAppearance.character_class)
-  return _internal_character_class();
-}
-inline void SCharacterAppearance::_internal_set_character_class(::Protocol::ECharacterClass value) {
-  
-  _impl_.character_class_ = value;
-}
-inline void SCharacterAppearance::set_character_class(::Protocol::ECharacterClass value) {
-  _internal_set_character_class(value);
-  // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.character_class)
-}
-
-// int32 seat = 3;
+// int32 seat = 2;
 inline void SCharacterAppearance::clear_seat() {
   _impl_.seat_ = 0;
 }
@@ -595,7 +783,7 @@ inline void SCharacterAppearance::set_seat(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.seat)
 }
 
-// int32 skin_color = 4;
+// int32 skin_color = 3;
 inline void SCharacterAppearance::clear_skin_color() {
   _impl_.skin_color_ = 0;
 }
@@ -615,7 +803,7 @@ inline void SCharacterAppearance::set_skin_color(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.skin_color)
 }
 
-// int32 hair_color = 5;
+// int32 hair_color = 4;
 inline void SCharacterAppearance::clear_hair_color() {
   _impl_.hair_color_ = 0;
 }
@@ -635,7 +823,7 @@ inline void SCharacterAppearance::set_hair_color(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.hair_color)
 }
 
-// int32 eye_color = 6;
+// int32 eye_color = 5;
 inline void SCharacterAppearance::clear_eye_color() {
   _impl_.eye_color_ = 0;
 }
@@ -655,7 +843,7 @@ inline void SCharacterAppearance::set_eye_color(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterAppearance.eye_color)
 }
 
-// int32 eyebrow_color = 7;
+// int32 eyebrow_color = 6;
 inline void SCharacterAppearance::clear_eyebrow_color() {
   _impl_.eyebrow_color_ = 0;
 }
@@ -739,84 +927,84 @@ inline void SCharacterEqipment::set_shoulders(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.shoulders)
 }
 
-// int32 chest_add = 4;
-inline void SCharacterEqipment::clear_chest_add() {
-  _impl_.chest_add_ = 0;
+// int32 chest = 4;
+inline void SCharacterEqipment::clear_chest() {
+  _impl_.chest_ = 0;
 }
-inline int32_t SCharacterEqipment::_internal_chest_add() const {
-  return _impl_.chest_add_;
+inline int32_t SCharacterEqipment::_internal_chest() const {
+  return _impl_.chest_;
 }
-inline int32_t SCharacterEqipment::chest_add() const {
-  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.chest_add)
-  return _internal_chest_add();
+inline int32_t SCharacterEqipment::chest() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.chest)
+  return _internal_chest();
 }
-inline void SCharacterEqipment::_internal_set_chest_add(int32_t value) {
+inline void SCharacterEqipment::_internal_set_chest(int32_t value) {
   
-  _impl_.chest_add_ = value;
+  _impl_.chest_ = value;
 }
-inline void SCharacterEqipment::set_chest_add(int32_t value) {
-  _internal_set_chest_add(value);
-  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.chest_add)
+inline void SCharacterEqipment::set_chest(int32_t value) {
+  _internal_set_chest(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.chest)
 }
 
-// int32 bracers_add = 5;
-inline void SCharacterEqipment::clear_bracers_add() {
-  _impl_.bracers_add_ = 0;
+// int32 bracers = 5;
+inline void SCharacterEqipment::clear_bracers() {
+  _impl_.bracers_ = 0;
 }
-inline int32_t SCharacterEqipment::_internal_bracers_add() const {
-  return _impl_.bracers_add_;
+inline int32_t SCharacterEqipment::_internal_bracers() const {
+  return _impl_.bracers_;
 }
-inline int32_t SCharacterEqipment::bracers_add() const {
-  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.bracers_add)
-  return _internal_bracers_add();
+inline int32_t SCharacterEqipment::bracers() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.bracers)
+  return _internal_bracers();
 }
-inline void SCharacterEqipment::_internal_set_bracers_add(int32_t value) {
+inline void SCharacterEqipment::_internal_set_bracers(int32_t value) {
   
-  _impl_.bracers_add_ = value;
+  _impl_.bracers_ = value;
 }
-inline void SCharacterEqipment::set_bracers_add(int32_t value) {
-  _internal_set_bracers_add(value);
-  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.bracers_add)
+inline void SCharacterEqipment::set_bracers(int32_t value) {
+  _internal_set_bracers(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.bracers)
 }
 
-// int32 hands_add = 6;
-inline void SCharacterEqipment::clear_hands_add() {
-  _impl_.hands_add_ = 0;
+// int32 hands = 6;
+inline void SCharacterEqipment::clear_hands() {
+  _impl_.hands_ = 0;
 }
-inline int32_t SCharacterEqipment::_internal_hands_add() const {
-  return _impl_.hands_add_;
+inline int32_t SCharacterEqipment::_internal_hands() const {
+  return _impl_.hands_;
 }
-inline int32_t SCharacterEqipment::hands_add() const {
-  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.hands_add)
-  return _internal_hands_add();
+inline int32_t SCharacterEqipment::hands() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.hands)
+  return _internal_hands();
 }
-inline void SCharacterEqipment::_internal_set_hands_add(int32_t value) {
+inline void SCharacterEqipment::_internal_set_hands(int32_t value) {
   
-  _impl_.hands_add_ = value;
+  _impl_.hands_ = value;
 }
-inline void SCharacterEqipment::set_hands_add(int32_t value) {
-  _internal_set_hands_add(value);
-  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.hands_add)
+inline void SCharacterEqipment::set_hands(int32_t value) {
+  _internal_set_hands(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.hands)
 }
 
-// int32 pants_add = 7;
-inline void SCharacterEqipment::clear_pants_add() {
-  _impl_.pants_add_ = 0;
+// int32 pants = 7;
+inline void SCharacterEqipment::clear_pants() {
+  _impl_.pants_ = 0;
 }
-inline int32_t SCharacterEqipment::_internal_pants_add() const {
-  return _impl_.pants_add_;
+inline int32_t SCharacterEqipment::_internal_pants() const {
+  return _impl_.pants_;
 }
-inline int32_t SCharacterEqipment::pants_add() const {
-  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.pants_add)
-  return _internal_pants_add();
+inline int32_t SCharacterEqipment::pants() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterEqipment.pants)
+  return _internal_pants();
 }
-inline void SCharacterEqipment::_internal_set_pants_add(int32_t value) {
+inline void SCharacterEqipment::_internal_set_pants(int32_t value) {
   
-  _impl_.pants_add_ = value;
+  _impl_.pants_ = value;
 }
-inline void SCharacterEqipment::set_pants_add(int32_t value) {
-  _internal_set_pants_add(value);
-  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.pants_add)
+inline void SCharacterEqipment::set_pants(int32_t value) {
+  _internal_set_pants(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.pants)
 }
 
 // int32 boots = 8;
@@ -879,9 +1067,285 @@ inline void SCharacterEqipment::set_weapon_r(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterEqipment.weapon_r)
 }
 
+// -------------------------------------------------------------------
+
+// SCharacterData
+
+// bytes name = 1;
+inline void SCharacterData::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& SCharacterData::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SCharacterData::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterData.name)
+}
+inline std::string* SCharacterData::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.SCharacterData.name)
+  return _s;
+}
+inline const std::string& SCharacterData::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void SCharacterData::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SCharacterData::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SCharacterData::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.SCharacterData.name)
+  return _impl_.name_.Release();
+}
+inline void SCharacterData::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SCharacterData.name)
+}
+
+// int32 level = 2;
+inline void SCharacterData::clear_level() {
+  _impl_.level_ = 0;
+}
+inline int32_t SCharacterData::_internal_level() const {
+  return _impl_.level_;
+}
+inline int32_t SCharacterData::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.level)
+  return _internal_level();
+}
+inline void SCharacterData::_internal_set_level(int32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void SCharacterData::set_level(int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterData.level)
+}
+
+// .Protocol.ECharacterClass character_class = 4;
+inline void SCharacterData::clear_character_class() {
+  _impl_.character_class_ = 0;
+}
+inline ::Protocol::ECharacterClass SCharacterData::_internal_character_class() const {
+  return static_cast< ::Protocol::ECharacterClass >(_impl_.character_class_);
+}
+inline ::Protocol::ECharacterClass SCharacterData::character_class() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.character_class)
+  return _internal_character_class();
+}
+inline void SCharacterData::_internal_set_character_class(::Protocol::ECharacterClass value) {
+  
+  _impl_.character_class_ = value;
+}
+inline void SCharacterData::set_character_class(::Protocol::ECharacterClass value) {
+  _internal_set_character_class(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterData.character_class)
+}
+
+// .Protocol.SCharacterAppearance appearance = 5;
+inline bool SCharacterData::_internal_has_appearance() const {
+  return this != internal_default_instance() && _impl_.appearance_ != nullptr;
+}
+inline bool SCharacterData::has_appearance() const {
+  return _internal_has_appearance();
+}
+inline void SCharacterData::clear_appearance() {
+  if (GetArenaForAllocation() == nullptr && _impl_.appearance_ != nullptr) {
+    delete _impl_.appearance_;
+  }
+  _impl_.appearance_ = nullptr;
+}
+inline const ::Protocol::SCharacterAppearance& SCharacterData::_internal_appearance() const {
+  const ::Protocol::SCharacterAppearance* p = _impl_.appearance_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SCharacterAppearance&>(
+      ::Protocol::_SCharacterAppearance_default_instance_);
+}
+inline const ::Protocol::SCharacterAppearance& SCharacterData::appearance() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.appearance)
+  return _internal_appearance();
+}
+inline void SCharacterData::unsafe_arena_set_allocated_appearance(
+    ::Protocol::SCharacterAppearance* appearance) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.appearance_);
+  }
+  _impl_.appearance_ = appearance;
+  if (appearance) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.SCharacterData.appearance)
+}
+inline ::Protocol::SCharacterAppearance* SCharacterData::release_appearance() {
+  
+  ::Protocol::SCharacterAppearance* temp = _impl_.appearance_;
+  _impl_.appearance_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SCharacterAppearance* SCharacterData::unsafe_arena_release_appearance() {
+  // @@protoc_insertion_point(field_release:Protocol.SCharacterData.appearance)
+  
+  ::Protocol::SCharacterAppearance* temp = _impl_.appearance_;
+  _impl_.appearance_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SCharacterAppearance* SCharacterData::_internal_mutable_appearance() {
+  
+  if (_impl_.appearance_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SCharacterAppearance>(GetArenaForAllocation());
+    _impl_.appearance_ = p;
+  }
+  return _impl_.appearance_;
+}
+inline ::Protocol::SCharacterAppearance* SCharacterData::mutable_appearance() {
+  ::Protocol::SCharacterAppearance* _msg = _internal_mutable_appearance();
+  // @@protoc_insertion_point(field_mutable:Protocol.SCharacterData.appearance)
+  return _msg;
+}
+inline void SCharacterData::set_allocated_appearance(::Protocol::SCharacterAppearance* appearance) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.appearance_;
+  }
+  if (appearance) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(appearance);
+    if (message_arena != submessage_arena) {
+      appearance = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, appearance, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.appearance_ = appearance;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SCharacterData.appearance)
+}
+
+// .Protocol.SCharacterEqipment eqipment = 6;
+inline bool SCharacterData::_internal_has_eqipment() const {
+  return this != internal_default_instance() && _impl_.eqipment_ != nullptr;
+}
+inline bool SCharacterData::has_eqipment() const {
+  return _internal_has_eqipment();
+}
+inline void SCharacterData::clear_eqipment() {
+  if (GetArenaForAllocation() == nullptr && _impl_.eqipment_ != nullptr) {
+    delete _impl_.eqipment_;
+  }
+  _impl_.eqipment_ = nullptr;
+}
+inline const ::Protocol::SCharacterEqipment& SCharacterData::_internal_eqipment() const {
+  const ::Protocol::SCharacterEqipment* p = _impl_.eqipment_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SCharacterEqipment&>(
+      ::Protocol::_SCharacterEqipment_default_instance_);
+}
+inline const ::Protocol::SCharacterEqipment& SCharacterData::eqipment() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.eqipment)
+  return _internal_eqipment();
+}
+inline void SCharacterData::unsafe_arena_set_allocated_eqipment(
+    ::Protocol::SCharacterEqipment* eqipment) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.eqipment_);
+  }
+  _impl_.eqipment_ = eqipment;
+  if (eqipment) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.SCharacterData.eqipment)
+}
+inline ::Protocol::SCharacterEqipment* SCharacterData::release_eqipment() {
+  
+  ::Protocol::SCharacterEqipment* temp = _impl_.eqipment_;
+  _impl_.eqipment_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SCharacterEqipment* SCharacterData::unsafe_arena_release_eqipment() {
+  // @@protoc_insertion_point(field_release:Protocol.SCharacterData.eqipment)
+  
+  ::Protocol::SCharacterEqipment* temp = _impl_.eqipment_;
+  _impl_.eqipment_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SCharacterEqipment* SCharacterData::_internal_mutable_eqipment() {
+  
+  if (_impl_.eqipment_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SCharacterEqipment>(GetArenaForAllocation());
+    _impl_.eqipment_ = p;
+  }
+  return _impl_.eqipment_;
+}
+inline ::Protocol::SCharacterEqipment* SCharacterData::mutable_eqipment() {
+  ::Protocol::SCharacterEqipment* _msg = _internal_mutable_eqipment();
+  // @@protoc_insertion_point(field_mutable:Protocol.SCharacterData.eqipment)
+  return _msg;
+}
+inline void SCharacterData::set_allocated_eqipment(::Protocol::SCharacterEqipment* eqipment) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.eqipment_;
+  }
+  if (eqipment) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(eqipment);
+    if (message_arena != submessage_arena) {
+      eqipment = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, eqipment, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.eqipment_ = eqipment;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SCharacterData.eqipment)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

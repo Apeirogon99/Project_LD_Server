@@ -43,7 +43,6 @@ namespace Protocol {
 PROTOBUF_CONSTEXPR SCharacterAppearance::SCharacterAppearance(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.race_)*/0
-  , /*decltype(_impl_.character_class_)*/0
   , /*decltype(_impl_.seat_)*/0
   , /*decltype(_impl_.skin_color_)*/0
   , /*decltype(_impl_.hair_color_)*/0
@@ -64,10 +63,10 @@ PROTOBUF_CONSTEXPR SCharacterEqipment::SCharacterEqipment(
     /*decltype(_impl_.hair_)*/0
   , /*decltype(_impl_.helmet_)*/0
   , /*decltype(_impl_.shoulders_)*/0
-  , /*decltype(_impl_.chest_add_)*/0
-  , /*decltype(_impl_.bracers_add_)*/0
-  , /*decltype(_impl_.hands_add_)*/0
-  , /*decltype(_impl_.pants_add_)*/0
+  , /*decltype(_impl_.chest_)*/0
+  , /*decltype(_impl_.bracers_)*/0
+  , /*decltype(_impl_.hands_)*/0
+  , /*decltype(_impl_.pants_)*/0
   , /*decltype(_impl_.boots_)*/0
   , /*decltype(_impl_.weapon_l_)*/0
   , /*decltype(_impl_.weapon_r_)*/0
@@ -81,8 +80,25 @@ struct SCharacterEqipmentDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SCharacterEqipmentDefaultTypeInternal _SCharacterEqipment_default_instance_;
+PROTOBUF_CONSTEXPR SCharacterData::SCharacterData(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.appearance_)*/nullptr
+  , /*decltype(_impl_.eqipment_)*/nullptr
+  , /*decltype(_impl_.level_)*/0
+  , /*decltype(_impl_.character_class_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SCharacterDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SCharacterDataDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SCharacterDataDefaultTypeInternal() {}
+  union {
+    SCharacterData _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SCharacterDataDefaultTypeInternal _SCharacterData_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[2];
+static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[3];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_PacketStruct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketStruct_2eproto = nullptr;
 
@@ -94,7 +110,6 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _impl_.race_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _impl_.character_class_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _impl_.seat_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _impl_.skin_color_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _impl_.hair_color_),
@@ -109,46 +124,62 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.hair_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.helmet_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.shoulders_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.chest_add_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.bracers_add_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.hands_add_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.pants_add_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.chest_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.bracers_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.hands_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.pants_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.boots_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.weapon_l_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterEqipment, _impl_.weapon_r_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.level_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.character_class_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.appearance_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.eqipment_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::SCharacterAppearance)},
-  { 13, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
+  { 12, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
+  { 28, -1, -1, sizeof(::Protocol::SCharacterData)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_SCharacterAppearance_default_instance_._instance,
   &::Protocol::_SCharacterEqipment_default_instance_._instance,
+  &::Protocol::_SCharacterData_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022PacketStruct.proto\022\010Protocol\032\020PacketEn"
-  "um.proto\"\311\001\n\024SCharacterAppearance\022\035\n\004rac"
-  "e\030\001 \001(\0162\017.Protocol.ERace\0222\n\017character_cl"
-  "ass\030\002 \001(\0162\031.Protocol.ECharacterClass\022\014\n\004"
-  "seat\030\003 \001(\005\022\022\n\nskin_color\030\004 \001(\005\022\022\n\nhair_c"
-  "olor\030\005 \001(\005\022\021\n\teye_color\030\006 \001(\005\022\025\n\reyebrow"
-  "_color\030\007 \001(\005\"\306\001\n\022SCharacterEqipment\022\014\n\004h"
-  "air\030\001 \001(\005\022\016\n\006helmet\030\002 \001(\005\022\021\n\tshoulders\030\003"
-  " \001(\005\022\021\n\tchest_add\030\004 \001(\005\022\023\n\013bracers_add\030\005"
-  " \001(\005\022\021\n\thands_add\030\006 \001(\005\022\021\n\tpants_add\030\007 \001"
-  "(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_l\030\t \001(\005\022\020\n\010w"
-  "eapon_r\030\n \001(\005b\006proto3"
+  "um.proto\"\225\001\n\024SCharacterAppearance\022\035\n\004rac"
+  "e\030\001 \001(\0162\017.Protocol.ERace\022\014\n\004seat\030\002 \001(\005\022\022"
+  "\n\nskin_color\030\003 \001(\005\022\022\n\nhair_color\030\004 \001(\005\022\021"
+  "\n\teye_color\030\005 \001(\005\022\025\n\reyebrow_color\030\006 \001(\005"
+  "\"\266\001\n\022SCharacterEqipment\022\014\n\004hair\030\001 \001(\005\022\016\n"
+  "\006helmet\030\002 \001(\005\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005ches"
+  "t\030\004 \001(\005\022\017\n\007bracers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022"
+  "\r\n\005pants\030\007 \001(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_"
+  "l\030\t \001(\005\022\020\n\010weapon_r\030\n \001(\005\"\305\001\n\016SCharacter"
+  "Data\022\014\n\004name\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\0222\n\017cha"
+  "racter_class\030\004 \001(\0162\031.Protocol.ECharacter"
+  "Class\0222\n\nappearance\030\005 \001(\0132\036.Protocol.SCh"
+  "aracterAppearance\022.\n\010eqipment\030\006 \001(\0132\034.Pr"
+  "otocol.SCharacterEqipmentb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 461, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 593, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
-    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 2,
+    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 3,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
     file_level_metadata_PacketStruct_2eproto, file_level_enum_descriptors_PacketStruct_2eproto,
     file_level_service_descriptors_PacketStruct_2eproto,
@@ -178,7 +209,6 @@ SCharacterAppearance::SCharacterAppearance(const SCharacterAppearance& from)
   SCharacterAppearance* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.race_){}
-    , decltype(_impl_.character_class_){}
     , decltype(_impl_.seat_){}
     , decltype(_impl_.skin_color_){}
     , decltype(_impl_.hair_color_){}
@@ -199,7 +229,6 @@ inline void SCharacterAppearance::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.race_){0}
-    , decltype(_impl_.character_class_){0}
     , decltype(_impl_.seat_){0}
     , decltype(_impl_.skin_color_){0}
     , decltype(_impl_.hair_color_){0}
@@ -253,50 +282,41 @@ const char* SCharacterAppearance::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.ECharacterClass character_class = 2;
+      // int32 seat = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_character_class(static_cast<::Protocol::ECharacterClass>(val));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 seat = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.seat_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 skin_color = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+      // int32 skin_color = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.skin_color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 hair_color = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+      // int32 hair_color = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.hair_color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 eye_color = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+      // int32 eye_color = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.eye_color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 eyebrow_color = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+      // int32 eyebrow_color = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _impl_.eyebrow_color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -338,41 +358,34 @@ uint8_t* SCharacterAppearance::_InternalSerialize(
       1, this->_internal_race(), target);
   }
 
-  // .Protocol.ECharacterClass character_class = 2;
-  if (this->_internal_character_class() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      2, this->_internal_character_class(), target);
-  }
-
-  // int32 seat = 3;
+  // int32 seat = 2;
   if (this->_internal_seat() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_seat(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_seat(), target);
   }
 
-  // int32 skin_color = 4;
+  // int32 skin_color = 3;
   if (this->_internal_skin_color() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_skin_color(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_skin_color(), target);
   }
 
-  // int32 hair_color = 5;
+  // int32 hair_color = 4;
   if (this->_internal_hair_color() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_hair_color(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_hair_color(), target);
   }
 
-  // int32 eye_color = 6;
+  // int32 eye_color = 5;
   if (this->_internal_eye_color() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_eye_color(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_eye_color(), target);
   }
 
-  // int32 eyebrow_color = 7;
+  // int32 eyebrow_color = 6;
   if (this->_internal_eyebrow_color() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_eyebrow_color(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_eyebrow_color(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -397,33 +410,27 @@ size_t SCharacterAppearance::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_race());
   }
 
-  // .Protocol.ECharacterClass character_class = 2;
-  if (this->_internal_character_class() != 0) {
-    total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_character_class());
-  }
-
-  // int32 seat = 3;
+  // int32 seat = 2;
   if (this->_internal_seat() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_seat());
   }
 
-  // int32 skin_color = 4;
+  // int32 skin_color = 3;
   if (this->_internal_skin_color() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_skin_color());
   }
 
-  // int32 hair_color = 5;
+  // int32 hair_color = 4;
   if (this->_internal_hair_color() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_hair_color());
   }
 
-  // int32 eye_color = 6;
+  // int32 eye_color = 5;
   if (this->_internal_eye_color() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_eye_color());
   }
 
-  // int32 eyebrow_color = 7;
+  // int32 eyebrow_color = 6;
   if (this->_internal_eyebrow_color() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_eyebrow_color());
   }
@@ -448,9 +455,6 @@ void SCharacterAppearance::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
 
   if (from._internal_race() != 0) {
     _this->_internal_set_race(from._internal_race());
-  }
-  if (from._internal_character_class() != 0) {
-    _this->_internal_set_character_class(from._internal_character_class());
   }
   if (from._internal_seat() != 0) {
     _this->_internal_set_seat(from._internal_seat());
@@ -517,10 +521,10 @@ SCharacterEqipment::SCharacterEqipment(const SCharacterEqipment& from)
       decltype(_impl_.hair_){}
     , decltype(_impl_.helmet_){}
     , decltype(_impl_.shoulders_){}
-    , decltype(_impl_.chest_add_){}
-    , decltype(_impl_.bracers_add_){}
-    , decltype(_impl_.hands_add_){}
-    , decltype(_impl_.pants_add_){}
+    , decltype(_impl_.chest_){}
+    , decltype(_impl_.bracers_){}
+    , decltype(_impl_.hands_){}
+    , decltype(_impl_.pants_){}
     , decltype(_impl_.boots_){}
     , decltype(_impl_.weapon_l_){}
     , decltype(_impl_.weapon_r_){}
@@ -541,10 +545,10 @@ inline void SCharacterEqipment::SharedCtor(
       decltype(_impl_.hair_){0}
     , decltype(_impl_.helmet_){0}
     , decltype(_impl_.shoulders_){0}
-    , decltype(_impl_.chest_add_){0}
-    , decltype(_impl_.bracers_add_){0}
-    , decltype(_impl_.hands_add_){0}
-    , decltype(_impl_.pants_add_){0}
+    , decltype(_impl_.chest_){0}
+    , decltype(_impl_.bracers_){0}
+    , decltype(_impl_.hands_){0}
+    , decltype(_impl_.pants_){0}
     , decltype(_impl_.boots_){0}
     , decltype(_impl_.weapon_l_){0}
     , decltype(_impl_.weapon_r_){0}
@@ -611,34 +615,34 @@ const char* SCharacterEqipment::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else
           goto handle_unusual;
         continue;
-      // int32 chest_add = 4;
+      // int32 chest = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.chest_add_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.chest_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 bracers_add = 5;
+      // int32 bracers = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
-          _impl_.bracers_add_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.bracers_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 hands_add = 6;
+      // int32 hands = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
-          _impl_.hands_add_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.hands_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 pants_add = 7;
+      // int32 pants = 7;
       case 7:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
-          _impl_.pants_add_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.pants_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -714,28 +718,28 @@ uint8_t* SCharacterEqipment::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_shoulders(), target);
   }
 
-  // int32 chest_add = 4;
-  if (this->_internal_chest_add() != 0) {
+  // int32 chest = 4;
+  if (this->_internal_chest() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_chest_add(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_chest(), target);
   }
 
-  // int32 bracers_add = 5;
-  if (this->_internal_bracers_add() != 0) {
+  // int32 bracers = 5;
+  if (this->_internal_bracers() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_bracers_add(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_bracers(), target);
   }
 
-  // int32 hands_add = 6;
-  if (this->_internal_hands_add() != 0) {
+  // int32 hands = 6;
+  if (this->_internal_hands() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_hands_add(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_hands(), target);
   }
 
-  // int32 pants_add = 7;
-  if (this->_internal_pants_add() != 0) {
+  // int32 pants = 7;
+  if (this->_internal_pants() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_pants_add(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_pants(), target);
   }
 
   // int32 boots = 8;
@@ -787,24 +791,24 @@ size_t SCharacterEqipment::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_shoulders());
   }
 
-  // int32 chest_add = 4;
-  if (this->_internal_chest_add() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_chest_add());
+  // int32 chest = 4;
+  if (this->_internal_chest() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_chest());
   }
 
-  // int32 bracers_add = 5;
-  if (this->_internal_bracers_add() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_bracers_add());
+  // int32 bracers = 5;
+  if (this->_internal_bracers() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_bracers());
   }
 
-  // int32 hands_add = 6;
-  if (this->_internal_hands_add() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_hands_add());
+  // int32 hands = 6;
+  if (this->_internal_hands() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_hands());
   }
 
-  // int32 pants_add = 7;
-  if (this->_internal_pants_add() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_pants_add());
+  // int32 pants = 7;
+  if (this->_internal_pants() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_pants());
   }
 
   // int32 boots = 8;
@@ -849,17 +853,17 @@ void SCharacterEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   if (from._internal_shoulders() != 0) {
     _this->_internal_set_shoulders(from._internal_shoulders());
   }
-  if (from._internal_chest_add() != 0) {
-    _this->_internal_set_chest_add(from._internal_chest_add());
+  if (from._internal_chest() != 0) {
+    _this->_internal_set_chest(from._internal_chest());
   }
-  if (from._internal_bracers_add() != 0) {
-    _this->_internal_set_bracers_add(from._internal_bracers_add());
+  if (from._internal_bracers() != 0) {
+    _this->_internal_set_bracers(from._internal_bracers());
   }
-  if (from._internal_hands_add() != 0) {
-    _this->_internal_set_hands_add(from._internal_hands_add());
+  if (from._internal_hands() != 0) {
+    _this->_internal_set_hands(from._internal_hands());
   }
-  if (from._internal_pants_add() != 0) {
-    _this->_internal_set_pants_add(from._internal_pants_add());
+  if (from._internal_pants() != 0) {
+    _this->_internal_set_pants(from._internal_pants());
   }
   if (from._internal_boots() != 0) {
     _this->_internal_set_boots(from._internal_boots());
@@ -901,6 +905,349 @@ void SCharacterEqipment::InternalSwap(SCharacterEqipment* other) {
       file_level_metadata_PacketStruct_2eproto[1]);
 }
 
+// ===================================================================
+
+class SCharacterData::_Internal {
+ public:
+  static const ::Protocol::SCharacterAppearance& appearance(const SCharacterData* msg);
+  static const ::Protocol::SCharacterEqipment& eqipment(const SCharacterData* msg);
+};
+
+const ::Protocol::SCharacterAppearance&
+SCharacterData::_Internal::appearance(const SCharacterData* msg) {
+  return *msg->_impl_.appearance_;
+}
+const ::Protocol::SCharacterEqipment&
+SCharacterData::_Internal::eqipment(const SCharacterData* msg) {
+  return *msg->_impl_.eqipment_;
+}
+SCharacterData::SCharacterData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.SCharacterData)
+}
+SCharacterData::SCharacterData(const SCharacterData& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SCharacterData* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.appearance_){nullptr}
+    , decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.level_){}
+    , decltype(_impl_.character_class_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_name().empty()) {
+    _this->_impl_.name_.Set(from._internal_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_appearance()) {
+    _this->_impl_.appearance_ = new ::Protocol::SCharacterAppearance(*from._impl_.appearance_);
+  }
+  if (from._internal_has_eqipment()) {
+    _this->_impl_.eqipment_ = new ::Protocol::SCharacterEqipment(*from._impl_.eqipment_);
+  }
+  ::memcpy(&_impl_.level_, &from._impl_.level_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.character_class_) -
+    reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.character_class_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.SCharacterData)
+}
+
+inline void SCharacterData::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.appearance_){nullptr}
+    , decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.level_){0}
+    , decltype(_impl_.character_class_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SCharacterData::~SCharacterData() {
+  // @@protoc_insertion_point(destructor:Protocol.SCharacterData)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SCharacterData::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.appearance_;
+  if (this != internal_default_instance()) delete _impl_.eqipment_;
+}
+
+void SCharacterData::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SCharacterData::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.SCharacterData)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.appearance_ != nullptr) {
+    delete _impl_.appearance_;
+  }
+  _impl_.appearance_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.eqipment_ != nullptr) {
+    delete _impl_.eqipment_;
+  }
+  _impl_.eqipment_ = nullptr;
+  ::memset(&_impl_.level_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.character_class_) -
+      reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.character_class_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SCharacterData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bytes name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 level = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.ECharacterClass character_class = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_character_class(static_cast<::Protocol::ECharacterClass>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SCharacterAppearance appearance = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_appearance(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SCharacterEqipment eqipment = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_eqipment(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SCharacterData::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.SCharacterData)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes name = 1;
+  if (!this->_internal_name().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_name(), target);
+  }
+
+  // int32 level = 2;
+  if (this->_internal_level() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_level(), target);
+  }
+
+  // .Protocol.ECharacterClass character_class = 4;
+  if (this->_internal_character_class() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_character_class(), target);
+  }
+
+  // .Protocol.SCharacterAppearance appearance = 5;
+  if (this->_internal_has_appearance()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::appearance(this),
+        _Internal::appearance(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.SCharacterEqipment eqipment = 6;
+  if (this->_internal_has_eqipment()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, _Internal::eqipment(this),
+        _Internal::eqipment(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.SCharacterData)
+  return target;
+}
+
+size_t SCharacterData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.SCharacterData)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes name = 1;
+  if (!this->_internal_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_name());
+  }
+
+  // .Protocol.SCharacterAppearance appearance = 5;
+  if (this->_internal_has_appearance()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.appearance_);
+  }
+
+  // .Protocol.SCharacterEqipment eqipment = 6;
+  if (this->_internal_has_eqipment()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.eqipment_);
+  }
+
+  // int32 level = 2;
+  if (this->_internal_level() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_level());
+  }
+
+  // .Protocol.ECharacterClass character_class = 4;
+  if (this->_internal_character_class() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_character_class());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SCharacterData::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SCharacterData::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SCharacterData::GetClassData() const { return &_class_data_; }
+
+
+void SCharacterData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SCharacterData*>(&to_msg);
+  auto& from = static_cast<const SCharacterData&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.SCharacterData)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_name().empty()) {
+    _this->_internal_set_name(from._internal_name());
+  }
+  if (from._internal_has_appearance()) {
+    _this->_internal_mutable_appearance()->::Protocol::SCharacterAppearance::MergeFrom(
+        from._internal_appearance());
+  }
+  if (from._internal_has_eqipment()) {
+    _this->_internal_mutable_eqipment()->::Protocol::SCharacterEqipment::MergeFrom(
+        from._internal_eqipment());
+  }
+  if (from._internal_level() != 0) {
+    _this->_internal_set_level(from._internal_level());
+  }
+  if (from._internal_character_class() != 0) {
+    _this->_internal_set_character_class(from._internal_character_class());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SCharacterData::CopyFrom(const SCharacterData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.SCharacterData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SCharacterData::IsInitialized() const {
+  return true;
+}
+
+void SCharacterData::InternalSwap(SCharacterData* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.name_, lhs_arena,
+      &other->_impl_.name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SCharacterData, _impl_.character_class_)
+      + sizeof(SCharacterData::_impl_.character_class_)
+      - PROTOBUF_FIELD_OFFSET(SCharacterData, _impl_.appearance_)>(
+          reinterpret_cast<char*>(&_impl_.appearance_),
+          reinterpret_cast<char*>(&other->_impl_.appearance_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SCharacterData::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
+      file_level_metadata_PacketStruct_2eproto[2]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -911,6 +1258,10 @@ Arena::CreateMaybeMessage< ::Protocol::SCharacterAppearance >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::SCharacterEqipment*
 Arena::CreateMaybeMessage< ::Protocol::SCharacterEqipment >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::SCharacterEqipment >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::SCharacterData*
+Arena::CreateMaybeMessage< ::Protocol::SCharacterData >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::SCharacterData >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
