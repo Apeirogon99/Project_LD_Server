@@ -11,3 +11,9 @@ using IdentityListenerPtr = std::shared_ptr<IdentityListener>;
 using GameStatePtr = std::shared_ptr<IdentityGameState>;
 using PlayerStatePtr = std::shared_ptr<IdentityPlayerState>;
 using IdentityDatabasePtr = std::shared_ptr<IdentityDatabase>;
+
+class LoginRoom;
+class RemotePlayer;
+
+using LoginRoomPtr = std::shared_ptr<LoginRoom>;
+using RemotePlayerPtr = std::shared_ptr<RemotePlayer>;

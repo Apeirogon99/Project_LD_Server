@@ -2,6 +2,8 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#pragma warning ( disable : 4251 )
+
 //Protocol buffer
 #ifdef _DEBUG
 #pragma comment(lib, "Builds\\debug\\libprotobufd.lib")

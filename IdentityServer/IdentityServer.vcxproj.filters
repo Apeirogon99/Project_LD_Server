@@ -46,6 +46,12 @@
     <Filter Include="Database\Public">
       <UniqueIdentifier>{4c88973c-2988-41e8-a27f-62f0b3c19db3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Soruce\Private\Content">
+      <UniqueIdentifier>{11715d3a-6a8c-4141-b801-4facfbdefcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Soruce\Public\Content">
+      <UniqueIdentifier>{b134d93d-18fd-4626-82fd-0b0e8ae88531}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -90,6 +96,12 @@
     <ClInclude Include="IdentitiyDatabaseHandler.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
+    <ClInclude Include="LoginRoom.h">
+      <Filter>Soruce\Public\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="RemotePlayer.h">
+      <Filter>Soruce\Public\Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -133,6 +145,12 @@
     </ClCompile>
     <ClCompile Include="IdentitiyDatabaseHandler.cpp">
       <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRoom.cpp">
+      <Filter>Soruce\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="RemotePlayer.cpp">
+      <Filter>Soruce\Private\Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
