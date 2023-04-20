@@ -8,6 +8,7 @@ GeneratorTools/
 
 # Engine Header
 Builds/include/apeirogon/
+Builds/Dump/
 
 # User-specific files
 *.rsuser
