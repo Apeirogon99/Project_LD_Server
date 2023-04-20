@@ -180,8 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommonLibaray.h" />
-    <ClInclude Include="DatabaseErrorTypes.h" />
-    <ClInclude Include="NetworkErrorTypes.h" />
+    <ClInclude Include="CommonErrorTypes.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

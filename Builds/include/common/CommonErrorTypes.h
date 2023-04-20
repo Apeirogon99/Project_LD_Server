@@ -4,7 +4,7 @@
 //1000 ~ 2000 = 계정
 //2000 ~ 3000 = 게임
 
-enum class EDBErrorType
+enum class EDCommonErrorType
 {
 	FAILURE = -1,
 	SUCCESS = 0,
@@ -25,55 +25,55 @@ enum class EDBErrorType
 	CHARACTER_NONE = 2004,
 };
 
-static std::string GetDatabaseError(int32 error)
+static std::string GetNetworkError(int32 error)
 {
-	EDBErrorType type = static_cast<EDBErrorType>(error);
+	EDCommonErrorType type = static_cast<EDCommonErrorType>(error);
 
 	switch (type)
 	{
-	case EDBErrorType::FAILURE:
+	case EDCommonErrorType::FAILURE:
 		return std::string("알 수 없는 에러");
 		break;
-	case EDBErrorType::SUCCESS:
+	case EDCommonErrorType::SUCCESS:
 		return std::string("성공");
 		break;
-	case EDBErrorType::INDEX_NONE:
+	case EDCommonErrorType::INDEX_NONE:
 		return std::string("해당 인덱스가 존재하지 않습니다.");
 		break;
-	case EDBErrorType::SMTP:
+	case EDCommonErrorType::SMTP:
 		return std::string("SMTP 에러");
 		break;
-	case EDBErrorType::NOT_EXISTS_ID:
+	case EDCommonErrorType::NOT_EXISTS_ID:
 		return std::string("아이디가 존재하지 않습니다.");
 		break;
-	case EDBErrorType::ID_DISTINCT:
+	case EDCommonErrorType::ID_DISTINCT:
 		return std::string("해당 아이디가 존재합니다.");
 		break;
-	case EDBErrorType::EMAIL_DISTINCT:
+	case EDCommonErrorType::EMAIL_DISTINCT:
 		return std::string("해당 이메일이 존재합니다.");
 		break;
-	case EDBErrorType::EMAIL_NOT_VERIFY:
+	case EDCommonErrorType::EMAIL_NOT_VERIFY:
 		return std::string("이메일 인증이 되어있지 않습니다.");
 		break;
-	case EDBErrorType::ALREADY_EMAIL_VERIFY:
+	case EDCommonErrorType::ALREADY_EMAIL_VERIFY:
 		return std::string("이미 인증을 하였습니다.");
 		break;
-	case EDBErrorType::NOT_SAME_VERIFY:
+	case EDCommonErrorType::NOT_SAME_VERIFY:
 		return std::string("인증 번호가 다릅니다.");
 		break;
-	case EDBErrorType::TEMP_VERIFY:
+	case EDCommonErrorType::TEMP_VERIFY:
 		return std::string("임시 임증되었습니다");
 		break;
-	case EDBErrorType::CHARACTER_MAX:
+	case EDCommonErrorType::CHARACTER_MAX:
 		return std::string("생성할 수 있는 캐릭터를 초과하였습니다.");
 		break;
-	case EDBErrorType::POSTION_DISTINCT:
+	case EDCommonErrorType::POSTION_DISTINCT:
 		return std::string("이미 같은 자리에 캐릭터가 존재합니다.");
 		break;
-	case EDBErrorType::NAME_DISTINCT:
+	case EDCommonErrorType::NAME_DISTINCT:
 		return std::string("이미 존재하는 이름입니다.");
 		break;
-	case EDBErrorType::CHARACTER_NONE:
+	case EDCommonErrorType::CHARACTER_NONE:
 		return std::string("캐릭터가 존재하지 않습니다.");
 		break;
 	default:
@@ -82,7 +82,7 @@ static std::string GetDatabaseError(int32 error)
 	}
 }
 
-static int32 GetDatabaseErrorToInt(const EDBErrorType& inErrorType)
+static int32 GetDatabaseErrorToInt(const EDCommonErrorType& inErrorType)
 {
 	return static_cast<int32>(inErrorType);
 }

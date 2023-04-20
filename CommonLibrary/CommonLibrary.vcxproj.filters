@@ -24,10 +24,7 @@
     <ClInclude Include="pch.h">
       <Filter>PCH</Filter>
     </ClInclude>
-    <ClInclude Include="DatabaseErrorTypes.h">
-      <Filter>Error</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkErrorTypes.h">
+    <ClInclude Include="CommonErrorTypes.h">
       <Filter>Error</Filter>
     </ClInclude>
   </ItemGroup>
