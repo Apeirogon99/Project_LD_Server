@@ -17,6 +17,8 @@
 //==========================//
 //		 GameContent		//
 //==========================//
+#include "RemotePlayer.h"
+#include "LoginRoom.h"
 
 //==========================//
 //		    Packet			//
