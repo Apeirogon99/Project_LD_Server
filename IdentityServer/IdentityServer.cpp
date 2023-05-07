@@ -1,47 +1,40 @@
 #include "pch.h"
 #include "IdentityPacket.pb.h"
+#include <conio.h>
 
 using namespace std;
 
-void DatabaseConnectionPool()
-{
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
-	ADOConnection conn;
-	conn.OpenEx(ConnectionInfo);
-}
-
+void StopServer(IdentityServicePtr service);
 void StartServer()
 {
 	IdentityServicePtr service = std::make_shared<IdentityService>();
+	thread serviceThread = thread(StopServer, service);
 
 	service->ServiceOpen();
 
-	std::string userInput;
+	if (serviceThread.joinable())
+	{
+		serviceThread.join();
+	}
+}
+
+void StopServer(IdentityServicePtr service)
+{
+	char input;
+
 	while (true)
 	{
-
-		std::cin >> userInput;
-
-
-		if (userInput == "q")
+		input = _getch();
+		if (input == 'q')
 		{
 			service->ServiceClose();
 			break;
 		}
 	}
-
-	cout << service.use_count() << endl;
-
-	SocketUtils::Clear();
 }
 
 int main(void)
 {
-
-	//DatabaseConnectionPool();
-
 	StartServer();
-
 	system("pause");
-
 }

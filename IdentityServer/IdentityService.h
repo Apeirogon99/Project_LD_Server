@@ -10,7 +10,7 @@ public:
 
 protected:
 	virtual bool		SettingService() override;
-	virtual void		Tick(const float deltaTime) override;
+	virtual void		Tick() override;
 
 private:
 

@@ -15,12 +15,27 @@ bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_Ent
 		return false;
 	}
 
-	static uint64 newRemoteID = 1;
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	static int64 newRemoteID = 1;
 	RemotePlayerPtr& remotePlayer = playerState.get()->mRemotePlayer;
 	remotePlayer = std::make_shared<RemotePlayer>();
 	if (remotePlayer)
 	{
 		remotePlayer->mRemoteID = newRemoteID++;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	const int64 Priority = playerState->GetSessionManager()->GetServiceTimeStamp();
+
+	bool ret = room->PushTask(Priority, &LoginRoom::Enter, playerState);
+	if (false == ret)
+	{
+		return false;
 	}
 
 	return true;
@@ -37,6 +52,15 @@ bool Handle_C2S_LeaveIdentityServer(PacketSessionPtr& session, Protocol::C2S_Lea
 
 	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
 	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	const int64		Priority = gameState->GetServiceTimeStamp();
+
+	bool ret = room->PushTask(Priority, &LoginRoom::Leave, playerState);
+	if (false == ret)
 	{
 		return false;
 	}
@@ -191,15 +215,33 @@ bool Handle_C2S_Test(PacketSessionPtr& session, Protocol::C2S_Test& pkt)
 		return false;
 	}
 
+	const int32 ivalue			= pkt.i_value();
+	const std::string svalue	= pkt.s_value();
+	const int64 timestamp		= pkt.time_stamp();
+
 	LoginRoomPtr&	room = gameState->GetRoom();
 	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
-	const int64		Priority = 0;
 	
-	ret = room->PushTask(Priority, &LoginRoom::Deliver, remotePlayer);
-	if (false == ret)
-	{
-		return false;
-	}
+	const int64		Priority = playerState->GetSessionManager()->GetServiceTimeStamp();
+
+	return true;
+}
+
+bool Handle_C2S_GetRoundTripTime(PacketSessionPtr& session, Protocol::C2S_GetRoundTripTime& pkt)
+{
+
+	const int64 serviceTimeStamp = session->GetSessionManager()->GetServiceTimeStamp();
+	const int64 halfRTT = session->GetRoundTripTime();
+	
+	const int64 syncTimeStamp = serviceTimeStamp + halfRTT;
+
+	Protocol::S2C_GetRoundTripTime roundTripTimePacket;
+	roundTripTimePacket.set_time_stamp(syncTimeStamp);
+
+	wprintf(L"SYNC TIMESTAMP : Server(%lld) Sync(%lld) RTT(%lld)\n", serviceTimeStamp, syncTimeStamp, halfRTT);
+
+	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, roundTripTimePacket);
+	session->Send(sendBuffer);
 
 	return true;
 }

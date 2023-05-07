@@ -5,14 +5,14 @@ using namespace std;
 
 IdentityService::IdentityService()
 {
-	setlocale(LC_ALL, "");
 	SocketUtils::Init();
 	PacketHandler::Init();
+	WinDump::Init(L"P:\\Project_LD_Server\\Builds\\Dump\\");
 }
 
 IdentityService::~IdentityService()
 {
-
+	SocketUtils::Clear();
 }
 
 bool IdentityService::SettingService()
@@ -25,8 +25,9 @@ bool IdentityService::SettingService()
 	}
 
 	//ThreadManager
-	const uint32 MaxThreadCount = 1;
-	ThreadManagerPtr threadManager = std::make_shared<ThreadManager>(MaxThreadCount);
+	const uint32 MaxThreadCount = 4;
+	const uint32 MaxTimeOut = 100;
+	ThreadManagerPtr threadManager = std::make_shared<ThreadManager>(MaxThreadCount, MaxTimeOut);
 	if (false == SetThreadManager(threadManager))
 	{
 		return false;
@@ -34,8 +35,9 @@ bool IdentityService::SettingService()
 
 	//SessionManager
 	const SessionFactory sessionFactory = std::make_shared<IdentityPlayerState>;
-	const uint32 maxSessionCount = 1;
-	GameStatePtr GameState = std::make_shared<IdentityGameState>(sessionFactory, maxSessionCount);
+	const uint32 maxSessionCount = 10;
+	const uint32 maxBufferSize = 0xfff;
+	GameStatePtr GameState = std::make_shared<IdentityGameState>(sessionFactory, maxSessionCount, maxBufferSize);
 	SessionManagerPtr sessionManager = ::static_pointer_cast<SessionManager>(move(GameState));
 	if (false == SetSessionManager(sessionManager))
 	{
@@ -44,7 +46,7 @@ bool IdentityService::SettingService()
 
 	//Listener
 	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetIp(L"127.0.0.1", 9000, EProtocolType::IPv4);
+	IdentityIpAddress->SetIp(L"192.168.123.112", 9000, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
 	IdentityListenerPtr identityListener = std::make_shared<IdentityListener>(IdentityIpAddress);
@@ -75,7 +77,7 @@ bool IdentityService::SettingService()
 	return true;
 }
 
-void IdentityService::Tick(const float deltaTime)
+void IdentityService::Tick()
 {
 
 }

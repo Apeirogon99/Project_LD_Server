@@ -16,12 +16,9 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	bool CompareRemoteID(int64 inRemoteID) const { return mRemoteID == inRemoteID; }
+	void PlayerStateLog(const WCHAR* log, ...);
 
 public:
-	std::string	mToken;
-	int64		mRemoteID;
-	int32		mGlobalID;
-
+	RemotePlayerPtr mRemotePlayer;
 };
 

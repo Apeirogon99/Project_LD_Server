@@ -58,6 +58,7 @@ BEGIN TRY
 		ELSE
 			BEGIN
 				UPDATE user_tb SET enable=1 WHERE global_id=@global_id
+				RETURN 1007;
 			END
 		
 		COMMIT TRANSACTION;

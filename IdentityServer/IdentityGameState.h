@@ -2,7 +2,7 @@
 class IdentityGameState : public SessionManager
 {
 public:
-	IdentityGameState(const SessionFactory& sessionFactory, const uint32 maxSessionCount);
+	IdentityGameState(const SessionFactory& sessionFactory, const uint32 maxSessionCount, const uint32 inMaxBufferSize);
 	virtual ~IdentityGameState();
 
 	IdentityGameState(const IdentityGameState& player) = delete;
@@ -11,9 +11,12 @@ public:
 	IdentityGameState& operator=(IdentityGameState&& player) = delete;
 
 public:
+	virtual bool InitNetworkTask() override;
 
+public:
+	LoginRoomPtr& GetRoom() { return mLoginRoom; }
 
 private:
-
+	LoginRoomPtr	mLoginRoom;
 };
 

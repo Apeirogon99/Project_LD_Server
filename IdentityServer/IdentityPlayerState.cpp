@@ -11,21 +11,7 @@ IdentityPlayerState::~IdentityPlayerState()
 
 void IdentityPlayerState::OnConnected()
 {
-	Protocol::S2C_EnterIdentityServer enterServer;
-	PacketSessionPtr session = GetPacketSessionRef();
 
-	bool valid = session->IsValid();
-	if (false == valid)
-	{
-		enterServer.set_error(-1);
-	}
-	else
-	{
-		
-	}
-
-	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, enterServer);
-	Send(sendBuffer);
 }
 
 void IdentityPlayerState::OnSend(uint32 len)
@@ -35,20 +21,11 @@ void IdentityPlayerState::OnSend(uint32 len)
 
 void IdentityPlayerState::OnDisconnected()
 {
-	Protocol::S2C_LeaveIdentityServer leavePacket;
-	PacketSessionPtr session = GetPacketSessionRef();
-	bool valid = session->IsValid();
-	if (false == valid)
-	{
-		leavePacket.set_error(-1);
-	}
-	else
-	{
-		leavePacket.set_error(0);
-	}
+	PlayerStateLog(L"[IdentityPlayerState::OnDisconnected] Dissconnect player");
 
-	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, leavePacket);
-	Send(sendBuffer);
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(this->GetSessionManager());
+	const int64 serviceTime = gameState->GetServiceTimeStamp();
+	gameState->GetRoom()->PushTask(serviceTime, &LoginRoom::Leave, std::static_pointer_cast<IdentityPlayerState>(shared_from_this()));
 }
 
 void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
@@ -62,4 +39,15 @@ void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 		this->SessionLog(L"IdentityPlayerState::OnRecvPacket() : Failed to handle packet\n");
 		return;
 	}
+}
+
+void IdentityPlayerState::PlayerStateLog(const WCHAR* log, ...)
+{
+	std::wstring message;
+	const int64 remoteID = mRemotePlayer->mRemoteID;
+	message.append(L"[ID : ");
+	message.append(std::to_wstring(remoteID));
+	message.append(L"]");
+	message.append(log);
+	this->SessionLog(message.c_str());
 }

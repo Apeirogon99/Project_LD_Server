@@ -427,8 +427,32 @@ struct S2C_TestDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_TestDefaultTypeInternal _S2C_Test_default_instance_;
+PROTOBUF_CONSTEXPR C2S_GetRoundTripTime::C2S_GetRoundTripTime(
+    ::_pbi::ConstantInitialized) {}
+struct C2S_GetRoundTripTimeDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_GetRoundTripTimeDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C2S_GetRoundTripTimeDefaultTypeInternal() {}
+  union {
+    C2S_GetRoundTripTime _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_GetRoundTripTimeDefaultTypeInternal _C2S_GetRoundTripTime_default_instance_;
+PROTOBUF_CONSTEXPR S2C_GetRoundTripTime::S2C_GetRoundTripTime(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.time_stamp_)*/int64_t{0}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S2C_GetRoundTripTimeDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_GetRoundTripTimeDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S2C_GetRoundTripTimeDefaultTypeInternal() {}
+  union {
+    S2C_GetRoundTripTime _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_GetRoundTripTimeDefaultTypeInternal _S2C_GetRoundTripTime_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_IdentityPacket_2eproto[27];
+static ::_pb::Metadata file_level_metadata_IdentityPacket_2eproto[29];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_IdentityPacket_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_IdentityPacket_2eproto = nullptr;
 
@@ -657,6 +681,19 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_Test, _impl_.value_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_Test, _impl_.s_value_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_Test, _impl_.time_stamp_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_GetRoundTripTime, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_GetRoundTripTime, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_GetRoundTripTime, _impl_.time_stamp_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterIdentityServer)},
@@ -686,6 +723,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 198, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
   { 206, -1, -1, sizeof(::Protocol::C2S_Test)},
   { 215, -1, -1, sizeof(::Protocol::S2C_Test)},
+  { 224, -1, -1, sizeof(::Protocol::C2S_GetRoundTripTime)},
+  { 230, -1, -1, sizeof(::Protocol::S2C_GetRoundTripTime)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -716,13 +755,15 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_S2C_TravelServer_default_instance_._instance,
   &::Protocol::_C2S_Test_default_instance_._instance,
   &::Protocol::_S2C_Test_default_instance_._instance,
+  &::Protocol::_C2S_GetRoundTripTime_default_instance_._instance,
+  &::Protocol::_S2C_GetRoundTripTime_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\024IdentityPacket.proto\022\010Protocol\032\022Packet"
   "Struct.proto\"(\n\027C2S_EnterIdentityServer\022"
   "\r\n\005error\030\001 \001(\005\";\n\027S2C_EnterIdentityServe"
-  "r\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\";\n\027C"
+  "r\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\003 \001(\005\";\n\027C"
   "2S_LeaveIdentityServer\022\021\n\tremote_id\030\001 \001("
   "\003\022\r\n\005error\030\002 \001(\005\";\n\027S2C_LeaveIdentitySer"
   "ver\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"G\n"
@@ -763,16 +804,18 @@ const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_V
   "\022\r\n\005error\030\002 \001(\005\"@\n\010C2S_Test\022\017\n\007i_value\030\001"
   " \001(\005\022\017\n\007s_value\030\002 \001(\014\022\022\n\ntime_stamp\030\003 \001("
   "\003\">\n\010S2C_Test\022\r\n\005value\030\001 \001(\005\022\017\n\007s_value\030"
-  "\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003b\006proto3"
+  "\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003\"\026\n\024C2S_GetRoun"
+  "dTripTime\"*\n\024S2C_GetRoundTripTime\022\022\n\ntim"
+  "e_stamp\030\001 \001(\003b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_IdentityPacket_2eproto_deps[1] = {
   &::descriptor_table_PacketStruct_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_IdentityPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_IdentityPacket_2eproto = {
-    false, false, 1793, descriptor_table_protodef_IdentityPacket_2eproto,
+    false, false, 1861, descriptor_table_protodef_IdentityPacket_2eproto,
     "IdentityPacket.proto",
-    &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 27,
+    &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 29,
     schemas, file_default_instances, TableStruct_IdentityPacket_2eproto::offsets,
     file_level_metadata_IdentityPacket_2eproto, file_level_enum_descriptors_IdentityPacket_2eproto,
     file_level_service_descriptors_IdentityPacket_2eproto,
@@ -1044,9 +1087,9 @@ const char* S2C_EnterIdentityServer::_InternalParse(const char* ptr, ::_pbi::Par
         } else
           goto handle_unusual;
         continue;
-      // int32 error = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+      // int32 error = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -1087,10 +1130,10 @@ uint8_t* S2C_EnterIdentityServer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
   }
 
-  // int32 error = 2;
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1114,7 +1157,7 @@ size_t S2C_EnterIdentityServer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
-  // int32 error = 2;
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -7007,6 +7050,224 @@ void S2C_Test::InternalSwap(S2C_Test* other) {
       file_level_metadata_IdentityPacket_2eproto[26]);
 }
 
+// ===================================================================
+
+class C2S_GetRoundTripTime::_Internal {
+ public:
+};
+
+C2S_GetRoundTripTime::C2S_GetRoundTripTime(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_GetRoundTripTime)
+}
+C2S_GetRoundTripTime::C2S_GetRoundTripTime(const C2S_GetRoundTripTime& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  C2S_GetRoundTripTime* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_GetRoundTripTime)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_GetRoundTripTime::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_GetRoundTripTime::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_GetRoundTripTime::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[27]);
+}
+
+// ===================================================================
+
+class S2C_GetRoundTripTime::_Internal {
+ public:
+};
+
+S2C_GetRoundTripTime::S2C_GetRoundTripTime(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_GetRoundTripTime)
+}
+S2C_GetRoundTripTime::S2C_GetRoundTripTime(const S2C_GetRoundTripTime& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S2C_GetRoundTripTime* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.time_stamp_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.time_stamp_ = from._impl_.time_stamp_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_GetRoundTripTime)
+}
+
+inline void S2C_GetRoundTripTime::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.time_stamp_){int64_t{0}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+S2C_GetRoundTripTime::~S2C_GetRoundTripTime() {
+  // @@protoc_insertion_point(destructor:Protocol.S2C_GetRoundTripTime)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S2C_GetRoundTripTime::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void S2C_GetRoundTripTime::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S2C_GetRoundTripTime::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S2C_GetRoundTripTime)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.time_stamp_ = int64_t{0};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S2C_GetRoundTripTime::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 time_stamp = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.time_stamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S2C_GetRoundTripTime::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_GetRoundTripTime)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 time_stamp = 1;
+  if (this->_internal_time_stamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_time_stamp(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_GetRoundTripTime)
+  return target;
+}
+
+size_t S2C_GetRoundTripTime::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_GetRoundTripTime)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int64 time_stamp = 1;
+  if (this->_internal_time_stamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_time_stamp());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_GetRoundTripTime::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S2C_GetRoundTripTime::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_GetRoundTripTime::GetClassData() const { return &_class_data_; }
+
+
+void S2C_GetRoundTripTime::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S2C_GetRoundTripTime*>(&to_msg);
+  auto& from = static_cast<const S2C_GetRoundTripTime&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_GetRoundTripTime)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_time_stamp() != 0) {
+    _this->_internal_set_time_stamp(from._internal_time_stamp());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_GetRoundTripTime::CopyFrom(const S2C_GetRoundTripTime& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_GetRoundTripTime)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_GetRoundTripTime::IsInitialized() const {
+  return true;
+}
+
+void S2C_GetRoundTripTime::InternalSwap(S2C_GetRoundTripTime* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.time_stamp_, other->_impl_.time_stamp_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_GetRoundTripTime::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[28]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -7117,6 +7378,14 @@ Arena::CreateMaybeMessage< ::Protocol::C2S_Test >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_Test*
 Arena::CreateMaybeMessage< ::Protocol::S2C_Test >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_Test >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_GetRoundTripTime*
+Arena::CreateMaybeMessage< ::Protocol::C2S_GetRoundTripTime >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_GetRoundTripTime >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_GetRoundTripTime*
+Arena::CreateMaybeMessage< ::Protocol::S2C_GetRoundTripTime >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_GetRoundTripTime >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
