@@ -19,6 +19,21 @@ void IdentityPlayerState::OnSend(uint32 len)
 
 }
 
+void IdentityPlayerState::OnIcmp()
+{
+	const int64 serviceTimeStamp = this->GetSessionManager()->GetServiceTimeStamp();
+	const int64 halfRTT = this->GetRoundTripTime();
+
+	const int64 syncTimeStamp = serviceTimeStamp + halfRTT;
+
+	Protocol::S2C_GetRoundTripTime roundTripTimePacket;
+	roundTripTimePacket.set_time_stamp(syncTimeStamp);
+
+	PacketSessionPtr session = this->GetPacketSessionRef();
+	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, roundTripTimePacket);
+	session->Send(sendBuffer);
+}
+
 void IdentityPlayerState::OnDisconnected()
 {
 	PlayerStateLog(L"[IdentityPlayerState::OnDisconnected] Dissconnect player");

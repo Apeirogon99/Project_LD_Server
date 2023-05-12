@@ -1,23 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Soruce">
-      <UniqueIdentifier>{e93e6de1-53b4-4814-8559-366092896375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Soruce\Public">
-      <UniqueIdentifier>{6d7c0387-49fb-45e0-9e8f-b168cc572c39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Soruce\Private">
-      <UniqueIdentifier>{a435b29d-9604-4084-b9e8-1fa48f4d1f57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{504f88cc-5f5f-44a6-9322-77b86a620d9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Soruce\Private\Framework">
-      <UniqueIdentifier>{d1c2eed8-ed77-4461-8ffd-f3641aba8304}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Soruce\Public\Framework">
-      <UniqueIdentifier>{2d594c27-f261-4b73-80c1-8c0d39b6d7cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Packet">
       <UniqueIdentifier>{7f62471f-e6ad-4e2b-a126-9dcff6d50255}</UniqueIdentifier>
@@ -46,11 +31,26 @@
     <Filter Include="Database\Public">
       <UniqueIdentifier>{4c88973c-2988-41e8-a27f-62f0b3c19db3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Soruce\Private\Content">
-      <UniqueIdentifier>{11715d3a-6a8c-4141-b801-4facfbdefcff}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e93e6de1-53b4-4814-8559-366092896375}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Soruce\Public\Content">
+    <Filter Include="Source\Public">
+      <UniqueIdentifier>{6d7c0387-49fb-45e0-9e8f-b168cc572c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Framework">
+      <UniqueIdentifier>{2d594c27-f261-4b73-80c1-8c0d39b6d7cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Content">
       <UniqueIdentifier>{b134d93d-18fd-4626-82fd-0b0e8ae88531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private">
+      <UniqueIdentifier>{a435b29d-9604-4084-b9e8-1fa48f4d1f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Framework">
+      <UniqueIdentifier>{d1c2eed8-ed77-4461-8ffd-f3641aba8304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Content">
+      <UniqueIdentifier>{11715d3a-6a8c-4141-b801-4facfbdefcff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,16 +64,16 @@
       <Filter>Pch\Public</Filter>
     </ClInclude>
     <ClInclude Include="IdentityService.h">
-      <Filter>Soruce\Public\Framework</Filter>
+      <Filter>Source\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="IdentityPlayerState.h">
-      <Filter>Soruce\Public\Framework</Filter>
+      <Filter>Source\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="IdentityListener.h">
-      <Filter>Soruce\Public\Framework</Filter>
+      <Filter>Source\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="IdentityGameState.h">
-      <Filter>Soruce\Public\Framework</Filter>
+      <Filter>Source\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="IdentityPacket.pb.h">
       <Filter>Packet\Public</Filter>
@@ -91,16 +91,16 @@
       <Filter>Packet\Public</Filter>
     </ClInclude>
     <ClInclude Include="IdentityDatabase.h">
-      <Filter>Soruce\Public\Framework</Filter>
+      <Filter>Source\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="IdentitiyDatabaseHandler.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
     <ClInclude Include="LoginRoom.h">
-      <Filter>Soruce\Public\Content</Filter>
+      <Filter>Source\Public\Content</Filter>
     </ClInclude>
     <ClInclude Include="RemotePlayer.h">
-      <Filter>Soruce\Public\Content</Filter>
+      <Filter>Source\Public\Content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,16 +114,16 @@
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="IdentityGameState.cpp">
-      <Filter>Soruce\Private\Framework</Filter>
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
     <ClCompile Include="IdentityListener.cpp">
-      <Filter>Soruce\Private\Framework</Filter>
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
     <ClCompile Include="IdentityPlayerState.cpp">
-      <Filter>Soruce\Private\Framework</Filter>
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
     <ClCompile Include="IdentityService.cpp">
-      <Filter>Soruce\Private\Framework</Filter>
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
     <ClCompile Include="IdentityPacket.pb.cc">
       <Filter>Packet\Private</Filter>
@@ -141,16 +141,16 @@
       <Filter>Packet\Private</Filter>
     </ClCompile>
     <ClCompile Include="IdentityDatabase.cpp">
-      <Filter>Soruce\Private\Framework</Filter>
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
     <ClCompile Include="IdentitiyDatabaseHandler.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
     <ClCompile Include="LoginRoom.cpp">
-      <Filter>Soruce\Private\Content</Filter>
+      <Filter>Source\Private\Content</Filter>
     </ClCompile>
     <ClCompile Include="RemotePlayer.cpp">
-      <Filter>Soruce\Private\Content</Filter>
+      <Filter>Source\Private\Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

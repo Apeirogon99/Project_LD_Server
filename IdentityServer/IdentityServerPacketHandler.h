@@ -29,8 +29,6 @@ enum class EPakcetID: uint16
 	S2C_TravelServer = 1024,
 	C2S_Test = 1025,
 	S2C_Test = 1026,
-	C2S_GetRoundTripTime = 1027,
-	S2C_GetRoundTripTime = 1028,
 };
 
 // Custom Handlers
@@ -48,7 +46,6 @@ bool Handle_C2S_UpdateNickName(PacketSessionPtr& session, Protocol::C2S_UpdateNi
 bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt);
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt);
 bool Handle_C2S_Test(PacketSessionPtr& session, Protocol::C2S_Test& pkt);
-bool Handle_C2S_GetRoundTripTime(PacketSessionPtr& session, Protocol::C2S_GetRoundTripTime& pkt);
 
 class IdentityServerPacketHandler
 {
@@ -70,7 +67,6 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_TravelLevel)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_TravelLevel>(Handle_C2S_TravelLevel, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_TravelServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_TravelServer>(Handle_C2S_TravelServer, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_Test)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_Test>(Handle_C2S_Test, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_GetRoundTripTime)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_GetRoundTripTime>(Handle_C2S_GetRoundTripTime, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_EnterIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterIdentityServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LeaveIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveIdentityServer)); }
@@ -86,6 +82,5 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_TravelLevel& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_TravelLevel)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_TravelServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_TravelServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_Test& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_Test)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_GetRoundTripTime& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_GetRoundTripTime)); }
 
 };

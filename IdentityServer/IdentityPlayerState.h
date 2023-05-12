@@ -12,6 +12,7 @@ public:
 protected:
 	virtual void OnConnected() override;
 	virtual void OnSend(uint32 len) override;
+	virtual void OnIcmp() override;
 	virtual void OnDisconnected() override;
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 

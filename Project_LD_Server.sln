@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonLibrary", "CommonLibr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IdentityServer", "IdentityServer\IdentityServer.vcxproj", "{ED4450D1-37DB-4AF8-B0F6-F6638231F0F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{FCA3CE80-DBCC-4248-86B6-46C662A495B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{ED4450D1-37DB-4AF8-B0F6-F6638231F0F0}.Release|x64.Build.0 = Release|x64
 		{ED4450D1-37DB-4AF8-B0F6-F6638231F0F0}.Release|x86.ActiveCfg = Release|Win32
 		{ED4450D1-37DB-4AF8-B0F6-F6638231F0F0}.Release|x86.Build.0 = Release|Win32
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Debug|x64.ActiveCfg = Debug|x64
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Debug|x64.Build.0 = Debug|x64
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Debug|x86.ActiveCfg = Debug|Win32
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Debug|x86.Build.0 = Debug|Win32
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Release|x64.ActiveCfg = Release|x64
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Release|x64.Build.0 = Release|x64
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Release|x86.ActiveCfg = Release|Win32
+		{FCA3CE80-DBCC-4248-86B6-46C662A495B1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
