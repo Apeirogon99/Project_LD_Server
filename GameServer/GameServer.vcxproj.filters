@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Database">
+      <UniqueIdentifier>{f672f3c2-3411-4c59-bd71-ee0239368943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{a5b25f96-dba6-448e-a2d1-1c1024ef3080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{f8b24030-8e09-4e74-a5eb-5d64a8dcedd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pch">
+      <UniqueIdentifier>{3cfae33e-eb7b-44b0-afdc-eef28016b568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{20f1fef8-2b6c-43ab-9fce-2654b6427c1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
