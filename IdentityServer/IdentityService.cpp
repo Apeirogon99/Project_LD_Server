@@ -76,8 +76,3 @@ bool IdentityService::SettingService()
 
 	return true;
 }
-
-void IdentityService::Tick()
-{
-
-}

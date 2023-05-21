@@ -14,6 +14,8 @@ DROP PROCEDURE IF EXISTS delete_character_sp;
 GO
 
 CREATE PROCEDURE delete_character_sp
+	@global_id		INT,
+	@server_id		INT,
 	@character_id	INT
 AS
 BEGIN TRY
@@ -21,7 +23,7 @@ BEGIN TRY
 		SET NOCOUNT ON;
 
 		--캐릭터 정보 확인
-		IF NOT EXISTS (SELECT 1 FROM character_tb WHERE id=@character_id)
+		IF NOT EXISTS (SELECT 1 FROM character_tb WHERE global_id=@global_id AND server_id=@server_id AND id=@character_id)
 			BEGIN
 				ROLLBACK TRANSACTION;
 				RETURN 2003

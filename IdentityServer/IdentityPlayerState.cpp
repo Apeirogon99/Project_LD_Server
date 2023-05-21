@@ -22,22 +22,23 @@ void IdentityPlayerState::OnSend(uint32 len)
 void IdentityPlayerState::OnIcmp()
 {
 	const int64 serviceTimeStamp = this->GetSessionManager()->GetServiceTimeStamp();
-	const int64 halfRTT = this->GetRoundTripTime();
+	const int64 uctTimeStamp = Time::GetUTCTime();
 
-	const int64 syncTimeStamp = serviceTimeStamp + halfRTT;
+	const int64 syncTimeStamp = serviceTimeStamp;
 
-	Protocol::S2C_GetRoundTripTime roundTripTimePacket;
-	roundTripTimePacket.set_time_stamp(syncTimeStamp);
+	Protocol::S2C_ReplicatedServerTimeStamp packet;
+	packet.set_time_stamp(syncTimeStamp);
+	packet.set_utc_time(uctTimeStamp);
+
+	//std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
 
 	PacketSessionPtr session = this->GetPacketSessionRef();
-	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, roundTripTimePacket);
+	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
 	session->Send(sendBuffer);
 }
 
 void IdentityPlayerState::OnDisconnected()
 {
-	PlayerStateLog(L"[IdentityPlayerState::OnDisconnected] Dissconnect player");
-
 	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(this->GetSessionManager());
 	const int64 serviceTime = gameState->GetServiceTimeStamp();
 	gameState->GetRoom()->PushTask(serviceTime, &LoginRoom::Leave, std::static_pointer_cast<IdentityPlayerState>(shared_from_this()));
@@ -54,15 +55,4 @@ void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 		this->SessionLog(L"IdentityPlayerState::OnRecvPacket() : Failed to handle packet\n");
 		return;
 	}
-}
-
-void IdentityPlayerState::PlayerStateLog(const WCHAR* log, ...)
-{
-	std::wstring message;
-	const int64 remoteID = mRemotePlayer->mRemoteID;
-	message.append(L"[ID : ");
-	message.append(std::to_wstring(remoteID));
-	message.append(L"]");
-	message.append(log);
-	this->SessionLog(message.c_str());
 }

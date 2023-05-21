@@ -1,18 +1,24 @@
 #pragma once
-class LoginRoom : public NetworkQueue
+
+class LoginRoom : public GameObject
 {
+public:
+	LoginRoom(const SessionManagerRef& inSessionManager, const WCHAR* inLoginRoomName);
+	virtual ~LoginRoom();
+
+protected:
+	virtual void Initialization() override;
+	virtual void Destroy() override;
+	virtual void Tick() override;
+
 public:
 	void Enter(PlayerStatePtr inPlayerState);
 	void Leave(PlayerStatePtr inPlayerState);
 	void Deliver(PlayerStatePtr inPlayerState);
 	void Broadcast(PlayerStatePtr inPlayerState);
 
-	void Test(PlayerStatePtr inPlayerState, const int32 inIValue, const std::string inSValue)
-	{
-		printf("%d %s\n", inIValue, inSValue.c_str());
-	}
-
 private:
+	int32 mPlayersCount;
 	std::map<uint64, PlayerStatePtr> mPlayers;
 };
 

@@ -41,9 +41,7 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 PROTOBUF_CONSTEXPR C2S_EnterIdentityServer::C2S_EnterIdentityServer(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.error_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    ::_pbi::ConstantInitialized) {}
 struct C2S_EnterIdentityServerDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_EnterIdentityServerDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -68,10 +66,7 @@ struct S2C_EnterIdentityServerDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_EnterIdentityServerDefaultTypeInternal _S2C_EnterIdentityServer_default_instance_;
 PROTOBUF_CONSTEXPR C2S_LeaveIdentityServer::C2S_LeaveIdentityServer(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.remote_id_)*/int64_t{0}
-  , /*decltype(_impl_.error_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    ::_pbi::ConstantInitialized) {}
 struct C2S_LeaveIdentityServerDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_LeaveIdentityServerDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -439,7 +434,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_EnterIdentityServer, _impl_.error_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterIdentityServer, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -454,8 +448,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LeaveIdentityServer, _impl_.remote_id_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LeaveIdentityServer, _impl_.error_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LeaveIdentityServer, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -660,32 +652,32 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterIdentityServer)},
-  { 7, -1, -1, sizeof(::Protocol::S2C_EnterIdentityServer)},
-  { 15, -1, -1, sizeof(::Protocol::C2S_LeaveIdentityServer)},
-  { 23, -1, -1, sizeof(::Protocol::S2C_LeaveIdentityServer)},
-  { 31, -1, -1, sizeof(::Protocol::C2S_Singin)},
-  { 40, -1, -1, sizeof(::Protocol::S2C_Singin)},
-  { 49, -1, -1, sizeof(::Protocol::C2S_Singup)},
-  { 59, -1, -1, sizeof(::Protocol::S2C_Singup)},
-  { 67, -1, -1, sizeof(::Protocol::C2S_EmailVerified)},
-  { 75, -1, -1, sizeof(::Protocol::S2C_EmailVerified)},
-  { 83, -1, -1, sizeof(::Protocol::S2C_LoadServer)},
-  { 91, -1, -1, sizeof(::Protocol::C2S_LoadCharacters)},
-  { 99, -1, -1, sizeof(::Protocol::S2C_LoadCharacters)},
-  { 108, -1, -1, sizeof(::Protocol::C2S_CreateCharacter)},
-  { 117, -1, -1, sizeof(::Protocol::S2C_CreateCharacter)},
-  { 125, -1, -1, sizeof(::Protocol::C2S_UpdateAppearance)},
-  { 133, -1, -1, sizeof(::Protocol::S2C_UpdateAppearance)},
-  { 141, -1, -1, sizeof(::Protocol::C2S_DeleteCharacter)},
-  { 149, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
-  { 157, -1, -1, sizeof(::Protocol::C2S_UpdateNickName)},
-  { 165, -1, -1, sizeof(::Protocol::S2C_UpdateNickName)},
-  { 173, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
-  { 181, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
-  { 189, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
-  { 198, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
-  { 206, -1, -1, sizeof(::Protocol::C2S_Test)},
-  { 215, -1, -1, sizeof(::Protocol::S2C_Test)},
+  { 6, -1, -1, sizeof(::Protocol::S2C_EnterIdentityServer)},
+  { 14, -1, -1, sizeof(::Protocol::C2S_LeaveIdentityServer)},
+  { 20, -1, -1, sizeof(::Protocol::S2C_LeaveIdentityServer)},
+  { 28, -1, -1, sizeof(::Protocol::C2S_Singin)},
+  { 37, -1, -1, sizeof(::Protocol::S2C_Singin)},
+  { 46, -1, -1, sizeof(::Protocol::C2S_Singup)},
+  { 56, -1, -1, sizeof(::Protocol::S2C_Singup)},
+  { 64, -1, -1, sizeof(::Protocol::C2S_EmailVerified)},
+  { 72, -1, -1, sizeof(::Protocol::S2C_EmailVerified)},
+  { 80, -1, -1, sizeof(::Protocol::S2C_LoadServer)},
+  { 88, -1, -1, sizeof(::Protocol::C2S_LoadCharacters)},
+  { 96, -1, -1, sizeof(::Protocol::S2C_LoadCharacters)},
+  { 105, -1, -1, sizeof(::Protocol::C2S_CreateCharacter)},
+  { 114, -1, -1, sizeof(::Protocol::S2C_CreateCharacter)},
+  { 122, -1, -1, sizeof(::Protocol::C2S_UpdateAppearance)},
+  { 130, -1, -1, sizeof(::Protocol::S2C_UpdateAppearance)},
+  { 138, -1, -1, sizeof(::Protocol::C2S_DeleteCharacter)},
+  { 146, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
+  { 154, -1, -1, sizeof(::Protocol::C2S_UpdateNickName)},
+  { 162, -1, -1, sizeof(::Protocol::S2C_UpdateNickName)},
+  { 170, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
+  { 178, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
+  { 186, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
+  { 195, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
+  { 203, -1, -1, sizeof(::Protocol::C2S_Test)},
+  { 212, -1, -1, sizeof(::Protocol::S2C_Test)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -720,57 +712,56 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\024IdentityPacket.proto\022\010Protocol\032\022Packet"
-  "Struct.proto\"(\n\027C2S_EnterIdentityServer\022"
-  "\r\n\005error\030\001 \001(\005\";\n\027S2C_EnterIdentityServe"
-  "r\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\003 \001(\005\";\n\027C"
-  "2S_LeaveIdentityServer\022\021\n\tremote_id\030\001 \001("
-  "\003\022\r\n\005error\030\002 \001(\005\";\n\027S2C_LeaveIdentitySer"
-  "ver\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"G\n"
-  "\nC2S_Singin\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007user_i"
-  "d\030\002 \001(\t\022\025\n\ruser_password\030\003 \001(\t\"=\n\nS2C_Si"
-  "ngin\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\022\r"
-  "\n\005error\030\003 \001(\005\"[\n\nC2S_Singup\022\021\n\tremote_id"
-  "\030\001 \001(\003\022\017\n\007user_id\030\002 \001(\t\022\025\n\ruser_password"
-  "\030\003 \001(\t\022\022\n\nuser_email\030\004 \001(\t\".\n\nS2C_Singup"
-  "\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"=\n\021C2"
-  "S_EmailVerified\022\021\n\tremote_id\030\001 \001(\003\022\025\n\rve"
-  "rified_code\030\002 \001(\t\"5\n\021S2C_EmailVerified\022\021"
-  "\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"*\n\016S2C_"
-  "LoadServer\022\n\n\002ip\030\001 \003(\t\022\014\n\004port\030\002 \003(\005\":\n\022"
-  "C2S_LoadCharacters\022\021\n\tremote_id\030\001 \001(\003\022\021\n"
-  "\tserver_id\030\002 \001(\005\"g\n\022S2C_LoadCharacters\022\021"
-  "\n\tremote_id\030\001 \001(\003\022\014\n\004name\030\002 \003(\014\0220\n\016chara"
-  "cter_data\030\003 \003(\0132\030.Protocol.SCharacterDat"
-  "a\"m\n\023C2S_CreateCharacter\022\021\n\tremote_id\030\001 "
-  "\001(\003\022\021\n\tserver_id\030\002 \001(\005\0220\n\016character_data"
-  "\030\003 \001(\0132\030.Protocol.SCharacterData\"7\n\023S2C_"
-  "CreateCharacter\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005er"
-  "ror\030\002 \001(\005\"]\n\024C2S_UpdateAppearance\022\021\n\trem"
-  "ote_id\030\001 \001(\003\0222\n\nappearance\030\002 \001(\0132\036.Proto"
-  "col.SCharacterAppearance\"8\n\024S2C_UpdateAp"
-  "pearance\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001"
-  "(\005\"6\n\023C2S_DeleteCharacter\022\021\n\tremote_id\030\001"
-  " \001(\003\022\014\n\004name\030\002 \001(\014\"7\n\023S2C_DeleteCharacte"
-  "r\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"9\n\022C"
-  "2S_UpdateNickName\022\021\n\tremote_id\030\001 \001(\003\022\020\n\010"
-  "new_name\030\002 \001(\014\"6\n\022S2C_UpdateNickName\022\021\n\t"
-  "remote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"3\n\017C2S_Tr"
-  "avelLevel\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005level\030\002 "
-  "\001(\005\"3\n\017S2C_TravelLevel\022\021\n\tremote_id\030\001 \001("
-  "\003\022\r\n\005error\030\002 \001(\005\"\?\n\020C2S_TravelServer\022\021\n\t"
-  "remote_id\030\001 \001(\003\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001("
-  "\005\"4\n\020S2C_TravelServer\022\021\n\tremote_id\030\001 \001(\003"
-  "\022\r\n\005error\030\002 \001(\005\"@\n\010C2S_Test\022\017\n\007i_value\030\001"
-  " \001(\005\022\017\n\007s_value\030\002 \001(\014\022\022\n\ntime_stamp\030\003 \001("
-  "\003\">\n\010S2C_Test\022\r\n\005value\030\001 \001(\005\022\017\n\007s_value\030"
-  "\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003b\006proto3"
+  "Struct.proto\"\031\n\027C2S_EnterIdentityServer\""
+  ";\n\027S2C_EnterIdentityServer\022\021\n\tremote_id\030"
+  "\001 \001(\003\022\r\n\005error\030\002 \001(\005\"\031\n\027C2S_LeaveIdentit"
+  "yServer\";\n\027S2C_LeaveIdentityServer\022\021\n\tre"
+  "mote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"G\n\nC2S_Sing"
+  "in\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007user_id\030\002 \001(\t\022\025"
+  "\n\ruser_password\030\003 \001(\t\"=\n\nS2C_Singin\022\021\n\tr"
+  "emote_id\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\022\r\n\005error\030\003"
+  " \001(\005\"[\n\nC2S_Singup\022\021\n\tremote_id\030\001 \001(\003\022\017\n"
+  "\007user_id\030\002 \001(\t\022\025\n\ruser_password\030\003 \001(\t\022\022\n"
+  "\nuser_email\030\004 \001(\t\".\n\nS2C_Singup\022\021\n\tremot"
+  "e_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"=\n\021C2S_EmailVe"
+  "rified\022\021\n\tremote_id\030\001 \001(\003\022\025\n\rverified_co"
+  "de\030\002 \001(\t\"5\n\021S2C_EmailVerified\022\021\n\tremote_"
+  "id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"*\n\016S2C_LoadServe"
+  "r\022\n\n\002ip\030\001 \003(\t\022\014\n\004port\030\002 \003(\005\":\n\022C2S_LoadC"
+  "haracters\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tserver_i"
+  "d\030\002 \001(\005\"g\n\022S2C_LoadCharacters\022\021\n\tremote_"
+  "id\030\001 \001(\003\022\014\n\004name\030\002 \003(\014\0220\n\016character_data"
+  "\030\003 \003(\0132\030.Protocol.SCharacterData\"m\n\023C2S_"
+  "CreateCharacter\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tse"
+  "rver_id\030\002 \001(\005\0220\n\016character_data\030\003 \001(\0132\030."
+  "Protocol.SCharacterData\"7\n\023S2C_CreateCha"
+  "racter\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005"
+  "\"]\n\024C2S_UpdateAppearance\022\021\n\tremote_id\030\001 "
+  "\001(\003\0222\n\nappearance\030\002 \001(\0132\036.Protocol.SChar"
+  "acterAppearance\"8\n\024S2C_UpdateAppearance\022"
+  "\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"6\n\023C2S"
+  "_DeleteCharacter\022\021\n\tremote_id\030\001 \001(\003\022\014\n\004n"
+  "ame\030\002 \001(\014\"7\n\023S2C_DeleteCharacter\022\021\n\tremo"
+  "te_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"9\n\022C2S_Update"
+  "NickName\022\021\n\tremote_id\030\001 \001(\003\022\020\n\010new_name\030"
+  "\002 \001(\014\"6\n\022S2C_UpdateNickName\022\021\n\tremote_id"
+  "\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"3\n\017C2S_TravelLevel"
+  "\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005level\030\002 \001(\005\"3\n\017S2"
+  "C_TravelLevel\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005erro"
+  "r\030\002 \001(\005\"\?\n\020C2S_TravelServer\022\021\n\tremote_id"
+  "\030\001 \001(\003\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"4\n\020S2C_"
+  "TravelServer\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error"
+  "\030\002 \001(\005\"@\n\010C2S_Test\022\017\n\007i_value\030\001 \001(\005\022\017\n\007s"
+  "_value\030\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003\">\n\010S2C_"
+  "Test\022\r\n\005value\030\001 \001(\005\022\017\n\007s_value\030\002 \001(\014\022\022\n\n"
+  "time_stamp\030\003 \001(\003b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_IdentityPacket_2eproto_deps[1] = {
   &::descriptor_table_PacketStruct_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_IdentityPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_IdentityPacket_2eproto = {
-    false, false, 1793, descriptor_table_protodef_IdentityPacket_2eproto,
+    false, false, 1744, descriptor_table_protodef_IdentityPacket_2eproto,
     "IdentityPacket.proto",
     &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 27,
     schemas, file_default_instances, TableStruct_IdentityPacket_2eproto::offsets,
@@ -793,169 +784,31 @@ class C2S_EnterIdentityServer::_Internal {
 
 C2S_EnterIdentityServer::C2S_EnterIdentityServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:Protocol.C2S_EnterIdentityServer)
 }
 C2S_EnterIdentityServer::C2S_EnterIdentityServer(const C2S_EnterIdentityServer& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
   C2S_EnterIdentityServer* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.error_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.error_ = from._impl_.error_;
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_EnterIdentityServer)
 }
 
-inline void C2S_EnterIdentityServer::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.error_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
 
-C2S_EnterIdentityServer::~C2S_EnterIdentityServer() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_EnterIdentityServer)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
 
-inline void C2S_EnterIdentityServer::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
 
-void C2S_EnterIdentityServer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void C2S_EnterIdentityServer::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_EnterIdentityServer)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.error_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* C2S_EnterIdentityServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int32 error = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* C2S_EnterIdentityServer::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_EnterIdentityServer)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 error = 1;
-  if (this->_internal_error() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_EnterIdentityServer)
-  return target;
-}
-
-size_t C2S_EnterIdentityServer::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_EnterIdentityServer)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 error = 1;
-  if (this->_internal_error() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_EnterIdentityServer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_EnterIdentityServer::MergeImpl
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_EnterIdentityServer::GetClassData() const { return &_class_data_; }
 
 
-void C2S_EnterIdentityServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_EnterIdentityServer*>(&to_msg);
-  auto& from = static_cast<const C2S_EnterIdentityServer&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_EnterIdentityServer)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
 
-  if (from._internal_error() != 0) {
-    _this->_internal_set_error(from._internal_error());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
 
-void C2S_EnterIdentityServer::CopyFrom(const C2S_EnterIdentityServer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_EnterIdentityServer)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
 
-bool C2S_EnterIdentityServer::IsInitialized() const {
-  return true;
-}
 
-void C2S_EnterIdentityServer::InternalSwap(C2S_EnterIdentityServer* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.error_, other->_impl_.error_);
-}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_EnterIdentityServer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
@@ -1044,9 +897,9 @@ const char* S2C_EnterIdentityServer::_InternalParse(const char* ptr, ::_pbi::Par
         } else
           goto handle_unusual;
         continue;
-      // int32 error = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+      // int32 error = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -1087,10 +940,10 @@ uint8_t* S2C_EnterIdentityServer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
   }
 
-  // int32 error = 3;
+  // int32 error = 2;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1114,7 +967,7 @@ size_t S2C_EnterIdentityServer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
-  // int32 error = 3;
+  // int32 error = 2;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -1182,202 +1035,31 @@ class C2S_LeaveIdentityServer::_Internal {
 
 C2S_LeaveIdentityServer::C2S_LeaveIdentityServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:Protocol.C2S_LeaveIdentityServer)
 }
 C2S_LeaveIdentityServer::C2S_LeaveIdentityServer(const C2S_LeaveIdentityServer& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
   C2S_LeaveIdentityServer* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){}
-    , decltype(_impl_.error_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.remote_id_, &from._impl_.remote_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_LeaveIdentityServer)
 }
 
-inline void C2S_LeaveIdentityServer::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){int64_t{0}}
-    , decltype(_impl_.error_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
 
-C2S_LeaveIdentityServer::~C2S_LeaveIdentityServer() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_LeaveIdentityServer)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
 
-inline void C2S_LeaveIdentityServer::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
 
-void C2S_LeaveIdentityServer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void C2S_LeaveIdentityServer::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_LeaveIdentityServer)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&_impl_.remote_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* C2S_LeaveIdentityServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int64 remote_id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 error = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* C2S_LeaveIdentityServer::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_LeaveIdentityServer)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
-  // int32 error = 2;
-  if (this->_internal_error() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_error(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_LeaveIdentityServer)
-  return target;
-}
-
-size_t C2S_LeaveIdentityServer::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_LeaveIdentityServer)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
-  }
-
-  // int32 error = 2;
-  if (this->_internal_error() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LeaveIdentityServer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_LeaveIdentityServer::MergeImpl
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LeaveIdentityServer::GetClassData() const { return &_class_data_; }
 
 
-void C2S_LeaveIdentityServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_LeaveIdentityServer*>(&to_msg);
-  auto& from = static_cast<const C2S_LeaveIdentityServer&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_LeaveIdentityServer)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
 
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
-  }
-  if (from._internal_error() != 0) {
-    _this->_internal_set_error(from._internal_error());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
 
-void C2S_LeaveIdentityServer::CopyFrom(const C2S_LeaveIdentityServer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_LeaveIdentityServer)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
 
-bool C2S_LeaveIdentityServer::IsInitialized() const {
-  return true;
-}
 
-void C2S_LeaveIdentityServer::InternalSwap(C2S_LeaveIdentityServer* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C2S_LeaveIdentityServer, _impl_.error_)
-      + sizeof(C2S_LeaveIdentityServer::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(C2S_LeaveIdentityServer, _impl_.remote_id_)>(
-          reinterpret_cast<char*>(&_impl_.remote_id_),
-          reinterpret_cast<char*>(&other->_impl_.remote_id_));
-}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LeaveIdentityServer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(

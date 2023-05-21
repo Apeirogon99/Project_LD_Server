@@ -31,7 +31,7 @@ BEGIN TRY
 			END
 
 		--커스텀 정보 및 위치정보
-		SELECT c.name, a.character_calss_id, a.race_id, a.seat, a.skin_color, a.hair_color, a.eye_color, a.eyebrow_color, e.hair, e.helmet, e.shoulders, e.pants_add, e.hands_add, e.chest_add, e.bracers_add, e.boots, e.weapon_l, e.weapon_r 
+		SELECT c.id, c.name, a.character_calss_id, a.race_id, a.seat, a.skin_color, a.hair_color, a.eye_color, a.eyebrow_color, e.hair, e.helmet, e.shoulders, e.pants_add, e.hands_add, e.chest_add, e.bracers_add, e.boots, e.weapon_l, e.weapon_r 
 		FROM character_tb AS c INNER JOIN appearance_tb AS a ON (c.id = a.character_id) INNER JOIN eqipment_tb AS e ON (a.character_id = e.character_id)
 		WHERE c.global_id=@global_id AND c.server_id=@server_id
 

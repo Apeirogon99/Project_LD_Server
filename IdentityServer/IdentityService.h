@@ -10,7 +10,6 @@ public:
 
 protected:
 	virtual bool		SettingService() override;
-	virtual void		Tick() override;
 
 private:
 

@@ -3,16 +3,19 @@
 
 IdentityGameState::IdentityGameState(const SessionFactory& sessionFactory, const uint32 maxSessionCount, const uint32 inMaxBufferSize) : SessionManager(sessionFactory, maxSessionCount, inMaxBufferSize)
 {
-	mLoginRoom = std::make_shared<LoginRoom>();
+
 }
 
 IdentityGameState::~IdentityGameState()
 {
 }
 
-bool IdentityGameState::InitNetworkTask()
+bool IdentityGameState::PushNetworkTask()
 {
-	mNetworkTasks.emplace_back(mLoginRoom->shared_from_this());
+	const SessionManagerRef sessionManagerRef = weak_from_this();
+	mLoginRoom = std::make_shared<LoginRoom>(sessionManagerRef, L"LoginRoom_1");
+
+	mNetworkTasks.emplace_back(mLoginRoom);
 
 	return true;
 }

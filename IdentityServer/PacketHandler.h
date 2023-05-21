@@ -1,8 +1,42 @@
 #pragma once
 
 #include "IdentityPacket.pb.h"
+#include "CommonPacket.pb.h"
 
 using PacketHandlerFunc = std::function<bool(PacketSessionPtr&, BYTE*, int32)>;
+
+enum class EPakcetID : uint16
+{
+	C2S_EnterIdentityServer = 1000,
+	S2C_EnterIdentityServer = 1001,
+	C2S_LeaveIdentityServer = 1002,
+	S2C_LeaveIdentityServer = 1003,
+	C2S_Singin = 1004,
+	S2C_Singin = 1005,
+	C2S_Singup = 1006,
+	S2C_Singup = 1007,
+	C2S_EmailVerified = 1008,
+	S2C_EmailVerified = 1009,
+	S2C_LoadServer = 1010,
+	C2S_LoadCharacters = 1011,
+	S2C_LoadCharacters = 1012,
+	C2S_CreateCharacter = 1013,
+	S2C_CreateCharacter = 1014,
+	C2S_UpdateAppearance = 1015,
+	S2C_UpdateAppearance = 1016,
+	C2S_DeleteCharacter = 1017,
+	S2C_DeleteCharacter = 1018,
+	C2S_UpdateNickName = 1019,
+	S2C_UpdateNickName = 1020,
+	C2S_TravelLevel = 1021,
+	S2C_TravelLevel = 1022,
+	C2S_TravelServer = 1023,
+	S2C_TravelServer = 1024,
+	C2S_Test = 1025,
+	S2C_Test = 1026,
+
+	S2C_ReplicatedServerTimeStamp = 9000,
+};
 
 bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len);
 
@@ -49,6 +83,7 @@ private:
 
 private:
 	friend class IdentityServerPacketHandler;
+	friend class CommonServerPacketHandler;
 
 public:
 	static PacketHandlerFunc PacketHandlers[UINT16_MAX];

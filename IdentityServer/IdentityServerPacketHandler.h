@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 enum class EPakcetID: uint16
 {
 	C2S_EnterIdentityServer = 1000,
@@ -30,9 +31,9 @@ enum class EPakcetID: uint16
 	C2S_Test = 1025,
 	S2C_Test = 1026,
 };
+*/
 
 // Custom Handlers
-bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len);
 bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_EnterIdentityServer& pkt);
 bool Handle_C2S_LeaveIdentityServer(PacketSessionPtr& session, Protocol::C2S_LeaveIdentityServer& pkt);
 bool Handle_C2S_Singin(PacketSessionPtr& session, Protocol::C2S_Singin& pkt);
@@ -52,8 +53,6 @@ class IdentityServerPacketHandler
 public:
 	static void Init(PacketHandlerFunc inPacketFunc[UINT16_MAX])
 	{
-		for (int32 i = 0; i < UINT16_MAX; i++)
-			inPacketFunc[i] = Handle_INVALID;
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_EnterIdentityServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_EnterIdentityServer>(Handle_C2S_EnterIdentityServer, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_LeaveIdentityServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_LeaveIdentityServer>(Handle_C2S_LeaveIdentityServer, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_Singin)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_Singin>(Handle_C2S_Singin, session, buffer, len); };

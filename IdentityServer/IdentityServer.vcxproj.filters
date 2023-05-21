@@ -102,6 +102,18 @@
     <ClInclude Include="RemotePlayer.h">
       <Filter>Source\Public\Content</Filter>
     </ClInclude>
+    <ClInclude Include="CommonPacket.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonServerPacketHandler.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="FowradEnum.h">
+      <Filter>Pch\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Source\Public\Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -150,6 +162,12 @@
       <Filter>Source\Private\Content</Filter>
     </ClCompile>
     <ClCompile Include="RemotePlayer.cpp">
+      <Filter>Source\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonPacket.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
       <Filter>Source\Private\Content</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,7 +11,7 @@ public:
 	IdentityGameState& operator=(IdentityGameState&& player) = delete;
 
 public:
-	virtual bool InitNetworkTask() override;
+	virtual bool PushNetworkTask() override;
 
 public:
 	LoginRoomPtr& GetRoom() { return mLoginRoom; }

@@ -14,6 +14,7 @@ using IdentityDatabasePtr = std::shared_ptr<IdentityDatabase>;
 
 class LoginRoom;
 class RemotePlayer;
+class Character;
 
 using LoginRoomPtr = std::shared_ptr<LoginRoom>;
 using RemotePlayerPtr = std::shared_ptr<RemotePlayer>;

@@ -27,6 +27,7 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
+#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
@@ -166,10 +167,9 @@ namespace Protocol {
 // ===================================================================
 
 class C2S_EnterIdentityServer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_EnterIdentityServer) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protocol.C2S_EnterIdentityServer) */ {
  public:
   inline C2S_EnterIdentityServer() : C2S_EnterIdentityServer(nullptr) {}
-  ~C2S_EnterIdentityServer() override;
   explicit PROTOBUF_CONSTEXPR C2S_EnterIdentityServer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
   C2S_EnterIdentityServer(const C2S_EnterIdentityServer& from);
@@ -242,29 +242,15 @@ class C2S_EnterIdentityServer final :
   C2S_EnterIdentityServer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
     return CreateMaybeMessage<C2S_EnterIdentityServer>(arena);
   }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const C2S_EnterIdentityServer& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const C2S_EnterIdentityServer& from) {
-    C2S_EnterIdentityServer::MergeImpl(*this, from);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C2S_EnterIdentityServer& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
   }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C2S_EnterIdentityServer& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
   public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C2S_EnterIdentityServer* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
@@ -285,18 +271,6 @@ class C2S_EnterIdentityServer final :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kErrorFieldNumber = 1,
-  };
-  // int32 error = 1;
-  void clear_error();
-  int32_t error() const;
-  void set_error(int32_t value);
-  private:
-  int32_t _internal_error() const;
-  void _internal_set_error(int32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C2S_EnterIdentityServer)
  private:
   class _Internal;
@@ -305,10 +279,7 @@ class C2S_EnterIdentityServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int32_t error_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_IdentityPacket_2eproto;
 };
 // -------------------------------------------------------------------
@@ -435,7 +406,7 @@ class S2C_EnterIdentityServer final :
 
   enum : int {
     kRemoteIdFieldNumber = 1,
-    kErrorFieldNumber = 3,
+    kErrorFieldNumber = 2,
   };
   // int64 remote_id = 1;
   void clear_remote_id();
@@ -446,7 +417,7 @@ class S2C_EnterIdentityServer final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int32 error = 3;
+  // int32 error = 2;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -473,10 +444,9 @@ class S2C_EnterIdentityServer final :
 // -------------------------------------------------------------------
 
 class C2S_LeaveIdentityServer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_LeaveIdentityServer) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protocol.C2S_LeaveIdentityServer) */ {
  public:
   inline C2S_LeaveIdentityServer() : C2S_LeaveIdentityServer(nullptr) {}
-  ~C2S_LeaveIdentityServer() override;
   explicit PROTOBUF_CONSTEXPR C2S_LeaveIdentityServer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
   C2S_LeaveIdentityServer(const C2S_LeaveIdentityServer& from);
@@ -549,29 +519,15 @@ class C2S_LeaveIdentityServer final :
   C2S_LeaveIdentityServer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
     return CreateMaybeMessage<C2S_LeaveIdentityServer>(arena);
   }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const C2S_LeaveIdentityServer& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const C2S_LeaveIdentityServer& from) {
-    C2S_LeaveIdentityServer::MergeImpl(*this, from);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C2S_LeaveIdentityServer& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
   }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C2S_LeaveIdentityServer& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
   public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C2S_LeaveIdentityServer* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
@@ -592,28 +548,6 @@ class C2S_LeaveIdentityServer final :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kRemoteIdFieldNumber = 1,
-    kErrorFieldNumber = 2,
-  };
-  // int64 remote_id = 1;
-  void clear_remote_id();
-  int64_t remote_id() const;
-  void set_remote_id(int64_t value);
-  private:
-  int64_t _internal_remote_id() const;
-  void _internal_set_remote_id(int64_t value);
-  public:
-
-  // int32 error = 2;
-  void clear_error();
-  int32_t error() const;
-  void set_error(int32_t value);
-  private:
-  int32_t _internal_error() const;
-  void _internal_set_error(int32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C2S_LeaveIdentityServer)
  private:
   class _Internal;
@@ -622,11 +556,7 @@ class C2S_LeaveIdentityServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int64_t remote_id_;
-    int32_t error_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_IdentityPacket_2eproto;
 };
 // -------------------------------------------------------------------
@@ -4686,26 +4616,6 @@ class S2C_Test final :
 #endif  // __GNUC__
 // C2S_EnterIdentityServer
 
-// int32 error = 1;
-inline void C2S_EnterIdentityServer::clear_error() {
-  _impl_.error_ = 0;
-}
-inline int32_t C2S_EnterIdentityServer::_internal_error() const {
-  return _impl_.error_;
-}
-inline int32_t C2S_EnterIdentityServer::error() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_EnterIdentityServer.error)
-  return _internal_error();
-}
-inline void C2S_EnterIdentityServer::_internal_set_error(int32_t value) {
-  
-  _impl_.error_ = value;
-}
-inline void C2S_EnterIdentityServer::set_error(int32_t value) {
-  _internal_set_error(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_EnterIdentityServer.error)
-}
-
 // -------------------------------------------------------------------
 
 // S2C_EnterIdentityServer
@@ -4730,7 +4640,7 @@ inline void S2C_EnterIdentityServer::set_remote_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_EnterIdentityServer.remote_id)
 }
 
-// int32 error = 3;
+// int32 error = 2;
 inline void S2C_EnterIdentityServer::clear_error() {
   _impl_.error_ = 0;
 }
@@ -4753,46 +4663,6 @@ inline void S2C_EnterIdentityServer::set_error(int32_t value) {
 // -------------------------------------------------------------------
 
 // C2S_LeaveIdentityServer
-
-// int64 remote_id = 1;
-inline void C2S_LeaveIdentityServer::clear_remote_id() {
-  _impl_.remote_id_ = int64_t{0};
-}
-inline int64_t C2S_LeaveIdentityServer::_internal_remote_id() const {
-  return _impl_.remote_id_;
-}
-inline int64_t C2S_LeaveIdentityServer::remote_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_LeaveIdentityServer.remote_id)
-  return _internal_remote_id();
-}
-inline void C2S_LeaveIdentityServer::_internal_set_remote_id(int64_t value) {
-  
-  _impl_.remote_id_ = value;
-}
-inline void C2S_LeaveIdentityServer::set_remote_id(int64_t value) {
-  _internal_set_remote_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_LeaveIdentityServer.remote_id)
-}
-
-// int32 error = 2;
-inline void C2S_LeaveIdentityServer::clear_error() {
-  _impl_.error_ = 0;
-}
-inline int32_t C2S_LeaveIdentityServer::_internal_error() const {
-  return _impl_.error_;
-}
-inline int32_t C2S_LeaveIdentityServer::error() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_LeaveIdentityServer.error)
-  return _internal_error();
-}
-inline void C2S_LeaveIdentityServer::_internal_set_error(int32_t value) {
-  
-  _impl_.error_ = value;
-}
-inline void C2S_LeaveIdentityServer::set_error(int32_t value) {
-  _internal_set_error(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_LeaveIdentityServer.error)
-}
 
 // -------------------------------------------------------------------
 
