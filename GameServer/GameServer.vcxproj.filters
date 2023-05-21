@@ -13,13 +13,135 @@
     <Filter Include="Pch">
       <UniqueIdentifier>{3cfae33e-eb7b-44b0-afdc-eef28016b568}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{20f1fef8-2b6c-43ab-9fce-2654b6427c1d}</UniqueIdentifier>
+    <Filter Include="Packet\Public">
+      <UniqueIdentifier>{65a70a27-445f-4a19-afc2-75e6d758b50d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Private">
+      <UniqueIdentifier>{daa873e2-4e13-41d3-9045-7edd07cc46ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Handler">
+      <UniqueIdentifier>{ae2a0028-11c0-412a-846f-2831d1565faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pch\Public">
+      <UniqueIdentifier>{dd6169de-c2fa-46d4-bb5d-3221ae1a0aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pch\Private">
+      <UniqueIdentifier>{e4e45203-a6ae-4b58-b7b1-c9da1d295988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Public">
+      <UniqueIdentifier>{f89b40a9-c9a9-46ee-8ba8-0a24ceae6fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Private">
+      <UniqueIdentifier>{e43bbf13-2cb3-42fc-861f-ead312701906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{e85df83a-dd92-41f4-8654-c861f35a5724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Public">
+      <UniqueIdentifier>{3683dd84-2c0f-4c12-b647-b7556d852a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Private">
+      <UniqueIdentifier>{d9c49e62-01b4-4396-b218-873ac6b2f319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{3b106540-75de-4526-87c4-07a60dd7d5f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="CommonPacket.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketStruct.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketEnum.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDataBaseHandler.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDatabase.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameListener.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameService.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLibaray.cpp">
+      <Filter>Pch\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Pch\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePacket.pb.cc">
+      <Filter>Packet\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerPacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommonPacket.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketEnum.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStruct.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerPacketHandler.h">
+      <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonServerPacketHandler.h">
+      <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDataBaseHandler.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDatabase.h">
+      <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameListener.h">
+      <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameService.h">
+      <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibaray.h">
+      <Filter>Pch\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Pch\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFoward.h">
+      <Filter>Pch\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePacket.pb.h">
+      <Filter>Packet\Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

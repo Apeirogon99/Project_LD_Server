@@ -182,6 +182,7 @@ class S2C_ReplicatedServerTimeStamp final :
 
   enum : int {
     kTimeStampFieldNumber = 1,
+    kUtcTimeFieldNumber = 2,
   };
   // int64 time_stamp = 1;
   void clear_time_stamp();
@@ -190,6 +191,15 @@ class S2C_ReplicatedServerTimeStamp final :
   private:
   int64_t _internal_time_stamp() const;
   void _internal_set_time_stamp(int64_t value);
+  public:
+
+  // int64 utc_time = 2;
+  void clear_utc_time();
+  int64_t utc_time() const;
+  void set_utc_time(int64_t value);
+  private:
+  int64_t _internal_utc_time() const;
+  void _internal_set_utc_time(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_ReplicatedServerTimeStamp)
@@ -201,6 +211,7 @@ class S2C_ReplicatedServerTimeStamp final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int64_t time_stamp_;
+    int64_t utc_time_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -235,6 +246,26 @@ inline void S2C_ReplicatedServerTimeStamp::_internal_set_time_stamp(int64_t valu
 inline void S2C_ReplicatedServerTimeStamp::set_time_stamp(int64_t value) {
   _internal_set_time_stamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.time_stamp)
+}
+
+// int64 utc_time = 2;
+inline void S2C_ReplicatedServerTimeStamp::clear_utc_time() {
+  _impl_.utc_time_ = int64_t{0};
+}
+inline int64_t S2C_ReplicatedServerTimeStamp::_internal_utc_time() const {
+  return _impl_.utc_time_;
+}
+inline int64_t S2C_ReplicatedServerTimeStamp::utc_time() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplicatedServerTimeStamp.utc_time)
+  return _internal_utc_time();
+}
+inline void S2C_ReplicatedServerTimeStamp::_internal_set_utc_time(int64_t value) {
+  
+  _impl_.utc_time_ = value;
+}
+inline void S2C_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
+  _internal_set_utc_time(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.utc_time)
 }
 
 #ifdef __GNUC__

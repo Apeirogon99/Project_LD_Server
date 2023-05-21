@@ -3080,10 +3080,9 @@ class C2S_DeleteCharacter final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kRemoteIdFieldNumber = 1,
+    kNameFieldNumber = 1,
   };
-  // bytes name = 2;
+  // bytes name = 1;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -3097,15 +3096,6 @@ class C2S_DeleteCharacter final :
   std::string* _internal_mutable_name();
   public:
 
-  // int64 remote_id = 1;
-  void clear_remote_id();
-  int64_t remote_id() const;
-  void set_remote_id(int64_t value);
-  private:
-  int64_t _internal_remote_id() const;
-  void _internal_set_remote_id(int64_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C2S_DeleteCharacter)
  private:
   class _Internal;
@@ -3115,7 +3105,6 @@ class C2S_DeleteCharacter final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-    int64_t remote_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -5898,27 +5887,7 @@ inline void S2C_UpdateAppearance::set_error(int32_t value) {
 
 // C2S_DeleteCharacter
 
-// int64 remote_id = 1;
-inline void C2S_DeleteCharacter::clear_remote_id() {
-  _impl_.remote_id_ = int64_t{0};
-}
-inline int64_t C2S_DeleteCharacter::_internal_remote_id() const {
-  return _impl_.remote_id_;
-}
-inline int64_t C2S_DeleteCharacter::remote_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_DeleteCharacter.remote_id)
-  return _internal_remote_id();
-}
-inline void C2S_DeleteCharacter::_internal_set_remote_id(int64_t value) {
-  
-  _impl_.remote_id_ = value;
-}
-inline void C2S_DeleteCharacter::set_remote_id(int64_t value) {
-  _internal_set_remote_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_DeleteCharacter.remote_id)
-}
-
-// bytes name = 2;
+// bytes name = 1;
 inline void C2S_DeleteCharacter::clear_name() {
   _impl_.name_.ClearToEmpty();
 }

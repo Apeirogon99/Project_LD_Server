@@ -52,6 +52,9 @@
     <Filter Include="Source\Private\Content">
       <UniqueIdentifier>{11715d3a-6a8c-4141-b801-4facfbdefcff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet\Handler">
+      <UniqueIdentifier>{aaf7afb5-575a-43c5-b88f-4c0761efdb7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -78,12 +81,6 @@
     <ClInclude Include="IdentityPacket.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
-    <ClInclude Include="IdentityServerPacketHandler.h">
-      <Filter>Packet\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHandler.h">
-      <Filter>Packet\Public</Filter>
-    </ClInclude>
     <ClInclude Include="PacketEnum.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
@@ -105,14 +102,20 @@
     <ClInclude Include="CommonPacket.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
-    <ClInclude Include="CommonServerPacketHandler.h">
-      <Filter>Packet\Public</Filter>
-    </ClInclude>
     <ClInclude Include="FowradEnum.h">
       <Filter>Pch\Public</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Source\Public\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentityServerPacketHandler.h">
+      <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonServerPacketHandler.h">
+      <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet\Handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,12 +143,6 @@
     <ClCompile Include="IdentityPacket.pb.cc">
       <Filter>Packet\Private</Filter>
     </ClCompile>
-    <ClCompile Include="IdentityServerPacketHandler.cpp">
-      <Filter>Packet\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
-      <Filter>Packet\Private</Filter>
-    </ClCompile>
     <ClCompile Include="PacketEnum.pb.cc">
       <Filter>Packet\Private</Filter>
     </ClCompile>
@@ -169,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Source\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentityServerPacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

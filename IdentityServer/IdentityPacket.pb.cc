@@ -282,7 +282,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C2S_DeleteCharacter::C2S_DeleteCharacter(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.remote_id_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2S_DeleteCharacterDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_DeleteCharacterDefaultTypeInternal()
@@ -572,7 +571,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteCharacter, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteCharacter, _impl_.name_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteCharacter, _internal_metadata_),
@@ -669,15 +667,15 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 122, -1, -1, sizeof(::Protocol::C2S_UpdateAppearance)},
   { 130, -1, -1, sizeof(::Protocol::S2C_UpdateAppearance)},
   { 138, -1, -1, sizeof(::Protocol::C2S_DeleteCharacter)},
-  { 146, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
-  { 154, -1, -1, sizeof(::Protocol::C2S_UpdateNickName)},
-  { 162, -1, -1, sizeof(::Protocol::S2C_UpdateNickName)},
-  { 170, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
-  { 178, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
-  { 186, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
-  { 195, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
-  { 203, -1, -1, sizeof(::Protocol::C2S_Test)},
-  { 212, -1, -1, sizeof(::Protocol::S2C_Test)},
+  { 145, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
+  { 153, -1, -1, sizeof(::Protocol::C2S_UpdateNickName)},
+  { 161, -1, -1, sizeof(::Protocol::S2C_UpdateNickName)},
+  { 169, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
+  { 177, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
+  { 185, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
+  { 194, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
+  { 202, -1, -1, sizeof(::Protocol::C2S_Test)},
+  { 211, -1, -1, sizeof(::Protocol::S2C_Test)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -739,29 +737,29 @@ const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_V
   "\"]\n\024C2S_UpdateAppearance\022\021\n\tremote_id\030\001 "
   "\001(\003\0222\n\nappearance\030\002 \001(\0132\036.Protocol.SChar"
   "acterAppearance\"8\n\024S2C_UpdateAppearance\022"
-  "\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"6\n\023C2S"
-  "_DeleteCharacter\022\021\n\tremote_id\030\001 \001(\003\022\014\n\004n"
-  "ame\030\002 \001(\014\"7\n\023S2C_DeleteCharacter\022\021\n\tremo"
-  "te_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"9\n\022C2S_Update"
-  "NickName\022\021\n\tremote_id\030\001 \001(\003\022\020\n\010new_name\030"
-  "\002 \001(\014\"6\n\022S2C_UpdateNickName\022\021\n\tremote_id"
-  "\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"3\n\017C2S_TravelLevel"
-  "\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005level\030\002 \001(\005\"3\n\017S2"
-  "C_TravelLevel\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005erro"
-  "r\030\002 \001(\005\"\?\n\020C2S_TravelServer\022\021\n\tremote_id"
-  "\030\001 \001(\003\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"4\n\020S2C_"
-  "TravelServer\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error"
-  "\030\002 \001(\005\"@\n\010C2S_Test\022\017\n\007i_value\030\001 \001(\005\022\017\n\007s"
-  "_value\030\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003\">\n\010S2C_"
-  "Test\022\r\n\005value\030\001 \001(\005\022\017\n\007s_value\030\002 \001(\014\022\022\n\n"
-  "time_stamp\030\003 \001(\003b\006proto3"
+  "\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"#\n\023C2S"
+  "_DeleteCharacter\022\014\n\004name\030\001 \001(\014\"7\n\023S2C_De"
+  "leteCharacter\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005erro"
+  "r\030\002 \001(\005\"9\n\022C2S_UpdateNickName\022\021\n\tremote_"
+  "id\030\001 \001(\003\022\020\n\010new_name\030\002 \001(\014\"6\n\022S2C_Update"
+  "NickName\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001"
+  "(\005\"3\n\017C2S_TravelLevel\022\021\n\tremote_id\030\001 \001(\003"
+  "\022\r\n\005level\030\002 \001(\005\"3\n\017S2C_TravelLevel\022\021\n\tre"
+  "mote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"\?\n\020C2S_Trav"
+  "elServer\022\021\n\tremote_id\030\001 \001(\003\022\n\n\002ip\030\002 \001(\t\022"
+  "\014\n\004port\030\003 \001(\005\"4\n\020S2C_TravelServer\022\021\n\trem"
+  "ote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"@\n\010C2S_Test\022"
+  "\017\n\007i_value\030\001 \001(\005\022\017\n\007s_value\030\002 \001(\014\022\022\n\ntim"
+  "e_stamp\030\003 \001(\003\">\n\010S2C_Test\022\r\n\005value\030\001 \001(\005"
+  "\022\017\n\007s_value\030\002 \001(\014\022\022\n\ntime_stamp\030\003 \001(\003b\006p"
+  "roto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_IdentityPacket_2eproto_deps[1] = {
   &::descriptor_table_PacketStruct_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_IdentityPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_IdentityPacket_2eproto = {
-    false, false, 1744, descriptor_table_protodef_IdentityPacket_2eproto,
+    false, false, 1725, descriptor_table_protodef_IdentityPacket_2eproto,
     "IdentityPacket.proto",
     &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 27,
     schemas, file_default_instances, TableStruct_IdentityPacket_2eproto::offsets,
@@ -4422,7 +4420,6 @@ C2S_DeleteCharacter::C2S_DeleteCharacter(const C2S_DeleteCharacter& from)
   C2S_DeleteCharacter* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
-    , decltype(_impl_.remote_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4434,7 +4431,6 @@ C2S_DeleteCharacter::C2S_DeleteCharacter(const C2S_DeleteCharacter& from)
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.remote_id_ = from._impl_.remote_id_;
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_DeleteCharacter)
 }
 
@@ -4444,7 +4440,6 @@ inline void C2S_DeleteCharacter::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
-    , decltype(_impl_.remote_id_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
@@ -4478,7 +4473,6 @@ void C2S_DeleteCharacter::Clear() {
   (void) cached_has_bits;
 
   _impl_.name_.ClearToEmpty();
-  _impl_.remote_id_ = int64_t{0};
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4488,17 +4482,9 @@ const char* C2S_DeleteCharacter::_InternalParse(const char* ptr, ::_pbi::ParseCo
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 remote_id = 1;
+      // bytes name = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // bytes name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           auto str = _internal_mutable_name();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -4534,16 +4520,10 @@ uint8_t* C2S_DeleteCharacter::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
-  // bytes name = 2;
+  // bytes name = 1;
   if (!this->_internal_name().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        2, this->_internal_name(), target);
+        1, this->_internal_name(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4562,16 +4542,11 @@ size_t C2S_DeleteCharacter::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes name = 2;
+  // bytes name = 1;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_name());
-  }
-
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4594,9 +4569,6 @@ void C2S_DeleteCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
 
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
-  }
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4621,7 +4593,6 @@ void C2S_DeleteCharacter::InternalSwap(C2S_DeleteCharacter* other) {
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
   );
-  swap(_impl_.remote_id_, other->_impl_.remote_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_DeleteCharacter::GetMetadata() const {
