@@ -290,7 +290,7 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 			int32		weapon_r = inRecordset.GetFieldItem(L"weapon_r");
 
 			Protocol::SCharacterData* characterData = loadCharacterPackets.add_character_data();
-			characterData->set_name(name);
+			characterData->set_name(name.c_str());
 			characterData->set_level(level);
 			characterData->set_character_class(static_cast<Protocol::ECharacterClass>(characterClass));
 
@@ -348,6 +348,7 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 
 	const Protocol::SCharacterData& characterData = inPacket.character_data();
 	const Protocol::SCharacterAppearance& characterAppearance = characterData.appearance();
+	const Protocol::SCharacterEqipment& characterEqipment = characterData.eqipment();
 
 	ADOVariant name				= characterData.name().c_str();
 	ADOVariant characterClass	= characterData.character_class();
@@ -360,6 +361,8 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 	ADOVariant hair_color		= characterAppearance.hair_color();
 	ADOVariant eye_color		= characterAppearance.eye_color();
 	ADOVariant eyebrow_color	= characterAppearance.eyebrow_color();
+
+	ADOVariant hair				= characterEqipment.hair();
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.create_character_sp");
@@ -375,6 +378,8 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 	command.SetInputParam(L"@hair_color", hair_color);
 	command.SetInputParam(L"@eye_color", eye_color);
 	command.SetInputParam(L"@eyebrow_color", eyebrow_color);
+
+	command.SetInputParam(L"@hair", hair);
 
 	ADORecordset recordset;
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
@@ -395,7 +400,7 @@ bool Handle_CreateCharacter_Response(PacketSessionPtr& inSession, ADOConnection&
 
 	Protocol::S2C_CreateCharacter createCharacterPacket;
 	int32 ret = inCommand.GetReturnParam();
-	if (ret != 0)
+	if (ret != GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		createCharacterPacket.set_error(ret);
 	}

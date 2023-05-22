@@ -34,7 +34,9 @@ CREATE PROCEDURE create_character_sp
 	@skin_color		INT,
 	@hair_color		INT,
 	@eye_color		INT,
-	@eyebrow_color	INT
+	@eyebrow_color	INT,
+
+	@hair			INT
 AS
 BEGIN TRY
 	BEGIN TRANSACTION
@@ -76,7 +78,7 @@ BEGIN TRY
 		INSERT INTO appearance_tb (character_id, race_id, character_calss_id, seat, skin_color, hair_color, eye_color, eyebrow_color)
 		VALUES (@temp_character_id, @race, @class, @seat, @skin_color, @hair_color, @eye_color, @eyebrow_color)
 
-		INSERT INTO eqipment_tb (character_id) VALUES (@temp_character_id)
+		INSERT INTO eqipment_tb (character_id, hair) VALUES (@temp_character_id, @hair)
 
 		COMMIT TRANSACTION
 		RETURN 0

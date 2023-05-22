@@ -31,22 +31,14 @@ CREATE TABLE eqipment_tb
 (
 	character_id		INT NOT NULL FOREIGN KEY REFERENCES character_tb(id) ON DELETE CASCADE,
 
---	ears				INT NOT NULL DEFAULT 0,
 	hair				INT NOT NULL DEFAULT 0,
---	facials_01			INT NOT NULL DEFAULT 0,
---	facials_02			INT NOT NULL DEFAULT 0,
 	helmet				INT NOT NULL DEFAULT 0,
 	shoulders			INT NOT NULL DEFAULT 0,
---	skirt				INT NOT NULL DEFAULT 0,
 	chest_add			INT NOT NULL DEFAULT 0,
 	bracers_add			INT NOT NULL DEFAULT 0,
 	hands_add			INT NOT NULL DEFAULT 0,
 	pants_add			INT NOT NULL DEFAULT 0,
---	legs_add			INT NOT NULL DEFAULT 0,
---	cape				INT NOT NULL DEFAULT 0,
 	boots				INT NOT NULL DEFAULT 0,
---	belt				INT NOT NULL DEFAULT 0,
---	tabard				INT NOT NULL DEFAULT 0,
 	weapon_l			INT NOT NULL DEFAULT 0,
 	weapon_r			INT NOT NULL DEFAULT 0,
 );
