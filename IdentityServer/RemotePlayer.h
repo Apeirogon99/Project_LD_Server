@@ -6,7 +6,8 @@ public:
 	virtual ~RemotePlayer();
 
 public:
-	Character* FindCharacter(const int8* name);
+	void		Init() {}
+	Character*	FindCharacter(const int8* name);
 
 public:
 	ERoomType	mRoomType;
@@ -14,7 +15,9 @@ public:
 	std::string	mToken;
 	int64		mRemoteID;
 	int32		mGlobalID;
+	int32		mServerID;
 
+//private:
 	Character	mCharacters[4];
 };
 

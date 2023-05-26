@@ -6,6 +6,9 @@
 #include "IdentityForward.h"
 #include "FowradEnum.h"
 
+#include "IdentityPacket.pb.h"
+#include "CommonPacket.pb.h"
+
 //==========================//
 //		 GameContent		//
 //==========================//
@@ -26,12 +29,12 @@
 //		    Packet			//
 //==========================//
 #include "PacketHandler.h"
-#include "IdentitiyDatabaseHandler.h"
+#include "IdentityServerPacketHandler.h"
+#include "CommonServerPacketHandler.h"
 
 //==========================//
 //		     DB				//
 //==========================//
-#include "IdentityServerPacketHandler.h"
-#include "CommonServerPacketHandler.h"
-
-
+#include "DatabaseHandler.h"
+#include "IdentitiyDatabase.h"
+#include "CharacterDatabase.h"

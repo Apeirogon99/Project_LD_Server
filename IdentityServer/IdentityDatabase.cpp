@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "IdentityDatabase.h"
 
-IdentityDatabase::IdentityDatabase(const size_t poolSize) : DatabaseManager(poolSize)
+IdentityDatabase::IdentityDatabase(const size_t inThreadPoolSize, const size_t poolSize) : DatabaseManager(inThreadPoolSize, poolSize)
 {
 }
 

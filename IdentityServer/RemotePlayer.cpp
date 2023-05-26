@@ -2,7 +2,7 @@
 #include "RemotePlayer.h"
 #include "Character.h"
 
-RemotePlayer::RemotePlayer() : mToken(""), mRemoteID(-1), mGlobalID(-1), mRoomType(ERoomType::None)
+RemotePlayer::RemotePlayer() : mToken(""), mRemoteID(-1), mGlobalID(-1), mServerID(-1), mRoomType(ERoomType::None)
 {
 	for (int i = 0; i < 4; i++)
 	{

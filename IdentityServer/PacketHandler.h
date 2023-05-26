@@ -1,8 +1,5 @@
 #pragma once
 
-#include "IdentityPacket.pb.h"
-#include "CommonPacket.pb.h"
-
 using PacketHandlerFunc = std::function<bool(PacketSessionPtr&, BYTE*, int32)>;
 
 enum class EPakcetID : uint16
@@ -22,18 +19,11 @@ enum class EPakcetID : uint16
 	S2C_LoadCharacters = 1012,
 	C2S_CreateCharacter = 1013,
 	S2C_CreateCharacter = 1014,
-	C2S_UpdateAppearance = 1015,
-	S2C_UpdateAppearance = 1016,
-	C2S_DeleteCharacter = 1017,
-	S2C_DeleteCharacter = 1018,
-	C2S_UpdateNickName = 1019,
-	S2C_UpdateNickName = 1020,
-	C2S_TravelLevel = 1021,
-	S2C_TravelLevel = 1022,
-	C2S_TravelServer = 1023,
-	S2C_TravelServer = 1024,
-	C2S_Test = 1025,
-	S2C_Test = 1026,
+	C2S_DeleteCharacter = 1015,
+	S2C_DeleteCharacter = 1016,
+	C2S_SelectServer = 1017,
+	C2S_TravelServer = 1018,
+	S2C_TravelServer = 1019,
 
 	S2C_ReplicatedServerTimeStamp = 9000,
 };

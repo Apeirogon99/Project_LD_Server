@@ -9,7 +9,7 @@ enum class EDatabase
 class IdentityDatabase : public DatabaseManager
 {
 public:
-	IdentityDatabase(const size_t poolSize);
+	IdentityDatabase(const size_t inThreadPoolSize, const size_t poolSize);
 	virtual ~IdentityDatabase();
 
 	IdentityDatabase(const IdentityDatabase&) = delete;

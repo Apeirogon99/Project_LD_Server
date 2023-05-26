@@ -15,6 +15,7 @@ public:
 
 public:
 	LoginRoomPtr& GetRoom() { return mLoginRoom; }
+	bool CreateRemotePlayer(PlayerStatePtr& inPlayerState);
 
 private:
 	LoginRoomPtr	mLoginRoom;

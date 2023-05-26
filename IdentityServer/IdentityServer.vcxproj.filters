@@ -90,7 +90,7 @@
     <ClInclude Include="IdentityDatabase.h">
       <Filter>Source\Public\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="IdentitiyDatabaseHandler.h">
+    <ClInclude Include="DatabaseHandler.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
     <ClInclude Include="LoginRoom.h">
@@ -116,6 +116,12 @@
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentitiyDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterDatabase.h">
+      <Filter>Database\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +158,7 @@
     <ClCompile Include="IdentityDatabase.cpp">
       <Filter>Source\Private\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="IdentitiyDatabaseHandler.cpp">
+    <ClCompile Include="DatabaseHandler.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
     <ClCompile Include="LoginRoom.cpp">
@@ -172,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentitiyDatabase.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterDatabase.cpp">
+      <Filter>Database\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

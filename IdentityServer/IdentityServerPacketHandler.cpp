@@ -1,11 +1,6 @@
 #include "pch.h"
 #include "IdentityServerPacketHandler.h"
 
-bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len)
-{
-	return false;
-}
-
 bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_EnterIdentityServer& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
@@ -19,14 +14,6 @@ bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_Ent
 	if (gameState == nullptr)
 	{
 		return false;
-	}
-
-	static int64 newRemoteID = 1;
-	RemotePlayerPtr& remotePlayer = playerState.get()->mRemotePlayer;
-	remotePlayer = std::make_shared<RemotePlayer>();
-	if (remotePlayer)
-	{
-		remotePlayer->mRemoteID = newRemoteID++;
 	}
 
 	LoginRoomPtr& room = gameState->GetRoom();
@@ -50,7 +37,7 @@ bool Handle_C2S_LeaveIdentityServer(PacketSessionPtr& session, Protocol::C2S_Lea
 		return false;
 	}
 
-	session->Disconnect(L"Leave identity server packet");
+	playerState->Disconnect(L"Leave identity server packet");
 
 	return true;
 }
@@ -64,7 +51,30 @@ bool Handle_C2S_Singin(PacketSessionPtr& session, Protocol::C2S_Singin& pkt)
 		return false;
 	}
 
-	Handle_Singin_Requset(session, pkt);
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::Signin, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -78,7 +88,30 @@ bool Handle_C2S_Singup(PacketSessionPtr& session, Protocol::C2S_Singup& pkt)
 		return false;
 	}
 
-	Handle_Singup_Requset(session, pkt);
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::Signup, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -92,7 +125,30 @@ bool Handle_C2S_EmailVerified(PacketSessionPtr& session, Protocol::C2S_EmailVeri
 		return false;
 	}
 
-	Handle_EmailVerified_Requset(session, pkt);
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::EmailVerified, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -106,7 +162,30 @@ bool Handle_C2S_LoadCharacters(PacketSessionPtr& session, Protocol::C2S_LoadChar
 		return false;
 	}
 
-	Handle_LoadCharacters_Requset(session, pkt);
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::LoadCharacters, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -120,21 +199,30 @@ bool Handle_C2S_CreateCharacter(PacketSessionPtr& session, Protocol::C2S_CreateC
 		return false;
 	}
 
-	Handle_CreateCharacter_Requset(session, pkt);
-
-	return true;
-}
-
-bool Handle_C2S_UpdateAppearance(PacketSessionPtr& session, Protocol::C2S_UpdateAppearance& pkt)
-{
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
 	{
 		return false;
 	}
 
-	Handle_UpdateAppearance_Requset(session, pkt);
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::CreateCharacter, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -148,28 +236,37 @@ bool Handle_C2S_DeleteCharacter(PacketSessionPtr& session, Protocol::C2S_DeleteC
 		return false;
 	}
 
-	Handle_DeleteCharacter_Requset(session, pkt);
-
-	return true;
-}
-
-bool Handle_C2S_UpdateNickName(PacketSessionPtr& session, Protocol::C2S_UpdateNickName& pkt)
-{
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
 	{
 		return false;
 	}
 
-	Handle_UpdateNickName_Requset(session, pkt);
+	IdentityServicePtr service = std::static_pointer_cast<IdentityService>(gameState->GetService());
+	if (service == nullptr)
+	{
+		return false;
+	}
+
+	LoginRoomPtr& room = gameState->GetRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = service->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &LoginRoom::DeleteCharacter, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
 
-bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt)
+bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServer& pkt)
 {
-	return false;
+	return true;
 }
 
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
@@ -180,35 +277,6 @@ bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServ
 	{
 		return false;
 	}
-
-	return true;
-}
-
-bool Handle_C2S_Test(PacketSessionPtr& session, Protocol::C2S_Test& pkt)
-{
-	bool ret = false;
-
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	ret = playerState->IsValid();
-	if (false == ret)
-	{
-		return false;
-	}
-
-	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
-	if (gameState == nullptr)
-	{
-		return false;
-	}
-
-	const int32 ivalue			= pkt.i_value();
-	const std::string svalue	= pkt.s_value();
-	const int64 timestamp		= pkt.time_stamp();
-
-	LoginRoomPtr&	room = gameState->GetRoom();
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
-	
-	const int64		Priority = playerState->GetSessionManager()->GetServiceTimeStamp();
 
 	return true;
 }

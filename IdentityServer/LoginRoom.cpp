@@ -27,9 +27,27 @@ void LoginRoom::Tick()
 
 void LoginRoom::Enter(PlayerStatePtr inPlayerState)
 {
+
+	if (true == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(inPlayerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return;
+	}
+
+	if (false == gameState->CreateRemotePlayer(inPlayerState))
+	{
+		return;
+	}
+
 	const int64 remoteID = inPlayerState->mRemotePlayer->mRemoteID;
 	std::pair<int64, PlayerStatePtr> newPlayer = std::make_pair(remoteID, inPlayerState);
 	auto ret = mPlayers.insert(newPlayer);
+	mPlayersCount++;
 
 	Protocol::S2C_EnterIdentityServer packet;
 	packet.set_remote_id(remoteID);
@@ -39,7 +57,6 @@ void LoginRoom::Enter(PlayerStatePtr inPlayerState)
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, packet);
 	session->Send(sendBuffer);
 
-	mPlayersCount++;
 	GameObjectLog(L"[LoginRoom::Enter] Enter player (CUR : %d)\n", mPlayersCount);
 }
 
@@ -52,19 +69,85 @@ void LoginRoom::Leave(PlayerStatePtr inPlayerState)
 	GameObjectLog(L"[LoginRoom::Leave] Leave player (CUR : %d)\n", mPlayersCount);
 }
 
-void LoginRoom::Deliver(PlayerStatePtr inPlayerState)
-{
-	PacketSessionPtr session = std::static_pointer_cast<PacketSession>(inPlayerState);
-
-	Protocol::S2C_Test packet;
-	packet.set_value(1);
-	packet.set_s_value("Hello");
-	packet.set_time_stamp(1000);
-
-	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(session, packet);
-	session->Send(sendBuffer);
-}
-
 void LoginRoom::Broadcast(PlayerStatePtr inPlayerState)
 {
+}
+
+void LoginRoom::Signin(PlayerStatePtr inPlayerState, Protocol::C2S_Singin inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_Singin_Requset(packetSession, inPacket);
+
+}
+
+void LoginRoom::Signup(PlayerStatePtr inPlayerState, Protocol::C2S_Singup inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_Singup_Requset(packetSession, inPacket);
+}
+
+void LoginRoom::EmailVerified(PlayerStatePtr inPlayerState, Protocol::C2S_EmailVerified inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_EmailVerified_Requset(packetSession, inPacket);
+}
+
+void LoginRoom::LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_LoadCharacters inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_LoadCharacters_Requset(packetSession, inPacket);
+}
+
+void LoginRoom::CreateCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_CreateCharacter inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_CreateCharacter_Requset(packetSession, inPacket);
+}
+
+void LoginRoom::DeleteCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteCharacter inPacket)
+{
+	if (false == FindPlayer(inPlayerState))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_DeleteCharacter_Requset(packetSession, inPacket);
+}
+
+bool LoginRoom::FindPlayer(PlayerStatePtr& inPlayerState)
+{
+	if (nullptr == inPlayerState->mRemotePlayer)
+	{
+		return false;
+	}
+
+	const int64 remoteID = inPlayerState->mRemotePlayer->mRemoteID;
+	auto player = mPlayers.find(remoteID);
+	return (player != mPlayers.end());
 }

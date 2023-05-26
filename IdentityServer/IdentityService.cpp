@@ -57,7 +57,7 @@ bool IdentityService::SettingService()
 	}
 
 	//Database(ADO)
-	IdentityDatabasePtr identitydatabase = std::make_shared<IdentityDatabase>(10);
+	IdentityDatabasePtr identitydatabase = std::make_shared<IdentityDatabase>(1, 10);
 	DatabaseManagerPtr  databaseManager = ::static_pointer_cast<DatabaseManager>(move(identitydatabase));
 	if (false == SetDatabaseManager(databaseManager))
 	{
