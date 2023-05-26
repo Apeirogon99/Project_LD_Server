@@ -37,3 +37,8 @@ void PlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 		return;
 	}
 }
+
+RemotePlayerPtr& PlayerState::GetRemotePlayer()
+{
+	return mRemotePlayer;
+}

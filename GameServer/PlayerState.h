@@ -30,5 +30,10 @@ public:
 		this->SessionLog(tempLog.c_str(), inArgs...);
 	}
 
+public:
+	RemotePlayerPtr& GetRemotePlayer();
+
+private:
+	RemotePlayerPtr mRemotePlayer;
 };
 

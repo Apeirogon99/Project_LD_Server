@@ -2,7 +2,7 @@
 class GameDatabase : public DatabaseManager
 {
 public:
-	GameDatabase(const size_t poolSize);
+	GameDatabase(const size_t inThreadPoolSize, const size_t poolSize);
 	virtual ~GameDatabase();
 
 	GameDatabase(const GameDatabase&) = delete;

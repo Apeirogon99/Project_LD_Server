@@ -13,5 +13,11 @@ public:
 public:
 	virtual bool PushNetworkTask() override;
 
+public:
+
+	WorldPtr GetWorld();
+
+private:
+	WorldPtr mWorld;
 };
 

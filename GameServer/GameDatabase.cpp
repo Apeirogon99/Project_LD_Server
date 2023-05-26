@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameDatabase.h"
 
-GameDatabase::GameDatabase(const size_t poolSize) : DatabaseManager(poolSize)
+GameDatabase::GameDatabase(const size_t inThreadPoolSize, const size_t poolSize) : DatabaseManager(inThreadPoolSize, poolSize)
 {
 }
 

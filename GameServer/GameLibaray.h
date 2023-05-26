@@ -4,9 +4,10 @@
 //==========================//
 #include "GameFoward.h"
 
-//==========================//
-//		 GameContent		//
-//==========================//
+#include "CommonPacket.pb.h"
+#include "GamePacket.pb.h"
+#include "PacketEnum.pb.h"
+#include "PacketStruct.pb.h"
 
 //==========================//
 //		   Framework		//
@@ -18,9 +19,10 @@
 #include "GameDatabase.h"
 
 //==========================//
-//		     DB				//
+//		 GameContent		//
 //==========================//
-#include "GameDataBaseHandler.h"
+#include "RemotePlayer.h"
+#include "World.h"
 
 //==========================//
 //		    Packet			//
@@ -28,3 +30,9 @@
 #include "PacketHandler.h"
 #include "GameServerPacketHandler.h"
 #include "CommonServerPacketHandler.h"
+
+//==========================//
+//		   DataBase			//
+//==========================//
+#include "GameDataBaseHandler.h"
+#include "InventoryDatabase.h"

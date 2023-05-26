@@ -1,17 +1,95 @@
 #include "pch.h"
 #include "GameServerPacketHandler.h"
 
+using namespace std;
+
 bool Handle_C2S_EnterGameServer(PacketSessionPtr& session, Protocol::C2S_EnterGameServer& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if(nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	world->PushTask(serviceTimeStamp, &World::Enter, playerState);
+	return true;
 }
 
 bool Handle_C2S_LeaveGameServer(PacketSessionPtr& session, Protocol::C2S_LeaveGameServer& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	world->PushTask(serviceTimeStamp, &World::Leave, playerState);
+	return true;
 }
 
 bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_MovementCharacter& pkt)
 {
-	return false;
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	world->PushTask(serviceTimeStamp, &World::MoveDestination, playerState, pkt);
+	return true;
+}
+
+bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt)
+{
+	return true;
+}
+
+bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateInventory& pkt)
+{
+	return true;
+}
+
+bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteInventory& pkt)
+{
+	return true;
 }

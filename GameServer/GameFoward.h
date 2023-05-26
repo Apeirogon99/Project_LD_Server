@@ -22,3 +22,8 @@ using GameServicePtr	= std::shared_ptr<GameService>;
 //==========================//
 //		 GameContent		//
 //==========================//
+class RemotePlayer;
+class World;
+
+using RemotePlayerPtr	= std::shared_ptr<RemotePlayer>;
+using WorldPtr			= std::shared_ptr<World>;

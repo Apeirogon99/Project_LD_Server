@@ -46,7 +46,7 @@ bool GameService::SettingService()
 
 	//Listener
 	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetIp(L"127.0.0.1", 10000, EProtocolType::IPv4);
+	IdentityIpAddress->SetIp(L"192.168.123.112", 10000, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
 	GameListenerPtr identityListener = std::make_shared<GameListener>(IdentityIpAddress);
@@ -57,7 +57,7 @@ bool GameService::SettingService()
 	}
 
 	//Database(ADO)
-	GameDatabasePtr identitydatabase = std::make_shared<GameDatabase>(10);
+	GameDatabasePtr identitydatabase = std::make_shared<GameDatabase>(1, 10);
 	DatabaseManagerPtr  databaseManager = ::static_pointer_cast<DatabaseManager>(move(identitydatabase));
 	if (false == SetDatabaseManager(databaseManager))
 	{
@@ -66,7 +66,7 @@ bool GameService::SettingService()
 
 	//Logger
 	const WCHAR* LoggerName = L"GameServer";
-	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\IdentityServer\\IdentityServer.log";
+	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
 	ELogMode LogMode = ELogMode::Console;
 	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, LogMode);
 	if (false == SetLoggerManager(Logger))

@@ -46,6 +46,12 @@
     <Filter Include="Content">
       <UniqueIdentifier>{3b106540-75de-4526-87c4-07a60dd7d5f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Public">
+      <UniqueIdentifier>{0cabc958-0350-4164-b2ae-19c7d5c051b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Private">
+      <UniqueIdentifier>{37176172-de05-418a-bde4-e992aac6edfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -92,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="GameServerPacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="RemotePlayer.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryDatabase.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Content\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="GamePacket.pb.h">
       <Filter>Packet\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="RemotePlayer.h">
+      <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Content\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
