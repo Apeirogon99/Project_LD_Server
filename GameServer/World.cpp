@@ -67,19 +67,14 @@ void World::Enter(PlayerStatePtr inPlayerState)
 void World::Leave(PlayerStatePtr inPlayerState)
 {
 	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
-	if (remotePlayer)
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
 	const int64 remoteID = remotePlayer->mID;
 	size_t result = mPlayers.erase(remoteID);
-
-	int32 error = -1;
-	if (result)
-	{
-		error = 0;
-	}
+	int32 error = (result == 0) ? false : true;
 
 	Protocol::S2C_LeaveGameServer leavePacket;
 	leavePacket.set_error(error);

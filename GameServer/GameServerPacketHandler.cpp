@@ -36,20 +36,7 @@ bool Handle_C2S_LeaveGameServer(PacketSessionPtr& session, Protocol::C2S_LeaveGa
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
-	{
-		return false;
-	}
-
-	WorldPtr world = gameState->GetWorld();
-	if (nullptr == world)
-	{
-		return false;
-	}
-
-	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::Leave, playerState);
+	session->Disconnect(L"LeaveGameServer");
 	return true;
 }
 
