@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "World.h"
 
-World::World(const SessionManagerRef& inSessionManager, const WCHAR* inName) : GameObject(inSessionManager, inName), mPlayersCount(0)
+World::World(const SessionManagerRef& inSessionManager, const WCHAR* inName) : GameObject(inSessionManager, inName), mPlayersCount(0), mGameObjectID(0)
 {
 }
 
@@ -12,6 +12,7 @@ World::~World()
 void World::Initialization()
 {
 	mPlayersCount = 0;
+	mGameObjectID = 0;
 }
 
 void World::Destroy()
@@ -33,7 +34,7 @@ void World::Enter(PlayerStatePtr inPlayerState)
 
 	static int64 remoteID = 1;
 
-	remotePlayer = std::make_shared<RemotePlayer>(remoteID);
+	remotePlayer = std::make_shared<RemotePlayer>(inPlayerState->GetPlayerStateRef(), remoteID);
 	auto result = mPlayers.insert(std::make_pair(remoteID, inPlayerState));
 
 	if (false == result.second)
@@ -62,6 +63,8 @@ void World::Enter(PlayerStatePtr inPlayerState)
 		}
 	}
 
+	CreateItem(inPlayerState);
+
 }
 
 void World::Leave(PlayerStatePtr inPlayerState)
@@ -72,7 +75,7 @@ void World::Leave(PlayerStatePtr inPlayerState)
 		return;
 	}
 
-	const int64 remoteID = remotePlayer->mID;
+	const int64 remoteID = remotePlayer->mRemoteID;
 	size_t result = mPlayers.erase(remoteID);
 	int32 error = (result == 0) ? false : true;
 
@@ -118,7 +121,7 @@ void World::AppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr i
 	Protocol::S2C_AppearCharacter appearPacket;
 	Protocol::SCharacterData* characterData = appearPacket.mutable_character_data();
 	*characterData = appearRemotePlayer->mCharacterData;
-	appearPacket.set_remote_id(appearRemotePlayer->mID);
+	appearPacket.set_remote_id(appearRemotePlayer->mRemoteID);
 
 	if (nullptr == inTargetPlayerState)
 	{
@@ -140,7 +143,7 @@ void World::DisAppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePt
 	}
 
 	Protocol::S2C_DisAppearCharacter disappearPacket;
-	disappearPacket.set_remote_id(disappearRemotePlayer->mID);
+	disappearPacket.set_remote_id(disappearRemotePlayer->mRemoteID);
 
 	if (nullptr == inTargetPlayerState)
 	{
@@ -162,16 +165,65 @@ void World::MoveDestination(PlayerStatePtr inPlayerState, Protocol::C2S_Movement
 	}
 
 	Protocol::STransform	transform = inPakcet.transform();
-	const int64				remoteID = remotePlayer->mID;
+	const int64				remoteID = remotePlayer->mRemoteID;
 	const int64				timestamp = inPakcet.timestamp();
 
 	Protocol::S2C_MovementCharacter newMovementPacket;
 	Protocol::STransform* newTransform = newMovementPacket.mutable_transform();
 	*newTransform = transform;
-	newMovementPacket.set_remoteid(remoteID);
+	newMovementPacket.set_remote_id(remoteID);
 	newMovementPacket.set_timestamp(timestamp);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, newMovementPacket);
 	Broadcast(sendBuffer);
+}
+
+void World::InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_InsertInventory inPacket)
+{
+	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	if (false == IsValid(remotePlayer))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_InsertInventory_Requset(packetSession, inPacket);
+
+}
+
+void World::CreateItem(PlayerStatePtr inPlayerState)
+{
+	for (int32 i = 1; i <= 3; ++i)
+	{
+		Protocol::S2C_CreateItem createItem;
+		Protocol::SItem* item = createItem.mutable_item();
+		item->set_object_id(i);
+		item->set_item_code(i);
+		Protocol::SVector* position = item->mutable_world_position();
+		position->set_x(i * 100);
+		position->set_y(50);
+		position->set_z(50);
+
+		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, createItem);
+		inPlayerState->Send(sendBuffer);
+	}
+
+}
+
+const int64 World::GetNextGameObjectID()
+{
+	return mGameObjectID++;
+}
+
+bool World::IsValid(RemotePlayerPtr inRemotePlayer)
+{
+	auto remotePlayer = mPlayers.find(inRemotePlayer->mRemoteID);
+	return (remotePlayer != mPlayers.end()) ? true : false;
 }

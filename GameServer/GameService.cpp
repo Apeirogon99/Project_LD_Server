@@ -57,9 +57,17 @@ bool GameService::SettingService()
 	}
 
 	//Database(ADO)
-	GameDatabasePtr identitydatabase = std::make_shared<GameDatabase>(1, 10);
-	DatabaseManagerPtr  databaseManager = ::static_pointer_cast<DatabaseManager>(move(identitydatabase));
+	GameDatabasePtr Gamedatabase = std::make_shared<GameDatabase>(1, 10);
+	DatabaseManagerPtr  databaseManager = ::static_pointer_cast<DatabaseManager>(move(Gamedatabase));
 	if (false == SetDatabaseManager(databaseManager))
+	{
+		return false;
+	}
+
+	//Data(CSV)
+	GameDatasPtr gameDatas = std::make_shared<GameDatas>();
+	DataManagerPtr  dataManager = ::static_pointer_cast<DataManager>(move(gameDatas));
+	if (false == SetDataManager(dataManager))
 	{
 		return false;
 	}

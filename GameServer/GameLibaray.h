@@ -17,10 +17,12 @@
 #include "PlayerState.h"
 #include "GameListener.h"
 #include "GameDatabase.h"
+#include "GameDatas.h"
 
 //==========================//
 //		 GameContent		//
 //==========================//
+#include "Inventory.h"
 #include "RemotePlayer.h"
 #include "World.h"
 

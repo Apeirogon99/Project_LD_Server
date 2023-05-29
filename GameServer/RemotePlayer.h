@@ -1,13 +1,16 @@
 #pragma once
-class RemotePlayer
+class RemotePlayer : std::enable_shared_from_this<RemotePlayer>
 {
 public:
 	RemotePlayer() = default;
-	RemotePlayer(const int64 inRemoteID);
+	RemotePlayer(const PlayerStateRef& inPlayerState, const int64 inRemoteID);
 	~RemotePlayer() {};
 
 public:
+	int32 mCharacterID;
 	Protocol::SCharacterData mCharacterData;
-	int64 mID;
+	Inventory mInventory;
+	int64 mRemoteID;
+	PlayerStateRef mPlayerState;
 };
 

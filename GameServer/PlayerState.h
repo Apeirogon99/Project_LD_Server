@@ -30,6 +30,8 @@ public:
 		this->SessionLog(tempLog.c_str(), inArgs...);
 	}
 
+	PlayerStateRef	GetPlayerStateRef();
+
 public:
 	RemotePlayerPtr& GetRemotePlayer();
 

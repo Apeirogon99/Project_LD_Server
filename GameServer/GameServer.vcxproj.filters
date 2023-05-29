@@ -108,6 +108,15 @@
     <ClCompile Include="World.cpp">
       <Filter>Content\Private</Filter>
     </ClCompile>
+    <ClCompile Include="CommonServerPacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDatas.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -166,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDatas.h">
+      <Filter>FrameWork\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -66,8 +66,34 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 	return true;
 }
 
+bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
+{
+	return false;
+}
+
 bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt)
 {
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 timestmap = pkt.timestamp();
+	world->PushTask(timestmap, &World::InsertItemToInventory, playerState, pkt);
+
 	return true;
 }
 

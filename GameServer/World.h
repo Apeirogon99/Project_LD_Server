@@ -22,8 +22,19 @@ public:
 	void DisAppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr inAppearPlayerState);
 	void MoveDestination(PlayerStatePtr inPlayerState, Protocol::C2S_MovementCharacter inPakcet);
 
+	void InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_InsertInventory inPacket);
+	//TEMP:
+	void CreateItem(PlayerStatePtr inPlayerState);
+
+public:
+	const int64 GetNextGameObjectID();
+
+protected:
+	bool IsValid(RemotePlayerPtr inRemotePlayer);
+
 private:
 	std::map<int64, PlayerStatePtr> mPlayers;
 	int64 mPlayersCount;
+	int64 mGameObjectID;
 };
 

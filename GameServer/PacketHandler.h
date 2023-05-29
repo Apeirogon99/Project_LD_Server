@@ -12,14 +12,20 @@ enum class EPakcetID : uint16
 	S2C_DisAppearCharacter = 2005,
 	C2S_MovementCharacter = 2006,
 	S2C_MovementCharacter = 2007,
-	C2S_InsertInventory = 2008,
-	S2C_InsertInventory = 2009,
-	C2S_UpdateInventory = 2010,
-	S2C_UpdateInventory = 2011,
-	C2S_DeleteInventory = 2012,
-	S2C_DeleteInventory = 2013,
+	S2C_CreateItem = 2008,
+	C2S_LoadInventory = 2009,
+	S2C_LoadInventory = 2010,
+	C2S_InsertInventory = 2011,
+	S2C_InsertInventory = 2012,
+	C2S_UpdateInventory = 2013,
+	S2C_UpdateInventory = 2014,
+	C2S_DeleteInventory = 2015,
+	S2C_DeleteInventory = 2016,
+	S2C_RollbackInventory = 2017,
 
 	S2C_ReplicatedServerTimeStamp = 9000,
+	C2S_TravelServer = 9001,
+	S2C_TravelServer = 9002,
 };
 
 bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len);
