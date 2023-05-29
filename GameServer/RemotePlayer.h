@@ -10,13 +10,16 @@ public:
 	bool Init();
 
 public:
+	PlayerStateRef	GetPlayerState()	const { return mPlayerState; }
+	const int64		GetRemoteID()		const { return mRemoteID; }
+	Inventoryptr	GetInventory()		const { return mInventory; }
+	CharacterPtr	GetCharacter()		const { return mCharacter; }
 
-
-	Inventoryptr mInventory;
-	int64 mRemoteID;
-	PlayerStateRef mPlayerState;
 
 private:
-	CharacterPtr mCharacter;
+	PlayerStateRef	mPlayerState;
+	int64			mRemoteID;
+	Inventoryptr	mInventory;
+	CharacterPtr	mCharacter;
 };
 

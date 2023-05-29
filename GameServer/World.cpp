@@ -78,7 +78,7 @@ void World::Leave(PlayerStatePtr inPlayerState)
 		return;
 	}
 
-	const int64 remoteID = remotePlayer->mRemoteID;
+	const int64 remoteID = remotePlayer->GetRemoteID();
 	size_t result = mPlayers.erase(remoteID);
 	int32 error = (result == 0) ? false : true;
 
@@ -124,7 +124,7 @@ void World::AppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr i
 	Protocol::S2C_AppearCharacter appearPacket;
 	Protocol::SCharacterData* characterData = appearPacket.mutable_character_data();
 	//*characterData = appearRemotePlayer->mCharacterData;
-	appearPacket.set_remote_id(appearRemotePlayer->mRemoteID);
+	appearPacket.set_remote_id(appearRemotePlayer->GetRemoteID());
 
 	if (nullptr == inTargetPlayerState)
 	{
@@ -146,7 +146,7 @@ void World::DisAppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePt
 	}
 
 	Protocol::S2C_DisAppearCharacter disappearPacket;
-	disappearPacket.set_remote_id(disappearRemotePlayer->mRemoteID);
+	disappearPacket.set_remote_id(disappearRemotePlayer->GetRemoteID());
 
 	if (nullptr == inTargetPlayerState)
 	{
@@ -168,7 +168,7 @@ void World::MoveDestination(PlayerStatePtr inPlayerState, Protocol::C2S_Movement
 	}
 
 	Protocol::STransform	transform = inPakcet.transform();
-	const int64				remoteID = remotePlayer->mRemoteID;
+	const int64				remoteID = remotePlayer->GetRemoteID();
 	const int64				timestamp = inPakcet.timestamp();
 
 	Protocol::S2C_MovementCharacter newMovementPacket;
@@ -214,7 +214,7 @@ void World::LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_Load
 	}
 
 	Protocol::S2C_LoadInventory loadInventoryPacket;
-	remotePlayer->mInventory->LoadItem(loadInventoryPacket);
+	remotePlayer->GetInventory()->LoadItem(loadInventoryPacket);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, loadInventoryPacket);
@@ -248,6 +248,6 @@ const int64 World::GetNextGameObjectID()
 
 bool World::IsValid(RemotePlayerPtr inRemotePlayer)
 {
-	auto remotePlayer = mPlayers.find(inRemotePlayer->mRemoteID);
+	auto remotePlayer = mPlayers.find(inRemotePlayer->GetRemoteID());
 	return (remotePlayer != mPlayers.end()) ? true : false;
 }

@@ -69,7 +69,7 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 			int32		rotation	= inRecordset.GetFieldItem(L"rotation");
 
 			const int64 objectID = world->GetNextGameObjectID();
-			remotePlayer->mInventory->PushItem(objectID, item_code, world_pos_x, world_pos_y, world_pos_z, inven_pos_x, inven_pos_y, rotation);
+			remotePlayer->GetInventory()->PushItem(objectID, item_code, world_pos_x, world_pos_y, world_pos_z, inven_pos_x, inven_pos_y, rotation);
 			inRecordset.MoveNext();
 		}
 	}
@@ -139,8 +139,8 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 
 	{
 		Protocol::S2C_InsertInventory InsertInventoryPacket;
-		bool pushResult = remotePlayer->mInventory->PushItem(item);
-		InsertInventoryPacket.set_remote_id(remotePlayer->mRemoteID);
+		bool pushResult = remotePlayer->GetInventory()->PushItem(item);
+		InsertInventoryPacket.set_remote_id(remotePlayer->GetRemoteID());
 		InsertInventoryPacket.set_object_id(item->object_id());
 		InsertInventoryPacket.set_error(pushResult);
 
@@ -169,7 +169,7 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	int32 ret = inCommand.GetReturnParam();
 	if (ret == 0)
 	{
-		if (false == remotePlayer->mInventory->CheckInventory())
+		if (false == remotePlayer->GetInventory()->CheckInventory())
 		{
 			//TODO:
 		}
@@ -200,7 +200,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	ADOVariant item_code = item->item_code();
 
 	AItem tempItem;
-	remotePlayer->mInventory->FindItem(item->object_id(), tempItem);
+	remotePlayer->GetInventory()->FindItem(item->object_id(), tempItem);
 	ADOVariant old_inven_pos_x = tempItem.mInventoryPositionX;
 	ADOVariant old_inven_pos_y = tempItem.mInventoryPositionY;
 
@@ -247,7 +247,7 @@ bool Handle_UpdateInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	int32 ret = inCommand.GetReturnParam();
 	if (ret == 0)
 	{
-		if (false == remotePlayer->mInventory->CheckInventory())
+		if (false == remotePlayer->GetInventory()->CheckInventory())
 		{
 			//TODO:
 		}
@@ -292,7 +292,7 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 
 	ADOVariant rotation = item->rotation();
 
-	remotePlayer->mInventory->UpdateItem(item);
+	remotePlayer->GetInventory()->UpdateItem(item);
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.delete_inventory_sp");
@@ -353,7 +353,7 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	int32 inven_pos_x = inCommand.GetParam(L"@inven_pos_x");
 	int32 inven_pos_y = inCommand.GetParam(L"@inven_pos_y");
 
-	remotePlayer->mInventory->FindItem(item_code, inven_pos_x, inven_pos_y, tempItem);
+	remotePlayer->GetInventory()->FindItem(item_code, inven_pos_x, inven_pos_y, tempItem);
 	Protocol::SItem* item = createItemPacket.mutable_item();
 	item->set_object_id(world->GetNextGameObjectID());
 	item->set_item_code(item_code);
@@ -363,7 +363,7 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	worldPosition->set_y(tempItem.mWorldPositonY);
 	worldPosition->set_z(tempItem.mWorldPositonZ);
 
-	remotePlayer->mInventory->DeleteItem(item);
+	remotePlayer->GetInventory()->DeleteItem(item);
 
 	SendBufferPtr createItemsendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, createItemPacket);
 	world->Broadcast(createItemsendBuffer);

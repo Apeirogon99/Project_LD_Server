@@ -124,7 +124,7 @@ bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPosition
 
 bool Inventory::CheckInventory()
 {
-	//PrintInventoryDebug();
+	PrintInventoryDebug();
 
 	for (int32 index = 0; index < mStorage; ++index)
 	{
@@ -145,7 +145,7 @@ bool Inventory::GetItemRow(const int32 inItemCode, CSVRow& outRow)
 		return false;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->mPlayerState.lock();
+	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
 	if (nullptr == playerState)
 	{
 		return false;
@@ -164,7 +164,7 @@ CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 		return nullptr;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->mPlayerState.lock();
+	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
 	if (nullptr == playerState)
 	{
 		return nullptr;
