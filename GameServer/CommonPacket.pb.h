@@ -49,12 +49,20 @@ struct TableStruct_CommonPacket_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_CommonPacket_2eproto;
 namespace Protocol {
+class C2S_TravelServer;
+struct C2S_TravelServerDefaultTypeInternal;
+extern C2S_TravelServerDefaultTypeInternal _C2S_TravelServer_default_instance_;
 class S2C_ReplicatedServerTimeStamp;
 struct S2C_ReplicatedServerTimeStampDefaultTypeInternal;
 extern S2C_ReplicatedServerTimeStampDefaultTypeInternal _S2C_ReplicatedServerTimeStamp_default_instance_;
+class S2C_TravelServer;
+struct S2C_TravelServerDefaultTypeInternal;
+extern S2C_TravelServerDefaultTypeInternal _S2C_TravelServer_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::C2S_TravelServer* Arena::CreateMaybeMessage<::Protocol::C2S_TravelServer>(Arena*);
 template<> ::Protocol::S2C_ReplicatedServerTimeStamp* Arena::CreateMaybeMessage<::Protocol::S2C_ReplicatedServerTimeStamp>(Arena*);
+template<> ::Protocol::S2C_TravelServer* Arena::CreateMaybeMessage<::Protocol::S2C_TravelServer>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -217,6 +225,334 @@ class S2C_ReplicatedServerTimeStamp final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_CommonPacket_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C2S_TravelServer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_TravelServer) */ {
+ public:
+  inline C2S_TravelServer() : C2S_TravelServer(nullptr) {}
+  ~C2S_TravelServer() override;
+  explicit PROTOBUF_CONSTEXPR C2S_TravelServer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_TravelServer(const C2S_TravelServer& from);
+  C2S_TravelServer(C2S_TravelServer&& from) noexcept
+    : C2S_TravelServer() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_TravelServer& operator=(const C2S_TravelServer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_TravelServer& operator=(C2S_TravelServer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_TravelServer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_TravelServer* internal_default_instance() {
+    return reinterpret_cast<const C2S_TravelServer*>(
+               &_C2S_TravelServer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(C2S_TravelServer& a, C2S_TravelServer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_TravelServer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_TravelServer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_TravelServer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_TravelServer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_TravelServer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_TravelServer& from) {
+    C2S_TravelServer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_TravelServer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_TravelServer";
+  }
+  protected:
+  explicit C2S_TravelServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTokenFieldNumber = 1,
+    kGlobalIdFieldNumber = 2,
+    kCharacterIdFieldNumber = 3,
+  };
+  // bytes token = 1;
+  void clear_token();
+  const std::string& token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token();
+  PROTOBUF_NODISCARD std::string* release_token();
+  void set_allocated_token(std::string* token);
+  private:
+  const std::string& _internal_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
+  // int32 global_id = 2;
+  void clear_global_id();
+  int32_t global_id() const;
+  void set_global_id(int32_t value);
+  private:
+  int32_t _internal_global_id() const;
+  void _internal_set_global_id(int32_t value);
+  public:
+
+  // int32 character_id = 3;
+  void clear_character_id();
+  int32_t character_id() const;
+  void set_character_id(int32_t value);
+  private:
+  int32_t _internal_character_id() const;
+  void _internal_set_character_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_TravelServer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    int32_t global_id_;
+    int32_t character_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_CommonPacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_TravelServer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_TravelServer) */ {
+ public:
+  inline S2C_TravelServer() : S2C_TravelServer(nullptr) {}
+  ~S2C_TravelServer() override;
+  explicit PROTOBUF_CONSTEXPR S2C_TravelServer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_TravelServer(const S2C_TravelServer& from);
+  S2C_TravelServer(S2C_TravelServer&& from) noexcept
+    : S2C_TravelServer() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_TravelServer& operator=(const S2C_TravelServer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_TravelServer& operator=(S2C_TravelServer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_TravelServer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_TravelServer* internal_default_instance() {
+    return reinterpret_cast<const S2C_TravelServer*>(
+               &_S2C_TravelServer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(S2C_TravelServer& a, S2C_TravelServer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_TravelServer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_TravelServer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_TravelServer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_TravelServer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_TravelServer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_TravelServer& from) {
+    S2C_TravelServer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_TravelServer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_TravelServer";
+  }
+  protected:
+  explicit S2C_TravelServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorFieldNumber = 1,
+  };
+  // bytes error = 1;
+  void clear_error();
+  const std::string& error() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error();
+  PROTOBUF_NODISCARD std::string* release_error();
+  void set_allocated_error(std::string* error);
+  private:
+  const std::string& _internal_error() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error(const std::string& value);
+  std::string* _internal_mutable_error();
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_TravelServer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_CommonPacket_2eproto;
+};
 // ===================================================================
 
 
@@ -268,9 +604,161 @@ inline void S2C_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.utc_time)
 }
 
+// -------------------------------------------------------------------
+
+// C2S_TravelServer
+
+// bytes token = 1;
+inline void C2S_TravelServer::clear_token() {
+  _impl_.token_.ClearToEmpty();
+}
+inline const std::string& C2S_TravelServer::token() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_TravelServer.token)
+  return _internal_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2S_TravelServer::set_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C2S_TravelServer.token)
+}
+inline std::string* C2S_TravelServer::mutable_token() {
+  std::string* _s = _internal_mutable_token();
+  // @@protoc_insertion_point(field_mutable:Protocol.C2S_TravelServer.token)
+  return _s;
+}
+inline const std::string& C2S_TravelServer::_internal_token() const {
+  return _impl_.token_.Get();
+}
+inline void C2S_TravelServer::_internal_set_token(const std::string& value) {
+  
+  _impl_.token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2S_TravelServer::_internal_mutable_token() {
+  
+  return _impl_.token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2S_TravelServer::release_token() {
+  // @@protoc_insertion_point(field_release:Protocol.C2S_TravelServer.token)
+  return _impl_.token_.Release();
+}
+inline void C2S_TravelServer::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_.SetAllocated(token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_.IsDefault()) {
+    _impl_.token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_TravelServer.token)
+}
+
+// int32 global_id = 2;
+inline void C2S_TravelServer::clear_global_id() {
+  _impl_.global_id_ = 0;
+}
+inline int32_t C2S_TravelServer::_internal_global_id() const {
+  return _impl_.global_id_;
+}
+inline int32_t C2S_TravelServer::global_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_TravelServer.global_id)
+  return _internal_global_id();
+}
+inline void C2S_TravelServer::_internal_set_global_id(int32_t value) {
+  
+  _impl_.global_id_ = value;
+}
+inline void C2S_TravelServer::set_global_id(int32_t value) {
+  _internal_set_global_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_TravelServer.global_id)
+}
+
+// int32 character_id = 3;
+inline void C2S_TravelServer::clear_character_id() {
+  _impl_.character_id_ = 0;
+}
+inline int32_t C2S_TravelServer::_internal_character_id() const {
+  return _impl_.character_id_;
+}
+inline int32_t C2S_TravelServer::character_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_TravelServer.character_id)
+  return _internal_character_id();
+}
+inline void C2S_TravelServer::_internal_set_character_id(int32_t value) {
+  
+  _impl_.character_id_ = value;
+}
+inline void C2S_TravelServer::set_character_id(int32_t value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_TravelServer.character_id)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_TravelServer
+
+// bytes error = 1;
+inline void S2C_TravelServer::clear_error() {
+  _impl_.error_.ClearToEmpty();
+}
+inline const std::string& S2C_TravelServer::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.error)
+  return _internal_error();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_TravelServer::set_error(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.error)
+}
+inline std::string* S2C_TravelServer::mutable_error() {
+  std::string* _s = _internal_mutable_error();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TravelServer.error)
+  return _s;
+}
+inline const std::string& S2C_TravelServer::_internal_error() const {
+  return _impl_.error_.Get();
+}
+inline void S2C_TravelServer::_internal_set_error(const std::string& value) {
+  
+  _impl_.error_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::_internal_mutable_error() {
+  
+  return _impl_.error_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::release_error() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_TravelServer.error)
+  return _impl_.error_.Release();
+}
+inline void S2C_TravelServer::set_allocated_error(std::string* error) {
+  if (error != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_.SetAllocated(error, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_.IsDefault()) {
+    _impl_.error_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TravelServer.error)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
