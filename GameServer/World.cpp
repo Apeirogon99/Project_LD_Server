@@ -35,19 +35,22 @@ void World::Enter(PlayerStatePtr inPlayerState)
 	static int64 remoteID = 1;
 
 	remotePlayer = std::make_shared<RemotePlayer>(inPlayerState->GetPlayerStateRef(), remoteID);
-	auto result = mPlayers.insert(std::make_pair(remoteID, inPlayerState));
+	remotePlayer->Init();
 
+	auto result = mPlayers.insert(std::make_pair(remoteID, inPlayerState));
 	if (false == result.second)
 	{
 		inPlayerState->Disconnect(L"Do not create remote player");
 		return;
 	}
 
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_LoadInventory_Requset(packetSession, 0);
+
 	Protocol::S2C_EnterGameServer enterPacket;
 	enterPacket.set_remote_id(remoteID);
 	enterPacket.set_error(result.second);
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
 	packetSession->Send(sendBuffer);
 
@@ -120,7 +123,7 @@ void World::AppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr i
 
 	Protocol::S2C_AppearCharacter appearPacket;
 	Protocol::SCharacterData* characterData = appearPacket.mutable_character_data();
-	*characterData = appearRemotePlayer->mCharacterData;
+	//*characterData = appearRemotePlayer->mCharacterData;
 	appearPacket.set_remote_id(appearRemotePlayer->mRemoteID);
 
 	if (nullptr == inTargetPlayerState)
@@ -195,6 +198,27 @@ void World::InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_In
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	Handle_InsertInventory_Requset(packetSession, inPacket);
 
+}
+
+void World::LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_LoadInventory inPacket)
+{
+	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	if (false == IsValid(remotePlayer))
+	{
+		return;
+	}
+
+	Protocol::S2C_LoadInventory loadInventoryPacket;
+	remotePlayer->mInventory->LoadItem(loadInventoryPacket);
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, loadInventoryPacket);
+	packetSession->Send(sendBuffer);
 }
 
 void World::CreateItem(PlayerStatePtr inPlayerState)

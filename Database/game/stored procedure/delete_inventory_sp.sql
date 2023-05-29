@@ -53,6 +53,7 @@ DECLARE @ret			INT
 --EXEC @ret=delete_inventory_sp @character_id, 1, 1, 1
 print @ret
 
+--DELETE inventory_tb
 SELECT * FROM inventory_tb
 
 GO

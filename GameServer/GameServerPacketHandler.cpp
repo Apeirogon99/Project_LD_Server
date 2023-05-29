@@ -68,7 +68,29 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	//TODO: 플레이어 가져와서 인벤토리에서 실행되도록 변경해야함
+	const int64 timestmap = pkt.timestamp();
+	world->PushTask(timestmap, &World::LoadItemToInventory, playerState, pkt);
+
+	return true;
 }
 
 bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt)

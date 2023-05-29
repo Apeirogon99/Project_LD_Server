@@ -1,6 +1,6 @@
 #pragma once
 
-bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_LoadInventory& inPacket);
+bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, const int32 characterID);
 bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
 
 bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_InsertInventory& inPacket);

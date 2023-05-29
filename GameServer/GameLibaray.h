@@ -22,7 +22,10 @@
 //==========================//
 //		 GameContent		//
 //==========================//
+#include "Actor.h"
+#include "AItem.h"
 #include "Inventory.h"
+#include "Character.h"
 #include "RemotePlayer.h"
 #include "World.h"
 

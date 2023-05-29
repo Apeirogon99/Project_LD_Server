@@ -268,15 +268,3 @@ bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServ
 {
 	return true;
 }
-
-bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
-{
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
-	{
-		return false;
-	}
-
-	return true;
-}

@@ -117,6 +117,15 @@
     <ClCompile Include="GameDatas.cpp">
       <Filter>FrameWork\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="AItem.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -181,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="GameDatas.h">
       <Filter>FrameWork\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="AItem.h">
+      <Filter>Content\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -23,6 +23,7 @@ public:
 	void MoveDestination(PlayerStatePtr inPlayerState, Protocol::C2S_MovementCharacter inPakcet);
 
 	void InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_InsertInventory inPacket);
+	void LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_LoadInventory inPacket);
 	//TEMP:
 	void CreateItem(PlayerStatePtr inPlayerState);
 
@@ -34,6 +35,7 @@ protected:
 
 private:
 	std::map<int64, PlayerStatePtr> mPlayers;
+	std::map<int64, ActorPtr> mActors;
 	int64 mPlayersCount;
 	int64 mGameObjectID;
 };

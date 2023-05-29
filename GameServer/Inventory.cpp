@@ -1,94 +1,11 @@
 #include "pch.h"
 #include "Inventory.h"
 
-Item::Item() : mObjectID(-1), mItemCode(-1), mWorldPositonX(-1), mWorldPositonY(-1), mWorldPositonZ(-1), mInventoryPositionX(-1), mInventoryPositionY(-1), mRotation(-1)
-{
-}
-
-Item::Item(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation) : mObjectID(inObjectID), mItemCode(inItemCode), mWorldPositonX(inWorldPositionX), mWorldPositonY(inWorldPositionY), mWorldPositonZ(inWorldPositionZ), mInventoryPositionX(inInventoryPositionX), mInventoryPositionY(inInventoryPositionY), mRotation(inRotation)
-{
-}
-
-Item::Item(const Protocol::SItem* inItem)
-{
-	mObjectID			= inItem->object_id();
-	mItemCode			= inItem->item_code();
-
-	const Protocol::SVector& worldPosition = inItem->world_position();
-	mWorldPositonX		= worldPosition.x();
-	mWorldPositonY		= worldPosition.y();
-	mWorldPositonZ		= worldPosition.z();
-
-	const Protocol::SVector2D& inventoryPosition = inItem->inven_position();
-	mInventoryPositionX = inventoryPosition.x();
-	mInventoryPositionY = inventoryPosition.y();
-
-	mRotation			= inItem->rotation();
-}
-
-Item::~Item()
-{
-}
-
-Item::Item(const Item& inOtherItem)
-{
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
-}
-
-Item::Item(Item&& inOtherItem) noexcept
-{
-	this->mObjectID				= inOtherItem.mObjectID;
-	this->mItemCode				= inOtherItem.mItemCode;
-	this->mWorldPositonX		= inOtherItem.mWorldPositonX;
-	this->mWorldPositonY		= inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ		= inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX	= inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY	= inOtherItem.mInventoryPositionY;
-	this->mRotation				= inOtherItem.mRotation;
-}
-
-Item& Item::operator=(const Item& inOtherItem)
-{
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
-	return *this;
-}
-
-Item& Item::operator=(Item&& inOtherItem) noexcept
-{
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
-	return *this;
-}
-
-bool Item::IsValid()
-{
-	return (mItemCode != -1);
-}
-
-Inventory::Inventory(const RemotePlayerRef& inReomtePlayer, const int32 inInventoryWidth, const int32 inInventoryHeight) : mWidth(inInventoryWidth + 1), mHeight(inInventoryHeight + 1), mRemotePlayer(inReomtePlayer)
+Inventory::Inventory(const RemotePlayerRef& inReomtePlayer, const int32 inInventoryWidth, const int32 inInventoryHeight) : mWidth(inInventoryWidth), mHeight(inInventoryHeight), mRemotePlayer(inReomtePlayer)
 {
 	mStorage = mWidth * mHeight;
 	mInventory = new uint8[mStorage]();
+	memset(mInventory, 0, mStorage);
 }
 
 Inventory::~Inventory()
@@ -98,7 +15,7 @@ Inventory::~Inventory()
 
 bool Inventory::PushItem(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation)
 {
-	Item tempItem = Item(inObjectID, inItemCode, inWorldPositionX, inWorldPositionY, inWorldPositionZ, inInventoryPositionX, inInventoryPositionY, inRotation);
+	AItem tempItem = AItem(inObjectID, inItemCode, inWorldPositionX, inWorldPositionY, inWorldPositionZ, inInventoryPositionX, inInventoryPositionY, inRotation);
 	
 	if (false == AddItem(tempItem))
 	{
@@ -111,7 +28,7 @@ bool Inventory::PushItem(const int64 inObjectID, const int32 inItemCode, const f
 
 bool Inventory::PushItem(const Protocol::SItem* inItem)
 {
-	Item tempItem = Item(inItem);
+	AItem tempItem = AItem(inItem);
 
 	if (false == AddItem(tempItem))
 	{
@@ -122,7 +39,7 @@ bool Inventory::PushItem(const Protocol::SItem* inItem)
 	return result.second;
 }
 
-bool Inventory::PushItem(const Item& inItem)
+bool Inventory::PushItem(const AItem& inItem)
 {
 	if (false == AddItem(inItem))
 	{
@@ -133,13 +50,32 @@ bool Inventory::PushItem(const Item& inItem)
 	return result.second;
 }
 
-bool Inventory::LoadItem(std::unordered_map<int64, Item>& inItems)
+bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
 {
-	inItems = mItems;
+	for (auto& item : mItems)
+	{
+		const AItem& curItem = item.second;
+
+		Protocol::SItem* loadItem = inPacket.add_item();
+		loadItem->set_object_id(curItem.mObjectID);
+		loadItem->set_item_code(curItem.mItemCode);
+
+		Protocol::SVector* worldPosition = loadItem->mutable_world_position();
+		worldPosition->set_x(curItem.mWorldPositonX);
+		worldPosition->set_y(curItem.mWorldPositonY);
+		worldPosition->set_z(curItem.mWorldPositonZ);
+
+		Protocol::SVector2D* invenPositon = loadItem->mutable_inven_position();
+		invenPositon->set_x(curItem.mInventoryPositionX);
+		invenPositon->set_y(curItem.mInventoryPositionY);
+
+		loadItem->set_rotation(curItem.mRotation);
+	}
+	inPacket.set_error(0);
 	return true;
 }
 
-bool Inventory::UpdateItem(const Item& inItem)
+bool Inventory::UpdateItem(const AItem& inItem)
 {
 	const int64 objectID = inItem.mObjectID;
 	auto findItem = mItems.find(objectID);
@@ -152,14 +88,14 @@ bool Inventory::UpdateItem(const Item& inItem)
 	return true;
 }
 
-bool Inventory::DeleteItem(const Item& inItem)
+bool Inventory::DeleteItem(const AItem& inItem)
 {
 	const int64 objectID = inItem.mObjectID;
 	size_t result = mItems.erase(objectID);
 	return (result != 0) ? true : false;
 }
 
-bool Inventory::FindItem(const int64 inObjectID, Item& outItem)
+bool Inventory::FindItem(const int64 inObjectID, AItem& outItem)
 {
 	auto findItem = mItems.find(inObjectID);
 	if (findItem == mItems.end())
@@ -171,11 +107,11 @@ bool Inventory::FindItem(const int64 inObjectID, Item& outItem)
 	return true;
 }
 
-bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, Item& outItem)
+bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItem& outItem)
 {
 	for (auto item : mItems)
 	{
-		const Item& tempItem = item.second;
+		const AItem& tempItem = item.second;
 		if (tempItem.mItemCode == inItemCode && tempItem.mInventoryPositionX == inInventoryPositionX && tempItem.mInventoryPositionY == inInventoryPositionY)
 		{
 			outItem = tempItem;
@@ -188,10 +124,11 @@ bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPosition
 
 bool Inventory::CheckInventory()
 {
+	//PrintInventoryDebug();
 
 	for (int32 index = 0; index < mStorage; ++index)
 	{
-		if (index > 2)
+		if (mInventory[index] > 2)
 		{
 			return false;
 		}
@@ -219,26 +156,44 @@ bool Inventory::GetItemRow(const int32 inItemCode, CSVRow& outRow)
 	return true;
 }
 
-bool Inventory::AddItem(const Item& item)
+CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
+{
+	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	if (nullptr == remotePlayer)
+	{
+		return nullptr;
+	}
+
+	PlayerStatePtr playerState = remotePlayer->mPlayerState.lock();
+	if (nullptr == playerState)
+	{
+		return nullptr;
+	}
+
+	DataManagerPtr dataManager = playerState->GetSessionManager()->GetService()->GetDataManager();
+	return dataManager->PeekRow(static_cast<uint8>(EGameDataType::Item), inItemCode);
+}
+
+bool Inventory::AddItem(const AItem& item)
 {
 
-	CSVRow row;
-	if (false == GetItemRow(item.mItemCode, row))
+	CSVRow* row = PeekItemRow(item.mItemCode);
+	if (nullptr == row)
 	{
 		return false;
 	}
 
-	int32 itemSizeX = stoi(row[static_cast<size_t>(EItemCellType::size_x)]);
-	int32 itemSizeY = stoi(row[static_cast<size_t>(EItemCellType::size_y)]);
+	int32 itemSizeX = stoi(row->at(static_cast<int32>(EItemCellType::size_x)));
+	int32 itemSizeY = stoi(row->at(static_cast<int32>(EItemCellType::size_y)));
 
 	//가로
 	if (item.mRotation == 0)
 	{
-		for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeX; ++indexX)
+		for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeY; ++indexY)
 		{
-			for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeY; ++indexY)
+			for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeX; ++indexX)
 			{
-				const int32 indexPos = (indexX * indexY);
+				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] += 1;
 			}
 		}
@@ -246,11 +201,11 @@ bool Inventory::AddItem(const Item& item)
 	//세로
 	else if (item.mRotation == 1)
 	{
-		for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeY; ++indexX)
+		for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeX; ++indexY)
 		{
-			for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeX; ++indexY)
+			for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeY; ++indexX)
 			{
-				const int32 indexPos = (indexX * indexY);
+				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] += 1;
 			}
 		}
@@ -266,4 +221,18 @@ bool Inventory::AddItem(const Item& item)
 	}
 
 	return true;
+}
+
+void Inventory::PrintInventoryDebug()
+{
+	for (int32 i = 0; i < mStorage; ++i)
+	{
+		if (i % mWidth == 0)
+		{
+			printf("\n");
+		}
+
+		printf("[%hhu]", mInventory[i]);
+	}
+	printf("\n");
 }

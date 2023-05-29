@@ -178,6 +178,17 @@ struct S2C_EmailVerifiedDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_EmailVerifiedDefaultTypeInternal _S2C_EmailVerified_default_instance_;
+PROTOBUF_CONSTEXPR C2S_LoadServer::C2S_LoadServer(
+    ::_pbi::ConstantInitialized) {}
+struct C2S_LoadServerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_LoadServerDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C2S_LoadServerDefaultTypeInternal() {}
+  union {
+    C2S_LoadServer _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_LoadServerDefaultTypeInternal _C2S_LoadServer_default_instance_;
 PROTOBUF_CONSTEXPR S2C_LoadServer::S2C_LoadServer(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.server_id_)*/{}
@@ -192,11 +203,62 @@ struct S2C_LoadServerDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_LoadServerDefaultTypeInternal _S2C_LoadServer_default_instance_;
-PROTOBUF_CONSTEXPR C2S_LoadCharacters::C2S_LoadCharacters(
+PROTOBUF_CONSTEXPR C2S_SelectServer::C2S_SelectServer(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.remote_id_)*/int64_t{0}
-  , /*decltype(_impl_.server_id_)*/0
+    /*decltype(_impl_.server_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
+struct C2S_SelectServerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_SelectServerDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C2S_SelectServerDefaultTypeInternal() {}
+  union {
+    C2S_SelectServer _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_SelectServerDefaultTypeInternal _C2S_SelectServer_default_instance_;
+PROTOBUF_CONSTEXPR S2C_SelectServer::S2C_SelectServer(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S2C_SelectServerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_SelectServerDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S2C_SelectServerDefaultTypeInternal() {}
+  union {
+    S2C_SelectServer _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_SelectServerDefaultTypeInternal _S2C_SelectServer_default_instance_;
+PROTOBUF_CONSTEXPR C2S_StartGame::C2S_StartGame(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.character_id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct C2S_StartGameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_StartGameDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C2S_StartGameDefaultTypeInternal() {}
+  union {
+    C2S_StartGame _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_StartGameDefaultTypeInternal _C2S_StartGame_default_instance_;
+PROTOBUF_CONSTEXPR S2C_StartGame::S2C_StartGame(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.port_)*/0
+  , /*decltype(_impl_.error_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S2C_StartGameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_StartGameDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S2C_StartGameDefaultTypeInternal() {}
+  union {
+    S2C_StartGame _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_StartGameDefaultTypeInternal _S2C_StartGame_default_instance_;
+PROTOBUF_CONSTEXPR C2S_LoadCharacters::C2S_LoadCharacters(
+    ::_pbi::ConstantInitialized) {}
 struct C2S_LoadCharactersDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_LoadCharactersDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -210,7 +272,6 @@ PROTOBUF_CONSTEXPR S2C_LoadCharacters::S2C_LoadCharacters(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{}
   , /*decltype(_impl_.character_data_)*/{}
-  , /*decltype(_impl_.remote_id_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_LoadCharactersDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_LoadCharactersDefaultTypeInternal()
@@ -224,7 +285,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C2S_CreateCharacter::C2S_CreateCharacter(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.character_data_)*/nullptr
-  , /*decltype(_impl_.remote_id_)*/int64_t{0}
   , /*decltype(_impl_.server_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2S_CreateCharacterDefaultTypeInternal {
@@ -238,8 +298,7 @@ struct C2S_CreateCharacterDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_CreateCharacterDefaultTypeInternal _C2S_CreateCharacter_default_instance_;
 PROTOBUF_CONSTEXPR S2C_CreateCharacter::S2C_CreateCharacter(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.remote_id_)*/int64_t{0}
-  , /*decltype(_impl_.error_)*/0
+    /*decltype(_impl_.error_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_CreateCharacterDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_CreateCharacterDefaultTypeInternal()
@@ -276,48 +335,8 @@ struct S2C_DeleteCharacterDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_DeleteCharacterDefaultTypeInternal _S2C_DeleteCharacter_default_instance_;
-PROTOBUF_CONSTEXPR C2S_SelectServer::C2S_SelectServer(
-    ::_pbi::ConstantInitialized) {}
-struct C2S_SelectServerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_SelectServerDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_SelectServerDefaultTypeInternal() {}
-  union {
-    C2S_SelectServer _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_SelectServerDefaultTypeInternal _C2S_SelectServer_default_instance_;
-PROTOBUF_CONSTEXPR C2S_TravelServer::C2S_TravelServer(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.server_id_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_TravelServerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_TravelServerDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_TravelServerDefaultTypeInternal() {}
-  union {
-    C2S_TravelServer _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_TravelServerDefaultTypeInternal _C2S_TravelServer_default_instance_;
-PROTOBUF_CONSTEXPR S2C_TravelServer::S2C_TravelServer(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.port_)*/0
-  , /*decltype(_impl_.error_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_TravelServerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_TravelServerDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_TravelServerDefaultTypeInternal() {}
-  union {
-    S2C_TravelServer _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_TravelServerDefaultTypeInternal _S2C_TravelServer_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_IdentityPacket_2eproto[20];
+static ::_pb::Metadata file_level_metadata_IdentityPacket_2eproto[22];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_IdentityPacket_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_IdentityPacket_2eproto = nullptr;
 
@@ -403,6 +422,12 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EmailVerified, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EmailVerified, _impl_.error_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LoadServer, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadServer, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -410,20 +435,47 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadServer, _impl_.server_id_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_SelectServer, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_SelectServer, _impl_.server_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_SelectServer, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_SelectServer, _impl_.error_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_StartGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_StartGame, _impl_.character_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_StartGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_StartGame, _impl_.ip_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_StartGame, _impl_.port_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_StartGame, _impl_.error_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LoadCharacters, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LoadCharacters, _impl_.remote_id_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_LoadCharacters, _impl_.server_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadCharacters, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadCharacters, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadCharacters, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadCharacters, _impl_.character_data_),
   ~0u,  // no _has_bits_
@@ -432,7 +484,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_CreateCharacter, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_CreateCharacter, _impl_.server_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_CreateCharacter, _impl_.character_data_),
   ~0u,  // no _has_bits_
@@ -441,7 +492,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_CreateCharacter, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_CreateCharacter, _impl_.error_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteCharacter, _internal_metadata_),
@@ -457,29 +507,6 @@ const uint32_t TableStruct_IdentityPacket_2eproto::offsets[] PROTOBUF_SECTION_VA
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteCharacter, _impl_.error_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_SelectServer, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _impl_.server_id_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.token_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.ip_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.port_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.error_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterIdentityServer)},
@@ -492,16 +519,18 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 56, -1, -1, sizeof(::Protocol::S2C_Singup)},
   { 64, -1, -1, sizeof(::Protocol::C2S_EmailVerified)},
   { 72, -1, -1, sizeof(::Protocol::S2C_EmailVerified)},
-  { 80, -1, -1, sizeof(::Protocol::S2C_LoadServer)},
-  { 87, -1, -1, sizeof(::Protocol::C2S_LoadCharacters)},
-  { 95, -1, -1, sizeof(::Protocol::S2C_LoadCharacters)},
-  { 104, -1, -1, sizeof(::Protocol::C2S_CreateCharacter)},
-  { 113, -1, -1, sizeof(::Protocol::S2C_CreateCharacter)},
-  { 121, -1, -1, sizeof(::Protocol::C2S_DeleteCharacter)},
-  { 128, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
-  { 135, -1, -1, sizeof(::Protocol::C2S_SelectServer)},
-  { 141, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
-  { 148, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
+  { 80, -1, -1, sizeof(::Protocol::C2S_LoadServer)},
+  { 86, -1, -1, sizeof(::Protocol::S2C_LoadServer)},
+  { 93, -1, -1, sizeof(::Protocol::C2S_SelectServer)},
+  { 100, -1, -1, sizeof(::Protocol::S2C_SelectServer)},
+  { 107, -1, -1, sizeof(::Protocol::C2S_StartGame)},
+  { 114, -1, -1, sizeof(::Protocol::S2C_StartGame)},
+  { 123, -1, -1, sizeof(::Protocol::C2S_LoadCharacters)},
+  { 129, -1, -1, sizeof(::Protocol::S2C_LoadCharacters)},
+  { 137, -1, -1, sizeof(::Protocol::C2S_CreateCharacter)},
+  { 145, -1, -1, sizeof(::Protocol::S2C_CreateCharacter)},
+  { 152, -1, -1, sizeof(::Protocol::C2S_DeleteCharacter)},
+  { 159, -1, -1, sizeof(::Protocol::S2C_DeleteCharacter)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -515,16 +544,18 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_S2C_Singup_default_instance_._instance,
   &::Protocol::_C2S_EmailVerified_default_instance_._instance,
   &::Protocol::_S2C_EmailVerified_default_instance_._instance,
+  &::Protocol::_C2S_LoadServer_default_instance_._instance,
   &::Protocol::_S2C_LoadServer_default_instance_._instance,
+  &::Protocol::_C2S_SelectServer_default_instance_._instance,
+  &::Protocol::_S2C_SelectServer_default_instance_._instance,
+  &::Protocol::_C2S_StartGame_default_instance_._instance,
+  &::Protocol::_S2C_StartGame_default_instance_._instance,
   &::Protocol::_C2S_LoadCharacters_default_instance_._instance,
   &::Protocol::_S2C_LoadCharacters_default_instance_._instance,
   &::Protocol::_C2S_CreateCharacter_default_instance_._instance,
   &::Protocol::_S2C_CreateCharacter_default_instance_._instance,
   &::Protocol::_C2S_DeleteCharacter_default_instance_._instance,
   &::Protocol::_S2C_DeleteCharacter_default_instance_._instance,
-  &::Protocol::_C2S_SelectServer_default_instance_._instance,
-  &::Protocol::_C2S_TravelServer_default_instance_._instance,
-  &::Protocol::_S2C_TravelServer_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -543,31 +574,30 @@ const char descriptor_table_protodef_IdentityPacket_2eproto[] PROTOBUF_SECTION_V
   "e_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"=\n\021C2S_EmailVe"
   "rified\022\021\n\tremote_id\030\001 \001(\003\022\025\n\rverified_co"
   "de\030\002 \001(\t\"5\n\021S2C_EmailVerified\022\021\n\tremote_"
-  "id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"#\n\016S2C_LoadServe"
-  "r\022\021\n\tserver_id\030\001 \003(\005\":\n\022C2S_LoadCharacte"
-  "rs\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tserver_id\030\002 \001(\005"
-  "\"g\n\022S2C_LoadCharacters\022\021\n\tremote_id\030\001 \001("
-  "\003\022\014\n\004name\030\002 \003(\014\0220\n\016character_data\030\003 \003(\0132"
-  "\030.Protocol.SCharacterData\"m\n\023C2S_CreateC"
-  "haracter\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tserver_id"
-  "\030\002 \001(\005\0220\n\016character_data\030\003 \001(\0132\030.Protoco"
-  "l.SCharacterData\"7\n\023S2C_CreateCharacter\022"
-  "\021\n\tremote_id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"#\n\023C2S"
-  "_DeleteCharacter\022\014\n\004name\030\001 \001(\014\"$\n\023S2C_De"
-  "leteCharacter\022\r\n\005error\030\002 \001(\005\"\022\n\020C2S_Sele"
-  "ctServer\"%\n\020C2S_TravelServer\022\021\n\tserver_i"
-  "d\030\001 \001(\005\"J\n\020S2C_TravelServer\022\r\n\005token\030\001 \001"
-  "(\t\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\r\n\005error\030\004 "
-  "\001(\005b\006proto3"
+  "id\030\001 \001(\003\022\r\n\005error\030\002 \001(\005\"\020\n\016C2S_LoadServe"
+  "r\"#\n\016S2C_LoadServer\022\021\n\tserver_id\030\001 \003(\005\"%"
+  "\n\020C2S_SelectServer\022\021\n\tserver_id\030\001 \001(\005\"!\n"
+  "\020S2C_SelectServer\022\r\n\005error\030\001 \001(\005\"%\n\rC2S_"
+  "StartGame\022\024\n\014character_id\030\001 \001(\005\"8\n\rS2C_S"
+  "tartGame\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022\r\n\005er"
+  "ror\030\003 \001(\005\"\024\n\022C2S_LoadCharacters\"T\n\022S2C_L"
+  "oadCharacters\022\014\n\004name\030\001 \003(\014\0220\n\016character"
+  "_data\030\002 \003(\0132\030.Protocol.SCharacterData\"Z\n"
+  "\023C2S_CreateCharacter\022\021\n\tserver_id\030\001 \001(\005\022"
+  "0\n\016character_data\030\002 \001(\0132\030.Protocol.SChar"
+  "acterData\"$\n\023S2C_CreateCharacter\022\r\n\005erro"
+  "r\030\002 \001(\005\"#\n\023C2S_DeleteCharacter\022\014\n\004name\030\001"
+  " \001(\014\"$\n\023S2C_DeleteCharacter\022\r\n\005error\030\001 \001"
+  "(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_IdentityPacket_2eproto_deps[1] = {
   &::descriptor_table_PacketStruct_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_IdentityPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_IdentityPacket_2eproto = {
-    false, false, 1211, descriptor_table_protodef_IdentityPacket_2eproto,
+    false, false, 1170, descriptor_table_protodef_IdentityPacket_2eproto,
     "IdentityPacket.proto",
-    &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 20,
+    &descriptor_table_IdentityPacket_2eproto_once, descriptor_table_IdentityPacket_2eproto_deps, 1, 22,
     schemas, file_default_instances, TableStruct_IdentityPacket_2eproto::offsets,
     file_level_metadata_IdentityPacket_2eproto, file_level_enum_descriptors_IdentityPacket_2eproto,
     file_level_service_descriptors_IdentityPacket_2eproto,
@@ -2609,6 +2639,46 @@ void S2C_EmailVerified::InternalSwap(S2C_EmailVerified* other) {
 
 // ===================================================================
 
+class C2S_LoadServer::_Internal {
+ public:
+};
+
+C2S_LoadServer::C2S_LoadServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_LoadServer)
+}
+C2S_LoadServer::C2S_LoadServer(const C2S_LoadServer& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  C2S_LoadServer* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_LoadServer)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoadServer::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoadServer::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoadServer::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[10]);
+}
+
+// ===================================================================
+
 class S2C_LoadServer::_Internal {
  public:
 };
@@ -2797,49 +2867,45 @@ void S2C_LoadServer::InternalSwap(S2C_LoadServer* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoadServer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[10]);
+      file_level_metadata_IdentityPacket_2eproto[11]);
 }
 
 // ===================================================================
 
-class C2S_LoadCharacters::_Internal {
+class C2S_SelectServer::_Internal {
  public:
 };
 
-C2S_LoadCharacters::C2S_LoadCharacters(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+C2S_SelectServer::C2S_SelectServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_LoadCharacters)
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_SelectServer)
 }
-C2S_LoadCharacters::C2S_LoadCharacters(const C2S_LoadCharacters& from)
+C2S_SelectServer::C2S_SelectServer(const C2S_SelectServer& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_LoadCharacters* const _this = this; (void)_this;
+  C2S_SelectServer* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){}
-    , decltype(_impl_.server_id_){}
+      decltype(_impl_.server_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.remote_id_, &from._impl_.remote_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.server_id_) -
-    reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.server_id_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_LoadCharacters)
+  _this->_impl_.server_id_ = from._impl_.server_id_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_SelectServer)
 }
 
-inline void C2S_LoadCharacters::SharedCtor(
+inline void C2S_SelectServer::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){int64_t{0}}
-    , decltype(_impl_.server_id_){0}
+      decltype(_impl_.server_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
-C2S_LoadCharacters::~C2S_LoadCharacters() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_LoadCharacters)
+C2S_SelectServer::~C2S_SelectServer() {
+  // @@protoc_insertion_point(destructor:Protocol.C2S_SelectServer)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -2847,43 +2913,33 @@ C2S_LoadCharacters::~C2S_LoadCharacters() {
   SharedDtor();
 }
 
-inline void C2S_LoadCharacters::SharedDtor() {
+inline void C2S_SelectServer::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void C2S_LoadCharacters::SetCachedSize(int size) const {
+void C2S_SelectServer::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void C2S_LoadCharacters::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_LoadCharacters)
+void C2S_SelectServer::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.C2S_SelectServer)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.remote_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.server_id_) -
-      reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.server_id_));
+  _impl_.server_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* C2S_LoadCharacters::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* C2S_SelectServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 remote_id = 1;
+      // int32 server_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 server_id = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.server_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -2912,46 +2968,35 @@ failure:
 #undef CHK_
 }
 
-uint8_t* C2S_LoadCharacters::_InternalSerialize(
+uint8_t* C2S_SelectServer::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_LoadCharacters)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_SelectServer)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
-  // int32 server_id = 2;
+  // int32 server_id = 1;
   if (this->_internal_server_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_server_id(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_server_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_LoadCharacters)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_SelectServer)
   return target;
 }
 
-size_t C2S_LoadCharacters::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_LoadCharacters)
+size_t C2S_SelectServer::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_SelectServer)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
-  }
-
-  // int32 server_id = 2;
+  // int32 server_id = 1;
   if (this->_internal_server_id() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_server_id());
   }
@@ -2959,56 +3004,707 @@ size_t C2S_LoadCharacters::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoadCharacters::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_SelectServer::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_LoadCharacters::MergeImpl
+    C2S_SelectServer::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoadCharacters::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_SelectServer::GetClassData() const { return &_class_data_; }
 
 
-void C2S_LoadCharacters::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_LoadCharacters*>(&to_msg);
-  auto& from = static_cast<const C2S_LoadCharacters&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_LoadCharacters)
+void C2S_SelectServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<C2S_SelectServer*>(&to_msg);
+  auto& from = static_cast<const C2S_SelectServer&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_SelectServer)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
-  }
   if (from._internal_server_id() != 0) {
     _this->_internal_set_server_id(from._internal_server_id());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void C2S_LoadCharacters::CopyFrom(const C2S_LoadCharacters& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_LoadCharacters)
+void C2S_SelectServer::CopyFrom(const C2S_SelectServer& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_SelectServer)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool C2S_LoadCharacters::IsInitialized() const {
+bool C2S_SelectServer::IsInitialized() const {
   return true;
 }
 
-void C2S_LoadCharacters::InternalSwap(C2S_LoadCharacters* other) {
+void C2S_SelectServer::InternalSwap(C2S_SelectServer* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C2S_LoadCharacters, _impl_.server_id_)
-      + sizeof(C2S_LoadCharacters::_impl_.server_id_)
-      - PROTOBUF_FIELD_OFFSET(C2S_LoadCharacters, _impl_.remote_id_)>(
-          reinterpret_cast<char*>(&_impl_.remote_id_),
-          reinterpret_cast<char*>(&other->_impl_.remote_id_));
+  swap(_impl_.server_id_, other->_impl_.server_id_);
 }
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_SelectServer::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[12]);
+}
+
+// ===================================================================
+
+class S2C_SelectServer::_Internal {
+ public:
+};
+
+S2C_SelectServer::S2C_SelectServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_SelectServer)
+}
+S2C_SelectServer::S2C_SelectServer(const S2C_SelectServer& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S2C_SelectServer* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.error_ = from._impl_.error_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_SelectServer)
+}
+
+inline void S2C_SelectServer::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+S2C_SelectServer::~S2C_SelectServer() {
+  // @@protoc_insertion_point(destructor:Protocol.S2C_SelectServer)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S2C_SelectServer::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void S2C_SelectServer::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S2C_SelectServer::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S2C_SelectServer)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S2C_SelectServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 error = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S2C_SelectServer::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_SelectServer)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 error = 1;
+  if (this->_internal_error() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_SelectServer)
+  return target;
+}
+
+size_t S2C_SelectServer::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_SelectServer)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 error = 1;
+  if (this->_internal_error() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_SelectServer::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S2C_SelectServer::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_SelectServer::GetClassData() const { return &_class_data_; }
+
+
+void S2C_SelectServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S2C_SelectServer*>(&to_msg);
+  auto& from = static_cast<const S2C_SelectServer&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_SelectServer)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_error() != 0) {
+    _this->_internal_set_error(from._internal_error());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_SelectServer::CopyFrom(const S2C_SelectServer& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_SelectServer)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_SelectServer::IsInitialized() const {
+  return true;
+}
+
+void S2C_SelectServer::InternalSwap(S2C_SelectServer* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.error_, other->_impl_.error_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_SelectServer::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[13]);
+}
+
+// ===================================================================
+
+class C2S_StartGame::_Internal {
+ public:
+};
+
+C2S_StartGame::C2S_StartGame(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_StartGame)
+}
+C2S_StartGame::C2S_StartGame(const C2S_StartGame& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  C2S_StartGame* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.character_id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.character_id_ = from._impl_.character_id_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_StartGame)
+}
+
+inline void C2S_StartGame::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.character_id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+C2S_StartGame::~C2S_StartGame() {
+  // @@protoc_insertion_point(destructor:Protocol.C2S_StartGame)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void C2S_StartGame::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void C2S_StartGame::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void C2S_StartGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.C2S_StartGame)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.character_id_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* C2S_StartGame::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 character_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* C2S_StartGame::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_StartGame)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 character_id = 1;
+  if (this->_internal_character_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_character_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_StartGame)
+  return target;
+}
+
+size_t C2S_StartGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_StartGame)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 character_id = 1;
+  if (this->_internal_character_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_character_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_StartGame::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    C2S_StartGame::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_StartGame::GetClassData() const { return &_class_data_; }
+
+
+void C2S_StartGame::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<C2S_StartGame*>(&to_msg);
+  auto& from = static_cast<const C2S_StartGame&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_StartGame)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_character_id() != 0) {
+    _this->_internal_set_character_id(from._internal_character_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void C2S_StartGame::CopyFrom(const C2S_StartGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_StartGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool C2S_StartGame::IsInitialized() const {
+  return true;
+}
+
+void C2S_StartGame::InternalSwap(C2S_StartGame* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.character_id_, other->_impl_.character_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_StartGame::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[14]);
+}
+
+// ===================================================================
+
+class S2C_StartGame::_Internal {
+ public:
+};
+
+S2C_StartGame::S2C_StartGame(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_StartGame)
+}
+S2C_StartGame::S2C_StartGame(const S2C_StartGame& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S2C_StartGame* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.ip_){}
+    , decltype(_impl_.port_){}
+    , decltype(_impl_.error_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.ip_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ip().empty()) {
+    _this->_impl_.ip_.Set(from._internal_ip(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.port_, &from._impl_.port_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
+    reinterpret_cast<char*>(&_impl_.port_)) + sizeof(_impl_.error_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_StartGame)
+}
+
+inline void S2C_StartGame::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.ip_){}
+    , decltype(_impl_.port_){0}
+    , decltype(_impl_.error_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.ip_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+S2C_StartGame::~S2C_StartGame() {
+  // @@protoc_insertion_point(destructor:Protocol.S2C_StartGame)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S2C_StartGame::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.ip_.Destroy();
+}
+
+void S2C_StartGame::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S2C_StartGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S2C_StartGame)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.ip_.ClearToEmpty();
+  ::memset(&_impl_.port_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.error_) -
+      reinterpret_cast<char*>(&_impl_.port_)) + sizeof(_impl_.error_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S2C_StartGame::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string ip = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_ip();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.S2C_StartGame.ip"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 port = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 error = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S2C_StartGame::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_StartGame)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string ip = 1;
+  if (!this->_internal_ip().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.S2C_StartGame.ip");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_ip(), target);
+  }
+
+  // int32 port = 2;
+  if (this->_internal_port() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_port(), target);
+  }
+
+  // int32 error = 3;
+  if (this->_internal_error() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_StartGame)
+  return target;
+}
+
+size_t S2C_StartGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_StartGame)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string ip = 1;
+  if (!this->_internal_ip().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ip());
+  }
+
+  // int32 port = 2;
+  if (this->_internal_port() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_port());
+  }
+
+  // int32 error = 3;
+  if (this->_internal_error() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_StartGame::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S2C_StartGame::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_StartGame::GetClassData() const { return &_class_data_; }
+
+
+void S2C_StartGame::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S2C_StartGame*>(&to_msg);
+  auto& from = static_cast<const S2C_StartGame&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_StartGame)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_ip().empty()) {
+    _this->_internal_set_ip(from._internal_ip());
+  }
+  if (from._internal_port() != 0) {
+    _this->_internal_set_port(from._internal_port());
+  }
+  if (from._internal_error() != 0) {
+    _this->_internal_set_error(from._internal_error());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_StartGame::CopyFrom(const S2C_StartGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_StartGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_StartGame::IsInitialized() const {
+  return true;
+}
+
+void S2C_StartGame::InternalSwap(S2C_StartGame* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ip_, lhs_arena,
+      &other->_impl_.ip_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(S2C_StartGame, _impl_.error_)
+      + sizeof(S2C_StartGame::_impl_.error_)
+      - PROTOBUF_FIELD_OFFSET(S2C_StartGame, _impl_.port_)>(
+          reinterpret_cast<char*>(&_impl_.port_),
+          reinterpret_cast<char*>(&other->_impl_.port_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_StartGame::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
+      file_level_metadata_IdentityPacket_2eproto[15]);
+}
+
+// ===================================================================
+
+class C2S_LoadCharacters::_Internal {
+ public:
+};
+
+C2S_LoadCharacters::C2S_LoadCharacters(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_LoadCharacters)
+}
+C2S_LoadCharacters::C2S_LoadCharacters(const C2S_LoadCharacters& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  C2S_LoadCharacters* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_LoadCharacters)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoadCharacters::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoadCharacters::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoadCharacters::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[11]);
+      file_level_metadata_IdentityPacket_2eproto[16]);
 }
 
 // ===================================================================
@@ -3032,11 +3728,9 @@ S2C_LoadCharacters::S2C_LoadCharacters(const S2C_LoadCharacters& from)
   new (&_impl_) Impl_{
       decltype(_impl_.name_){from._impl_.name_}
     , decltype(_impl_.character_data_){from._impl_.character_data_}
-    , decltype(_impl_.remote_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.remote_id_ = from._impl_.remote_id_;
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_LoadCharacters)
 }
 
@@ -3047,7 +3741,6 @@ inline void S2C_LoadCharacters::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.name_){arena}
     , decltype(_impl_.character_data_){arena}
-    , decltype(_impl_.remote_id_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3079,7 +3772,6 @@ void S2C_LoadCharacters::Clear() {
 
   _impl_.name_.Clear();
   _impl_.character_data_.Clear();
-  _impl_.remote_id_ = int64_t{0};
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3089,17 +3781,9 @@ const char* S2C_LoadCharacters::_InternalParse(const char* ptr, ::_pbi::ParseCon
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 remote_id = 1;
+      // repeated bytes name = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated bytes name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -3107,20 +3791,20 @@ const char* S2C_LoadCharacters::_InternalParse(const char* ptr, ::_pbi::ParseCon
             ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // repeated .Protocol.SCharacterData character_data = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+      // repeated .Protocol.SCharacterData character_data = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_character_data(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -3153,24 +3837,18 @@ uint8_t* S2C_LoadCharacters::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
-  // repeated bytes name = 2;
+  // repeated bytes name = 1;
   for (int i = 0, n = this->_internal_name_size(); i < n; i++) {
     const auto& s = this->_internal_name(i);
-    target = stream->WriteBytes(2, s, target);
+    target = stream->WriteBytes(1, s, target);
   }
 
-  // repeated .Protocol.SCharacterData character_data = 3;
+  // repeated .Protocol.SCharacterData character_data = 2;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_character_data_size()); i < n; i++) {
     const auto& repfield = this->_internal_character_data(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3189,7 +3867,7 @@ size_t S2C_LoadCharacters::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated bytes name = 2;
+  // repeated bytes name = 1;
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.name_.size());
   for (int i = 0, n = _impl_.name_.size(); i < n; i++) {
@@ -3197,16 +3875,11 @@ size_t S2C_LoadCharacters::ByteSizeLong() const {
       _impl_.name_.Get(i));
   }
 
-  // repeated .Protocol.SCharacterData character_data = 3;
+  // repeated .Protocol.SCharacterData character_data = 2;
   total_size += 1UL * this->_internal_character_data_size();
   for (const auto& msg : this->_impl_.character_data_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3229,9 +3902,6 @@ void S2C_LoadCharacters::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
 
   _this->_impl_.name_.MergeFrom(from._impl_.name_);
   _this->_impl_.character_data_.MergeFrom(from._impl_.character_data_);
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
-  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3251,13 +3921,12 @@ void S2C_LoadCharacters::InternalSwap(S2C_LoadCharacters* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.name_.InternalSwap(&other->_impl_.name_);
   _impl_.character_data_.InternalSwap(&other->_impl_.character_data_);
-  swap(_impl_.remote_id_, other->_impl_.remote_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoadCharacters::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[12]);
+      file_level_metadata_IdentityPacket_2eproto[17]);
 }
 
 // ===================================================================
@@ -3288,7 +3957,6 @@ C2S_CreateCharacter::C2S_CreateCharacter(const C2S_CreateCharacter& from)
   C2S_CreateCharacter* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.character_data_){nullptr}
-    , decltype(_impl_.remote_id_){}
     , decltype(_impl_.server_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -3296,9 +3964,7 @@ C2S_CreateCharacter::C2S_CreateCharacter(const C2S_CreateCharacter& from)
   if (from._internal_has_character_data()) {
     _this->_impl_.character_data_ = new ::Protocol::SCharacterData(*from._impl_.character_data_);
   }
-  ::memcpy(&_impl_.remote_id_, &from._impl_.remote_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.server_id_) -
-    reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.server_id_));
+  _this->_impl_.server_id_ = from._impl_.server_id_;
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_CreateCharacter)
 }
 
@@ -3308,7 +3974,6 @@ inline void C2S_CreateCharacter::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.character_data_){nullptr}
-    , decltype(_impl_.remote_id_){int64_t{0}}
     , decltype(_impl_.server_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -3342,9 +4007,7 @@ void C2S_CreateCharacter::Clear() {
     delete _impl_.character_data_;
   }
   _impl_.character_data_ = nullptr;
-  ::memset(&_impl_.remote_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.server_id_) -
-      reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.server_id_));
+  _impl_.server_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3354,25 +4017,17 @@ const char* C2S_CreateCharacter::_InternalParse(const char* ptr, ::_pbi::ParseCo
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 remote_id = 1;
+      // int32 server_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 server_id = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.server_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SCharacterData character_data = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+      // .Protocol.SCharacterData character_data = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_character_data(), ptr);
           CHK_(ptr);
         } else
@@ -3407,22 +4062,16 @@ uint8_t* C2S_CreateCharacter::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
-  // int32 server_id = 2;
+  // int32 server_id = 1;
   if (this->_internal_server_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_server_id(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_server_id(), target);
   }
 
-  // .Protocol.SCharacterData character_data = 3;
+  // .Protocol.SCharacterData character_data = 2;
   if (this->_internal_has_character_data()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::character_data(this),
+      InternalWriteMessage(2, _Internal::character_data(this),
         _Internal::character_data(this).GetCachedSize(), target, stream);
   }
 
@@ -3442,19 +4091,14 @@ size_t C2S_CreateCharacter::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SCharacterData character_data = 3;
+  // .Protocol.SCharacterData character_data = 2;
   if (this->_internal_has_character_data()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.character_data_);
   }
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
-  }
-
-  // int32 server_id = 2;
+  // int32 server_id = 1;
   if (this->_internal_server_id() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_server_id());
   }
@@ -3480,9 +4124,6 @@ void C2S_CreateCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   if (from._internal_has_character_data()) {
     _this->_internal_mutable_character_data()->::Protocol::SCharacterData::MergeFrom(
         from._internal_character_data());
-  }
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
   }
   if (from._internal_server_id() != 0) {
     _this->_internal_set_server_id(from._internal_server_id());
@@ -3515,7 +4156,7 @@ void C2S_CreateCharacter::InternalSwap(C2S_CreateCharacter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_CreateCharacter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[13]);
+      file_level_metadata_IdentityPacket_2eproto[18]);
 }
 
 // ===================================================================
@@ -3534,14 +4175,11 @@ S2C_CreateCharacter::S2C_CreateCharacter(const S2C_CreateCharacter& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_CreateCharacter* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){}
-    , decltype(_impl_.error_){}
+      decltype(_impl_.error_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.remote_id_, &from._impl_.remote_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
+  _this->_impl_.error_ = from._impl_.error_;
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_CreateCharacter)
 }
 
@@ -3550,8 +4188,7 @@ inline void S2C_CreateCharacter::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.remote_id_){int64_t{0}}
-    , decltype(_impl_.error_){0}
+      decltype(_impl_.error_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3579,9 +4216,7 @@ void S2C_CreateCharacter::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.remote_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
+  _impl_.error_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3591,14 +4226,6 @@ const char* S2C_CreateCharacter::_InternalParse(const char* ptr, ::_pbi::ParseCo
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 remote_id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
       // int32 error = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
@@ -3636,12 +4263,6 @@ uint8_t* S2C_CreateCharacter::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
-  }
-
   // int32 error = 2;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
@@ -3663,11 +4284,6 @@ size_t S2C_CreateCharacter::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // int64 remote_id = 1;
-  if (this->_internal_remote_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
-  }
 
   // int32 error = 2;
   if (this->_internal_error() != 0) {
@@ -3692,9 +4308,6 @@ void S2C_CreateCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_remote_id() != 0) {
-    _this->_internal_set_remote_id(from._internal_remote_id());
-  }
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
   }
@@ -3715,18 +4328,13 @@ bool S2C_CreateCharacter::IsInitialized() const {
 void S2C_CreateCharacter::InternalSwap(S2C_CreateCharacter* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_CreateCharacter, _impl_.error_)
-      + sizeof(S2C_CreateCharacter::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_CreateCharacter, _impl_.remote_id_)>(
-          reinterpret_cast<char*>(&_impl_.remote_id_),
-          reinterpret_cast<char*>(&other->_impl_.remote_id_));
+  swap(_impl_.error_, other->_impl_.error_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_CreateCharacter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[14]);
+      file_level_metadata_IdentityPacket_2eproto[19]);
 }
 
 // ===================================================================
@@ -3924,7 +4532,7 @@ void C2S_DeleteCharacter::InternalSwap(C2S_DeleteCharacter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_DeleteCharacter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[15]);
+      file_level_metadata_IdentityPacket_2eproto[20]);
 }
 
 // ===================================================================
@@ -3994,9 +4602,9 @@ const char* S2C_DeleteCharacter::_InternalParse(const char* ptr, ::_pbi::ParseCo
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 error = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+      // int32 error = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -4031,10 +4639,10 @@ uint8_t* S2C_DeleteCharacter::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 error = 2;
+  // int32 error = 1;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4053,7 +4661,7 @@ size_t S2C_DeleteCharacter::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 error = 2;
+  // int32 error = 1;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -4102,538 +4710,7 @@ void S2C_DeleteCharacter::InternalSwap(S2C_DeleteCharacter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_DeleteCharacter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[16]);
-}
-
-// ===================================================================
-
-class C2S_SelectServer::_Internal {
- public:
-};
-
-C2S_SelectServer::C2S_SelectServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
-  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_SelectServer)
-}
-C2S_SelectServer::C2S_SelectServer(const C2S_SelectServer& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
-  C2S_SelectServer* const _this = this; (void)_this;
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_SelectServer)
-}
-
-
-
-
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_SelectServer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_SelectServer::GetClassData() const { return &_class_data_; }
-
-
-
-
-
-
-
-::PROTOBUF_NAMESPACE_ID::Metadata C2S_SelectServer::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[17]);
-}
-
-// ===================================================================
-
-class C2S_TravelServer::_Internal {
- public:
-};
-
-C2S_TravelServer::C2S_TravelServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_TravelServer)
-}
-C2S_TravelServer::C2S_TravelServer(const C2S_TravelServer& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_TravelServer* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.server_id_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.server_id_ = from._impl_.server_id_;
-  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_TravelServer)
-}
-
-inline void C2S_TravelServer::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.server_id_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-C2S_TravelServer::~C2S_TravelServer() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_TravelServer)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void C2S_TravelServer::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
-
-void C2S_TravelServer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void C2S_TravelServer::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_TravelServer)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.server_id_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* C2S_TravelServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int32 server_id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.server_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* C2S_TravelServer::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_TravelServer)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 server_id = 1;
-  if (this->_internal_server_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_server_id(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_TravelServer)
-  return target;
-}
-
-size_t C2S_TravelServer::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_TravelServer)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 server_id = 1;
-  if (this->_internal_server_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_server_id());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_TravelServer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_TravelServer::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_TravelServer::GetClassData() const { return &_class_data_; }
-
-
-void C2S_TravelServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_TravelServer*>(&to_msg);
-  auto& from = static_cast<const C2S_TravelServer&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_TravelServer)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_server_id() != 0) {
-    _this->_internal_set_server_id(from._internal_server_id());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void C2S_TravelServer::CopyFrom(const C2S_TravelServer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_TravelServer)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool C2S_TravelServer::IsInitialized() const {
-  return true;
-}
-
-void C2S_TravelServer::InternalSwap(C2S_TravelServer* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.server_id_, other->_impl_.server_id_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata C2S_TravelServer::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[18]);
-}
-
-// ===================================================================
-
-class S2C_TravelServer::_Internal {
- public:
-};
-
-S2C_TravelServer::S2C_TravelServer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_TravelServer)
-}
-S2C_TravelServer::S2C_TravelServer(const S2C_TravelServer& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_TravelServer* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.token_){}
-    , decltype(_impl_.ip_){}
-    , decltype(_impl_.port_){}
-    , decltype(_impl_.error_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.token_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.token_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_token().empty()) {
-    _this->_impl_.token_.Set(from._internal_token(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.ip_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ip_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_ip().empty()) {
-    _this->_impl_.ip_.Set(from._internal_ip(), 
-      _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.port_, &from._impl_.port_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.port_)) + sizeof(_impl_.error_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_TravelServer)
-}
-
-inline void S2C_TravelServer::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.token_){}
-    , decltype(_impl_.ip_){}
-    , decltype(_impl_.port_){0}
-    , decltype(_impl_.error_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.token_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.token_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.ip_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ip_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-}
-
-S2C_TravelServer::~S2C_TravelServer() {
-  // @@protoc_insertion_point(destructor:Protocol.S2C_TravelServer)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void S2C_TravelServer::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.token_.Destroy();
-  _impl_.ip_.Destroy();
-}
-
-void S2C_TravelServer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void S2C_TravelServer::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.S2C_TravelServer)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.token_.ClearToEmpty();
-  _impl_.ip_.ClearToEmpty();
-  ::memset(&_impl_.port_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.port_)) + sizeof(_impl_.error_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* S2C_TravelServer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // string token = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_token();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "Protocol.S2C_TravelServer.token"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string ip = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_ip();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "Protocol.S2C_TravelServer.ip"));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 port = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 error = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* S2C_TravelServer::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_TravelServer)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string token = 1;
-  if (!this->_internal_token().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_token().data(), static_cast<int>(this->_internal_token().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S2C_TravelServer.token");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_token(), target);
-  }
-
-  // string ip = 2;
-  if (!this->_internal_ip().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.S2C_TravelServer.ip");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_ip(), target);
-  }
-
-  // int32 port = 3;
-  if (this->_internal_port() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_port(), target);
-  }
-
-  // int32 error = 4;
-  if (this->_internal_error() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_error(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_TravelServer)
-  return target;
-}
-
-size_t S2C_TravelServer::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_TravelServer)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string token = 1;
-  if (!this->_internal_token().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_token());
-  }
-
-  // string ip = 2;
-  if (!this->_internal_ip().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ip());
-  }
-
-  // int32 port = 3;
-  if (this->_internal_port() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_port());
-  }
-
-  // int32 error = 4;
-  if (this->_internal_error() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_TravelServer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_TravelServer::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_TravelServer::GetClassData() const { return &_class_data_; }
-
-
-void S2C_TravelServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_TravelServer*>(&to_msg);
-  auto& from = static_cast<const S2C_TravelServer&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_TravelServer)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (!from._internal_token().empty()) {
-    _this->_internal_set_token(from._internal_token());
-  }
-  if (!from._internal_ip().empty()) {
-    _this->_internal_set_ip(from._internal_ip());
-  }
-  if (from._internal_port() != 0) {
-    _this->_internal_set_port(from._internal_port());
-  }
-  if (from._internal_error() != 0) {
-    _this->_internal_set_error(from._internal_error());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void S2C_TravelServer::CopyFrom(const S2C_TravelServer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_TravelServer)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool S2C_TravelServer::IsInitialized() const {
-  return true;
-}
-
-void S2C_TravelServer::InternalSwap(S2C_TravelServer* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.token_, lhs_arena,
-      &other->_impl_.token_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.ip_, lhs_arena,
-      &other->_impl_.ip_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_TravelServer, _impl_.error_)
-      + sizeof(S2C_TravelServer::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_TravelServer, _impl_.port_)>(
-          reinterpret_cast<char*>(&_impl_.port_),
-          reinterpret_cast<char*>(&other->_impl_.port_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata S2C_TravelServer::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_IdentityPacket_2eproto_getter, &descriptor_table_IdentityPacket_2eproto_once,
-      file_level_metadata_IdentityPacket_2eproto[19]);
+      file_level_metadata_IdentityPacket_2eproto[21]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -4679,9 +4756,29 @@ template<> PROTOBUF_NOINLINE ::Protocol::S2C_EmailVerified*
 Arena::CreateMaybeMessage< ::Protocol::S2C_EmailVerified >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_EmailVerified >(arena);
 }
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_LoadServer*
+Arena::CreateMaybeMessage< ::Protocol::C2S_LoadServer >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_LoadServer >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_LoadServer*
 Arena::CreateMaybeMessage< ::Protocol::S2C_LoadServer >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_LoadServer >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_SelectServer*
+Arena::CreateMaybeMessage< ::Protocol::C2S_SelectServer >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_SelectServer >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_SelectServer*
+Arena::CreateMaybeMessage< ::Protocol::S2C_SelectServer >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_SelectServer >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_StartGame*
+Arena::CreateMaybeMessage< ::Protocol::C2S_StartGame >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_StartGame >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_StartGame*
+Arena::CreateMaybeMessage< ::Protocol::S2C_StartGame >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_StartGame >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protocol::C2S_LoadCharacters*
 Arena::CreateMaybeMessage< ::Protocol::C2S_LoadCharacters >(Arena* arena) {
@@ -4706,18 +4803,6 @@ Arena::CreateMaybeMessage< ::Protocol::C2S_DeleteCharacter >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_DeleteCharacter*
 Arena::CreateMaybeMessage< ::Protocol::S2C_DeleteCharacter >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_DeleteCharacter >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Protocol::C2S_SelectServer*
-Arena::CreateMaybeMessage< ::Protocol::C2S_SelectServer >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::C2S_SelectServer >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Protocol::C2S_TravelServer*
-Arena::CreateMaybeMessage< ::Protocol::C2S_TravelServer >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::C2S_TravelServer >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Protocol::S2C_TravelServer*
-Arena::CreateMaybeMessage< ::Protocol::S2C_TravelServer >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::S2C_TravelServer >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

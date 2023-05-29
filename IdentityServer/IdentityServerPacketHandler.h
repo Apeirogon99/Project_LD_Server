@@ -13,16 +13,18 @@ enum class EPakcetID: uint16
 	S2C_Singup = 1007,
 	C2S_EmailVerified = 1008,
 	S2C_EmailVerified = 1009,
-	S2C_LoadServer = 1010,
-	C2S_LoadCharacters = 1011,
-	S2C_LoadCharacters = 1012,
-	C2S_CreateCharacter = 1013,
-	S2C_CreateCharacter = 1014,
-	C2S_DeleteCharacter = 1015,
-	S2C_DeleteCharacter = 1016,
-	C2S_SelectServer = 1017,
-	C2S_TravelServer = 1018,
-	S2C_TravelServer = 1019,
+	C2S_LoadServer = 1010,
+	S2C_LoadServer = 1011,
+	C2S_SelectServer = 1012,
+	S2C_SelectServer = 1013,
+	C2S_StartGame = 1014,
+	S2C_StartGame = 1015,
+	C2S_LoadCharacters = 1016,
+	S2C_LoadCharacters = 1017,
+	C2S_CreateCharacter = 1018,
+	S2C_CreateCharacter = 1019,
+	C2S_DeleteCharacter = 1020,
+	S2C_DeleteCharacter = 1021,
 };
 */
 
@@ -32,11 +34,12 @@ bool Handle_C2S_LeaveIdentityServer(PacketSessionPtr& session, Protocol::C2S_Lea
 bool Handle_C2S_Singin(PacketSessionPtr& session, Protocol::C2S_Singin& pkt);
 bool Handle_C2S_Singup(PacketSessionPtr& session, Protocol::C2S_Singup& pkt);
 bool Handle_C2S_EmailVerified(PacketSessionPtr& session, Protocol::C2S_EmailVerified& pkt);
+bool Handle_C2S_LoadServer(PacketSessionPtr& session, Protocol::C2S_LoadServer& pkt);
+bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServer& pkt);
+bool Handle_C2S_StartGame(PacketSessionPtr& session, Protocol::C2S_StartGame& pkt);
 bool Handle_C2S_LoadCharacters(PacketSessionPtr& session, Protocol::C2S_LoadCharacters& pkt);
 bool Handle_C2S_CreateCharacter(PacketSessionPtr& session, Protocol::C2S_CreateCharacter& pkt);
 bool Handle_C2S_DeleteCharacter(PacketSessionPtr& session, Protocol::C2S_DeleteCharacter& pkt);
-bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServer& pkt);
-bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt);
 
 class IdentityServerPacketHandler
 {
@@ -48,11 +51,12 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_Singin)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_Singin>(Handle_C2S_Singin, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_Singup)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_Singup>(Handle_C2S_Singup, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_EmailVerified)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_EmailVerified>(Handle_C2S_EmailVerified, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_LoadServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_LoadServer>(Handle_C2S_LoadServer, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_SelectServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_SelectServer>(Handle_C2S_SelectServer, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_StartGame)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_StartGame>(Handle_C2S_StartGame, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_LoadCharacters)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_LoadCharacters>(Handle_C2S_LoadCharacters, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_CreateCharacter)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_CreateCharacter>(Handle_C2S_CreateCharacter, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_DeleteCharacter)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_DeleteCharacter>(Handle_C2S_DeleteCharacter, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_SelectServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_SelectServer>(Handle_C2S_SelectServer, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_TravelServer)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_TravelServer>(Handle_C2S_TravelServer, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_EnterIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterIdentityServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LeaveIdentityServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveIdentityServer)); }
@@ -60,9 +64,10 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_Singup& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_Singup)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_EmailVerified& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EmailVerified)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LoadServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadServer)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_SelectServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SelectServer)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_StartGame& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_StartGame)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LoadCharacters& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadCharacters)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_CreateCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_CreateCharacter)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DeleteCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DeleteCharacter)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_TravelServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_TravelServer)); }
 
 };
