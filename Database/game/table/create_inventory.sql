@@ -2,7 +2,6 @@ USE game_database
 
 DROP TABLE IF EXISTS appearance_tb;
 DROP TABLE IF EXISTS eqipment_tb;
-DROP TABLE IF EXISTS inventory_tb;
 DROP TABLE IF EXISTS character_tb;
 GO
 
@@ -18,9 +17,9 @@ GO
 CREATE TABLE appearance_tb
 (
 	character_id		INT NOT NULL FOREIGN KEY REFERENCES character_tb(id)		ON DELETE CASCADE,
-	race_id				INT NOT NULL FOREIGN KEY REFERENCES race_tb(id)				ON UPDATE CASCADE,
-	character_calss_id	INT NOT NULL FOREIGN KEY REFERENCES character_class_tb(id)	ON UPDATE CASCADE,
-	seat				INT NOT NULL DEFAULT 0,
+	race_id				TINYINT NULL FOREIGN KEY REFERENCES race_tb(id)				ON DELETE SET NULL,
+	character_calss_id	TINYINT NULL FOREIGN KEY REFERENCES character_class_tb(id)	ON DELETE SET NULL,
+	seat				TINYINT NOT NULL,
 	skin_color			INT NOT NULL DEFAULT 0,
 	hair_color			INT NOT NULL DEFAULT 0,
 	eye_color			INT NOT NULL DEFAULT 0,
@@ -45,23 +44,7 @@ CREATE TABLE eqipment_tb
 );
 GO
 
-
-CREATE TABLE inventory_tb
-(
-	id					INT		NOT NULL IDENTITY(0,1) PRIMARY KEY,
-	character_id		INT		NOT NULL FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
-	item_code			INT		NOT NULL FOREIGN KEY REFERENCES item_tb(id)			ON UPDATE CASCADE,
-	world_pos_x			FLOAT	NOT NULL ,
-	world_pos_y			FLOAT	NOT NULL ,
-	world_pos_z			FLOAT	NOT NULL ,
-	inven_pos_x			INT		NOT NULL ,
-	inven_pos_y			INT		NOT NULL ,
-	rotation			INT		NOT NULL CHECK (rotation = 1 OR rotation = 0),
-);
-Go
-
 SELECT * FROM character_tb
 SELECT * FROM appearance_tb
 SELECT * FROM eqipment_tb
-SELECT * FROM inventory_tb
 GO

@@ -89,3 +89,19 @@ BEGIN CATCH
 	RETURN -1
 END CATCH
 GO
+
+-- ==================================== --
+--										--
+--				  TEST					--
+--										--
+-- ==================================== --
+USE game_database;
+
+DECLARE @ret			INT
+
+EXEC @ret=create_character_sp 'SPÅ×½ºÆ®', 1, 1, 0, 1, 1, 0, 0, 0, 0, 0
+print @ret
+
+SELECT * FROM character_tb
+
+GO

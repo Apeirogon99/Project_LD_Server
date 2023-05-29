@@ -1,53 +1,73 @@
 USE game_database
 
-DROP TABLE IF EXISTS item;
-DROP TABLE IF EXISTS character_class;
-DROP TABLE IF EXISTS race;
-DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS item_tb;
+DROP TABLE IF EXISTS character_class_tb;
+DROP TABLE IF EXISTS race_tb;
+DROP TABLE IF EXISTS category_tb;
+DROP TABLE IF EXISTS tier_tb;
 GO
 
 USE game_database
-CREATE TABLE category
+CREATE TABLE category_tb
 (
-	id					INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	name				NVARCHAR(32) NOT NULL,
 )
 
---BULK INSERT category FROM '.\..\csv\category_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT category_tb FROM 'P:\Project_LD_Server\Database\game\csv\category_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+SELECT * FROM category_tb
 GO
 
 USE game_database
-CREATE TABLE item
+CREATE TABLE item_tb
 (
-	id					INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
-	category_id			INT NOT NULL FOREIGN KEY REFERENCES category (id),
+	id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	category_id			INT NULL DEFAULT 0,
+	character_class_id	INT NULL DEFAULT 0,
+	race_id				INT NULL DEFAULT 0,
+	tier_id				INT NULL DEFAULT 0,
 	name				NVARCHAR(32) NULL DEFAULT '',
+	description			NVARCHAR(32) NULL DEFAULT '',
 	cost				INT NULL DEFAULT 0,
-	minimum_level		INT NULL DEFAULT 0,
-	max					INT NULL DEFAULT 1,
+	level				INT NULL DEFAULT 0,
 	size_x				INT NULL DEFAULT 0,
-	size_y				INT NULL DEFAULT 0
+	size_y				INT NULL DEFAULT 0,
+	icon				CHAR(256) NULL DEFAULT '',
+	mesh				CHAR(256) NULL DEFAULT ''
 )
-
---BULK INSERT item FROM 'P:\ApeirogonEngine\ApeirogonEngine\Database\game\csv\item_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT item_tb FROM 'P:\Project_LD_Server\Database\game\csv\item_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+SELECT * FROM item_tb
 GO
 
 USE game_database
-CREATE TABLE character_class
+CREATE TABLE character_class_tb
 (
-	id					INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	name				NVARCHAR(32) NOT NULL,
 )
 
---BULK INSERT character_class FROM '.\..\csv\class_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT character_class_tb FROM 'P:\Project_LD_Server\Database\game\csv\character_class_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+SELECT * FROM character_class_tb
 GO
 
 USE game_database
 CREATE TABLE race_tb
 (
-	id					TINYINT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	name				NVARCHAR(32) NOT NULL,
 )
 
---BULK INSERT character_class FROM '.\..\csv\class_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT race_tb FROM 'P:\Project_LD_Server\Database\game\csv\race_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+SELECT * FROM race_tb
+GO
+
+USE game_database
+CREATE TABLE tier_tb
+(
+	id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	name				NVARCHAR(32) NOT NULL,
+)
+
+BULK INSERT tier_tb FROM 'P:\Project_LD_Server\Database\game\csv\tier_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+SELECT * FROM tier_tb
 GO
