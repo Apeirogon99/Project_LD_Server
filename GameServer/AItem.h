@@ -26,9 +26,11 @@ public:
 	~AItem();
 
 	AItem(const AItem& inOtherItem);
+	AItem(const Protocol::SItem& inOtherItem);
 	AItem(AItem&& inOtherItem) noexcept;
 
 	AItem& operator=(const AItem& inOtherItem);
+	AItem& operator=(const Protocol::SItem& inOtherItem);
 	AItem& operator=(AItem&& inOtherItem) noexcept;
 
 public:

@@ -221,6 +221,40 @@ void World::LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_Load
 	packetSession->Send(sendBuffer);
 }
 
+void World::UpdateItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_UpdateInventory inPacket)
+{
+	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	if (false == IsValid(remotePlayer))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_UpdateInventory_Requset(packetSession, inPacket);
+}
+
+void World::DeleteItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteInventory inPacket)
+{
+	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	if (false == IsValid(remotePlayer))
+	{
+		return;
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	Handle_DeleteInventory_Requset(packetSession, inPacket);
+}
+
 void World::CreateItem(PlayerStatePtr inPlayerState)
 {
 	for (int32 i = 1; i <= 3; ++i)

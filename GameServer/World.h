@@ -24,6 +24,8 @@ public:
 
 	void InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_InsertInventory inPacket);
 	void LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_LoadInventory inPacket);
+	void UpdateItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_UpdateInventory inPacket);
+	void DeleteItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteInventory inPacket);
 	//TEMP:
 	void CreateItem(PlayerStatePtr inPlayerState);
 

@@ -121,10 +121,51 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 
 bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateInventory& pkt)
 {
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 timestmap = pkt.timestamp();
+	world->PushTask(timestmap, &World::UpdateItemToInventory, playerState, pkt);
+
 	return true;
 }
 
 bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteInventory& pkt)
 {
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	WorldPtr world = gameState->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 timestmap = pkt.timestamp();
+	world->PushTask(timestmap, &World::DeleteItemToInventory, playerState, pkt);
 	return true;
 }

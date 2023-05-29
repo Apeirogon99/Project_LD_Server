@@ -42,6 +42,23 @@ AItem::AItem(const AItem& inOtherItem)
 	this->mRotation = inOtherItem.mRotation;
 }
 
+AItem::AItem(const Protocol::SItem& inOtherItem)
+{
+	mObjectID = inOtherItem.object_id();
+	mItemCode = inOtherItem.item_code();
+
+	const Protocol::SVector& worldPosition = inOtherItem.world_position();
+	mWorldPositonX = worldPosition.x();
+	mWorldPositonY = worldPosition.y();
+	mWorldPositonZ = worldPosition.z();
+
+	const Protocol::SVector2D& inventoryPosition = inOtherItem.inven_position();
+	mInventoryPositionX = inventoryPosition.x();
+	mInventoryPositionY = inventoryPosition.y();
+
+	mRotation = inOtherItem.rotation();
+}
+
 AItem::AItem(AItem&& inOtherItem) noexcept
 {
 	this->mObjectID = inOtherItem.mObjectID;
@@ -64,6 +81,24 @@ AItem& AItem::operator=(const AItem& inOtherItem)
 	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
 	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
 	this->mRotation = inOtherItem.mRotation;
+	return *this;
+}
+
+AItem& AItem::operator=(const Protocol::SItem& inOtherItem)
+{
+	this->mObjectID = inOtherItem.object_id();
+	this->mItemCode = inOtherItem.item_code();
+
+	const Protocol::SVector& worldPosition = inOtherItem.world_position();
+	this->mWorldPositonX = worldPosition.x();
+	this->mWorldPositonY = worldPosition.y();
+	this->mWorldPositonZ = worldPosition.z();
+	
+	const Protocol::SVector2D& inventoryPosition = inOtherItem.inven_position();
+	this->mInventoryPositionX = inventoryPosition.x();
+	this->mInventoryPositionY = inventoryPosition.y();
+
+	this->mRotation = inOtherItem.rotation();
 	return *this;
 }
 

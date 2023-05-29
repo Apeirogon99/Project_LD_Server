@@ -84,7 +84,26 @@ bool Inventory::UpdateItem(const AItem& inItem)
 		return false;
 	}
 
+	SubItem(findItem->second);
 	findItem->second = inItem;
+	AddItem(findItem->second);
+
+	return true;
+}
+
+bool Inventory::UpdateItem(const Protocol::SItem& inItem)
+{
+	const int64 objectID = inItem.object_id();
+	auto findItem = mItems.find(objectID);
+	if (findItem == mItems.end())
+	{
+		return false;
+	}
+
+	SubItem(findItem->second);
+	findItem->second = inItem;
+	AddItem(findItem->second);
+
 	return true;
 }
 
@@ -92,7 +111,26 @@ bool Inventory::DeleteItem(const AItem& inItem)
 {
 	const int64 objectID = inItem.mObjectID;
 	size_t result = mItems.erase(objectID);
-	return (result != 0) ? true : false;
+	if (result != 0)
+	{
+		SubItem(inItem);
+		return true;
+	}
+
+	return false;
+}
+
+bool Inventory::DeleteItem(const Protocol::SItem& inItem)
+{
+	const int64 objectID = inItem.object_id();
+	size_t result = mItems.erase(objectID);
+	if (result != 0)
+	{
+		SubItem(inItem);
+		return true;
+	}
+
+	return false;
 }
 
 bool Inventory::FindItem(const int64 inObjectID, AItem& outItem)
@@ -215,7 +253,45 @@ bool Inventory::AddItem(const AItem& item)
 		return false;
 	}
 
-	if (false == CheckInventory())
+	return true;
+}
+
+bool Inventory::SubItem(const AItem& item)
+{
+	CSVRow* row = PeekItemRow(item.mItemCode);
+	if (nullptr == row)
+	{
+		return false;
+	}
+
+	int32 itemSizeX = stoi(row->at(static_cast<int32>(EItemCellType::size_x)));
+	int32 itemSizeY = stoi(row->at(static_cast<int32>(EItemCellType::size_y)));
+
+	//가로
+	if (item.mRotation == 0)
+	{
+		for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeY; ++indexY)
+		{
+			for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeX; ++indexX)
+			{
+				const int32 indexPos = (indexX + (indexY * mWidth));
+				mInventory[indexPos] -= 1;
+			}
+		}
+	}
+	//세로
+	else if (item.mRotation == 1)
+	{
+		for (int32 indexY = item.mInventoryPositionY; indexY < item.mInventoryPositionY + itemSizeX; ++indexY)
+		{
+			for (int32 indexX = item.mInventoryPositionX; indexX < item.mInventoryPositionX + itemSizeY; ++indexX)
+			{
+				const int32 indexPos = (indexX + (indexY * mWidth));
+				mInventory[indexPos] -= 1;
+			}
+		}
+	}
+	else
 	{
 		return false;
 	}

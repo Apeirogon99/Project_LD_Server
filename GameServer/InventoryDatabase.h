@@ -1,5 +1,8 @@
 #pragma once
 
+bool Handle_LoadCharacter_Request(PacketSessionPtr& inSession, const int32 characterID);
+bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+
 bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, const int32 characterID);
 bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
 

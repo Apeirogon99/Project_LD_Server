@@ -1,6 +1,23 @@
 #include "pch.h"
 #include "InventoryDatabase.h"
 
+bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, const int32 characterID)
 {
 	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
@@ -49,7 +66,6 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	Protocol::S2C_LoadInventory loadInventoryPacket;
 	int32 ret = inCommand.GetReturnParam();
 	if (ret == 0)
 	{
@@ -73,6 +89,15 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 			inRecordset.MoveNext();
 		}
 	}
+
+	Protocol::S2C_LoadInventory loadInventoryPacket;
+
+	remotePlayer->GetInventory()->LoadItem(loadInventoryPacket);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, loadInventoryPacket);
+	inSession->Send(sendBuffer);
+
+	remotePlayer->GetInventory()->CheckInventory();
 
 	return true;
 }
@@ -134,12 +159,10 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 	command.SetInputParam(L"@inven_pos_y"	, inven_pos_y);
 	command.SetInputParam(L"@rotation"		, rotation);
 
-	ADORecordset recordset;
-	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
-
 	{
-		Protocol::S2C_InsertInventory InsertInventoryPacket;
 		bool pushResult = remotePlayer->GetInventory()->PushItem(item);
+
+		Protocol::S2C_InsertInventory InsertInventoryPacket;
 		InsertInventoryPacket.set_remote_id(remotePlayer->GetRemoteID());
 		InsertInventoryPacket.set_object_id(item->object_id());
 		InsertInventoryPacket.set_error(pushResult);
@@ -147,6 +170,9 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, InsertInventoryPacket);
 		world->Broadcast(sendBuffer);
 	}
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 
 	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_InsertInventory_Response);
 	return true;
@@ -167,13 +193,16 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	}
 
 	int32 ret = inCommand.GetReturnParam();
-	if (ret == 0)
+	if (ret != 0)
 	{
-		if (false == remotePlayer->GetInventory()->CheckInventory())
-		{
-			//TODO:
-		}
+		//ERROR:
 	}
+
+	if (false == remotePlayer->GetInventory()->CheckInventory())
+	{
+		//TODO:
+	}
+
 	return true;
 }
 
@@ -195,35 +224,46 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	Protocol::SItem* item = inPacket.mutable_item();
+	const Protocol::SItem& item = inPacket.item();
 	ADOVariant character_id = 0;	//TODO:
-	ADOVariant item_code = item->item_code();
+	ADOVariant item_code = 1;
 
 	AItem tempItem;
-	remotePlayer->GetInventory()->FindItem(item->object_id(), tempItem);
+	remotePlayer->GetInventory()->FindItem(item.object_id(), tempItem);
 	ADOVariant old_inven_pos_x = tempItem.mInventoryPositionX;
 	ADOVariant old_inven_pos_y = tempItem.mInventoryPositionY;
 
-	Protocol::SVector2D* inventoryPosition = item->mutable_inven_position();
-	ADOVariant new_inven_pos_x = inventoryPosition->x();
-	ADOVariant new_inven_pos_y = inventoryPosition->y();
+	const Protocol::SVector2D& inventoryPosition = item.inven_position();
+	ADOVariant new_inven_pos_x = inventoryPosition.x();
+	ADOVariant new_inven_pos_y = inventoryPosition.y();
 
-	ADOVariant new_rotation = item->rotation();
+	ADOVariant new_rotation = item.rotation();
 
 	ADOCommand command;
-	command.SetStoredProcedure(connection, L"dbo.load_inventory_sp");
+	command.SetStoredProcedure(connection, L"dbo.update_inventory_sp");
 	command.SetReturnParam();
 	command.SetInputParam(L"@character_id", character_id);
 	command.SetInputParam(L"@item_code", item_code);
 	command.SetInputParam(L"@old_inven_pos_x", old_inven_pos_x);
 	command.SetInputParam(L"@old_inven_pos_y", old_inven_pos_y);
 	command.SetInputParam(L"@new_inven_pos_x", new_inven_pos_x);
-	command.SetInputParam(L"@new_inven_pos_z", new_inven_pos_y);
-	command.SetInputParam(L"@rotation", new_rotation);
+	command.SetInputParam(L"@new_inven_pos_y", new_inven_pos_y);
+	command.SetInputParam(L"@new_rotation", new_rotation);
 
+	{
+		bool result = remotePlayer->GetInventory()->UpdateItem(item);
+
+		Protocol::S2C_UpdateInventory updateInventoryPacket;
+		updateInventoryPacket.set_error(result);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, updateInventoryPacket);
+		inSession->Send(sendBuffer);
+
+		remotePlayer->GetInventory()->CheckInventory();
+	}
 
 	ADORecordset recordset;
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+	
 
 	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_InsertInventory_Response);
 	return true;
@@ -243,19 +283,17 @@ bool Handle_UpdateInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		return false;
 	}
 
-	Protocol::S2C_UpdateInventory updateInventoryPacket;
 	int32 ret = inCommand.GetReturnParam();
-	if (ret == 0)
+	if (ret != 0)
 	{
-		if (false == remotePlayer->GetInventory()->CheckInventory())
-		{
-			//TODO:
-		}
+		//ERROR:
 	}
-	updateInventoryPacket.set_error(ret);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, updateInventoryPacket);
-	inSession->Send(sendBuffer);
+	if (false == remotePlayer->GetInventory()->CheckInventory())
+	{
+		//TODO:
+	}
+
 	return true;
 }
 
@@ -277,20 +315,13 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	Protocol::SItem* item = inPacket.mutable_item();
+	const Protocol::SItem& item = inPacket.item();
 	ADOVariant character_id = 0;	//TODO:
-	ADOVariant item_code = item->item_code();
+	ADOVariant item_code = item.item_code();
 
-	Protocol::SVector* worldPosition = item->mutable_world_position();
-	ADOVariant world_pos_x = worldPosition->x();
-	ADOVariant world_pos_y = worldPosition->y();
-	ADOVariant world_pos_z = worldPosition->z();
-
-	Protocol::SVector2D* inventoryPosition = item->mutable_inven_position();
-	ADOVariant inven_pos_x = inventoryPosition->x();
-	ADOVariant inven_pos_y = inventoryPosition->y();
-
-	ADOVariant rotation = item->rotation();
+	const Protocol::SVector2D& inventoryPosition = item.inven_position();
+	ADOVariant inven_pos_x = inventoryPosition.x();
+	ADOVariant inven_pos_y = inventoryPosition.y();
 
 	remotePlayer->GetInventory()->UpdateItem(item);
 
@@ -301,6 +332,30 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 	command.SetInputParam(L"@item_code", item_code);
 	command.SetInputParam(L"@inven_pos_x", inven_pos_x);
 	command.SetInputParam(L"@inven_pos_y", inven_pos_y);
+
+	{
+		bool result = remotePlayer->GetInventory()->DeleteItem(item);
+
+		Protocol::S2C_DeleteInventory deleteInventoryPacket;
+		deleteInventoryPacket.set_remote_id(remotePlayer->GetRemoteID());
+		*deleteInventoryPacket.mutable_item() = item;
+		deleteInventoryPacket.set_error(result);
+
+		GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+		if (nullptr == gameState)
+		{
+			return false;
+		}
+
+		WorldPtr world = gameState->GetWorld();
+		if (nullptr == world)
+		{
+			return false;
+		}
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, deleteInventoryPacket);
+		world->Broadcast(sendBuffer);
+	}
 
 	ADORecordset recordset;
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
@@ -323,49 +378,16 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		return false;
 	}
 
-	Protocol::S2C_DeleteInventory deleteInventoryPacket;
 	int32 ret = inCommand.GetReturnParam();
-	deleteInventoryPacket.set_error(ret);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, deleteInventoryPacket);
-	inSession->Send(sendBuffer);
-
 	if (ret != 0)
 	{
-		return true;
+		//ERROR:
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
+	if (false == remotePlayer->GetInventory()->CheckInventory())
 	{
-		return false;
+		//TODO:
 	}
 
-	WorldPtr world = gameState->GetWorld();
-	if (nullptr == world)
-	{
-		return false;
-	}
-
-	Protocol::S2C_CreateItem createItemPacket;
-	AItem tempItem;
-	int32 item_code = inCommand.GetParam(L"@item_code");
-	int32 inven_pos_x = inCommand.GetParam(L"@inven_pos_x");
-	int32 inven_pos_y = inCommand.GetParam(L"@inven_pos_y");
-
-	remotePlayer->GetInventory()->FindItem(item_code, inven_pos_x, inven_pos_y, tempItem);
-	Protocol::SItem* item = createItemPacket.mutable_item();
-	item->set_object_id(world->GetNextGameObjectID());
-	item->set_item_code(item_code);
-
-	Protocol::SVector* worldPosition = item->mutable_world_position();
-	worldPosition->set_x(tempItem.mWorldPositonX);
-	worldPosition->set_y(tempItem.mWorldPositonY);
-	worldPosition->set_z(tempItem.mWorldPositonZ);
-
-	remotePlayer->GetInventory()->DeleteItem(item);
-
-	SendBufferPtr createItemsendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, createItemPacket);
-	world->Broadcast(createItemsendBuffer);
 	return true;
 }

@@ -57,7 +57,7 @@ DECLARE @ret			INT
 
 SELECT * FROM inventory_tb
 
-EXEC @ret=update_inventory_sp @character_id, 1, 1, 1 , 1, 1, 0
+EXEC @ret=update_inventory_sp @character_id, 1, 0, 0 , 0, 13, 0
 print @ret
 
 SELECT * FROM inventory_tb
