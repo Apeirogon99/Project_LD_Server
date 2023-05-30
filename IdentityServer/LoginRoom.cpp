@@ -25,6 +25,11 @@ void LoginRoom::Tick()
 {
 }
 
+bool LoginRoom::IsValid()
+{
+	return true;
+}
+
 void LoginRoom::Enter(PlayerStatePtr inPlayerState)
 {
 

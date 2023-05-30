@@ -64,6 +64,14 @@ bool IdentityService::SettingService()
 		return false;
 	}
 
+	//Data(CSV)
+	IdentityDataManagerPtr identityDataManager = std::make_shared<IdentityDataManager>();
+	DataManagerPtr  dataManager = ::static_pointer_cast<DataManager>(move(identityDataManager));
+	if (false == SetDataManager(dataManager))
+	{
+		return false;
+	}
+
 	//Logger
 	const WCHAR* LoggerName = L"IdentityServer";
 	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\IdentityServer\\IdentityServer.log";

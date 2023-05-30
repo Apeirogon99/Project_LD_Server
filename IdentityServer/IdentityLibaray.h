@@ -24,6 +24,7 @@
 #include "IdentityPlayerState.h"
 #include "IdentityListener.h"
 #include "IdentityDatabase.h"
+#include "IdentityDataManager.h"
 
 //==========================//
 //		    Packet			//

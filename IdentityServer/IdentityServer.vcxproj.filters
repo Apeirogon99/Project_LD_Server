@@ -123,6 +123,9 @@
     <ClInclude Include="CharacterDatabase.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
+    <ClInclude Include="IdentityDataManager.h">
+      <Filter>Source\Public\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -184,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="CharacterDatabase.cpp">
       <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonServerPacketHandler.cpp">
+      <Filter>Packet\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentityDataManager.cpp">
+      <Filter>Source\Private\Framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

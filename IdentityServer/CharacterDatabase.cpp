@@ -23,7 +23,7 @@ bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_Lo
 	connection.Open(ConnectionInfo);
 
 	ADOVariant global_id = remotePlayer->mGlobalID;
-	ADOVariant server_id = inPacket.server_id();
+	ADOVariant server_id = 1;
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.load_character_sp");

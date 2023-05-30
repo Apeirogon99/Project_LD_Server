@@ -27,6 +27,7 @@
     <ClInclude Include="IdentitiyDatabase.h" />
     <ClInclude Include="DatabaseHandler.h" />
     <ClInclude Include="IdentityDatabase.h" />
+    <ClInclude Include="IdentityDataManager.h" />
     <ClInclude Include="IdentityForward.h" />
     <ClInclude Include="IdentityGameState.h" />
     <ClInclude Include="IdentityLibaray.h" />
@@ -51,9 +52,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CommonServerPacketHandler.cpp" />
     <ClCompile Include="IdentitiyDatabase.cpp" />
     <ClCompile Include="DatabaseHandler.cpp" />
     <ClCompile Include="IdentityDatabase.cpp" />
+    <ClCompile Include="IdentityDataManager.cpp" />
     <ClCompile Include="IdentityGameState.cpp" />
     <ClCompile Include="IdentityLibaray.cpp" />
     <ClCompile Include="IdentityListener.cpp" />

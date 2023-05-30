@@ -153,6 +153,11 @@ bool Handle_C2S_EmailVerified(PacketSessionPtr& session, Protocol::C2S_EmailVeri
 	return true;
 }
 
+bool Handle_C2S_LoadServer(PacketSessionPtr& session, Protocol::C2S_LoadServer& pkt)
+{
+	return true;
+}
+
 bool Handle_C2S_LoadCharacters(PacketSessionPtr& session, Protocol::C2S_LoadCharacters& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
@@ -267,4 +272,9 @@ bool Handle_C2S_DeleteCharacter(PacketSessionPtr& session, Protocol::C2S_DeleteC
 bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServer& pkt)
 {
 	return true;
+}
+
+bool Handle_C2S_StartGame(PacketSessionPtr& session, Protocol::C2S_StartGame& pkt)
+{
+	return false;
 }

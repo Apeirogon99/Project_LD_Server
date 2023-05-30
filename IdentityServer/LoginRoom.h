@@ -10,6 +10,7 @@ protected:
 	virtual void Initialization() override;
 	virtual void Destroy() override;
 	virtual void Tick() override;
+	virtual bool IsValid() override;
 
 public:
 	void Enter(PlayerStatePtr inPlayerState);
