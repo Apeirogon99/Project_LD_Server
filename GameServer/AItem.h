@@ -17,34 +17,37 @@ enum class EItemCellType
 	mesh
 };
 
-class AItem
+class AItem : public Actor
 {
 public:
-	AItem();
-	AItem(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation);
-	AItem(const Protocol::SItem* inItem);
-	~AItem();
+	AItem(const int64 inGameObjectID);
+	AItem(const int64 inGameObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
+	virtual ~AItem();
 
-	AItem(const AItem& inOtherItem);
-	AItem(const Protocol::SItem& inOtherItem);
-	AItem(AItem&& inOtherItem) noexcept;
+	AItem(const AItem& inItem);
+	AItem(const Protocol::SItem& inItem);
 
-	AItem& operator=(const AItem& inOtherItem);
-	AItem& operator=(const Protocol::SItem& inOtherItem);
-	AItem& operator=(AItem&& inOtherItem) noexcept;
+	AItem& operator=(const AItem& inItem);
+	AItem& operator=(const Protocol::SItem& inItem);
 
-public:
-	//virtual void Initialization() override;
-	//virtual void Destroy() override;
-	//virtual void Tick() override;
-	//virtual bool IsValid() override;
+private:
+	AItem(AItem&& inItem) = delete;
+	AItem(Protocol::SItem&& inItem) = delete;
+
+	AItem& operator=(AItem&& inItem) = delete;
+	AItem& operator=(Protocol::SItem&& inItem) = delete;
 
 public:
-	int64 mObjectID;
+	virtual void Initialization() override;
+	virtual void Destroy() override;
+	virtual void Tick() override;
+	virtual bool IsValid() override;
+
+public:
+	void Init(const Protocol::SItem& inItem);
+
+public:
 	int32 mItemCode;
-	float mWorldPositonX;
-	float mWorldPositonY;
-	float mWorldPositonZ;
 	int32 mInventoryPositionX;
 	int32 mInventoryPositionY;
 	int32 mRotation;

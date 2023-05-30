@@ -1,141 +1,81 @@
 #include "pch.h"
 #include "AItem.h"
 
-AItem::AItem() : mObjectID(-1), mItemCode(-1), mWorldPositonX(-1), mWorldPositonY(-1), mWorldPositonZ(-1), mInventoryPositionX(-1), mInventoryPositionY(-1), mRotation(-1)
+AItem::AItem(const int64 inGameObjectID) : Actor(L"[AITEM]", inGameObjectID)
 {
+	Initialization();
 }
 
-AItem::AItem(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation) : mObjectID(inObjectID), mItemCode(inItemCode), mWorldPositonX(inWorldPositionX), mWorldPositonY(inWorldPositionY), mWorldPositonZ(inWorldPositionZ), mInventoryPositionX(inInventoryPositionX), mInventoryPositionY(inInventoryPositionY), mRotation(inRotation)
+AItem::AItem(const int64 inGameObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation) : Actor(typeid(this).name(), inGameObjectID), mItemCode(inItemCode), mInventoryPositionX(inInvenPositionX), mInventoryPositionY(inInvenPositionY), mRotation(inRotation)
 {
-}
-
-AItem::AItem(const Protocol::SItem* inItem)
-{
-	mObjectID = inItem->object_id();
-	mItemCode = inItem->item_code();
-
-	const Protocol::SVector& worldPosition = inItem->world_position();
-	mWorldPositonX = worldPosition.x();
-	mWorldPositonY = worldPosition.y();
-	mWorldPositonZ = worldPosition.z();
-
-	const Protocol::SVector2D& inventoryPosition = inItem->inven_position();
-	mInventoryPositionX = inventoryPosition.x();
-	mInventoryPositionY = inventoryPosition.y();
-
-	mRotation = inItem->rotation();
+	SetLocation(inWorldPositionX, inWorldPositionY, inWorldPositionZ);
 }
 
 AItem::~AItem()
 {
+	Destroy();
 }
 
-AItem::AItem(const AItem& inOtherItem)
+AItem::AItem(const AItem& inItem) : Actor(inItem.GetActorName(), inItem.GetGameObjectID())
 {
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
+	mItemCode				= inItem.mItemCode;
+	mLocation				= inItem.mLocation;
+	mInventoryPositionX		= inItem.mInventoryPositionX;
+	mInventoryPositionY		= inItem.mInventoryPositionY;
+	mRotation				= inItem.mRotation;
 }
 
-AItem::AItem(const Protocol::SItem& inOtherItem)
+AItem::AItem(const Protocol::SItem& inItem) : Actor(L"[AITEM]", inItem.object_id())
 {
-	mObjectID = inOtherItem.object_id();
-	mItemCode = inOtherItem.item_code();
-
-	const Protocol::SVector& worldPosition = inOtherItem.world_position();
-	mWorldPositonX = worldPosition.x();
-	mWorldPositonY = worldPosition.y();
-	mWorldPositonZ = worldPosition.z();
-
-	const Protocol::SVector2D& inventoryPosition = inOtherItem.inven_position();
-	mInventoryPositionX = inventoryPosition.x();
-	mInventoryPositionY = inventoryPosition.y();
-
-	mRotation = inOtherItem.rotation();
+	Init(inItem);
 }
 
-AItem::AItem(AItem&& inOtherItem) noexcept
+AItem& AItem::operator=(const AItem& inItem)
 {
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
-}
-
-AItem& AItem::operator=(const AItem& inOtherItem)
-{
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
+	mActorName				= inItem.mActorName;
+	mGameObjectID			= inItem.mGameObjectID;
+	mItemCode				= inItem.mItemCode;
+	mLocation				= inItem.mLocation;
+	mInventoryPositionX		= inItem.mInventoryPositionX;
+	mInventoryPositionY		= inItem.mInventoryPositionY;
+	mRotation				= inItem.mRotation;
 	return *this;
 }
 
-AItem& AItem::operator=(const Protocol::SItem& inOtherItem)
+AItem& AItem::operator=(const Protocol::SItem& inItem)
 {
-	this->mObjectID = inOtherItem.object_id();
-	this->mItemCode = inOtherItem.item_code();
-
-	const Protocol::SVector& worldPosition = inOtherItem.world_position();
-	this->mWorldPositonX = worldPosition.x();
-	this->mWorldPositonY = worldPosition.y();
-	this->mWorldPositonZ = worldPosition.z();
-	
-	const Protocol::SVector2D& inventoryPosition = inOtherItem.inven_position();
-	this->mInventoryPositionX = inventoryPosition.x();
-	this->mInventoryPositionY = inventoryPosition.y();
-
-	this->mRotation = inOtherItem.rotation();
+	//SetActorName(L"[AITEM]"));
+	Init(inItem);
 	return *this;
 }
 
-AItem& AItem::operator=(AItem&& inOtherItem) noexcept
+void AItem::Initialization()
 {
-	this->mObjectID = inOtherItem.mObjectID;
-	this->mItemCode = inOtherItem.mItemCode;
-	this->mWorldPositonX = inOtherItem.mWorldPositonX;
-	this->mWorldPositonY = inOtherItem.mWorldPositonY;
-	this->mWorldPositonZ = inOtherItem.mWorldPositonZ;
-	this->mInventoryPositionX = inOtherItem.mInventoryPositionX;
-	this->mInventoryPositionY = inOtherItem.mInventoryPositionY;
-	this->mRotation = inOtherItem.mRotation;
-	return *this;
+	mItemCode			= -1;
+	mInventoryPositionX	= -1;
+	mInventoryPositionY	= -1;
+	mRotation			= -1;
 }
 
-//void AItem::Initialization()
-//{
-//	mObjectID			= -1;
-//	mItemCode			= -1;
-//	mWorldPositonX		= -1;
-//	mWorldPositonY		= -1;
-//	mWorldPositonZ		= -1;
-//	mInventoryPositionX = -1;
-//	mInventoryPositionY = -1;
-//	mRotation			= -1;
-//}
-//
-//void AItem::Destroy()
-//{
-//}
-//
-//void AItem::Tick()
-//{
-//}
-//
-//bool AItem::IsValid()
-//{
-//	return false;
-//}
+void AItem::Destroy()
+{
+}
+
+void AItem::Tick()
+{
+
+}
+
+bool AItem::IsValid()
+{
+	return true;
+}
+
+void AItem::Init(const Protocol::SItem& inItem)
+{
+	mItemCode			= inItem.item_code();
+	mLocation			= inItem.world_position();
+	mInventoryPositionX = inItem.inven_position().x();
+	mInventoryPositionY = inItem.inven_position().y();
+	mRotation			= inItem.rotation();
+}

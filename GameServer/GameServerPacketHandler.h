@@ -11,16 +11,18 @@ enum class EPakcetID: uint16
 	S2C_DisAppearCharacter = 2005,
 	C2S_MovementCharacter = 2006,
 	S2C_MovementCharacter = 2007,
-	S2C_CreateItem = 2008,
-	C2S_LoadInventory = 2009,
-	S2C_LoadInventory = 2010,
-	C2S_InsertInventory = 2011,
-	S2C_InsertInventory = 2012,
-	C2S_UpdateInventory = 2013,
-	S2C_UpdateInventory = 2014,
-	C2S_DeleteInventory = 2015,
-	S2C_DeleteInventory = 2016,
-	S2C_RollbackInventory = 2017,
+	S2C_AppearItem = 2008,
+	S2C_DisAppearGameObject = 2009,
+	S2C_DestroyItem = 2010,
+	C2S_LoadInventory = 2011,
+	S2C_LoadInventory = 2012,
+	C2S_InsertInventory = 2013,
+	S2C_InsertInventory = 2014,
+	C2S_UpdateInventory = 2015,
+	S2C_UpdateInventory = 2016,
+	C2S_DeleteInventory = 2017,
+	S2C_DeleteInventory = 2018,
+	S2C_RollbackInventory = 2019,
 };
 */
 
@@ -51,7 +53,9 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_AppearCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearCharacter)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DisAppearCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DisAppearCharacter)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_MovementCharacter& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementCharacter)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_CreateItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_CreateItem)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_AppearItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearItem)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DisAppearGameObject& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DisAppearGameObject)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DestroyItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DestroyItem)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LoadInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadInventory)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_InsertInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_InsertInventory)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_UpdateInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateInventory)); }

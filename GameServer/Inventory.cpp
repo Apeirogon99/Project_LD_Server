@@ -13,43 +13,6 @@ Inventory::~Inventory()
 	mItems.clear();
 }
 
-bool Inventory::PushItem(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation)
-{
-	AItem tempItem = AItem(inObjectID, inItemCode, inWorldPositionX, inWorldPositionY, inWorldPositionZ, inInventoryPositionX, inInventoryPositionY, inRotation);
-	
-	if (false == AddItem(tempItem))
-	{
-		return false;
-	}
-
-	auto result = mItems.insert(std::make_pair(inObjectID, std::move(tempItem)));
-	return result.second;
-}
-
-bool Inventory::PushItem(const Protocol::SItem* inItem)
-{
-	AItem tempItem = AItem(inItem);
-
-	if (false == AddItem(tempItem))
-	{
-		return false;
-	}
-
-	auto result = mItems.insert(std::make_pair(tempItem.mObjectID, std::move(tempItem)));
-	return result.second;
-}
-
-bool Inventory::PushItem(const AItem& inItem)
-{
-	if (false == AddItem(inItem))
-	{
-		return false;
-	}
-
-	auto result = mItems.insert(std::make_pair(inItem.mObjectID, inItem));
-	return result.second;
-}
-
 bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
 {
 	for (auto& item : mItems)
@@ -57,13 +20,11 @@ bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
 		const AItem& curItem = item.second;
 
 		Protocol::SItem* loadItem = inPacket.add_item();
-		loadItem->set_object_id(curItem.mObjectID);
+		loadItem->set_object_id(curItem.GetGameObjectID());
 		loadItem->set_item_code(curItem.mItemCode);
 
 		Protocol::SVector* worldPosition = loadItem->mutable_world_position();
-		worldPosition->set_x(curItem.mWorldPositonX);
-		worldPosition->set_y(curItem.mWorldPositonY);
-		worldPosition->set_z(curItem.mWorldPositonZ);
+		*worldPosition = curItem.GetLocation();
 
 		Protocol::SVector2D* invenPositon = loadItem->mutable_inven_position();
 		invenPositon->set_x(curItem.mInventoryPositionX);
@@ -75,26 +36,24 @@ bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
 	return true;
 }
 
-bool Inventory::UpdateItem(const AItem& inItem)
+bool Inventory::InsertItem(const AItem& inItem)
 {
-	const int64 objectID = inItem.mObjectID;
-	auto findItem = mItems.find(objectID);
-	if (findItem == mItems.end())
+	if (false == AddItem(inItem))
 	{
 		return false;
 	}
 
-	SubItem(findItem->second);
-	findItem->second = inItem;
-	AddItem(findItem->second);
+	const int64 gameObjectID = inItem.GetGameObjectID();
+	std::pair<int64, AItem> newItem = std::make_pair(gameObjectID, inItem);
 
-	return true;
+	auto result = mItems.insert(newItem);
+	return result.second;
 }
 
-bool Inventory::UpdateItem(const Protocol::SItem& inItem)
+bool Inventory::UpdateItem(const AItem& inItem)
 {
-	const int64 objectID = inItem.object_id();
-	auto findItem = mItems.find(objectID);
+	const int64 gameObjectID = inItem.GetGameObjectID();
+	auto findItem = mItems.find(gameObjectID);
 	if (findItem == mItems.end())
 	{
 		return false;
@@ -109,8 +68,8 @@ bool Inventory::UpdateItem(const Protocol::SItem& inItem)
 
 bool Inventory::DeleteItem(const AItem& inItem)
 {
-	const int64 objectID = inItem.mObjectID;
-	size_t result = mItems.erase(objectID);
+	const int64 gameObjectID = inItem.GetGameObjectID();
+	size_t result = mItems.erase(gameObjectID);
 	if (result != 0)
 	{
 		SubItem(inItem);
@@ -120,44 +79,35 @@ bool Inventory::DeleteItem(const AItem& inItem)
 	return false;
 }
 
-bool Inventory::DeleteItem(const Protocol::SItem& inItem)
-{
-	const int64 objectID = inItem.object_id();
-	size_t result = mItems.erase(objectID);
-	if (result != 0)
-	{
-		SubItem(inItem);
-		return true;
-	}
-
-	return false;
-}
-
-bool Inventory::FindItem(const int64 inObjectID, AItem& outItem)
+const AItem* Inventory::FindItem(const int64 inObjectID)
 {
 	auto findItem = mItems.find(inObjectID);
 	if (findItem == mItems.end())
 	{
-		return false;
+		return nullptr;
 	}
 
-	outItem = findItem->second;
-	return true;
+	return &findItem->second;
 }
 
-bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItem& outItem)
+const AItem* Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY)
 {
-	for (auto item : mItems)
+	for (auto& item : mItems)
 	{
 		const AItem& tempItem = item.second;
 		if (tempItem.mItemCode == inItemCode && tempItem.mInventoryPositionX == inInventoryPositionX && tempItem.mInventoryPositionY == inInventoryPositionY)
 		{
-			outItem = tempItem;
-			return true;
+			return &tempItem;
 		}
 	}
 
-	return false;
+	return nullptr;
+}
+
+bool Inventory::RollBackItem()
+{
+	wprintf(L"ROLLBACK ITEM\n");
+	return true;
 }
 
 bool Inventory::CheckInventory()

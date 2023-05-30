@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "World.h"
 
-World::World(const SessionManagerRef& inSessionManager, const WCHAR* inName) : GameObject(inSessionManager, inName), mPlayersCount(0), mGameObjectID(0)
+World::World(const SessionManagerRef& inSessionManager, const WCHAR* inName) : GameObject(inSessionManager, inName), mPlayersCount(0), mGameObjectID(1)
 {
+	
 }
 
 World::~World()
@@ -12,12 +13,19 @@ World::~World()
 void World::Initialization()
 {
 	mPlayersCount = 0;
-	mGameObjectID = 0;
+	mGameObjectID = 1;
+
+	CreateTempItem();
 }
 
 void World::Destroy()
 {
 	mPlayers.clear();
+}
+
+bool World::IsValid()
+{
+	return true;
 }
 
 void World::Tick()
@@ -66,8 +74,28 @@ void World::Enter(PlayerStatePtr inPlayerState)
 		}
 	}
 
-	CreateItem(inPlayerState);
+	Protocol::S2C_AppearItem appearItemPacket;
+	for (auto actor : mActors)
+	{
+		AItemPtr item = std::static_pointer_cast<AItem>(actor.second);
+		if (item)
+		{
+			Protocol::SItem* addItem = appearItemPacket.add_item();
+			addItem->set_object_id(item->GetGameObjectID());
+			addItem->set_item_code(item->mItemCode);
 
+			Protocol::SVector* worldPosition = addItem->mutable_world_position();
+			*worldPosition = item->GetLocation();
+
+			Protocol::SVector2D* invenPositon = addItem->mutable_inven_position();
+			invenPositon->set_x(item->mInventoryPositionX);
+			invenPositon->set_y(item->mInventoryPositionY);
+
+			addItem->set_rotation(item->mRotation);
+		}
+	}
+	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearItemPacket);
+	packetSession->Send(appearItemSendBuffer);
 }
 
 void World::Leave(PlayerStatePtr inPlayerState)
@@ -190,7 +218,7 @@ void World::InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_In
 		return;
 	}
 
-	if (false == IsValid(remotePlayer))
+	if (false == IsValidPlayer(remotePlayer))
 	{
 		return;
 	}
@@ -208,7 +236,7 @@ void World::LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_Load
 		return;
 	}
 
-	if (false == IsValid(remotePlayer))
+	if (false == IsValidPlayer(remotePlayer))
 	{
 		return;
 	}
@@ -229,7 +257,7 @@ void World::UpdateItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_Up
 		return;
 	}
 
-	if (false == IsValid(remotePlayer))
+	if (false == IsValidPlayer(remotePlayer))
 	{
 		return;
 	}
@@ -246,7 +274,7 @@ void World::DeleteItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_De
 		return;
 	}
 
-	if (false == IsValid(remotePlayer))
+	if (false == IsValidPlayer(remotePlayer))
 	{
 		return;
 	}
@@ -255,24 +283,28 @@ void World::DeleteItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_De
 	Handle_DeleteInventory_Requset(packetSession, inPacket);
 }
 
-void World::CreateItem(PlayerStatePtr inPlayerState)
+bool World::InsertActor(const int64 inGameObjectID, ActorPtr inActor)
 {
-	for (int32 i = 1; i <= 3; ++i)
-	{
-		Protocol::S2C_CreateItem createItem;
-		Protocol::SItem* item = createItem.mutable_item();
-		item->set_object_id(i);
-		item->set_item_code(i);
-		Protocol::SVector* position = item->mutable_world_position();
-		position->set_x(i * 100);
-		position->set_y(50);
-		position->set_z(50);
+	std::pair<int64, ActorPtr> newObject = std::make_pair(inGameObjectID, inActor);
+	auto result = mActors.insert(newObject);
+	return result.second;
+}
 
-		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, createItem);
-		inPlayerState->Send(sendBuffer);
+bool World::DestroyActor(const int64 inGameObjectID)
+{
+	auto findPos = mActors.find(inGameObjectID);
+	if (findPos == mActors.end())
+	{
+		return false;
 	}
 
+	size_t result = mActors.erase(inGameObjectID);
+	return (result != 0) ? true : false;
+}
+
+WorldRef World::GetWorldRef()
+{
+	return std::static_pointer_cast<World>(shared_from_this());
 }
 
 const int64 World::GetNextGameObjectID()
@@ -280,8 +312,15 @@ const int64 World::GetNextGameObjectID()
 	return mGameObjectID++;
 }
 
-bool World::IsValid(RemotePlayerPtr inRemotePlayer)
+bool World::IsValidPlayer(RemotePlayerPtr inRemotePlayer)
 {
 	auto remotePlayer = mPlayers.find(inRemotePlayer->GetRemoteID());
 	return (remotePlayer != mPlayers.end()) ? true : false;
+}
+
+bool World::IsValidGameObject(ActorPtr inActor)
+{
+	auto gameObject = mActors.find(inActor->GetGameObjectID());
+	return (gameObject != mActors.end()) ? true : false;
+	return false;
 }

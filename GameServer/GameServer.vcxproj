@@ -316,6 +316,7 @@
     <ClInclude Include="GameListener.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryDatabase.h" />
+    <ClInclude Include="Mecro.h" />
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketStruct.pb.h" />

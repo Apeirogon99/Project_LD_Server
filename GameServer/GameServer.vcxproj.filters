@@ -200,5 +200,8 @@
     <ClInclude Include="AItem.h">
       <Filter>Content\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Mecro.h">
+      <Filter>Pch\Public</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

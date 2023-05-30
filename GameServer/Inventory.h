@@ -7,20 +7,16 @@ public:
 	~Inventory();
 
 public:
-	bool PushItem(const int64 inObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInventoryPositionX, const int32 inInventoryPositionY, const int32 inRotation);
-	bool PushItem(const Protocol::SItem* inItem);
-	bool PushItem(const AItem& inItem);
-
 	bool LoadItem(Protocol::S2C_LoadInventory& inPacket);
 
+	bool InsertItem(const AItem& inItem);
 	bool UpdateItem(const AItem& inItem);
-	bool UpdateItem(const Protocol::SItem& inItem);
-
 	bool DeleteItem(const AItem& inItem);
-	bool DeleteItem(const Protocol::SItem& inItem);
 
-	bool FindItem(const int64 inObjectID, AItem& outItem);
-	bool FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItem& outItem);
+	const AItem* FindItem(const int64 inObjectID);
+	const AItem* FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY);
+
+	bool RollBackItem();
 
 	bool CheckInventory();
 

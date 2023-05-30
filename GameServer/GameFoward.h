@@ -39,3 +39,4 @@ using RemotePlayerPtr	= std::shared_ptr<RemotePlayer>;
 using RemotePlayerRef	= std::weak_ptr<RemotePlayer>;
 using CharacterPtr		= std::shared_ptr<Character>;
 using WorldPtr			= std::shared_ptr<World>;
+using WorldRef			= std::weak_ptr<World>;

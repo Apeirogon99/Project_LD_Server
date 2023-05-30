@@ -3,6 +3,7 @@
 //		     TYPE			//
 //==========================//
 #include "GameFoward.h"
+#include "Mecro.h"
 
 #include "CommonPacket.pb.h"
 #include "GamePacket.pb.h"
