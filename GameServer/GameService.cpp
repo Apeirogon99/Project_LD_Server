@@ -57,7 +57,8 @@ std::wstring ip = L"";
 #if NETWORK_LOCAL
 ip = L"192.168.123.112";
 #else
-ip = L"125.180.66.59";
+//ip = L"125.180.66.59";
+ip = L"127.0.0.1";
 #endif
 
 	//Listener
