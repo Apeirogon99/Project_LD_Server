@@ -10,9 +10,9 @@ GameService::GameService()
 
 std::wstring dumpPath = L"";
 #if NETWORK_LOCAL
-dumpPath = L"P:\\Project_LD_Server\\Builds\\Dump\\";
+dumpPath = L"P:\\Project_LD_Server\\Dump\\GameServer";
 #else
-dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Builds\\Dump\\";
+dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Dump\\GameServer";
 #endif
 
 WinDump::Init(dumpPath.c_str());

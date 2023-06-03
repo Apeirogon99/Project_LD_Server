@@ -7,6 +7,7 @@
 GeneratorTools/
 
 # Engine Header
+Logger/
 Builds/Dump/
 
 # User-specific files
