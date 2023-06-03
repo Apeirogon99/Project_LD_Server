@@ -78,11 +78,8 @@ BEGIN
 	USE account_database;
 
 	--UPDATE email_table SET verify=0 WHERE global_id=2
-
-	EXEC dbo.check_email_verify_sp 3, '901139'
-
-	SELECT * FROM account_table
-	SELECT * FROM email_table
-	SELECT * FROM information_table
+	--DECLARE @ret INT
+	--EXEC @ret=dbo.check_email_verify_sp 1, '623972'
+	--print @ret
 END
 GO

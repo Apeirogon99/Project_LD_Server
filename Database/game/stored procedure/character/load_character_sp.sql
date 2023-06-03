@@ -52,6 +52,6 @@ GO
 --TEST
 BEGIN
 	USE game_database;
-	EXEC dbo.load_character_sp 1, 1
+	--EXEC dbo.load_character_sp 1, 1
 END
 GO

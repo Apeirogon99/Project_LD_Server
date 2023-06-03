@@ -18,8 +18,8 @@ GO
 CREATE TABLE appearance_tb
 (
 	character_id		INT NOT NULL FOREIGN KEY REFERENCES character_tb(id)		ON DELETE CASCADE,
-	race_id				INT NOT NULL FOREIGN KEY REFERENCES race_tb(id)				ON UPDATE CASCADE,
-	character_calss_id	INT NOT NULL FOREIGN KEY REFERENCES character_class_tb(id)	ON UPDATE CASCADE,
+	race_id				INT NOT NULL ,
+	character_calss_id	INT NOT NULL ,
 	seat				INT NOT NULL DEFAULT 0,
 	skin_color			INT NOT NULL DEFAULT 0,
 	hair_color			INT NOT NULL DEFAULT 0,
@@ -50,7 +50,7 @@ CREATE TABLE inventory_tb
 (
 	id					INT		NOT NULL IDENTITY(0,1) PRIMARY KEY,
 	character_id		INT		NOT NULL FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
-	item_code			INT		NOT NULL FOREIGN KEY REFERENCES item_tb(id)			ON UPDATE CASCADE,
+	item_code			INT		NOT NULL ,
 	world_pos_x			FLOAT	NOT NULL ,
 	world_pos_y			FLOAT	NOT NULL ,
 	world_pos_z			FLOAT	NOT NULL ,

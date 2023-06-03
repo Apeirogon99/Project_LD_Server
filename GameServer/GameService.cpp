@@ -7,7 +7,16 @@ GameService::GameService()
 {
 	SocketUtils::Init();
 	PacketHandler::Init();
-	WinDump::Init(L"P:\\Project_LD_Server\\Builds\\Dump\\");
+
+std::wstring dumpPath = L"";
+#if NETWORK_LOCAL
+dumpPath = L"P:\\Project_LD_Server\\Builds\\Dump\\";
+#else
+dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Builds\\Dump\\";
+#endif
+
+WinDump::Init(dumpPath.c_str());
+
 }
 
 GameService::~GameService()
@@ -36,7 +45,7 @@ bool GameService::SettingService()
 	//SessionManager
 	const SessionFactory sessionFactory = std::make_shared<PlayerState>;
 	const uint32 maxSessionCount = 10;
-	const uint32 maxBufferSize = 0xfff;
+	const uint32 maxBufferSize = 0x1000;
 	GameStatePtr gameState = std::make_shared<GameState>(sessionFactory, maxSessionCount, maxBufferSize);
 	SessionManagerPtr sessionManager = ::static_pointer_cast<SessionManager>(move(gameState));
 	if (false == SetSessionManager(sessionManager))
@@ -44,9 +53,16 @@ bool GameService::SettingService()
 		return false;
 	}
 
+std::wstring ip = L"";
+#if NETWORK_LOCAL
+ip = L"192.168.123.112";
+#else
+ip = L"125.180.66.59";
+#endif
+
 	//Listener
 	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetIp(L"192.168.123.112", 10000, EProtocolType::IPv4);
+	IdentityIpAddress->SetIp(ip.c_str(), 10000, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
 	GameListenerPtr identityListener = std::make_shared<GameListener>(IdentityIpAddress);
@@ -72,11 +88,18 @@ bool GameService::SettingService()
 		return false;
 	}
 
+std::wstring logPath = L"";
+#if NETWORK_LOCAL
+logPath = L"P:\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
+#else
+logPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
+#endif
+
 	//Logger
 	const WCHAR* LoggerName = L"GameServer";
-	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
-	ELogMode LogMode = ELogMode::Console;
-	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, LogMode);
+	const WCHAR* filePath = logPath.c_str();
+	ELogMode LogMode = ELogMode::Both;
+	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, logPath.c_str(), LogMode);
 	if (false == SetLoggerManager(Logger))
 	{
 		return false;

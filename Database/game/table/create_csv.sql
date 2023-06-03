@@ -14,7 +14,7 @@ CREATE TABLE category_tb
 	name				NVARCHAR(32) NOT NULL,
 )
 
-BULK INSERT category_tb FROM 'P:\Project_LD_Server\Database\game\csv\category_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT category_tb FROM 'P:\Project_LD_Server\Data\category_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
 SELECT * FROM category_tb
 GO
 
@@ -35,7 +35,7 @@ CREATE TABLE item_tb
 	icon				CHAR(256) NULL DEFAULT '',
 	mesh				CHAR(256) NULL DEFAULT ''
 )
-BULK INSERT item_tb FROM 'P:\Project_LD_Server\Database\game\csv\item_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT item_tb FROM 'P:\Project_LD_Server\Data\item_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
 SELECT * FROM item_tb
 GO
 
@@ -46,7 +46,7 @@ CREATE TABLE character_class_tb
 	name				NVARCHAR(32) NOT NULL,
 )
 
-BULK INSERT character_class_tb FROM 'P:\Project_LD_Server\Database\game\csv\character_class_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT character_class_tb FROM 'P:\Project_LD_Server\Data\character_class_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
 SELECT * FROM character_class_tb
 GO
 
@@ -57,7 +57,7 @@ CREATE TABLE race_tb
 	name				NVARCHAR(32) NOT NULL,
 )
 
-BULK INSERT race_tb FROM 'P:\Project_LD_Server\Database\game\csv\race_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT race_tb FROM 'P:\Project_LD_Server\Data\race_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
 SELECT * FROM race_tb
 GO
 
@@ -68,6 +68,6 @@ CREATE TABLE tier_tb
 	name				NVARCHAR(32) NOT NULL,
 )
 
-BULK INSERT tier_tb FROM 'P:\Project_LD_Server\Database\game\csv\tier_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
+BULK INSERT tier_tb FROM 'P:\Project_LD_Server\Data\tier_datas.csv' WITH (FIRSTROW=2, KEEPNULLS, FORMAT='CSV')
 SELECT * FROM tier_tb
 GO

@@ -25,7 +25,7 @@ CREATE PROCEDURE singup_sp
 	@global_id		INT OUTPUT
 AS
 BEGIN TRY
-	BEGIN TRANSACTION
+	BEGIN TRANSACTION;
 		SET NOCOUNT ON;
 
 		DECLARE @current_date AS DATETIME = SYSDATETIME()
@@ -39,7 +39,6 @@ BEGIN TRY
 		--이메일 중복
 		IF EXISTS (SELECT 1 FROM confirm_email_tb WHERE local=@local AND domain=@domain)
 			BEGIN
-				ROLLBACK TRANSACTION;
 				RETURN 1003
 			END
 
@@ -60,28 +59,31 @@ BEGIN TRY
 				UPDATE user_tb SET enable=1 WHERE global_id=@global_id
 				RETURN 1007;
 			END
-		
+
+		print 'aa'
 		COMMIT TRANSACTION;
 		RETURN 0
-
 END TRY
 BEGIN CATCH
-	ROLLBACK TRANSACTION;
+	IF @@TRANCOUNT > 0
+	BEGIN
+		ROLLBACK TRANSACTION;
+	END
 	RETURN -1
 END CATCH
 GO
 
 --TEST
-BEGIN
+/*
 	USE account_database;
 
 	DECLARE @global_id AS INT
 
-	EXEC dbo.singup_sp 'TEST_0000', '1234', 'TEST_0000', 'example.com', @global_id OUTPUT
+	EXEC dbo.singup_sp 'TEST_0000', '1234', 'TEST_0000', 'gwanho0218@naver.com', @global_id OUTPUT
 
 	print @global_id
 	SELECT * FROM user_tb
 	SELECT * FROM confirm_email_tb
 	SELECT * FROM profile_tb
-END
+*/
 GO

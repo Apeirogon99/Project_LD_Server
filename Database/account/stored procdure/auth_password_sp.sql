@@ -18,7 +18,7 @@ GO
 CREATE PROCEDURE auth_password_sp
 	@name			VARCHAR(24),
 	@password		VARCHAR(24),
-	@global_id		INT,
+	@global_id		INT
 AS
 BEGIN TRY
 	BEGIN TRANSACTION

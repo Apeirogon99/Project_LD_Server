@@ -158,10 +158,6 @@ bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, Protocol::C2S_Ema
 	connection.Open(ConnectionInfo);
 
 	ADOVariant global_id = remotePlayer->mGlobalID;
-	if (static_cast<int32>(global_id) > -1)
-	{
-		return false;
-	}
 	ADOVariant verifyCode = atoi(inPacket.verified_code().c_str());
 
 	ADOCommand command;

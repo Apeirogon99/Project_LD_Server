@@ -3,19 +3,16 @@
 
 GameState::GameState(const SessionFactory& sessionFactory, const uint32 maxSessionCount, const uint32 inMaxBufferSize) : SessionManager(sessionFactory, maxSessionCount, inMaxBufferSize)
 {
+	mWorld = std::make_shared<World>(weak_from_this(), L"World");
 }
 
 GameState::~GameState()
 {
 }
 
-bool GameState::PushNetworkTask()
+bool GameState::ProcessNetworkTask(const int64 inServiceTimeStamp)
 {
-	const SessionManagerRef sessionManagerRef = weak_from_this();
-
-	mWorld = std::make_shared<World>(sessionManagerRef, L"World");
-
-	mNetworkTasks.emplace_back(mWorld);
+	mWorld->Execute(inServiceTimeStamp);
 	return true;
 }
 

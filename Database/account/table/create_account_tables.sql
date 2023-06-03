@@ -1,5 +1,14 @@
 USE account_database
 
+ALTER DATABASE account_database SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+Go
+
+ALTER DATABASE account_database COLLATE Korean_Wansung_CI_AS
+Go
+
+ALTER DATABASE account_database  SET MULTI_USER
+Go
+
 DROP TABLE IF EXISTS confirm_email_tb;
 DROP TABLE IF EXISTS profile_tb;
 DROP TABLE IF EXISTS logged_in;

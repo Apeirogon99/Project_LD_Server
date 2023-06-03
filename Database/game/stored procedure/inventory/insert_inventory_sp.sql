@@ -72,10 +72,10 @@ SET @NUM = @NUM+1
 END;
 */
 
-DECLARE @ret INT
-EXEC @ret=insert_inventory_sp 0, 1, 0, 0, 0, 0, 0, 0
-EXEC @ret=insert_inventory_sp 0, 2, 0, 0, 0, 2, 0, 0
-EXEC @ret=insert_inventory_sp 0, 3, 0, 0, 0, 4, 0, 0
+--DECLARE @ret INT
+--EXEC @ret=insert_inventory_sp 0, 1, 0, 0, 0, 0, 0, 0
+--EXEC @ret=insert_inventory_sp 0, 2, 0, 0, 0, 2, 0, 0
+--EXEC @ret=insert_inventory_sp 0, 3, 0, 0, 0, 4, 0, 0
 
 SELECT * FROM inventory_tb
 

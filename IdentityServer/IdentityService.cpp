@@ -44,9 +44,16 @@ bool IdentityService::SettingService()
 		return false;
 	}
 
+std::wstring ip;
+#ifdef _DEBUG
+ip = L"192.168.123.112";
+#else
+ip = L"52.78.191.130";
+#endif
+
 	//Listener
 	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetIp(L"192.168.123.112", 9000, EProtocolType::IPv4);
+	IdentityIpAddress->SetIp(ip.c_str(), 9000, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
 	IdentityListenerPtr identityListener = std::make_shared<IdentityListener>(IdentityIpAddress);

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameDatabase.h"
+#include <ConnectionInfo.h>
 
 GameDatabase::GameDatabase(const size_t inThreadPoolSize, const size_t poolSize) : DatabaseManager(inThreadPoolSize, poolSize)
 {
@@ -11,12 +12,13 @@ GameDatabase::~GameDatabase()
 
 void GameDatabase::InitializeDatabase()
 {
-	ADOConnectionInfo accountDatabaseInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
-	ADOConnectionInfo gameDatabaseInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
 
 	ADOConnection accountConnection;
 	ADOConnection gameConnection;
+	ADOConnection sharedConnection;
 
-	PushConnectionPool(accountConnection, accountDatabaseInfo);
-	PushConnectionPool(gameConnection, gameDatabaseInfo);
+	PushConnectionPool(accountConnection, CommonAccountDatabaseInfo);
+	PushConnectionPool(gameConnection, CommonGameDatabaseInfo);
+	PushConnectionPool(sharedConnection, CommonSharedDatabaseInfo);
+
 }

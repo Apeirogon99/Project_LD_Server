@@ -11,8 +11,14 @@ GameDatas::~GameDatas()
 
 bool GameDatas::InitDatas()
 {
- 
-    if (false == PushData(L"P:\\Project_LD_Server\\Database\\game\\csv\\item_datas.csv"))
+    std::wstring dataPath = L"";
+#if NETWORK_LOCAL
+    dataPath = L"P:\\Project_LD_Server\\Data\\";
+#else
+    dataPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Data\\";
+#endif
+
+    if (false == PushData((dataPath + L"item_datas.csv").c_str()))
     {
         return false;
     }

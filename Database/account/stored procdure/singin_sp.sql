@@ -81,6 +81,7 @@ GO
 --TEST
 USE account_database;
 
+/*
 DECLARE @global_id AS INT
 DECLARE @token AS CHAR(36)
 DECLARE @result AS INT
@@ -94,5 +95,5 @@ SELECT * FROM user_tb
 SELECT * FROM auth_password_tb
 SELECT * FROM confirm_email_tb
 SELECT * FROM profile_tb
-
+*/
 GO

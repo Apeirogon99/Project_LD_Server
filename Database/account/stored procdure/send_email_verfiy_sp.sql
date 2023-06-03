@@ -34,12 +34,11 @@ BEGIN TRY
 
 		--이메일 보내기
 		DECLARE @email_body AS NVARCHAR(255) = '이메일 인증 번호 [ ' + CONVERT(NVARCHAR(7), @temp_verify) + ' ]'
-		EXEC msdb.dbo.sp_send_dbmail @profile_name='smtp_database', @recipients=@email, @subject='Project_LD 이메일 인증', @body=@email_body
+		EXEC msdb.dbo.sp_send_dbmail @profile_name='database_smtp', @recipients=@email, @subject='Project_LD 이메일 인증', @body=@email_body
 		UPDATE confirm_email_tb SET expired_date=SYSDATETIME()
 
 		COMMIT TRANSACTION;
 		RETURN 0
-
 END TRY
 BEGIN CATCH
 	ROLLBACK TRANSACTION;
@@ -51,10 +50,12 @@ GO
 BEGIN
 	USE account_database;
 
-	EXEC dbo.send_email_verfiy_sp 1, 'gwanho0218', 'naver.com'
+	EXEC dbo.send_email_verfiy_sp 2, 'gwanho0218', 'naver.com'
 
-	SELECT * FROM account_table
+	SELECT * FROM user_tb
 	SELECT * FROM confirm_email_tb
-	SELECT * FROM information_table
+	SELECT * FROM profile_tb
+
+	
 END
 GO

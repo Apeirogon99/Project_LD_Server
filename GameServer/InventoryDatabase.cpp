@@ -20,7 +20,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 
 bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, const int32 characterID)
 {
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -127,7 +127,7 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 

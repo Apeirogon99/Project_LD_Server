@@ -105,3 +105,4 @@ print @ret
 SELECT * FROM character_tb
 
 GO
+

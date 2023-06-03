@@ -26,7 +26,7 @@ BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
 
-		DELETE inventory_tb WHERE character_id=@character_id AND id=@item_code AND inven_pos_x=@inven_pos_x AND inven_pos_y=@inven_pos_y
+		DELETE inventory_tb WHERE character_id=@character_id AND item_code=@item_code AND inven_pos_x=@inven_pos_x AND inven_pos_y=@inven_pos_y
 		
 		COMMIT TRANSACTION;
 		RETURN 0

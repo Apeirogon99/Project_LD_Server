@@ -19,6 +19,9 @@
     <Filter Include="Common\Enum">
       <UniqueIdentifier>{d27b7ff4-4d29-4924-b56b-067f7e0e788c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Database">
+      <UniqueIdentifier>{67b4650c-ac8d-4755-8b7c-f255a3307ad0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonLibaray.h">
