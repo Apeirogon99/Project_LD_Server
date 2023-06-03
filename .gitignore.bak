@@ -8,7 +8,7 @@ GeneratorTools/
 
 # Engine Header
 Logger/
-Builds/Dump/
+Dump/
 
 # User-specific files
 *.rsuser
