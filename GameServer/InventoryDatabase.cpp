@@ -233,7 +233,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -326,7 +326,7 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 

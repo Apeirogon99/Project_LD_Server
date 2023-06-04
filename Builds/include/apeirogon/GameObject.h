@@ -4,17 +4,17 @@ class GameObject : public TaskQueue
 public:
 	APEIROGON_API GameObject(const SessionManagerRef& inSessionManager) : mSessionManger(inSessionManager), mName(nullptr)
 	{
-		
+		Initialization();
 	}
 
 	APEIROGON_API GameObject(const SessionManagerRef& inSessionManager, const WCHAR* inName) : mSessionManger(inSessionManager), mName(inName)
 	{
-		
+		Initialization();
 	}
 
 	APEIROGON_API virtual ~GameObject()
 	{
-		
+		Destroy();
 	}
 
 public:

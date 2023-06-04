@@ -81,11 +81,11 @@ GO
 --TEST
 USE account_database;
 
-/*
+
 DECLARE @global_id AS INT
 DECLARE @token AS CHAR(36)
 DECLARE @result AS INT
-EXEC @result = dbo.singin_sp 'TEST_000', '1234', @global_id OUTPUT, @token OUTPUT
+EXEC @result = dbo.singin_sp 'TEST_ID', '1234', @global_id OUTPUT, @token OUTPUT
 
 print 'global_id = ' + CAST(@global_id as VARCHAR(20))
 print 'token     = ' + @token;
@@ -95,5 +95,5 @@ SELECT * FROM user_tb
 SELECT * FROM auth_password_tb
 SELECT * FROM confirm_email_tb
 SELECT * FROM profile_tb
-*/
+
 GO

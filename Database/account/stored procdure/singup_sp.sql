@@ -57,33 +57,30 @@ BEGIN TRY
 		ELSE
 			BEGIN
 				UPDATE user_tb SET enable=1 WHERE global_id=@global_id
-				RETURN 1007;
 			END
 
-		print 'aa'
 		COMMIT TRANSACTION;
 		RETURN 0
 END TRY
 BEGIN CATCH
-	IF @@TRANCOUNT > 0
-	BEGIN
-		ROLLBACK TRANSACTION;
-	END
+	ROLLBACK TRANSACTION;
 	RETURN -1
 END CATCH
 GO
 
 --TEST
-/*
+
 	USE account_database;
 
 	DECLARE @global_id AS INT
 
-	EXEC dbo.singup_sp 'TEST_0000', '1234', 'TEST_0000', 'gwanho0218@naver.com', @global_id OUTPUT
+	EXEC dbo.singup_sp 'TEST_ID', '1234', 'TEST_ID', 'example.com', @global_id OUTPUT
 
 	print @global_id
 	SELECT * FROM user_tb
+	SELECT * FROM auth_password_tb
 	SELECT * FROM confirm_email_tb
 	SELECT * FROM profile_tb
-*/
+	SELECT * FROM logged_in
+
 GO
