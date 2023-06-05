@@ -10,6 +10,16 @@ GeneratorTools/
 Logger/
 Dump/
 
+# exeFile
+GameServer.exe
+GameServer.exp
+GameServer.pdb
+GameServer.lib
+IdentityServer.exe
+IdentityServer.exp
+IdentityServer.pdb
+IdentityServer.lib
+
 # User-specific files
 *.rsuser
 *.suo
