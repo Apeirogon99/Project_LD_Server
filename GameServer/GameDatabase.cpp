@@ -2,7 +2,7 @@
 #include "GameDatabase.h"
 #include <ConnectionInfo.h>
 
-GameDatabase::GameDatabase(const size_t inThreadPoolSize, const size_t poolSize) : DatabaseManager(inThreadPoolSize, poolSize)
+GameDatabase::GameDatabase(const uint32 inThreadPoolSize, const uint32 poolSize) : DatabaseManager(inThreadPoolSize, poolSize)
 {
 }
 

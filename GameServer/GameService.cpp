@@ -10,9 +10,9 @@ GameService::GameService()
 
 std::wstring dumpPath = L"";
 #if NETWORK_LOCAL
-dumpPath = L"P:\\Project_LD_Server\\Dump\\GameServer";
+dumpPath = L"P:\\Project_LD_Server\\Dump\\GameServer\\";
 #else
-dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Dump\\GameServer";
+dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Dump\\GameServer\\";
 #endif
 
 WinDump::Init(dumpPath.c_str());
@@ -102,6 +102,13 @@ logPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Logger\\GameServer\\GameServ
 	ELogMode LogMode = ELogMode::Both;
 	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, logPath.c_str(), LogMode);
 	if (false == SetLoggerManager(Logger))
+	{
+		return false;
+	}
+
+	GameTaskPtr gameTask = std::make_shared<GameTask>();
+	TaskManagerPtr taskMnager = ::static_pointer_cast<TaskManager>(gameTask);
+	if (false == SetTaskManager(taskMnager))
 	{
 		return false;
 	}

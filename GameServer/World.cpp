@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "World.h"
 
-World::World(const SessionManagerRef& inSessionManager, const WCHAR* inName) : GameObject(inSessionManager, inName), mPlayersCount(0), mGameObjectID(1)
+World::World(const WCHAR* inName) : GameObject(inName), mPlayersCount(0), mGameObjectID(1)
 {
 	
 }
 
 World::~World()
 {
+	
 }
 
 void World::Initialization()

@@ -3,7 +3,7 @@
 class World : public GameObject
 {
 public:
-	World(const SessionManagerRef& inSessionManager, const WCHAR* inName);
+	World(const WCHAR* inName);
 	virtual ~World();
 
 protected:

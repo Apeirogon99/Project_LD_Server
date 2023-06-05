@@ -242,6 +242,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="GameTask.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryDatabase.cpp" />
     <ClCompile Include="PacketEnum.pb.cc">
@@ -314,6 +315,7 @@
     <ClInclude Include="GameServerPacketHandler.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameListener.h" />
+    <ClInclude Include="GameTask.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryDatabase.h" />
     <ClInclude Include="Mecro.h" />

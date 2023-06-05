@@ -17,7 +17,13 @@ bool Handle_C2S_EnterGameServer(PacketSessionPtr& session, Protocol::C2S_EnterGa
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -55,14 +61,20 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
-	if (nullptr == world)
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
 	{
 		return false;
 	}
 
+	WorldPtr world = task->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+	
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::MoveDestination, playerState, pkt);
+	world->PushTask(serviceTimeStamp, &Character::MoveDestination, playerState->GetRemotePlayer(), pkt.transform());
 	return true;
 }
 
@@ -80,7 +92,13 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -107,7 +125,13 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -133,7 +157,13 @@ bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateI
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -159,7 +189,13 @@ bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteI
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;

@@ -49,7 +49,13 @@ void PlayerState::OnDisconnected()
 		return;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return;

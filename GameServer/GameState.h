@@ -11,12 +11,6 @@ public:
 	GameState& operator=(GameState&& player) = delete;
 
 public:
-	virtual bool ProcessNetworkTask(const int64 inServiceTimeStamp) override;
-
-public:
-	WorldPtr GetWorld();
-
-private:
-	WorldPtr mWorld;
+	GameTaskPtr GetGameTask();
 };
 

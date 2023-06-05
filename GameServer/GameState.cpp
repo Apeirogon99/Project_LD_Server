@@ -3,20 +3,31 @@
 
 GameState::GameState(const SessionFactory& sessionFactory, const uint32 maxSessionCount, const uint32 inMaxBufferSize) : SessionManager(sessionFactory, maxSessionCount, inMaxBufferSize)
 {
-	mWorld = std::make_shared<World>(weak_from_this(), L"World");
+	
 }
 
 GameState::~GameState()
 {
 }
 
-bool GameState::ProcessNetworkTask(const int64 inServiceTimeStamp)
+GameTaskPtr GameState::GetGameTask()
 {
-	mWorld->Execute(inServiceTimeStamp);
-	return true;
-}
+	if (mService == nullptr)
+	{
+		return nullptr;
+	}
 
-WorldPtr GameState::GetWorld()
-{
-	return mWorld;
+	TaskManagerPtr taskManager = mService->GetTaskManager();
+	if (taskManager == nullptr)
+	{
+		return nullptr;
+	}
+
+	GameTaskPtr gameTask = std::static_pointer_cast<GameTask>(taskManager);
+	if (gameTask == nullptr)
+	{
+		return nullptr;
+	}
+
+	return gameTask;
 }

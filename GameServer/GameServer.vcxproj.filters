@@ -126,6 +126,9 @@
     <ClCompile Include="AItem.cpp">
       <Filter>Content\Private</Filter>
     </ClCompile>
+    <ClCompile Include="GameTask.cpp">
+      <Filter>FrameWork\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Mecro.h">
       <Filter>Pch\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTask.h">
+      <Filter>FrameWork\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

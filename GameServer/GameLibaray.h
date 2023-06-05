@@ -22,6 +22,7 @@
 #include "GameListener.h"
 #include "GameDatabase.h"
 #include "GameDatas.h"
+#include "GameTask.h"
 
 //==========================//
 //		 GameContent		//

@@ -8,7 +8,7 @@ static ADOConnectionInfo CommonSharedDatabaseInfo(L"SQLOLEDB", serverName.c_str(
 class GameDatabase : public DatabaseManager
 {
 public:
-	GameDatabase(const size_t inThreadPoolSize, const size_t poolSize);
+	GameDatabase(const uint32 inThreadPoolSize, const uint32 poolSize);
 	virtual ~GameDatabase();
 
 	GameDatabase(const GameDatabase&) = delete;

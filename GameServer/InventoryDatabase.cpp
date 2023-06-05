@@ -60,7 +60,13 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -121,7 +127,13 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 		return false;
 	}
 
-	WorldPtr world = gameState->GetWorld();
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
@@ -165,7 +177,13 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 			return false;
 		}
 
-		WorldPtr world = gameState->GetWorld();
+		GameTaskPtr task = gameState->GetGameTask();
+		if (nullptr == task)
+		{
+			return false;
+		}
+
+		WorldPtr world = task->GetWorld();
 		if (nullptr == world)
 		{
 			return false;
@@ -353,7 +371,13 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 			return false;
 		}
 
-		WorldPtr world = gameState->GetWorld();
+		GameTaskPtr task = gameState->GetGameTask();
+		if (nullptr == task)
+		{
+			return false;
+		}
+
+		WorldPtr world = task->GetWorld();
 		if (nullptr == world)
 		{
 			return false;

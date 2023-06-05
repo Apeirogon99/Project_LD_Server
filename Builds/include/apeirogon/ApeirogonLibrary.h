@@ -32,10 +32,12 @@
 //		     STL			//
 //==========================//
 #include <array>
+#include <unordered_set>
 #include <set>
 #include <vector>
 #include <functional>
 #include <queue>
+#include <unordered_map>
 #include <map>
 #include <string>
 
@@ -78,8 +80,6 @@
 #include "PriorityQueue.h"
 #include "SendQueue.h"
 
-#include "NetworkTask.h"
-
 //==========================//
 //		    TIME			//
 //==========================//
@@ -117,6 +117,18 @@
 #include "Socket.h"
 
 //==========================//
+//		    TASK			//
+//==========================//
+#include "Task.h"
+#include "GameObject.h"
+#include "TaskManager.h"
+
+//==========================//
+//		    Data			//
+//==========================//
+#include "DataManager.h"
+
+//==========================//
 //		   SERVER			//
 //==========================//
 #include "ThreadManager.h"
@@ -133,9 +145,3 @@
 //		     SMTP			//
 //==========================//
 #include "SMTP.h"
-
-//==========================//
-//		   Content			//
-//==========================//
-#include "DataManager.h"
-#include "GameObject.h"

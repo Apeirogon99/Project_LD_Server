@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Character.h"
 
-Character::Character(const RemotePlayerRef& inReomtePlayer) : mRemotePlayer(inReomtePlayer)
+Character::Character(const RemotePlayerRef& inReomtePlayer) : GameObject(L"Character"), mRemotePlayer(inReomtePlayer)
 {
 
 }
@@ -9,4 +9,9 @@ Character::Character(const RemotePlayerRef& inReomtePlayer) : mRemotePlayer(inRe
 Character::~Character()
 {
 
+}
+
+void Character::MoveDestination(RemotePlayerPtr inReomtePlayer, Protocol::STransform inWorldPosition)
+{
+	//inReomtePlayer->GetCharacter()->mWorldPosition = inWorldPosition;
 }

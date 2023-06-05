@@ -9,6 +9,7 @@ class GameListener;
 class PlayerState;
 class GameService;
 class GameDatas;
+class GameTask;
 
 using GameDatabasePtr	= std::shared_ptr<GameDatabase>;
 using GameStatePtr		= std::shared_ptr<GameState>;
@@ -17,6 +18,7 @@ using PlayerStatePtr	= std::shared_ptr<PlayerState>;
 using PlayerStateRef	= std::weak_ptr<PlayerState>;
 using GameServicePtr	= std::shared_ptr<GameService>;
 using GameDatasPtr		= std::shared_ptr<GameDatas>;
+using GameTaskPtr		= std::shared_ptr<GameTask>;
 
 //==========================//
 //		    Packet			//

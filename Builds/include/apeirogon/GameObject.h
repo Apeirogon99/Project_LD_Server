@@ -2,66 +2,24 @@
 class GameObject : public TaskQueue
 {
 public:
-	APEIROGON_API GameObject(const SessionManagerRef& inSessionManager) : mSessionManger(inSessionManager), mName(nullptr)
-	{
-		Initialization();
-	}
-
-	APEIROGON_API GameObject(const SessionManagerRef& inSessionManager, const WCHAR* inName) : mSessionManger(inSessionManager), mName(inName)
-	{
-		Initialization();
-	}
-
-	APEIROGON_API virtual ~GameObject()
-	{
-		Destroy();
-	}
+	APEIROGON_API GameObject(const WCHAR* inObjectName);
+	APEIROGON_API virtual ~GameObject();
 
 public:
-	APEIROGON_API virtual void Initialization() 
-	{
-
-	};
-	APEIROGON_API virtual void Destroy()
-	{
-		mSessionManger.reset();
-		mName = nullptr;
-	};
-	APEIROGON_API virtual void Tick() abstract;
-	APEIROGON_API virtual bool IsValid() abstract;
+	APEIROGON_API virtual void		Initialization()	{};
+	APEIROGON_API virtual void		Destroy()			{};
+	APEIROGON_API virtual void		Tick()				abstract;
+	APEIROGON_API virtual bool		IsValid()			abstract;
+	//APEIROGON_API virtual void	Serialization()		abstract;
 
 public:
-	APEIROGON_API void SetGameObjetName(const WCHAR* inName)
-	{
-		mName = inName;
-	}
+	APEIROGON_API void				SetObjectName(const WCHAR* inObjectName);
+
+public:
+	APEIROGON_API GameObjectPtr		GetGameObjectPtr();
+	APEIROGON_API const WCHAR*		GetObjectName() const;
 
 protected:
-	template <typename... Types>
-	APEIROGON_API void GameObjectLog(const WCHAR* inLog, Types... inArgs)
-	{
-		if (mName == nullptr)
-		{
-			mName = L"NULL";
-		}
-
-		SessionManagerPtr sessionManager = mSessionManger.lock();
-		if (sessionManager)
-		{
-			std::wstring tempLog;
-			tempLog.append(L"[GameObject::");
-			tempLog.append(mName);
-			tempLog.append(L"] ");
-			tempLog.append(inLog);
-
-			sessionManager->SessionManagerLog(tempLog.c_str(), inArgs...);
-		}
-	}
-
-	
-
-protected:
-	SessionManagerRef	mSessionManger;
-	const WCHAR*		mName;
+	const WCHAR* mObjectName;
 };
 
