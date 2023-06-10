@@ -49,6 +49,9 @@ struct TableStruct_CommonPacket_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_CommonPacket_2eproto;
 namespace Protocol {
+class C2S_ReplicatedServerTimeStamp;
+struct C2S_ReplicatedServerTimeStampDefaultTypeInternal;
+extern C2S_ReplicatedServerTimeStampDefaultTypeInternal _C2S_ReplicatedServerTimeStamp_default_instance_;
 class C2S_TravelServer;
 struct C2S_TravelServerDefaultTypeInternal;
 extern C2S_TravelServerDefaultTypeInternal _C2S_TravelServer_default_instance_;
@@ -60,6 +63,7 @@ struct S2C_TravelServerDefaultTypeInternal;
 extern S2C_TravelServerDefaultTypeInternal _S2C_TravelServer_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::C2S_ReplicatedServerTimeStamp* Arena::CreateMaybeMessage<::Protocol::C2S_ReplicatedServerTimeStamp>(Arena*);
 template<> ::Protocol::C2S_TravelServer* Arena::CreateMaybeMessage<::Protocol::C2S_TravelServer>(Arena*);
 template<> ::Protocol::S2C_ReplicatedServerTimeStamp* Arena::CreateMaybeMessage<::Protocol::S2C_ReplicatedServerTimeStamp>(Arena*);
 template<> ::Protocol::S2C_TravelServer* Arena::CreateMaybeMessage<::Protocol::S2C_TravelServer>(Arena*);
@@ -67,6 +71,154 @@ PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
+
+class C2S_ReplicatedServerTimeStamp final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_ReplicatedServerTimeStamp) */ {
+ public:
+  inline C2S_ReplicatedServerTimeStamp() : C2S_ReplicatedServerTimeStamp(nullptr) {}
+  ~C2S_ReplicatedServerTimeStamp() override;
+  explicit PROTOBUF_CONSTEXPR C2S_ReplicatedServerTimeStamp(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_ReplicatedServerTimeStamp(const C2S_ReplicatedServerTimeStamp& from);
+  C2S_ReplicatedServerTimeStamp(C2S_ReplicatedServerTimeStamp&& from) noexcept
+    : C2S_ReplicatedServerTimeStamp() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_ReplicatedServerTimeStamp& operator=(const C2S_ReplicatedServerTimeStamp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_ReplicatedServerTimeStamp& operator=(C2S_ReplicatedServerTimeStamp&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_ReplicatedServerTimeStamp& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_ReplicatedServerTimeStamp* internal_default_instance() {
+    return reinterpret_cast<const C2S_ReplicatedServerTimeStamp*>(
+               &_C2S_ReplicatedServerTimeStamp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(C2S_ReplicatedServerTimeStamp& a, C2S_ReplicatedServerTimeStamp& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_ReplicatedServerTimeStamp* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_ReplicatedServerTimeStamp* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_ReplicatedServerTimeStamp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_ReplicatedServerTimeStamp>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_ReplicatedServerTimeStamp& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_ReplicatedServerTimeStamp& from) {
+    C2S_ReplicatedServerTimeStamp::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_ReplicatedServerTimeStamp* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_ReplicatedServerTimeStamp";
+  }
+  protected:
+  explicit C2S_ReplicatedServerTimeStamp(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUtcTimeFieldNumber = 1,
+  };
+  // int64 utc_time = 1;
+  void clear_utc_time();
+  int64_t utc_time() const;
+  void set_utc_time(int64_t value);
+  private:
+  int64_t _internal_utc_time() const;
+  void _internal_set_utc_time(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_ReplicatedServerTimeStamp)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t utc_time_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_CommonPacket_2eproto;
+};
+// -------------------------------------------------------------------
 
 class S2C_ReplicatedServerTimeStamp final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_ReplicatedServerTimeStamp) */ {
@@ -116,7 +268,7 @@ class S2C_ReplicatedServerTimeStamp final :
                &_S2C_ReplicatedServerTimeStamp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(S2C_ReplicatedServerTimeStamp& a, S2C_ReplicatedServerTimeStamp& b) {
     a.Swap(&b);
@@ -191,6 +343,7 @@ class S2C_ReplicatedServerTimeStamp final :
   enum : int {
     kTimeStampFieldNumber = 1,
     kUtcTimeFieldNumber = 2,
+    kRttFieldNumber = 3,
   };
   // int64 time_stamp = 1;
   void clear_time_stamp();
@@ -210,6 +363,15 @@ class S2C_ReplicatedServerTimeStamp final :
   void _internal_set_utc_time(int64_t value);
   public:
 
+  // int64 rtt = 3;
+  void clear_rtt();
+  int64_t rtt() const;
+  void set_rtt(int64_t value);
+  private:
+  int64_t _internal_rtt() const;
+  void _internal_set_rtt(int64_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S2C_ReplicatedServerTimeStamp)
  private:
   class _Internal;
@@ -220,6 +382,7 @@ class S2C_ReplicatedServerTimeStamp final :
   struct Impl_ {
     int64_t time_stamp_;
     int64_t utc_time_;
+    int64_t rtt_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -275,7 +438,7 @@ class C2S_TravelServer final :
                &_C2S_TravelServer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(C2S_TravelServer& a, C2S_TravelServer& b) {
     a.Swap(&b);
@@ -450,7 +613,7 @@ class S2C_TravelServer final :
                &_S2C_TravelServer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(S2C_TravelServer& a, S2C_TravelServer& b) {
     a.Swap(&b);
@@ -562,6 +725,30 @@ class S2C_TravelServer final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// C2S_ReplicatedServerTimeStamp
+
+// int64 utc_time = 1;
+inline void C2S_ReplicatedServerTimeStamp::clear_utc_time() {
+  _impl_.utc_time_ = int64_t{0};
+}
+inline int64_t C2S_ReplicatedServerTimeStamp::_internal_utc_time() const {
+  return _impl_.utc_time_;
+}
+inline int64_t C2S_ReplicatedServerTimeStamp::utc_time() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_ReplicatedServerTimeStamp.utc_time)
+  return _internal_utc_time();
+}
+inline void C2S_ReplicatedServerTimeStamp::_internal_set_utc_time(int64_t value) {
+  
+  _impl_.utc_time_ = value;
+}
+inline void C2S_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
+  _internal_set_utc_time(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_ReplicatedServerTimeStamp.utc_time)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_ReplicatedServerTimeStamp
 
 // int64 time_stamp = 1;
@@ -602,6 +789,26 @@ inline void S2C_ReplicatedServerTimeStamp::_internal_set_utc_time(int64_t value)
 inline void S2C_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
   _internal_set_utc_time(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.utc_time)
+}
+
+// int64 rtt = 3;
+inline void S2C_ReplicatedServerTimeStamp::clear_rtt() {
+  _impl_.rtt_ = int64_t{0};
+}
+inline int64_t S2C_ReplicatedServerTimeStamp::_internal_rtt() const {
+  return _impl_.rtt_;
+}
+inline int64_t S2C_ReplicatedServerTimeStamp::rtt() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplicatedServerTimeStamp.rtt)
+  return _internal_rtt();
+}
+inline void S2C_ReplicatedServerTimeStamp::_internal_set_rtt(int64_t value) {
+  
+  _impl_.rtt_ = value;
+}
+inline void S2C_ReplicatedServerTimeStamp::set_rtt(int64_t value) {
+  _internal_set_rtt(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.rtt)
 }
 
 // -------------------------------------------------------------------
@@ -755,6 +962,8 @@ inline void S2C_TravelServer::set_allocated_error(std::string* error) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
