@@ -1,4 +1,5 @@
 #pragma once
+
 class TaskManager
 {
 public:
@@ -21,16 +22,17 @@ public:
 	void Tick();
 
 public:
-	APEIROGON_API void		   	PushTask(GameObjectPtr& inGameObject);
-	APEIROGON_API void		   	ReleaseTask(GameObjectPtr& inGameObject);
-	APEIROGON_API GameObjectPtr	FindTask(const WCHAR* inObjectName);
+	APEIROGON_API void		   	PushTask(GameObjectPtr inGameObject);
+	APEIROGON_API void		   	ReleaseTask(GameObjectPtr inGameObject);
+	APEIROGON_API GameObjectPtr	FindTask(const int64 inObjectNumber);
 
 protected:
-	void TaskManagerLog(const WCHAR* log, ...);
+	const int64 NextGameObjectNumber();
+	void		TaskManagerLog(const WCHAR* log, ...);
 
 private:
-	ServicePtr				mService;
-
-	std::unordered_map<const WCHAR*,GameObjectPtr>	mGameObjects;
+	ServicePtr									mService;
+	int64										mGameObjectCount;
+	std::unordered_map<int64, GameObjectPtr>	mGameObjects;
 };
 
