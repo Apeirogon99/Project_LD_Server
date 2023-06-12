@@ -58,6 +58,8 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 	Protocol::S2C_LoadInventory loadInventoryPacket;
 	remotePlayer->GetInventory()->LoadItem(loadInventoryPacket);
 
+	remotePlayer->GetInventory()->CheckInventory();
+
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, loadInventoryPacket);
 	packetSession->Send(sendBuffer);
@@ -213,18 +215,18 @@ bool Inventory::DeleteItem(const AItemPtr& inItem)
 	return false;
 }
 
-const AItemPtr& Inventory::FindItem(const int64 inObjectID)
+bool Inventory::FindItem(const int64 inObjectID, AItemPtr& outItem)
 {
 	auto findItem = mItems.find(inObjectID);
 	if (findItem == mItems.end())
 	{
-		return nullptr;
+		return false;
 	}
 
-	return findItem->second;
+	outItem = findItem->second;
 }
 
-const AItemPtr& Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY)
+bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem)
 {
 
 	for (auto& item : mItems)
@@ -232,11 +234,11 @@ const AItemPtr& Inventory::FindItem(const int32 inItemCode, const int32 inInvent
 		const AItemPtr& tempItem = item.second;
 		if (tempItem->GetItemCode() == inItemCode && tempItem->GetInventoryPosition().x() == inInventoryPositionX && tempItem->GetInventoryPosition().y() == inInventoryPositionY)
 		{
-			return tempItem;
+			outItem = tempItem;
 		}
 	}
 
-	return nullptr;
+	return false;
 }
 
 bool Inventory::RollBackItem()

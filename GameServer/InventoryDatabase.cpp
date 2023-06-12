@@ -213,7 +213,13 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		int32 posx	= inCommand.GetParam(L"@inven_pos_x");
 		int32 posy	= inCommand.GetParam(L"@inven_pos_y");
 
-		const AItemPtr& findItem = remotePlayer->GetInventory()->FindItem(code, posx, posy);
+		AItemPtr findItem;
+		bool find = remotePlayer->GetInventory()->FindItem(code, posx, posy, findItem);
+		if (find == false)
+		{
+			return false;
+		}
+
 		Protocol::SItem deleteItem;
 		deleteItem.set_object_id(findItem->GetGameObjectID());
 		deleteItem.set_item_code(findItem->GetItemCode());
@@ -265,7 +271,8 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	ADOVariant character_id = 0;	//TODO:
 	ADOVariant item_code = item.item_code();
 
-	const AItemPtr& findItem = remotePlayer->GetInventory()->FindItem(item.object_id());
+	AItemPtr findItem;
+	bool find = remotePlayer->GetInventory()->FindItem(item.object_id(), findItem);
 	if (nullptr == findItem)
 	{
 		return false;
@@ -384,7 +391,13 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 			return false;
 		}
 
-		AItemPtr findItem = remotePlayer->GetInventory()->FindItem(item.object_id());
+		AItemPtr findItem;
+		bool find = remotePlayer->GetInventory()->FindItem(item.object_id(), findItem);
+		if (false == find)
+		{
+			return false;
+		}
+
 		bool result = remotePlayer->GetInventory()->DeleteItem(findItem);
 
 		Protocol::SRotator rotation;

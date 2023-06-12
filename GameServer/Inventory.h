@@ -28,8 +28,8 @@ public:
 	bool UpdateItem(const AItemPtr& inItem);
 	bool DeleteItem(const AItemPtr& inItem);
 
-	const AItemPtr& FindItem(const int64 inObjectID);
-	const AItemPtr& FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY);
+	bool FindItem(const int64 inObjectID, AItemPtr& outItem);
+	bool FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem);
 
 	bool RollBackItem();
 
