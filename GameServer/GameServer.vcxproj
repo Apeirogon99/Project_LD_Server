@@ -156,8 +156,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AICharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterDatabase.cpp" />
     <ClCompile Include="CommonPacket.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -267,6 +269,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -302,8 +305,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AICharacter.h" />
     <ClInclude Include="AItem.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />
     <ClInclude Include="CommonServerPacketHandler.h" />
     <ClInclude Include="GameDatabase.h" />
@@ -322,11 +327,15 @@
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketStruct.pb.h" />
+    <ClInclude Include="Pawn.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="RemotePlayer.h" />
     <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

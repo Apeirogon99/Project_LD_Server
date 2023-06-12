@@ -1,25 +1,40 @@
 #pragma once
-class RemotePlayer : public std::enable_shared_from_this<RemotePlayer>
+class RemotePlayer : public GameObject
 {
 public:
-	RemotePlayer() = default;
-	RemotePlayer(const PlayerStateRef& inPlayerState, const int64 inRemoteID);
-	~RemotePlayer() {};
+	//RemotePlayer(const PlayerStateRef& inPlayerState, const int64 inRemoteID);
+	RemotePlayer(const PlayerStateRef& inPlayerState);
+	~RemotePlayer();
+
+private:
+	RemotePlayer(const RemotePlayer&) = delete;
+	RemotePlayer(RemotePlayer&&) = delete;
+
+	RemotePlayer& operator=(const RemotePlayer&) = delete;
+	RemotePlayer& operator=(RemotePlayer&&) = delete;
 
 public:
-	bool Init();
+	virtual void	Initialization()	override;
+	virtual void	Destroy()			override;
+	virtual void	Tick()				override;
+	virtual bool	IsValid()			override;
 
 public:
-	PlayerStateRef	GetPlayerState()	const { return mPlayerState; }
-	const int64		GetRemoteID()		const { return mRemoteID; }
-	Inventoryptr	GetInventory()		const { return mInventory; }
-	CharacterPtr	GetCharacter()		const { return mCharacter; }
+	bool LoadRemotePlayer(const int32 inServerID, const int32 inCharacterID);
+	void InitTask(GameTaskPtr& inGameTask);
+	void DestroyTask(GameTaskPtr& inGameTask);
 
+public:
+	RemotePlayerRef GetRemotePlayer()			{ return std::static_pointer_cast<RemotePlayer>(shared_from_this()); }	    
+	PlayerStateRef	GetPlayerState()	const	{ return mPlayerState; }
+	Inventoryptr	GetInventory()		const	{ return mInventory; }
+	CharacterPtr	GetCharacter()		const	{ return mCharacter; }
+	Viewers&		GetViewers()				{ return mViewers; }
 
 private:
 	PlayerStateRef	mPlayerState;
-	int64			mRemoteID;
+	Viewers			mViewers;
+
 	Inventoryptr	mInventory;
 	CharacterPtr	mCharacter;
 };
-

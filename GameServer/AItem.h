@@ -20,8 +20,7 @@ enum class EItemCellType
 class AItem : public Actor
 {
 public:
-	AItem(const int64 inGameObjectID);
-	AItem(const int64 inGameObjectID, const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
+	AItem();
 	virtual ~AItem();
 
 	AItem(const AItem& inItem);
@@ -38,18 +37,29 @@ private:
 	AItem& operator=(Protocol::SItem&& inItem) = delete;
 
 public:
-	virtual void Initialization() override;
-	virtual void Destroy() override;
-	virtual void Tick() override;
-	virtual bool IsValid() override;
+	virtual void Initialization()	override;
+	virtual void Destroy()			override;
+	virtual void Tick()				override;
+	virtual bool IsValid()			override;
+
+public:
+	virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;
+	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override;
 
 public:
 	void Init(const Protocol::SItem& inItem);
+	void Init(const AItem& inItem);
+	void Init(const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
+	void Init(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
 
 public:
-	int32 mItemCode;
-	int32 mInventoryPositionX;
-	int32 mInventoryPositionY;
-	int32 mRotation;
+	const int32 GetItemCode()							const { return mItemCode; }
+	const Protocol::SVector2D& GetInventoryPosition()	const { return mInvenPosition; }
+	const int32 GetInventoryRoation()					const { return mInvenRotation; }
+
+private:
+	int32				mItemCode;
+	Protocol::SVector2D mInvenPosition;
+	int32				mInvenRotation;
 };
 

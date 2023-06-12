@@ -1,7 +1,8 @@
 #pragma once
 
-bool Handle_LoadCharacter_Request(PacketSessionPtr& inSession, const int32 characterID);
-bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+//==========================//
+//		  Inventory			//
+//==========================//
 
 bool Handle_LoadInventory_Requset(PacketSessionPtr& inSession, const int32 characterID);
 bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
@@ -14,3 +15,12 @@ bool Handle_UpdateInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 
 bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteInventory& inPacket);
 bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+
+//==========================//
+//		  Eqipment			//
+//==========================//
+bool Handle_UpdateEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_UpdateEqipment& inPacket);
+bool Handle_UpdateEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+
+bool Handle_DeleteEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteEqipment& inPacket);
+bool Handle_DeleteEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);

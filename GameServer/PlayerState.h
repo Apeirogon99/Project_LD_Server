@@ -16,26 +16,36 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	template <typename... Types>
-	void PlayerStateLog(const WCHAR* inLog, Types... inArgs)
-	{
-		const int64 remoteID = 0;
-
-		std::wstring tempLog;
-		tempLog.append(L"[REMOTE ID::]");
-		tempLog.append(std::to_wstring(remoteID));
-		tempLog.append(L"] ");
-		tempLog.append(inLog);
-
-		this->SessionLog(tempLog.c_str(), inArgs...);
-	}
-
-	PlayerStateRef	GetPlayerStateRef();
+	void SetWorld(WorldRef inWorld);
+	void BrodcastViewers(SendBufferPtr inSendBuffer);
+	void BroadcastMonitors(SendBufferPtr inSendBuffer);
 
 public:
-	RemotePlayerPtr& GetRemotePlayer();
+	WorldPtr			GetWorld()			{ return mWorld.lock(); }
+	PlayerStateRef		GetPlayerStateRef() { return std::static_pointer_cast<PlayerState>(shared_from_this()); }
+	RemotePlayerPtr&	GetRemotePlayer()	{ return mRemotePlayer; }
+	Monitors&			GetMonitors()		{ return mMonitors; }
+
+public:
+	template <typename... Types>
+	void PlayerStateLog(const WCHAR* inLog, Types... inArgs);
 
 private:
-	RemotePlayerPtr mRemotePlayer;
+	WorldRef			mWorld;
+	RemotePlayerPtr		mRemotePlayer;
+	Monitors			mMonitors;
 };
 
+template<typename ...Types>
+inline void PlayerState::PlayerStateLog(const WCHAR* inLog, Types ...inArgs)
+{
+	const int64 remoteID = 0;
+
+	std::wstring tempLog;
+	tempLog.append(L"[REMOTE ID::");
+	tempLog.append(std::to_wstring(remoteID));
+	tempLog.append(L"] ");
+	tempLog.append(inLog);
+
+	this->SessionLog(tempLog.c_str(), inArgs...);
+}

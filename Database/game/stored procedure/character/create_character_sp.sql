@@ -80,6 +80,8 @@ BEGIN TRY
 
 		INSERT INTO eqipment_tb (character_id, hair) VALUES (@temp_character_id, @hair)
 
+		INSERT INTO level_tb (character_id, level, experience) VALUES (@temp_character_id, 1, 0)
+
 		COMMIT TRANSACTION
 		RETURN 0
 

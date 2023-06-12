@@ -3,9 +3,7 @@
 
 GameTask::GameTask() : TaskManager()
 {
-	mWorld = std::make_shared<World>(L"World");
-	GameObjectPtr gamePtr = mWorld->GetGameObjectPtr();
-	PushTask(gamePtr);
+	
 }
 
 GameTask::~GameTask()
@@ -13,9 +11,14 @@ GameTask::~GameTask()
 	
 }
 
+void GameTask::Init()
+{
+	PushTask(std::make_shared<World>(L"World", shared_from_this())->GetGameObjectPtr());
+}
+
 WorldPtr GameTask::GetWorld()
 {
-	GameObjectPtr object = FindTask(L"World");
+	GameObjectPtr object = FindTask(0);
 	if (nullptr == object)
 	{
 		return nullptr;

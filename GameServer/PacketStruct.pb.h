@@ -668,6 +668,7 @@ class SCharacterData final :
     kAppearanceFieldNumber = 5,
     kEqipmentFieldNumber = 6,
     kLevelFieldNumber = 2,
+    kExperienceFieldNumber = 3,
     kCharacterClassFieldNumber = 4,
   };
   // bytes name = 1;
@@ -729,6 +730,15 @@ class SCharacterData final :
   void _internal_set_level(int32_t value);
   public:
 
+  // int32 experience = 3;
+  void clear_experience();
+  int32_t experience() const;
+  void set_experience(int32_t value);
+  private:
+  int32_t _internal_experience() const;
+  void _internal_set_experience(int32_t value);
+  public:
+
   // .Protocol.ECharacterClass character_class = 4;
   void clear_character_class();
   ::Protocol::ECharacterClass character_class() const;
@@ -750,6 +760,7 @@ class SCharacterData final :
     ::Protocol::SCharacterAppearance* appearance_;
     ::Protocol::SCharacterEqipment* eqipment_;
     int32_t level_;
+    int32_t experience_;
     int character_class_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1548,47 +1559,29 @@ class STransform final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 1,
-    kVelocityFieldNumber = 2,
-    kRotationFieldNumber = 3,
+    kLocationFieldNumber = 1,
+    kRotationFieldNumber = 2,
+    kScaleFieldNumber = 3,
   };
-  // .Protocol.SVector position = 1;
-  bool has_position() const;
+  // .Protocol.SVector location = 1;
+  bool has_location() const;
   private:
-  bool _internal_has_position() const;
+  bool _internal_has_location() const;
   public:
-  void clear_position();
-  const ::Protocol::SVector& position() const;
-  PROTOBUF_NODISCARD ::Protocol::SVector* release_position();
-  ::Protocol::SVector* mutable_position();
-  void set_allocated_position(::Protocol::SVector* position);
+  void clear_location();
+  const ::Protocol::SVector& location() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_location();
+  ::Protocol::SVector* mutable_location();
+  void set_allocated_location(::Protocol::SVector* location);
   private:
-  const ::Protocol::SVector& _internal_position() const;
-  ::Protocol::SVector* _internal_mutable_position();
+  const ::Protocol::SVector& _internal_location() const;
+  ::Protocol::SVector* _internal_mutable_location();
   public:
-  void unsafe_arena_set_allocated_position(
-      ::Protocol::SVector* position);
-  ::Protocol::SVector* unsafe_arena_release_position();
+  void unsafe_arena_set_allocated_location(
+      ::Protocol::SVector* location);
+  ::Protocol::SVector* unsafe_arena_release_location();
 
-  // .Protocol.SVector velocity = 2;
-  bool has_velocity() const;
-  private:
-  bool _internal_has_velocity() const;
-  public:
-  void clear_velocity();
-  const ::Protocol::SVector& velocity() const;
-  PROTOBUF_NODISCARD ::Protocol::SVector* release_velocity();
-  ::Protocol::SVector* mutable_velocity();
-  void set_allocated_velocity(::Protocol::SVector* velocity);
-  private:
-  const ::Protocol::SVector& _internal_velocity() const;
-  ::Protocol::SVector* _internal_mutable_velocity();
-  public:
-  void unsafe_arena_set_allocated_velocity(
-      ::Protocol::SVector* velocity);
-  ::Protocol::SVector* unsafe_arena_release_velocity();
-
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 2;
   bool has_rotation() const;
   private:
   bool _internal_has_rotation() const;
@@ -1606,6 +1599,24 @@ class STransform final :
       ::Protocol::SRotator* rotation);
   ::Protocol::SRotator* unsafe_arena_release_rotation();
 
+  // .Protocol.SVector scale = 3;
+  bool has_scale() const;
+  private:
+  bool _internal_has_scale() const;
+  public:
+  void clear_scale();
+  const ::Protocol::SVector& scale() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_scale();
+  ::Protocol::SVector* mutable_scale();
+  void set_allocated_scale(::Protocol::SVector* scale);
+  private:
+  const ::Protocol::SVector& _internal_scale() const;
+  ::Protocol::SVector* _internal_mutable_scale();
+  public:
+  void unsafe_arena_set_allocated_scale(
+      ::Protocol::SVector* scale);
+  ::Protocol::SVector* unsafe_arena_release_scale();
+
   // @@protoc_insertion_point(class_scope:Protocol.STransform)
  private:
   class _Internal;
@@ -1614,9 +1625,9 @@ class STransform final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::SVector* position_;
-    ::Protocol::SVector* velocity_;
+    ::Protocol::SVector* location_;
     ::Protocol::SRotator* rotation_;
+    ::Protocol::SVector* scale_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2241,6 +2252,26 @@ inline void SCharacterData::set_level(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterData.level)
 }
 
+// int32 experience = 3;
+inline void SCharacterData::clear_experience() {
+  _impl_.experience_ = 0;
+}
+inline int32_t SCharacterData::_internal_experience() const {
+  return _impl_.experience_;
+}
+inline int32_t SCharacterData::experience() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.experience)
+  return _internal_experience();
+}
+inline void SCharacterData::_internal_set_experience(int32_t value) {
+  
+  _impl_.experience_ = value;
+}
+inline void SCharacterData::set_experience(int32_t value) {
+  _internal_set_experience(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterData.experience)
+}
+
 // .Protocol.ECharacterClass character_class = 4;
 inline void SCharacterData::clear_character_class() {
   _impl_.character_class_ = 0;
@@ -2681,45 +2712,45 @@ inline void SRotator::set_yaw(float value) {
 
 // STransform
 
-// .Protocol.SVector position = 1;
-inline bool STransform::_internal_has_position() const {
-  return this != internal_default_instance() && _impl_.position_ != nullptr;
+// .Protocol.SVector location = 1;
+inline bool STransform::_internal_has_location() const {
+  return this != internal_default_instance() && _impl_.location_ != nullptr;
 }
-inline bool STransform::has_position() const {
-  return _internal_has_position();
+inline bool STransform::has_location() const {
+  return _internal_has_location();
 }
-inline void STransform::clear_position() {
-  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
-    delete _impl_.position_;
+inline void STransform::clear_location() {
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
   }
-  _impl_.position_ = nullptr;
+  _impl_.location_ = nullptr;
 }
-inline const ::Protocol::SVector& STransform::_internal_position() const {
-  const ::Protocol::SVector* p = _impl_.position_;
+inline const ::Protocol::SVector& STransform::_internal_location() const {
+  const ::Protocol::SVector* p = _impl_.location_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
       ::Protocol::_SVector_default_instance_);
 }
-inline const ::Protocol::SVector& STransform::position() const {
-  // @@protoc_insertion_point(field_get:Protocol.STransform.position)
-  return _internal_position();
+inline const ::Protocol::SVector& STransform::location() const {
+  // @@protoc_insertion_point(field_get:Protocol.STransform.location)
+  return _internal_location();
 }
-inline void STransform::unsafe_arena_set_allocated_position(
-    ::Protocol::SVector* position) {
+inline void STransform::unsafe_arena_set_allocated_location(
+    ::Protocol::SVector* location) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.position_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
   }
-  _impl_.position_ = position;
-  if (position) {
+  _impl_.location_ = location;
+  if (location) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.STransform.position)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.STransform.location)
 }
-inline ::Protocol::SVector* STransform::release_position() {
+inline ::Protocol::SVector* STransform::release_location() {
   
-  ::Protocol::SVector* temp = _impl_.position_;
-  _impl_.position_ = nullptr;
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
   temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
@@ -2731,137 +2762,47 @@ inline ::Protocol::SVector* STransform::release_position() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::SVector* STransform::unsafe_arena_release_position() {
-  // @@protoc_insertion_point(field_release:Protocol.STransform.position)
+inline ::Protocol::SVector* STransform::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_release:Protocol.STransform.location)
   
-  ::Protocol::SVector* temp = _impl_.position_;
-  _impl_.position_ = nullptr;
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
   return temp;
 }
-inline ::Protocol::SVector* STransform::_internal_mutable_position() {
+inline ::Protocol::SVector* STransform::_internal_mutable_location() {
   
-  if (_impl_.position_ == nullptr) {
+  if (_impl_.location_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
-    _impl_.position_ = p;
+    _impl_.location_ = p;
   }
-  return _impl_.position_;
+  return _impl_.location_;
 }
-inline ::Protocol::SVector* STransform::mutable_position() {
-  ::Protocol::SVector* _msg = _internal_mutable_position();
-  // @@protoc_insertion_point(field_mutable:Protocol.STransform.position)
+inline ::Protocol::SVector* STransform::mutable_location() {
+  ::Protocol::SVector* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:Protocol.STransform.location)
   return _msg;
 }
-inline void STransform::set_allocated_position(::Protocol::SVector* position) {
+inline void STransform::set_allocated_location(::Protocol::SVector* location) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.position_;
+    delete _impl_.location_;
   }
-  if (position) {
+  if (location) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(position);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(location);
     if (message_arena != submessage_arena) {
-      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, position, submessage_arena);
+      location = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, location, submessage_arena);
     }
     
   } else {
     
   }
-  _impl_.position_ = position;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.STransform.position)
+  _impl_.location_ = location;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.STransform.location)
 }
 
-// .Protocol.SVector velocity = 2;
-inline bool STransform::_internal_has_velocity() const {
-  return this != internal_default_instance() && _impl_.velocity_ != nullptr;
-}
-inline bool STransform::has_velocity() const {
-  return _internal_has_velocity();
-}
-inline void STransform::clear_velocity() {
-  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
-    delete _impl_.velocity_;
-  }
-  _impl_.velocity_ = nullptr;
-}
-inline const ::Protocol::SVector& STransform::_internal_velocity() const {
-  const ::Protocol::SVector* p = _impl_.velocity_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
-      ::Protocol::_SVector_default_instance_);
-}
-inline const ::Protocol::SVector& STransform::velocity() const {
-  // @@protoc_insertion_point(field_get:Protocol.STransform.velocity)
-  return _internal_velocity();
-}
-inline void STransform::unsafe_arena_set_allocated_velocity(
-    ::Protocol::SVector* velocity) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
-  }
-  _impl_.velocity_ = velocity;
-  if (velocity) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.STransform.velocity)
-}
-inline ::Protocol::SVector* STransform::release_velocity() {
-  
-  ::Protocol::SVector* temp = _impl_.velocity_;
-  _impl_.velocity_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Protocol::SVector* STransform::unsafe_arena_release_velocity() {
-  // @@protoc_insertion_point(field_release:Protocol.STransform.velocity)
-  
-  ::Protocol::SVector* temp = _impl_.velocity_;
-  _impl_.velocity_ = nullptr;
-  return temp;
-}
-inline ::Protocol::SVector* STransform::_internal_mutable_velocity() {
-  
-  if (_impl_.velocity_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
-    _impl_.velocity_ = p;
-  }
-  return _impl_.velocity_;
-}
-inline ::Protocol::SVector* STransform::mutable_velocity() {
-  ::Protocol::SVector* _msg = _internal_mutable_velocity();
-  // @@protoc_insertion_point(field_mutable:Protocol.STransform.velocity)
-  return _msg;
-}
-inline void STransform::set_allocated_velocity(::Protocol::SVector* velocity) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.velocity_;
-  }
-  if (velocity) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(velocity);
-    if (message_arena != submessage_arena) {
-      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, velocity, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.velocity_ = velocity;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.STransform.velocity)
-}
-
-// .Protocol.SRotator rotation = 3;
+// .Protocol.SRotator rotation = 2;
 inline bool STransform::_internal_has_rotation() const {
   return this != internal_default_instance() && _impl_.rotation_ != nullptr;
 }
@@ -2949,6 +2890,96 @@ inline void STransform::set_allocated_rotation(::Protocol::SRotator* rotation) {
   }
   _impl_.rotation_ = rotation;
   // @@protoc_insertion_point(field_set_allocated:Protocol.STransform.rotation)
+}
+
+// .Protocol.SVector scale = 3;
+inline bool STransform::_internal_has_scale() const {
+  return this != internal_default_instance() && _impl_.scale_ != nullptr;
+}
+inline bool STransform::has_scale() const {
+  return _internal_has_scale();
+}
+inline void STransform::clear_scale() {
+  if (GetArenaForAllocation() == nullptr && _impl_.scale_ != nullptr) {
+    delete _impl_.scale_;
+  }
+  _impl_.scale_ = nullptr;
+}
+inline const ::Protocol::SVector& STransform::_internal_scale() const {
+  const ::Protocol::SVector* p = _impl_.scale_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
+}
+inline const ::Protocol::SVector& STransform::scale() const {
+  // @@protoc_insertion_point(field_get:Protocol.STransform.scale)
+  return _internal_scale();
+}
+inline void STransform::unsafe_arena_set_allocated_scale(
+    ::Protocol::SVector* scale) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.scale_);
+  }
+  _impl_.scale_ = scale;
+  if (scale) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.STransform.scale)
+}
+inline ::Protocol::SVector* STransform::release_scale() {
+  
+  ::Protocol::SVector* temp = _impl_.scale_;
+  _impl_.scale_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SVector* STransform::unsafe_arena_release_scale() {
+  // @@protoc_insertion_point(field_release:Protocol.STransform.scale)
+  
+  ::Protocol::SVector* temp = _impl_.scale_;
+  _impl_.scale_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* STransform::_internal_mutable_scale() {
+  
+  if (_impl_.scale_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.scale_ = p;
+  }
+  return _impl_.scale_;
+}
+inline ::Protocol::SVector* STransform::mutable_scale() {
+  ::Protocol::SVector* _msg = _internal_mutable_scale();
+  // @@protoc_insertion_point(field_mutable:Protocol.STransform.scale)
+  return _msg;
+}
+inline void STransform::set_allocated_scale(::Protocol::SVector* scale) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.scale_;
+  }
+  if (scale) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(scale);
+    if (message_arena != submessage_arena) {
+      scale = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, scale, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.scale_ = scale;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.STransform.scale)
 }
 
 // -------------------------------------------------------------------

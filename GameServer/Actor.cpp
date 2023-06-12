@@ -1,24 +1,62 @@
 #include "pch.h"
 #include "Actor.h"
 
-Actor::Actor(const char* inClassName, const int64 inGameObjectID) : mActorName(nullptr), mGameObjectID(inGameObjectID)
-{
-	SetActorName(inClassName);
-}
-
-Actor::Actor(const WCHAR* inActorName, const int64 inGameObjectID) : mActorName(nullptr), mGameObjectID(inGameObjectID)
+Actor::Actor(const WCHAR* inActorName) : GameObject(inActorName)
 {
 	
 }
 
 Actor::~Actor()
 {
-	mGameObjectID = 0;
+	
+}
+
+void Actor::Initialization()
+{
+}
+
+void Actor::Destroy()
+{
+	RemotePlayerPtr owner = mOwner.lock();
+	if (nullptr != owner)
+	{
+		owner.reset();
+	}
+
+	owner = nullptr;
+}
+
+void Actor::Tick()
+{
 }
 
 bool Actor::IsValid()
 {
-	return (mGameObjectID != 0);
+	return true;
+}
+
+void Actor::CloseToPlayer(PlayerStatePtr inClosePlayerState)
+{
+	CharacterPtr closeCharacter = inClosePlayerState->GetRemotePlayer()->GetCharacter();
+	if (nullptr == this || nullptr == closeCharacter)
+	{
+		return;
+	}
+
+	const double x = std::pow(this->GetLocation().x() - closeCharacter->GetLocation().x(), 2);
+	const double y = std::pow(this->GetLocation().y() - closeCharacter->GetLocation().y(), 2);
+	const double z = std::pow(this->GetLocation().z() - closeCharacter->GetLocation().z(), 2);
+
+	const double possibleVisbleLength = 1500;
+	const double playerDistance = std::sqrt(x + y + z);
+	if (playerDistance < possibleVisbleLength)
+	{
+		AppearActor(inClosePlayerState);
+	}
+	else
+	{
+		DisAppearActor(inClosePlayerState);
+	}
 }
 
 void Actor::SetOwner(RemotePlayerRef inOwner)
@@ -26,61 +64,68 @@ void Actor::SetOwner(RemotePlayerRef inOwner)
 	mOwner = inOwner;
 }
 
+void Actor::SetTransform(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotation, const Protocol::SVector& inScale)
+{
+	SetLocation(inLocation);
+	SetRotation(inRotation);
+	SetScale(inScale);
+}
+
+void Actor::SetTransform(const Protocol::STransform& inTransform)
+{
+	mTransfrom = inTransform;
+}
+
 void Actor::SetLocation(const float inX, const float inY, const float inZ)
 {
-	mLocation.set_x(inX);
-	mLocation.set_y(inY);
-	mLocation.set_z(inZ);
+	Protocol::SVector* location = mTransfrom.mutable_location();
+	location->set_x(inX);
+	location->set_y(inY);
+	location->set_z(inZ);
 }
 
 void Actor::SetLocation(const Protocol::SVector& inLocation)
 {
-	mLocation = inLocation;
+	Protocol::SVector* location = mTransfrom.mutable_location();
+	location->CopyFrom(inLocation);
+}
+
+void Actor::SetRotation(const float inRoll, const float inPitch, const float inYaw)
+{
+	Protocol::SRotator* rotation = mTransfrom.mutable_rotation();
+	rotation->set_roll(inRoll);
+	rotation->set_pitch(inPitch);
+	rotation->set_yaw(inYaw);
+}
+
+void Actor::SetRotation(const Protocol::SRotator& inRotator)
+{
+	Protocol::SRotator* rotation = mTransfrom.mutable_rotation();
+	rotation->CopyFrom(inRotator);
+}
+
+void Actor::SetScale(const float inX, const float inY, const float inZ)
+{
+	Protocol::SVector* scale = mTransfrom.mutable_scale();
+	scale->set_x(inX);
+	scale->set_y(inY);
+	scale->set_z(inZ);
+}
+
+void Actor::SetScale(const Protocol::SVector& inScale)
+{
+	Protocol::SVector* scale = mTransfrom.mutable_scale();
+	scale->CopyFrom(inScale);
+}
+
+void Actor::SetVelocity(const float inX, const float inY, const float inZ)
+{
+	mVelocity.set_x(inX);
+	mVelocity.set_y(inY);
+	mVelocity.set_z(inZ);
 }
 
 void Actor::SetVelocity(const Protocol::SVector& inVelocity)
 {
 	mVelocity = inVelocity;
-}
-
-void Actor::SetRotator(const Protocol::SRotator& inRotator)
-{
-	mRotator = inRotator;
-}
-
-const WCHAR* Actor::GetActorName() const
-{
-	return mActorName;
-}
-
-const int64 Actor::GetGameObjectID() const
-{
-	return mGameObjectID;
-}
-
-RemotePlayerRef Actor::GetOwner() const
-{
-	return mOwner;
-}
-
-const Protocol::SVector& Actor::GetLocation() const
-{
-	return mLocation;
-}
-
-const Protocol::SVector& Actor::GetVelocity() const
-{
-	return mVelocity;
-}
-
-const Protocol::SRotator& Actor::GetRotator() const
-{
-	return mRotator;
-}
-
-void Actor::SetActorName(const int8* inClassName)
-{
-	WCHAR wcsbuf[32];
-	//swprintf_s(wcsbuf, 32, L"[%ws:%lld]", inClassName, mGameObjectID);
-	mActorName = wcsbuf;
 }

@@ -28,7 +28,7 @@ bool Handle_C2S_EnterGameServer(PacketSessionPtr& session, Protocol::C2S_EnterGa
 	{
 		return false;
 	}
-
+	
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
 	world->PushTask(serviceTimeStamp, &World::Enter, playerState);
 	return true;
@@ -36,19 +36,6 @@ bool Handle_C2S_EnterGameServer(PacketSessionPtr& session, Protocol::C2S_EnterGa
 
 bool Handle_C2S_LeaveGameServer(PacketSessionPtr& session, Protocol::C2S_LeaveGameServer& pkt)
 {
-	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
-	if (nullptr == playerState)
-	{
-		return false;
-	}
-
-	session->Disconnect(L"LeaveGameServer");
-	return true;
-}
-
-bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_MovementCharacter& pkt)
-{
-
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
 	if (nullptr == playerState)
 	{
@@ -74,7 +61,32 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 	}
 	
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &Character::MoveDestination, playerState->GetRemotePlayer(), pkt.transform());
+	world->PushTask(serviceTimeStamp, &World::Leave, playerState);
+	return true;
+}
+
+bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_MovementCharacter& pkt)
+{
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &Character::MoveDestination, pkt);
 	return true;
 }
 
@@ -86,27 +98,14 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
-	GameTaskPtr task = gameState->GetGameTask();
-	if (nullptr == task)
-	{
-		return false;
-	}
-
-	WorldPtr world = task->GetWorld();
-	if (nullptr == world)
-	{
-		return false;
-	}
-
-	//TODO: 플레이어 가져와서 인벤토리에서 실행되도록 변경해야함
 	const int64 timestmap = pkt.timestamp();
-	world->PushTask(timestmap, &World::LoadItemToInventory, playerState, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::LoadItemToInventory, pkt);
 
 	return true;
 }
@@ -119,26 +118,14 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
-	{
-		return false;
-	}
-
-	GameTaskPtr task = gameState->GetGameTask();
-	if (nullptr == task)
-	{
-		return false;
-	}
-
-	WorldPtr world = task->GetWorld();
-	if (nullptr == world)
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
 	const int64 timestmap = pkt.timestamp();
-	world->PushTask(timestmap, &World::InsertItemToInventory, playerState, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToInventory, pkt);
 
 	return true;
 }
@@ -151,26 +138,14 @@ bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateI
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
-	{
-		return false;
-	}
-
-	GameTaskPtr task = gameState->GetGameTask();
-	if (nullptr == task)
-	{
-		return false;
-	}
-
-	WorldPtr world = task->GetWorld();
-	if (nullptr == world)
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
 	const int64 timestmap = pkt.timestamp();
-	world->PushTask(timestmap, &World::UpdateItemToInventory, playerState, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::UpdateItemToInventory, pkt);
 
 	return true;
 }
@@ -183,25 +158,51 @@ bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteI
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
-	{
-		return false;
-	}
-
-	GameTaskPtr task = gameState->GetGameTask();
-	if (nullptr == task)
-	{
-		return false;
-	}
-
-	WorldPtr world = task->GetWorld();
-	if (nullptr == world)
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
 	const int64 timestmap = pkt.timestamp();
-	world->PushTask(timestmap, &World::DeleteItemToInventory, playerState, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::DeleteItemToInventory, pkt);
+	return true;
+}
+
+bool Handle_C2S_UpdateEqipment(PacketSessionPtr& session, Protocol::C2S_UpdateEqipment& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	const int64 timestmap = pkt.timestamp();
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::UpdateEqipment, pkt);
+	return true;
+}
+
+bool Handle_C2S_DeleteEqipment(PacketSessionPtr& session, Protocol::C2S_DeleteEqipment& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	const int64 timestmap = pkt.timestamp();
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::DeleteEqipment, pkt);
 	return true;
 }

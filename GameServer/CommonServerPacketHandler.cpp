@@ -6,7 +6,8 @@ bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C
 	const int64 serviceTimeStamp		= session->GetSessionManager()->GetServiceTimeStamp();
 	const int64 serverUctTimeStamp		= Time::GetUTCTime();
 	const int64 clientUtcTimeStamp		= pkt.utc_time();
-	const int64 rtt						= serverUctTimeStamp - clientUtcTimeStamp;
+	//const int64 rtt						= serverUctTimeStamp - clientUtcTimeStamp;
+	const int64 rtt = 0;
 
 	Protocol::S2C_ReplicatedServerTimeStamp packet;
 	packet.set_time_stamp(serviceTimeStamp);

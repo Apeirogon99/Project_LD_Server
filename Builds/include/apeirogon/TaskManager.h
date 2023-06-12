@@ -18,13 +18,17 @@ public:
 	void Shutdown();
 
 public:
+	virtual void Init() abstract;
 	void ProcessTask(const int64 inServiceTimeStamp);
 	void Tick();
 
 public:
+	APEIROGON_API void		   	CreateGameObject(GameObjectPtr inGameObject);
+	APEIROGON_API void		   	DestroyGameObject(GameObjectPtr inGameObject);
+
 	APEIROGON_API void		   	PushTask(GameObjectPtr inGameObject);
 	APEIROGON_API void		   	ReleaseTask(GameObjectPtr inGameObject);
-	APEIROGON_API GameObjectPtr	FindTask(const int64 inObjectNumber);
+	APEIROGON_API GameObjectPtr	FindTask(const int64 inGameObjectID);
 
 protected:
 	const int64 NextGameObjectNumber();

@@ -3,7 +3,7 @@
 class World : public GameObject
 {
 public:
-	World(const WCHAR* inName);
+	World(const WCHAR* inName, GameTaskPtr inGameTask);
 	virtual ~World();
 
 protected:
@@ -17,20 +17,11 @@ public:
 public:
 	void Enter(PlayerStatePtr inPlayerState);
 	void Leave(PlayerStatePtr inPlayerState);
-	void Broadcast(SendBufferPtr sendBuffer);
 
-	void AppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr inAppearPlayerState);
-	void DisAppearCharacter(PlayerStatePtr inTargetPlayerState, PlayerStatePtr inAppearPlayerState);
-	void MoveDestination(PlayerStatePtr inPlayerState, Protocol::C2S_MovementCharacter inPakcet);
-
-	void InsertItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_InsertInventory inPacket);
-	void LoadItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_LoadInventory inPacket);
-	void UpdateItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_UpdateInventory inPacket);
-	void DeleteItemToInventory(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteInventory inPacket);
+	void VisibleAreaSync();
 
 	template<typename T>
 	ActorPtr CreateActor(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotator);
-	bool InsertActor(const int64 inGameObjectID, ActorPtr inActor);
 	bool DestroyActor(const int64 inGameObjectID);
 	
 	//TEMP:
@@ -59,30 +50,35 @@ public:
 	}
 
 public:
+	GameTaskPtr	GetGameTask() { return mGameTask; }
 	WorldRef	GetWorldRef();
-	const int64 GetNextGameObjectID();
-
-protected:
-	bool IsValidPlayer(RemotePlayerPtr inRemotePlayer);
-	bool IsValidGameObject(ActorPtr inActor);
 
 private:
-	std::map<int64, PlayerStatePtr> mPlayers;
-	std::map<int64, ActorPtr> mActors;
-	int64 mPlayersCount;
-	int64 mGameObjectID;
+	GameTaskPtr							mGameTask;
+	std::map<int64, PlayerStatePtr>		mPlayerStates;
+	std::map<int64, ActorPtr>			mWorldActors;
 };
 
 template<typename T>
 inline ActorPtr World::CreateActor(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotator)
 {
-	const int64 gameObject = GetNextGameObjectID();
-	ActorPtr object = std::static_pointer_cast<Actor>(std::make_shared<T>(gameObject));
-	object->Initialization();
+	if (nullptr == mGameTask)
+	{
+		return nullptr;
+	}
+
+	ActorPtr object = std::static_pointer_cast<Actor>(std::make_shared<T>());
+	if (nullptr == object)
+	{
+		return nullptr;
+	}
+
+	mGameTask->PushTask(object->GetGameObjectPtr());
+
 	object->SetLocation(inLocation);
-	object->SetRotator(inRotator);
+	object->SetRotation(inRotator);
 
-	bool result = InsertActor(gameObject, object);
-
+	std::pair<int64, ActorPtr> newObject = std::make_pair(object->GetGameObjectID(), object);
+	auto result = mWorldActors.insert(newObject);
 	return object;
 }

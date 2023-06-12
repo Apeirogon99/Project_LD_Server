@@ -12,9 +12,9 @@ private:
 	GameTask& operator=(GameTask&& player) = delete;
 
 public:
-	WorldPtr GetWorld();
+	virtual void Init() override;
 
 public:
-	WorldPtr mWorld;
+	WorldPtr GetWorld();
 };
 

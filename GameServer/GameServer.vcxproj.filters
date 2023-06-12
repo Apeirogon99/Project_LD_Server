@@ -52,6 +52,9 @@
     <Filter Include="Content\Private">
       <UniqueIdentifier>{37176172-de05-418a-bde4-e992aac6edfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Framework">
+      <UniqueIdentifier>{79fefb87-e721-4ee4-8b41-b4732af8b101}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -99,9 +102,6 @@
     <ClCompile Include="GameServerPacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="RemotePlayer.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
     <ClCompile Include="InventoryDatabase.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
@@ -117,17 +117,29 @@
     <ClCompile Include="GameDatas.cpp">
       <Filter>FrameWork\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
     <ClCompile Include="AItem.cpp">
       <Filter>Content\Private</Filter>
     </ClCompile>
     <ClCompile Include="GameTask.cpp">
       <Filter>FrameWork\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterDatabase.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="RemotePlayer.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="AICharacter.cpp">
+      <Filter>Content\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +191,6 @@
     <ClInclude Include="GamePacket.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
-    <ClInclude Include="RemotePlayer.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
     <ClInclude Include="InventoryDatabase.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
@@ -194,12 +203,6 @@
     <ClInclude Include="GameDatas.h">
       <Filter>FrameWork\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
     <ClInclude Include="AItem.h">
       <Filter>Content\Public</Filter>
     </ClInclude>
@@ -209,5 +212,26 @@
     <ClInclude Include="GameTask.h">
       <Filter>FrameWork\Public</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Pawn.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="RemotePlayer.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="AICharacter.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

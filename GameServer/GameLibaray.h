@@ -28,10 +28,12 @@
 //		 GameContent		//
 //==========================//
 #include "Actor.h"
+#include "Pawn.h"
+#include "Character.h"
+#include "AICharacter.h"
+#include "RemotePlayer.h"
 #include "AItem.h"
 #include "Inventory.h"
-#include "Character.h"
-#include "RemotePlayer.h"
 #include "World.h"
 
 //==========================//
@@ -45,4 +47,5 @@
 //		   DataBase			//
 //==========================//
 #include "GameDataBaseHandler.h"
+#include "CharacterDatabase.h"
 #include "InventoryDatabase.h"

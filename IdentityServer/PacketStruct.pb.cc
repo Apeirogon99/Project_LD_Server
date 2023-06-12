@@ -86,6 +86,7 @@ PROTOBUF_CONSTEXPR SCharacterData::SCharacterData(
   , /*decltype(_impl_.appearance_)*/nullptr
   , /*decltype(_impl_.eqipment_)*/nullptr
   , /*decltype(_impl_.level_)*/0
+  , /*decltype(_impl_.experience_)*/0
   , /*decltype(_impl_.character_class_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SCharacterDataDefaultTypeInternal {
@@ -158,9 +159,9 @@ struct SRotatorDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SRotatorDefaultTypeInternal _SRotator_default_instance_;
 PROTOBUF_CONSTEXPR STransform::STransform(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.position_)*/nullptr
-  , /*decltype(_impl_.velocity_)*/nullptr
+    /*decltype(_impl_.location_)*/nullptr
   , /*decltype(_impl_.rotation_)*/nullptr
+  , /*decltype(_impl_.scale_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct STransformDefaultTypeInternal {
   PROTOBUF_CONSTEXPR STransformDefaultTypeInternal()
@@ -230,6 +231,7 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.level_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.experience_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.character_class_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.appearance_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.eqipment_),
@@ -274,9 +276,9 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::STransform, _impl_.position_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::STransform, _impl_.velocity_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::STransform, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::STransform, _impl_.rotation_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::STransform, _impl_.scale_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -293,12 +295,12 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, -1, -1, sizeof(::Protocol::SCharacterAppearance)},
   { 12, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
   { 28, -1, -1, sizeof(::Protocol::SCharacterData)},
-  { 39, -1, -1, sizeof(::Protocol::SVector)},
-  { 48, -1, -1, sizeof(::Protocol::SVector2D)},
-  { 56, -1, -1, sizeof(::Protocol::SVelocity)},
-  { 65, -1, -1, sizeof(::Protocol::SRotator)},
-  { 74, -1, -1, sizeof(::Protocol::STransform)},
-  { 83, -1, -1, sizeof(::Protocol::SItem)},
+  { 40, -1, -1, sizeof(::Protocol::SVector)},
+  { 49, -1, -1, sizeof(::Protocol::SVector2D)},
+  { 57, -1, -1, sizeof(::Protocol::SVelocity)},
+  { 66, -1, -1, sizeof(::Protocol::SRotator)},
+  { 75, -1, -1, sizeof(::Protocol::STransform)},
+  { 84, -1, -1, sizeof(::Protocol::SItem)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -323,31 +325,31 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "\006helmet\030\002 \001(\005\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005ches"
   "t\030\004 \001(\005\022\017\n\007bracers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022"
   "\r\n\005pants\030\007 \001(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_"
-  "l\030\t \001(\005\022\020\n\010weapon_r\030\n \001(\005\"\305\001\n\016SCharacter"
-  "Data\022\014\n\004name\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\0222\n\017cha"
-  "racter_class\030\004 \001(\0162\031.Protocol.ECharacter"
-  "Class\0222\n\nappearance\030\005 \001(\0132\036.Protocol.SCh"
-  "aracterAppearance\022.\n\010eqipment\030\006 \001(\0132\034.Pr"
-  "otocol.SCharacterEqipment\"*\n\007SVector\022\t\n\001"
-  "x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"!\n\tSVector"
-  "2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\",\n\tSVelocity\022\t\n"
-  "\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"4\n\010SRotat"
-  "or\022\014\n\004roll\030\001 \001(\002\022\r\n\005pitch\030\002 \001(\002\022\013\n\003yaw\030\003"
-  " \001(\002\"|\n\nSTransform\022#\n\010position\030\001 \001(\0132\021.P"
-  "rotocol.SVector\022#\n\010velocity\030\002 \001(\0132\021.Prot"
-  "ocol.SVector\022$\n\010rotation\030\003 \001(\0132\022.Protoco"
-  "l.SRotator\"\227\001\n\005SItem\022\021\n\tobject_id\030\001 \001(\003\022"
-  "\021\n\titem_code\030\002 \001(\005\022)\n\016world_position\030\003 \001"
-  "(\0132\021.Protocol.SVector\022+\n\016inven_position\030"
-  "\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotation\030\005"
-  " \001(\005b\006proto3"
+  "l\030\t \001(\005\022\020\n\010weapon_r\030\n \001(\005\"\331\001\n\016SCharacter"
+  "Data\022\014\n\004name\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexp"
+  "erience\030\003 \001(\005\0222\n\017character_class\030\004 \001(\0162\031"
+  ".Protocol.ECharacterClass\0222\n\nappearance\030"
+  "\005 \001(\0132\036.Protocol.SCharacterAppearance\022.\n"
+  "\010eqipment\030\006 \001(\0132\034.Protocol.SCharacterEqi"
+  "pment\"*\n\007SVector\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t"
+  "\n\001z\030\003 \001(\002\"!\n\tSVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002"
+  " \001(\005\",\n\tSVelocity\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022"
+  "\t\n\001z\030\003 \001(\002\"4\n\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005"
+  "pitch\030\002 \001(\002\022\013\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#"
+  "\n\010location\030\001 \001(\0132\021.Protocol.SVector\022$\n\010r"
+  "otation\030\002 \001(\0132\022.Protocol.SRotator\022 \n\005sca"
+  "le\030\003 \001(\0132\021.Protocol.SVector\"\227\001\n\005SItem\022\021\n"
+  "\tobject_id\030\001 \001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016w"
+  "orld_position\030\003 \001(\0132\021.Protocol.SVector\022+"
+  "\n\016inven_position\030\004 \001(\0132\023.Protocol.SVecto"
+  "r2D\022\020\n\010rotation\030\005 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1052, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1069, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 9,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -1105,6 +1107,7 @@ SCharacterData::SCharacterData(const SCharacterData& from)
     , decltype(_impl_.appearance_){nullptr}
     , decltype(_impl_.eqipment_){nullptr}
     , decltype(_impl_.level_){}
+    , decltype(_impl_.experience_){}
     , decltype(_impl_.character_class_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -1138,6 +1141,7 @@ inline void SCharacterData::SharedCtor(
     , decltype(_impl_.appearance_){nullptr}
     , decltype(_impl_.eqipment_){nullptr}
     , decltype(_impl_.level_){0}
+    , decltype(_impl_.experience_){0}
     , decltype(_impl_.character_class_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -1211,6 +1215,14 @@ const char* SCharacterData::_InternalParse(const char* ptr, ::_pbi::ParseContext
         } else
           goto handle_unusual;
         continue;
+      // int32 experience = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.experience_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       // .Protocol.ECharacterClass character_class = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
@@ -1277,6 +1289,12 @@ uint8_t* SCharacterData::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_level(), target);
   }
 
+  // int32 experience = 3;
+  if (this->_internal_experience() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_experience(), target);
+  }
+
   // .Protocol.ECharacterClass character_class = 4;
   if (this->_internal_character_class() != 0) {
     target = stream->EnsureSpace(target);
@@ -1340,6 +1358,11 @@ size_t SCharacterData::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_level());
   }
 
+  // int32 experience = 3;
+  if (this->_internal_experience() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_experience());
+  }
+
   // .Protocol.ECharacterClass character_class = 4;
   if (this->_internal_character_class() != 0) {
     total_size += 1 +
@@ -1377,6 +1400,9 @@ void SCharacterData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   }
   if (from._internal_level() != 0) {
     _this->_internal_set_level(from._internal_level());
+  }
+  if (from._internal_experience() != 0) {
+    _this->_internal_set_experience(from._internal_experience());
   }
   if (from._internal_character_class() != 0) {
     _this->_internal_set_character_class(from._internal_character_class());
@@ -2446,22 +2472,22 @@ void SRotator::InternalSwap(SRotator* other) {
 
 class STransform::_Internal {
  public:
-  static const ::Protocol::SVector& position(const STransform* msg);
-  static const ::Protocol::SVector& velocity(const STransform* msg);
+  static const ::Protocol::SVector& location(const STransform* msg);
   static const ::Protocol::SRotator& rotation(const STransform* msg);
+  static const ::Protocol::SVector& scale(const STransform* msg);
 };
 
 const ::Protocol::SVector&
-STransform::_Internal::position(const STransform* msg) {
-  return *msg->_impl_.position_;
-}
-const ::Protocol::SVector&
-STransform::_Internal::velocity(const STransform* msg) {
-  return *msg->_impl_.velocity_;
+STransform::_Internal::location(const STransform* msg) {
+  return *msg->_impl_.location_;
 }
 const ::Protocol::SRotator&
 STransform::_Internal::rotation(const STransform* msg) {
   return *msg->_impl_.rotation_;
+}
+const ::Protocol::SVector&
+STransform::_Internal::scale(const STransform* msg) {
+  return *msg->_impl_.scale_;
 }
 STransform::STransform(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -2473,20 +2499,20 @@ STransform::STransform(const STransform& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   STransform* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.position_){nullptr}
-    , decltype(_impl_.velocity_){nullptr}
+      decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.scale_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_position()) {
-    _this->_impl_.position_ = new ::Protocol::SVector(*from._impl_.position_);
-  }
-  if (from._internal_has_velocity()) {
-    _this->_impl_.velocity_ = new ::Protocol::SVector(*from._impl_.velocity_);
+  if (from._internal_has_location()) {
+    _this->_impl_.location_ = new ::Protocol::SVector(*from._impl_.location_);
   }
   if (from._internal_has_rotation()) {
     _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
+  }
+  if (from._internal_has_scale()) {
+    _this->_impl_.scale_ = new ::Protocol::SVector(*from._impl_.scale_);
   }
   // @@protoc_insertion_point(copy_constructor:Protocol.STransform)
 }
@@ -2496,9 +2522,9 @@ inline void STransform::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.position_){nullptr}
-    , decltype(_impl_.velocity_){nullptr}
+      decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.scale_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -2514,9 +2540,9 @@ STransform::~STransform() {
 
 inline void STransform::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.position_;
-  if (this != internal_default_instance()) delete _impl_.velocity_;
+  if (this != internal_default_instance()) delete _impl_.location_;
   if (this != internal_default_instance()) delete _impl_.rotation_;
+  if (this != internal_default_instance()) delete _impl_.scale_;
 }
 
 void STransform::SetCachedSize(int size) const {
@@ -2529,18 +2555,18 @@ void STransform::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
-    delete _impl_.position_;
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
   }
-  _impl_.position_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
-    delete _impl_.velocity_;
-  }
-  _impl_.velocity_ = nullptr;
+  _impl_.location_ = nullptr;
   if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
     delete _impl_.rotation_;
   }
   _impl_.rotation_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.scale_ != nullptr) {
+    delete _impl_.scale_;
+  }
+  _impl_.scale_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2550,26 +2576,26 @@ const char* STransform::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .Protocol.SVector position = 1;
+      // .Protocol.SVector location = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_location(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SVector velocity = 2;
+      // .Protocol.SRotator rotation = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SRotator rotation = 3;
+      // .Protocol.SVector scale = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_scale(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2603,25 +2629,25 @@ uint8_t* STransform::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Protocol.SVector position = 1;
-  if (this->_internal_has_position()) {
+  // .Protocol.SVector location = 1;
+  if (this->_internal_has_location()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::position(this),
-        _Internal::position(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(1, _Internal::location(this),
+        _Internal::location(this).GetCachedSize(), target, stream);
   }
 
-  // .Protocol.SVector velocity = 2;
-  if (this->_internal_has_velocity()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::velocity(this),
-        _Internal::velocity(this).GetCachedSize(), target, stream);
-  }
-
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 2;
   if (this->_internal_has_rotation()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::rotation(this),
+      InternalWriteMessage(2, _Internal::rotation(this),
         _Internal::rotation(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.SVector scale = 3;
+  if (this->_internal_has_scale()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::scale(this),
+        _Internal::scale(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2640,25 +2666,25 @@ size_t STransform::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SVector position = 1;
-  if (this->_internal_has_position()) {
+  // .Protocol.SVector location = 1;
+  if (this->_internal_has_location()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.position_);
+        *_impl_.location_);
   }
 
-  // .Protocol.SVector velocity = 2;
-  if (this->_internal_has_velocity()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.velocity_);
-  }
-
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 2;
   if (this->_internal_has_rotation()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.rotation_);
+  }
+
+  // .Protocol.SVector scale = 3;
+  if (this->_internal_has_scale()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.scale_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2679,17 +2705,17 @@ void STransform::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_position()) {
-    _this->_internal_mutable_position()->::Protocol::SVector::MergeFrom(
-        from._internal_position());
-  }
-  if (from._internal_has_velocity()) {
-    _this->_internal_mutable_velocity()->::Protocol::SVector::MergeFrom(
-        from._internal_velocity());
+  if (from._internal_has_location()) {
+    _this->_internal_mutable_location()->::Protocol::SVector::MergeFrom(
+        from._internal_location());
   }
   if (from._internal_has_rotation()) {
     _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
         from._internal_rotation());
+  }
+  if (from._internal_has_scale()) {
+    _this->_internal_mutable_scale()->::Protocol::SVector::MergeFrom(
+        from._internal_scale());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2709,11 +2735,11 @@ void STransform::InternalSwap(STransform* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(STransform, _impl_.rotation_)
-      + sizeof(STransform::_impl_.rotation_)
-      - PROTOBUF_FIELD_OFFSET(STransform, _impl_.position_)>(
-          reinterpret_cast<char*>(&_impl_.position_),
-          reinterpret_cast<char*>(&other->_impl_.position_));
+      PROTOBUF_FIELD_OFFSET(STransform, _impl_.scale_)
+      + sizeof(STransform::_impl_.scale_)
+      - PROTOBUF_FIELD_OFFSET(STransform, _impl_.location_)>(
+          reinterpret_cast<char*>(&_impl_.location_),
+          reinterpret_cast<char*>(&other->_impl_.location_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata STransform::GetMetadata() const {

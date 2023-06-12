@@ -41,7 +41,7 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[2];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[3];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketEnum_2eproto = nullptr;
 const uint32_t TableStruct_PacketEnum_2eproto::offsets[1] = {};
 static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
@@ -52,11 +52,16 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   "\020Race_Unspecified\020\000\022\014\n\010Race_Men\020\001\022\016\n\nRac"
   "e_Women\020\002\022\014\n\010Race_Orc\020\003*P\n\017ECharacterCla"
   "ss\022\026\n\022CClass_Unspecified\020\000\022\022\n\016CClass_War"
-  "rior\020\001\022\021\n\rCClass_Wizard\020\002b\006proto3"
+  "rior\020\001\022\021\n\rCClass_Wizard\020\002*\303\001\n\016ECharacter"
+  "Part\022\024\n\020Part_Unspecified\020\000\022\017\n\013Part_helme"
+  "t\020\001\022\022\n\016Part_Shoulders\020\002\022\016\n\nPart_Chest\020\003\022"
+  "\020\n\014Part_Bracers\020\004\022\016\n\nPart_Hands\020\005\022\016\n\nPar"
+  "t_Pants\020\006\022\016\n\nPart_Boots\020\007\022\021\n\rPart_Weapon"
+  "_l\020\010\022\021\n\rPart_Weapon_r\020\tb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 193, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 391, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -95,6 +100,28 @@ bool ECharacterClass_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECharacterPart_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
+  return file_level_enum_descriptors_PacketEnum_2eproto[2];
+}
+bool ECharacterPart_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
       return true;
     default:
       return false;

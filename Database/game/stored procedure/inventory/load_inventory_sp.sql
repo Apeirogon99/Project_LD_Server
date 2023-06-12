@@ -20,7 +20,7 @@ BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
 
-		SELECT item_code, world_pos_x, world_pos_y, world_pos_z, inven_pos_x, inven_pos_y, rotation FROM inventory_tb WHERE character_id=@character_id;
+		SELECT item_code, inven_pos_x, inven_pos_y, rotation FROM inventory_tb WHERE character_id=@character_id;
 		
 		COMMIT TRANSACTION;
 		RETURN 0
