@@ -24,12 +24,12 @@ public:
 public:
 	bool LoadItem(Protocol::S2C_LoadInventory& inPacket);
 
-	bool InsertItem(const AItem& inItem);
-	bool UpdateItem(const AItem& inItem);
-	bool DeleteItem(const AItem& inItem);
+	bool InsertItem(const AItemPtr& inItem);
+	bool UpdateItem(const AItemPtr& inItem);
+	bool DeleteItem(const AItemPtr& inItem);
 
-	const AItem* FindItem(const int64 inObjectID);
-	const AItem* FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY);
+	const AItemPtr& FindItem(const int64 inObjectID);
+	const AItemPtr& FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY);
 
 	bool RollBackItem();
 
@@ -40,8 +40,8 @@ public:
 	CSVRow* PeekItemRow(const int32 inItemCode);
 
 protected:
-	bool AddItem(const AItem& item);
-	bool SubItem(const AItem& item);
+	bool AddItem(const AItemPtr& item);
+	bool SubItem(const AItemPtr& item);
 
 	void PrintInventoryDebug();
 
@@ -52,7 +52,7 @@ private:
 	int32								mHeight;
 	int32								mStorage;
 	uint8*								mInventory;
-	std::unordered_map<int64, AItem>	mItems;
+	std::unordered_map<int64, AItemPtr>	mItems;
 
 	RemotePlayerRef						mRemotePlayer;
 };

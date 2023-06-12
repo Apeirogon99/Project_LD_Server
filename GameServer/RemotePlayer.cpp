@@ -18,7 +18,7 @@ RemotePlayer::~RemotePlayer()
 void RemotePlayer::Initialization()
 {
 	RemotePlayerRef remotePlayerRef = GetRemotePlayer();
-	mInventory = std::make_shared<Inventory>(remotePlayerRef, 6, 15);
+	mInventory = std::make_shared<Inventory>(remotePlayerRef, 12, 7);
 	mCharacter = std::make_shared<Character>(remotePlayerRef);
 }
 

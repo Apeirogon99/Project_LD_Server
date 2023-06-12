@@ -62,12 +62,12 @@ ip = L"127.0.0.1";
 #endif
 
 	//Listener
-	IPAddressPtr IdentityIpAddress = std::make_shared<IPAddress>();
-	IdentityIpAddress->SetIp(ip.c_str(), 10000, EProtocolType::IPv4);
+	IPAddressPtr gameIpAddress = std::make_shared<IPAddress>();
+	gameIpAddress->SetIp(ip.c_str(), 10000, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
-	GameListenerPtr identityListener = std::make_shared<GameListener>(IdentityIpAddress);
-	ListenerPtr listener = ::static_pointer_cast<Listener>(move(identityListener));
+	GameListenerPtr gameListener = std::make_shared<GameListener>(gameIpAddress);
+	ListenerPtr listener = ::static_pointer_cast<Listener>(move(gameListener));
 	if (false == SetListener(listener))
 	{
 		return false;

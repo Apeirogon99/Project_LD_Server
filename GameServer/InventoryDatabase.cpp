@@ -64,9 +64,10 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 			int32		inven_pos_y = inRecordset.GetFieldItem(L"inven_pos_y");
 			int32		rotation	= inRecordset.GetFieldItem(L"rotation");
 
-			AItem newItem;
-			task->CreateGameObject(newItem.GetGameObjectPtr());
-			newItem.Init(item_code, inven_pos_x, inven_pos_y, rotation);
+			AItemPtr newItem = std::make_shared<AItem>();
+			GameObjectPtr gameObject = newItem->GetGameObjectPtr();
+			task->CreateGameObject(gameObject);
+			newItem->Init(item_code, inven_pos_x, inven_pos_y, rotation);
 
 			remotePlayer->GetInventory()->InsertItem(newItem);
 			inRecordset.MoveNext();
@@ -164,7 +165,9 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 
 		world->DestroyActor(item.object_id());
 
-		bool pushResult = remotePlayer->GetInventory()->InsertItem(item);
+		AItemPtr newItem = std::make_shared<AItem>();
+		newItem->Init(item);
+		bool pushResult = remotePlayer->GetInventory()->InsertItem(newItem);
 
 		Protocol::S2C_InsertInventory InsertInventoryPacket;
 		InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
@@ -210,7 +213,7 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		int32 posx	= inCommand.GetParam(L"@inven_pos_x");
 		int32 posy	= inCommand.GetParam(L"@inven_pos_y");
 
-		const AItem* findItem = remotePlayer->GetInventory()->FindItem(code, posx, posy);
+		const AItemPtr& findItem = remotePlayer->GetInventory()->FindItem(code, posx, posy);
 		Protocol::SItem deleteItem;
 		deleteItem.set_object_id(findItem->GetGameObjectID());
 		deleteItem.set_item_code(findItem->GetItemCode());
@@ -218,7 +221,7 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		deleteItem.mutable_inven_position()->CopyFrom(findItem->GetInventoryPosition());
 		deleteItem.set_rotation(findItem->GetInventoryRoation());
 
-		bool result = remotePlayer->GetInventory()->DeleteItem(deleteItem);
+		bool result = remotePlayer->GetInventory()->DeleteItem(findItem);
 
 		Protocol::SRotator rotation;
 		rotation.set_pitch(0);
@@ -262,7 +265,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	ADOVariant character_id = 0;	//TODO:
 	ADOVariant item_code = item.item_code();
 
-	const AItem* findItem = remotePlayer->GetInventory()->FindItem(item.object_id());
+	const AItemPtr& findItem = remotePlayer->GetInventory()->FindItem(item.object_id());
 	if (nullptr == findItem)
 	{
 		return false;
@@ -289,7 +292,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	command.SetInputParam(L"@new_rotation", new_rotation);
 
 	{
-		bool result = remotePlayer->GetInventory()->UpdateItem(item);
+		bool result = remotePlayer->GetInventory()->UpdateItem(findItem);
 
 		Protocol::S2C_UpdateInventory updateInventoryPacket;
 		updateInventoryPacket.set_error(result);
@@ -381,7 +384,8 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 			return false;
 		}
 
-		bool result = remotePlayer->GetInventory()->DeleteItem(item);
+		AItemPtr findItem = remotePlayer->GetInventory()->FindItem(item.object_id());
+		bool result = remotePlayer->GetInventory()->DeleteItem(findItem);
 
 		Protocol::SRotator rotation;
 		rotation.set_pitch(0);

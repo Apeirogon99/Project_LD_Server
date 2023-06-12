@@ -3,9 +3,7 @@
 
 Inventory::Inventory(const RemotePlayerRef& inReomtePlayer, const int32 inInventoryWidth, const int32 inInventoryHeight) : GameObject(L"Inventory"), mIsLoad(false), mWidth(inInventoryWidth), mHeight(inInventoryHeight), mRemotePlayer(inReomtePlayer)
 {
-	mStorage = mWidth * mHeight;
-	mInventory = new uint8[mStorage]();
-	memset(mInventory, 0, mStorage);
+
 }
 
 Inventory::~Inventory()
@@ -15,10 +13,9 @@ Inventory::~Inventory()
 
 void Inventory::Initialization()
 {
-	mWidth			= 0;
-	mHeight			= 0;
-	mStorage		= 0;
-	mInventory		= nullptr;
+	mStorage = mWidth * mHeight;
+	mInventory = new uint8[mStorage]();
+	memset(mInventory, 0, mStorage);
 }
 
 void Inventory::Destroy()
@@ -160,36 +157,36 @@ bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
 {
 	for (auto& item : mItems)
 	{
-		const AItem& curItem = item.second;
+		const AItemPtr& curItem = item.second;
 
 		Protocol::SItem* loadItem = inPacket.add_item();
-		loadItem->set_object_id(curItem.GetGameObjectID());
-		loadItem->set_item_code(curItem.GetItemCode());
-		loadItem->mutable_world_position()->CopyFrom(curItem.GetLocation());
-		loadItem->mutable_inven_position()->CopyFrom(curItem.GetInventoryPosition());
-		loadItem->set_rotation(curItem.GetInventoryRoation());
+		loadItem->set_object_id(curItem->GetGameObjectID());
+		loadItem->set_item_code(curItem->GetItemCode());
+		loadItem->mutable_world_position()->CopyFrom(curItem->GetLocation());
+		loadItem->mutable_inven_position()->CopyFrom(curItem->GetInventoryPosition());
+		loadItem->set_rotation(curItem->GetInventoryRoation());
 	}
 	inPacket.set_error(0);
 	return true;
 }
 
-bool Inventory::InsertItem(const AItem& inItem)
+bool Inventory::InsertItem(const AItemPtr& inItem)
 {
 	if (false == AddItem(inItem))
 	{
 		return false;
 	}
 
-	const int64 gameObjectID = inItem.GetGameObjectID();
-	std::pair<int64, AItem> newItem = std::make_pair(gameObjectID, inItem);
+	const int64 gameObjectID = inItem->GetGameObjectID();
+	std::pair<int64, AItemPtr> newItem = std::make_pair(gameObjectID, inItem);
 
 	auto result = mItems.insert(newItem);
 	return result.second;
 }
 
-bool Inventory::UpdateItem(const AItem& inItem)
+bool Inventory::UpdateItem(const AItemPtr& inItem)
 {
-	const int64 gameObjectID = inItem.GetGameObjectID();
+	const int64 gameObjectID = inItem->GetGameObjectID();
 	auto findItem = mItems.find(gameObjectID);
 	if (findItem == mItems.end())
 	{
@@ -203,9 +200,9 @@ bool Inventory::UpdateItem(const AItem& inItem)
 	return true;
 }
 
-bool Inventory::DeleteItem(const AItem& inItem)
+bool Inventory::DeleteItem(const AItemPtr& inItem)
 {
-	const int64 gameObjectID = inItem.GetGameObjectID();
+	const int64 gameObjectID = inItem->GetGameObjectID();
 	size_t result = mItems.erase(gameObjectID);
 	if (result != 0)
 	{
@@ -216,7 +213,7 @@ bool Inventory::DeleteItem(const AItem& inItem)
 	return false;
 }
 
-const AItem* Inventory::FindItem(const int64 inObjectID)
+const AItemPtr& Inventory::FindItem(const int64 inObjectID)
 {
 	auto findItem = mItems.find(inObjectID);
 	if (findItem == mItems.end())
@@ -224,18 +221,18 @@ const AItem* Inventory::FindItem(const int64 inObjectID)
 		return nullptr;
 	}
 
-	return &findItem->second;
+	return findItem->second;
 }
 
-const AItem* Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY)
+const AItemPtr& Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY)
 {
 
 	for (auto& item : mItems)
 	{
-		const AItem& tempItem = item.second;
-		if (tempItem.GetItemCode() == inItemCode && tempItem.GetInventoryPosition().x() == inInventoryPositionX && tempItem.GetInventoryPosition().y() == inInventoryPositionY)
+		const AItemPtr& tempItem = item.second;
+		if (tempItem->GetItemCode() == inItemCode && tempItem->GetInventoryPosition().x() == inInventoryPositionX && tempItem->GetInventoryPosition().y() == inInventoryPositionY)
 		{
-			return &tempItem;
+			return tempItem;
 		}
 	}
 
@@ -300,10 +297,10 @@ CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 	return dataManager->PeekRow(static_cast<uint8>(EGameDataType::Item), inItemCode);
 }
 
-bool Inventory::AddItem(const AItem& item)
+bool Inventory::AddItem(const AItemPtr& item)
 {
 
-	CSVRow* row = PeekItemRow(item.GetItemCode());
+	CSVRow* row = PeekItemRow(item->GetItemCode());
 	if (nullptr == row)
 	{
 		return false;
@@ -313,11 +310,11 @@ bool Inventory::AddItem(const AItem& item)
 	int32 itemSizeY = stoi(row->at(static_cast<int32>(EItemCellType::size_y)));
 
 	//가로
-	if (item.GetInventoryRoation() == 0)
+	if (item->GetInventoryRoation() == 0)
 	{
-		for (int32 indexY = item.GetInventoryPosition().y(); indexY < item.GetInventoryPosition().y() + itemSizeY; ++indexY)
+		for (int32 indexY = item->GetInventoryPosition().y(); indexY < item->GetInventoryPosition().y() + itemSizeY; ++indexY)
 		{
-			for (int32 indexX = item.GetInventoryPosition().x(); indexX < item.GetInventoryPosition().x() + itemSizeX; ++indexX)
+			for (int32 indexX = item->GetInventoryPosition().x(); indexX < item->GetInventoryPosition().x() + itemSizeX; ++indexX)
 			{
 				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] += 1;
@@ -325,11 +322,11 @@ bool Inventory::AddItem(const AItem& item)
 		}
 	}
 	//세로
-	else if (item.GetInventoryRoation() == 1)
+	else if (item->GetInventoryRoation() == 1)
 	{
-		for (int32 indexY = item.GetInventoryPosition().y(); indexY < item.GetInventoryPosition().y() + itemSizeX; ++indexY)
+		for (int32 indexY = item->GetInventoryPosition().y(); indexY < item->GetInventoryPosition().y() + itemSizeX; ++indexY)
 		{
-			for (int32 indexX = item.GetInventoryPosition().x(); indexX < item.GetInventoryPosition().x() + itemSizeY; ++indexX)
+			for (int32 indexX = item->GetInventoryPosition().x(); indexX < item->GetInventoryPosition().x() + itemSizeY; ++indexX)
 			{
 				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] += 1;
@@ -344,9 +341,9 @@ bool Inventory::AddItem(const AItem& item)
 	return true;
 }
 
-bool Inventory::SubItem(const AItem& item)
+bool Inventory::SubItem(const AItemPtr& item)
 {
-	CSVRow* row = PeekItemRow(item.GetItemCode());
+	CSVRow* row = PeekItemRow(item->GetItemCode());
 	if (nullptr == row)
 	{
 		return false;
@@ -356,11 +353,11 @@ bool Inventory::SubItem(const AItem& item)
 	int32 itemSizeY = stoi(row->at(static_cast<int32>(EItemCellType::size_y)));
 
 	//가로
-	if (item.GetInventoryRoation() == 0)
+	if (item->GetInventoryRoation() == 0)
 	{
-		for (int32 indexY = item.GetInventoryPosition().y(); indexY < item.GetInventoryPosition().y() + itemSizeY; ++indexY)
+		for (int32 indexY = item->GetInventoryPosition().y(); indexY < item->GetInventoryPosition().y() + itemSizeY; ++indexY)
 		{
-			for (int32 indexX = item.GetInventoryPosition().x(); indexX < item.GetInventoryPosition().x() + itemSizeX; ++indexX)
+			for (int32 indexX = item->GetInventoryPosition().x(); indexX < item->GetInventoryPosition().x() + itemSizeX; ++indexX)
 			{
 				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] -= 1;
@@ -368,11 +365,11 @@ bool Inventory::SubItem(const AItem& item)
 		}
 	}
 	//세로
-	else if (item.GetInventoryRoation() == 1)
+	else if (item->GetInventoryRoation() == 1)
 	{
-		for (int32 indexY = item.GetInventoryPosition().y(); indexY < item.GetInventoryPosition().y() + itemSizeX; ++indexY)
+		for (int32 indexY = item->GetInventoryPosition().y(); indexY < item->GetInventoryPosition().y() + itemSizeX; ++indexY)
 		{
-			for (int32 indexX = item.GetInventoryPosition().x(); indexX < item.GetInventoryPosition().x() + itemSizeY; ++indexX)
+			for (int32 indexX = item->GetInventoryPosition().x(); indexX < item->GetInventoryPosition().x() + itemSizeY; ++indexX)
 			{
 				const int32 indexPos = (indexX + (indexY * mWidth));
 				mInventory[indexPos] -= 1;

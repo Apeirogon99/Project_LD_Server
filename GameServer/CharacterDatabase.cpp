@@ -19,7 +19,7 @@ bool Handle_LoadCharacter_Request(PacketSessionPtr& inSession, const int32 chara
 	ADORecordset recordset;
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 
-	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_LoadInventory_Response);
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_LoadCharacter_Response);
 	return true;
 }
 
