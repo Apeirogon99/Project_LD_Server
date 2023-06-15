@@ -17,21 +17,26 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	template <typename... Types>
-	void PlayerStateLog(const WCHAR* inLog, Types... inArgs)
-	{
-		const int64 remoteID = mRemotePlayer->mRemoteID;
+	RemotePlayerPtr GetRemotePlayer() { return mRemotePlayer; }
 
-		std::wstring tempLog;
-		tempLog.append(L"[REMOTE ID::]");
-		tempLog.append(remoteID);
-		tempLog.append(L"] ");
-		tempLog.append(inLog);
-
-		this->SessionLog(tempLog.c_str(), inArgs...);
-	}
-
-public:
+private:
 	RemotePlayerPtr mRemotePlayer;
+
+protected:
+	template <typename... Types>
+	void PlayerStateLog(const WCHAR* inLog, Types... inArgs);
 };
 
+template<typename ...Types>
+inline void IdentityPlayerState::PlayerStateLog(const WCHAR* inLog, Types ...inArgs)
+{
+	const int64 remoteID = mRemotePlayer->GetGameObjectID();
+
+	std::wstring tempLog;
+	tempLog.append(L"[REMOTE ID::]");
+	tempLog.append(remoteID);
+	tempLog.append(L"] ");
+	tempLog.append(inLog);
+
+	this->SessionLog(tempLog.c_str(), inArgs...);
+}

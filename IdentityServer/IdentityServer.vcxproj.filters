@@ -126,6 +126,18 @@
     <ClInclude Include="IdentityDataManager.h">
       <Filter>Source\Public\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="IdentityTask.h">
+      <Filter>Source\Public\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectRoom.h">
+      <Filter>Source\Public\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomRoom.h">
+      <Filter>Source\Public\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Source\Public\Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -193,6 +205,18 @@
     </ClCompile>
     <ClCompile Include="IdentityDataManager.cpp">
       <Filter>Source\Private\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentityTask.cpp">
+      <Filter>Source\Private\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectRoom.cpp">
+      <Filter>Source\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomRoom.cpp">
+      <Filter>Source\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source\Private\Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,6 +23,7 @@
     <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />
     <ClInclude Include="CommonServerPacketHandler.h" />
+    <ClInclude Include="CustomRoom.h" />
     <ClInclude Include="FowradEnum.h" />
     <ClInclude Include="IdentitiyDatabase.h" />
     <ClInclude Include="DatabaseHandler.h" />
@@ -36,12 +37,15 @@
     <ClInclude Include="IdentityPlayerState.h" />
     <ClInclude Include="IdentityServerPacketHandler.h" />
     <ClInclude Include="IdentityService.h" />
+    <ClInclude Include="IdentityTask.h" />
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketStruct.pb.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="LoginRoom.h" />
     <ClInclude Include="RemotePlayer.h" />
+    <ClInclude Include="SelectRoom.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
@@ -53,6 +57,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CommonServerPacketHandler.cpp" />
+    <ClCompile Include="CustomRoom.cpp" />
     <ClCompile Include="IdentitiyDatabase.cpp" />
     <ClCompile Include="DatabaseHandler.cpp" />
     <ClCompile Include="IdentityDatabase.cpp" />
@@ -70,6 +75,7 @@
     <ClCompile Include="IdentityServer.cpp" />
     <ClCompile Include="IdentityServerPacketHandler.cpp" />
     <ClCompile Include="IdentityService.cpp" />
+    <ClCompile Include="IdentityTask.cpp" />
     <ClCompile Include="PacketEnum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -95,6 +101,8 @@
     </ClCompile>
     <ClCompile Include="LoginRoom.cpp" />
     <ClCompile Include="RemotePlayer.cpp" />
+    <ClCompile Include="SelectRoom.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

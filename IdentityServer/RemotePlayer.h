@@ -1,23 +1,38 @@
 #pragma once
-class RemotePlayer
+class RemotePlayer : public GameObject
 {
 public:
 	RemotePlayer();
 	virtual ~RemotePlayer();
 
 public:
-	void		Init() {}
-	Character*	FindCharacter(const int8* name);
+	virtual void		Initialization()	override;
+	virtual void		Destroy()			override;
+	virtual void		Tick()				override;
+	virtual bool		IsValid()			override;
 
 public:
-	ERoomType	mRoomType;
+	void				SetRoomType(const ERoomType inRoomType);
+	void				SetGlobalID(const int32 inGlobalID);
+	void				SetServerID(const int32 inServerID);
+	void				SetToken(const std::string& inToken);
+	void				SetCharacters(const std::vector<CharacterPtr>& inCharacters);
 
+public:
+	const ERoomType&	GetRoomType()	{ return mRoomType; }
+	const std::string&	GetToken()		{ return mToken; }
+	const int32&		GetGlobalID()	{ return mGlobalID; }
+	const int32&		GetServerID()	{ return mServerID; }
+
+	CharacterPtr		GetCharacter(const int8* inName);
+	CharacterPtr		GetCharacter(const int32 inSeat);
+
+private:
+	ERoomType	mRoomType;
 	std::string	mToken;
-	int64		mRemoteID;
 	int32		mGlobalID;
 	int32		mServerID;
 
-//private:
-	Character	mCharacters[4];
+	std::vector<CharacterPtr> mCharacters;
 };
 

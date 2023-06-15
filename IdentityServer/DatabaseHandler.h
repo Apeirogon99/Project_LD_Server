@@ -23,13 +23,7 @@ public:
 			return false;
 		}
 
-		DatabaseTaskQueuePtr handler = databaseManager->GetDatabaseTaskQueue();
-		if (handler == nullptr)
-		{
-			return false;
-		}
-
-		const bool result = handler->PushAsyncTaskQueue(inSession, inADOConnection, inADOCommand, inADORecordset, inADOCallBack);
+		bool result = databaseManager->PushAsyncTaskQueue(inSession, inADOConnection, inADOCommand, inADORecordset, inADOCallBack);
 		return result;
 	}
 };

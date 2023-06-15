@@ -1,6 +1,6 @@
 #pragma once
 
-class TaskManager
+class TaskManager : public std::enable_shared_from_this<TaskManager>
 {
 public:
 	APEIROGON_API TaskManager();
@@ -28,7 +28,8 @@ public:
 
 	APEIROGON_API void		   	PushTask(GameObjectPtr inGameObject);
 	APEIROGON_API void		   	ReleaseTask(GameObjectPtr inGameObject);
-	APEIROGON_API GameObjectPtr	FindTask(const int64 inGameObjectID);
+	APEIROGON_API bool			FindTask(const int64 inGameObjectID, GameObjectPtr& outGameObject);
+	APEIROGON_API bool			FindTask(const WCHAR* inGameObjectName, GameObjectPtr& outGameObject);
 
 protected:
 	const int64 NextGameObjectNumber();

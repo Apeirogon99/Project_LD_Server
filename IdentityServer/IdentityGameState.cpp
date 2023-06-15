@@ -10,27 +10,7 @@ IdentityGameState::~IdentityGameState()
 {
 }
 
-bool IdentityGameState::PushNetworkTask()
+IdentityTaskPtr IdentityGameState::GetTask()
 {
-	const SessionManagerRef sessionManagerRef = weak_from_this();
-	mLoginRoom = std::make_shared<LoginRoom>(sessionManagerRef, L"LoginRoom_1");
-	mNetworkTasks.emplace_back(mLoginRoom);
-	return true;
-}
-
-bool IdentityGameState::CreateRemotePlayer(PlayerStatePtr& inPlayerState)
-{
-	//TODO
-	static int64 remoteID = 1;
-
-	RemotePlayerPtr& remotePlayer = inPlayerState.get()->mRemotePlayer;
-	remotePlayer = std::make_shared<RemotePlayer>();
-	if (nullptr == remotePlayer)
-	{
-		return false;
-	}
-
-	remotePlayer->mRemoteID = remoteID++;
-
-	return true;
+	return std::static_pointer_cast<IdentityTask>(GetService()->GetTaskManager());
 }

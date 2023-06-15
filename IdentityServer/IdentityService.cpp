@@ -7,7 +7,15 @@ IdentityService::IdentityService()
 {
 	SocketUtils::Init();
 	PacketHandler::Init();
-	WinDump::Init(L"P:\\Project_LD_Server\\Builds\\Dump\\");
+
+	std::wstring dumpPath = L"";
+#if NETWORK_LOCAL
+	dumpPath = L"P:\\Project_LD_Server\\Dump\\Identity\\";
+#else
+	dumpPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Dump\\Identity\\";
+#endif
+
+	WinDump::Init(dumpPath.c_str());
 }
 
 IdentityService::~IdentityService()
@@ -45,10 +53,10 @@ bool IdentityService::SettingService()
 	}
 
 std::wstring ip;
-#ifdef _DEBUG
+#ifdef NETWORK_LOCAL
 ip = L"192.168.123.112";
 #else
-ip = L"52.78.191.130";
+ip = L"127.0.0.1";
 #endif
 
 	//Listener
@@ -79,12 +87,26 @@ ip = L"52.78.191.130";
 		return false;
 	}
 
+	std::wstring logPath = L"";
+#if NETWORK_LOCAL
+	logPath = L"P:\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
+#else
+	logPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Logger\\GameServer\\GameServer.log";
+#endif
+
 	//Logger
 	const WCHAR* LoggerName = L"IdentityServer";
-	const WCHAR* filePath = L"P:\\Project_LD_Server\\Logger\\IdentityServer\\IdentityServer.log";
+	const WCHAR* filePath = logPath.c_str();
 	ELogMode LogMode = ELogMode::Console;
 	LoggerManagerPtr Logger = std::make_shared<LoggerManager>(LoggerName, LogMode);
 	if (false == SetLoggerManager(Logger))
+	{
+		return false;
+	}
+
+	IdentityTaskPtr task = std::make_shared<IdentityTask>();
+	TaskManagerPtr taskManager = ::static_pointer_cast<TaskManager>(task);
+	if (false == SetTaskManager(taskManager))
 	{
 		return false;
 	}

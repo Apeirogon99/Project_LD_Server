@@ -1,5 +1,7 @@
 #pragma once
 
+#define NETWORK_LOCAL 1
+
 //==========================//
 //		     TYPE			//
 //==========================//
@@ -14,7 +16,10 @@
 //==========================//
 #include "Character.h"
 #include "RemotePlayer.h"
+#include "World.h"
 #include "LoginRoom.h"
+#include "SelectRoom.h"
+#include "CustomRoom.h"
 
 //==========================//
 //		   Framework		//
@@ -25,6 +30,7 @@
 #include "IdentityListener.h"
 #include "IdentityDatabase.h"
 #include "IdentityDataManager.h"
+#include "IdentityTask.h"
 
 //==========================//
 //		    Packet			//

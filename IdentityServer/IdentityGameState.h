@@ -11,13 +11,6 @@ public:
 	IdentityGameState& operator=(IdentityGameState&& player) = delete;
 
 public:
-	virtual bool PushNetworkTask() override;
-
-public:
-	LoginRoomPtr& GetRoom() { return mLoginRoom; }
-	bool CreateRemotePlayer(PlayerStatePtr& inPlayerState);
-
-private:
-	LoginRoomPtr	mLoginRoom;
+	IdentityTaskPtr GetTask();
 };
 

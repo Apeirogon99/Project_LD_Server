@@ -30,8 +30,6 @@ void IdentityPlayerState::OnIcmp()
 	packet.set_time_stamp(syncTimeStamp);
 	packet.set_utc_time(uctTimeStamp);
 
-	//std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 400 + 200));
-
 	PacketSessionPtr session = this->GetPacketSessionRef();
 	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
 	session->Send(sendBuffer);
@@ -39,9 +37,7 @@ void IdentityPlayerState::OnIcmp()
 
 void IdentityPlayerState::OnDisconnected()
 {
-	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(this->GetSessionManager());
-	const int64 serviceTime = gameState->GetServiceTimeStamp();
-	gameState->GetRoom()->PushTask(serviceTime, &LoginRoom::Leave, std::static_pointer_cast<IdentityPlayerState>(shared_from_this()));
+	
 }
 
 void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)

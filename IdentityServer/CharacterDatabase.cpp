@@ -12,7 +12,7 @@ bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_Lo
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
@@ -22,8 +22,8 @@ bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_Lo
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant global_id = remotePlayer->mGlobalID;
-	ADOVariant server_id = 1;
+	ADOVariant global_id = remotePlayer->GetGlobalID();
+	ADOVariant server_id = remotePlayer->GetServerID();
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.load_character_sp");
@@ -110,7 +110,7 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 			eqipments->set_weapon_l(weapon_l);
 			eqipments->set_weapon_r(weapon_r);
 
-			playerState->mRemotePlayer->mCharacters[seat].SetCharacter(characterID, name.c_str());
+			//playerState->mRemotePlayer->mCharacters[seat].SetCharacter(characterID, name.c_str());
 
 			loadCharacterPacketIndex++;
 			inRecordset.MoveNext();
@@ -132,13 +132,13 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -150,8 +150,8 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 	ADOVariant characterClass = characterData.character_class();
 	ADOVariant race = characterAppearance.race();
 	ADOVariant seat = characterAppearance.seat();
-	ADOVariant global_id = remotePlayer->mGlobalID;
-	ADOVariant server_id = inPacket.server_id();
+	ADOVariant global_id = remotePlayer->GetGlobalID();
+	ADOVariant server_id = remotePlayer->GetServerID();
 
 	ADOVariant skin_color = characterAppearance.skin_color();
 	ADOVariant hair_color = characterAppearance.hair_color();
@@ -220,18 +220,25 @@ bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant global_id = playerState->mRemotePlayer->mGlobalID;
-	ADOVariant server_id = 1;
-	ADOVariant character_id = -1;
-	Character* tempCharacter = playerState->mRemotePlayer->FindCharacter(inPacket.name().c_str());
-	if (tempCharacter)
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
 	{
-		character_id = tempCharacter->mCharacterID;
+		return false;
 	}
+
+	ADOVariant global_id = remotePlayer->GetGlobalID();
+	ADOVariant server_id = remotePlayer->GetServerID();
+	
+	CharacterPtr deleteCharacter = remotePlayer->GetCharacter(inPacket.name().c_str());
+	if (nullptr == deleteCharacter)
+	{
+		return false;
+	}
+	ADOVariant character_id = deleteCharacter->GetID();
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.delete_character_sp");

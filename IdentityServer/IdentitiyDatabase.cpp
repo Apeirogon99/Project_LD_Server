@@ -3,7 +3,7 @@
 
 bool Handle_Singin_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singin& inPacket)
 {
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -35,7 +35,7 @@ bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
@@ -50,29 +50,26 @@ bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 	}
 	else
 	{
+		int32		globalID	= inCommand.GetOutputParam(L"@global_id");
+		std::string token		= inCommand.GetOutputParam(L"@token");
 
-		int32 globalID = inCommand.GetOutputParam(L"@global_id");
-		std::string token = inCommand.GetOutputParam(L"@token");
-
-		remotePlayer->mToken = token;
-		int64 remoteID = remotePlayer->mRemoteID;
-
-		remotePlayer->mGlobalID = globalID;
-		singinPacket.set_error(ret);
-		singinPacket.set_token(token);
-		singinPacket.set_remote_id(remoteID);
+		remotePlayer->SetServerID(1);
+		remotePlayer->SetGlobalID(globalID);
+		remotePlayer->SetToken(token);
 	}
+
+	singinPacket.set_error(ret);
+	singinPacket.set_token(remotePlayer->GetToken());
+	singinPacket.set_remote_id(remotePlayer->GetGameObjectID());
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, singinPacket);
 	inSession->Send(sendBuffer);
-
-
 	return true;
 }
 
 bool Handle_Singup_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singup& inPacket)
 {
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -110,7 +107,7 @@ bool Handle_Singup_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
@@ -125,12 +122,9 @@ bool Handle_Singup_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 	else
 	{
 		int32 globalID = inCommand.GetOutputParam(L"@global_id");
-		int64 remoteID = remotePlayer->mRemoteID;
-
-		remotePlayer->mGlobalID = globalID;
-		singupPacket.set_error(ret);
-		singupPacket.set_remote_id(remoteID);
 	}
+
+	singupPacket.set_error(ret);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, singupPacket);
 	inSession->Send(sendBuffer);
@@ -147,17 +141,17 @@ bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, Protocol::C2S_Ema
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"account_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant global_id = remotePlayer->mGlobalID;
+	ADOVariant global_id = remotePlayer->GetGlobalID();
 	ADOVariant verifyCode = atoi(inPacket.verified_code().c_str());
 
 	ADOCommand command;
@@ -182,16 +176,16 @@ bool Handle_EmailVerified_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->mRemotePlayer;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
 	if (remotePlayer == nullptr)
 	{
 		return false;
 	}
 
-	Protocol::S2C_EmailVerified emailVerifiedPacket;
-	int32 ret = inCommand.GetReturnParam();
+	int32 ret		= inCommand.GetReturnParam();
+	int64 remoteID	= remotePlayer->GetGameObjectID();
 
-	int64 remoteID = remotePlayer->mRemoteID;
+	Protocol::S2C_EmailVerified emailVerifiedPacket;
 	emailVerifiedPacket.set_error(ret);
 	emailVerifiedPacket.set_remote_id(remoteID);
 

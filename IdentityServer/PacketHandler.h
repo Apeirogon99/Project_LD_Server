@@ -27,9 +27,10 @@ enum class EPakcetID : uint16
 	C2S_DeleteCharacter = 1020,
 	S2C_DeleteCharacter = 1021,
 
-	S2C_ReplicatedServerTimeStamp = 9000,
-	C2S_TravelServer = 9001,
-	S2C_TravelServer = 9002,
+	C2S_ReplicatedServerTimeStamp = 9000,
+	S2C_ReplicatedServerTimeStamp = 9001,
+	C2S_TravelServer = 9002,
+	S2C_TravelServer = 9003,
 };
 
 bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len);

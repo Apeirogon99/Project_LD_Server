@@ -1,10 +1,12 @@
 #pragma once
 
+#define MAX_CHARACTER 4
+
 enum class ERoomType
 {
 	None,
-	Login,
-	CharacterSelect,
-	ClassSelect,
-	CustomCharacter,
+	LoginRoom,
+	SelectRoom,
+	ClassRoom,
+	CustomRoom,
 };
