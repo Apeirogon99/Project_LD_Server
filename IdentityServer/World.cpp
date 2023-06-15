@@ -63,6 +63,7 @@ void World::Enter(PlayerStatePtr inPlayerState)
 	}
 
 	RemotePlayerPtr remotePlayer = std::make_shared<RemotePlayer>();
+	inPlayerState->SetRemotePlayer(remotePlayer);
 	mIdentityTask->CreateGameObject(remotePlayer->GetGameObjectPtr());
 
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
@@ -104,8 +105,6 @@ void World::Leave(PlayerStatePtr inPlayerState)
 	{
 		//Error
 	}
-
-	//Do Something
 
 	Protocol::S2C_LeaveIdentityServer leavePacket;
 	leavePacket.set_remote_id(gameObjectID);
@@ -199,6 +198,5 @@ bool World::IsValidPlayer(RemotePlayerPtr inRemotePlayer)
 		return false;
 	}
 
-	bool valid = findResult->second->IsValid();
-	return valid;
+	return true;
 }

@@ -1,5 +1,5 @@
 #pragma once
-class GameTask : public TaskManager, public std::enable_shared_from_this<GameTask>
+class GameTask : public TaskManager
 {
 public:
 	GameTask();
@@ -15,6 +15,7 @@ public:
 	virtual void Init() override;
 
 public:
-	WorldPtr GetWorld();
+	GameTaskPtr GetTaskPtr();
+	WorldPtr	GetWorld();
 };
 

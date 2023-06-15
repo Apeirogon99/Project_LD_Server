@@ -56,6 +56,7 @@ bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 		remotePlayer->SetServerID(1);
 		remotePlayer->SetGlobalID(globalID);
 		remotePlayer->SetToken(token);
+		remotePlayer->SetRoomType(ERoomType::SelectRoom);
 	}
 
 	singinPacket.set_error(ret);

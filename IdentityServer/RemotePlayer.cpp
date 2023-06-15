@@ -57,6 +57,7 @@ void RemotePlayer::SetToken(const std::string& inToken)
 
 void RemotePlayer::SetCharacters(const std::vector<CharacterPtr>& inCharacters)
 {
+	mCharacters = std::move(inCharacters);
 }
 
 CharacterPtr RemotePlayer::GetCharacter(const int8* inName)

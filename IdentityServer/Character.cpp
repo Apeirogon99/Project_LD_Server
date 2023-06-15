@@ -11,7 +11,7 @@ Character::~Character()
 
 }
 
-void Character::LoadCharacter(const int64 inID, const Protocol::SCharacterData& inData)
+void Character::LoadCharacter(const int32 inID, const Protocol::SCharacterData& inData)
 {
 	mID = inID;
 	mData.CopyFrom(inData);

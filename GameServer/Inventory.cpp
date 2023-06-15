@@ -224,6 +224,7 @@ bool Inventory::FindItem(const int64 inObjectID, AItemPtr& outItem)
 	}
 
 	outItem = findItem->second;
+	return true;
 }
 
 bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem)

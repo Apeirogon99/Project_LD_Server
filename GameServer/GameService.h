@@ -10,11 +10,5 @@ public:
 
 protected:
 	virtual bool		SettingService() override;
-
-public:
-	int32 GetServerID() { return mServerID; }
-
-private:
-	int32 mServerID;
 };
 

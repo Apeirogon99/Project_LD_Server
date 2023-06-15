@@ -18,7 +18,7 @@ bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_Lo
 		return false;
 	}
 
-	ADOConnectionInfo ConnectionInfo(L"SQLOLEDB", L"APEIROGON", L"game_database", L"SSPI", L"NO", L"apeirogon", L"1248", EDBMSTypes::MSSQL);
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
@@ -49,8 +49,14 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 		return false;
 	}
 
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
 	Protocol::S2C_LoadCharacters loadCharacterPackets;
-	int32 loadCharacterPacketIndex = 0;
+	std::vector<CharacterPtr> newCharacters(MAX_CHARACTER);
 	int32 ret = inCommand.GetReturnParam();
 	if (ret == 0)
 	{
@@ -61,29 +67,29 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 
 		while (!inRecordset.IsEof())
 		{
-			int32		characterID = inRecordset.GetFieldItem(L"id");
-			std::string name = inRecordset.GetFieldItem(L"name");
-			int32		characterClass = inRecordset.GetFieldItem(L"character_calss_id");
-			int32		race = inRecordset.GetFieldItem(L"race_id");
-			//int32		level			= inRecordset.GetFieldItem(L"level");
-			int32		level = 1;
-			int32		seat = inRecordset.GetFieldItem(L"seat");
-			int32		skin_color = inRecordset.GetFieldItem(L"skin_color");
-			int32		hair_color = inRecordset.GetFieldItem(L"hair_color");
-			int32		eye_color = inRecordset.GetFieldItem(L"eye_color");
-			int32		eyebrow_color = inRecordset.GetFieldItem(L"eyebrow_color");
+			int32		characterID		= inRecordset.GetFieldItem(L"id");
+			std::string name			= inRecordset.GetFieldItem(L"name");
+			int32		race			= inRecordset.GetFieldItem(L"race_id");
+			int32		characterClass	= inRecordset.GetFieldItem(L"character_calss_id");
+			int32		seat			= inRecordset.GetFieldItem(L"seat");
+			int32		skin_color		= inRecordset.GetFieldItem(L"skin_color");
+			int32		hair_color		= inRecordset.GetFieldItem(L"hair_color");
+			int32		eye_color		= inRecordset.GetFieldItem(L"eye_color");
+			int32		eyebrow_color	= inRecordset.GetFieldItem(L"eyebrow_color");
 
 
-			int32		hair = inRecordset.GetFieldItem(L"hair");
-			int32		helmet = inRecordset.GetFieldItem(L"helmet");
-			int32		shoulders = inRecordset.GetFieldItem(L"shoulders");
-			int32		chest = inRecordset.GetFieldItem(L"chest_add");
-			int32		bracers = inRecordset.GetFieldItem(L"bracers_add");
-			int32		hands = inRecordset.GetFieldItem(L"hands_add");
-			int32		pants = inRecordset.GetFieldItem(L"pants_add");
-			int32		boots = inRecordset.GetFieldItem(L"boots");
-			int32		weapon_l = inRecordset.GetFieldItem(L"weapon_l");
-			int32		weapon_r = inRecordset.GetFieldItem(L"weapon_r");
+			int32		hair			= inRecordset.GetFieldItem(L"hair");
+			int32		helmet			= inRecordset.GetFieldItem(L"helmet");
+			int32		shoulders		= inRecordset.GetFieldItem(L"shoulders");
+			int32		chest			= inRecordset.GetFieldItem(L"chest");
+			int32		bracers			= inRecordset.GetFieldItem(L"bracers");
+			int32		hands			= inRecordset.GetFieldItem(L"hands");
+			int32		pants			= inRecordset.GetFieldItem(L"pants");
+			int32		boots			= inRecordset.GetFieldItem(L"boots");
+			int32		weapon_l		= inRecordset.GetFieldItem(L"weapon_l");
+			int32		weapon_r		= inRecordset.GetFieldItem(L"weapon_r");
+
+			int32		level			= inRecordset.GetFieldItem(L"level");
 
 			Protocol::SCharacterData* characterData = loadCharacterPackets.add_character_data();
 			characterData->set_name(name.c_str());
@@ -110,12 +116,15 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 			eqipments->set_weapon_l(weapon_l);
 			eqipments->set_weapon_r(weapon_r);
 
-			//playerState->mRemotePlayer->mCharacters[seat].SetCharacter(characterID, name.c_str());
+			CharacterPtr newCharacter = std::make_shared<Character>();
+			newCharacter->LoadCharacter(characterID, *characterData);
+			newCharacters[seat] = newCharacter;
 
-			loadCharacterPacketIndex++;
 			inRecordset.MoveNext();
 		}
 	}
+
+	remotePlayer->SetCharacters(newCharacters);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, loadCharacterPackets);
 	inSession->Send(sendBuffer);

@@ -17,7 +17,11 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	RemotePlayerPtr GetRemotePlayer() { return mRemotePlayer; }
+	void			SetRemotePlayer(RemotePlayerPtr& inRemotePlayer);
+
+public:
+	PlayerStatePtr		GetPlayerStatePtr() { return std::static_pointer_cast<IdentityPlayerState>(shared_from_this()); }
+	RemotePlayerPtr		GetRemotePlayer() { return mRemotePlayer; }
 
 private:
 	RemotePlayerPtr mRemotePlayer;

@@ -16,6 +16,9 @@ public:
 	void Leave(PlayerStatePtr inPlayerState);
 
 public:
+
+
+public:
 	WorldRef		GetWorldRef();
 	LoginRoomPtr	GetLoginRoom();
 	SelectRoomPtr	GetSelectRoom();

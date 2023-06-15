@@ -54,7 +54,7 @@ BEGIN
 	USE game_database;
 	EXEC dbo.load_game_character_sp 0
 
-	--UPDATE eqipment_tb SET hair=31		WHERE character_id=0
+	--UPDATE eqipment_tb SET hair=3			WHERE character_id=0
 	--UPDATE eqipment_tb SET helmet=31		WHERE character_id=0
 	--UPDATE eqipment_tb SET shoulders=51	WHERE character_id=0
 	--UPDATE eqipment_tb SET chest=71		WHERE character_id=0

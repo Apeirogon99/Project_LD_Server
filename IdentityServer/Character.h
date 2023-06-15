@@ -7,7 +7,7 @@ public:
 	virtual ~Character();
 
 public:
-	void			LoadCharacter(const int64 inID, const Protocol::SCharacterData& inData);
+	void			LoadCharacter(const int32 inID, const Protocol::SCharacterData& inData);
 
 public:
 	const int64		GetID()				{ return mID; }
