@@ -18,8 +18,8 @@ public:
 	void UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket);
 	void DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket);
 
-	void UpdateEqipment(Protocol::C2S_UpdateEqipment inPacket);
-	void DeleteEqipment(Protocol::C2S_DeleteEqipment inPacket);
+	void InsertItemToEqipment(Protocol::C2S_InsertEqipment inPacket);
+	void DeleteItemToEqipment(Protocol::C2S_DeleteEqipment inPacket);
 
 public:
 	bool LoadItem(Protocol::S2C_LoadInventory& inPacket);

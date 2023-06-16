@@ -65,6 +65,9 @@ extern SItemDefaultTypeInternal _SItem_default_instance_;
 class SRotator;
 struct SRotatorDefaultTypeInternal;
 extern SRotatorDefaultTypeInternal _SRotator_default_instance_;
+class SServerInfo;
+struct SServerInfoDefaultTypeInternal;
+extern SServerInfoDefaultTypeInternal _SServerInfo_default_instance_;
 class STransform;
 struct STransformDefaultTypeInternal;
 extern STransformDefaultTypeInternal _STransform_default_instance_;
@@ -84,6 +87,7 @@ template<> ::Protocol::SCharacterData* Arena::CreateMaybeMessage<::Protocol::SCh
 template<> ::Protocol::SCharacterEqipment* Arena::CreateMaybeMessage<::Protocol::SCharacterEqipment>(Arena*);
 template<> ::Protocol::SItem* Arena::CreateMaybeMessage<::Protocol::SItem>(Arena*);
 template<> ::Protocol::SRotator* Arena::CreateMaybeMessage<::Protocol::SRotator>(Arena*);
+template<> ::Protocol::SServerInfo* Arena::CreateMaybeMessage<::Protocol::SServerInfo>(Arena*);
 template<> ::Protocol::STransform* Arena::CreateMaybeMessage<::Protocol::STransform>(Arena*);
 template<> ::Protocol::SVector* Arena::CreateMaybeMessage<::Protocol::SVector>(Arena*);
 template<> ::Protocol::SVector2D* Arena::CreateMaybeMessage<::Protocol::SVector2D>(Arena*);
@@ -92,6 +96,197 @@ PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
+
+class SServerInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.SServerInfo) */ {
+ public:
+  inline SServerInfo() : SServerInfo(nullptr) {}
+  ~SServerInfo() override;
+  explicit PROTOBUF_CONSTEXPR SServerInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SServerInfo(const SServerInfo& from);
+  SServerInfo(SServerInfo&& from) noexcept
+    : SServerInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline SServerInfo& operator=(const SServerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SServerInfo& operator=(SServerInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SServerInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SServerInfo* internal_default_instance() {
+    return reinterpret_cast<const SServerInfo*>(
+               &_SServerInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(SServerInfo& a, SServerInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SServerInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SServerInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SServerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SServerInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SServerInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SServerInfo& from) {
+    SServerInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SServerInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.SServerInfo";
+  }
+  protected:
+  explicit SServerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kStateFieldNumber = 3,
+    kIdFieldNumber = 1,
+    kCountFieldNumber = 4,
+  };
+  // bytes name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // bytes state = 3;
+  void clear_state();
+  const std::string& state() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_state(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_state();
+  PROTOBUF_NODISCARD std::string* release_state();
+  void set_allocated_state(std::string* state);
+  private:
+  const std::string& _internal_state() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_state(const std::string& value);
+  std::string* _internal_mutable_state();
+  public:
+
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 count = 4;
+  void clear_count();
+  int32_t count() const;
+  void set_count(int32_t value);
+  private:
+  int32_t _internal_count() const;
+  void _internal_set_count(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.SServerInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr state_;
+    int32_t id_;
+    int32_t count_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_PacketStruct_2eproto;
+};
+// -------------------------------------------------------------------
 
 class SCharacterAppearance final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.SCharacterAppearance) */ {
@@ -141,7 +336,7 @@ class SCharacterAppearance final :
                &_SCharacterAppearance_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(SCharacterAppearance& a, SCharacterAppearance& b) {
     a.Swap(&b);
@@ -344,7 +539,7 @@ class SCharacterEqipment final :
                &_SCharacterEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(SCharacterEqipment& a, SCharacterEqipment& b) {
     a.Swap(&b);
@@ -591,7 +786,7 @@ class SCharacterData final :
                &_SCharacterData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(SCharacterData& a, SCharacterData& b) {
     a.Swap(&b);
@@ -817,7 +1012,7 @@ class SVector final :
                &_SVector_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(SVector& a, SVector& b) {
     a.Swap(&b);
@@ -987,7 +1182,7 @@ class SVector2D final :
                &_SVector2D_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(SVector2D& a, SVector2D& b) {
     a.Swap(&b);
@@ -1146,7 +1341,7 @@ class SVelocity final :
                &_SVelocity_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(SVelocity& a, SVelocity& b) {
     a.Swap(&b);
@@ -1316,7 +1511,7 @@ class SRotator final :
                &_SRotator_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(SRotator& a, SRotator& b) {
     a.Swap(&b);
@@ -1486,7 +1681,7 @@ class STransform final :
                &_STransform_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(STransform& a, STransform& b) {
     a.Swap(&b);
@@ -1683,7 +1878,7 @@ class SItem final :
                &_SItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(SItem& a, SItem& b) {
     a.Swap(&b);
@@ -1852,6 +2047,150 @@ class SItem final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// SServerInfo
+
+// int32 id = 1;
+inline void SServerInfo::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t SServerInfo::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t SServerInfo::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.id)
+  return _internal_id();
+}
+inline void SServerInfo::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void SServerInfo::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.id)
+}
+
+// bytes name = 2;
+inline void SServerInfo::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& SServerInfo::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SServerInfo::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.name)
+}
+inline std::string* SServerInfo::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.SServerInfo.name)
+  return _s;
+}
+inline const std::string& SServerInfo::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void SServerInfo::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SServerInfo::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SServerInfo::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.SServerInfo.name)
+  return _impl_.name_.Release();
+}
+inline void SServerInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SServerInfo.name)
+}
+
+// bytes state = 3;
+inline void SServerInfo::clear_state() {
+  _impl_.state_.ClearToEmpty();
+}
+inline const std::string& SServerInfo::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.state)
+  return _internal_state();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SServerInfo::set_state(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.state_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.state)
+}
+inline std::string* SServerInfo::mutable_state() {
+  std::string* _s = _internal_mutable_state();
+  // @@protoc_insertion_point(field_mutable:Protocol.SServerInfo.state)
+  return _s;
+}
+inline const std::string& SServerInfo::_internal_state() const {
+  return _impl_.state_.Get();
+}
+inline void SServerInfo::_internal_set_state(const std::string& value) {
+  
+  _impl_.state_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SServerInfo::_internal_mutable_state() {
+  
+  return _impl_.state_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SServerInfo::release_state() {
+  // @@protoc_insertion_point(field_release:Protocol.SServerInfo.state)
+  return _impl_.state_.Release();
+}
+inline void SServerInfo::set_allocated_state(std::string* state) {
+  if (state != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.state_.SetAllocated(state, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.state_.IsDefault()) {
+    _impl_.state_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SServerInfo.state)
+}
+
+// int32 count = 4;
+inline void SServerInfo::clear_count() {
+  _impl_.count_ = 0;
+}
+inline int32_t SServerInfo::_internal_count() const {
+  return _impl_.count_;
+}
+inline int32_t SServerInfo::count() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.count)
+  return _internal_count();
+}
+inline void SServerInfo::_internal_set_count(int32_t value) {
+  
+  _impl_.count_ = value;
+}
+inline void SServerInfo::set_count(int32_t value) {
+  _internal_set_count(value);
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.count)
+}
+
+// -------------------------------------------------------------------
+
 // SCharacterAppearance
 
 // .Protocol.ERace race = 1;
@@ -3229,6 +3568,8 @@ inline void SItem::set_rotation(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

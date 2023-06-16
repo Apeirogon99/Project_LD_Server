@@ -447,12 +447,12 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	return true;
 }
 
-bool Handle_UpdateEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_UpdateEqipment& inPacket)
+bool Handle_InsertEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_InsertEqipment& inPacket)
 {
 	return false;
 }
 
-bool Handle_UpdateEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+bool Handle_InsertEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	return false;
 }

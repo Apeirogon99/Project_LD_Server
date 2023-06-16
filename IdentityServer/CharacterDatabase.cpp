@@ -203,16 +203,20 @@ bool Handle_CreateCharacter_Response(PacketSessionPtr& inSession, ADOConnection&
 		return false;
 	}
 
-	Protocol::S2C_CreateCharacter createCharacterPacket;
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (remotePlayer == nullptr)
+	{
+		return false;
+	}
+
 	int32 ret = inCommand.GetReturnParam();
-	if (ret != GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
 	{
-		createCharacterPacket.set_error(ret);
+		remotePlayer->SetRoomType(ERoomType::SelectRoom);
 	}
-	else
-	{
-		createCharacterPacket.set_error(ret);
-	}
+
+	Protocol::S2C_CreateCharacter createCharacterPacket;
+	createCharacterPacket.set_error(ret);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, createCharacterPacket);
 	inSession->Send(sendBuffer);
@@ -247,7 +251,7 @@ bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 	{
 		return false;
 	}
-	ADOVariant character_id = deleteCharacter->GetID();
+	ADOVariant character_id = deleteCharacter->GetCharacterID();
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.delete_character_sp");

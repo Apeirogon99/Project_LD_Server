@@ -32,7 +32,7 @@ void RemotePlayer::Tick()
 
 bool RemotePlayer::IsValid()
 {
-	return (mGlobalID != -1) && (mServerID != -1) && (mRoomType != ERoomType::None);
+	return (mGlobalID != -1) && (mRoomType != ERoomType::None);
 }
 
 void RemotePlayer::SetRoomType(const ERoomType inRoomType)

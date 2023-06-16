@@ -61,6 +61,9 @@ extern C2S_DeleteInventoryDefaultTypeInternal _C2S_DeleteInventory_default_insta
 class C2S_EnterGameServer;
 struct C2S_EnterGameServerDefaultTypeInternal;
 extern C2S_EnterGameServerDefaultTypeInternal _C2S_EnterGameServer_default_instance_;
+class C2S_InsertEqipment;
+struct C2S_InsertEqipmentDefaultTypeInternal;
+extern C2S_InsertEqipmentDefaultTypeInternal _C2S_InsertEqipment_default_instance_;
 class C2S_InsertInventory;
 struct C2S_InsertInventoryDefaultTypeInternal;
 extern C2S_InsertInventoryDefaultTypeInternal _C2S_InsertInventory_default_instance_;
@@ -73,9 +76,6 @@ extern C2S_LoadInventoryDefaultTypeInternal _C2S_LoadInventory_default_instance_
 class C2S_MovementCharacter;
 struct C2S_MovementCharacterDefaultTypeInternal;
 extern C2S_MovementCharacterDefaultTypeInternal _C2S_MovementCharacter_default_instance_;
-class C2S_UpdateEqipment;
-struct C2S_UpdateEqipmentDefaultTypeInternal;
-extern C2S_UpdateEqipmentDefaultTypeInternal _C2S_UpdateEqipment_default_instance_;
 class C2S_UpdateInventory;
 struct C2S_UpdateInventoryDefaultTypeInternal;
 extern C2S_UpdateInventoryDefaultTypeInternal _C2S_UpdateInventory_default_instance_;
@@ -103,6 +103,9 @@ extern S2C_DisAppearGameObjectDefaultTypeInternal _S2C_DisAppearGameObject_defau
 class S2C_EnterGameServer;
 struct S2C_EnterGameServerDefaultTypeInternal;
 extern S2C_EnterGameServerDefaultTypeInternal _S2C_EnterGameServer_default_instance_;
+class S2C_InsertEqipment;
+struct S2C_InsertEqipmentDefaultTypeInternal;
+extern S2C_InsertEqipmentDefaultTypeInternal _S2C_InsertEqipment_default_instance_;
 class S2C_InsertInventory;
 struct S2C_InsertInventoryDefaultTypeInternal;
 extern S2C_InsertInventoryDefaultTypeInternal _S2C_InsertInventory_default_instance_;
@@ -118,9 +121,6 @@ extern S2C_MovementCharacterDefaultTypeInternal _S2C_MovementCharacter_default_i
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
-class S2C_UpdateEqipment;
-struct S2C_UpdateEqipmentDefaultTypeInternal;
-extern S2C_UpdateEqipmentDefaultTypeInternal _S2C_UpdateEqipment_default_instance_;
 class S2C_UpdateInventory;
 struct S2C_UpdateInventoryDefaultTypeInternal;
 extern S2C_UpdateInventoryDefaultTypeInternal _S2C_UpdateInventory_default_instance_;
@@ -129,11 +129,11 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C2S_DeleteEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_DeleteEqipment>(Arena*);
 template<> ::Protocol::C2S_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::C2S_DeleteInventory>(Arena*);
 template<> ::Protocol::C2S_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::C2S_EnterGameServer>(Arena*);
+template<> ::Protocol::C2S_InsertEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_InsertEqipment>(Arena*);
 template<> ::Protocol::C2S_InsertInventory* Arena::CreateMaybeMessage<::Protocol::C2S_InsertInventory>(Arena*);
 template<> ::Protocol::C2S_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::C2S_LeaveGameServer>(Arena*);
 template<> ::Protocol::C2S_LoadInventory* Arena::CreateMaybeMessage<::Protocol::C2S_LoadInventory>(Arena*);
 template<> ::Protocol::C2S_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::C2S_MovementCharacter>(Arena*);
-template<> ::Protocol::C2S_UpdateEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateEqipment>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
 template<> ::Protocol::S2C_AppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_AppearCharacter>(Arena*);
 template<> ::Protocol::S2C_AppearItem* Arena::CreateMaybeMessage<::Protocol::S2C_AppearItem>(Arena*);
@@ -143,12 +143,12 @@ template<> ::Protocol::S2C_DestroyItem* Arena::CreateMaybeMessage<::Protocol::S2
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
+template<> ::Protocol::S2C_InsertEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_InsertEqipment>(Arena*);
 template<> ::Protocol::S2C_InsertInventory* Arena::CreateMaybeMessage<::Protocol::S2C_InsertInventory>(Arena*);
 template<> ::Protocol::S2C_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_LeaveGameServer>(Arena*);
 template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::S2C_LoadInventory>(Arena*);
 template<> ::Protocol::S2C_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_MovementCharacter>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
-template<> ::Protocol::S2C_UpdateEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateEqipment>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
@@ -3474,24 +3474,24 @@ class S2C_RollbackInventory final :
 };
 // -------------------------------------------------------------------
 
-class C2S_UpdateEqipment final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_UpdateEqipment) */ {
+class C2S_InsertEqipment final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_InsertEqipment) */ {
  public:
-  inline C2S_UpdateEqipment() : C2S_UpdateEqipment(nullptr) {}
-  ~C2S_UpdateEqipment() override;
-  explicit PROTOBUF_CONSTEXPR C2S_UpdateEqipment(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline C2S_InsertEqipment() : C2S_InsertEqipment(nullptr) {}
+  ~C2S_InsertEqipment() override;
+  explicit PROTOBUF_CONSTEXPR C2S_InsertEqipment(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  C2S_UpdateEqipment(const C2S_UpdateEqipment& from);
-  C2S_UpdateEqipment(C2S_UpdateEqipment&& from) noexcept
-    : C2S_UpdateEqipment() {
+  C2S_InsertEqipment(const C2S_InsertEqipment& from);
+  C2S_InsertEqipment(C2S_InsertEqipment&& from) noexcept
+    : C2S_InsertEqipment() {
     *this = ::std::move(from);
   }
 
-  inline C2S_UpdateEqipment& operator=(const C2S_UpdateEqipment& from) {
+  inline C2S_InsertEqipment& operator=(const C2S_InsertEqipment& from) {
     CopyFrom(from);
     return *this;
   }
-  inline C2S_UpdateEqipment& operator=(C2S_UpdateEqipment&& from) noexcept {
+  inline C2S_InsertEqipment& operator=(C2S_InsertEqipment&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -3514,20 +3514,20 @@ class C2S_UpdateEqipment final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const C2S_UpdateEqipment& default_instance() {
+  static const C2S_InsertEqipment& default_instance() {
     return *internal_default_instance();
   }
-  static inline const C2S_UpdateEqipment* internal_default_instance() {
-    return reinterpret_cast<const C2S_UpdateEqipment*>(
-               &_C2S_UpdateEqipment_default_instance_);
+  static inline const C2S_InsertEqipment* internal_default_instance() {
+    return reinterpret_cast<const C2S_InsertEqipment*>(
+               &_C2S_InsertEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     20;
 
-  friend void swap(C2S_UpdateEqipment& a, C2S_UpdateEqipment& b) {
+  friend void swap(C2S_InsertEqipment& a, C2S_InsertEqipment& b) {
     a.Swap(&b);
   }
-  inline void Swap(C2S_UpdateEqipment* other) {
+  inline void Swap(C2S_InsertEqipment* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -3540,7 +3540,7 @@ class C2S_UpdateEqipment final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(C2S_UpdateEqipment* other) {
+  void UnsafeArenaSwap(C2S_InsertEqipment* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -3548,14 +3548,14 @@ class C2S_UpdateEqipment final :
 
   // implements Message ----------------------------------------------
 
-  C2S_UpdateEqipment* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<C2S_UpdateEqipment>(arena);
+  C2S_InsertEqipment* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_InsertEqipment>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const C2S_UpdateEqipment& from);
+  void CopyFrom(const C2S_InsertEqipment& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const C2S_UpdateEqipment& from) {
-    C2S_UpdateEqipment::MergeImpl(*this, from);
+  void MergeFrom( const C2S_InsertEqipment& from) {
+    C2S_InsertEqipment::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -3573,15 +3573,15 @@ class C2S_UpdateEqipment final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(C2S_UpdateEqipment* other);
+  void InternalSwap(C2S_InsertEqipment* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.C2S_UpdateEqipment";
+    return "Protocol.C2S_InsertEqipment";
   }
   protected:
-  explicit C2S_UpdateEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit C2S_InsertEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -3635,7 +3635,7 @@ class C2S_UpdateEqipment final :
   void _internal_set_part(::Protocol::ECharacterPart value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.C2S_UpdateEqipment)
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_InsertEqipment)
  private:
   class _Internal;
 
@@ -3653,24 +3653,24 @@ class C2S_UpdateEqipment final :
 };
 // -------------------------------------------------------------------
 
-class S2C_UpdateEqipment final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_UpdateEqipment) */ {
+class S2C_InsertEqipment final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_InsertEqipment) */ {
  public:
-  inline S2C_UpdateEqipment() : S2C_UpdateEqipment(nullptr) {}
-  ~S2C_UpdateEqipment() override;
-  explicit PROTOBUF_CONSTEXPR S2C_UpdateEqipment(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline S2C_InsertEqipment() : S2C_InsertEqipment(nullptr) {}
+  ~S2C_InsertEqipment() override;
+  explicit PROTOBUF_CONSTEXPR S2C_InsertEqipment(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  S2C_UpdateEqipment(const S2C_UpdateEqipment& from);
-  S2C_UpdateEqipment(S2C_UpdateEqipment&& from) noexcept
-    : S2C_UpdateEqipment() {
+  S2C_InsertEqipment(const S2C_InsertEqipment& from);
+  S2C_InsertEqipment(S2C_InsertEqipment&& from) noexcept
+    : S2C_InsertEqipment() {
     *this = ::std::move(from);
   }
 
-  inline S2C_UpdateEqipment& operator=(const S2C_UpdateEqipment& from) {
+  inline S2C_InsertEqipment& operator=(const S2C_InsertEqipment& from) {
     CopyFrom(from);
     return *this;
   }
-  inline S2C_UpdateEqipment& operator=(S2C_UpdateEqipment&& from) noexcept {
+  inline S2C_InsertEqipment& operator=(S2C_InsertEqipment&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -3693,20 +3693,20 @@ class S2C_UpdateEqipment final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const S2C_UpdateEqipment& default_instance() {
+  static const S2C_InsertEqipment& default_instance() {
     return *internal_default_instance();
   }
-  static inline const S2C_UpdateEqipment* internal_default_instance() {
-    return reinterpret_cast<const S2C_UpdateEqipment*>(
-               &_S2C_UpdateEqipment_default_instance_);
+  static inline const S2C_InsertEqipment* internal_default_instance() {
+    return reinterpret_cast<const S2C_InsertEqipment*>(
+               &_S2C_InsertEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     21;
 
-  friend void swap(S2C_UpdateEqipment& a, S2C_UpdateEqipment& b) {
+  friend void swap(S2C_InsertEqipment& a, S2C_InsertEqipment& b) {
     a.Swap(&b);
   }
-  inline void Swap(S2C_UpdateEqipment* other) {
+  inline void Swap(S2C_InsertEqipment* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -3719,7 +3719,7 @@ class S2C_UpdateEqipment final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(S2C_UpdateEqipment* other) {
+  void UnsafeArenaSwap(S2C_InsertEqipment* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -3727,14 +3727,14 @@ class S2C_UpdateEqipment final :
 
   // implements Message ----------------------------------------------
 
-  S2C_UpdateEqipment* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<S2C_UpdateEqipment>(arena);
+  S2C_InsertEqipment* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_InsertEqipment>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const S2C_UpdateEqipment& from);
+  void CopyFrom(const S2C_InsertEqipment& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const S2C_UpdateEqipment& from) {
-    S2C_UpdateEqipment::MergeImpl(*this, from);
+  void MergeFrom( const S2C_InsertEqipment& from) {
+    S2C_InsertEqipment::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -3752,15 +3752,15 @@ class S2C_UpdateEqipment final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(S2C_UpdateEqipment* other);
+  void InternalSwap(S2C_InsertEqipment* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S2C_UpdateEqipment";
+    return "Protocol.S2C_InsertEqipment";
   }
   protected:
-  explicit S2C_UpdateEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit S2C_InsertEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -3814,7 +3814,7 @@ class S2C_UpdateEqipment final :
   void _internal_set_error(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.S2C_UpdateEqipment)
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_InsertEqipment)
  private:
   class _Internal;
 
@@ -6116,45 +6116,45 @@ inline void S2C_RollbackInventory::set_allocated_item(::Protocol::SItem* item) {
 
 // -------------------------------------------------------------------
 
-// C2S_UpdateEqipment
+// C2S_InsertEqipment
 
 // int64 timestamp = 1;
-inline void C2S_UpdateEqipment::clear_timestamp() {
+inline void C2S_InsertEqipment::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
-inline int64_t C2S_UpdateEqipment::_internal_timestamp() const {
+inline int64_t C2S_InsertEqipment::_internal_timestamp() const {
   return _impl_.timestamp_;
 }
-inline int64_t C2S_UpdateEqipment::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateEqipment.timestamp)
+inline int64_t C2S_InsertEqipment::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_InsertEqipment.timestamp)
   return _internal_timestamp();
 }
-inline void C2S_UpdateEqipment::_internal_set_timestamp(int64_t value) {
+inline void C2S_InsertEqipment::_internal_set_timestamp(int64_t value) {
   
   _impl_.timestamp_ = value;
 }
-inline void C2S_UpdateEqipment::set_timestamp(int64_t value) {
+inline void C2S_InsertEqipment::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_UpdateEqipment.timestamp)
+  // @@protoc_insertion_point(field_set:Protocol.C2S_InsertEqipment.timestamp)
 }
 
 // .Protocol.SItem item = 2;
-inline bool C2S_UpdateEqipment::_internal_has_item() const {
+inline bool C2S_InsertEqipment::_internal_has_item() const {
   return this != internal_default_instance() && _impl_.item_ != nullptr;
 }
-inline bool C2S_UpdateEqipment::has_item() const {
+inline bool C2S_InsertEqipment::has_item() const {
   return _internal_has_item();
 }
-inline const ::Protocol::SItem& C2S_UpdateEqipment::_internal_item() const {
+inline const ::Protocol::SItem& C2S_InsertEqipment::_internal_item() const {
   const ::Protocol::SItem* p = _impl_.item_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SItem&>(
       ::Protocol::_SItem_default_instance_);
 }
-inline const ::Protocol::SItem& C2S_UpdateEqipment::item() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateEqipment.item)
+inline const ::Protocol::SItem& C2S_InsertEqipment::item() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_InsertEqipment.item)
   return _internal_item();
 }
-inline void C2S_UpdateEqipment::unsafe_arena_set_allocated_item(
+inline void C2S_InsertEqipment::unsafe_arena_set_allocated_item(
     ::Protocol::SItem* item) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
@@ -6165,9 +6165,9 @@ inline void C2S_UpdateEqipment::unsafe_arena_set_allocated_item(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C2S_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C2S_InsertEqipment.item)
 }
-inline ::Protocol::SItem* C2S_UpdateEqipment::release_item() {
+inline ::Protocol::SItem* C2S_InsertEqipment::release_item() {
   
   ::Protocol::SItem* temp = _impl_.item_;
   _impl_.item_ = nullptr;
@@ -6182,14 +6182,14 @@ inline ::Protocol::SItem* C2S_UpdateEqipment::release_item() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::SItem* C2S_UpdateEqipment::unsafe_arena_release_item() {
-  // @@protoc_insertion_point(field_release:Protocol.C2S_UpdateEqipment.item)
+inline ::Protocol::SItem* C2S_InsertEqipment::unsafe_arena_release_item() {
+  // @@protoc_insertion_point(field_release:Protocol.C2S_InsertEqipment.item)
   
   ::Protocol::SItem* temp = _impl_.item_;
   _impl_.item_ = nullptr;
   return temp;
 }
-inline ::Protocol::SItem* C2S_UpdateEqipment::_internal_mutable_item() {
+inline ::Protocol::SItem* C2S_InsertEqipment::_internal_mutable_item() {
   
   if (_impl_.item_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::SItem>(GetArenaForAllocation());
@@ -6197,12 +6197,12 @@ inline ::Protocol::SItem* C2S_UpdateEqipment::_internal_mutable_item() {
   }
   return _impl_.item_;
 }
-inline ::Protocol::SItem* C2S_UpdateEqipment::mutable_item() {
+inline ::Protocol::SItem* C2S_InsertEqipment::mutable_item() {
   ::Protocol::SItem* _msg = _internal_mutable_item();
-  // @@protoc_insertion_point(field_mutable:Protocol.C2S_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_mutable:Protocol.C2S_InsertEqipment.item)
   return _msg;
 }
-inline void C2S_UpdateEqipment::set_allocated_item(::Protocol::SItem* item) {
+inline void C2S_InsertEqipment::set_allocated_item(::Protocol::SItem* item) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
@@ -6220,50 +6220,50 @@ inline void C2S_UpdateEqipment::set_allocated_item(::Protocol::SItem* item) {
     
   }
   _impl_.item_ = item;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_InsertEqipment.item)
 }
 
 // .Protocol.ECharacterPart part = 3;
-inline void C2S_UpdateEqipment::clear_part() {
+inline void C2S_InsertEqipment::clear_part() {
   _impl_.part_ = 0;
 }
-inline ::Protocol::ECharacterPart C2S_UpdateEqipment::_internal_part() const {
+inline ::Protocol::ECharacterPart C2S_InsertEqipment::_internal_part() const {
   return static_cast< ::Protocol::ECharacterPart >(_impl_.part_);
 }
-inline ::Protocol::ECharacterPart C2S_UpdateEqipment::part() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateEqipment.part)
+inline ::Protocol::ECharacterPart C2S_InsertEqipment::part() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_InsertEqipment.part)
   return _internal_part();
 }
-inline void C2S_UpdateEqipment::_internal_set_part(::Protocol::ECharacterPart value) {
+inline void C2S_InsertEqipment::_internal_set_part(::Protocol::ECharacterPart value) {
   
   _impl_.part_ = value;
 }
-inline void C2S_UpdateEqipment::set_part(::Protocol::ECharacterPart value) {
+inline void C2S_InsertEqipment::set_part(::Protocol::ECharacterPart value) {
   _internal_set_part(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_UpdateEqipment.part)
+  // @@protoc_insertion_point(field_set:Protocol.C2S_InsertEqipment.part)
 }
 
 // -------------------------------------------------------------------
 
-// S2C_UpdateEqipment
+// S2C_InsertEqipment
 
 // .Protocol.SItem item = 1;
-inline bool S2C_UpdateEqipment::_internal_has_item() const {
+inline bool S2C_InsertEqipment::_internal_has_item() const {
   return this != internal_default_instance() && _impl_.item_ != nullptr;
 }
-inline bool S2C_UpdateEqipment::has_item() const {
+inline bool S2C_InsertEqipment::has_item() const {
   return _internal_has_item();
 }
-inline const ::Protocol::SItem& S2C_UpdateEqipment::_internal_item() const {
+inline const ::Protocol::SItem& S2C_InsertEqipment::_internal_item() const {
   const ::Protocol::SItem* p = _impl_.item_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SItem&>(
       ::Protocol::_SItem_default_instance_);
 }
-inline const ::Protocol::SItem& S2C_UpdateEqipment::item() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateEqipment.item)
+inline const ::Protocol::SItem& S2C_InsertEqipment::item() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_InsertEqipment.item)
   return _internal_item();
 }
-inline void S2C_UpdateEqipment::unsafe_arena_set_allocated_item(
+inline void S2C_InsertEqipment::unsafe_arena_set_allocated_item(
     ::Protocol::SItem* item) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
@@ -6274,9 +6274,9 @@ inline void S2C_UpdateEqipment::unsafe_arena_set_allocated_item(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_InsertEqipment.item)
 }
-inline ::Protocol::SItem* S2C_UpdateEqipment::release_item() {
+inline ::Protocol::SItem* S2C_InsertEqipment::release_item() {
   
   ::Protocol::SItem* temp = _impl_.item_;
   _impl_.item_ = nullptr;
@@ -6291,14 +6291,14 @@ inline ::Protocol::SItem* S2C_UpdateEqipment::release_item() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::Protocol::SItem* S2C_UpdateEqipment::unsafe_arena_release_item() {
-  // @@protoc_insertion_point(field_release:Protocol.S2C_UpdateEqipment.item)
+inline ::Protocol::SItem* S2C_InsertEqipment::unsafe_arena_release_item() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_InsertEqipment.item)
   
   ::Protocol::SItem* temp = _impl_.item_;
   _impl_.item_ = nullptr;
   return temp;
 }
-inline ::Protocol::SItem* S2C_UpdateEqipment::_internal_mutable_item() {
+inline ::Protocol::SItem* S2C_InsertEqipment::_internal_mutable_item() {
   
   if (_impl_.item_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::SItem>(GetArenaForAllocation());
@@ -6306,12 +6306,12 @@ inline ::Protocol::SItem* S2C_UpdateEqipment::_internal_mutable_item() {
   }
   return _impl_.item_;
 }
-inline ::Protocol::SItem* S2C_UpdateEqipment::mutable_item() {
+inline ::Protocol::SItem* S2C_InsertEqipment::mutable_item() {
   ::Protocol::SItem* _msg = _internal_mutable_item();
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_InsertEqipment.item)
   return _msg;
 }
-inline void S2C_UpdateEqipment::set_allocated_item(::Protocol::SItem* item) {
+inline void S2C_InsertEqipment::set_allocated_item(::Protocol::SItem* item) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
@@ -6329,47 +6329,47 @@ inline void S2C_UpdateEqipment::set_allocated_item(::Protocol::SItem* item) {
     
   }
   _impl_.item_ = item;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_UpdateEqipment.item)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_InsertEqipment.item)
 }
 
 // .Protocol.ECharacterPart part = 2;
-inline void S2C_UpdateEqipment::clear_part() {
+inline void S2C_InsertEqipment::clear_part() {
   _impl_.part_ = 0;
 }
-inline ::Protocol::ECharacterPart S2C_UpdateEqipment::_internal_part() const {
+inline ::Protocol::ECharacterPart S2C_InsertEqipment::_internal_part() const {
   return static_cast< ::Protocol::ECharacterPart >(_impl_.part_);
 }
-inline ::Protocol::ECharacterPart S2C_UpdateEqipment::part() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateEqipment.part)
+inline ::Protocol::ECharacterPart S2C_InsertEqipment::part() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_InsertEqipment.part)
   return _internal_part();
 }
-inline void S2C_UpdateEqipment::_internal_set_part(::Protocol::ECharacterPart value) {
+inline void S2C_InsertEqipment::_internal_set_part(::Protocol::ECharacterPart value) {
   
   _impl_.part_ = value;
 }
-inline void S2C_UpdateEqipment::set_part(::Protocol::ECharacterPart value) {
+inline void S2C_InsertEqipment::set_part(::Protocol::ECharacterPart value) {
   _internal_set_part(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateEqipment.part)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_InsertEqipment.part)
 }
 
 // int32 error = 3;
-inline void S2C_UpdateEqipment::clear_error() {
+inline void S2C_InsertEqipment::clear_error() {
   _impl_.error_ = 0;
 }
-inline int32_t S2C_UpdateEqipment::_internal_error() const {
+inline int32_t S2C_InsertEqipment::_internal_error() const {
   return _impl_.error_;
 }
-inline int32_t S2C_UpdateEqipment::error() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateEqipment.error)
+inline int32_t S2C_InsertEqipment::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_InsertEqipment.error)
   return _internal_error();
 }
-inline void S2C_UpdateEqipment::_internal_set_error(int32_t value) {
+inline void S2C_InsertEqipment::_internal_set_error(int32_t value) {
   
   _impl_.error_ = value;
 }
-inline void S2C_UpdateEqipment::set_error(int32_t value) {
+inline void S2C_InsertEqipment::set_error(int32_t value) {
   _internal_set_error(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateEqipment.error)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_InsertEqipment.error)
 }
 
 // -------------------------------------------------------------------

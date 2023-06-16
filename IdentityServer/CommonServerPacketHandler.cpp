@@ -19,6 +19,38 @@ bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C
 	return true;
 }
 
+bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer || false == remotePlayer->IsValid())
+	{
+		return false;
+	}
+
+	const int32 prevLevel = static_cast<int32>(remotePlayer->GetRoomType());
+	const int32 nextLevel = pkt.level();
+	
+	const int32 diffLevel = abs(prevLevel - nextLevel);
+
+	if (diffLevel == 1)
+	{
+		remotePlayer->SetRoomType(static_cast<ERoomType>(nextLevel));
+	}
+
+	Protocol::S2C_TravelLevel packet;
+	packet.set_error(diffLevel == 1 ? true : false);
+
+	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
+	session->Send(sendBuffer);
+	return true;
+}
+
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
 {
 	return true;

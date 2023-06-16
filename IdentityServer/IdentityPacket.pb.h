@@ -1972,29 +1972,25 @@ class S2C_LoadServer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kServerIdFieldNumber = 1,
+    kInfoFieldNumber = 1,
   };
-  // repeated int32 server_id = 1;
-  int server_id_size() const;
+  // repeated .Protocol.SServerInfo info = 1;
+  int info_size() const;
   private:
-  int _internal_server_id_size() const;
+  int _internal_info_size() const;
   public:
-  void clear_server_id();
+  void clear_info();
+  ::Protocol::SServerInfo* mutable_info(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >*
+      mutable_info();
   private:
-  int32_t _internal_server_id(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      _internal_server_id() const;
-  void _internal_add_server_id(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      _internal_mutable_server_id();
+  const ::Protocol::SServerInfo& _internal_info(int index) const;
+  ::Protocol::SServerInfo* _internal_add_info();
   public:
-  int32_t server_id(int index) const;
-  void set_server_id(int index, int32_t value);
-  void add_server_id(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      server_id() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      mutable_server_id();
+  const ::Protocol::SServerInfo& info(int index) const;
+  ::Protocol::SServerInfo* add_info();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >&
+      info() const;
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_LoadServer)
  private:
@@ -2004,8 +2000,7 @@ class S2C_LoadServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > server_id_;
-    mutable std::atomic<int> _server_id_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo > info_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2430,15 +2425,30 @@ class C2S_StartGame final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kCharacterIdFieldNumber = 1,
+    kTokenFieldNumber = 2,
+    kSeatFieldNumber = 1,
   };
-  // int32 character_id = 1;
-  void clear_character_id();
-  int32_t character_id() const;
-  void set_character_id(int32_t value);
+  // string token = 2;
+  void clear_token();
+  const std::string& token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token();
+  PROTOBUF_NODISCARD std::string* release_token();
+  void set_allocated_token(std::string* token);
   private:
-  int32_t _internal_character_id() const;
-  void _internal_set_character_id(int32_t value);
+  const std::string& _internal_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
+  // int32 seat = 1;
+  void clear_seat();
+  int32_t seat() const;
+  void set_seat(int32_t value);
+  private:
+  int32_t _internal_seat() const;
+  void _internal_set_seat(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.C2S_StartGame)
@@ -2449,7 +2459,8 @@ class C2S_StartGame final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int32_t character_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    int32_t seat_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2578,11 +2589,27 @@ class S2C_StartGame final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIpFieldNumber = 1,
-    kPortFieldNumber = 2,
-    kErrorFieldNumber = 3,
+    kServerNameFieldNumber = 2,
+    kIpFieldNumber = 3,
+    kServerIdFieldNumber = 1,
+    kPortFieldNumber = 4,
+    kErrorFieldNumber = 5,
   };
-  // string ip = 1;
+  // bytes server_name = 2;
+  void clear_server_name();
+  const std::string& server_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_server_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_server_name();
+  PROTOBUF_NODISCARD std::string* release_server_name();
+  void set_allocated_server_name(std::string* server_name);
+  private:
+  const std::string& _internal_server_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_server_name(const std::string& value);
+  std::string* _internal_mutable_server_name();
+  public:
+
+  // bytes ip = 3;
   void clear_ip();
   const std::string& ip() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -2596,7 +2623,16 @@ class S2C_StartGame final :
   std::string* _internal_mutable_ip();
   public:
 
-  // int32 port = 2;
+  // int32 server_id = 1;
+  void clear_server_id();
+  int32_t server_id() const;
+  void set_server_id(int32_t value);
+  private:
+  int32_t _internal_server_id() const;
+  void _internal_set_server_id(int32_t value);
+  public:
+
+  // int32 port = 4;
   void clear_port();
   int32_t port() const;
   void set_port(int32_t value);
@@ -2605,7 +2641,7 @@ class S2C_StartGame final :
   void _internal_set_port(int32_t value);
   public:
 
-  // int32 error = 3;
+  // int32 error = 5;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -2622,7 +2658,9 @@ class S2C_StartGame final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+    int32_t server_id_;
     int32_t port_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -4213,51 +4251,41 @@ inline void S2C_EmailVerified::set_error(int32_t value) {
 
 // S2C_LoadServer
 
-// repeated int32 server_id = 1;
-inline int S2C_LoadServer::_internal_server_id_size() const {
-  return _impl_.server_id_.size();
+// repeated .Protocol.SServerInfo info = 1;
+inline int S2C_LoadServer::_internal_info_size() const {
+  return _impl_.info_.size();
 }
-inline int S2C_LoadServer::server_id_size() const {
-  return _internal_server_id_size();
+inline int S2C_LoadServer::info_size() const {
+  return _internal_info_size();
 }
-inline void S2C_LoadServer::clear_server_id() {
-  _impl_.server_id_.Clear();
+inline ::Protocol::SServerInfo* S2C_LoadServer::mutable_info(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_LoadServer.info)
+  return _impl_.info_.Mutable(index);
 }
-inline int32_t S2C_LoadServer::_internal_server_id(int index) const {
-  return _impl_.server_id_.Get(index);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >*
+S2C_LoadServer::mutable_info() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.info)
+  return &_impl_.info_;
 }
-inline int32_t S2C_LoadServer::server_id(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.server_id)
-  return _internal_server_id(index);
+inline const ::Protocol::SServerInfo& S2C_LoadServer::_internal_info(int index) const {
+  return _impl_.info_.Get(index);
 }
-inline void S2C_LoadServer::set_server_id(int index, int32_t value) {
-  _impl_.server_id_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.server_id)
+inline const ::Protocol::SServerInfo& S2C_LoadServer::info(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.info)
+  return _internal_info(index);
 }
-inline void S2C_LoadServer::_internal_add_server_id(int32_t value) {
-  _impl_.server_id_.Add(value);
+inline ::Protocol::SServerInfo* S2C_LoadServer::_internal_add_info() {
+  return _impl_.info_.Add();
 }
-inline void S2C_LoadServer::add_server_id(int32_t value) {
-  _internal_add_server_id(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.server_id)
+inline ::Protocol::SServerInfo* S2C_LoadServer::add_info() {
+  ::Protocol::SServerInfo* _add = _internal_add_info();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.info)
+  return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S2C_LoadServer::_internal_server_id() const {
-  return _impl_.server_id_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S2C_LoadServer::server_id() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.server_id)
-  return _internal_server_id();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S2C_LoadServer::_internal_mutable_server_id() {
-  return &_impl_.server_id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S2C_LoadServer::mutable_server_id() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.server_id)
-  return _internal_mutable_server_id();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >&
+S2C_LoadServer::info() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.info)
+  return _impl_.info_;
 }
 
 // -------------------------------------------------------------------
@@ -4312,31 +4340,151 @@ inline void S2C_SelectServer::set_error(int32_t value) {
 
 // C2S_StartGame
 
-// int32 character_id = 1;
-inline void C2S_StartGame::clear_character_id() {
-  _impl_.character_id_ = 0;
+// int32 seat = 1;
+inline void C2S_StartGame::clear_seat() {
+  _impl_.seat_ = 0;
 }
-inline int32_t C2S_StartGame::_internal_character_id() const {
-  return _impl_.character_id_;
+inline int32_t C2S_StartGame::_internal_seat() const {
+  return _impl_.seat_;
 }
-inline int32_t C2S_StartGame::character_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_StartGame.character_id)
-  return _internal_character_id();
+inline int32_t C2S_StartGame::seat() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_StartGame.seat)
+  return _internal_seat();
 }
-inline void C2S_StartGame::_internal_set_character_id(int32_t value) {
+inline void C2S_StartGame::_internal_set_seat(int32_t value) {
   
-  _impl_.character_id_ = value;
+  _impl_.seat_ = value;
 }
-inline void C2S_StartGame::set_character_id(int32_t value) {
-  _internal_set_character_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_StartGame.character_id)
+inline void C2S_StartGame::set_seat(int32_t value) {
+  _internal_set_seat(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_StartGame.seat)
+}
+
+// string token = 2;
+inline void C2S_StartGame::clear_token() {
+  _impl_.token_.ClearToEmpty();
+}
+inline const std::string& C2S_StartGame::token() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_StartGame.token)
+  return _internal_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2S_StartGame::set_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C2S_StartGame.token)
+}
+inline std::string* C2S_StartGame::mutable_token() {
+  std::string* _s = _internal_mutable_token();
+  // @@protoc_insertion_point(field_mutable:Protocol.C2S_StartGame.token)
+  return _s;
+}
+inline const std::string& C2S_StartGame::_internal_token() const {
+  return _impl_.token_.Get();
+}
+inline void C2S_StartGame::_internal_set_token(const std::string& value) {
+  
+  _impl_.token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2S_StartGame::_internal_mutable_token() {
+  
+  return _impl_.token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2S_StartGame::release_token() {
+  // @@protoc_insertion_point(field_release:Protocol.C2S_StartGame.token)
+  return _impl_.token_.Release();
+}
+inline void C2S_StartGame::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_.SetAllocated(token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_.IsDefault()) {
+    _impl_.token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_StartGame.token)
 }
 
 // -------------------------------------------------------------------
 
 // S2C_StartGame
 
-// string ip = 1;
+// int32 server_id = 1;
+inline void S2C_StartGame::clear_server_id() {
+  _impl_.server_id_ = 0;
+}
+inline int32_t S2C_StartGame::_internal_server_id() const {
+  return _impl_.server_id_;
+}
+inline int32_t S2C_StartGame::server_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_StartGame.server_id)
+  return _internal_server_id();
+}
+inline void S2C_StartGame::_internal_set_server_id(int32_t value) {
+  
+  _impl_.server_id_ = value;
+}
+inline void S2C_StartGame::set_server_id(int32_t value) {
+  _internal_set_server_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.server_id)
+}
+
+// bytes server_name = 2;
+inline void S2C_StartGame::clear_server_name() {
+  _impl_.server_name_.ClearToEmpty();
+}
+inline const std::string& S2C_StartGame::server_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_StartGame.server_name)
+  return _internal_server_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_StartGame::set_server_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.server_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.server_name)
+}
+inline std::string* S2C_StartGame::mutable_server_name() {
+  std::string* _s = _internal_mutable_server_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_StartGame.server_name)
+  return _s;
+}
+inline const std::string& S2C_StartGame::_internal_server_name() const {
+  return _impl_.server_name_.Get();
+}
+inline void S2C_StartGame::_internal_set_server_name(const std::string& value) {
+  
+  _impl_.server_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_StartGame::_internal_mutable_server_name() {
+  
+  return _impl_.server_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_StartGame::release_server_name() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_StartGame.server_name)
+  return _impl_.server_name_.Release();
+}
+inline void S2C_StartGame::set_allocated_server_name(std::string* server_name) {
+  if (server_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.server_name_.SetAllocated(server_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.server_name_.IsDefault()) {
+    _impl_.server_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_StartGame.server_name)
+}
+
+// bytes ip = 3;
 inline void S2C_StartGame::clear_ip() {
   _impl_.ip_.ClearToEmpty();
 }
@@ -4348,7 +4496,7 @@ template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
 void S2C_StartGame::set_ip(ArgT0&& arg0, ArgT... args) {
  
- _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+ _impl_.ip_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
   // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.ip)
 }
 inline std::string* S2C_StartGame::mutable_ip() {
@@ -4386,7 +4534,7 @@ inline void S2C_StartGame::set_allocated_ip(std::string* ip) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_StartGame.ip)
 }
 
-// int32 port = 2;
+// int32 port = 4;
 inline void S2C_StartGame::clear_port() {
   _impl_.port_ = 0;
 }
@@ -4406,7 +4554,7 @@ inline void S2C_StartGame::set_port(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.port)
 }
 
-// int32 error = 3;
+// int32 error = 5;
 inline void S2C_StartGame::clear_error() {
   _impl_.error_ = 0;
 }

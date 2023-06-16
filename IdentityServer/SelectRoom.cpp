@@ -52,11 +52,38 @@ void SelectRoom::LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_Load
 
 void SelectRoom::StartCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_StartGame inPacket)
 {
+	WorldPtr world = mWorld.lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
+	if (false == world->IsValidPlayer(remotePlayer))
+	{
+		return;
+	}
+
+	if (GetRoomType() != remotePlayer->GetRoomType())
+	{
+		return;
+	}
+
+	const int32 seat = inPacket.seat();
+	CharacterPtr character = remotePlayer->GetCharacter(seat);
+	if (nullptr == character)
+	{
+		return;
+	}
+
+	const int characterID = character->GetCharacterID();
+
 	Protocol::S2C_StartGame startGamePacket;
-	//TODO: 서버에 연결된거 가져와서 보내야함
-	startGamePacket.set_ip("192.168.123.112");
+	startGamePacket.set_server_id(1);
+	startGamePacket.set_server_name("L_NecromancerDungeon");
+	startGamePacket.set_ip("116.41.116.247");
 	startGamePacket.set_port(10000);
-	startGamePacket.set_error(true);
+	startGamePacket.set_error(0);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(packetSession, startGamePacket);

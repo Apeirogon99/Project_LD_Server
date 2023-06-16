@@ -119,7 +119,7 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	Handle_DeleteInventory_Requset(packetSession, inPacket);
 }
 
-void Inventory::UpdateEqipment(Protocol::C2S_UpdateEqipment inPacket)
+void Inventory::InsertItemToEqipment(Protocol::C2S_InsertEqipment inPacket)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)
@@ -134,10 +134,10 @@ void Inventory::UpdateEqipment(Protocol::C2S_UpdateEqipment inPacket)
 	}
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	Handle_UpdateEqipment_Requset(packetSession, inPacket);
+	Handle_InsertEqipment_Requset(packetSession, inPacket);
 }
 
-void Inventory::DeleteEqipment(Protocol::C2S_DeleteEqipment inPacket)
+void Inventory::DeleteItemToEqipment(Protocol::C2S_DeleteEqipment inPacket)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)

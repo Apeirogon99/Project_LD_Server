@@ -19,6 +19,11 @@ bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C
 	return true;
 }
 
+bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt)
+{
+	return true;
+}
+
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
 {
 	return true;

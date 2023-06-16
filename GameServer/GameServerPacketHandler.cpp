@@ -169,7 +169,7 @@ bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteI
 	return true;
 }
 
-bool Handle_C2S_UpdateEqipment(PacketSessionPtr& session, Protocol::C2S_UpdateEqipment& pkt)
+bool Handle_C2S_InsertEqipment(PacketSessionPtr& session, Protocol::C2S_InsertEqipment& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
 	if (nullptr == playerState)
@@ -184,7 +184,7 @@ bool Handle_C2S_UpdateEqipment(PacketSessionPtr& session, Protocol::C2S_UpdateEq
 	}
 
 	const int64 timestmap = pkt.timestamp();
-	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::UpdateEqipment, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToEqipment, pkt);
 	return true;
 }
 
@@ -203,6 +203,6 @@ bool Handle_C2S_DeleteEqipment(PacketSessionPtr& session, Protocol::C2S_DeleteEq
 	}
 
 	const int64 timestmap = pkt.timestamp();
-	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::DeleteEqipment, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::DeleteItemToEqipment, pkt);
 	return true;
 }

@@ -24,15 +24,17 @@ enum class EPakcetID : uint16
 	C2S_DeleteInventory = 2017,
 	S2C_DeleteInventory = 2018,
 	S2C_RollbackInventory = 2019,
-	C2S_UpdateEqipment = 2020,
-	S2C_UpdateEqipment = 2021,
+	C2S_InsertEqipment = 2020,
+	S2C_InsertEqipment = 2021,
 	C2S_DeleteEqipment = 2022,
 	S2C_DeleteEqipment = 2023,
 
 	C2S_ReplicatedServerTimeStamp = 9000,
 	S2C_ReplicatedServerTimeStamp = 9001,
-	C2S_TravelServer = 9002,
-	S2C_TravelServer = 9003,
+	C2S_TravelLevel = 9002,
+	S2C_TravelLevel = 9003,
+	C2S_TravelServer = 9004,
+	S2C_TravelServer = 9005,
 };
 
 bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len);

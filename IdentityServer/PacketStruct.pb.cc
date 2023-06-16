@@ -40,6 +40,22 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace Protocol {
+PROTOBUF_CONSTEXPR SServerInfo::SServerInfo(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.state_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_.count_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SServerInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SServerInfoDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SServerInfoDefaultTypeInternal() {}
+  union {
+    SServerInfo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SServerInfoDefaultTypeInternal _SServerInfo_default_instance_;
 PROTOBUF_CONSTEXPR SCharacterAppearance::SCharacterAppearance(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.race_)*/0
@@ -190,11 +206,21 @@ struct SItemDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SItemDefaultTypeInternal _SItem_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[9];
+static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[10];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_PacketStruct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketStruct_2eproto = nullptr;
 
 const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.count_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -292,18 +318,20 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.rotation_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::Protocol::SCharacterAppearance)},
-  { 12, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
-  { 28, -1, -1, sizeof(::Protocol::SCharacterData)},
-  { 40, -1, -1, sizeof(::Protocol::SVector)},
-  { 49, -1, -1, sizeof(::Protocol::SVector2D)},
-  { 57, -1, -1, sizeof(::Protocol::SVelocity)},
-  { 66, -1, -1, sizeof(::Protocol::SRotator)},
-  { 75, -1, -1, sizeof(::Protocol::STransform)},
-  { 84, -1, -1, sizeof(::Protocol::SItem)},
+  { 0, -1, -1, sizeof(::Protocol::SServerInfo)},
+  { 10, -1, -1, sizeof(::Protocol::SCharacterAppearance)},
+  { 22, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
+  { 38, -1, -1, sizeof(::Protocol::SCharacterData)},
+  { 50, -1, -1, sizeof(::Protocol::SVector)},
+  { 59, -1, -1, sizeof(::Protocol::SVector2D)},
+  { 67, -1, -1, sizeof(::Protocol::SVelocity)},
+  { 76, -1, -1, sizeof(::Protocol::SRotator)},
+  { 85, -1, -1, sizeof(::Protocol::STransform)},
+  { 94, -1, -1, sizeof(::Protocol::SItem)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
+  &::Protocol::_SServerInfo_default_instance_._instance,
   &::Protocol::_SCharacterAppearance_default_instance_._instance,
   &::Protocol::_SCharacterEqipment_default_instance_._instance,
   &::Protocol::_SCharacterData_default_instance_._instance,
@@ -317,41 +345,43 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022PacketStruct.proto\022\010Protocol\032\020PacketEn"
-  "um.proto\"\225\001\n\024SCharacterAppearance\022\035\n\004rac"
-  "e\030\001 \001(\0162\017.Protocol.ERace\022\014\n\004seat\030\002 \001(\005\022\022"
-  "\n\nskin_color\030\003 \001(\005\022\022\n\nhair_color\030\004 \001(\005\022\021"
-  "\n\teye_color\030\005 \001(\005\022\025\n\reyebrow_color\030\006 \001(\005"
-  "\"\266\001\n\022SCharacterEqipment\022\014\n\004hair\030\001 \001(\005\022\016\n"
-  "\006helmet\030\002 \001(\005\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005ches"
-  "t\030\004 \001(\005\022\017\n\007bracers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022"
-  "\r\n\005pants\030\007 \001(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_"
-  "l\030\t \001(\005\022\020\n\010weapon_r\030\n \001(\005\"\331\001\n\016SCharacter"
-  "Data\022\014\n\004name\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexp"
-  "erience\030\003 \001(\005\0222\n\017character_class\030\004 \001(\0162\031"
-  ".Protocol.ECharacterClass\0222\n\nappearance\030"
-  "\005 \001(\0132\036.Protocol.SCharacterAppearance\022.\n"
-  "\010eqipment\030\006 \001(\0132\034.Protocol.SCharacterEqi"
-  "pment\"*\n\007SVector\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t"
-  "\n\001z\030\003 \001(\002\"!\n\tSVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002"
-  " \001(\005\",\n\tSVelocity\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022"
-  "\t\n\001z\030\003 \001(\002\"4\n\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005"
-  "pitch\030\002 \001(\002\022\013\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#"
-  "\n\010location\030\001 \001(\0132\021.Protocol.SVector\022$\n\010r"
-  "otation\030\002 \001(\0132\022.Protocol.SRotator\022 \n\005sca"
-  "le\030\003 \001(\0132\021.Protocol.SVector\"\227\001\n\005SItem\022\021\n"
-  "\tobject_id\030\001 \001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016w"
-  "orld_position\030\003 \001(\0132\021.Protocol.SVector\022+"
-  "\n\016inven_position\030\004 \001(\0132\023.Protocol.SVecto"
-  "r2D\022\020\n\010rotation\030\005 \001(\005b\006proto3"
+  "um.proto\"E\n\013SServerInfo\022\n\n\002id\030\001 \001(\005\022\014\n\004n"
+  "ame\030\002 \001(\014\022\r\n\005state\030\003 \001(\014\022\r\n\005count\030\004 \001(\005\""
+  "\225\001\n\024SCharacterAppearance\022\035\n\004race\030\001 \001(\0162\017"
+  ".Protocol.ERace\022\014\n\004seat\030\002 \001(\005\022\022\n\nskin_co"
+  "lor\030\003 \001(\005\022\022\n\nhair_color\030\004 \001(\005\022\021\n\teye_col"
+  "or\030\005 \001(\005\022\025\n\reyebrow_color\030\006 \001(\005\"\266\001\n\022SCha"
+  "racterEqipment\022\014\n\004hair\030\001 \001(\005\022\016\n\006helmet\030\002"
+  " \001(\005\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005chest\030\004 \001(\005\022\017"
+  "\n\007bracers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022\r\n\005pants\030"
+  "\007 \001(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_l\030\t \001(\005\022\020"
+  "\n\010weapon_r\030\n \001(\005\"\331\001\n\016SCharacterData\022\014\n\004n"
+  "ame\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexperience\030\003"
+  " \001(\005\0222\n\017character_class\030\004 \001(\0162\031.Protocol"
+  ".ECharacterClass\0222\n\nappearance\030\005 \001(\0132\036.P"
+  "rotocol.SCharacterAppearance\022.\n\010eqipment"
+  "\030\006 \001(\0132\034.Protocol.SCharacterEqipment\"*\n\007"
+  "SVector\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002"
+  "\"!\n\tSVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\",\n\tS"
+  "Velocity\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001("
+  "\002\"4\n\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005pitch\030\002 \001"
+  "(\002\022\013\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n\010locatio"
+  "n\030\001 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\002"
+  " \001(\0132\022.Protocol.SRotator\022 \n\005scale\030\003 \001(\0132"
+  "\021.Protocol.SVector\"\227\001\n\005SItem\022\021\n\tobject_i"
+  "d\030\001 \001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_posi"
+  "tion\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_p"
+  "osition\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010ro"
+  "tation\030\005 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1069, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1140, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
-    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 9,
+    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 10,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
     file_level_metadata_PacketStruct_2eproto, file_level_enum_descriptors_PacketStruct_2eproto,
     file_level_service_descriptors_PacketStruct_2eproto,
@@ -363,6 +393,309 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_PacketSt
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_PacketStruct_2eproto(&descriptor_table_PacketStruct_2eproto);
 namespace Protocol {
+
+// ===================================================================
+
+class SServerInfo::_Internal {
+ public:
+};
+
+SServerInfo::SServerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.SServerInfo)
+}
+SServerInfo::SServerInfo(const SServerInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SServerInfo* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.state_){}
+    , decltype(_impl_.id_){}
+    , decltype(_impl_.count_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_name().empty()) {
+    _this->_impl_.name_.Set(from._internal_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.state_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.state_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_state().empty()) {
+    _this->_impl_.state_.Set(from._internal_state(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.count_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.count_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.SServerInfo)
+}
+
+inline void SServerInfo::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.state_){}
+    , decltype(_impl_.id_){0}
+    , decltype(_impl_.count_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.state_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.state_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SServerInfo::~SServerInfo() {
+  // @@protoc_insertion_point(destructor:Protocol.SServerInfo)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SServerInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.name_.Destroy();
+  _impl_.state_.Destroy();
+}
+
+void SServerInfo::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SServerInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.SServerInfo)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.name_.ClearToEmpty();
+  _impl_.state_.ClearToEmpty();
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.count_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.count_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SServerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes state = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_state();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 count = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SServerInfo::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.SServerInfo)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // bytes name = 2;
+  if (!this->_internal_name().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_name(), target);
+  }
+
+  // bytes state = 3;
+  if (!this->_internal_state().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        3, this->_internal_state(), target);
+  }
+
+  // int32 count = 4;
+  if (this->_internal_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_count(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.SServerInfo)
+  return target;
+}
+
+size_t SServerInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.SServerInfo)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes name = 2;
+  if (!this->_internal_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_name());
+  }
+
+  // bytes state = 3;
+  if (!this->_internal_state().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_state());
+  }
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 count = 4;
+  if (this->_internal_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_count());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SServerInfo::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SServerInfo::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SServerInfo::GetClassData() const { return &_class_data_; }
+
+
+void SServerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SServerInfo*>(&to_msg);
+  auto& from = static_cast<const SServerInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.SServerInfo)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_name().empty()) {
+    _this->_internal_set_name(from._internal_name());
+  }
+  if (!from._internal_state().empty()) {
+    _this->_internal_set_state(from._internal_state());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  if (from._internal_count() != 0) {
+    _this->_internal_set_count(from._internal_count());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SServerInfo::CopyFrom(const SServerInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.SServerInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SServerInfo::IsInitialized() const {
+  return true;
+}
+
+void SServerInfo::InternalSwap(SServerInfo* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.name_, lhs_arena,
+      &other->_impl_.name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.state_, lhs_arena,
+      &other->_impl_.state_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SServerInfo, _impl_.count_)
+      + sizeof(SServerInfo::_impl_.count_)
+      - PROTOBUF_FIELD_OFFSET(SServerInfo, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SServerInfo::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
+      file_level_metadata_PacketStruct_2eproto[0]);
+}
 
 // ===================================================================
 
@@ -671,7 +1004,7 @@ void SCharacterAppearance::InternalSwap(SCharacterAppearance* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SCharacterAppearance::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[0]);
+      file_level_metadata_PacketStruct_2eproto[1]);
 }
 
 // ===================================================================
@@ -1074,7 +1407,7 @@ void SCharacterEqipment::InternalSwap(SCharacterEqipment* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SCharacterEqipment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[1]);
+      file_level_metadata_PacketStruct_2eproto[2]);
 }
 
 // ===================================================================
@@ -1441,7 +1774,7 @@ void SCharacterData::InternalSwap(SCharacterData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SCharacterData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[2]);
+      file_level_metadata_PacketStruct_2eproto[3]);
 }
 
 // ===================================================================
@@ -1712,7 +2045,7 @@ void SVector::InternalSwap(SVector* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SVector::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[3]);
+      file_level_metadata_PacketStruct_2eproto[4]);
 }
 
 // ===================================================================
@@ -1923,7 +2256,7 @@ void SVector2D::InternalSwap(SVector2D* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SVector2D::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[4]);
+      file_level_metadata_PacketStruct_2eproto[5]);
 }
 
 // ===================================================================
@@ -2194,7 +2527,7 @@ void SVelocity::InternalSwap(SVelocity* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SVelocity::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[5]);
+      file_level_metadata_PacketStruct_2eproto[6]);
 }
 
 // ===================================================================
@@ -2465,7 +2798,7 @@ void SRotator::InternalSwap(SRotator* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SRotator::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[6]);
+      file_level_metadata_PacketStruct_2eproto[7]);
 }
 
 // ===================================================================
@@ -2745,7 +3078,7 @@ void STransform::InternalSwap(STransform* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata STransform::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[7]);
+      file_level_metadata_PacketStruct_2eproto[8]);
 }
 
 // ===================================================================
@@ -3062,12 +3395,16 @@ void SItem::InternalSwap(SItem* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SItem::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
-      file_level_metadata_PacketStruct_2eproto[8]);
+      file_level_metadata_PacketStruct_2eproto[9]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::Protocol::SServerInfo*
+Arena::CreateMaybeMessage< ::Protocol::SServerInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::SServerInfo >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Protocol::SCharacterAppearance*
 Arena::CreateMaybeMessage< ::Protocol::SCharacterAppearance >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::SCharacterAppearance >(arena);
