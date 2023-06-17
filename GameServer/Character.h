@@ -19,17 +19,21 @@ public:
 	void MoveDestination(Protocol::C2S_MovementCharacter inPakcet);
 
 public:
+	void SetLoad(bool inIsLoad);
 	void SetCharacterID(const int32& inCharacterID);
 	void SetCharacterData(Protocol::SCharacterData inCharacterData);
 
-	void ReplaceEqipment(Protocol::ECharacterPart inPart, const int32 inInsertItemCode, const int32 inDeleteItemCode);
+	void ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 
 public:
+	bool						IsLoad() { return mIsLoad; }
 	int32						GetCharacterID() { return mCharacterID; }
 	Protocol::SCharacterData&	GetCharacterData() { return mCharacterData; }
 	int32						GetEqipmentPartCode(Protocol::ECharacterPart inPart);
 
 private:
+	bool						mIsLoad;
+
 	RemotePlayerRef				mRemotePlayer;
 
 	int32						mCharacterID;

@@ -13,28 +13,35 @@ public:
 	virtual bool IsValid()			override;
 
 public:
+	void SetLoad(bool inIsLoad);
+	void CreateItem(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
+	void CreateEqipment(const int32 inItemCode, const int32 inPart);
+
+public:
 	void LoadItemToInventory(Protocol::C2S_LoadInventory inPacket);
 	void InsertItemToInventory(Protocol::C2S_InsertInventory inPacket);
 	void UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket);
 	void DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket);
-
 	void ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket);
 
+	bool LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems);
+	bool LoadEqipment(google::protobuf::RepeatedPtrField<Protocol::SItem>* inEqipments);
 public:
-	bool LoadItem(Protocol::S2C_LoadInventory& inPacket);
 	bool InsertItem(const AItemPtr& inItem);
 	bool UpdateItem(const AItemPtr& inItem);
 	bool DeleteItem(const AItemPtr& inItem);
+
+	bool ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 
 	bool FindItem(const int64 inObjectID, AItemPtr& outItem);
 	bool FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem);
 	bool IsValidItem(const int64 inObjectID);
 
 	bool RollBackItem();
-
 	bool CheckInventory();
 
 public:
+	bool	IsLoad() { return mIsLoad; }
 	bool	GetItemRow(const int32 inItemCode, CSVRow& outRow);
 	CSVRow* PeekItemRow(const int32 inItemCode);
 
@@ -52,6 +59,7 @@ private:
 	int32								mStorage;
 	uint8*								mInventory;
 	std::unordered_map<int64, AItemPtr>	mItems;
+	std::vector<AItemPtr>				mEqipments;
 
 	RemotePlayerRef						mRemotePlayer;
 };

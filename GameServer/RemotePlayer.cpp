@@ -64,6 +64,39 @@ bool RemotePlayer::LoadRemotePlayer(const int32 inServerID, const int32 inCharac
 	return true;
 }
 
+void RemotePlayer::LoadComplete()
+{
+	PlayerStatePtr playerState = mPlayerState.lock();
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	if (false == GetCharacter()->IsLoad())
+	{
+		return;
+	}
+
+	if (false == GetInventory()->IsLoad())
+	{
+		return;
+	}
+
+
+	Protocol::S2C_EnterGameServer enterPacket;
+	enterPacket.set_remote_id(this->GetGameObjectID());
+	enterPacket.mutable_character_data()->CopyFrom(GetCharacter()->GetCharacterData());
+	GetInventory()->LoadItem(enterPacket.mutable_item());
+	GetInventory()->LoadEqipment(enterPacket.mutable_eqipment());
+	enterPacket.mutable_transform()->CopyFrom(GetCharacter()->GetTransform());
+	enterPacket.set_error(false);
+
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
+	packetSession->Send(sendBuffer);
+}
+
 void RemotePlayer::InitTask(GameTaskPtr& inGameTask)
 {
 	if (nullptr == inGameTask)

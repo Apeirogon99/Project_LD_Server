@@ -55,7 +55,9 @@ struct C2S_EnterGameServerDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_EnterGameServerDefaultTypeInternal _C2S_EnterGameServer_default_instance_;
 PROTOBUF_CONSTEXPR S2C_EnterGameServer::S2C_EnterGameServer(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.character_data_)*/nullptr
+    /*decltype(_impl_.item_)*/{}
+  , /*decltype(_impl_.eqipment_)*/{}
+  , /*decltype(_impl_.character_data_)*/nullptr
   , /*decltype(_impl_.transform_)*/nullptr
   , /*decltype(_impl_.remote_id_)*/int64_t{0}
   , /*decltype(_impl_.error_)*/0
@@ -209,6 +211,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR S2C_LoadInventory::S2C_LoadInventory(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.item_)*/{}
+  , /*decltype(_impl_.eqipment_)*/{}
   , /*decltype(_impl_.error_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_LoadInventoryDefaultTypeInternal {
@@ -369,6 +372,8 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.character_data_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.item_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.eqipment_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.transform_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnterGameServer, _impl_.error_),
   ~0u,  // no _has_bits_
@@ -456,6 +461,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadInventory, _impl_.item_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadInventory, _impl_.eqipment_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_LoadInventory, _impl_.error_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InsertInventory, _internal_metadata_),
@@ -535,26 +541,26 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterGameServer)},
   { 7, -1, -1, sizeof(::Protocol::S2C_EnterGameServer)},
-  { 17, -1, -1, sizeof(::Protocol::C2S_LeaveGameServer)},
-  { 23, -1, -1, sizeof(::Protocol::S2C_LeaveGameServer)},
-  { 30, -1, -1, sizeof(::Protocol::S2C_AppearCharacter)},
-  { 41, -1, -1, sizeof(::Protocol::S2C_DisAppearCharacter)},
-  { 48, -1, -1, sizeof(::Protocol::C2S_MovementCharacter)},
-  { 57, -1, -1, sizeof(::Protocol::S2C_MovementCharacter)},
-  { 67, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
-  { 74, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 81, -1, -1, sizeof(::Protocol::S2C_DestroyItem)},
-  { 88, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 95, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 103, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 111, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 120, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 128, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 135, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 143, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 152, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 160, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 170, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 19, -1, -1, sizeof(::Protocol::C2S_LeaveGameServer)},
+  { 25, -1, -1, sizeof(::Protocol::S2C_LeaveGameServer)},
+  { 32, -1, -1, sizeof(::Protocol::S2C_AppearCharacter)},
+  { 43, -1, -1, sizeof(::Protocol::S2C_DisAppearCharacter)},
+  { 50, -1, -1, sizeof(::Protocol::C2S_MovementCharacter)},
+  { 59, -1, -1, sizeof(::Protocol::S2C_MovementCharacter)},
+  { 69, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
+  { 76, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 83, -1, -1, sizeof(::Protocol::S2C_DestroyItem)},
+  { 90, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 97, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 106, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 114, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 123, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 131, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 138, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 146, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 155, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 163, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 173, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -585,49 +591,52 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020GamePacket.proto\022\010Protocol\032\022PacketStru"
   "ct.proto\032\020PacketEnum.proto\"$\n\023C2S_EnterG"
-  "ameServer\022\r\n\005token\030\001 \001(\014\"\222\001\n\023S2C_EnterGa"
+  "ameServer\022\r\n\005token\030\001 \001(\014\"\324\001\n\023S2C_EnterGa"
   "meServer\022\021\n\tremote_id\030\001 \001(\003\0220\n\016character"
-  "_data\030\002 \001(\0132\030.Protocol.SCharacterData\022\'\n"
-  "\ttransform\030\003 \001(\0132\024.Protocol.STransform\022\r"
-  "\n\005error\030\004 \001(\005\"\025\n\023C2S_LeaveGameServer\"$\n\023"
-  "S2C_LeaveGameServer\022\r\n\005error\030\001 \001(\005\"\277\001\n\023S"
-  "2C_AppearCharacter\022\021\n\tremote_id\030\001 \001(\003\022\021\n"
-  "\ttimestamp\030\002 \001(\003\022\'\n\014old_location\030\003 \001(\0132\021"
-  ".Protocol.SVector\022\'\n\014new_location\030\004 \001(\0132"
-  "\021.Protocol.SVector\0220\n\016character_data\030\005 \001"
-  "(\0132\030.Protocol.SCharacterData\"+\n\026S2C_DisA"
-  "ppearCharacter\022\021\n\tremote_id\030\001 \001(\003\"|\n\025C2S"
-  "_MovementCharacter\022\021\n\ttimestamp\030\001 \001(\003\022\'\n"
-  "\014old_location\030\002 \001(\0132\021.Protocol.SVector\022\'"
-  "\n\014new_location\030\003 \001(\0132\021.Protocol.SVector\""
-  "\217\001\n\025S2C_MovementCharacter\022\021\n\tremote_id\030\001"
-  " \001(\003\022\021\n\ttimestamp\030\002 \001(\003\022\'\n\014old_location\030"
-  "\003 \001(\0132\021.Protocol.SVector\022\'\n\014new_location"
-  "\030\004 \001(\0132\021.Protocol.SVector\"/\n\016S2C_AppearI"
-  "tem\022\035\n\004item\030\001 \003(\0132\017.Protocol.SItem\",\n\027S2"
-  "C_DisAppearGameObject\022\021\n\tobject_id\030\001 \001(\003"
-  "\"0\n\017S2C_DestroyItem\022\035\n\004item\030\001 \001(\0132\017.Prot"
-  "ocol.SItem\"&\n\021C2S_LoadInventory\022\021\n\ttimes"
-  "tamp\030\001 \001(\003\"A\n\021S2C_LoadInventory\022\035\n\004item\030"
-  "\001 \003(\0132\017.Protocol.SItem\022\r\n\005error\030\002 \001(\005\"G\n"
-  "\023C2S_InsertInventory\022\021\n\ttimestamp\030\001 \001(\003\022"
-  "\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"J\n\023S2C_In"
-  "sertInventory\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobje"
-  "ct_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_Update"
-  "Inventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001"
-  "(\0132\017.Protocol.SItem\"$\n\023S2C_UpdateInvento"
-  "ry\022\r\n\005error\030\001 \001(\005\"G\n\023C2S_DeleteInventory"
-  "\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Prot"
-  "ocol.SItem\"V\n\023S2C_DeleteInventory\022\021\n\trem"
-  "ote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SI"
-  "tem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_RollbackInvent"
-  "ory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.P"
-  "rotocol.SItem\"\247\001\n\023C2S_ReplaceEqipment\022\021\n"
-  "\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_item\030\002 "
-  "\001(\0132\017.Protocol.SItem\022)\n\020insert_eqip_item"
-  "\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 \001(\0162\030."
-  "Protocol.ECharacterPart\"$\n\023S2C_ReplaceEq"
-  "ipment\022\r\n\005error\030\001 \001(\005b\006proto3"
+  "_data\030\002 \001(\0132\030.Protocol.SCharacterData\022\035\n"
+  "\004item\030\003 \003(\0132\017.Protocol.SItem\022!\n\010eqipment"
+  "\030\004 \003(\0132\017.Protocol.SItem\022\'\n\ttransform\030\005 \001"
+  "(\0132\024.Protocol.STransform\022\r\n\005error\030\006 \001(\005\""
+  "\025\n\023C2S_LeaveGameServer\"$\n\023S2C_LeaveGameS"
+  "erver\022\r\n\005error\030\001 \001(\005\"\277\001\n\023S2C_AppearChara"
+  "cter\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001"
+  "(\003\022\'\n\014old_location\030\003 \001(\0132\021.Protocol.SVec"
+  "tor\022\'\n\014new_location\030\004 \001(\0132\021.Protocol.SVe"
+  "ctor\0220\n\016character_data\030\005 \001(\0132\030.Protocol."
+  "SCharacterData\"+\n\026S2C_DisAppearCharacter"
+  "\022\021\n\tremote_id\030\001 \001(\003\"|\n\025C2S_MovementChara"
+  "cter\022\021\n\ttimestamp\030\001 \001(\003\022\'\n\014old_location\030"
+  "\002 \001(\0132\021.Protocol.SVector\022\'\n\014new_location"
+  "\030\003 \001(\0132\021.Protocol.SVector\"\217\001\n\025S2C_Moveme"
+  "ntCharacter\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimest"
+  "amp\030\002 \001(\003\022\'\n\014old_location\030\003 \001(\0132\021.Protoc"
+  "ol.SVector\022\'\n\014new_location\030\004 \001(\0132\021.Proto"
+  "col.SVector\"/\n\016S2C_AppearItem\022\035\n\004item\030\001 "
+  "\003(\0132\017.Protocol.SItem\",\n\027S2C_DisAppearGam"
+  "eObject\022\021\n\tobject_id\030\001 \001(\003\"0\n\017S2C_Destro"
+  "yItem\022\035\n\004item\030\001 \001(\0132\017.Protocol.SItem\"&\n\021"
+  "C2S_LoadInventory\022\021\n\ttimestamp\030\001 \001(\003\"d\n\021"
+  "S2C_LoadInventory\022\035\n\004item\030\001 \003(\0132\017.Protoc"
+  "ol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.Protocol.SI"
+  "tem\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_InsertInventor"
+  "y\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Pro"
+  "tocol.SItem\"J\n\023S2C_InsertInventory\022\021\n\tre"
+  "mote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005erro"
+  "r\030\003 \001(\005\"G\n\023C2S_UpdateInventory\022\021\n\ttimest"
+  "amp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem"
+  "\"$\n\023S2C_UpdateInventory\022\r\n\005error\030\001 \001(\005\"G"
+  "\n\023C2S_DeleteInventory\022\021\n\ttimestamp\030\001 \001(\003"
+  "\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"V\n\023S2C_D"
+  "eleteInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004ite"
+  "m\030\002 \001(\0132\017.Protocol.SItem\022\r\n\005error\030\003 \001(\005\""
+  "I\n\025S2C_RollbackInventory\022\021\n\tremote_id\030\001 "
+  "\001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"\247\001\n\023C"
+  "2S_ReplaceEqipment\022\021\n\ttimestamp\030\001 \001(\003\022*\n"
+  "\021insert_inven_item\030\002 \001(\0132\017.Protocol.SIte"
+  "m\022)\n\020insert_eqip_item\030\003 \001(\0132\017.Protocol.S"
+  "Item\022&\n\004part\030\004 \001(\0162\030.Protocol.ECharacter"
+  "Part\"$\n\023S2C_ReplaceEqipment\022\r\n\005error\030\001 \001"
+  "(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -635,7 +644,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 1789, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 1890, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 22,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -870,6 +879,12 @@ void S2C_EnterGameServer::clear_character_data() {
   }
   _impl_.character_data_ = nullptr;
 }
+void S2C_EnterGameServer::clear_item() {
+  _impl_.item_.Clear();
+}
+void S2C_EnterGameServer::clear_eqipment() {
+  _impl_.eqipment_.Clear();
+}
 void S2C_EnterGameServer::clear_transform() {
   if (GetArenaForAllocation() == nullptr && _impl_.transform_ != nullptr) {
     delete _impl_.transform_;
@@ -886,7 +901,9 @@ S2C_EnterGameServer::S2C_EnterGameServer(const S2C_EnterGameServer& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_EnterGameServer* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.character_data_){nullptr}
+      decltype(_impl_.item_){from._impl_.item_}
+    , decltype(_impl_.eqipment_){from._impl_.eqipment_}
+    , decltype(_impl_.character_data_){nullptr}
     , decltype(_impl_.transform_){nullptr}
     , decltype(_impl_.remote_id_){}
     , decltype(_impl_.error_){}
@@ -910,7 +927,9 @@ inline void S2C_EnterGameServer::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.character_data_){nullptr}
+      decltype(_impl_.item_){arena}
+    , decltype(_impl_.eqipment_){arena}
+    , decltype(_impl_.character_data_){nullptr}
     , decltype(_impl_.transform_){nullptr}
     , decltype(_impl_.remote_id_){int64_t{0}}
     , decltype(_impl_.error_){0}
@@ -929,6 +948,8 @@ S2C_EnterGameServer::~S2C_EnterGameServer() {
 
 inline void S2C_EnterGameServer::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.item_.~RepeatedPtrField();
+  _impl_.eqipment_.~RepeatedPtrField();
   if (this != internal_default_instance()) delete _impl_.character_data_;
   if (this != internal_default_instance()) delete _impl_.transform_;
 }
@@ -943,6 +964,8 @@ void S2C_EnterGameServer::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.item_.Clear();
+  _impl_.eqipment_.Clear();
   if (GetArenaForAllocation() == nullptr && _impl_.character_data_ != nullptr) {
     delete _impl_.character_data_;
   }
@@ -979,17 +1002,43 @@ const char* S2C_EnterGameServer::_InternalParse(const char* ptr, ::_pbi::ParseCo
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.STransform transform = 3;
+      // repeated .Protocol.SItem item = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_item(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .Protocol.SItem eqipment = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_eqipment(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.STransform transform = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_transform(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 error = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+      // int32 error = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -1037,17 +1086,33 @@ uint8_t* S2C_EnterGameServer::_InternalSerialize(
         _Internal::character_data(this).GetCachedSize(), target, stream);
   }
 
-  // .Protocol.STransform transform = 3;
+  // repeated .Protocol.SItem item = 3;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_item_size()); i < n; i++) {
+    const auto& repfield = this->_internal_item(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .Protocol.SItem eqipment = 4;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_eqipment_size()); i < n; i++) {
+    const auto& repfield = this->_internal_eqipment(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.STransform transform = 5;
   if (this->_internal_has_transform()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::transform(this),
+      InternalWriteMessage(5, _Internal::transform(this),
         _Internal::transform(this).GetCachedSize(), target, stream);
   }
 
-  // int32 error = 4;
+  // int32 error = 6;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1066,6 +1131,20 @@ size_t S2C_EnterGameServer::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // repeated .Protocol.SItem item = 3;
+  total_size += 1UL * this->_internal_item_size();
+  for (const auto& msg : this->_impl_.item_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .Protocol.SItem eqipment = 4;
+  total_size += 1UL * this->_internal_eqipment_size();
+  for (const auto& msg : this->_impl_.eqipment_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
   // .Protocol.SCharacterData character_data = 2;
   if (this->_internal_has_character_data()) {
     total_size += 1 +
@@ -1073,7 +1152,7 @@ size_t S2C_EnterGameServer::ByteSizeLong() const {
         *_impl_.character_data_);
   }
 
-  // .Protocol.STransform transform = 3;
+  // .Protocol.STransform transform = 5;
   if (this->_internal_has_transform()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -1085,7 +1164,7 @@ size_t S2C_EnterGameServer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
-  // int32 error = 4;
+  // int32 error = 6;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -1108,6 +1187,8 @@ void S2C_EnterGameServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_impl_.item_.MergeFrom(from._impl_.item_);
+  _this->_impl_.eqipment_.MergeFrom(from._impl_.eqipment_);
   if (from._internal_has_character_data()) {
     _this->_internal_mutable_character_data()->::Protocol::SCharacterData::MergeFrom(
         from._internal_character_data());
@@ -1139,6 +1220,8 @@ bool S2C_EnterGameServer::IsInitialized() const {
 void S2C_EnterGameServer::InternalSwap(S2C_EnterGameServer* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.item_.InternalSwap(&other->_impl_.item_);
+  _impl_.eqipment_.InternalSwap(&other->_impl_.eqipment_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S2C_EnterGameServer, _impl_.error_)
       + sizeof(S2C_EnterGameServer::_impl_.error_)
@@ -3235,6 +3318,9 @@ class S2C_LoadInventory::_Internal {
 void S2C_LoadInventory::clear_item() {
   _impl_.item_.Clear();
 }
+void S2C_LoadInventory::clear_eqipment() {
+  _impl_.eqipment_.Clear();
+}
 S2C_LoadInventory::S2C_LoadInventory(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3246,6 +3332,7 @@ S2C_LoadInventory::S2C_LoadInventory(const S2C_LoadInventory& from)
   S2C_LoadInventory* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.item_){from._impl_.item_}
+    , decltype(_impl_.eqipment_){from._impl_.eqipment_}
     , decltype(_impl_.error_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -3260,6 +3347,7 @@ inline void S2C_LoadInventory::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.item_){arena}
+    , decltype(_impl_.eqipment_){arena}
     , decltype(_impl_.error_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -3277,6 +3365,7 @@ S2C_LoadInventory::~S2C_LoadInventory() {
 inline void S2C_LoadInventory::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.item_.~RepeatedPtrField();
+  _impl_.eqipment_.~RepeatedPtrField();
 }
 
 void S2C_LoadInventory::SetCachedSize(int size) const {
@@ -3290,6 +3379,7 @@ void S2C_LoadInventory::Clear() {
   (void) cached_has_bits;
 
   _impl_.item_.Clear();
+  _impl_.eqipment_.Clear();
   _impl_.error_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -3313,9 +3403,22 @@ const char* S2C_LoadInventory::_InternalParse(const char* ptr, ::_pbi::ParseCont
         } else
           goto handle_unusual;
         continue;
-      // int32 error = 2;
+      // repeated .Protocol.SItem eqipment = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_eqipment(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 error = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -3358,10 +3461,18 @@ uint8_t* S2C_LoadInventory::_InternalSerialize(
         InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // int32 error = 2;
+  // repeated .Protocol.SItem eqipment = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_eqipment_size()); i < n; i++) {
+    const auto& repfield = this->_internal_eqipment(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3387,7 +3498,14 @@ size_t S2C_LoadInventory::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // int32 error = 2;
+  // repeated .Protocol.SItem eqipment = 2;
+  total_size += 1UL * this->_internal_eqipment_size();
+  for (const auto& msg : this->_impl_.eqipment_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -3411,6 +3529,7 @@ void S2C_LoadInventory::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   (void) cached_has_bits;
 
   _this->_impl_.item_.MergeFrom(from._impl_.item_);
+  _this->_impl_.eqipment_.MergeFrom(from._impl_.eqipment_);
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
   }
@@ -3432,6 +3551,7 @@ void S2C_LoadInventory::InternalSwap(S2C_LoadInventory* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.item_.InternalSwap(&other->_impl_.item_);
+  _impl_.eqipment_.InternalSwap(&other->_impl_.eqipment_);
   swap(_impl_.error_, other->_impl_.error_);
 }
 

@@ -102,20 +102,25 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	eqipments->set_weapon_l(weapon_l);
 	eqipments->set_weapon_r(weapon_r);
 
-
 	character->SetCharacterID(id);
 	character->SetCharacterData(loadCharacterData);
 
 	{
-		Protocol::S2C_EnterGameServer enterPacket;
-		enterPacket.mutable_character_data()->CopyFrom(loadCharacterData);
-		enterPacket.set_remote_id(remotePlayer->GetGameObjectID());
-		enterPacket.set_error(false);
-
-		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
-		packetSession->Send(sendBuffer);
+		Inventoryptr& inventory = remotePlayer->GetInventory();
+		inventory->CreateEqipment(helmet, 1);
+		inventory->CreateEqipment(shoulders, 2);
+		inventory->CreateEqipment(chest, 3);
+		inventory->CreateEqipment(bracers, 4);
+		inventory->CreateEqipment(hands, 5);
+		inventory->CreateEqipment(pants, 6);
+		inventory->CreateEqipment(boots, 7);
+		inventory->CreateEqipment(weapon_l, 8);
+		inventory->CreateEqipment(weapon_r, 9);
 	}
+
+	character->SetLoad(true);
+
+	remotePlayer->LoadComplete();
 
 	return true;
 }

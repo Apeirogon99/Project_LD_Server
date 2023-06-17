@@ -16,6 +16,8 @@ void Inventory::Initialization()
 	mStorage = mWidth * mHeight;
 	mInventory = new uint8[mStorage]();
 	memset(mInventory, 0, mStorage);
+
+	mEqipments.resize(10);
 }
 
 void Inventory::Destroy()
@@ -41,6 +43,40 @@ bool Inventory::IsValid()
 	return mIsLoad;
 }
 
+void Inventory::SetLoad(bool inIsLoad)
+{
+	mIsLoad = inIsLoad;
+}
+
+void Inventory::CreateItem(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation)
+{
+
+	RemotePlayerPtr remotePlayer	= mRemotePlayer.lock();
+	PlayerStatePtr	playerState		= remotePlayer->GetPlayerState().lock();
+	WorldPtr		wolrd			= playerState->GetWorld();
+	GameTaskPtr		task			= wolrd->GetGameTask();
+
+	AItemPtr newItem = std::make_shared<AItem>();
+	task->CreateGameObject(newItem->GetGameObjectPtr());
+	newItem->Init(inItemCode, inInvenPositionX, inInvenPositionY, inRotation);
+
+	InsertItem(newItem);
+}
+
+void Inventory::CreateEqipment(const int32 inItemCode, const int32 inPart)
+{
+	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	PlayerStatePtr	playerState = remotePlayer->GetPlayerState().lock();
+	WorldPtr		wolrd = playerState->GetWorld();
+	GameTaskPtr		task = wolrd->GetGameTask();
+
+	AItemPtr newItem = std::make_shared<AItem>();
+	task->CreateGameObject(newItem->GetGameObjectPtr());
+	newItem->Init(inItemCode, 0, 0, 0);
+
+	mEqipments[inPart] = newItem;
+}
+
 void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
@@ -57,7 +93,9 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 
 	Protocol::S2C_LoadInventory loadInventoryPacket;
 
-	this->LoadItem(loadInventoryPacket);
+	this->LoadItem(loadInventoryPacket.mutable_item());
+	this->LoadEqipment(loadInventoryPacket.mutable_eqipment());
+	loadInventoryPacket.set_error(0);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, loadInventoryPacket);
@@ -151,16 +189,11 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 
 	if (isValidEqipment && isValidInventory)
 	{
-		character->ReplaceEqipment(part, insertInventoryItem->GetItemCode(), insertEqipmentItem->GetItemCode());
-
-		isReplace = inventory->InsertItem(insertInventoryItem) && inventory->DeleteItem(insertEqipmentItem);
+		isReplace = inventory->ReplaceEqipment(insertEqipmentItem, insertEqipmentItem, part);
 		if (isReplace)
 		{
+			character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
 			Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem);
-		}
-		else
-		{
-			//TODO: Rollback
 		}
 	}
 
@@ -170,20 +203,32 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	packetSession->Send(sendBuffer);
 }
 
-bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
+bool Inventory::LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems)
 {
 	for (auto& item : mItems)
 	{
 		const AItemPtr& curItem = item.second;
 
-		Protocol::SItem* loadItem = inPacket.add_item();
+		Protocol::SItem* loadItem = inItems->Add();
 		loadItem->set_object_id(curItem->GetGameObjectID());
 		loadItem->set_item_code(curItem->GetItemCode());
 		loadItem->mutable_world_position()->CopyFrom(curItem->GetLocation());
 		loadItem->mutable_inven_position()->CopyFrom(curItem->GetInventoryPosition());
 		loadItem->set_rotation(curItem->GetInventoryRoation());
 	}
-	inPacket.set_error(0);
+	return true;
+}
+
+bool Inventory::LoadEqipment(google::protobuf::RepeatedPtrField<Protocol::SItem>* inEqipments)
+{
+	for (int32 curPart = 1; curPart < 10; ++curPart)
+	{
+		const AItemPtr& curEqipment = mEqipments[curPart];
+
+		Protocol::SItem* loadEqipment = inEqipments->Add();
+		loadEqipment->set_object_id(curEqipment->GetGameObjectID());
+		loadEqipment->set_item_code(curEqipment->GetItemCode());
+	}
 	return true;
 }
 
@@ -228,6 +273,24 @@ bool Inventory::DeleteItem(const AItemPtr& inItem)
 	}
 
 	return false;
+}
+
+bool Inventory::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)
+{
+
+	if (false == InsertItem(inInsertInventoryItem))
+	{
+		return false;
+	}
+
+	if (false == DeleteItem(inInsertEqipmentItem))
+	{
+		return false;
+	}
+
+	const int32 part = static_cast<int32>(inPart);
+	mEqipments[part] = inInsertEqipmentItem;
+	return true;
 }
 
 bool Inventory::FindItem(const int64 inObjectID, AItemPtr& outItem)

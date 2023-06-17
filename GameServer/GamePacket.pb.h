@@ -421,11 +421,49 @@ class S2C_EnterGameServer final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kItemFieldNumber = 3,
+    kEqipmentFieldNumber = 4,
     kCharacterDataFieldNumber = 2,
-    kTransformFieldNumber = 3,
+    kTransformFieldNumber = 5,
     kRemoteIdFieldNumber = 1,
-    kErrorFieldNumber = 4,
+    kErrorFieldNumber = 6,
   };
+  // repeated .Protocol.SItem item = 3;
+  int item_size() const;
+  private:
+  int _internal_item_size() const;
+  public:
+  void clear_item();
+  ::Protocol::SItem* mutable_item(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+      mutable_item();
+  private:
+  const ::Protocol::SItem& _internal_item(int index) const;
+  ::Protocol::SItem* _internal_add_item();
+  public:
+  const ::Protocol::SItem& item(int index) const;
+  ::Protocol::SItem* add_item();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+      item() const;
+
+  // repeated .Protocol.SItem eqipment = 4;
+  int eqipment_size() const;
+  private:
+  int _internal_eqipment_size() const;
+  public:
+  void clear_eqipment();
+  ::Protocol::SItem* mutable_eqipment(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+      mutable_eqipment();
+  private:
+  const ::Protocol::SItem& _internal_eqipment(int index) const;
+  ::Protocol::SItem* _internal_add_eqipment();
+  public:
+  const ::Protocol::SItem& eqipment(int index) const;
+  ::Protocol::SItem* add_eqipment();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+      eqipment() const;
+
   // .Protocol.SCharacterData character_data = 2;
   bool has_character_data() const;
   private:
@@ -444,7 +482,7 @@ class S2C_EnterGameServer final :
       ::Protocol::SCharacterData* character_data);
   ::Protocol::SCharacterData* unsafe_arena_release_character_data();
 
-  // .Protocol.STransform transform = 3;
+  // .Protocol.STransform transform = 5;
   bool has_transform() const;
   private:
   bool _internal_has_transform() const;
@@ -471,7 +509,7 @@ class S2C_EnterGameServer final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int32 error = 4;
+  // int32 error = 6;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -488,6 +526,8 @@ class S2C_EnterGameServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > item_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > eqipment_;
     ::Protocol::SCharacterData* character_data_;
     ::Protocol::STransform* transform_;
     int64_t remote_id_;
@@ -2251,7 +2291,8 @@ class S2C_LoadInventory final :
 
   enum : int {
     kItemFieldNumber = 1,
-    kErrorFieldNumber = 2,
+    kEqipmentFieldNumber = 2,
+    kErrorFieldNumber = 3,
   };
   // repeated .Protocol.SItem item = 1;
   int item_size() const;
@@ -2271,7 +2312,25 @@ class S2C_LoadInventory final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
       item() const;
 
-  // int32 error = 2;
+  // repeated .Protocol.SItem eqipment = 2;
+  int eqipment_size() const;
+  private:
+  int _internal_eqipment_size() const;
+  public:
+  void clear_eqipment();
+  ::Protocol::SItem* mutable_eqipment(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+      mutable_eqipment();
+  private:
+  const ::Protocol::SItem& _internal_eqipment(int index) const;
+  ::Protocol::SItem* _internal_add_eqipment();
+  public:
+  const ::Protocol::SItem& eqipment(int index) const;
+  ::Protocol::SItem* add_eqipment();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+      eqipment() const;
+
+  // int32 error = 3;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -2289,6 +2348,7 @@ class S2C_LoadInventory final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > item_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > eqipment_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -3981,7 +4041,81 @@ inline void S2C_EnterGameServer::set_allocated_character_data(::Protocol::SChara
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnterGameServer.character_data)
 }
 
-// .Protocol.STransform transform = 3;
+// repeated .Protocol.SItem item = 3;
+inline int S2C_EnterGameServer::_internal_item_size() const {
+  return _impl_.item_.size();
+}
+inline int S2C_EnterGameServer::item_size() const {
+  return _internal_item_size();
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::mutable_item(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_EnterGameServer.item)
+  return _impl_.item_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+S2C_EnterGameServer::mutable_item() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_EnterGameServer.item)
+  return &_impl_.item_;
+}
+inline const ::Protocol::SItem& S2C_EnterGameServer::_internal_item(int index) const {
+  return _impl_.item_.Get(index);
+}
+inline const ::Protocol::SItem& S2C_EnterGameServer::item(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnterGameServer.item)
+  return _internal_item(index);
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::_internal_add_item() {
+  return _impl_.item_.Add();
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::add_item() {
+  ::Protocol::SItem* _add = _internal_add_item();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_EnterGameServer.item)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+S2C_EnterGameServer::item() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_EnterGameServer.item)
+  return _impl_.item_;
+}
+
+// repeated .Protocol.SItem eqipment = 4;
+inline int S2C_EnterGameServer::_internal_eqipment_size() const {
+  return _impl_.eqipment_.size();
+}
+inline int S2C_EnterGameServer::eqipment_size() const {
+  return _internal_eqipment_size();
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::mutable_eqipment(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_EnterGameServer.eqipment)
+  return _impl_.eqipment_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+S2C_EnterGameServer::mutable_eqipment() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_EnterGameServer.eqipment)
+  return &_impl_.eqipment_;
+}
+inline const ::Protocol::SItem& S2C_EnterGameServer::_internal_eqipment(int index) const {
+  return _impl_.eqipment_.Get(index);
+}
+inline const ::Protocol::SItem& S2C_EnterGameServer::eqipment(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnterGameServer.eqipment)
+  return _internal_eqipment(index);
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::_internal_add_eqipment() {
+  return _impl_.eqipment_.Add();
+}
+inline ::Protocol::SItem* S2C_EnterGameServer::add_eqipment() {
+  ::Protocol::SItem* _add = _internal_add_eqipment();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_EnterGameServer.eqipment)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+S2C_EnterGameServer::eqipment() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_EnterGameServer.eqipment)
+  return _impl_.eqipment_;
+}
+
+// .Protocol.STransform transform = 5;
 inline bool S2C_EnterGameServer::_internal_has_transform() const {
   return this != internal_default_instance() && _impl_.transform_ != nullptr;
 }
@@ -4066,7 +4200,7 @@ inline void S2C_EnterGameServer::set_allocated_transform(::Protocol::STransform*
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnterGameServer.transform)
 }
 
-// int32 error = 4;
+// int32 error = 6;
 inline void S2C_EnterGameServer::clear_error() {
   _impl_.error_ = 0;
 }
@@ -5064,7 +5198,44 @@ S2C_LoadInventory::item() const {
   return _impl_.item_;
 }
 
-// int32 error = 2;
+// repeated .Protocol.SItem eqipment = 2;
+inline int S2C_LoadInventory::_internal_eqipment_size() const {
+  return _impl_.eqipment_.size();
+}
+inline int S2C_LoadInventory::eqipment_size() const {
+  return _internal_eqipment_size();
+}
+inline ::Protocol::SItem* S2C_LoadInventory::mutable_eqipment(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_LoadInventory.eqipment)
+  return _impl_.eqipment_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
+S2C_LoadInventory::mutable_eqipment() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadInventory.eqipment)
+  return &_impl_.eqipment_;
+}
+inline const ::Protocol::SItem& S2C_LoadInventory::_internal_eqipment(int index) const {
+  return _impl_.eqipment_.Get(index);
+}
+inline const ::Protocol::SItem& S2C_LoadInventory::eqipment(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadInventory.eqipment)
+  return _internal_eqipment(index);
+}
+inline ::Protocol::SItem* S2C_LoadInventory::_internal_add_eqipment() {
+  return _impl_.eqipment_.Add();
+}
+inline ::Protocol::SItem* S2C_LoadInventory::add_eqipment() {
+  ::Protocol::SItem* _add = _internal_add_eqipment();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadInventory.eqipment)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
+S2C_LoadInventory::eqipment() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadInventory.eqipment)
+  return _impl_.eqipment_;
+}
+
+// int32 error = 3;
 inline void S2C_LoadInventory::clear_error() {
   _impl_.error_ = 0;
 }

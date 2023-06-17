@@ -136,6 +136,11 @@ void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
 	playerState->BrodcastViewers(sendBuffer);
 }
 
+void Character::SetLoad(bool inIsLoad)
+{
+	mIsLoad = inIsLoad;
+}
+
 void Character::SetCharacterID(const int32& inCharacterID)
 {
 	mCharacterID = inCharacterID;
@@ -146,13 +151,16 @@ void Character::SetCharacterData(Protocol::SCharacterData inCharacterData)
 	mCharacterData.CopyFrom(inCharacterData);
 }
 
-void Character::ReplaceEqipment(Protocol::ECharacterPart inPart, const int32 inInsertInventoryItemCode, const int32 inInsertEqipmentItemCode)
+void Character::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)
 {
 	Protocol::SCharacterEqipment* eqipment = mCharacterData.mutable_eqipment();
 	if (nullptr == eqipment)
 	{
 		return;
 	}
+
+	const int32 insertInventoryItemCode = inInsertInventoryItem->GetItemCode();
+	const int32 insertEqipmentItemCode = inInsertEqipmentItem->GetItemCode();
 
 	static std::function<int32(const int32, const int32, const int32)> compareEqipment = [](const int32 inInstalledItemCode, const int32 inCompareItemCode, const int32 inReplaceItemCode) -> int32 { return inInstalledItemCode == inCompareItemCode ? inReplaceItemCode : inInstalledItemCode; };
 
@@ -161,31 +169,31 @@ void Character::ReplaceEqipment(Protocol::ECharacterPart inPart, const int32 inI
 	case Protocol::Part_Unspecified:
 		break;
 	case Protocol::Part_helmet:
-		eqipment->set_helmet(compareEqipment(eqipment->helmet(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_helmet(compareEqipment(eqipment->helmet(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Shoulders:
-		eqipment->set_shoulders(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_shoulders(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Chest:
-		eqipment->set_chest(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_chest(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Bracers:
-		eqipment->set_bracers(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_bracers(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Hands:
-		eqipment->set_hands(compareEqipment(eqipment->hands(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_hands(compareEqipment(eqipment->hands(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Pants:
-		eqipment->set_pants(compareEqipment(eqipment->pants(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_pants(compareEqipment(eqipment->pants(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Boots:
-		eqipment->set_boots(compareEqipment(eqipment->boots(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_boots(compareEqipment(eqipment->boots(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Weapon_l:
-		eqipment->set_weapon_l(compareEqipment(eqipment->weapon_l(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_weapon_l(compareEqipment(eqipment->weapon_l(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Weapon_r:
-		eqipment->set_weapon_r(compareEqipment(eqipment->weapon_r(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		eqipment->set_weapon_r(compareEqipment(eqipment->weapon_r(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	default:
 		break;

@@ -37,6 +37,12 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
+	Inventoryptr inventory = remotePlayer->GetInventory();
+	if (nullptr == inventory)
+	{
+		return false;
+	}
+
 	WorldPtr world = playerState->GetWorld();
 	if (nullptr == world)
 	{
@@ -64,22 +70,14 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 			int32		inven_pos_y = inRecordset.GetFieldItem(L"inven_pos_y");
 			int32		rotation	= inRecordset.GetFieldItem(L"rotation");
 
-			AItemPtr newItem = std::make_shared<AItem>();
-			GameObjectPtr gameObject = newItem->GetGameObjectPtr();
-			task->CreateGameObject(gameObject);
-			newItem->Init(item_code, inven_pos_x, inven_pos_y, rotation);
-
-			remotePlayer->GetInventory()->InsertItem(newItem);
+			inventory->CreateItem(item_code, inven_pos_x, inven_pos_y, rotation);
 			inRecordset.MoveNext();
 		}
 	}
 
-	Protocol::S2C_LoadInventory loadInventoryPacket;
+	inventory->SetLoad(true);
 
-	remotePlayer->GetInventory()->LoadItem(loadInventoryPacket);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, loadInventoryPacket);
-	inSession->Send(sendBuffer);
+	remotePlayer->LoadComplete();
 
 	return true;
 }
@@ -515,4 +513,6 @@ bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection&
 	{
 		remotePlayer->GetInventory()->RollBackItem();
 	}
+
+	return true;
 }
