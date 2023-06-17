@@ -55,6 +55,11 @@ public:
 	void Init(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
 
 public:
+	void SetItemCode(const int32 inItemCode);
+	void SetInventoryPosition(const Protocol::SVector2D& inInventoryPosition);
+	void SetInventoryRoation(const int32 inInventoryRotation);
+
+public:
 	const int32 GetItemCode()							const { return mItemCode; }
 	const Protocol::SVector2D& GetInventoryPosition()	const { return mInvenPosition; }
 	const int32 GetInventoryRoation()					const { return mInvenRotation; }

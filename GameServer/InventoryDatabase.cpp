@@ -279,9 +279,9 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	ADOVariant old_inven_pos_x = findItem->GetInventoryPosition().x();
 	ADOVariant old_inven_pos_y = findItem->GetInventoryPosition().y();
 
-	const Protocol::SVector2D& inventoryPosition = item.inven_position();
-	ADOVariant new_inven_pos_x = inventoryPosition.x();
-	ADOVariant new_inven_pos_y = inventoryPosition.y();
+	const Protocol::SVector2D& newInventoryPosition = item.inven_position();
+	ADOVariant new_inven_pos_x = newInventoryPosition.x();
+	ADOVariant new_inven_pos_y = newInventoryPosition.y();
 
 	ADOVariant new_rotation = item.rotation();
 
@@ -297,7 +297,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	command.SetInputParam(L"@new_rotation", new_rotation);
 
 	{
-		bool result = remotePlayer->GetInventory()->UpdateItem(findItem);
+		bool result = remotePlayer->GetInventory()->UpdateItem(findItem, newInventoryPosition);
 
 		Protocol::S2C_UpdateInventory updateInventoryPacket;
 		updateInventoryPacket.set_error(result);

@@ -28,7 +28,7 @@ public:
 	bool LoadEqipment(google::protobuf::RepeatedPtrField<Protocol::SItem>* inEqipments);
 public:
 	bool InsertItem(const AItemPtr& inItem);
-	bool UpdateItem(const AItemPtr& inItem);
+	bool UpdateItem(const AItemPtr& inItem, const Protocol::SVector2D& inNewInventoryPosition);
 	bool DeleteItem(const AItemPtr& inItem);
 
 	bool InsertEqipment(const AItemPtr& inInsertInventoryItem, const Protocol::ECharacterPart& inPart);

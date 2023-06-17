@@ -253,7 +253,7 @@ bool Inventory::InsertItem(const AItemPtr& inItem)
 	return result.second;
 }
 
-bool Inventory::UpdateItem(const AItemPtr& inItem)
+bool Inventory::UpdateItem(const AItemPtr& inItem, const Protocol::SVector2D& inNewInventoryPosition)
 {
 	const int64 gameObjectID = inItem->GetGameObjectID();
 	auto findItem = mItems.find(gameObjectID);
@@ -263,7 +263,7 @@ bool Inventory::UpdateItem(const AItemPtr& inItem)
 	}
 
 	SubItem(findItem->second);
-	findItem->second = inItem;
+	findItem->second->SetInventoryPosition(inNewInventoryPosition);
 	AddItem(findItem->second);
 
 	return true;

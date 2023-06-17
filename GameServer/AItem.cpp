@@ -138,3 +138,18 @@ void AItem::Init(const int32 inItemCode, const int32 inInvenPositionX, const int
 	mInvenRotation		= inRotation;
 
 }
+
+void AItem::SetItemCode(const int32 inItemCode)
+{
+	mItemCode = inItemCode;
+}
+
+void AItem::SetInventoryPosition(const Protocol::SVector2D& inInventoryPosition)
+{
+	mInvenPosition.CopyFrom(inInventoryPosition);
+}
+
+void AItem::SetInventoryRoation(const int32 inInventoryRotation)
+{
+	mInvenRotation = inInventoryRotation;
+}
