@@ -445,7 +445,7 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	return true;
 }
 
-bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem)
+bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem, Protocol::ECharacterPart inPart)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
 	if (nullptr == playerState)
@@ -470,6 +470,7 @@ bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInse
 	ADOVariant inven_pos_y			= inInsertInventoryItem->GetInventoryPosition().y();
 	ADOVariant inven_rotation		= inInsertInventoryItem->GetInventoryRoation();
 
+	ADOVariant eqipment_part		= static_cast<int32>(inPart);
 	ADOVariant eqipment_item_code	= inInsertEqipmentItem->GetItemCode();
 	ADOVariant eqipment_pos_x		= inInsertEqipmentItem->GetInventoryPosition().x();
 	ADOVariant eqipment_pos_y		= inInsertEqipmentItem->GetInventoryPosition().y();
@@ -482,9 +483,10 @@ bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInse
 	command.SetInputParam(L"@inven_pos_x", inven_pos_x);
 	command.SetInputParam(L"@inven_pos_y", inven_pos_y);
 	command.SetInputParam(L"@inven_rotation", inven_rotation);
+	command.SetInputParam(L"@eqipment_part", eqipment_part);
 	command.SetInputParam(L"@eqipment_item_code", eqipment_item_code);
-	command.SetInputParam(L"@inven_pos_x", eqipment_pos_x);
-	command.SetInputParam(L"@inven_pos_y", eqipment_pos_y);
+	command.SetInputParam(L"@eqipment_pos_x", eqipment_pos_x);
+	command.SetInputParam(L"@eqipment_pos_y", eqipment_pos_y);
 
 	ADORecordset recordset;
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);

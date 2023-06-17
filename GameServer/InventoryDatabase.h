@@ -19,5 +19,5 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 //==========================//
 //		  Eqipment			//
 //==========================//
-bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem);
+bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem, Protocol::ECharacterPart inPart);
 bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);

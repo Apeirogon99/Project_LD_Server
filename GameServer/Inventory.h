@@ -31,6 +31,8 @@ public:
 	bool UpdateItem(const AItemPtr& inItem);
 	bool DeleteItem(const AItemPtr& inItem);
 
+	bool InsertEqipment(const AItemPtr& inInsertInventoryItem, const Protocol::ECharacterPart& inPart);
+	bool DeleteEqipment(const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 	bool ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 
 	bool FindItem(const int64 inObjectID, AItemPtr& outItem);

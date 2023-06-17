@@ -175,7 +175,7 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 
 	const Protocol::ECharacterPart& part = inPacket.part();
 	AItemPtr insertInventoryItem	= std::make_shared<AItem>(inPacket.insert_inven_item());
-	AItemPtr insertEqipmentItem;
+	AItemPtr insertEqipmentItem		= std::make_shared<AItem>(inPacket.insert_eqip_item());
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Protocol::S2C_ReplaceEqipment replaceEqipmentPacket;
@@ -184,18 +184,25 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	bool isValidInventory	= false;
 	bool isReplace			= false;
 
-	isValidEqipment		= character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode();
-	isValidInventory	= inventory->FindItem(inPacket.insert_eqip_item().object_id(), insertEqipmentItem);
+	isValidEqipment		= character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode();			//장착된 아이템이 있는가?
+	isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());		//인벤토리에 아이템이 있는가?
 
-	if (isValidEqipment && isValidInventory)
+	if (false == isValidEqipment && true == isValidInventory) //장착된 아이템이 없는 경우
 	{
-		isReplace = inventory->ReplaceEqipment(insertEqipmentItem, insertEqipmentItem, part);
-		if (isReplace)
-		{
-			character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
-			Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem);
-		}
+		inventory->InsertEqipment(insertInventoryItem, part);
 	}
+	else if (true == isValidEqipment && false == isValidInventory) //장착된 아이템을 제거할 경우
+	{
+		inventory->DeleteEqipment(insertEqipmentItem, part);
+	}
+	else if (true == isValidEqipment && true == isValidInventory) //아이템 교체인 경우
+	{
+		inventory->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
+	}
+
+	character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
+	Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem, part);
+	
 
 	replaceEqipmentPacket.set_error(isReplace);
 
@@ -273,6 +280,30 @@ bool Inventory::DeleteItem(const AItemPtr& inItem)
 	}
 
 	return false;
+}
+
+bool Inventory::InsertEqipment(const AItemPtr& inInsertInventoryItem, const Protocol::ECharacterPart& inPart)
+{
+	if (false == InsertItem(inInsertInventoryItem))
+	{
+		return false;
+	}
+
+	const int32 part = static_cast<int32>(inPart);
+	mEqipments[part]->Clear();
+	return true;
+}
+
+bool Inventory::DeleteEqipment(const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)
+{
+	if (false == DeleteItem(inInsertEqipmentItem))
+	{
+		return false;
+	}
+
+	const int32 part = static_cast<int32>(inPart);
+	mEqipments[part] = inInsertEqipmentItem;
+	return true;
 }
 
 bool Inventory::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)

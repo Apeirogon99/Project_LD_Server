@@ -84,6 +84,18 @@ void AItem::DisAppearActor(PlayerStatePtr inClosePlayerState)
 	inClosePlayerState->Send(appearItemSendBuffer);
 }
 
+void AItem::Clear()
+{
+	this->SetGameObjectID(0);
+
+	mItemCode = 0;
+	mInvenPosition.set_x(0);
+	mInvenPosition.set_y(0);
+	mInvenRotation = 0;
+
+	SetLocation(0,0,0);
+}
+
 void AItem::Init(const Protocol::SItem& inItem)
 {
 
