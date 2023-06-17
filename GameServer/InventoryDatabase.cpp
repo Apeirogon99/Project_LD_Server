@@ -121,7 +121,7 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 	connection.Open(ConnectionInfo);
 
 	const Protocol::SItem& item	= inPacket.item();
-	ADOVariant character_id = 0;	//TODO:
+	ADOVariant character_id = remotePlayer->GetCharacter()->GetCharacterID();
 	ADOVariant item_code	= item.item_code();
 
 	const Protocol::SVector& worldPosition = item.world_position();
@@ -268,7 +268,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_U
 	connection.Open(ConnectionInfo);
 
 	const Protocol::SItem& item = inPacket.item();
-	ADOVariant character_id = 0;	//TODO:
+	ADOVariant character_id = remotePlayer->GetCharacter()->GetCharacterID();
 	ADOVariant item_code = item.item_code();
 
 	AItemPtr findItem;
@@ -357,7 +357,7 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 	connection.Open(ConnectionInfo);
 
 	const Protocol::SItem& item = inPacket.item();
-	ADOVariant character_id = 0;	//TODO:
+	ADOVariant character_id = remotePlayer->GetCharacter()->GetCharacterID();
 	ADOVariant item_code = item.item_code();
 
 	const Protocol::SVector2D& inventoryPosition = item.inven_position();
@@ -410,7 +410,7 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 
 		Protocol::S2C_DeleteInventory deleteInventoryPacket;
 		deleteInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
-		*deleteInventoryPacket.mutable_item() = item;
+		deleteInventoryPacket.mutable_item()->CopyFrom(item);
 		deleteInventoryPacket.set_error(result);
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, deleteInventoryPacket);
@@ -447,22 +447,72 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	return true;
 }
 
-bool Handle_InsertEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_InsertEqipment& inPacket)
+bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
+	ADOConnection connection;
+	connection.Open(ConnectionInfo);
+
+
+	ADOVariant character_id			= remotePlayer->GetCharacter()->GetCharacterID();
+	ADOVariant inven_item_code		= inInsertInventoryItem->GetItemCode();
+	ADOVariant inven_pos_x			= inInsertInventoryItem->GetInventoryPosition().x();
+	ADOVariant inven_pos_y			= inInsertInventoryItem->GetInventoryPosition().y();
+	ADOVariant inven_rotation		= inInsertInventoryItem->GetInventoryRoation();
+
+	ADOVariant eqipment_item_code	= inInsertEqipmentItem->GetItemCode();
+	ADOVariant eqipment_pos_x		= inInsertEqipmentItem->GetInventoryPosition().x();
+	ADOVariant eqipment_pos_y		= inInsertEqipmentItem->GetInventoryPosition().y();
+
+	ADOCommand command;
+	command.SetStoredProcedure(connection, L"dbo.replace_eqipment_sp");
+	command.SetReturnParam();
+	command.SetInputParam(L"@character_id", character_id);
+	command.SetInputParam(L"@inven_item_code", inven_item_code);
+	command.SetInputParam(L"@inven_pos_x", inven_pos_x);
+	command.SetInputParam(L"@inven_pos_y", inven_pos_y);
+	command.SetInputParam(L"@inven_rotation", inven_rotation);
+	command.SetInputParam(L"@eqipment_item_code", eqipment_item_code);
+	command.SetInputParam(L"@inven_pos_x", eqipment_pos_x);
+	command.SetInputParam(L"@inven_pos_y", eqipment_pos_y);
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+
+
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_InsertInventory_Response);
+	return true;
 }
 
-bool Handle_InsertEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
-	return false;
-}
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
 
-bool Handle_DeleteEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteEqipment& inPacket)
-{
-	return false;
-}
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
 
-bool Handle_DeleteEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
-{
-	return false;
+	int32 ret = inCommand.GetReturnParam();
+	if (false == remotePlayer->GetInventory()->CheckInventory() || ret != 0)
+	{
+		remotePlayer->GetInventory()->RollBackItem();
+	}
 }

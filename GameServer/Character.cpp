@@ -136,7 +136,106 @@ void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
 	playerState->BrodcastViewers(sendBuffer);
 }
 
+void Character::SetCharacterID(const int32& inCharacterID)
+{
+	mCharacterID = inCharacterID;
+}
+
 void Character::SetCharacterData(Protocol::SCharacterData inCharacterData)
 {
 	mCharacterData.CopyFrom(inCharacterData);
+}
+
+void Character::ReplaceEqipment(Protocol::ECharacterPart inPart, const int32 inInsertInventoryItemCode, const int32 inInsertEqipmentItemCode)
+{
+	Protocol::SCharacterEqipment* eqipment = mCharacterData.mutable_eqipment();
+	if (nullptr == eqipment)
+	{
+		return;
+	}
+
+	static std::function<int32(const int32, const int32, const int32)> compareEqipment = [](const int32 inInstalledItemCode, const int32 inCompareItemCode, const int32 inReplaceItemCode) -> int32 { return inInstalledItemCode == inCompareItemCode ? inReplaceItemCode : inInstalledItemCode; };
+
+	switch (inPart)
+	{
+	case Protocol::Part_Unspecified:
+		break;
+	case Protocol::Part_helmet:
+		eqipment->set_helmet(compareEqipment(eqipment->helmet(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Shoulders:
+		eqipment->set_shoulders(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Chest:
+		eqipment->set_chest(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Bracers:
+		eqipment->set_bracers(compareEqipment(eqipment->shoulders(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Hands:
+		eqipment->set_hands(compareEqipment(eqipment->hands(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Pants:
+		eqipment->set_pants(compareEqipment(eqipment->pants(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Boots:
+		eqipment->set_boots(compareEqipment(eqipment->boots(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Weapon_l:
+		eqipment->set_weapon_l(compareEqipment(eqipment->weapon_l(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	case Protocol::Part_Weapon_r:
+		eqipment->set_weapon_r(compareEqipment(eqipment->weapon_r(), inInsertInventoryItemCode, inInsertEqipmentItemCode));
+		break;
+	default:
+		break;
+	}
+}
+
+int32 Character::GetEqipmentPartCode(Protocol::ECharacterPart inPart)
+{
+	int32 partCode = -1;
+
+	Protocol::SCharacterEqipment* eqipment = mCharacterData.mutable_eqipment();
+	if (nullptr == eqipment)
+	{
+		return partCode;
+	}
+
+	switch (inPart)
+	{
+	case Protocol::Part_Unspecified:
+		break;
+	case Protocol::Part_helmet:
+		partCode = eqipment->helmet();
+		break;
+	case Protocol::Part_Shoulders:
+		partCode = eqipment->shoulders();
+		break;
+	case Protocol::Part_Chest:
+		partCode = eqipment->chest();
+		break;
+	case Protocol::Part_Bracers:
+		partCode = eqipment->bracers();
+		break;
+	case Protocol::Part_Hands:
+		partCode = eqipment->hands();
+		break;
+	case Protocol::Part_Pants:
+		partCode = eqipment->pants();
+		break;
+	case Protocol::Part_Boots:
+		partCode = eqipment->boots();
+		break;
+	case Protocol::Part_Weapon_l:
+		partCode = eqipment->weapon_l();
+		break;
+	case Protocol::Part_Weapon_r:
+		partCode = eqipment->weapon_r();
+		break;
+	default:
+		break;
+	}
+
+	return partCode;
 }

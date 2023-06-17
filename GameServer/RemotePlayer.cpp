@@ -61,12 +61,6 @@ bool RemotePlayer::LoadRemotePlayer(const int32 inServerID, const int32 inCharac
 		return false;
 	}
 
-	Protocol::S2C_EnterGameServer enterPacket;
-	enterPacket.set_remote_id(this->GetGameObjectID());
-	enterPacket.set_error(true);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
-	packetSession->Send(sendBuffer);
 	return true;
 }
 

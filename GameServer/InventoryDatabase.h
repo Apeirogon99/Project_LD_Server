@@ -19,8 +19,5 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 //==========================//
 //		  Eqipment			//
 //==========================//
-bool Handle_InsertEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_InsertEqipment& inPacket);
-bool Handle_InsertEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
-
-bool Handle_DeleteEqipment_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteEqipment& inPacket);
-bool Handle_DeleteEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem);
+bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);

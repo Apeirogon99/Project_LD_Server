@@ -319,68 +319,37 @@ struct S2C_RollbackInventoryDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
-PROTOBUF_CONSTEXPR C2S_InsertEqipment::C2S_InsertEqipment(
+PROTOBUF_CONSTEXPR C2S_ReplaceEqipment::C2S_ReplaceEqipment(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.item_)*/nullptr
+    /*decltype(_impl_.insert_inven_item_)*/nullptr
+  , /*decltype(_impl_.insert_eqip_item_)*/nullptr
   , /*decltype(_impl_.timestamp_)*/int64_t{0}
   , /*decltype(_impl_.part_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_InsertEqipmentDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_InsertEqipmentDefaultTypeInternal()
+struct C2S_ReplaceEqipmentDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_ReplaceEqipmentDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_InsertEqipmentDefaultTypeInternal() {}
+  ~C2S_ReplaceEqipmentDefaultTypeInternal() {}
   union {
-    C2S_InsertEqipment _instance;
+    C2S_ReplaceEqipment _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_InsertEqipmentDefaultTypeInternal _C2S_InsertEqipment_default_instance_;
-PROTOBUF_CONSTEXPR S2C_InsertEqipment::S2C_InsertEqipment(
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_ReplaceEqipmentDefaultTypeInternal _C2S_ReplaceEqipment_default_instance_;
+PROTOBUF_CONSTEXPR S2C_ReplaceEqipment::S2C_ReplaceEqipment(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.item_)*/nullptr
-  , /*decltype(_impl_.part_)*/0
-  , /*decltype(_impl_.error_)*/0
+    /*decltype(_impl_.error_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_InsertEqipmentDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_InsertEqipmentDefaultTypeInternal()
+struct S2C_ReplaceEqipmentDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_ReplaceEqipmentDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_InsertEqipmentDefaultTypeInternal() {}
+  ~S2C_ReplaceEqipmentDefaultTypeInternal() {}
   union {
-    S2C_InsertEqipment _instance;
+    S2C_ReplaceEqipment _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_InsertEqipmentDefaultTypeInternal _S2C_InsertEqipment_default_instance_;
-PROTOBUF_CONSTEXPR C2S_DeleteEqipment::C2S_DeleteEqipment(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.item_)*/nullptr
-  , /*decltype(_impl_.timestamp_)*/int64_t{0}
-  , /*decltype(_impl_.part_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_DeleteEqipmentDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_DeleteEqipmentDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_DeleteEqipmentDefaultTypeInternal() {}
-  union {
-    C2S_DeleteEqipment _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_DeleteEqipmentDefaultTypeInternal _C2S_DeleteEqipment_default_instance_;
-PROTOBUF_CONSTEXPR S2C_DeleteEqipment::S2C_DeleteEqipment(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.item_)*/nullptr
-  , /*decltype(_impl_.part_)*/0
-  , /*decltype(_impl_.error_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_DeleteEqipmentDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_DeleteEqipmentDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_DeleteEqipmentDefaultTypeInternal() {}
-  union {
-    S2C_DeleteEqipment _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_DeleteEqipmentDefaultTypeInternal _S2C_DeleteEqipment_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_ReplaceEqipmentDefaultTypeInternal _S2C_ReplaceEqipment_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[24];
+static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[22];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_GamePacket_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_GamePacket_2eproto = nullptr;
 
@@ -546,41 +515,22 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_RollbackInventory, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_RollbackInventory, _impl_.item_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InsertEqipment, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplaceEqipment, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InsertEqipment, _impl_.timestamp_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InsertEqipment, _impl_.item_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InsertEqipment, _impl_.part_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplaceEqipment, _impl_.timestamp_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplaceEqipment, _impl_.insert_inven_item_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplaceEqipment, _impl_.insert_eqip_item_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplaceEqipment, _impl_.part_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_InsertEqipment, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplaceEqipment, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_InsertEqipment, _impl_.item_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_InsertEqipment, _impl_.part_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_InsertEqipment, _impl_.error_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteEqipment, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteEqipment, _impl_.timestamp_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteEqipment, _impl_.item_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_DeleteEqipment, _impl_.part_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteEqipment, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteEqipment, _impl_.item_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteEqipment, _impl_.part_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeleteEqipment, _impl_.error_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplaceEqipment, _impl_.error_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterGameServer)},
@@ -603,10 +553,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 135, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
   { 143, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
   { 152, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 160, -1, -1, sizeof(::Protocol::C2S_InsertEqipment)},
-  { 169, -1, -1, sizeof(::Protocol::S2C_InsertEqipment)},
-  { 178, -1, -1, sizeof(::Protocol::C2S_DeleteEqipment)},
-  { 187, -1, -1, sizeof(::Protocol::S2C_DeleteEqipment)},
+  { 160, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 170, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -630,10 +578,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_C2S_DeleteInventory_default_instance_._instance,
   &::Protocol::_S2C_DeleteInventory_default_instance_._instance,
   &::Protocol::_S2C_RollbackInventory_default_instance_._instance,
-  &::Protocol::_C2S_InsertEqipment_default_instance_._instance,
-  &::Protocol::_S2C_InsertEqipment_default_instance_._instance,
-  &::Protocol::_C2S_DeleteEqipment_default_instance_._instance,
-  &::Protocol::_S2C_DeleteEqipment_default_instance_._instance,
+  &::Protocol::_C2S_ReplaceEqipment_default_instance_._instance,
+  &::Protocol::_S2C_ReplaceEqipment_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -676,18 +622,12 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "ote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SI"
   "tem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_RollbackInvent"
   "ory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.P"
-  "rotocol.SItem\"n\n\022C2S_InsertEqipment\022\021\n\tt"
-  "imestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol."
-  "SItem\022&\n\004part\030\003 \001(\0162\030.Protocol.ECharacte"
-  "rPart\"j\n\022S2C_InsertEqipment\022\035\n\004item\030\001 \001("
-  "\0132\017.Protocol.SItem\022&\n\004part\030\002 \001(\0162\030.Proto"
-  "col.ECharacterPart\022\r\n\005error\030\003 \001(\005\"n\n\022C2S"
-  "_DeleteEqipment\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004it"
-  "em\030\002 \001(\0132\017.Protocol.SItem\022&\n\004part\030\003 \001(\0162"
-  "\030.Protocol.ECharacterPart\"j\n\022S2C_DeleteE"
-  "qipment\022\035\n\004item\030\001 \001(\0132\017.Protocol.SItem\022&"
-  "\n\004part\030\002 \001(\0162\030.Protocol.ECharacterPart\022\r"
-  "\n\005error\030\003 \001(\005b\006proto3"
+  "rotocol.SItem\"\247\001\n\023C2S_ReplaceEqipment\022\021\n"
+  "\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_item\030\002 "
+  "\001(\0132\017.Protocol.SItem\022)\n\020insert_eqip_item"
+  "\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 \001(\0162\030."
+  "Protocol.ECharacterPart\"$\n\023S2C_ReplaceEq"
+  "ipment\022\r\n\005error\030\001 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -695,9 +635,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 2021, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 1789, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
-    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 24,
+    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 22,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
     file_level_metadata_GamePacket_2eproto, file_level_enum_descriptors_GamePacket_2eproto,
     file_level_service_descriptors_GamePacket_2eproto,
@@ -5094,60 +5034,76 @@ void S2C_RollbackInventory::InternalSwap(S2C_RollbackInventory* other) {
 
 // ===================================================================
 
-class C2S_InsertEqipment::_Internal {
+class C2S_ReplaceEqipment::_Internal {
  public:
-  static const ::Protocol::SItem& item(const C2S_InsertEqipment* msg);
+  static const ::Protocol::SItem& insert_inven_item(const C2S_ReplaceEqipment* msg);
+  static const ::Protocol::SItem& insert_eqip_item(const C2S_ReplaceEqipment* msg);
 };
 
 const ::Protocol::SItem&
-C2S_InsertEqipment::_Internal::item(const C2S_InsertEqipment* msg) {
-  return *msg->_impl_.item_;
+C2S_ReplaceEqipment::_Internal::insert_inven_item(const C2S_ReplaceEqipment* msg) {
+  return *msg->_impl_.insert_inven_item_;
 }
-void C2S_InsertEqipment::clear_item() {
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
+const ::Protocol::SItem&
+C2S_ReplaceEqipment::_Internal::insert_eqip_item(const C2S_ReplaceEqipment* msg) {
+  return *msg->_impl_.insert_eqip_item_;
+}
+void C2S_ReplaceEqipment::clear_insert_inven_item() {
+  if (GetArenaForAllocation() == nullptr && _impl_.insert_inven_item_ != nullptr) {
+    delete _impl_.insert_inven_item_;
   }
-  _impl_.item_ = nullptr;
+  _impl_.insert_inven_item_ = nullptr;
 }
-C2S_InsertEqipment::C2S_InsertEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+void C2S_ReplaceEqipment::clear_insert_eqip_item() {
+  if (GetArenaForAllocation() == nullptr && _impl_.insert_eqip_item_ != nullptr) {
+    delete _impl_.insert_eqip_item_;
+  }
+  _impl_.insert_eqip_item_ = nullptr;
+}
+C2S_ReplaceEqipment::C2S_ReplaceEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_InsertEqipment)
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_ReplaceEqipment)
 }
-C2S_InsertEqipment::C2S_InsertEqipment(const C2S_InsertEqipment& from)
+C2S_ReplaceEqipment::C2S_ReplaceEqipment(const C2S_ReplaceEqipment& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_InsertEqipment* const _this = this; (void)_this;
+  C2S_ReplaceEqipment* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
+      decltype(_impl_.insert_inven_item_){nullptr}
+    , decltype(_impl_.insert_eqip_item_){nullptr}
     , decltype(_impl_.timestamp_){}
     , decltype(_impl_.part_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_item()) {
-    _this->_impl_.item_ = new ::Protocol::SItem(*from._impl_.item_);
+  if (from._internal_has_insert_inven_item()) {
+    _this->_impl_.insert_inven_item_ = new ::Protocol::SItem(*from._impl_.insert_inven_item_);
+  }
+  if (from._internal_has_insert_eqip_item()) {
+    _this->_impl_.insert_eqip_item_ = new ::Protocol::SItem(*from._impl_.insert_eqip_item_);
   }
   ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.part_) -
     reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.part_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_InsertEqipment)
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_ReplaceEqipment)
 }
 
-inline void C2S_InsertEqipment::SharedCtor(
+inline void C2S_ReplaceEqipment::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
+      decltype(_impl_.insert_inven_item_){nullptr}
+    , decltype(_impl_.insert_eqip_item_){nullptr}
     , decltype(_impl_.timestamp_){int64_t{0}}
     , decltype(_impl_.part_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
-C2S_InsertEqipment::~C2S_InsertEqipment() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_InsertEqipment)
+C2S_ReplaceEqipment::~C2S_ReplaceEqipment() {
+  // @@protoc_insertion_point(destructor:Protocol.C2S_ReplaceEqipment)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -5155,32 +5111,37 @@ C2S_InsertEqipment::~C2S_InsertEqipment() {
   SharedDtor();
 }
 
-inline void C2S_InsertEqipment::SharedDtor() {
+inline void C2S_ReplaceEqipment::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.item_;
+  if (this != internal_default_instance()) delete _impl_.insert_inven_item_;
+  if (this != internal_default_instance()) delete _impl_.insert_eqip_item_;
 }
 
-void C2S_InsertEqipment::SetCachedSize(int size) const {
+void C2S_ReplaceEqipment::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void C2S_InsertEqipment::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_InsertEqipment)
+void C2S_ReplaceEqipment::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.C2S_ReplaceEqipment)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
+  if (GetArenaForAllocation() == nullptr && _impl_.insert_inven_item_ != nullptr) {
+    delete _impl_.insert_inven_item_;
   }
-  _impl_.item_ = nullptr;
+  _impl_.insert_inven_item_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.insert_eqip_item_ != nullptr) {
+    delete _impl_.insert_eqip_item_;
+  }
+  _impl_.insert_eqip_item_ = nullptr;
   ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.part_) -
       reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.part_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* C2S_InsertEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* C2S_ReplaceEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
@@ -5194,17 +5155,25 @@ const char* C2S_InsertEqipment::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SItem item = 2;
+      // .Protocol.SItem insert_inven_item = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_item(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_insert_inven_item(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.ECharacterPart part = 3;
+      // .Protocol.SItem insert_eqip_item = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_insert_eqip_item(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.ECharacterPart part = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_part(static_cast<::Protocol::ECharacterPart>(val));
@@ -5234,9 +5203,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* C2S_InsertEqipment::_InternalSerialize(
+uint8_t* C2S_ReplaceEqipment::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_InsertEqipment)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_ReplaceEqipment)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -5246,41 +5215,55 @@ uint8_t* C2S_InsertEqipment::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_timestamp(), target);
   }
 
-  // .Protocol.SItem item = 2;
-  if (this->_internal_has_item()) {
+  // .Protocol.SItem insert_inven_item = 2;
+  if (this->_internal_has_insert_inven_item()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::item(this),
-        _Internal::item(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(2, _Internal::insert_inven_item(this),
+        _Internal::insert_inven_item(this).GetCachedSize(), target, stream);
   }
 
-  // .Protocol.ECharacterPart part = 3;
+  // .Protocol.SItem insert_eqip_item = 3;
+  if (this->_internal_has_insert_eqip_item()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::insert_eqip_item(this),
+        _Internal::insert_eqip_item(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.ECharacterPart part = 4;
   if (this->_internal_part() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_part(), target);
+      4, this->_internal_part(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_InsertEqipment)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_ReplaceEqipment)
   return target;
 }
 
-size_t C2S_InsertEqipment::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_InsertEqipment)
+size_t C2S_ReplaceEqipment::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_ReplaceEqipment)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SItem item = 2;
-  if (this->_internal_has_item()) {
+  // .Protocol.SItem insert_inven_item = 2;
+  if (this->_internal_has_insert_inven_item()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.item_);
+        *_impl_.insert_inven_item_);
+  }
+
+  // .Protocol.SItem insert_eqip_item = 3;
+  if (this->_internal_has_insert_eqip_item()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.insert_eqip_item_);
   }
 
   // int64 timestamp = 1;
@@ -5288,7 +5271,7 @@ size_t C2S_InsertEqipment::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
 
-  // .Protocol.ECharacterPart part = 3;
+  // .Protocol.ECharacterPart part = 4;
   if (this->_internal_part() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_part());
@@ -5297,24 +5280,28 @@ size_t C2S_InsertEqipment::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_InsertEqipment::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_ReplaceEqipment::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_InsertEqipment::MergeImpl
+    C2S_ReplaceEqipment::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_InsertEqipment::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_ReplaceEqipment::GetClassData() const { return &_class_data_; }
 
 
-void C2S_InsertEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_InsertEqipment*>(&to_msg);
-  auto& from = static_cast<const C2S_InsertEqipment&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_InsertEqipment)
+void C2S_ReplaceEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<C2S_ReplaceEqipment*>(&to_msg);
+  auto& from = static_cast<const C2S_ReplaceEqipment&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_ReplaceEqipment)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_item()) {
-    _this->_internal_mutable_item()->::Protocol::SItem::MergeFrom(
-        from._internal_item());
+  if (from._internal_has_insert_inven_item()) {
+    _this->_internal_mutable_insert_inven_item()->::Protocol::SItem::MergeFrom(
+        from._internal_insert_inven_item());
+  }
+  if (from._internal_has_insert_eqip_item()) {
+    _this->_internal_mutable_insert_eqip_item()->::Protocol::SItem::MergeFrom(
+        from._internal_insert_eqip_item());
   }
   if (from._internal_timestamp() != 0) {
     _this->_internal_set_timestamp(from._internal_timestamp());
@@ -5325,29 +5312,29 @@ void C2S_InsertEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void C2S_InsertEqipment::CopyFrom(const C2S_InsertEqipment& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_InsertEqipment)
+void C2S_ReplaceEqipment::CopyFrom(const C2S_ReplaceEqipment& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_ReplaceEqipment)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool C2S_InsertEqipment::IsInitialized() const {
+bool C2S_ReplaceEqipment::IsInitialized() const {
   return true;
 }
 
-void C2S_InsertEqipment::InternalSwap(C2S_InsertEqipment* other) {
+void C2S_ReplaceEqipment::InternalSwap(C2S_ReplaceEqipment* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C2S_InsertEqipment, _impl_.part_)
-      + sizeof(C2S_InsertEqipment::_impl_.part_)
-      - PROTOBUF_FIELD_OFFSET(C2S_InsertEqipment, _impl_.item_)>(
-          reinterpret_cast<char*>(&_impl_.item_),
-          reinterpret_cast<char*>(&other->_impl_.item_));
+      PROTOBUF_FIELD_OFFSET(C2S_ReplaceEqipment, _impl_.part_)
+      + sizeof(C2S_ReplaceEqipment::_impl_.part_)
+      - PROTOBUF_FIELD_OFFSET(C2S_ReplaceEqipment, _impl_.insert_inven_item_)>(
+          reinterpret_cast<char*>(&_impl_.insert_inven_item_),
+          reinterpret_cast<char*>(&other->_impl_.insert_inven_item_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata C2S_InsertEqipment::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_ReplaceEqipment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
       file_level_metadata_GamePacket_2eproto[20]);
@@ -5355,60 +5342,40 @@ void C2S_InsertEqipment::InternalSwap(C2S_InsertEqipment* other) {
 
 // ===================================================================
 
-class S2C_InsertEqipment::_Internal {
+class S2C_ReplaceEqipment::_Internal {
  public:
-  static const ::Protocol::SItem& item(const S2C_InsertEqipment* msg);
 };
 
-const ::Protocol::SItem&
-S2C_InsertEqipment::_Internal::item(const S2C_InsertEqipment* msg) {
-  return *msg->_impl_.item_;
-}
-void S2C_InsertEqipment::clear_item() {
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-}
-S2C_InsertEqipment::S2C_InsertEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+S2C_ReplaceEqipment::S2C_ReplaceEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_InsertEqipment)
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_ReplaceEqipment)
 }
-S2C_InsertEqipment::S2C_InsertEqipment(const S2C_InsertEqipment& from)
+S2C_ReplaceEqipment::S2C_ReplaceEqipment(const S2C_ReplaceEqipment& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_InsertEqipment* const _this = this; (void)_this;
+  S2C_ReplaceEqipment* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.part_){}
-    , decltype(_impl_.error_){}
+      decltype(_impl_.error_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_item()) {
-    _this->_impl_.item_ = new ::Protocol::SItem(*from._impl_.item_);
-  }
-  ::memcpy(&_impl_.part_, &from._impl_.part_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.part_)) + sizeof(_impl_.error_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_InsertEqipment)
+  _this->_impl_.error_ = from._impl_.error_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_ReplaceEqipment)
 }
 
-inline void S2C_InsertEqipment::SharedCtor(
+inline void S2C_ReplaceEqipment::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.part_){0}
-    , decltype(_impl_.error_){0}
+      decltype(_impl_.error_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
-S2C_InsertEqipment::~S2C_InsertEqipment() {
-  // @@protoc_insertion_point(destructor:Protocol.S2C_InsertEqipment)
+S2C_ReplaceEqipment::~S2C_ReplaceEqipment() {
+  // @@protoc_insertion_point(destructor:Protocol.S2C_ReplaceEqipment)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -5416,57 +5383,33 @@ S2C_InsertEqipment::~S2C_InsertEqipment() {
   SharedDtor();
 }
 
-inline void S2C_InsertEqipment::SharedDtor() {
+inline void S2C_ReplaceEqipment::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.item_;
 }
 
-void S2C_InsertEqipment::SetCachedSize(int size) const {
+void S2C_ReplaceEqipment::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void S2C_InsertEqipment::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.S2C_InsertEqipment)
+void S2C_ReplaceEqipment::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S2C_ReplaceEqipment)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-  ::memset(&_impl_.part_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.part_)) + sizeof(_impl_.error_));
+  _impl_.error_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* S2C_InsertEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* S2C_ReplaceEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .Protocol.SItem item = 1;
+      // int32 error = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_item(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .Protocol.ECharacterPart part = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_part(static_cast<::Protocol::ECharacterPart>(val));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 error = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -5495,62 +5438,35 @@ failure:
 #undef CHK_
 }
 
-uint8_t* S2C_InsertEqipment::_InternalSerialize(
+uint8_t* S2C_ReplaceEqipment::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_InsertEqipment)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_ReplaceEqipment)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Protocol.SItem item = 1;
-  if (this->_internal_has_item()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::item(this),
-        _Internal::item(this).GetCachedSize(), target, stream);
-  }
-
-  // .Protocol.ECharacterPart part = 2;
-  if (this->_internal_part() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      2, this->_internal_part(), target);
-  }
-
-  // int32 error = 3;
+  // int32 error = 1;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_InsertEqipment)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_ReplaceEqipment)
   return target;
 }
 
-size_t S2C_InsertEqipment::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_InsertEqipment)
+size_t S2C_ReplaceEqipment::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_ReplaceEqipment)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SItem item = 1;
-  if (this->_internal_has_item()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.item_);
-  }
-
-  // .Protocol.ECharacterPart part = 2;
-  if (this->_internal_part() != 0) {
-    total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_part());
-  }
-
-  // int32 error = 3;
+  // int32 error = 1;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -5558,582 +5474,48 @@ size_t S2C_InsertEqipment::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_InsertEqipment::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_ReplaceEqipment::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_InsertEqipment::MergeImpl
+    S2C_ReplaceEqipment::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_InsertEqipment::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_ReplaceEqipment::GetClassData() const { return &_class_data_; }
 
 
-void S2C_InsertEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_InsertEqipment*>(&to_msg);
-  auto& from = static_cast<const S2C_InsertEqipment&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_InsertEqipment)
+void S2C_ReplaceEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S2C_ReplaceEqipment*>(&to_msg);
+  auto& from = static_cast<const S2C_ReplaceEqipment&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_ReplaceEqipment)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_item()) {
-    _this->_internal_mutable_item()->::Protocol::SItem::MergeFrom(
-        from._internal_item());
-  }
-  if (from._internal_part() != 0) {
-    _this->_internal_set_part(from._internal_part());
-  }
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void S2C_InsertEqipment::CopyFrom(const S2C_InsertEqipment& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_InsertEqipment)
+void S2C_ReplaceEqipment::CopyFrom(const S2C_ReplaceEqipment& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_ReplaceEqipment)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool S2C_InsertEqipment::IsInitialized() const {
+bool S2C_ReplaceEqipment::IsInitialized() const {
   return true;
 }
 
-void S2C_InsertEqipment::InternalSwap(S2C_InsertEqipment* other) {
+void S2C_ReplaceEqipment::InternalSwap(S2C_ReplaceEqipment* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_InsertEqipment, _impl_.error_)
-      + sizeof(S2C_InsertEqipment::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_InsertEqipment, _impl_.item_)>(
-          reinterpret_cast<char*>(&_impl_.item_),
-          reinterpret_cast<char*>(&other->_impl_.item_));
+  swap(_impl_.error_, other->_impl_.error_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata S2C_InsertEqipment::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReplaceEqipment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
       file_level_metadata_GamePacket_2eproto[21]);
-}
-
-// ===================================================================
-
-class C2S_DeleteEqipment::_Internal {
- public:
-  static const ::Protocol::SItem& item(const C2S_DeleteEqipment* msg);
-};
-
-const ::Protocol::SItem&
-C2S_DeleteEqipment::_Internal::item(const C2S_DeleteEqipment* msg) {
-  return *msg->_impl_.item_;
-}
-void C2S_DeleteEqipment::clear_item() {
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-}
-C2S_DeleteEqipment::C2S_DeleteEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_DeleteEqipment)
-}
-C2S_DeleteEqipment::C2S_DeleteEqipment(const C2S_DeleteEqipment& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_DeleteEqipment* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.timestamp_){}
-    , decltype(_impl_.part_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_item()) {
-    _this->_impl_.item_ = new ::Protocol::SItem(*from._impl_.item_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.part_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.part_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_DeleteEqipment)
-}
-
-inline void C2S_DeleteEqipment::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.timestamp_){int64_t{0}}
-    , decltype(_impl_.part_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-C2S_DeleteEqipment::~C2S_DeleteEqipment() {
-  // @@protoc_insertion_point(destructor:Protocol.C2S_DeleteEqipment)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void C2S_DeleteEqipment::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.item_;
-}
-
-void C2S_DeleteEqipment::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void C2S_DeleteEqipment::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.C2S_DeleteEqipment)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-  ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.part_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.part_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* C2S_DeleteEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int64 timestamp = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .Protocol.SItem item = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_item(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .Protocol.ECharacterPart part = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_part(static_cast<::Protocol::ECharacterPart>(val));
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* C2S_DeleteEqipment::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.C2S_DeleteEqipment)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int64 timestamp = 1;
-  if (this->_internal_timestamp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_timestamp(), target);
-  }
-
-  // .Protocol.SItem item = 2;
-  if (this->_internal_has_item()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::item(this),
-        _Internal::item(this).GetCachedSize(), target, stream);
-  }
-
-  // .Protocol.ECharacterPart part = 3;
-  if (this->_internal_part() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_part(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.C2S_DeleteEqipment)
-  return target;
-}
-
-size_t C2S_DeleteEqipment::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.C2S_DeleteEqipment)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .Protocol.SItem item = 2;
-  if (this->_internal_has_item()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.item_);
-  }
-
-  // int64 timestamp = 1;
-  if (this->_internal_timestamp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
-  }
-
-  // .Protocol.ECharacterPart part = 3;
-  if (this->_internal_part() != 0) {
-    total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_part());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_DeleteEqipment::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_DeleteEqipment::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_DeleteEqipment::GetClassData() const { return &_class_data_; }
-
-
-void C2S_DeleteEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_DeleteEqipment*>(&to_msg);
-  auto& from = static_cast<const C2S_DeleteEqipment&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.C2S_DeleteEqipment)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_has_item()) {
-    _this->_internal_mutable_item()->::Protocol::SItem::MergeFrom(
-        from._internal_item());
-  }
-  if (from._internal_timestamp() != 0) {
-    _this->_internal_set_timestamp(from._internal_timestamp());
-  }
-  if (from._internal_part() != 0) {
-    _this->_internal_set_part(from._internal_part());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void C2S_DeleteEqipment::CopyFrom(const C2S_DeleteEqipment& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.C2S_DeleteEqipment)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool C2S_DeleteEqipment::IsInitialized() const {
-  return true;
-}
-
-void C2S_DeleteEqipment::InternalSwap(C2S_DeleteEqipment* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C2S_DeleteEqipment, _impl_.part_)
-      + sizeof(C2S_DeleteEqipment::_impl_.part_)
-      - PROTOBUF_FIELD_OFFSET(C2S_DeleteEqipment, _impl_.item_)>(
-          reinterpret_cast<char*>(&_impl_.item_),
-          reinterpret_cast<char*>(&other->_impl_.item_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata C2S_DeleteEqipment::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[22]);
-}
-
-// ===================================================================
-
-class S2C_DeleteEqipment::_Internal {
- public:
-  static const ::Protocol::SItem& item(const S2C_DeleteEqipment* msg);
-};
-
-const ::Protocol::SItem&
-S2C_DeleteEqipment::_Internal::item(const S2C_DeleteEqipment* msg) {
-  return *msg->_impl_.item_;
-}
-void S2C_DeleteEqipment::clear_item() {
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-}
-S2C_DeleteEqipment::S2C_DeleteEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_DeleteEqipment)
-}
-S2C_DeleteEqipment::S2C_DeleteEqipment(const S2C_DeleteEqipment& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_DeleteEqipment* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.part_){}
-    , decltype(_impl_.error_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_item()) {
-    _this->_impl_.item_ = new ::Protocol::SItem(*from._impl_.item_);
-  }
-  ::memcpy(&_impl_.part_, &from._impl_.part_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.part_)) + sizeof(_impl_.error_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_DeleteEqipment)
-}
-
-inline void S2C_DeleteEqipment::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.item_){nullptr}
-    , decltype(_impl_.part_){0}
-    , decltype(_impl_.error_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-S2C_DeleteEqipment::~S2C_DeleteEqipment() {
-  // @@protoc_insertion_point(destructor:Protocol.S2C_DeleteEqipment)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void S2C_DeleteEqipment::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.item_;
-}
-
-void S2C_DeleteEqipment::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void S2C_DeleteEqipment::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.S2C_DeleteEqipment)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
-    delete _impl_.item_;
-  }
-  _impl_.item_ = nullptr;
-  ::memset(&_impl_.part_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.part_)) + sizeof(_impl_.error_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* S2C_DeleteEqipment::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // .Protocol.SItem item = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_item(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .Protocol.ECharacterPart part = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_part(static_cast<::Protocol::ECharacterPart>(val));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 error = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* S2C_DeleteEqipment::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_DeleteEqipment)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .Protocol.SItem item = 1;
-  if (this->_internal_has_item()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::item(this),
-        _Internal::item(this).GetCachedSize(), target, stream);
-  }
-
-  // .Protocol.ECharacterPart part = 2;
-  if (this->_internal_part() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      2, this->_internal_part(), target);
-  }
-
-  // int32 error = 3;
-  if (this->_internal_error() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_DeleteEqipment)
-  return target;
-}
-
-size_t S2C_DeleteEqipment::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_DeleteEqipment)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .Protocol.SItem item = 1;
-  if (this->_internal_has_item()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.item_);
-  }
-
-  // .Protocol.ECharacterPart part = 2;
-  if (this->_internal_part() != 0) {
-    total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_part());
-  }
-
-  // int32 error = 3;
-  if (this->_internal_error() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_DeleteEqipment::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_DeleteEqipment::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_DeleteEqipment::GetClassData() const { return &_class_data_; }
-
-
-void S2C_DeleteEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_DeleteEqipment*>(&to_msg);
-  auto& from = static_cast<const S2C_DeleteEqipment&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_DeleteEqipment)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_has_item()) {
-    _this->_internal_mutable_item()->::Protocol::SItem::MergeFrom(
-        from._internal_item());
-  }
-  if (from._internal_part() != 0) {
-    _this->_internal_set_part(from._internal_part());
-  }
-  if (from._internal_error() != 0) {
-    _this->_internal_set_error(from._internal_error());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void S2C_DeleteEqipment::CopyFrom(const S2C_DeleteEqipment& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_DeleteEqipment)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool S2C_DeleteEqipment::IsInitialized() const {
-  return true;
-}
-
-void S2C_DeleteEqipment::InternalSwap(S2C_DeleteEqipment* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_DeleteEqipment, _impl_.error_)
-      + sizeof(S2C_DeleteEqipment::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_DeleteEqipment, _impl_.item_)>(
-          reinterpret_cast<char*>(&_impl_.item_),
-          reinterpret_cast<char*>(&other->_impl_.item_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata S2C_DeleteEqipment::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[23]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -6219,21 +5601,13 @@ template<> PROTOBUF_NOINLINE ::Protocol::S2C_RollbackInventory*
 Arena::CreateMaybeMessage< ::Protocol::S2C_RollbackInventory >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_RollbackInventory >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Protocol::C2S_InsertEqipment*
-Arena::CreateMaybeMessage< ::Protocol::C2S_InsertEqipment >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::C2S_InsertEqipment >(arena);
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_ReplaceEqipment*
+Arena::CreateMaybeMessage< ::Protocol::C2S_ReplaceEqipment >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_ReplaceEqipment >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Protocol::S2C_InsertEqipment*
-Arena::CreateMaybeMessage< ::Protocol::S2C_InsertEqipment >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::S2C_InsertEqipment >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Protocol::C2S_DeleteEqipment*
-Arena::CreateMaybeMessage< ::Protocol::C2S_DeleteEqipment >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::C2S_DeleteEqipment >(arena);
-}
-template<> PROTOBUF_NOINLINE ::Protocol::S2C_DeleteEqipment*
-Arena::CreateMaybeMessage< ::Protocol::S2C_DeleteEqipment >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::S2C_DeleteEqipment >(arena);
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_ReplaceEqipment*
+Arena::CreateMaybeMessage< ::Protocol::S2C_ReplaceEqipment >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_ReplaceEqipment >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

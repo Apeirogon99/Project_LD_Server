@@ -21,14 +21,16 @@ public:
 
 public:
 	bool LoadRemotePlayer(const int32 inServerID, const int32 inCharacterID);
+	void LoadComplete();
+
 	void InitTask(GameTaskPtr& inGameTask);
 	void DestroyTask(GameTaskPtr& inGameTask);
 
 public:
 	RemotePlayerRef GetRemotePlayer()			{ return std::static_pointer_cast<RemotePlayer>(shared_from_this()); }	    
 	PlayerStateRef	GetPlayerState()	const	{ return mPlayerState; }
-	Inventoryptr	GetInventory()		const	{ return mInventory; }
-	CharacterPtr	GetCharacter()		const	{ return mCharacter; }
+	Inventoryptr&	GetInventory()				{ return mInventory; }
+	CharacterPtr&	GetCharacter()				{ return mCharacter; }
 	Viewers&		GetViewers()				{ return mViewers; }
 
 private:

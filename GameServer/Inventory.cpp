@@ -56,9 +56,8 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 	}
 
 	Protocol::S2C_LoadInventory loadInventoryPacket;
-	remotePlayer->GetInventory()->LoadItem(loadInventoryPacket);
 
-	remotePlayer->GetInventory()->CheckInventory();
+	this->LoadItem(loadInventoryPacket);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, loadInventoryPacket);
@@ -119,7 +118,7 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	Handle_DeleteInventory_Requset(packetSession, inPacket);
 }
 
-void Inventory::InsertItemToEqipment(Protocol::C2S_InsertEqipment inPacket)
+void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)
@@ -133,26 +132,42 @@ void Inventory::InsertItemToEqipment(Protocol::C2S_InsertEqipment inPacket)
 		return;
 	}
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	Handle_InsertEqipment_Requset(packetSession, inPacket);
-}
+	Inventoryptr& inventory = remotePlayer->GetInventory();
+	CharacterPtr& character = remotePlayer->GetCharacter();
 
-void Inventory::DeleteItemToEqipment(Protocol::C2S_DeleteEqipment inPacket)
-{
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
-	if (nullptr == remotePlayer)
-	{
-		return;
-	}
-
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
-	if (nullptr == playerState)
-	{
-		return;
-	}
+	const Protocol::ECharacterPart& part = inPacket.part();
+	AItemPtr insertInventoryItem	= std::make_shared<AItem>(inPacket.insert_inven_item());
+	AItemPtr insertEqipmentItem;
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	Handle_DeleteEqipment_Requset(packetSession, inPacket);
+	Protocol::S2C_ReplaceEqipment replaceEqipmentPacket;
+
+	bool isValidEqipment	= false;
+	bool isValidInventory	= false;
+	bool isReplace			= false;
+
+	isValidEqipment		= character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode();
+	isValidInventory	= inventory->FindItem(inPacket.insert_eqip_item().object_id(), insertEqipmentItem);
+
+	if (isValidEqipment && isValidInventory)
+	{
+		character->ReplaceEqipment(part, insertInventoryItem->GetItemCode(), insertEqipmentItem->GetItemCode());
+
+		isReplace = inventory->InsertItem(insertInventoryItem) && inventory->DeleteItem(insertEqipmentItem);
+		if (isReplace)
+		{
+			Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem);
+		}
+		else
+		{
+			//TODO: Rollback
+		}
+	}
+
+	replaceEqipmentPacket.set_error(isReplace);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, replaceEqipmentPacket);
+	packetSession->Send(sendBuffer);
 }
 
 bool Inventory::LoadItem(Protocol::S2C_LoadInventory& inPacket)
@@ -240,6 +255,17 @@ bool Inventory::FindItem(const int32 inItemCode, const int32 inInventoryPosition
 	}
 
 	return false;
+}
+
+bool Inventory::IsValidItem(const int64 inObjectID)
+{
+	auto findItem = mItems.find(inObjectID);
+	if (findItem == mItems.end())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool Inventory::RollBackItem()

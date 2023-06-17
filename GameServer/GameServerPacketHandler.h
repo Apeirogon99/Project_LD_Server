@@ -23,10 +23,8 @@ enum class EPakcetID: uint16
 	C2S_DeleteInventory = 2017,
 	S2C_DeleteInventory = 2018,
 	S2C_RollbackInventory = 2019,
-	C2S_InsertEqipment = 2020,
-	S2C_InsertEqipment = 2021,
-	C2S_DeleteEqipment = 2022,
-	S2C_DeleteEqipment = 2023,
+	C2S_ReplaceEqipment = 2020,
+	S2C_ReplaceEqipment = 2021,
 };
 */
 
@@ -38,8 +36,7 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt);
 bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateInventory& pkt);
 bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteInventory& pkt);
-bool Handle_C2S_InsertEqipment(PacketSessionPtr& session, Protocol::C2S_InsertEqipment& pkt);
-bool Handle_C2S_DeleteEqipment(PacketSessionPtr& session, Protocol::C2S_DeleteEqipment& pkt);
+bool Handle_C2S_ReplaceEqipment(PacketSessionPtr& session, Protocol::C2S_ReplaceEqipment& pkt);
 
 class GameServerPacketHandler
 {
@@ -53,8 +50,7 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_InsertInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_InsertInventory>(Handle_C2S_InsertInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_UpdateInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_UpdateInventory>(Handle_C2S_UpdateInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_DeleteInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_DeleteInventory>(Handle_C2S_DeleteInventory, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_InsertEqipment)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_InsertEqipment>(Handle_C2S_InsertEqipment, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_DeleteEqipment)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_DeleteEqipment>(Handle_C2S_DeleteEqipment, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ReplaceEqipment)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ReplaceEqipment>(Handle_C2S_ReplaceEqipment, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_EnterGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterGameServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_LeaveGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveGameServer)); }
@@ -69,7 +65,6 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_UpdateInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateInventory)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DeleteInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DeleteInventory)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_RollbackInventory& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RollbackInventory)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_InsertEqipment& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_InsertEqipment)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_DeleteEqipment& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DeleteEqipment)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, Protocol::S2C_ReplaceEqipment& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReplaceEqipment)); }
 
 };

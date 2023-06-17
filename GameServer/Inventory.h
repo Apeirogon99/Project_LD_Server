@@ -18,18 +18,17 @@ public:
 	void UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket);
 	void DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket);
 
-	void InsertItemToEqipment(Protocol::C2S_InsertEqipment inPacket);
-	void DeleteItemToEqipment(Protocol::C2S_DeleteEqipment inPacket);
+	void ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket);
 
 public:
 	bool LoadItem(Protocol::S2C_LoadInventory& inPacket);
-
 	bool InsertItem(const AItemPtr& inItem);
 	bool UpdateItem(const AItemPtr& inItem);
 	bool DeleteItem(const AItemPtr& inItem);
 
 	bool FindItem(const int64 inObjectID, AItemPtr& outItem);
 	bool FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem);
+	bool IsValidItem(const int64 inObjectID);
 
 	bool RollBackItem();
 

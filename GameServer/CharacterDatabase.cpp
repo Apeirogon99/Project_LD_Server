@@ -49,6 +49,8 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
+	int32		id				= inCommand.GetParam(L"@character_id");
+
 	std::string name			= inRecordset.GetFieldItem(L"name");
 
 	int32		race			= inRecordset.GetFieldItem(L"race_id");
@@ -73,20 +75,22 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	int32		experience		= inRecordset.GetFieldItem(L"experience");
 
 
-	Protocol::SCharacterData& characterData = character->GetCharacterData();
-	characterData.set_name(name.c_str());
-	characterData.set_level(level);
-	characterData.set_experience(experience);
-	characterData.set_character_class(static_cast<Protocol::ECharacterClass>(characterClass));
 
-	Protocol::SCharacterAppearance* appearances = characterData.mutable_appearance();
+
+	Protocol::SCharacterData loadCharacterData;
+	loadCharacterData.set_name(name.c_str());
+	loadCharacterData.set_level(level);
+	loadCharacterData.set_experience(experience);
+	loadCharacterData.set_character_class(static_cast<Protocol::ECharacterClass>(characterClass));
+
+	Protocol::SCharacterAppearance* appearances = loadCharacterData.mutable_appearance();
 	appearances->set_race(static_cast<Protocol::ERace>(race));
 	appearances->set_skin_color(skin_color);
 	appearances->set_hair_color(hair_color);
 	appearances->set_eye_color(eye_color);
 	appearances->set_eyebrow_color(eyebrow_color);
 
-	Protocol::SCharacterEqipment* eqipments = characterData.mutable_eqipment();
+	Protocol::SCharacterEqipment* eqipments = loadCharacterData.mutable_eqipment();
 	eqipments->set_hair(hair);
 	eqipments->set_helmet(helmet);
 	eqipments->set_shoulders(shoulders);
@@ -97,6 +101,21 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	eqipments->set_boots(boots);
 	eqipments->set_weapon_l(weapon_l);
 	eqipments->set_weapon_r(weapon_r);
+
+
+	character->SetCharacterID(id);
+	character->SetCharacterData(loadCharacterData);
+
+	{
+		Protocol::S2C_EnterGameServer enterPacket;
+		enterPacket.mutable_character_data()->CopyFrom(loadCharacterData);
+		enterPacket.set_remote_id(remotePlayer->GetGameObjectID());
+		enterPacket.set_error(false);
+
+		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
+		packetSession->Send(sendBuffer);
+	}
 
 	return true;
 }

@@ -35,7 +35,7 @@ void World::Tick()
 	VisibleAreaSync();
 }
 
-void World::Enter(PlayerStatePtr inPlayerState)
+void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket)
 {
 	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
 	if (remotePlayer)
@@ -106,9 +106,4 @@ bool World::DestroyActor(const int64 inGameObjectID)
 
 	size_t result = mWorldActors.erase(inGameObjectID);
 	return (result != 0) ? true : false;
-}
-
-WorldRef World::GetWorldRef()
-{
-	return std::static_pointer_cast<World>(shared_from_this());
 }

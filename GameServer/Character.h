@@ -19,11 +19,15 @@ public:
 	void MoveDestination(Protocol::C2S_MovementCharacter inPakcet);
 
 public:
+	void SetCharacterID(const int32& inCharacterID);
 	void SetCharacterData(Protocol::SCharacterData inCharacterData);
+
+	void ReplaceEqipment(Protocol::ECharacterPart inPart, const int32 inInsertItemCode, const int32 inDeleteItemCode);
 
 public:
 	int32						GetCharacterID() { return mCharacterID; }
 	Protocol::SCharacterData&	GetCharacterData() { return mCharacterData; }
+	int32						GetEqipmentPartCode(Protocol::ECharacterPart inPart);
 
 private:
 	RemotePlayerRef				mRemotePlayer;

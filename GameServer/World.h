@@ -15,7 +15,7 @@ public:
 	virtual void Tick() override;
 
 public:
-	void Enter(PlayerStatePtr inPlayerState);
+	void Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket);
 	void Leave(PlayerStatePtr inPlayerState);
 
 	void VisibleAreaSync();
@@ -24,34 +24,9 @@ public:
 	ActorPtr CreateActor(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotator);
 	bool DestroyActor(const int64 inGameObjectID);
 	
-	//TEMP:
-	void CreateTempItem()
-	{
-		int32 tempArray[] = { 1, 22, 43, 62, 81, 102, 122 };
-		for (int32 i = 0; i < 7; ++i)
-		{
-			Protocol::SItem item;
-			item.set_item_code(tempArray[i]);
-
-			Protocol::SVector* location = item.mutable_world_position();
-			location->set_x(0);
-			location->set_y((i + 1) * 150);
-			location->set_z(50);
-
-			Protocol::SRotator rotation;
-			rotation.set_pitch(0);
-			rotation.set_roll(0);
-			rotation.set_yaw(0);
-
-			AItemPtr newItem = std::static_pointer_cast<AItem>(CreateActor<AItem>(*location, rotation));
-			newItem->Init(item);
-
-		}
-	}
-
 public:
 	GameTaskPtr	GetGameTask() { return mGameTask; }
-	WorldRef	GetWorldRef();
+	WorldRef	GetWorldRef() { return std::static_pointer_cast<World>(shared_from_this()); }
 
 private:
 	GameTaskPtr							mGameTask;
