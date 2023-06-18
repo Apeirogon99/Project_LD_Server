@@ -492,7 +492,7 @@ bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInse
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 
 
-	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_InsertInventory_Response);
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_ReplaceEqipment_Response);
 	return true;
 }
 

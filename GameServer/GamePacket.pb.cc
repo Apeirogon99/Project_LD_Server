@@ -340,7 +340,9 @@ struct C2S_ReplaceEqipmentDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_ReplaceEqipmentDefaultTypeInternal _C2S_ReplaceEqipment_default_instance_;
 PROTOBUF_CONSTEXPR S2C_ReplaceEqipment::S2C_ReplaceEqipment(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.error_)*/0
+    /*decltype(_impl_.eqipment_)*/nullptr
+  , /*decltype(_impl_.remote_id_)*/int64_t{0}
+  , /*decltype(_impl_.error_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_ReplaceEqipmentDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_ReplaceEqipmentDefaultTypeInternal()
@@ -536,6 +538,8 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplaceEqipment, _impl_.remote_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplaceEqipment, _impl_.eqipment_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplaceEqipment, _impl_.error_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -635,8 +639,9 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "\021insert_inven_item\030\002 \001(\0132\017.Protocol.SIte"
   "m\022)\n\020insert_eqip_item\030\003 \001(\0132\017.Protocol.S"
   "Item\022&\n\004part\030\004 \001(\0162\030.Protocol.ECharacter"
-  "Part\"$\n\023S2C_ReplaceEqipment\022\r\n\005error\030\001 \001"
-  "(\005b\006proto3"
+  "Part\"g\n\023S2C_ReplaceEqipment\022\021\n\tremote_id"
+  "\030\001 \001(\003\022.\n\010eqipment\030\002 \001(\0132\034.Protocol.SCha"
+  "racterEqipment\022\r\n\005error\030\003 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -644,7 +649,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 1890, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 1957, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 22,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -5464,8 +5469,19 @@ void C2S_ReplaceEqipment::InternalSwap(C2S_ReplaceEqipment* other) {
 
 class S2C_ReplaceEqipment::_Internal {
  public:
+  static const ::Protocol::SCharacterEqipment& eqipment(const S2C_ReplaceEqipment* msg);
 };
 
+const ::Protocol::SCharacterEqipment&
+S2C_ReplaceEqipment::_Internal::eqipment(const S2C_ReplaceEqipment* msg) {
+  return *msg->_impl_.eqipment_;
+}
+void S2C_ReplaceEqipment::clear_eqipment() {
+  if (GetArenaForAllocation() == nullptr && _impl_.eqipment_ != nullptr) {
+    delete _impl_.eqipment_;
+  }
+  _impl_.eqipment_ = nullptr;
+}
 S2C_ReplaceEqipment::S2C_ReplaceEqipment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -5476,11 +5492,18 @@ S2C_ReplaceEqipment::S2C_ReplaceEqipment(const S2C_ReplaceEqipment& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_ReplaceEqipment* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.error_){}
+      decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.remote_id_){}
+    , decltype(_impl_.error_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.error_ = from._impl_.error_;
+  if (from._internal_has_eqipment()) {
+    _this->_impl_.eqipment_ = new ::Protocol::SCharacterEqipment(*from._impl_.eqipment_);
+  }
+  ::memcpy(&_impl_.remote_id_, &from._impl_.remote_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
+    reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_ReplaceEqipment)
 }
 
@@ -5489,7 +5512,9 @@ inline void S2C_ReplaceEqipment::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.error_){0}
+      decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.remote_id_){int64_t{0}}
+    , decltype(_impl_.error_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -5505,6 +5530,7 @@ S2C_ReplaceEqipment::~S2C_ReplaceEqipment() {
 
 inline void S2C_ReplaceEqipment::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.eqipment_;
 }
 
 void S2C_ReplaceEqipment::SetCachedSize(int size) const {
@@ -5517,7 +5543,13 @@ void S2C_ReplaceEqipment::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.error_ = 0;
+  if (GetArenaForAllocation() == nullptr && _impl_.eqipment_ != nullptr) {
+    delete _impl_.eqipment_;
+  }
+  _impl_.eqipment_ = nullptr;
+  ::memset(&_impl_.remote_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.error_) -
+      reinterpret_cast<char*>(&_impl_.remote_id_)) + sizeof(_impl_.error_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -5527,9 +5559,25 @@ const char* S2C_ReplaceEqipment::_InternalParse(const char* ptr, ::_pbi::ParseCo
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 error = 1;
+      // int64 remote_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.remote_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SCharacterEqipment eqipment = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_eqipment(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 error = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -5564,10 +5612,23 @@ uint8_t* S2C_ReplaceEqipment::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 error = 1;
+  // int64 remote_id = 1;
+  if (this->_internal_remote_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_remote_id(), target);
+  }
+
+  // .Protocol.SCharacterEqipment eqipment = 2;
+  if (this->_internal_has_eqipment()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::eqipment(this),
+        _Internal::eqipment(this).GetCachedSize(), target, stream);
+  }
+
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_error(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5586,7 +5647,19 @@ size_t S2C_ReplaceEqipment::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 error = 1;
+  // .Protocol.SCharacterEqipment eqipment = 2;
+  if (this->_internal_has_eqipment()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.eqipment_);
+  }
+
+  // int64 remote_id = 1;
+  if (this->_internal_remote_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
+  }
+
+  // int32 error = 3;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
   }
@@ -5609,6 +5682,13 @@ void S2C_ReplaceEqipment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_eqipment()) {
+    _this->_internal_mutable_eqipment()->::Protocol::SCharacterEqipment::MergeFrom(
+        from._internal_eqipment());
+  }
+  if (from._internal_remote_id() != 0) {
+    _this->_internal_set_remote_id(from._internal_remote_id());
+  }
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
   }
@@ -5629,7 +5709,12 @@ bool S2C_ReplaceEqipment::IsInitialized() const {
 void S2C_ReplaceEqipment::InternalSwap(S2C_ReplaceEqipment* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.error_, other->_impl_.error_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(S2C_ReplaceEqipment, _impl_.error_)
+      + sizeof(S2C_ReplaceEqipment::_impl_.error_)
+      - PROTOBUF_FIELD_OFFSET(S2C_ReplaceEqipment, _impl_.eqipment_)>(
+          reinterpret_cast<char*>(&_impl_.eqipment_),
+          reinterpret_cast<char*>(&other->_impl_.eqipment_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReplaceEqipment::GetMetadata() const {

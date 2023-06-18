@@ -62,3 +62,4 @@ using Inventoryptr = std::shared_ptr<Inventory>;
 
 using Viewers			= std::set<PlayerStatePtr>;
 using Monitors			= std::set<RemotePlayerPtr>;
+//using Actors			= std::

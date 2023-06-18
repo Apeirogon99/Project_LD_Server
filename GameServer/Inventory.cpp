@@ -177,37 +177,39 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	AItemPtr insertInventoryItem	= std::make_shared<AItem>(inPacket.insert_inven_item());
 	AItemPtr insertEqipmentItem		= std::make_shared<AItem>(inPacket.insert_eqip_item());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	Protocol::S2C_ReplaceEqipment replaceEqipmentPacket;
-
 	bool isValidEqipment	= false;
 	bool isValidInventory	= false;
 	bool isReplace			= false;
 
-	isValidEqipment		= character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode();			//장착된 아이템이 있는가?
-	isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());		//인벤토리에 아이템이 있는가?
+	isValidEqipment		= (character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode()) && insertInventoryItem->GetItemCode() != 0;
+	isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());
 
-	if (false == isValidEqipment && true == isValidInventory) //장착된 아이템이 없는 경우
-	{
-		inventory->InsertEqipment(insertInventoryItem, part);
-	}
-	else if (true == isValidEqipment && false == isValidInventory) //장착된 아이템을 제거할 경우
+	if (false == isValidEqipment && true == isValidInventory)
 	{
 		inventory->DeleteEqipment(insertEqipmentItem, part);
 	}
-	else if (true == isValidEqipment && true == isValidInventory) //아이템 교체인 경우
+	else if (true == isValidEqipment && false == isValidInventory)
+	{
+		inventory->InsertEqipment(insertInventoryItem, part);
+	}
+	else if (true == isValidEqipment && true == isValidInventory)
 	{
 		inventory->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
 	}
 
 	character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem, part);
 	
 
+	Protocol::S2C_ReplaceEqipment replaceEqipmentPacket;
+	replaceEqipmentPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	replaceEqipmentPacket.mutable_eqipment()->CopyFrom(character->GetCharacterData().eqipment());
 	replaceEqipmentPacket.set_error(isReplace);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, replaceEqipmentPacket);
-	packetSession->Send(sendBuffer);
+	playerState->BrodcastViewers(sendBuffer);
 }
 
 bool Inventory::LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems)

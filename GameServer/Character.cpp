@@ -54,15 +54,9 @@ void Character::AppearActor(PlayerStatePtr inAppearPlayerState)
 	Protocol::S2C_AppearCharacter appearPacket;
 	appearPacket.set_remote_id(targetRemotePlayer->GetGameObjectID());
 	appearPacket.set_timestamp(this->mLastMovementTimeStamp);
-	
-	Protocol::SVector* oldMovementLocation = appearPacket.mutable_old_location();
-	oldMovementLocation->CopyFrom(this->mOldLocation);
-
-	Protocol::SVector* newMovementLocation = appearPacket.mutable_new_location();
-	newMovementLocation->CopyFrom(this->GetLocation());
-
-	Protocol::SCharacterData* characterData = appearPacket.mutable_character_data();
-	characterData->CopyFrom(this->GetCharacterData());
+	appearPacket.mutable_old_location()->CopyFrom(this->mOldLocation);
+	appearPacket.mutable_new_location()->CopyFrom(this->GetLocation());
+	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inAppearPlayerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearPacket);
@@ -175,10 +169,10 @@ void Character::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AIt
 		eqipment->set_shoulders(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Chest:
-		eqipment->set_chest(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
+		eqipment->set_chest(compareEqipment(eqipment->chest(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Bracers:
-		eqipment->set_bracers(compareEqipment(eqipment->shoulders(), insertInventoryItemCode, insertEqipmentItemCode));
+		eqipment->set_bracers(compareEqipment(eqipment->bracers(), insertInventoryItemCode, insertEqipmentItemCode));
 		break;
 	case Protocol::Part_Hands:
 		eqipment->set_hands(compareEqipment(eqipment->hands(), insertInventoryItemCode, insertEqipmentItemCode));

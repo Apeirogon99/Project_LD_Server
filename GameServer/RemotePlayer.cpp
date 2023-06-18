@@ -82,13 +82,16 @@ void RemotePlayer::LoadComplete()
 		return;
 	}
 
+	Protocol::STransform tempTransform;
+	tempTransform.mutable_location()->set_z(500.0f);
 
 	Protocol::S2C_EnterGameServer enterPacket;
 	enterPacket.set_remote_id(this->GetGameObjectID());
 	enterPacket.mutable_character_data()->CopyFrom(GetCharacter()->GetCharacterData());
 	GetInventory()->LoadItem(enterPacket.mutable_item());
 	GetInventory()->LoadEqipment(enterPacket.mutable_eqipment());
-	enterPacket.mutable_transform()->CopyFrom(GetCharacter()->GetTransform());
+	//enterPacket.mutable_transform()->CopyFrom(GetCharacter()->GetTransform());
+	enterPacket.mutable_transform()->CopyFrom(tempTransform);
 	enterPacket.set_error(false);
 
 

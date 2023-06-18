@@ -60,6 +60,12 @@ bool AItem::IsValid()
 
 void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 {
+	//RemotePlayerPtr targetRemotePlayer = inClosePlayerState.lock();
+	//if (nullptr == targetRemotePlayer)
+	//{
+	//	return;
+	//}
+
 	Protocol::S2C_AppearItem appearItemPacket;
 
 	Protocol::SItem* addItem = appearItemPacket.add_item();

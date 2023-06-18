@@ -1,4 +1,3 @@
-#include "World.h"
 #include "pch.h"
 #include "World.h"
 
@@ -93,6 +92,12 @@ void World::VisibleAreaSync()
 		{
 			player->second->GetRemotePlayer()->GetCharacter()->CloseToPlayer(viewPlayer->second);
 		}
+
+		//auto viewActor = mWorldActors.begin();
+		//for (viewActor; viewActor != mWorldActors.end(); viewActor++)
+		//{
+		//	viewActor->second->CloseToPlayer(player->second);
+		//}
 	}
 }
 

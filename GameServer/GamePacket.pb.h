@@ -3846,9 +3846,38 @@ class S2C_ReplaceEqipment final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kErrorFieldNumber = 1,
+    kEqipmentFieldNumber = 2,
+    kRemoteIdFieldNumber = 1,
+    kErrorFieldNumber = 3,
   };
-  // int32 error = 1;
+  // .Protocol.SCharacterEqipment eqipment = 2;
+  bool has_eqipment() const;
+  private:
+  bool _internal_has_eqipment() const;
+  public:
+  void clear_eqipment();
+  const ::Protocol::SCharacterEqipment& eqipment() const;
+  PROTOBUF_NODISCARD ::Protocol::SCharacterEqipment* release_eqipment();
+  ::Protocol::SCharacterEqipment* mutable_eqipment();
+  void set_allocated_eqipment(::Protocol::SCharacterEqipment* eqipment);
+  private:
+  const ::Protocol::SCharacterEqipment& _internal_eqipment() const;
+  ::Protocol::SCharacterEqipment* _internal_mutable_eqipment();
+  public:
+  void unsafe_arena_set_allocated_eqipment(
+      ::Protocol::SCharacterEqipment* eqipment);
+  ::Protocol::SCharacterEqipment* unsafe_arena_release_eqipment();
+
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // int32 error = 3;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -3865,6 +3894,8 @@ class S2C_ReplaceEqipment final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::Protocol::SCharacterEqipment* eqipment_;
+    int64_t remote_id_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -6126,7 +6157,112 @@ inline void C2S_ReplaceEqipment::set_part(::Protocol::ECharacterPart value) {
 
 // S2C_ReplaceEqipment
 
-// int32 error = 1;
+// int64 remote_id = 1;
+inline void S2C_ReplaceEqipment::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_ReplaceEqipment::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_ReplaceEqipment::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplaceEqipment.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_ReplaceEqipment::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_ReplaceEqipment::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplaceEqipment.remote_id)
+}
+
+// .Protocol.SCharacterEqipment eqipment = 2;
+inline bool S2C_ReplaceEqipment::_internal_has_eqipment() const {
+  return this != internal_default_instance() && _impl_.eqipment_ != nullptr;
+}
+inline bool S2C_ReplaceEqipment::has_eqipment() const {
+  return _internal_has_eqipment();
+}
+inline const ::Protocol::SCharacterEqipment& S2C_ReplaceEqipment::_internal_eqipment() const {
+  const ::Protocol::SCharacterEqipment* p = _impl_.eqipment_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SCharacterEqipment&>(
+      ::Protocol::_SCharacterEqipment_default_instance_);
+}
+inline const ::Protocol::SCharacterEqipment& S2C_ReplaceEqipment::eqipment() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplaceEqipment.eqipment)
+  return _internal_eqipment();
+}
+inline void S2C_ReplaceEqipment::unsafe_arena_set_allocated_eqipment(
+    ::Protocol::SCharacterEqipment* eqipment) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.eqipment_);
+  }
+  _impl_.eqipment_ = eqipment;
+  if (eqipment) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_ReplaceEqipment.eqipment)
+}
+inline ::Protocol::SCharacterEqipment* S2C_ReplaceEqipment::release_eqipment() {
+  
+  ::Protocol::SCharacterEqipment* temp = _impl_.eqipment_;
+  _impl_.eqipment_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SCharacterEqipment* S2C_ReplaceEqipment::unsafe_arena_release_eqipment() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_ReplaceEqipment.eqipment)
+  
+  ::Protocol::SCharacterEqipment* temp = _impl_.eqipment_;
+  _impl_.eqipment_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SCharacterEqipment* S2C_ReplaceEqipment::_internal_mutable_eqipment() {
+  
+  if (_impl_.eqipment_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SCharacterEqipment>(GetArenaForAllocation());
+    _impl_.eqipment_ = p;
+  }
+  return _impl_.eqipment_;
+}
+inline ::Protocol::SCharacterEqipment* S2C_ReplaceEqipment::mutable_eqipment() {
+  ::Protocol::SCharacterEqipment* _msg = _internal_mutable_eqipment();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_ReplaceEqipment.eqipment)
+  return _msg;
+}
+inline void S2C_ReplaceEqipment::set_allocated_eqipment(::Protocol::SCharacterEqipment* eqipment) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.eqipment_);
+  }
+  if (eqipment) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(eqipment));
+    if (message_arena != submessage_arena) {
+      eqipment = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, eqipment, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.eqipment_ = eqipment;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_ReplaceEqipment.eqipment)
+}
+
+// int32 error = 3;
 inline void S2C_ReplaceEqipment::clear_error() {
   _impl_.error_ = 0;
 }
