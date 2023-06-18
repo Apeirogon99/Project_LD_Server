@@ -60,20 +60,24 @@ bool AItem::IsValid()
 
 void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 {
-	//RemotePlayerPtr targetRemotePlayer = inClosePlayerState.lock();
-	//if (nullptr == targetRemotePlayer)
-	//{
-	//	return;
-	//}
+	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
+	if (nullptr == targetRemotePlayer)
+	{
+		return;
+	}
+
+	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
+	if (viewActors.find(GetGameObjectPtr()) != viewActors.end())
+	{
+		return;
+	}
+	targetRemotePlayer->GetViewActors().insert(GetGameObjectPtr());
 
 	Protocol::S2C_AppearItem appearItemPacket;
-
 	Protocol::SItem* addItem = appearItemPacket.add_item();
 	addItem->set_object_id(this->GetGameObjectID());
 	addItem->set_item_code(this->mItemCode);
 	addItem->mutable_world_position()->CopyFrom(this->GetLocation());
-	addItem->mutable_inven_position()->CopyFrom(this->mInvenPosition);
-	addItem->set_rotation(this->mInvenRotation);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
 	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearItemPacket);
@@ -82,6 +86,19 @@ void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 
 void AItem::DisAppearActor(PlayerStatePtr inClosePlayerState)
 {
+	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
+	if (nullptr == targetRemotePlayer)
+	{
+		return;
+	}
+
+	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
+	if (viewActors.find(GetGameObjectPtr()) == viewActors.end())
+	{
+		return;
+	}
+	targetRemotePlayer->GetViewActors().erase(GetGameObjectPtr());
+
 	Protocol::S2C_DisAppearGameObject disAppearItemPacket;
 	disAppearItemPacket.set_object_id(this->GetGameObjectID());
 

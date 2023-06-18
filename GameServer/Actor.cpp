@@ -47,7 +47,7 @@ void Actor::CloseToPlayer(PlayerStatePtr inClosePlayerState)
 	const double y = std::pow(this->GetLocation().y() - closeCharacter->GetLocation().y(), 2);
 	const double z = std::pow(this->GetLocation().z() - closeCharacter->GetLocation().z(), 2);
 
-	const double possibleVisbleLength = 1500;
+	const double possibleVisbleLength = 2000;
 	const double playerDistance = std::sqrt(x + y + z);
 	if (playerDistance < possibleVisbleLength)
 	{

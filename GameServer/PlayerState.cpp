@@ -70,16 +70,11 @@ void PlayerState::SetWorld(WorldRef inWorld)
 	mWorld = inWorld;
 }
 
-void PlayerState::BrodcastViewers(SendBufferPtr inSendBuffer)
-{
-	Viewers& viewers = mRemotePlayer->GetViewers();
-	for (auto viewer : viewers)
-	{
-		viewer->Send(inSendBuffer);
-	}
-}
-
 void PlayerState::BroadcastMonitors(SendBufferPtr inSendBuffer)
 {
-
+	Monitors& monitors = GetMonitors();
+	for (auto monitor : monitors)
+	{
+		//monitor->Send(inSendBuffer);
+	}
 }

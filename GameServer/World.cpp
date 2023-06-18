@@ -13,7 +13,18 @@ World::~World()
 
 void World::Initialization()
 {
-	//CreateTempItem();
+	Protocol::SVector loc;
+	loc.set_x(0);
+	loc.set_y(0);
+	loc.set_z(500);
+
+	Protocol::SRotator rot;
+	rot.set_pitch(0);
+	rot.set_yaw(0);
+	rot.set_roll(0);
+
+	AItemPtr item = std::static_pointer_cast<AItem>(CreateActor<AItem>(loc, rot));
+	item->SetItemCode(31);
 }
 
 void World::Destroy()
@@ -70,6 +81,12 @@ void World::Leave(PlayerStatePtr inPlayerState)
 		return;
 	}
 
+	Monitors& monitors = inPlayerState->GetMonitors();
+	for (auto monitor = monitors.begin(); monitor != monitors.end(); ++monitor)
+	{
+		monitor->get()->GetViewers().erase(inPlayerState);
+	}
+	
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
 	mPlayerStates.erase(gameObjectID);
 	remotePlayer->DestroyTask(mGameTask);
@@ -93,11 +110,11 @@ void World::VisibleAreaSync()
 			player->second->GetRemotePlayer()->GetCharacter()->CloseToPlayer(viewPlayer->second);
 		}
 
-		//auto viewActor = mWorldActors.begin();
-		//for (viewActor; viewActor != mWorldActors.end(); viewActor++)
-		//{
-		//	viewActor->second->CloseToPlayer(player->second);
-		//}
+		auto viewActor = mWorldActors.begin();
+		for (viewActor; viewActor != mWorldActors.end(); viewActor++)
+		{
+			viewActor->second->CloseToPlayer(player->second);
+		}
 	}
 }
 

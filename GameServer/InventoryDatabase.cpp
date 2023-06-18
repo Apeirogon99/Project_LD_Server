@@ -173,7 +173,7 @@ bool Handle_InsertInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_I
 		InsertInventoryPacket.set_error(pushResult);
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, InsertInventoryPacket);
-		playerState->BrodcastViewers(sendBuffer);
+		remotePlayer->BrodcastViewers(sendBuffer);
 	}
 
 	ADORecordset recordset;
@@ -241,7 +241,7 @@ bool Handle_InsertInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 		deleteInventoryPacket.set_error(result);
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, deleteInventoryPacket);
-		playerState->BrodcastViewers(sendBuffer);
+		remotePlayer->BrodcastViewers(sendBuffer);
 	}
 
 	return true;
@@ -412,7 +412,7 @@ bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 		deleteInventoryPacket.set_error(result);
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, deleteInventoryPacket);
-		playerState->BrodcastViewers(sendBuffer);
+		remotePlayer->BrodcastViewers(sendBuffer);
 	}
 
 	ADORecordset recordset;

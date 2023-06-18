@@ -17,7 +17,6 @@ protected:
 
 public:
 	void SetWorld(WorldRef inWorld);
-	void BrodcastViewers(SendBufferPtr inSendBuffer);
 	void BroadcastMonitors(SendBufferPtr inSendBuffer);
 
 public:

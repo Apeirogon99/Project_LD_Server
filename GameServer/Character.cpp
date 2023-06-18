@@ -127,7 +127,7 @@ void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, newMovementPacket);
-	playerState->BrodcastViewers(sendBuffer);
+	remotePlayer->BrodcastViewers(sendBuffer);
 }
 
 void Character::SetLoad(bool inIsLoad)

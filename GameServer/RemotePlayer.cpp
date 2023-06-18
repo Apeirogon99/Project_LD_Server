@@ -123,3 +123,12 @@ void RemotePlayer::DestroyTask(GameTaskPtr& inGameTask)
 	inGameTask->ReleaseTask(this->GetCharacter());
 	inGameTask->ReleaseTask(this->GetGameObjectPtr());
 }
+
+void RemotePlayer::BrodcastViewers(SendBufferPtr inSendBuffer)
+{
+	Viewers& viewers = GetViewers();
+	for (auto viewer : viewers)
+	{
+		viewer->Send(inSendBuffer);
+	}
+}

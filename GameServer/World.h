@@ -48,7 +48,7 @@ inline ActorPtr World::CreateActor(const Protocol::SVector& inLocation, const Pr
 		return nullptr;
 	}
 
-	mGameTask->PushTask(object->GetGameObjectPtr());
+	mGameTask->CreateGameObject(object->GetGameObjectPtr());
 
 	object->SetLocation(inLocation);
 	object->SetRotation(inRotator);

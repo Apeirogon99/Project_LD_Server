@@ -184,6 +184,8 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	isValidEqipment		= (character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode()) && insertInventoryItem->GetItemCode() != 0;
 	isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());
 
+	std::cout << "Replace : [" << insertInventoryItem->GetGameObjectID() << ", " << insertInventoryItem->GetItemCode() << "] >> [" << insertEqipmentItem->GetGameObjectID() << ", " << insertEqipmentItem->GetItemCode() << "]" << std::endl;
+
 	if (false == isValidEqipment && true == isValidInventory)
 	{
 		inventory->DeleteEqipment(insertEqipmentItem, part);
@@ -209,7 +211,7 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	replaceEqipmentPacket.set_error(isReplace);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, replaceEqipmentPacket);
-	playerState->BrodcastViewers(sendBuffer);
+	remotePlayer->BrodcastViewers(sendBuffer);
 }
 
 bool Inventory::LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems)
