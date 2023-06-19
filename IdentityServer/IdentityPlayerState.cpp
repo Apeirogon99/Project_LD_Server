@@ -11,15 +11,6 @@ IdentityPlayerState::~IdentityPlayerState()
 
 void IdentityPlayerState::OnConnected()
 {
-	if (GetSessionMode() == ESessionMode::Server)
-	{
-		WinSocketPtr gameServerSocket = GetWinSocket();
-		IPAddressPtr gameServerIPAddr = std::make_shared<IPAddress>();
-		gameServerIPAddr->SetIp(L"116.41.116.247", 10000);
-		gameServerSocket->Connect(gameServerIPAddr);
-
-		RegisterRecv();
-	}
 }
 
 void IdentityPlayerState::OnSend(uint32 len)

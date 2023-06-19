@@ -1972,25 +1972,100 @@ class S2C_LoadServer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInfoFieldNumber = 1,
+    kIdFieldNumber = 1,
+    kNameFieldNumber = 2,
+    kStateFieldNumber = 3,
+    kCountFieldNumber = 4,
   };
-  // repeated .Protocol.SServerInfo info = 1;
-  int info_size() const;
+  // repeated int32 id = 1;
+  int id_size() const;
   private:
-  int _internal_info_size() const;
+  int _internal_id_size() const;
   public:
-  void clear_info();
-  ::Protocol::SServerInfo* mutable_info(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >*
-      mutable_info();
+  void clear_id();
   private:
-  const ::Protocol::SServerInfo& _internal_info(int index) const;
-  ::Protocol::SServerInfo* _internal_add_info();
+  int32_t _internal_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_id() const;
+  void _internal_add_id(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_id();
   public:
-  const ::Protocol::SServerInfo& info(int index) const;
-  ::Protocol::SServerInfo* add_info();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >&
-      info() const;
+  int32_t id(int index) const;
+  void set_id(int index, int32_t value);
+  void add_id(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_id();
+
+  // repeated bytes name = 2;
+  int name_size() const;
+  private:
+  int _internal_name_size() const;
+  public:
+  void clear_name();
+  const std::string& name(int index) const;
+  std::string* mutable_name(int index);
+  void set_name(int index, const std::string& value);
+  void set_name(int index, std::string&& value);
+  void set_name(int index, const char* value);
+  void set_name(int index, const void* value, size_t size);
+  std::string* add_name();
+  void add_name(const std::string& value);
+  void add_name(std::string&& value);
+  void add_name(const char* value);
+  void add_name(const void* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& name() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_name();
+  private:
+  const std::string& _internal_name(int index) const;
+  std::string* _internal_add_name();
+  public:
+
+  // repeated float state = 3;
+  int state_size() const;
+  private:
+  int _internal_state_size() const;
+  public:
+  void clear_state();
+  private:
+  float _internal_state(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_state() const;
+  void _internal_add_state(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_state();
+  public:
+  float state(int index) const;
+  void set_state(int index, float value);
+  void add_state(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      state() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_state();
+
+  // repeated int32 count = 4;
+  int count_size() const;
+  private:
+  int _internal_count_size() const;
+  public:
+  void clear_count();
+  private:
+  int32_t _internal_count(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_count() const;
+  void _internal_add_count(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_count();
+  public:
+  int32_t count(int index) const;
+  void set_count(int index, int32_t value);
+  void add_count(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      count() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_count();
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_LoadServer)
  private:
@@ -2000,7 +2075,12 @@ class S2C_LoadServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo > info_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > id_;
+    mutable std::atomic<int> _id_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> name_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > state_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > count_;
+    mutable std::atomic<int> _count_cached_byte_size_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2589,24 +2669,24 @@ class S2C_StartGame final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kServerNameFieldNumber = 2,
+    kTravelLevelFieldNumber = 2,
     kIpFieldNumber = 3,
     kServerIdFieldNumber = 1,
     kPortFieldNumber = 4,
     kErrorFieldNumber = 5,
   };
-  // bytes server_name = 2;
-  void clear_server_name();
-  const std::string& server_name() const;
+  // bytes travel_level = 2;
+  void clear_travel_level();
+  const std::string& travel_level() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_server_name(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_server_name();
-  PROTOBUF_NODISCARD std::string* release_server_name();
-  void set_allocated_server_name(std::string* server_name);
+  void set_travel_level(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_travel_level();
+  PROTOBUF_NODISCARD std::string* release_travel_level();
+  void set_allocated_travel_level(std::string* travel_level);
   private:
-  const std::string& _internal_server_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_server_name(const std::string& value);
-  std::string* _internal_mutable_server_name();
+  const std::string& _internal_travel_level() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_travel_level(const std::string& value);
+  std::string* _internal_mutable_travel_level();
   public:
 
   // bytes ip = 3;
@@ -2658,7 +2738,7 @@ class S2C_StartGame final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr travel_level_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
     int32_t server_id_;
     int32_t port_;
@@ -4251,41 +4331,220 @@ inline void S2C_EmailVerified::set_error(int32_t value) {
 
 // S2C_LoadServer
 
-// repeated .Protocol.SServerInfo info = 1;
-inline int S2C_LoadServer::_internal_info_size() const {
-  return _impl_.info_.size();
+// repeated int32 id = 1;
+inline int S2C_LoadServer::_internal_id_size() const {
+  return _impl_.id_.size();
 }
-inline int S2C_LoadServer::info_size() const {
-  return _internal_info_size();
+inline int S2C_LoadServer::id_size() const {
+  return _internal_id_size();
 }
-inline ::Protocol::SServerInfo* S2C_LoadServer::mutable_info(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_LoadServer.info)
-  return _impl_.info_.Mutable(index);
+inline void S2C_LoadServer::clear_id() {
+  _impl_.id_.Clear();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >*
-S2C_LoadServer::mutable_info() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.info)
-  return &_impl_.info_;
+inline int32_t S2C_LoadServer::_internal_id(int index) const {
+  return _impl_.id_.Get(index);
 }
-inline const ::Protocol::SServerInfo& S2C_LoadServer::_internal_info(int index) const {
-  return _impl_.info_.Get(index);
+inline int32_t S2C_LoadServer::id(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.id)
+  return _internal_id(index);
 }
-inline const ::Protocol::SServerInfo& S2C_LoadServer::info(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.info)
-  return _internal_info(index);
+inline void S2C_LoadServer::set_id(int index, int32_t value) {
+  _impl_.id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.id)
 }
-inline ::Protocol::SServerInfo* S2C_LoadServer::_internal_add_info() {
-  return _impl_.info_.Add();
+inline void S2C_LoadServer::_internal_add_id(int32_t value) {
+  _impl_.id_.Add(value);
 }
-inline ::Protocol::SServerInfo* S2C_LoadServer::add_info() {
-  ::Protocol::SServerInfo* _add = _internal_add_info();
-  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.info)
-  return _add;
+inline void S2C_LoadServer::add_id(int32_t value) {
+  _internal_add_id(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.id)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SServerInfo >&
-S2C_LoadServer::info() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.info)
-  return _impl_.info_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadServer::_internal_id() const {
+  return _impl_.id_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadServer::id() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.id)
+  return _internal_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadServer::_internal_mutable_id() {
+  return &_impl_.id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadServer::mutable_id() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.id)
+  return _internal_mutable_id();
+}
+
+// repeated bytes name = 2;
+inline int S2C_LoadServer::_internal_name_size() const {
+  return _impl_.name_.size();
+}
+inline int S2C_LoadServer::name_size() const {
+  return _internal_name_size();
+}
+inline void S2C_LoadServer::clear_name() {
+  _impl_.name_.Clear();
+}
+inline std::string* S2C_LoadServer::add_name() {
+  std::string* _s = _internal_add_name();
+  // @@protoc_insertion_point(field_add_mutable:Protocol.S2C_LoadServer.name)
+  return _s;
+}
+inline const std::string& S2C_LoadServer::_internal_name(int index) const {
+  return _impl_.name_.Get(index);
+}
+inline const std::string& S2C_LoadServer::name(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.name)
+  return _internal_name(index);
+}
+inline std::string* S2C_LoadServer::mutable_name(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_LoadServer.name)
+  return _impl_.name_.Mutable(index);
+}
+inline void S2C_LoadServer::set_name(int index, const std::string& value) {
+  _impl_.name_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::set_name(int index, std::string&& value) {
+  _impl_.name_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::set_name(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.name_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::set_name(int index, const void* value, size_t size) {
+  _impl_.name_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:Protocol.S2C_LoadServer.name)
+}
+inline std::string* S2C_LoadServer::_internal_add_name() {
+  return _impl_.name_.Add();
+}
+inline void S2C_LoadServer::add_name(const std::string& value) {
+  _impl_.name_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::add_name(std::string&& value) {
+  _impl_.name_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::add_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.name_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:Protocol.S2C_LoadServer.name)
+}
+inline void S2C_LoadServer::add_name(const void* value, size_t size) {
+  _impl_.name_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:Protocol.S2C_LoadServer.name)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+S2C_LoadServer::name() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.name)
+  return _impl_.name_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+S2C_LoadServer::mutable_name() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.name)
+  return &_impl_.name_;
+}
+
+// repeated float state = 3;
+inline int S2C_LoadServer::_internal_state_size() const {
+  return _impl_.state_.size();
+}
+inline int S2C_LoadServer::state_size() const {
+  return _internal_state_size();
+}
+inline void S2C_LoadServer::clear_state() {
+  _impl_.state_.Clear();
+}
+inline float S2C_LoadServer::_internal_state(int index) const {
+  return _impl_.state_.Get(index);
+}
+inline float S2C_LoadServer::state(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.state)
+  return _internal_state(index);
+}
+inline void S2C_LoadServer::set_state(int index, float value) {
+  _impl_.state_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.state)
+}
+inline void S2C_LoadServer::_internal_add_state(float value) {
+  _impl_.state_.Add(value);
+}
+inline void S2C_LoadServer::add_state(float value) {
+  _internal_add_state(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.state)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_LoadServer::_internal_state() const {
+  return _impl_.state_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_LoadServer::state() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.state)
+  return _internal_state();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_LoadServer::_internal_mutable_state() {
+  return &_impl_.state_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_LoadServer::mutable_state() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.state)
+  return _internal_mutable_state();
+}
+
+// repeated int32 count = 4;
+inline int S2C_LoadServer::_internal_count_size() const {
+  return _impl_.count_.size();
+}
+inline int S2C_LoadServer::count_size() const {
+  return _internal_count_size();
+}
+inline void S2C_LoadServer::clear_count() {
+  _impl_.count_.Clear();
+}
+inline int32_t S2C_LoadServer::_internal_count(int index) const {
+  return _impl_.count_.Get(index);
+}
+inline int32_t S2C_LoadServer::count(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadServer.count)
+  return _internal_count(index);
+}
+inline void S2C_LoadServer::set_count(int index, int32_t value) {
+  _impl_.count_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadServer.count)
+}
+inline void S2C_LoadServer::_internal_add_count(int32_t value) {
+  _impl_.count_.Add(value);
+}
+inline void S2C_LoadServer::add_count(int32_t value) {
+  _internal_add_count(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadServer.count)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadServer::_internal_count() const {
+  return _impl_.count_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadServer::count() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadServer.count)
+  return _internal_count();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadServer::_internal_mutable_count() {
+  return &_impl_.count_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadServer::mutable_count() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadServer.count)
+  return _internal_mutable_count();
 }
 
 // -------------------------------------------------------------------
@@ -4434,54 +4693,54 @@ inline void S2C_StartGame::set_server_id(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.server_id)
 }
 
-// bytes server_name = 2;
-inline void S2C_StartGame::clear_server_name() {
-  _impl_.server_name_.ClearToEmpty();
+// bytes travel_level = 2;
+inline void S2C_StartGame::clear_travel_level() {
+  _impl_.travel_level_.ClearToEmpty();
 }
-inline const std::string& S2C_StartGame::server_name() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_StartGame.server_name)
-  return _internal_server_name();
+inline const std::string& S2C_StartGame::travel_level() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_StartGame.travel_level)
+  return _internal_travel_level();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void S2C_StartGame::set_server_name(ArgT0&& arg0, ArgT... args) {
+void S2C_StartGame::set_travel_level(ArgT0&& arg0, ArgT... args) {
  
- _impl_.server_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.server_name)
+ _impl_.travel_level_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_StartGame.travel_level)
 }
-inline std::string* S2C_StartGame::mutable_server_name() {
-  std::string* _s = _internal_mutable_server_name();
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_StartGame.server_name)
+inline std::string* S2C_StartGame::mutable_travel_level() {
+  std::string* _s = _internal_mutable_travel_level();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_StartGame.travel_level)
   return _s;
 }
-inline const std::string& S2C_StartGame::_internal_server_name() const {
-  return _impl_.server_name_.Get();
+inline const std::string& S2C_StartGame::_internal_travel_level() const {
+  return _impl_.travel_level_.Get();
 }
-inline void S2C_StartGame::_internal_set_server_name(const std::string& value) {
+inline void S2C_StartGame::_internal_set_travel_level(const std::string& value) {
   
-  _impl_.server_name_.Set(value, GetArenaForAllocation());
+  _impl_.travel_level_.Set(value, GetArenaForAllocation());
 }
-inline std::string* S2C_StartGame::_internal_mutable_server_name() {
+inline std::string* S2C_StartGame::_internal_mutable_travel_level() {
   
-  return _impl_.server_name_.Mutable(GetArenaForAllocation());
+  return _impl_.travel_level_.Mutable(GetArenaForAllocation());
 }
-inline std::string* S2C_StartGame::release_server_name() {
-  // @@protoc_insertion_point(field_release:Protocol.S2C_StartGame.server_name)
-  return _impl_.server_name_.Release();
+inline std::string* S2C_StartGame::release_travel_level() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_StartGame.travel_level)
+  return _impl_.travel_level_.Release();
 }
-inline void S2C_StartGame::set_allocated_server_name(std::string* server_name) {
-  if (server_name != nullptr) {
+inline void S2C_StartGame::set_allocated_travel_level(std::string* travel_level) {
+  if (travel_level != nullptr) {
     
   } else {
     
   }
-  _impl_.server_name_.SetAllocated(server_name, GetArenaForAllocation());
+  _impl_.travel_level_.SetAllocated(travel_level, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.server_name_.IsDefault()) {
-    _impl_.server_name_.Set("", GetArenaForAllocation());
+  if (_impl_.travel_level_.IsDefault()) {
+    _impl_.travel_level_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_StartGame.server_name)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_StartGame.travel_level)
 }
 
 // bytes ip = 3;

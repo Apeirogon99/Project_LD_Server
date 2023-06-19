@@ -100,7 +100,7 @@ void LoginRoom::EmailVerified(PlayerStatePtr inPlayerState, Protocol::C2S_EmailV
 	Handle_EmailVerified_Requset(packetSession, inPacket);
 }
 
-void LoginRoom::LoadServer(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServer inPacket)
+void LoginRoom::LoadServerRequest(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServer inPacket)
 {
 	WorldPtr world = mWorld.lock();
 	if (nullptr == world)
@@ -119,25 +119,8 @@ void LoginRoom::LoadServer(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServe
 		return;
 	}
 
-	std::vector<Protocol::SServerInfo> tempServerInfos;
-	Protocol::SServerInfo tempInfo;
-	tempInfo.set_id(1);
-	tempInfo.set_name("타른");
-	tempInfo.set_state("원활");
-	tempInfo.set_count(2);
-
-	tempServerInfos.push_back(tempInfo);
-
-	Protocol::S2C_LoadServer loadServerPacket;
-	for (Protocol::SServerInfo& info : tempServerInfos)
-	{
-		Protocol::SServerInfo* newInfo = loadServerPacket.add_info();
-		newInfo->CopyFrom(info);
-	}
-
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(packetSession, loadServerPacket);
-	packetSession->Send(sendBuffer);
+	Handle_Select_Character_Request(packetSession, remotePlayer->GetGlobalID());
 }
 
 void LoginRoom::SelectServer(PlayerStatePtr inPlayerState, Protocol::C2S_SelectServer inPacket)

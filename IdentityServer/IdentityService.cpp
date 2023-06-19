@@ -25,8 +25,33 @@ IdentityService::~IdentityService()
 
 void IdentityService::OnServiceOpen()
 {
-	SessionPtr gameServerSession = GetSessionManager()->CreateSession(ESessionMode::Server);
-	GetSessionManager()->InsertSession(gameServerSession);
+	std::vector<Protocol::SServerInfo> gameServerInfo;
+	Handle_LoadServerList_Requset(EServerType::GAME_SERVER, gameServerInfo);
+
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(GetSessionManager());
+	for (int32 index = 0; index < gameServerInfo.size(); ++index)
+	{
+		const Protocol::SServerInfo& info = gameServerInfo.at(index);
+		std::wstring ip;
+		ip.assign(info.ip().begin(), info.ip().end());
+
+		const int32 port = info.port();
+
+		SessionPtr gameServerSession = gameState->CreateSession(ESessionMode::Server);
+
+		WinSocketPtr gameServerSocket = gameServerSession->GetWinSocket();
+		IPAddressPtr gameServerIPAddr = std::make_shared<IPAddress>();
+		gameServerIPAddr->SetIp(ip.c_str(), port);
+		gameServerSocket->Connect(gameServerIPAddr);
+
+		gameState->InsertSession(gameServerSession);
+
+		gameServerSession->RegisterRecv();
+	}
+
+	IdentityTaskPtr task = gameState->GetTask();
+	WorldPtr world = task->GetWorld();
+	world->SetServerInfo(gameServerInfo);
 }
 
 void IdentityService::OnServiceClose()

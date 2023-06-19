@@ -53,7 +53,6 @@ bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 		int32		globalID	= inCommand.GetOutputParam(L"@global_id");
 		std::string token		= inCommand.GetOutputParam(L"@token");
 
-		remotePlayer->SetServerID(1);
 		remotePlayer->SetGlobalID(globalID);
 		remotePlayer->SetToken(token);
 	}
@@ -167,6 +166,26 @@ bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, Protocol::C2S_Ema
 	return true;
 }
 
+bool Handle_Select_Character_Request(PacketSessionPtr& inSession, const int32 inGlobalID)
+{
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
+	ADOConnection connection;
+	connection.Open(ConnectionInfo);
+
+	ADOVariant globalID = inGlobalID;
+
+	ADOCommand command;
+	command.SetStoredProcedure(connection, L"dbo.select_character_sp");
+	command.SetReturnParam();
+	command.SetInputParam(L"@global_id", globalID);
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+
+	DatabaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_Select_Character_Response);
+	return true;
+}
+
 bool Handle_EmailVerified_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
@@ -192,5 +211,93 @@ bool Handle_EmailVerified_Response(PacketSessionPtr& inSession, ADOConnection& i
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, emailVerifiedPacket);
 	inSession->Send(sendBuffer);
 
+	return true;
+}
+
+int32 GetLoadServer(std::vector<std::pair<int32, int32>>& inCharacterInfo, const int32 inServerID)
+{
+	for (int32 index = 0; index < inCharacterInfo.size(); index++)
+	{
+		std::pair<int32, int32> info = inCharacterInfo[index];
+		if (info.first == inServerID)
+		{
+			return info.second;
+		}
+	}
+
+	return 0;
+}
+
+bool Handle_Select_Character_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
+	bool valid = playerState->IsValid();
+	if (false == valid)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = playerState->GetGameState();
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	IdentityTaskPtr task = gameState->GetTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (remotePlayer == nullptr)
+	{
+		return false;
+	}
+	
+	int32 ret = inCommand.GetReturnParam();
+	if (ret != 0)
+	{
+		return false;
+	}
+
+	if (!inRecordset.IsOpen())
+	{
+		inRecordset.Open(inCommand, inConnection);
+	}
+
+	WorldPtr world = task->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const std::vector<Protocol::SServerInfo>& serverInfos = world->GetServerInfo();
+	std::vector<std::pair<int32, int32>> loadCharacter;
+
+	bool isLoad = false;
+	Protocol::S2C_LoadServer loadServerPacket;
+	while (!inRecordset.IsEof())
+	{
+		int32 server_id			= inRecordset.GetFieldItem(L"server_id");
+		int32 character_count	= inRecordset.GetFieldItem(L"character_count");
+
+		loadCharacter.push_back(std::make_pair(server_id, character_count));
+		inRecordset.MoveNext();
+	}
+
+	for (int32 index = 0; index < serverInfos.size(); index++)
+	{
+		const Protocol::SServerInfo& info = serverInfos[index];
+
+		int32 characterCount = GetLoadServer(loadCharacter, info.id());
+		loadServerPacket.add_id(info.id());
+		loadServerPacket.add_name(info.name());
+		loadServerPacket.add_state(1);
+		loadServerPacket.add_count(characterCount);
+	}
+
+	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, loadServerPacket);
+	inSession->Send(sendBuffer);
 	return true;
 }

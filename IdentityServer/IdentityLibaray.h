@@ -45,3 +45,4 @@
 #include "DatabaseHandler.h"
 #include "IdentitiyDatabase.h"
 #include "CharacterDatabase.h"
+#include "SharedDatabase.h"

@@ -61,9 +61,10 @@ bool GameService::SettingService()
 
 	GameStatePtr gameState = std::make_shared<GameState>(sessionFactory, maxSessionCount, maxBufferSize);
 	gameState->SetServerID(1);
-	gameState->SetServerName("L_NecromancerDungeon");
+	gameState->SetServerName("Å¸·é");
 	gameState->SetServerIP("116.41.116.247");
 	gameState->SetServerPort(port);
+	gameState->SetServerLevel("L_NecromancerDungeon");
 
 	SessionManagerPtr sessionManager = ::static_pointer_cast<SessionManager>(move(gameState));
 	if (false == SetSessionManager(sessionManager))

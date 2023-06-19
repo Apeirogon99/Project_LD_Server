@@ -77,7 +77,7 @@ void World::ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServe
 
 		travelServer.set_token(newToken.GetToken());
 		travelServer.set_server_id(gameState->GetServerID());
-		travelServer.set_server_name(gameState->GetServerName());
+		travelServer.set_travel_level(gameState->GetServerLevel());
 		travelServer.set_ip(gameState->GetServerIP());
 		travelServer.set_port(gameState->GetServerPort());
 		travelServer.set_error(ErrorToInt(EGameErrorType::SUCCESS));

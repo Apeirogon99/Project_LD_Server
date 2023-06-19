@@ -42,10 +42,10 @@ namespace _pbi = _pb::internal;
 namespace Protocol {
 PROTOBUF_CONSTEXPR SServerInfo::SServerInfo(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.state_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.id_)*/0
-  , /*decltype(_impl_.count_)*/0
+  , /*decltype(_impl_.port_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SServerInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SServerInfoDefaultTypeInternal()
@@ -218,9 +218,9 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.ip_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.port_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.name_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.state_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SServerInfo, _impl_.count_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterAppearance, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -345,41 +345,41 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022PacketStruct.proto\022\010Protocol\032\020PacketEn"
-  "um.proto\"E\n\013SServerInfo\022\n\n\002id\030\001 \001(\005\022\014\n\004n"
-  "ame\030\002 \001(\014\022\r\n\005state\030\003 \001(\014\022\r\n\005count\030\004 \001(\005\""
-  "\225\001\n\024SCharacterAppearance\022\035\n\004race\030\001 \001(\0162\017"
-  ".Protocol.ERace\022\014\n\004seat\030\002 \001(\005\022\022\n\nskin_co"
-  "lor\030\003 \001(\005\022\022\n\nhair_color\030\004 \001(\005\022\021\n\teye_col"
-  "or\030\005 \001(\005\022\025\n\reyebrow_color\030\006 \001(\005\"\266\001\n\022SCha"
-  "racterEqipment\022\014\n\004hair\030\001 \001(\005\022\016\n\006helmet\030\002"
-  " \001(\005\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005chest\030\004 \001(\005\022\017"
-  "\n\007bracers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022\r\n\005pants\030"
-  "\007 \001(\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_l\030\t \001(\005\022\020"
-  "\n\010weapon_r\030\n \001(\005\"\331\001\n\016SCharacterData\022\014\n\004n"
-  "ame\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexperience\030\003"
-  " \001(\005\0222\n\017character_class\030\004 \001(\0162\031.Protocol"
-  ".ECharacterClass\0222\n\nappearance\030\005 \001(\0132\036.P"
-  "rotocol.SCharacterAppearance\022.\n\010eqipment"
-  "\030\006 \001(\0132\034.Protocol.SCharacterEqipment\"*\n\007"
-  "SVector\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002"
-  "\"!\n\tSVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\",\n\tS"
-  "Velocity\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001("
-  "\002\"4\n\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005pitch\030\002 \001"
-  "(\002\022\013\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n\010locatio"
-  "n\030\001 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\002"
-  " \001(\0132\022.Protocol.SRotator\022 \n\005scale\030\003 \001(\0132"
-  "\021.Protocol.SVector\"\227\001\n\005SItem\022\021\n\tobject_i"
-  "d\030\001 \001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_posi"
-  "tion\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_p"
-  "osition\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010ro"
-  "tation\030\005 \001(\005b\006proto3"
+  "um.proto\"A\n\013SServerInfo\022\n\n\002id\030\001 \001(\005\022\n\n\002i"
+  "p\030\002 \001(\014\022\014\n\004port\030\003 \001(\005\022\014\n\004name\030\004 \001(\014\"\225\001\n\024"
+  "SCharacterAppearance\022\035\n\004race\030\001 \001(\0162\017.Pro"
+  "tocol.ERace\022\014\n\004seat\030\002 \001(\005\022\022\n\nskin_color\030"
+  "\003 \001(\005\022\022\n\nhair_color\030\004 \001(\005\022\021\n\teye_color\030\005"
+  " \001(\005\022\025\n\reyebrow_color\030\006 \001(\005\"\266\001\n\022SCharact"
+  "erEqipment\022\014\n\004hair\030\001 \001(\005\022\016\n\006helmet\030\002 \001(\005"
+  "\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005chest\030\004 \001(\005\022\017\n\007br"
+  "acers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022\r\n\005pants\030\007 \001("
+  "\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_l\030\t \001(\005\022\020\n\010we"
+  "apon_r\030\n \001(\005\"\331\001\n\016SCharacterData\022\014\n\004name\030"
+  "\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexperience\030\003 \001(\005"
+  "\0222\n\017character_class\030\004 \001(\0162\031.Protocol.ECh"
+  "aracterClass\0222\n\nappearance\030\005 \001(\0132\036.Proto"
+  "col.SCharacterAppearance\022.\n\010eqipment\030\006 \001"
+  "(\0132\034.Protocol.SCharacterEqipment\"*\n\007SVec"
+  "tor\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"!\n\t"
+  "SVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\",\n\tSVelo"
+  "city\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"4\n"
+  "\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005pitch\030\002 \001(\002\022\013"
+  "\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n\010location\030\001 "
+  "\001(\0132\021.Protocol.SVector\022$\n\010rotation\030\002 \001(\013"
+  "2\022.Protocol.SRotator\022 \n\005scale\030\003 \001(\0132\021.Pr"
+  "otocol.SVector\"\227\001\n\005SItem\022\021\n\tobject_id\030\001 "
+  "\001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_position"
+  "\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_posit"
+  "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
+  "on\030\005 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1140, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1136, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 10,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -410,13 +410,21 @@ SServerInfo::SServerInfo(const SServerInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SServerInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.name_){}
-    , decltype(_impl_.state_){}
+      decltype(_impl_.ip_){}
+    , decltype(_impl_.name_){}
     , decltype(_impl_.id_){}
-    , decltype(_impl_.count_){}
+    , decltype(_impl_.port_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.ip_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ip().empty()) {
+    _this->_impl_.ip_.Set(from._internal_ip(), 
+      _this->GetArenaForAllocation());
+  }
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
@@ -425,17 +433,9 @@ SServerInfo::SServerInfo(const SServerInfo& from)
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.state_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_state().empty()) {
-    _this->_impl_.state_.Set(from._internal_state(), 
-      _this->GetArenaForAllocation());
-  }
   ::memcpy(&_impl_.id_, &from._impl_.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.count_) -
-    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.count_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.port_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.port_));
   // @@protoc_insertion_point(copy_constructor:Protocol.SServerInfo)
 }
 
@@ -444,19 +444,19 @@ inline void SServerInfo::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.name_){}
-    , decltype(_impl_.state_){}
+      decltype(_impl_.ip_){}
+    , decltype(_impl_.name_){}
     , decltype(_impl_.id_){0}
-    , decltype(_impl_.count_){0}
+    , decltype(_impl_.port_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.ip_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.state_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -471,8 +471,8 @@ SServerInfo::~SServerInfo() {
 
 inline void SServerInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.ip_.Destroy();
   _impl_.name_.Destroy();
-  _impl_.state_.Destroy();
 }
 
 void SServerInfo::SetCachedSize(int size) const {
@@ -485,11 +485,11 @@ void SServerInfo::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.ip_.ClearToEmpty();
   _impl_.name_.ClearToEmpty();
-  _impl_.state_.ClearToEmpty();
   ::memset(&_impl_.id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.count_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.count_));
+      reinterpret_cast<char*>(&_impl_.port_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.port_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -507,28 +507,28 @@ const char* SServerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
-      // bytes name = 2;
+      // bytes ip = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_ip();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 port = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_name();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // bytes state = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_state();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 count = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -568,22 +568,22 @@ uint8_t* SServerInfo::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
   }
 
-  // bytes name = 2;
+  // bytes ip = 2;
+  if (!this->_internal_ip().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_ip(), target);
+  }
+
+  // int32 port = 3;
+  if (this->_internal_port() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_port(), target);
+  }
+
+  // bytes name = 4;
   if (!this->_internal_name().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        2, this->_internal_name(), target);
-  }
-
-  // bytes state = 3;
-  if (!this->_internal_state().empty()) {
-    target = stream->WriteBytesMaybeAliased(
-        3, this->_internal_state(), target);
-  }
-
-  // int32 count = 4;
-  if (this->_internal_count() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_count(), target);
+        4, this->_internal_name(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -602,18 +602,18 @@ size_t SServerInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes name = 2;
+  // bytes ip = 2;
+  if (!this->_internal_ip().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_ip());
+  }
+
+  // bytes name = 4;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_name());
-  }
-
-  // bytes state = 3;
-  if (!this->_internal_state().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
-        this->_internal_state());
   }
 
   // int32 id = 1;
@@ -621,9 +621,9 @@ size_t SServerInfo::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
   }
 
-  // int32 count = 4;
-  if (this->_internal_count() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_count());
+  // int32 port = 3;
+  if (this->_internal_port() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_port());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -644,17 +644,17 @@ void SServerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_ip().empty()) {
+    _this->_internal_set_ip(from._internal_ip());
+  }
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
-  }
-  if (!from._internal_state().empty()) {
-    _this->_internal_set_state(from._internal_state());
   }
   if (from._internal_id() != 0) {
     _this->_internal_set_id(from._internal_id());
   }
-  if (from._internal_count() != 0) {
-    _this->_internal_set_count(from._internal_count());
+  if (from._internal_port() != 0) {
+    _this->_internal_set_port(from._internal_port());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -676,16 +676,16 @@ void SServerInfo::InternalSwap(SServerInfo* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ip_, lhs_arena,
+      &other->_impl_.ip_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.state_, lhs_arena,
-      &other->_impl_.state_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SServerInfo, _impl_.count_)
-      + sizeof(SServerInfo::_impl_.count_)
+      PROTOBUF_FIELD_OFFSET(SServerInfo, _impl_.port_)
+      + sizeof(SServerInfo::_impl_.port_)
       - PROTOBUF_FIELD_OFFSET(SServerInfo, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));

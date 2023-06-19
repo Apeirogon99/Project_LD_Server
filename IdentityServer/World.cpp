@@ -115,6 +115,11 @@ void World::Leave(PlayerStatePtr inPlayerState)
 	session->Send(sendBuffer);
 }
 
+void World::SetServerInfo(const std::vector<Protocol::SServerInfo>& inServerInfo)
+{
+	mServerInfo = inServerInfo;
+}
+
 WorldRef World::GetWorldRef()
 {
 	return std::static_pointer_cast<World>(shared_from_this());
@@ -187,6 +192,11 @@ CustomRoomPtr World::GetCustomRoom()
 	}
 
 	return customRoom;
+}
+
+const std::vector<Protocol::SServerInfo>& World::GetServerInfo()
+{
+	return mServerInfo;
 }
 
 bool World::IsValidPlayer(RemotePlayerPtr inRemotePlayer)

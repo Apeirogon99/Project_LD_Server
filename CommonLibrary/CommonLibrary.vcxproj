@@ -179,6 +179,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommonEnum.h" />
     <ClInclude Include="CommonLibaray.h" />
     <ClInclude Include="CommonErrorTypes.h" />
     <ClInclude Include="GameErrorTypes.h" />

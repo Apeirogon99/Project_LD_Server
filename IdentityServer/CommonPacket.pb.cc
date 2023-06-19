@@ -112,7 +112,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR S2C_TravelServer::S2C_TravelServer(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.server_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.travel_level_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.server_id_)*/0
   , /*decltype(_impl_.port_)*/0
@@ -180,7 +180,7 @@ const uint32_t TableStruct_CommonPacket_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.token_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.server_id_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.server_name_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.travel_level_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.ip_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.port_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _impl_.error_),
@@ -211,14 +211,14 @@ const char descriptor_table_protodef_CommonPacket_2eproto[] PROTOBUF_SECTION_VAR
   "\003 \001(\003\" \n\017C2S_TravelLevel\022\r\n\005level\030\001 \001(\005\""
   " \n\017S2C_TravelLevel\022\r\n\005error\030\001 \001(\005\"J\n\020C2S"
   "_TravelServer\022\r\n\005token\030\001 \001(\014\022\021\n\tglobal_i"
-  "d\030\002 \001(\005\022\024\n\014character_id\030\003 \001(\005\"r\n\020S2C_Tra"
+  "d\030\002 \001(\005\022\024\n\014character_id\030\003 \001(\005\"s\n\020S2C_Tra"
   "velServer\022\r\n\005token\030\001 \001(\014\022\021\n\tserver_id\030\002 "
-  "\001(\005\022\023\n\013server_name\030\003 \001(\014\022\n\n\002ip\030\004 \001(\014\022\014\n\004"
-  "port\030\005 \001(\005\022\r\n\005error\030\006 \001(\005b\006proto3"
+  "\001(\005\022\024\n\014travel_level\030\003 \001(\014\022\n\n\002ip\030\004 \001(\014\022\014\n"
+  "\004port\030\005 \001(\005\022\r\n\005error\030\006 \001(\005b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_CommonPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_CommonPacket_2eproto = {
-    false, false, 433, descriptor_table_protodef_CommonPacket_2eproto,
+    false, false, 434, descriptor_table_protodef_CommonPacket_2eproto,
     "CommonPacket.proto",
     &descriptor_table_CommonPacket_2eproto_once, nullptr, 0, 6,
     schemas, file_default_instances, TableStruct_CommonPacket_2eproto::offsets,
@@ -1277,7 +1277,7 @@ S2C_TravelServer::S2C_TravelServer(const S2C_TravelServer& from)
   S2C_TravelServer* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.token_){}
-    , decltype(_impl_.server_name_){}
+    , decltype(_impl_.travel_level_){}
     , decltype(_impl_.ip_){}
     , decltype(_impl_.server_id_){}
     , decltype(_impl_.port_){}
@@ -1293,12 +1293,12 @@ S2C_TravelServer::S2C_TravelServer(const S2C_TravelServer& from)
     _this->_impl_.token_.Set(from._internal_token(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.server_name_.InitDefault();
+  _impl_.travel_level_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.server_name_.Set("", GetArenaForAllocation());
+    _impl_.travel_level_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_server_name().empty()) {
-    _this->_impl_.server_name_.Set(from._internal_server_name(), 
+  if (!from._internal_travel_level().empty()) {
+    _this->_impl_.travel_level_.Set(from._internal_travel_level(), 
       _this->GetArenaForAllocation());
   }
   _impl_.ip_.InitDefault();
@@ -1321,7 +1321,7 @@ inline void S2C_TravelServer::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.token_){}
-    , decltype(_impl_.server_name_){}
+    , decltype(_impl_.travel_level_){}
     , decltype(_impl_.ip_){}
     , decltype(_impl_.server_id_){0}
     , decltype(_impl_.port_){0}
@@ -1332,9 +1332,9 @@ inline void S2C_TravelServer::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.server_name_.InitDefault();
+  _impl_.travel_level_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.server_name_.Set("", GetArenaForAllocation());
+    _impl_.travel_level_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.ip_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -1354,7 +1354,7 @@ S2C_TravelServer::~S2C_TravelServer() {
 inline void S2C_TravelServer::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.token_.Destroy();
-  _impl_.server_name_.Destroy();
+  _impl_.travel_level_.Destroy();
   _impl_.ip_.Destroy();
 }
 
@@ -1369,7 +1369,7 @@ void S2C_TravelServer::Clear() {
   (void) cached_has_bits;
 
   _impl_.token_.ClearToEmpty();
-  _impl_.server_name_.ClearToEmpty();
+  _impl_.travel_level_.ClearToEmpty();
   _impl_.ip_.ClearToEmpty();
   ::memset(&_impl_.server_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.error_) -
@@ -1400,10 +1400,10 @@ const char* S2C_TravelServer::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
-      // bytes server_name = 3;
+      // bytes travel_level = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_server_name();
+          auto str = _internal_mutable_travel_level();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
         } else
@@ -1475,10 +1475,10 @@ uint8_t* S2C_TravelServer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_server_id(), target);
   }
 
-  // bytes server_name = 3;
-  if (!this->_internal_server_name().empty()) {
+  // bytes travel_level = 3;
+  if (!this->_internal_travel_level().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        3, this->_internal_server_name(), target);
+        3, this->_internal_travel_level(), target);
   }
 
   // bytes ip = 4;
@@ -1522,11 +1522,11 @@ size_t S2C_TravelServer::ByteSizeLong() const {
         this->_internal_token());
   }
 
-  // bytes server_name = 3;
-  if (!this->_internal_server_name().empty()) {
+  // bytes travel_level = 3;
+  if (!this->_internal_travel_level().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
-        this->_internal_server_name());
+        this->_internal_travel_level());
   }
 
   // bytes ip = 4;
@@ -1572,8 +1572,8 @@ void S2C_TravelServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   if (!from._internal_token().empty()) {
     _this->_internal_set_token(from._internal_token());
   }
-  if (!from._internal_server_name().empty()) {
-    _this->_internal_set_server_name(from._internal_server_name());
+  if (!from._internal_travel_level().empty()) {
+    _this->_internal_set_travel_level(from._internal_travel_level());
   }
   if (!from._internal_ip().empty()) {
     _this->_internal_set_ip(from._internal_ip());
@@ -1611,8 +1611,8 @@ void S2C_TravelServer::InternalSwap(S2C_TravelServer* other) {
       &other->_impl_.token_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.server_name_, lhs_arena,
-      &other->_impl_.server_name_, rhs_arena
+      &_impl_.travel_level_, lhs_arena,
+      &other->_impl_.travel_level_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.ip_, lhs_arena,

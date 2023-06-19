@@ -21,6 +21,7 @@ public:
 
 public:
 	PlayerStatePtr		GetPlayerStatePtr() { return std::static_pointer_cast<IdentityPlayerState>(shared_from_this()); }
+	GameStatePtr		GetGameState() { return std::static_pointer_cast<IdentityGameState>(GetSessionManager()); }
 	RemotePlayerPtr		GetRemotePlayer() { return mRemotePlayer; }
 
 private:

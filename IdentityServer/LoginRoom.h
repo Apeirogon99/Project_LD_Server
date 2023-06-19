@@ -17,7 +17,9 @@ public:
 	void Signup(PlayerStatePtr inPlayerState, Protocol::C2S_Singup inPacket);
 	void EmailVerified(PlayerStatePtr inPlayerState, Protocol::C2S_EmailVerified inPacket);
 
-	void LoadServer(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServer inPacket);
+	void LoadServerRequest(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServer inPacket);
+	void LoadServerRespon();
+
 	void SelectServer(PlayerStatePtr inPlayerState, Protocol::C2S_SelectServer inPacket);
 
 protected:

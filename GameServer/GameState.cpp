@@ -51,3 +51,8 @@ void GameState::SetServerPort(const int32 inPort)
 {
 	mServerPort = inPort;
 }
+
+void GameState::SetServerLevel(const std::string& inServerLevel)
+{
+	mServerLevel = inServerLevel;
+}

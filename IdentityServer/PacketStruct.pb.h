@@ -218,12 +218,26 @@ class SServerInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kStateFieldNumber = 3,
+    kIpFieldNumber = 2,
+    kNameFieldNumber = 4,
     kIdFieldNumber = 1,
-    kCountFieldNumber = 4,
+    kPortFieldNumber = 3,
   };
-  // bytes name = 2;
+  // bytes ip = 2;
+  void clear_ip();
+  const std::string& ip() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip();
+  PROTOBUF_NODISCARD std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // bytes name = 4;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -237,20 +251,6 @@ class SServerInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // bytes state = 3;
-  void clear_state();
-  const std::string& state() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_state(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_state();
-  PROTOBUF_NODISCARD std::string* release_state();
-  void set_allocated_state(std::string* state);
-  private:
-  const std::string& _internal_state() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_state(const std::string& value);
-  std::string* _internal_mutable_state();
-  public:
-
   // int32 id = 1;
   void clear_id();
   int32_t id() const;
@@ -260,13 +260,13 @@ class SServerInfo final :
   void _internal_set_id(int32_t value);
   public:
 
-  // int32 count = 4;
-  void clear_count();
-  int32_t count() const;
-  void set_count(int32_t value);
+  // int32 port = 3;
+  void clear_port();
+  int32_t port() const;
+  void set_port(int32_t value);
   private:
-  int32_t _internal_count() const;
-  void _internal_set_count(int32_t value);
+  int32_t _internal_port() const;
+  void _internal_set_port(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.SServerInfo)
@@ -277,10 +277,10 @@ class SServerInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr state_;
     int32_t id_;
-    int32_t count_;
+    int32_t port_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2069,7 +2069,77 @@ inline void SServerInfo::set_id(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SServerInfo.id)
 }
 
-// bytes name = 2;
+// bytes ip = 2;
+inline void SServerInfo::clear_ip() {
+  _impl_.ip_.ClearToEmpty();
+}
+inline const std::string& SServerInfo::ip() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.ip)
+  return _internal_ip();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SServerInfo::set_ip(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ip_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.ip)
+}
+inline std::string* SServerInfo::mutable_ip() {
+  std::string* _s = _internal_mutable_ip();
+  // @@protoc_insertion_point(field_mutable:Protocol.SServerInfo.ip)
+  return _s;
+}
+inline const std::string& SServerInfo::_internal_ip() const {
+  return _impl_.ip_.Get();
+}
+inline void SServerInfo::_internal_set_ip(const std::string& value) {
+  
+  _impl_.ip_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SServerInfo::_internal_mutable_ip() {
+  
+  return _impl_.ip_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SServerInfo::release_ip() {
+  // @@protoc_insertion_point(field_release:Protocol.SServerInfo.ip)
+  return _impl_.ip_.Release();
+}
+inline void SServerInfo::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ip_.SetAllocated(ip, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ip_.IsDefault()) {
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SServerInfo.ip)
+}
+
+// int32 port = 3;
+inline void SServerInfo::clear_port() {
+  _impl_.port_ = 0;
+}
+inline int32_t SServerInfo::_internal_port() const {
+  return _impl_.port_;
+}
+inline int32_t SServerInfo::port() const {
+  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.port)
+  return _internal_port();
+}
+inline void SServerInfo::_internal_set_port(int32_t value) {
+  
+  _impl_.port_ = value;
+}
+inline void SServerInfo::set_port(int32_t value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.port)
+}
+
+// bytes name = 4;
 inline void SServerInfo::clear_name() {
   _impl_.name_.ClearToEmpty();
 }
@@ -2117,76 +2187,6 @@ inline void SServerInfo::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:Protocol.SServerInfo.name)
-}
-
-// bytes state = 3;
-inline void SServerInfo::clear_state() {
-  _impl_.state_.ClearToEmpty();
-}
-inline const std::string& SServerInfo::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.state)
-  return _internal_state();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void SServerInfo::set_state(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.state_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.state)
-}
-inline std::string* SServerInfo::mutable_state() {
-  std::string* _s = _internal_mutable_state();
-  // @@protoc_insertion_point(field_mutable:Protocol.SServerInfo.state)
-  return _s;
-}
-inline const std::string& SServerInfo::_internal_state() const {
-  return _impl_.state_.Get();
-}
-inline void SServerInfo::_internal_set_state(const std::string& value) {
-  
-  _impl_.state_.Set(value, GetArenaForAllocation());
-}
-inline std::string* SServerInfo::_internal_mutable_state() {
-  
-  return _impl_.state_.Mutable(GetArenaForAllocation());
-}
-inline std::string* SServerInfo::release_state() {
-  // @@protoc_insertion_point(field_release:Protocol.SServerInfo.state)
-  return _impl_.state_.Release();
-}
-inline void SServerInfo::set_allocated_state(std::string* state) {
-  if (state != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.state_.SetAllocated(state, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.state_.IsDefault()) {
-    _impl_.state_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.SServerInfo.state)
-}
-
-// int32 count = 4;
-inline void SServerInfo::clear_count() {
-  _impl_.count_ = 0;
-}
-inline int32_t SServerInfo::_internal_count() const {
-  return _impl_.count_;
-}
-inline int32_t SServerInfo::count() const {
-  // @@protoc_insertion_point(field_get:Protocol.SServerInfo.count)
-  return _internal_count();
-}
-inline void SServerInfo::_internal_set_count(int32_t value) {
-  
-  _impl_.count_ = value;
-}
-inline void SServerInfo::set_count(int32_t value) {
-  _internal_set_count(value);
-  // @@protoc_insertion_point(field_set:Protocol.SServerInfo.count)
 }
 
 // -------------------------------------------------------------------

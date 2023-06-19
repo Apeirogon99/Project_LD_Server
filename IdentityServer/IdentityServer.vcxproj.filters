@@ -138,6 +138,9 @@
     <ClInclude Include="World.h">
       <Filter>Source\Public\Content</Filter>
     </ClInclude>
+    <ClInclude Include="SharedDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source\Private\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDatabase.cpp">
+      <Filter>Database\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,14 +15,15 @@ public:
 	void Enter(PlayerStatePtr inPlayerState);
 	void Leave(PlayerStatePtr inPlayerState);
 
-public:
-
+	void SetServerInfo(const std::vector<Protocol::SServerInfo>& inServerInfo);
 
 public:
 	WorldRef		GetWorldRef();
 	LoginRoomPtr	GetLoginRoom();
 	SelectRoomPtr	GetSelectRoom();
 	CustomRoomPtr	GetCustomRoom();
+
+	const std::vector<Protocol::SServerInfo>& GetServerInfo();
 
 	bool			IsValidPlayer(RemotePlayerPtr inRemotePlayer);
 
@@ -32,6 +33,7 @@ private:
 	SelectRoomPtr	mSelectRoom;
 	CustomRoomPtr	mCustomRoom;
 
+	std::vector<Protocol::SServerInfo> mServerInfo;
 	std::map<int64, RemotePlayerPtr> mRemotePlayers;
 };
 

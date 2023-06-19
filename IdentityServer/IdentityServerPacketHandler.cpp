@@ -215,7 +215,7 @@ bool Handle_C2S_LoadServer(PacketSessionPtr& session, Protocol::C2S_LoadServer& 
 	}
 
 	const int64 priority = gameState->GetServiceTimeStamp();
-	bool ret = room->PushTask(priority, &LoginRoom::LoadServer, playerState, pkt);
+	bool ret = room->PushTask(priority, &LoginRoom::LoadServerRequest, playerState, pkt);
 	if (false == ret)
 	{
 		return false;

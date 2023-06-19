@@ -45,6 +45,7 @@
     <ClInclude Include="LoginRoom.h" />
     <ClInclude Include="RemotePlayer.h" />
     <ClInclude Include="SelectRoom.h" />
+    <ClInclude Include="SharedDatabase.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +103,7 @@
     <ClCompile Include="LoginRoom.cpp" />
     <ClCompile Include="RemotePlayer.cpp" />
     <ClCompile Include="SelectRoom.cpp" />
+    <ClCompile Include="SharedDatabase.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -111,7 +111,7 @@ void SelectRoom::StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S
 	if (travelError != ErrorToInt(EGameErrorType::INVALID_TOKEN))
 	{
 		startGamePacket.set_server_id(inPacket.server_id());
-		startGamePacket.set_server_name(inPacket.server_name());
+		startGamePacket.set_travel_level(inPacket.travel_level());
 		startGamePacket.set_ip(inPacket.ip());
 		startGamePacket.set_port(inPacket.port());
 		startGamePacket.set_error(travelError);

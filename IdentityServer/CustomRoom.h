@@ -12,9 +12,6 @@ protected:
 	virtual bool IsValid() override;
 
 public:
-	void Enter(PlayerStatePtr inPlayerState);
-	void Leave(PlayerStatePtr inPlayerState);
-
 	void CreateCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_CreateCharacter inPacket);
 
 protected:

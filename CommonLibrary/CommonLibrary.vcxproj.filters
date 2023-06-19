@@ -42,6 +42,9 @@
     <ClInclude Include="GameErrorTypes.h">
       <Filter>Error</Filter>
     </ClInclude>
+    <ClInclude Include="CommonEnum.h">
+      <Filter>Common\Enum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

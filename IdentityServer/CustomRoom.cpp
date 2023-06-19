@@ -40,10 +40,10 @@ void CustomRoom::CreateCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_Cre
 		return;
 	}
 
-	if(GetRoomType() != remotePlayer->GetRoomType())
-	{
-		return;
-	}
+	//if(GetRoomType() != remotePlayer->GetRoomType())
+	//{
+	//	return;
+	//}
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	Handle_CreateCharacter_Requset(packetSession, inPacket);
