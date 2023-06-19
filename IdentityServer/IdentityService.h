@@ -8,6 +8,10 @@ public:
 	IdentityService(const IdentityService& service) = delete;
 	IdentityService& operator=(const IdentityService& service) = delete;
 
+public:
+	virtual void			OnServiceOpen();
+	virtual void			OnServiceClose();
+
 protected:
 	virtual bool		SettingService() override;
 

@@ -10,6 +10,33 @@ IdentityGameState::~IdentityGameState()
 {
 }
 
+bool IdentityGameState::FindWaitingTravelSession(const std::string& inToken, PlayerStatePtr& outPlayerState)
+{
+	for (auto session : mSessions)
+	{
+
+		if (session->GetSessionMode() != ESessionMode::Client)
+		{
+			continue;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
+		if (nullptr == playerState)
+		{
+			continue;
+		}
+
+		const std::string waitToken = playerState->GetRemotePlayer()->GetToken();
+		const std::string authToken = inToken;
+		if (waitToken.compare(authToken) == 0)
+		{
+			outPlayerState = playerState;
+			return true;
+		}
+	}
+	return false;
+}
+
 IdentityTaskPtr IdentityGameState::GetTask()
 {
 	return std::static_pointer_cast<IdentityTask>(GetService()->GetTaskManager());

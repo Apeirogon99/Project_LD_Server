@@ -11,6 +11,22 @@ public:
 	GameState& operator=(GameState&& player) = delete;
 
 public:
-	GameTaskPtr GetGameTask();
+	void SetServerID(const int32 inServerID);
+	void SetServerName(const std::string& inServerName);
+	void SetServerIP(const std::string& inServerIP);
+	void SetServerPort(const int32 inPort);
+
+public:
+	const int32			GetServerID() { return mServerID; }
+	const std::string&	GetServerName() { return mServerName; }
+	const std::string&	GetServerIP() { return mServerIP; }
+	const int32			GetServerPort() { return mServerPort; }
+	GameTaskPtr			GetGameTask();
+
+private:
+	int32		mServerID;
+	std::string mServerName;
+	std::string mServerIP;
+	int32		mServerPort;
 };
 

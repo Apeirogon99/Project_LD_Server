@@ -37,8 +37,11 @@ bool RemotePlayer::IsValid()
 	return true;
 }
 
-bool RemotePlayer::LoadRemotePlayer(const int32 inServerID, const int32 inCharacterID)
+bool RemotePlayer::LoadRemotePlayer(const Token& inToken)
 {
+
+	mToken = inToken;
+
 	PlayerStatePtr playerState = mPlayerState.lock();
 	if (nullptr == playerState)
 	{
@@ -51,12 +54,12 @@ bool RemotePlayer::LoadRemotePlayer(const int32 inServerID, const int32 inCharac
 		return false;
 	}
 
-	if (false == Handle_LoadCharacter_Request(packetSession, inCharacterID))
+	if (false == Handle_LoadCharacter_Request(packetSession, mToken.GetCharacterID()))
 	{
 		return false;
 	}
 
-	if (false == Handle_LoadInventory_Requset(packetSession, inCharacterID))
+	if (false == Handle_LoadInventory_Requset(packetSession, mToken.GetCharacterID()))
 	{
 		return false;
 	}

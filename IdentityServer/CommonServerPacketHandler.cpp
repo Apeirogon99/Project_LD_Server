@@ -19,6 +19,11 @@ bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C
 	return true;
 }
 
+bool Handle_S2C_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::S2C_ReplicatedServerTimeStamp& pkt)
+{
+	return false;
+}
+
 bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
@@ -51,7 +56,55 @@ bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel
 	return true;
 }
 
+bool Handle_S2C_TravelLevel(PacketSessionPtr& session, Protocol::S2C_TravelLevel& pkt)
+{
+	return false;
+}
+
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
 {
 	return true;
+}
+
+bool Handle_S2C_TravelServer(PacketSessionPtr& session, Protocol::S2C_TravelServer& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
+	bool valid = playerState->IsValid();
+	if (false == valid)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityTaskPtr task = gameState->GetTask();
+	if (task == nullptr)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
+	if (world == nullptr)
+	{
+		return false;
+	}
+
+	SelectRoomPtr room = world->GetSelectRoom();
+	if (nullptr == room)
+	{
+		return false;
+	}
+
+	const int64 priority = gameState->GetServiceTimeStamp();
+	bool ret = room->PushTask(priority, &SelectRoom::StartCharacterRespone, playerState, pkt);
+	if (false == ret)
+	{
+		return false;
+	}
+
+	return false;
 }

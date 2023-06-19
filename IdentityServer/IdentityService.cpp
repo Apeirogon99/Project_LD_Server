@@ -23,6 +23,16 @@ IdentityService::~IdentityService()
 	SocketUtils::Clear();
 }
 
+void IdentityService::OnServiceOpen()
+{
+	SessionPtr gameServerSession = GetSessionManager()->CreateSession(ESessionMode::Server);
+	GetSessionManager()->InsertSession(gameServerSession);
+}
+
+void IdentityService::OnServiceClose()
+{
+}
+
 bool IdentityService::SettingService()
 {
 	//IOCPServer

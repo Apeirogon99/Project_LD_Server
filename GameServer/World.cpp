@@ -43,10 +43,64 @@ bool World::IsValid()
 void World::Tick()
 {
 	VisibleAreaSync();
+	//CheackToken();
+}
+
+void World::ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServer inPacket)
+{
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(inPlayerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return;
+	}
+
+	bool isToken = true;
+	for (Token& token : mTokens)
+	{
+		if (token.CompareToken(inPacket.token()))
+		{
+			isToken = false;
+		}
+	}
+
+	Protocol::S2C_TravelServer travelServer;
+	if (true == isToken)
+	{
+		Token newToken;
+		newToken.SetToken(inPacket.token());
+		newToken.SetGlobalID(inPacket.global_id());
+		newToken.SetCharacterID(inPacket.character_id());
+		newToken.SetLastTick(gameState->GetServiceTimeStamp());
+		mTokens.push_back(newToken);
+
+
+		travelServer.set_token(newToken.GetToken());
+		travelServer.set_server_id(gameState->GetServerID());
+		travelServer.set_server_name(gameState->GetServerName());
+		travelServer.set_ip(gameState->GetServerIP());
+		travelServer.set_port(gameState->GetServerPort());
+		travelServer.set_error(ErrorToInt(EGameErrorType::SUCCESS));
+	}
+	else
+	{
+		travelServer.set_error(ErrorToInt(EGameErrorType::INVALID_TOKEN));
+	}
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(packetSession, travelServer);
+	packetSession->Send(sendBuffer);	
 }
 
 void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket)
 {
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(inPlayerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return;
+	}
+
 	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
 	if (remotePlayer)
 	{
@@ -58,11 +112,35 @@ void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer in
 		return;
 	}
 
+	Token token;
+	bool isToken = false;
+	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
+	{
+		if (curToken->CompareToken(inPacket.token()))
+		{
+			token = *curToken;
+			mTokens.erase(curToken);
+			isToken = true;
+			break;
+		}
+	}
+
+	if (false == isToken)
+	{
+		Protocol::S2C_EnterGameServer enterPacket;
+		enterPacket.set_error(ErrorToInt(EGameErrorType::INVALID_TOKEN));
+
+		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
+		packetSession->Send(sendBuffer);
+		return;
+	}
+
 	inPlayerState->SetWorld(GetWorldRef());
 
 	remotePlayer = std::make_shared<RemotePlayer>(inPlayerState->GetPlayerStateRef());
 	remotePlayer->InitTask(mGameTask);
-	remotePlayer->LoadRemotePlayer(1, 0);
+	remotePlayer->LoadRemotePlayer(token);
 
 	std::pair<int64, PlayerStatePtr> newPlayer = std::make_pair(remotePlayer->GetGameObjectID(), inPlayerState);
 	mPlayerStates.insert(newPlayer);
@@ -115,6 +193,22 @@ void World::VisibleAreaSync()
 		{
 			viewActor->second->CloseToPlayer(player->second);
 		}
+	}
+}
+
+void World::CheackToken()
+{
+
+	static int32 MAX_LAST_TICK = 60000;
+
+	auto token = mTokens.begin();
+	for (token; token != mTokens.end();)
+	{
+		if (token->GetLastTick() > MAX_LAST_TICK)
+		{
+			mTokens.erase(token);
+		}
+		++token;
 	}
 }
 

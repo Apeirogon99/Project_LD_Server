@@ -26,5 +26,31 @@ bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel
 
 bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServer& pkt)
 {
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	world->PushTask(serviceTimeStamp, &World::ServerTravel, playerState, pkt);
 	return true;
 }

@@ -22,6 +22,9 @@
     <Filter Include="Common\Database">
       <UniqueIdentifier>{67b4650c-ac8d-4755-8b7c-f255a3307ad0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Token">
+      <UniqueIdentifier>{4d4929fc-8781-49a0-819f-e2da331cbe9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonLibaray.h">
@@ -33,6 +36,12 @@
     <ClInclude Include="CommonErrorTypes.h">
       <Filter>Error</Filter>
     </ClInclude>
+    <ClInclude Include="Token.h">
+      <Filter>Common\Token</Filter>
+    </ClInclude>
+    <ClInclude Include="GameErrorTypes.h">
+      <Filter>Error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -40,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Token.cpp">
+      <Filter>Common\Token</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

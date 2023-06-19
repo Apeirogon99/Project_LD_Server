@@ -15,10 +15,12 @@ public:
 	virtual void Tick() override;
 
 public:
+	void ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServer inPacket);
 	void Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket);
 	void Leave(PlayerStatePtr inPlayerState);
 
 	void VisibleAreaSync();
+	void CheackToken();
 
 	template<typename T>
 	ActorPtr CreateActor(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotator);
@@ -32,6 +34,8 @@ private:
 	GameTaskPtr							mGameTask;
 	std::map<int64, PlayerStatePtr>		mPlayerStates;
 	std::map<int64, ActorPtr>			mWorldActors;
+
+	std::vector<class Token>			mTokens;
 };
 
 template<typename T>

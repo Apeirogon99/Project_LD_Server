@@ -301,7 +301,7 @@ bool Handle_C2S_StartGame(PacketSessionPtr& session, Protocol::C2S_StartGame& pk
 	}
 
 	const int64 priority = gameState->GetServiceTimeStamp();
-	bool ret = room->PushTask(priority, &SelectRoom::StartCharacter, playerState, pkt);
+	bool ret = room->PushTask(priority, &SelectRoom::StartCharacterRequest, playerState, pkt);
 	if (false == ret)
 	{
 		return false;

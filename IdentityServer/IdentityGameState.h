@@ -11,6 +11,9 @@ public:
 	IdentityGameState& operator=(IdentityGameState&& player) = delete;
 
 public:
+	bool FindWaitingTravelSession(const std::string& token, PlayerStatePtr& outPlayerState);
+
+public:
 	IdentityTaskPtr GetTask();
 };
 

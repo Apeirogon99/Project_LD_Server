@@ -50,7 +50,7 @@ void SelectRoom::LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_Load
 	Handle_LoadCharacters_Requset(packetSession, inPacket);
 }
 
-void SelectRoom::StartCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_StartGame inPacket)
+void SelectRoom::StartCharacterRequest(PlayerStatePtr inPlayerState, Protocol::C2S_StartGame inPacket)
 {
 	WorldPtr world = mWorld.lock();
 	if (nullptr == world)
@@ -76,16 +76,49 @@ void SelectRoom::StartCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_Star
 		return;
 	}
 
-	const int characterID = character->GetCharacterID();
+	SessionPtr gameServerSession;
+	inPlayerState->GetSessionManager()->FindServerSession(gameServerSession);
+
+	Protocol::C2S_TravelServer travelServerPacket;
+	travelServerPacket.set_token(remotePlayer->GetToken());
+	travelServerPacket.set_global_id(remotePlayer->GetGlobalID());
+	travelServerPacket.set_character_id(character->GetCharacterID());
+
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(gameServerSession);
+	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(packetSession, travelServerPacket);
+	packetSession->Send(sendBuffer);
+}
+
+void SelectRoom::StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S2C_TravelServer inPacket)
+{
+	
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(inPlayerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return;
+	}
+
+	
+	PlayerStatePtr waitingTravelSession;
+	bool isValid = gameState->FindWaitingTravelSession(inPacket.token(), waitingTravelSession);
+	if (false == isValid)
+	{
+		return;
+	}
 
 	Protocol::S2C_StartGame startGamePacket;
-	startGamePacket.set_server_id(1);
-	startGamePacket.set_server_name("L_NecromancerDungeon");
-	startGamePacket.set_ip("116.41.116.247");
-	startGamePacket.set_port(10000);
-	startGamePacket.set_error(0);
-
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
+	const int32 travelError = inPacket.error();
+	if (travelError != ErrorToInt(EGameErrorType::INVALID_TOKEN))
+	{
+		startGamePacket.set_server_id(inPacket.server_id());
+		startGamePacket.set_server_name(inPacket.server_name());
+		startGamePacket.set_ip(inPacket.ip());
+		startGamePacket.set_port(inPacket.port());
+		startGamePacket.set_error(travelError);
+	}
+	startGamePacket.set_error(travelError);
+	
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(waitingTravelSession);
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(packetSession, startGamePacket);
 	packetSession->Send(sendBuffer);
 }

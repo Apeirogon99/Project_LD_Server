@@ -26,6 +26,18 @@ GameService::~GameService()
 
 bool GameService::SettingService()
 {
+
+	std::wstring ip = L"";
+	int32 port;
+#if NETWORK_LOCAL
+	ip = L"192.168.123.112";
+	port = 10000;
+#else
+	//ip = L"125.180.66.59";
+	ip = L"127.0.0.1";
+	port = 10000;
+#endif
+
 	//IOCPServer
 	IOCPServerPtr IocpServer = std::make_shared<IOCPServer>();
 	if (false == SetIOCPServer(IocpServer))
@@ -46,24 +58,22 @@ bool GameService::SettingService()
 	const SessionFactory sessionFactory = std::make_shared<PlayerState>;
 	const uint32 maxSessionCount = 10;
 	const uint32 maxBufferSize = 0x1000;
+
 	GameStatePtr gameState = std::make_shared<GameState>(sessionFactory, maxSessionCount, maxBufferSize);
+	gameState->SetServerID(1);
+	gameState->SetServerName("L_NecromancerDungeon");
+	gameState->SetServerIP("116.41.116.247");
+	gameState->SetServerPort(port);
+
 	SessionManagerPtr sessionManager = ::static_pointer_cast<SessionManager>(move(gameState));
 	if (false == SetSessionManager(sessionManager))
 	{
 		return false;
 	}
 
-std::wstring ip = L"";
-#if NETWORK_LOCAL
-ip = L"192.168.123.112";
-#else
-//ip = L"125.180.66.59";
-ip = L"127.0.0.1";
-#endif
-
 	//Listener
 	IPAddressPtr gameIpAddress = std::make_shared<IPAddress>();
-	gameIpAddress->SetIp(ip.c_str(), 10000, EProtocolType::IPv4);
+	gameIpAddress->SetIp(ip.c_str(), port, EProtocolType::IPv4);
 	//IdentityIpAddress->SetPort(9000);
 
 	GameListenerPtr gameListener = std::make_shared<GameListener>(gameIpAddress);

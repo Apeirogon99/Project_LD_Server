@@ -31,3 +31,23 @@ GameTaskPtr GameState::GetGameTask()
 
 	return gameTask;
 }
+
+void GameState::SetServerID(const int32 inServerID)
+{
+	mServerID = inServerID;
+}
+
+void GameState::SetServerName(const std::string& inServerName)
+{
+	mServerName = inServerName;
+}
+
+void GameState::SetServerIP(const std::string& inServerIP)
+{
+	mServerIP = inServerIP;
+}
+
+void GameState::SetServerPort(const int32 inPort)
+{
+	mServerPort = inPort;
+}

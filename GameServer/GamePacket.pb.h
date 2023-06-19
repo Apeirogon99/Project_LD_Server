@@ -778,9 +778,19 @@ class S2C_LeaveGameServer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kErrorFieldNumber = 1,
+    kRemoteIdFieldNumber = 1,
+    kErrorFieldNumber = 2,
   };
-  // int32 error = 1;
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // int32 error = 2;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -797,6 +807,7 @@ class S2C_LeaveGameServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    int64_t remote_id_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -4259,7 +4270,27 @@ inline void S2C_EnterGameServer::set_error(int32_t value) {
 
 // S2C_LeaveGameServer
 
-// int32 error = 1;
+// int64 remote_id = 1;
+inline void S2C_LeaveGameServer::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_LeaveGameServer::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_LeaveGameServer::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LeaveGameServer.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_LeaveGameServer::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_LeaveGameServer::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LeaveGameServer.remote_id)
+}
+
+// int32 error = 2;
 inline void S2C_LeaveGameServer::clear_error() {
   _impl_.error_ = 0;
 }

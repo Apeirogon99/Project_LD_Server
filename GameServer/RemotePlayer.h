@@ -20,7 +20,7 @@ public:
 	virtual bool	IsValid()			override;
 
 public:
-	bool LoadRemotePlayer(const int32 inServerID, const int32 inCharacterID);
+	bool LoadRemotePlayer(const Token& inToken);
 	void LoadComplete();
 
 	void InitTask(GameTaskPtr& inGameTask);
@@ -38,6 +38,7 @@ public:
 	ViewActors&		GetViewActors()				{ return mViewActors; }
 
 private:
+	Token			mToken;
 	PlayerStateRef	mPlayerState;
 	Viewers			mViewers;
 	ViewActors		mViewActors;

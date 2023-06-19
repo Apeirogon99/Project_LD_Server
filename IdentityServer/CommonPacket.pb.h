@@ -990,9 +990,74 @@ class S2C_TravelServer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kErrorFieldNumber = 1,
+    kTokenFieldNumber = 1,
+    kServerNameFieldNumber = 3,
+    kIpFieldNumber = 4,
+    kServerIdFieldNumber = 2,
+    kPortFieldNumber = 5,
+    kErrorFieldNumber = 6,
   };
-  // int32 error = 1;
+  // bytes token = 1;
+  void clear_token();
+  const std::string& token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token();
+  PROTOBUF_NODISCARD std::string* release_token();
+  void set_allocated_token(std::string* token);
+  private:
+  const std::string& _internal_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
+  // bytes server_name = 3;
+  void clear_server_name();
+  const std::string& server_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_server_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_server_name();
+  PROTOBUF_NODISCARD std::string* release_server_name();
+  void set_allocated_server_name(std::string* server_name);
+  private:
+  const std::string& _internal_server_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_server_name(const std::string& value);
+  std::string* _internal_mutable_server_name();
+  public:
+
+  // bytes ip = 4;
+  void clear_ip();
+  const std::string& ip() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip();
+  PROTOBUF_NODISCARD std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // int32 server_id = 2;
+  void clear_server_id();
+  int32_t server_id() const;
+  void set_server_id(int32_t value);
+  private:
+  int32_t _internal_server_id() const;
+  void _internal_set_server_id(int32_t value);
+  public:
+
+  // int32 port = 5;
+  void clear_port();
+  int32_t port() const;
+  void set_port(int32_t value);
+  private:
+  int32_t _internal_port() const;
+  void _internal_set_port(int32_t value);
+  public:
+
+  // int32 error = 6;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -1009,6 +1074,11 @@ class S2C_TravelServer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+    int32_t server_id_;
+    int32_t port_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1256,7 +1326,197 @@ inline void C2S_TravelServer::set_character_id(int32_t value) {
 
 // S2C_TravelServer
 
-// int32 error = 1;
+// bytes token = 1;
+inline void S2C_TravelServer::clear_token() {
+  _impl_.token_.ClearToEmpty();
+}
+inline const std::string& S2C_TravelServer::token() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.token)
+  return _internal_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_TravelServer::set_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.token)
+}
+inline std::string* S2C_TravelServer::mutable_token() {
+  std::string* _s = _internal_mutable_token();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TravelServer.token)
+  return _s;
+}
+inline const std::string& S2C_TravelServer::_internal_token() const {
+  return _impl_.token_.Get();
+}
+inline void S2C_TravelServer::_internal_set_token(const std::string& value) {
+  
+  _impl_.token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::_internal_mutable_token() {
+  
+  return _impl_.token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::release_token() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_TravelServer.token)
+  return _impl_.token_.Release();
+}
+inline void S2C_TravelServer::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_.SetAllocated(token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_.IsDefault()) {
+    _impl_.token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TravelServer.token)
+}
+
+// int32 server_id = 2;
+inline void S2C_TravelServer::clear_server_id() {
+  _impl_.server_id_ = 0;
+}
+inline int32_t S2C_TravelServer::_internal_server_id() const {
+  return _impl_.server_id_;
+}
+inline int32_t S2C_TravelServer::server_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.server_id)
+  return _internal_server_id();
+}
+inline void S2C_TravelServer::_internal_set_server_id(int32_t value) {
+  
+  _impl_.server_id_ = value;
+}
+inline void S2C_TravelServer::set_server_id(int32_t value) {
+  _internal_set_server_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.server_id)
+}
+
+// bytes server_name = 3;
+inline void S2C_TravelServer::clear_server_name() {
+  _impl_.server_name_.ClearToEmpty();
+}
+inline const std::string& S2C_TravelServer::server_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.server_name)
+  return _internal_server_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_TravelServer::set_server_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.server_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.server_name)
+}
+inline std::string* S2C_TravelServer::mutable_server_name() {
+  std::string* _s = _internal_mutable_server_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TravelServer.server_name)
+  return _s;
+}
+inline const std::string& S2C_TravelServer::_internal_server_name() const {
+  return _impl_.server_name_.Get();
+}
+inline void S2C_TravelServer::_internal_set_server_name(const std::string& value) {
+  
+  _impl_.server_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::_internal_mutable_server_name() {
+  
+  return _impl_.server_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::release_server_name() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_TravelServer.server_name)
+  return _impl_.server_name_.Release();
+}
+inline void S2C_TravelServer::set_allocated_server_name(std::string* server_name) {
+  if (server_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.server_name_.SetAllocated(server_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.server_name_.IsDefault()) {
+    _impl_.server_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TravelServer.server_name)
+}
+
+// bytes ip = 4;
+inline void S2C_TravelServer::clear_ip() {
+  _impl_.ip_.ClearToEmpty();
+}
+inline const std::string& S2C_TravelServer::ip() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.ip)
+  return _internal_ip();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_TravelServer::set_ip(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ip_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.ip)
+}
+inline std::string* S2C_TravelServer::mutable_ip() {
+  std::string* _s = _internal_mutable_ip();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TravelServer.ip)
+  return _s;
+}
+inline const std::string& S2C_TravelServer::_internal_ip() const {
+  return _impl_.ip_.Get();
+}
+inline void S2C_TravelServer::_internal_set_ip(const std::string& value) {
+  
+  _impl_.ip_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::_internal_mutable_ip() {
+  
+  return _impl_.ip_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_TravelServer::release_ip() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_TravelServer.ip)
+  return _impl_.ip_.Release();
+}
+inline void S2C_TravelServer::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ip_.SetAllocated(ip, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ip_.IsDefault()) {
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TravelServer.ip)
+}
+
+// int32 port = 5;
+inline void S2C_TravelServer::clear_port() {
+  _impl_.port_ = 0;
+}
+inline int32_t S2C_TravelServer::_internal_port() const {
+  return _impl_.port_;
+}
+inline int32_t S2C_TravelServer::port() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelServer.port)
+  return _internal_port();
+}
+inline void S2C_TravelServer::_internal_set_port(int32_t value) {
+  
+  _impl_.port_ = value;
+}
+inline void S2C_TravelServer::set_port(int32_t value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelServer.port)
+}
+
+// int32 error = 6;
 inline void S2C_TravelServer::clear_error() {
   _impl_.error_ = 0;
 }
