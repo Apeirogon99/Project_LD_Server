@@ -1,3 +1,3 @@
-id,character_class_id,grow_armor_penetration,grow_attack_damage,grow_attack_speed,grow_critical_strike_chance,grow_cirtical_strike_damage,grow_life_steal,grow_ability_power,grow_mage_penetration,grow_omnivamp,grow_physical_vamp,grow_armor,grow_heal_and_shield_power,grow_health,grow_health_regeneration,grow_magic_resistance,grow_tenacity,grow_slow_resist,grow_ability_haste,grow_mana,grow_mana_regeneration,grow_movement_speed,grow_range
-1,1,0,3.5,2.5,0,0,0,0.5,0,0,0,4.7,0,114,0.85,2.1,0,0,0,60,1,0,0
-2,2,0,3,1.36,0,0,0,3,0,0,0,4.7,0,106,0.55,1.3,0,0,0,22,0.8,0,0
+grow_armor_penetration,grow_attack_damage,grow_attack_speed,grow_critical_strike_chance,grow_cirtical_strike_damage,grow_life_steal,grow_ability_power,grow_mage_penetration,grow_omnivamp,grow_physical_vamp,grow_armor,grow_heal_and_shield_power,grow_health,grow_health_regeneration,grow_magic_resistance,grow_tenacity,grow_slow_resist,grow_ability_haste,grow_mana,grow_mana_regeneration,grow_movement_speed,grow_range
+0,3.5,2.5,0,0,0,0.5,0,0,0,4.7,0,114,0.85,2.1,0,0,0,60,1,0,0
+0,3,1.36,0,0,0,3,0,0,0,4.7,0,106,0.55,1.3,0,0,0,22,0.8,0,0

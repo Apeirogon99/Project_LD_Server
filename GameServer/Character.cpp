@@ -14,6 +14,7 @@ Character::~Character()
 void Character::Initialization()
 {
 	mLastMovementTimeStamp = 0;
+	mStats.Clear();
 }
 
 void Character::Destroy()
@@ -192,6 +193,36 @@ void Character::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AIt
 	default:
 		break;
 	}
+}
+
+void Character::UpdateStats()
+{
+	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	
+	DataManagerPtr dataManager = remotePlayer->GetPlayerState().lock()->GetSessionManager()->GetService()->GetDataManager();
+	if (nullptr == dataManager)
+	{
+		return;
+	}
+
+	const int32 characterClass	= mCharacterData.character_class();
+	const int32 level			= mCharacterData.level();
+
+	CSVRow* baseStats = dataManager->PeekRow(static_cast<uint8>(EGameDataType::BaseStat), characterClass);
+	CSVRow* growStats = dataManager->PeekRow(static_cast<uint8>(EGameDataType::GrowStat), characterClass);
+
+	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+	{
+		float baseStat = stof(baseStats->at(index));
+		float growStat = stof(growStats->at(index));
+
+		mStats.GetStats()[index] = baseStat + (level * growStat);
+	}
+
 }
 
 int32 Character::GetEqipmentPartCode(Protocol::ECharacterPart inPart)

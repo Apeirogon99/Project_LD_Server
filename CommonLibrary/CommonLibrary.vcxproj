@@ -184,6 +184,7 @@
     <ClInclude Include="CommonErrorTypes.h" />
     <ClInclude Include="GameErrorTypes.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Status.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>

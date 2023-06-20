@@ -85,12 +85,21 @@ void RemotePlayer::LoadComplete()
 		return;
 	}
 
+	CharacterPtr character = GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+	//Load
+	character->UpdateStats();
+
+	//Packet
 	Protocol::STransform tempTransform;
 	tempTransform.mutable_location()->set_z(500.0f);
 
 	Protocol::S2C_EnterGameServer enterPacket;
 	enterPacket.set_remote_id(this->GetGameObjectID());
-	enterPacket.mutable_character_data()->CopyFrom(GetCharacter()->GetCharacterData());
+	enterPacket.mutable_character_data()->CopyFrom(character->GetCharacterData());
 	GetInventory()->LoadItem(enterPacket.mutable_item());
 	GetInventory()->LoadEqipment(enterPacket.mutable_eqipment());
 	//enterPacket.mutable_transform()->CopyFrom(GetCharacter()->GetTransform());

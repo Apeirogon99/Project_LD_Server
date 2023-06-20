@@ -3,6 +3,8 @@
 enum class EGameDataType : uint8
 {
 	Item,
+	BaseStat,
+	GrowStat,
 };
 
 class GameDatas : public DataManager

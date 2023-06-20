@@ -45,6 +45,9 @@
     <ClInclude Include="CommonEnum.h">
       <Filter>Common\Enum</Filter>
     </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Common\Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

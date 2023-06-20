@@ -23,5 +23,15 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"class_base_stats.csv").c_str()))
+    {
+        return false;
+    }
+
+    if (false == PushData((dataPath + L"class_grow_stats.csv").c_str()))
+    {
+        return false;
+    }
+
     return true;
 }
