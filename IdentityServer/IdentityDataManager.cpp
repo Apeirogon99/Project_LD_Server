@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "IdentityDataManager.h"
 
-IdentityDataManager::IdentityDataManager()
+IdentityDataManager::IdentityDataManager(const int32 inMaxDatas) : DataManager(inMaxDatas)
 {
 }
 

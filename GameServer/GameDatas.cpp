@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameDatas.h"
 
-GameDatas::GameDatas()
+GameDatas::GameDatas(const int32 inMaxDatas) : DataManager(inMaxDatas)
 {
 }
 
@@ -18,17 +18,22 @@ bool GameDatas::InitDatas()
     dataPath = L"C:\\ProjectLDServer\\Project_LD_Server\\Data\\";
 #endif
 
-    if (false == PushData((dataPath + L"item_datas.csv").c_str()))
+    if (false == PushData((dataPath + L"item_datas.csv").c_str(), static_cast<int32>(EGameDataType::Item)))
     {
         return false;
     }
 
-    if (false == PushData((dataPath + L"class_base_stats.csv").c_str()))
+    if (false == PushData((dataPath + L"item_eqipment.csv").c_str(), static_cast<int32>(EGameDataType::ItemEqipment)))
     {
         return false;
     }
 
-    if (false == PushData((dataPath + L"class_grow_stats.csv").c_str()))
+    if (false == PushData((dataPath + L"class_base_stats.csv").c_str(), static_cast<int32>(EGameDataType::BaseStat)))
+    {
+        return false;
+    }
+
+    if (false == PushData((dataPath + L"class_grow_stats.csv").c_str(), static_cast<int32>(EGameDataType::GrowStat)))
     {
         return false;
     }

@@ -74,7 +74,8 @@ GO
 
 	DECLARE @global_id AS INT
 
-	EXEC dbo.singup_sp 'TEST_ID', '1234', 'TEST_ID', 'example.com', @global_id OUTPUT
+	--EXEC dbo.singup_sp 'TEST_ID', '1234', 'TEST_ID', 'example.com', @global_id OUTPUT
+	EXEC dbo.singup_sp 'JTest', '1234', 'gksdidxornjs', 'naver.com', @global_id OUTPUT
 
 	print @global_id
 	SELECT * FROM user_tb

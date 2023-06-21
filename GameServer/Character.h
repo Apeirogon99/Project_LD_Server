@@ -43,6 +43,9 @@ private:
 	Protocol::SVector			mOldLocation;
 	int64						mLastMovementTimeStamp;
 
+
+	int64						mLastAnimationTimeStamp;
+
 	Stats						mStats;
 };
 

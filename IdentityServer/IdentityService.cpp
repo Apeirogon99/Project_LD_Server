@@ -115,7 +115,7 @@ ip = L"127.0.0.1";
 	}
 
 	//Data(CSV)
-	IdentityDataManagerPtr identityDataManager = std::make_shared<IdentityDataManager>();
+	IdentityDataManagerPtr identityDataManager = std::make_shared<IdentityDataManager>(0);
 	DataManagerPtr  dataManager = ::static_pointer_cast<DataManager>(move(identityDataManager));
 	if (false == SetDataManager(dataManager))
 	{

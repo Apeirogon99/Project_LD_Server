@@ -25,6 +25,7 @@ public:
 	template<typename T>
 	ActorPtr CreateActor(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotator);
 	bool DestroyActor(const int64 inGameObjectID);
+	bool IsValidActor(const int64 inGameObjectID);
 	
 public:
 	GameTaskPtr	GetGameTask() { return mGameTask; }
@@ -52,12 +53,13 @@ inline ActorPtr World::CreateActor(const Protocol::SVector& inLocation, const Pr
 		return nullptr;
 	}
 
-	mGameTask->CreateGameObject(object->GetGameObjectPtr());
+	mGameTask->PushTask(object->GetGameObjectPtr());
 
 	object->SetLocation(inLocation);
 	object->SetRotation(inRotator);
 
-	std::pair<int64, ActorPtr> newObject = std::make_pair(object->GetGameObjectID(), object);
+	const int64 objectID = object->GetGameObjectID();
+	std::pair<int64, ActorPtr> newObject = std::make_pair(objectID, object);
 	auto result = mWorldActors.insert(newObject);
 	return object;
 }

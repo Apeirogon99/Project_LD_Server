@@ -50,7 +50,7 @@ GO
 BEGIN
 	USE account_database;
 
-	EXEC dbo.send_email_verfiy_sp 2, 'gwanho0218', 'naver.com'
+	EXEC dbo.send_email_verfiy_sp 2, 'gksdidxornjs', 'naver.com'
 
 	SELECT * FROM user_tb
 	SELECT * FROM confirm_email_tb

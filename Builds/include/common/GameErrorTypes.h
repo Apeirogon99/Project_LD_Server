@@ -9,6 +9,15 @@ enum class EGameErrorType : int32
 
 	INVALID_TOKEN,
 
+	INVALID_ACTOR_IN_WORLD,
+	ALREADY_ACTOR_IN_WORLD,
+
+	INVALID_ITEM_IN_INVENTORY,
+
+	INSERT_ERROR,
+	UPDATE_ERROR,
+	DELETE_ERROR,
+
 };
 
 static std::string GameErrorToString(int32 error)

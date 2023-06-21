@@ -114,6 +114,13 @@ void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer in
 
 	Token token;
 	bool isToken = false;
+	if (inPacket.token().compare("LOCAL_TEST") == 0)
+	{
+		isToken = true;
+		token.SetCharacterID(0);
+		token.SetGlobalID(0);
+	}
+
 	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
 	{
 		if (curToken->CompareToken(inPacket.token()))
@@ -220,6 +227,19 @@ bool World::DestroyActor(const int64 inGameObjectID)
 		return false;
 	}
 
+	mGameTask->ReleaseTask(findPos->second->GetGameObjectPtr());
+
 	size_t result = mWorldActors.erase(inGameObjectID);
 	return (result != 0) ? true : false;
+}
+
+bool World::IsValidActor(const int64 inGameObjectID)
+{
+	auto findPos = mWorldActors.find(inGameObjectID);
+	if (findPos == mWorldActors.end())
+	{
+		return false;
+	}
+
+	return true;
 }

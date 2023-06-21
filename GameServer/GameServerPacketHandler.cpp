@@ -59,9 +59,11 @@ bool Handle_C2S_LeaveGameServer(PacketSessionPtr& session, Protocol::C2S_LeaveGa
 	{
 		return false;
 	}
+
+	session->Disconnect(L"Handle_C2S_LeaveGameServer");
 	
-	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::Leave, playerState);
+	/*const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	world->PushTask(serviceTimeStamp, &World::Leave, playerState);*/
 	return true;
 }
 
@@ -86,6 +88,9 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 		return false;
 	}
 
+	const int64 sTime = gameState->GetServiceTimeStamp();
+	const int64 cTime = pkt.timestamp();
+	std::cout << sTime << " - " << cTime << " = " << sTime - cTime << std::endl;
 	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &Character::MoveDestination, pkt);
 	return true;
 }

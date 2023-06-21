@@ -14,7 +14,6 @@ public:
 
 public:
 	void SetLoad(bool inIsLoad);
-	void CreateItem(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation);
 	void CreateEqipment(const int32 inItemCode, const int32 inPart);
 
 public:
@@ -44,8 +43,8 @@ public:
 
 public:
 	bool	IsLoad() { return mIsLoad; }
-	bool	GetItemRow(const int32 inItemCode, CSVRow& outRow);
 	CSVRow* PeekItemRow(const int32 inItemCode);
+	const std::vector<AItemPtr>& GetEqipments();
 
 protected:
 	bool AddItem(const AItemPtr& item);

@@ -3,14 +3,16 @@
 enum class EGameDataType : uint8
 {
 	Item,
+	ItemEqipment,
 	BaseStat,
 	GrowStat,
+	MAX_GAME_DATA
 };
 
 class GameDatas : public DataManager
 {
 public:
-	GameDatas();
+	GameDatas(const int32 inMaxDatas);
 	virtual ~GameDatas();
 
 private:

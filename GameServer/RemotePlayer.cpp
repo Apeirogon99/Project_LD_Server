@@ -95,7 +95,9 @@ void RemotePlayer::LoadComplete()
 
 	//Packet
 	Protocol::STransform tempTransform;
-	tempTransform.mutable_location()->set_z(500.0f);
+	tempTransform.mutable_location()->set_x(800.0f);
+	tempTransform.mutable_location()->set_y(100.0f);
+	tempTransform.mutable_location()->set_z(480.0f);
 
 	Protocol::S2C_EnterGameServer enterPacket;
 	enterPacket.set_remote_id(this->GetGameObjectID());

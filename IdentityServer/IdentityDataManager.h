@@ -3,7 +3,7 @@
 class IdentityDataManager : public DataManager
 {
 public:
-	IdentityDataManager();
+	IdentityDataManager(const int32 inMaxDatas);
 	virtual ~IdentityDataManager();
 
 private:

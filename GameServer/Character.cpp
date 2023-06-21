@@ -38,6 +38,11 @@ void Character::AppearActor(PlayerStatePtr inAppearPlayerState)
 		return;
 	}
 
+	if (false == IsLoad())
+	{
+		return;
+	}
+
 	Viewers& viewers = targetRemotePlayer->GetViewers();
 	if (viewers.find(inAppearPlayerState) != viewers.end())
 	{
@@ -215,12 +220,22 @@ void Character::UpdateStats()
 	CSVRow* baseStats = dataManager->PeekRow(static_cast<uint8>(EGameDataType::BaseStat), characterClass);
 	CSVRow* growStats = dataManager->PeekRow(static_cast<uint8>(EGameDataType::GrowStat), characterClass);
 
-	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
-	{
-		float baseStat = stof(baseStats->at(index));
-		float growStat = stof(growStats->at(index));
+	Inventoryptr inventory = remotePlayer->GetInventory();
+	const std::vector<AItemPtr>& eqipments = inventory->GetEqipments();
 
-		mStats.GetStats()[index] = baseStat + (level * growStat);
+	for (AItemPtr eqipment : eqipments)
+	{
+
+		CSVRow* eqipmentStats = dataManager->PeekRow(static_cast<uint8>(EGameDataType::ItemEqipment), eqipment->GetItemCode());
+
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			float baseStat		= stof(baseStats->at(index));
+			float growStat		= stof(growStats->at(index));
+			float eqipmentStat	= stof(eqipmentStats->at(index));
+
+			mStats.GetStats()[index] = baseStat + (level * growStat) + eqipmentStat;
+		}
 	}
 
 }

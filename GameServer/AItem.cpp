@@ -66,6 +66,11 @@ void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 		return;
 	}
 
+	if (0 == GetItemCode())
+	{
+		return;
+	}
+
 	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
 	if (viewActors.find(GetGameObjectPtr()) != viewActors.end())
 	{
@@ -175,4 +180,15 @@ void AItem::SetInventoryPosition(const Protocol::SVector2D& inInventoryPosition)
 void AItem::SetInventoryRoation(const int32 inInventoryRotation)
 {
 	mInvenRotation = inInventoryRotation;
+}
+
+const Protocol::SItem AItem::ConvertSItem()
+{
+	Protocol::SItem tempItem;
+	tempItem.set_object_id(this->GetGameObjectID());
+	tempItem.set_item_code(this->GetItemCode());
+	tempItem.mutable_inven_position()->CopyFrom(this->GetInventoryPosition());
+	tempItem.set_rotation(this->GetInventoryRoation());
+	tempItem.mutable_world_position()->CopyFrom(this->GetLocation());
+	return tempItem;
 }

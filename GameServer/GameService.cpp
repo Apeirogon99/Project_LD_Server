@@ -93,7 +93,7 @@ bool GameService::SettingService()
 	}
 
 	//Data(CSV)
-	GameDatasPtr gameDatas = std::make_shared<GameDatas>();
+	GameDatasPtr gameDatas = std::make_shared<GameDatas>(static_cast<int32>(EGameDataType::MAX_GAME_DATA));
 	DataManagerPtr  dataManager = ::static_pointer_cast<DataManager>(move(gameDatas));
 	if (false == SetDataManager(dataManager))
 	{
