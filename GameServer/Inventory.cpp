@@ -109,9 +109,9 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 	WorldPtr world = playerState->GetWorld();
 	if (true == world->IsValidActor(objectID))
 	{
-		world->DestroyActor(objectID);
-
 		GameTaskPtr task = world->GetGameTask();
+		world->DestroyActor(objectID);
+		
 		AItemPtr newItem = std::make_shared<AItem>();
 		task->CreateGameObject(newItem->GetGameObjectPtr());
 
@@ -127,7 +127,7 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 			Handle_InsertInventory_Requset(packetSession, characterID, itemCode, inventoryPosition, inventoryRotation);
 
 			InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
-			InsertInventoryPacket.set_object_id(newItem->GetGameObjectID());
+			InsertInventoryPacket.set_object_id(objectID);
 		}
 		else
 		{

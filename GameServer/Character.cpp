@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Character.h"
 
-Character::Character(const RemotePlayerRef& inReomtePlayer) : Pawn(L"Character"), mRemotePlayer(inReomtePlayer), mCharacterID(-1), mLastMovementTimeStamp(0)
+Character::Character(const RemotePlayerRef& inReomtePlayer) : Pawn(L"Character"), mRemotePlayer(inReomtePlayer), mCharacterID(-1), mLastMovementTimeStamp(0), mIsLoad(false)
 {
 
 }
