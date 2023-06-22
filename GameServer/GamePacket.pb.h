@@ -1689,23 +1689,23 @@ class S2C_AppearItem final :
   enum : int {
     kItemFieldNumber = 1,
   };
-  // repeated .Protocol.SItem item = 1;
-  int item_size() const;
+  // .Protocol.SItem item = 1;
+  bool has_item() const;
   private:
-  int _internal_item_size() const;
+  bool _internal_has_item() const;
   public:
   void clear_item();
-  ::Protocol::SItem* mutable_item(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
-      mutable_item();
+  const ::Protocol::SItem& item() const;
+  PROTOBUF_NODISCARD ::Protocol::SItem* release_item();
+  ::Protocol::SItem* mutable_item();
+  void set_allocated_item(::Protocol::SItem* item);
   private:
-  const ::Protocol::SItem& _internal_item(int index) const;
-  ::Protocol::SItem* _internal_add_item();
+  const ::Protocol::SItem& _internal_item() const;
+  ::Protocol::SItem* _internal_mutable_item();
   public:
-  const ::Protocol::SItem& item(int index) const;
-  ::Protocol::SItem* add_item();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
-      item() const;
+  void unsafe_arena_set_allocated_item(
+      ::Protocol::SItem* item);
+  ::Protocol::SItem* unsafe_arena_release_item();
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_AppearItem)
  private:
@@ -1715,7 +1715,7 @@ class S2C_AppearItem final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > item_;
+    ::Protocol::SItem* item_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4904,41 +4904,89 @@ inline void S2C_MovementCharacter::set_allocated_new_location(::Protocol::SVecto
 
 // S2C_AppearItem
 
-// repeated .Protocol.SItem item = 1;
-inline int S2C_AppearItem::_internal_item_size() const {
-  return _impl_.item_.size();
+// .Protocol.SItem item = 1;
+inline bool S2C_AppearItem::_internal_has_item() const {
+  return this != internal_default_instance() && _impl_.item_ != nullptr;
 }
-inline int S2C_AppearItem::item_size() const {
-  return _internal_item_size();
+inline bool S2C_AppearItem::has_item() const {
+  return _internal_has_item();
 }
-inline ::Protocol::SItem* S2C_AppearItem::mutable_item(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearItem.item)
-  return _impl_.item_.Mutable(index);
+inline const ::Protocol::SItem& S2C_AppearItem::_internal_item() const {
+  const ::Protocol::SItem* p = _impl_.item_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SItem&>(
+      ::Protocol::_SItem_default_instance_);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >*
-S2C_AppearItem::mutable_item() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_AppearItem.item)
-  return &_impl_.item_;
-}
-inline const ::Protocol::SItem& S2C_AppearItem::_internal_item(int index) const {
-  return _impl_.item_.Get(index);
-}
-inline const ::Protocol::SItem& S2C_AppearItem::item(int index) const {
+inline const ::Protocol::SItem& S2C_AppearItem::item() const {
   // @@protoc_insertion_point(field_get:Protocol.S2C_AppearItem.item)
-  return _internal_item(index);
+  return _internal_item();
 }
-inline ::Protocol::SItem* S2C_AppearItem::_internal_add_item() {
-  return _impl_.item_.Add();
+inline void S2C_AppearItem::unsafe_arena_set_allocated_item(
+    ::Protocol::SItem* item) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
+  }
+  _impl_.item_ = item;
+  if (item) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_AppearItem.item)
 }
-inline ::Protocol::SItem* S2C_AppearItem::add_item() {
-  ::Protocol::SItem* _add = _internal_add_item();
-  // @@protoc_insertion_point(field_add:Protocol.S2C_AppearItem.item)
-  return _add;
+inline ::Protocol::SItem* S2C_AppearItem::release_item() {
+  
+  ::Protocol::SItem* temp = _impl_.item_;
+  _impl_.item_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
-S2C_AppearItem::item() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_AppearItem.item)
+inline ::Protocol::SItem* S2C_AppearItem::unsafe_arena_release_item() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_AppearItem.item)
+  
+  ::Protocol::SItem* temp = _impl_.item_;
+  _impl_.item_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SItem* S2C_AppearItem::_internal_mutable_item() {
+  
+  if (_impl_.item_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SItem>(GetArenaForAllocation());
+    _impl_.item_ = p;
+  }
   return _impl_.item_;
+}
+inline ::Protocol::SItem* S2C_AppearItem::mutable_item() {
+  ::Protocol::SItem* _msg = _internal_mutable_item();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearItem.item)
+  return _msg;
+}
+inline void S2C_AppearItem::set_allocated_item(::Protocol::SItem* item) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.item_);
+  }
+  if (item) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(item));
+    if (message_arena != submessage_arena) {
+      item = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, item, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.item_ = item;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearItem.item)
 }
 
 // -------------------------------------------------------------------

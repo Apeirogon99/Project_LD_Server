@@ -105,6 +105,10 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetCharacterID(id);
 	character->SetCharacterData(loadCharacterData);
 
+	character->SetLocation(800.0f, 100.0f, 480.0f);
+	character->SetOldLocation(character->GetLocation());
+	character->SetRotation(0.0f, 0.0f, 0.0f);
+
 	{
 		Inventoryptr& inventory = remotePlayer->GetInventory();
 		inventory->CreateEqipment(helmet, 1);

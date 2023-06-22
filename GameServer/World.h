@@ -19,6 +19,7 @@ public:
 	void Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket);
 	void Leave(PlayerStatePtr inPlayerState);
 
+	void VisibleAreaInit(PlayerStatePtr inPlayerState);
 	void VisibleAreaSync();
 	void CheackToken();
 

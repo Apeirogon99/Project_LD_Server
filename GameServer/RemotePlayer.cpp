@@ -85,6 +85,12 @@ void RemotePlayer::LoadComplete()
 		return;
 	}
 
+	WorldPtr world = playerState->GetWorld();
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	CharacterPtr character = GetCharacter();
 	if (nullptr == character)
 	{
@@ -93,25 +99,19 @@ void RemotePlayer::LoadComplete()
 	//Load
 	character->UpdateStats();
 
-	//Packet
-	Protocol::STransform tempTransform;
-	tempTransform.mutable_location()->set_x(800.0f);
-	tempTransform.mutable_location()->set_y(100.0f);
-	tempTransform.mutable_location()->set_z(480.0f);
-
 	Protocol::S2C_EnterGameServer enterPacket;
 	enterPacket.set_remote_id(this->GetGameObjectID());
 	enterPacket.mutable_character_data()->CopyFrom(character->GetCharacterData());
 	GetInventory()->LoadItem(enterPacket.mutable_item());
 	GetInventory()->LoadEqipment(enterPacket.mutable_eqipment());
-	//enterPacket.mutable_transform()->CopyFrom(GetCharacter()->GetTransform());
-	enterPacket.mutable_transform()->CopyFrom(tempTransform);
+	enterPacket.mutable_transform()->CopyFrom(character->GetTransform());
 	enterPacket.set_error(false);
-
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
 	packetSession->Send(sendBuffer);
+
+	world->VisibleAreaInit(playerState);
 }
 
 void RemotePlayer::InitTask(GameTaskPtr& inGameTask)

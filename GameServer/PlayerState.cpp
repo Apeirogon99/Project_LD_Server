@@ -75,6 +75,10 @@ void PlayerState::BroadcastMonitors(SendBufferPtr inSendBuffer)
 	Monitors& monitors = GetMonitors();
 	for (auto monitor : monitors)
 	{
-		//monitor->Send(inSendBuffer);
+		PlayerStatePtr playerState = monitor->GetPlayerState().lock();
+		if (nullptr != playerState)
+		{
+			playerState->Send(inSendBuffer);
+		}
 	}
 }

@@ -111,7 +111,7 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 	{
 		GameTaskPtr task = world->GetGameTask();
 		world->DestroyActor(objectID);
-		
+
 		AItemPtr newItem = std::make_shared<AItem>();
 		task->CreateGameObject(newItem->GetGameObjectPtr());
 
@@ -128,6 +128,7 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 
 			InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
 			InsertInventoryPacket.set_object_id(objectID);
+			InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
 		}
 		else
 		{
@@ -211,25 +212,25 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	if (false == world->IsValidActor(objectID))
 	{
 
-		AItemPtr findItem;
-		bool find = FindItem(item.object_id(), findItem);
+		AItemPtr deleteItem;
+		bool find = FindItem(item.object_id(), deleteItem);
 		if (true == find)
 		{
-			bool deleteResult = DeleteItem(findItem);
+			bool deleteResult = DeleteItem(deleteItem);
 			if (deleteResult)
 			{
 				ActorPtr newActor = world->CreateActor<AItem>(item.world_position(), Protocol::SRotator());
 				AItemPtr newItem = std::static_pointer_cast<AItem>(newActor);
-				newItem->SetItemCode(findItem->GetItemCode());
+				newItem->SetItemCode(deleteItem->GetItemCode());
 
-				Handle_DeleteInventory_Requset(packetSession, remotePlayer->GetCharacter()->GetCharacterID(), item.item_code(), item.inven_position());
+				Handle_DeleteInventory_Requset(packetSession, remotePlayer->GetCharacter()->GetCharacterID(), deleteItem->GetItemCode(), deleteItem->GetInventoryPosition());
 
 				deleteInventoryPacket.mutable_item()->CopyFrom(newItem->ConvertSItem());
 				deleteInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
 			}
 			else
 			{
-				deleteInventoryPacket.mutable_item()->CopyFrom(findItem->ConvertSItem());
+				deleteInventoryPacket.mutable_item()->CopyFrom(deleteItem->ConvertSItem());
 				deleteInventoryPacket.set_error(ErrorToInt(EGameErrorType::DELETE_ERROR));
 			}
 		}

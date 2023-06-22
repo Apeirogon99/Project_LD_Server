@@ -142,15 +142,12 @@ void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer in
 		packetSession->Send(sendBuffer);
 		return;
 	}
-
 	inPlayerState->SetWorld(GetWorldRef());
 
 	remotePlayer = std::make_shared<RemotePlayer>(inPlayerState->GetPlayerStateRef());
 	remotePlayer->InitTask(mGameTask);
 	remotePlayer->LoadRemotePlayer(token);
 
-	std::pair<int64, PlayerStatePtr> newPlayer = std::make_pair(remotePlayer->GetGameObjectID(), inPlayerState);
-	mPlayerStates.insert(newPlayer);
 }
 
 void World::Leave(PlayerStatePtr inPlayerState)
@@ -160,11 +157,18 @@ void World::Leave(PlayerStatePtr inPlayerState)
 	{
 		return;
 	}
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 
 	if (nullptr == mGameTask)
 	{
 		return;
 	}
+
+	Protocol::S2C_DisAppearCharacter disappearCharacterPacket;
+	disappearCharacterPacket.set_remote_id(remotePlayer->GetGameObjectID());
+
+	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disappearCharacterPacket);
+	inPlayerState->BroadcastMonitors(disappearSendBuffer);
 
 	Monitors& monitors = inPlayerState->GetMonitors();
 	for (auto monitor = monitors.begin(); monitor != monitors.end(); ++monitor)
@@ -179,9 +183,40 @@ void World::Leave(PlayerStatePtr inPlayerState)
 	Protocol::S2C_LeaveGameServer leavePacket;
 	leavePacket.set_error(true);
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, leavePacket);
 	packetSession->Send(sendBuffer);
+}
+
+void World::VisibleAreaInit(PlayerStatePtr inPlayerState)
+{
+	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	remotePlayer->GetViewers().insert(inPlayerState);
+	inPlayerState->GetMonitors().insert(remotePlayer);
+
+	auto oldPlayer = mPlayerStates.begin();
+	for (oldPlayer; oldPlayer != mPlayerStates.end(); oldPlayer++)
+	{
+
+		remotePlayer->GetCharacter()->CloseToPlayer(oldPlayer->second);
+
+		oldPlayer->second->GetRemotePlayer()->GetCharacter()->CloseToPlayer(inPlayerState);
+		
+
+		auto viewActor = mWorldActors.begin();
+		for (viewActor; viewActor != mWorldActors.end(); viewActor++)
+		{
+			viewActor->second->CloseToPlayer(inPlayerState);
+		}
+
+	}
+
+	std::pair<int64, PlayerStatePtr> newPlayer = std::make_pair(remotePlayer->GetGameObjectID(), inPlayerState);
+	mPlayerStates.insert(newPlayer);
 }
 
 void World::VisibleAreaSync()
@@ -227,10 +262,19 @@ bool World::DestroyActor(const int64 inGameObjectID)
 		return false;
 	}
 
+	for (auto& playerState : mPlayerStates)
+	{
+		findPos->second->DisAppearActor(playerState.second);
+	}
+
 	mGameTask->ReleaseTask(findPos->second->GetGameObjectPtr());
 
-	size_t result = mWorldActors.erase(inGameObjectID);
-	return (result != 0) ? true : false;
+	if (0 == mWorldActors.erase(inGameObjectID))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool World::IsValidActor(const int64 inGameObjectID)

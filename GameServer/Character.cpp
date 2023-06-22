@@ -60,7 +60,7 @@ void Character::AppearActor(PlayerStatePtr inAppearPlayerState)
 	Protocol::S2C_AppearCharacter appearPacket;
 	appearPacket.set_remote_id(targetRemotePlayer->GetGameObjectID());
 	appearPacket.set_timestamp(this->mLastMovementTimeStamp);
-	appearPacket.mutable_old_location()->CopyFrom(this->mOldLocation);
+	appearPacket.mutable_old_location()->CopyFrom(this->GetOldLocation());
 	appearPacket.mutable_new_location()->CopyFrom(this->GetLocation());
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
 
@@ -149,6 +149,11 @@ void Character::SetCharacterID(const int32& inCharacterID)
 void Character::SetCharacterData(Protocol::SCharacterData inCharacterData)
 {
 	mCharacterData.CopyFrom(inCharacterData);
+}
+
+void Character::SetOldLocation(const Protocol::SVector& inOldLocation)
+{
+	mOldLocation.CopyFrom(inOldLocation);
 }
 
 void Character::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)

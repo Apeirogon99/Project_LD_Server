@@ -159,7 +159,7 @@ struct S2C_MovementCharacterDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_MovementCharacterDefaultTypeInternal _S2C_MovementCharacter_default_instance_;
 PROTOBUF_CONSTEXPR S2C_AppearItem::S2C_AppearItem(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.item_)*/{}
+    /*decltype(_impl_.item_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_AppearItemDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_AppearItemDefaultTypeInternal()
@@ -598,7 +598,7 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\022\'\n\014old_loca"
   "tion\030\003 \001(\0132\021.Protocol.SVector\022\'\n\014new_loc"
   "ation\030\004 \001(\0132\021.Protocol.SVector\"/\n\016S2C_Ap"
-  "pearItem\022\035\n\004item\030\001 \003(\0132\017.Protocol.SItem\""
+  "pearItem\022\035\n\004item\030\001 \001(\0132\017.Protocol.SItem\""
   ",\n\027S2C_DisAppearGameObject\022\021\n\tobject_id\030"
   "\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestamp\030"
   "\001 \001(\003\"d\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003(\013"
@@ -2591,10 +2591,18 @@ void S2C_MovementCharacter::InternalSwap(S2C_MovementCharacter* other) {
 
 class S2C_AppearItem::_Internal {
  public:
+  static const ::Protocol::SItem& item(const S2C_AppearItem* msg);
 };
 
+const ::Protocol::SItem&
+S2C_AppearItem::_Internal::item(const S2C_AppearItem* msg) {
+  return *msg->_impl_.item_;
+}
 void S2C_AppearItem::clear_item() {
-  _impl_.item_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
+    delete _impl_.item_;
+  }
+  _impl_.item_ = nullptr;
 }
 S2C_AppearItem::S2C_AppearItem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -2606,10 +2614,13 @@ S2C_AppearItem::S2C_AppearItem(const S2C_AppearItem& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_AppearItem* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){from._impl_.item_}
+      decltype(_impl_.item_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_item()) {
+    _this->_impl_.item_ = new ::Protocol::SItem(*from._impl_.item_);
+  }
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_AppearItem)
 }
 
@@ -2618,7 +2629,7 @@ inline void S2C_AppearItem::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.item_){arena}
+      decltype(_impl_.item_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -2634,7 +2645,7 @@ S2C_AppearItem::~S2C_AppearItem() {
 
 inline void S2C_AppearItem::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.item_.~RepeatedPtrField();
+  if (this != internal_default_instance()) delete _impl_.item_;
 }
 
 void S2C_AppearItem::SetCachedSize(int size) const {
@@ -2647,7 +2658,10 @@ void S2C_AppearItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.item_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.item_ != nullptr) {
+    delete _impl_.item_;
+  }
+  _impl_.item_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2657,16 +2671,11 @@ const char* S2C_AppearItem::_InternalParse(const char* ptr, ::_pbi::ParseContext
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated .Protocol.SItem item = 1;
+      // .Protocol.SItem item = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_item(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+          ptr = ctx->ParseMessage(_internal_mutable_item(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -2699,12 +2708,11 @@ uint8_t* S2C_AppearItem::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .Protocol.SItem item = 1;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_item_size()); i < n; i++) {
-    const auto& repfield = this->_internal_item(i);
+  // .Protocol.SItem item = 1;
+  if (this->_internal_has_item()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+      InternalWriteMessage(1, _Internal::item(this),
+        _Internal::item(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2723,11 +2731,11 @@ size_t S2C_AppearItem::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Protocol.SItem item = 1;
-  total_size += 1UL * this->_internal_item_size();
-  for (const auto& msg : this->_impl_.item_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  // .Protocol.SItem item = 1;
+  if (this->_internal_has_item()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.item_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2748,7 +2756,10 @@ void S2C_AppearItem::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.item_.MergeFrom(from._impl_.item_);
+  if (from._internal_has_item()) {
+    _this->_internal_mutable_item()->::Protocol::SItem::MergeFrom(
+        from._internal_item());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2766,7 +2777,7 @@ bool S2C_AppearItem::IsInitialized() const {
 void S2C_AppearItem::InternalSwap(S2C_AppearItem* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.item_.InternalSwap(&other->_impl_.item_);
+  swap(_impl_.item_, other->_impl_.item_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_AppearItem::GetMetadata() const {

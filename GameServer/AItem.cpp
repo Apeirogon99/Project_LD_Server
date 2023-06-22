@@ -3,10 +3,10 @@
 
 AItem::AItem() : Actor(L"[ITEM]")
 {
-	mItemCode			= -1;
-	mInvenPosition.set_x(-1);
-	mInvenPosition.set_y(-1);
-	mInvenRotation		= -1;
+	mItemCode			= 0;
+	mInvenPosition.set_x(0);
+	mInvenPosition.set_y(0);
+	mInvenRotation		= 0;
 }
 
 AItem::~AItem()
@@ -38,10 +38,10 @@ AItem& AItem::operator=(const Protocol::SItem& inItem)
 
 void AItem::Initialization()
 {
-	mItemCode			= -1;
-	mInvenPosition.set_x(-1);
-	mInvenPosition.set_y(-1);
-	mInvenRotation		= -1;
+	mItemCode			= 0;
+	mInvenPosition.set_x(0);
+	mInvenPosition.set_y(0);
+	mInvenRotation		= 0;
 }
 
 void AItem::Destroy()
@@ -79,10 +79,7 @@ void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 	targetRemotePlayer->GetViewActors().insert(GetGameObjectPtr());
 
 	Protocol::S2C_AppearItem appearItemPacket;
-	Protocol::SItem* addItem = appearItemPacket.add_item();
-	addItem->set_object_id(this->GetGameObjectID());
-	addItem->set_item_code(this->mItemCode);
-	addItem->mutable_world_position()->CopyFrom(this->GetLocation());
+	appearItemPacket.mutable_item()->CopyFrom(this->ConvertSItem());
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
 	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearItemPacket);
