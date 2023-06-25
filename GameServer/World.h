@@ -31,6 +31,8 @@ public:
 public:
 	GameTaskPtr	GetGameTask() { return mGameTask; }
 	WorldRef	GetWorldRef() { return std::static_pointer_cast<World>(shared_from_this()); }
+	GameDatasPtr GetGameDatas() { return mGameTask->GetGameDatas(); }
+	const int64 GetServiceTimeStamp() { return mGameTask->GetService()->GetServiceTimeStamp(); }
 
 private:
 	GameTaskPtr							mGameTask;

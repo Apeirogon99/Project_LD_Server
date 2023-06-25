@@ -59,6 +59,9 @@ extern SCharacterDataDefaultTypeInternal _SCharacterData_default_instance_;
 class SCharacterEqipment;
 struct SCharacterEqipmentDefaultTypeInternal;
 extern SCharacterEqipmentDefaultTypeInternal _SCharacterEqipment_default_instance_;
+class SEnemy;
+struct SEnemyDefaultTypeInternal;
+extern SEnemyDefaultTypeInternal _SEnemy_default_instance_;
 class SItem;
 struct SItemDefaultTypeInternal;
 extern SItemDefaultTypeInternal _SItem_default_instance_;
@@ -85,6 +88,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::SCharacterAppearance* Arena::CreateMaybeMessage<::Protocol::SCharacterAppearance>(Arena*);
 template<> ::Protocol::SCharacterData* Arena::CreateMaybeMessage<::Protocol::SCharacterData>(Arena*);
 template<> ::Protocol::SCharacterEqipment* Arena::CreateMaybeMessage<::Protocol::SCharacterEqipment>(Arena*);
+template<> ::Protocol::SEnemy* Arena::CreateMaybeMessage<::Protocol::SEnemy>(Arena*);
 template<> ::Protocol::SItem* Arena::CreateMaybeMessage<::Protocol::SItem>(Arena*);
 template<> ::Protocol::SRotator* Arena::CreateMaybeMessage<::Protocol::SRotator>(Arena*);
 template<> ::Protocol::SServerInfo* Arena::CreateMaybeMessage<::Protocol::SServerInfo>(Arena*);
@@ -2038,6 +2042,205 @@ class SItem final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_PacketStruct_2eproto;
 };
+// -------------------------------------------------------------------
+
+class SEnemy final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.SEnemy) */ {
+ public:
+  inline SEnemy() : SEnemy(nullptr) {}
+  ~SEnemy() override;
+  explicit PROTOBUF_CONSTEXPR SEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SEnemy(const SEnemy& from);
+  SEnemy(SEnemy&& from) noexcept
+    : SEnemy() {
+    *this = ::std::move(from);
+  }
+
+  inline SEnemy& operator=(const SEnemy& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SEnemy& operator=(SEnemy&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SEnemy& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SEnemy* internal_default_instance() {
+    return reinterpret_cast<const SEnemy*>(
+               &_SEnemy_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(SEnemy& a, SEnemy& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SEnemy* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SEnemy* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SEnemy>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SEnemy& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SEnemy& from) {
+    SEnemy::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SEnemy* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.SEnemy";
+  }
+  protected:
+  explicit SEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLocationFieldNumber = 3,
+    kRotationFieldNumber = 4,
+    kObjectIdFieldNumber = 1,
+    kEnemyIdFieldNumber = 2,
+  };
+  // .Protocol.SVector location = 3;
+  bool has_location() const;
+  private:
+  bool _internal_has_location() const;
+  public:
+  void clear_location();
+  const ::Protocol::SVector& location() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_location();
+  ::Protocol::SVector* mutable_location();
+  void set_allocated_location(::Protocol::SVector* location);
+  private:
+  const ::Protocol::SVector& _internal_location() const;
+  ::Protocol::SVector* _internal_mutable_location();
+  public:
+  void unsafe_arena_set_allocated_location(
+      ::Protocol::SVector* location);
+  ::Protocol::SVector* unsafe_arena_release_location();
+
+  // .Protocol.SRotator rotation = 4;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::Protocol::SRotator& rotation() const;
+  PROTOBUF_NODISCARD ::Protocol::SRotator* release_rotation();
+  ::Protocol::SRotator* mutable_rotation();
+  void set_allocated_rotation(::Protocol::SRotator* rotation);
+  private:
+  const ::Protocol::SRotator& _internal_rotation() const;
+  ::Protocol::SRotator* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::Protocol::SRotator* rotation);
+  ::Protocol::SRotator* unsafe_arena_release_rotation();
+
+  // int64 object_id = 1;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // int32 enemy_id = 2;
+  void clear_enemy_id();
+  int32_t enemy_id() const;
+  void set_enemy_id(int32_t value);
+  private:
+  int32_t _internal_enemy_id() const;
+  void _internal_set_enemy_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.SEnemy)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Protocol::SVector* location_;
+    ::Protocol::SRotator* rotation_;
+    int64_t object_id_;
+    int32_t enemy_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_PacketStruct_2eproto;
+};
 // ===================================================================
 
 
@@ -3565,9 +3768,235 @@ inline void SItem::set_rotation(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SItem.rotation)
 }
 
+// -------------------------------------------------------------------
+
+// SEnemy
+
+// int64 object_id = 1;
+inline void SEnemy::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t SEnemy::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t SEnemy::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.object_id)
+  return _internal_object_id();
+}
+inline void SEnemy::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void SEnemy::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.SEnemy.object_id)
+}
+
+// int32 enemy_id = 2;
+inline void SEnemy::clear_enemy_id() {
+  _impl_.enemy_id_ = 0;
+}
+inline int32_t SEnemy::_internal_enemy_id() const {
+  return _impl_.enemy_id_;
+}
+inline int32_t SEnemy::enemy_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.enemy_id)
+  return _internal_enemy_id();
+}
+inline void SEnemy::_internal_set_enemy_id(int32_t value) {
+  
+  _impl_.enemy_id_ = value;
+}
+inline void SEnemy::set_enemy_id(int32_t value) {
+  _internal_set_enemy_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.SEnemy.enemy_id)
+}
+
+// .Protocol.SVector location = 3;
+inline bool SEnemy::_internal_has_location() const {
+  return this != internal_default_instance() && _impl_.location_ != nullptr;
+}
+inline bool SEnemy::has_location() const {
+  return _internal_has_location();
+}
+inline void SEnemy::clear_location() {
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
+}
+inline const ::Protocol::SVector& SEnemy::_internal_location() const {
+  const ::Protocol::SVector* p = _impl_.location_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
+}
+inline const ::Protocol::SVector& SEnemy::location() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.location)
+  return _internal_location();
+}
+inline void SEnemy::unsafe_arena_set_allocated_location(
+    ::Protocol::SVector* location) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  _impl_.location_ = location;
+  if (location) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.SEnemy.location)
+}
+inline ::Protocol::SVector* SEnemy::release_location() {
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SVector* SEnemy::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_release:Protocol.SEnemy.location)
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* SEnemy::_internal_mutable_location() {
+  
+  if (_impl_.location_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.location_ = p;
+  }
+  return _impl_.location_;
+}
+inline ::Protocol::SVector* SEnemy::mutable_location() {
+  ::Protocol::SVector* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:Protocol.SEnemy.location)
+  return _msg;
+}
+inline void SEnemy::set_allocated_location(::Protocol::SVector* location) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.location_;
+  }
+  if (location) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(location);
+    if (message_arena != submessage_arena) {
+      location = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, location, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.location_ = location;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SEnemy.location)
+}
+
+// .Protocol.SRotator rotation = 4;
+inline bool SEnemy::_internal_has_rotation() const {
+  return this != internal_default_instance() && _impl_.rotation_ != nullptr;
+}
+inline bool SEnemy::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline void SEnemy::clear_rotation() {
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
+}
+inline const ::Protocol::SRotator& SEnemy::_internal_rotation() const {
+  const ::Protocol::SRotator* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SRotator&>(
+      ::Protocol::_SRotator_default_instance_);
+}
+inline const ::Protocol::SRotator& SEnemy::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.rotation)
+  return _internal_rotation();
+}
+inline void SEnemy::unsafe_arena_set_allocated_rotation(
+    ::Protocol::SRotator* rotation) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.SEnemy.rotation)
+}
+inline ::Protocol::SRotator* SEnemy::release_rotation() {
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SRotator* SEnemy::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:Protocol.SEnemy.rotation)
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SRotator* SEnemy::_internal_mutable_rotation() {
+  
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SRotator>(GetArenaForAllocation());
+    _impl_.rotation_ = p;
+  }
+  return _impl_.rotation_;
+}
+inline ::Protocol::SRotator* SEnemy::mutable_rotation() {
+  ::Protocol::SRotator* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:Protocol.SEnemy.rotation)
+  return _msg;
+}
+inline void SEnemy::set_allocated_rotation(::Protocol::SRotator* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.rotation_;
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(rotation);
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SEnemy.rotation)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -25,6 +25,11 @@ void World::Initialization()
 
 	AItemPtr item = std::static_pointer_cast<AItem>(CreateActor<AItem>(loc, rot));
 	item->SetItemCode(31);
+
+	std::shared_ptr<EnemySpawner<EnemySlime>> enemySlimeSpawner = std::make_shared<EnemySpawner<EnemySlime>>();
+	mGameTask->PushTask(enemySlimeSpawner->GetGameObjectPtr());
+	enemySlimeSpawner->SetEnemySpawner(std::static_pointer_cast<World>(shared_from_this()), 1, 5, 20.0f);
+	enemySlimeSpawner->SetLocation(100.0f, 100.0f, 500.0f);
 }
 
 void World::Destroy()

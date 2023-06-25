@@ -17,13 +17,7 @@ void Actor::Initialization()
 
 void Actor::Destroy()
 {
-	RemotePlayerPtr owner = mOwner.lock();
-	if (nullptr != owner)
-	{
-		owner.reset();
-	}
 
-	owner = nullptr;
 }
 
 void Actor::Tick()
@@ -59,9 +53,14 @@ void Actor::CloseToPlayer(PlayerStatePtr inClosePlayerState)
 	}
 }
 
-void Actor::SetOwner(RemotePlayerRef inOwner)
+void Actor::SetOwner(GameObjectRef inOwner)
 {
 	mOwner = inOwner;
+}
+
+void Actor::SetWorld(WorldRef inWorld)
+{
+	mWorld = inWorld;
 }
 
 void Actor::SetTransform(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotation, const Protocol::SVector& inScale)

@@ -38,5 +38,10 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"enemy_stats.csv").c_str(), static_cast<int32>(EGameDataType::EnemyStat)))
+    {
+        return false;
+    }
+
     return true;
 }

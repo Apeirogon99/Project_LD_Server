@@ -67,6 +67,11 @@ bool Handle_C2S_LeaveGameServer(PacketSessionPtr& session, Protocol::C2S_LeaveGa
 	return true;
 }
 
+bool Handle_C2S_Tick(PacketSessionPtr& session, Protocol::C2S_Tick& pkt)
+{
+	return true;
+}
+
 bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_MovementCharacter& pkt)
 {
 

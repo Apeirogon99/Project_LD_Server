@@ -31,6 +31,9 @@ public:
 	APEIROGON_API bool			FindTask(const int64 inGameObjectID, GameObjectPtr& outGameObject);
 	APEIROGON_API bool			FindTask(const WCHAR* inGameObjectName, GameObjectPtr& outGameObject);
 
+public:
+	APEIROGON_API ServicePtr	GetService() { return mService; }
+
 protected:
 	const int64 NextGameObjectNumber();
 	void		TaskManagerLog(const WCHAR* log, ...);

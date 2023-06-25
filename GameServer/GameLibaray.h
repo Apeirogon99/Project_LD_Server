@@ -30,11 +30,19 @@
 #include "Actor.h"
 #include "Pawn.h"
 #include "Character.h"
-#include "AICharacter.h"
+#include "NPCCharacter.h"
 #include "RemotePlayer.h"
 #include "AItem.h"
 #include "Inventory.h"
 #include "World.h"
+
+//==========================//
+//   GameContent | Enemy	//
+//==========================//
+#include "IStateEvent.h"
+#include "EnemyCharacter.h"
+#include "EnemySpawner.h"
+#include "EnemySlime.h"
 
 //==========================//
 //		    Packet			//

@@ -138,8 +138,20 @@
     <ClCompile Include="RemotePlayer.cpp">
       <Filter>Content\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="AICharacter.cpp">
+    <ClCompile Include="EnemyCharacter.cpp">
       <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySlime.cpp">
+      <Filter>Content\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCCharacter.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="IStateEvent.cpp">
+      <Filter>Content\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Content\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,8 +239,20 @@
     <ClInclude Include="RemotePlayer.h">
       <Filter>Content\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="AICharacter.h">
+    <ClInclude Include="EnemyCharacter.h">
       <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySlime.h">
+      <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCCharacter.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="IStateEvent.h">
+      <Filter>Content\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Content\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

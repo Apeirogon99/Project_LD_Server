@@ -19,6 +19,8 @@ public:
 
 public:
 	APEIROGON_API GameObjectPtr		GetGameObjectPtr();
+	APEIROGON_API GameObjectRef		GetGameObjectRef();
+
 	APEIROGON_API const WCHAR*		GetGameObjectName() const;
 	APEIROGON_API const int64		GetGameObjectID() const;
 

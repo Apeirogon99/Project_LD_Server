@@ -16,7 +16,8 @@ public:
 	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) abstract;
 
 public:
-	void SetOwner(RemotePlayerRef inOwner);
+	void SetOwner(GameObjectRef inOwner);
+	void SetWorld(WorldRef inWorld);
 
 	void SetTransform(const Protocol::SVector& inLocation, const Protocol::SRotator& inRotation, const Protocol::SVector& inScale);
 	void SetTransform(const Protocol::STransform& inTransform);
@@ -34,7 +35,8 @@ public:
 	void SetVelocity(const Protocol::SVector& inVelocity);
 
 public:
-	RemotePlayerRef				GetOwner()		const { return mOwner; }
+	GameObjectRef				GetOwner()		const { return mOwner; }
+	WorldRef					GetWorld()		const { return mWorld; }
 	const Protocol::STransform& GetTransform()	const { return mTransfrom; }
 	const Protocol::SVector&	GetLocation()	const { return mTransfrom.location(); }
 	const Protocol::SRotator&	GetRotation()	const { return mTransfrom.rotation(); }
@@ -42,7 +44,8 @@ public:
 	const Protocol::SVector&	GetVelocity()	const { return mVelocity; }
 
 protected:
-	RemotePlayerRef			mOwner;
+	GameObjectRef			mOwner;
+	WorldRef				mWorld;
 	Protocol::STransform	mTransfrom;
 	Protocol::SVector		mVelocity;
 };

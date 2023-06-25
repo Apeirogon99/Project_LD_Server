@@ -15,6 +15,9 @@ public:
 	virtual void Init() override;
 
 public:
+	GameDatasPtr GetGameDatas();
+
+public:
 	GameTaskPtr GetTaskPtr();
 	WorldPtr	GetWorld();
 };

@@ -156,7 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="AICharacter.cpp" />
+    <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
@@ -167,6 +167,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CommonServerPacketHandler.cpp" />
+    <ClCompile Include="EnemySlime.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="GameDatabase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -247,6 +249,8 @@
     <ClCompile Include="GameTask.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryDatabase.cpp" />
+    <ClCompile Include="IStateEvent.cpp" />
+    <ClCompile Include="NPCCharacter.cpp" />
     <ClCompile Include="PacketEnum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -305,12 +309,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="AICharacter.h" />
+    <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />
     <ClInclude Include="CommonServerPacketHandler.h" />
+    <ClInclude Include="EnemySlime.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="GameDatabase.h" />
     <ClInclude Include="GameDataBaseHandler.h" />
     <ClInclude Include="GameDatas.h" />
@@ -323,7 +329,9 @@
     <ClInclude Include="GameTask.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryDatabase.h" />
+    <ClInclude Include="IStateEvent.h" />
     <ClInclude Include="Mecro.h" />
+    <ClInclude Include="NPCCharacter.h" />
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketStruct.pb.h" />

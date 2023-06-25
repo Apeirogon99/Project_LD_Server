@@ -16,6 +16,11 @@ void GameTask::Init()
 	PushTask(std::make_shared<World>(L"World", GetTaskPtr())->GetGameObjectPtr());
 }
 
+GameDatasPtr GameTask::GetGameDatas()
+{
+	return std::static_pointer_cast<GameDatas>(GetService()->GetDataManager());
+}
+
 GameTaskPtr GameTask::GetTaskPtr()
 {
 	return std::static_pointer_cast<GameTask>(shared_from_this());

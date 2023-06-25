@@ -31,14 +31,12 @@ using GameTaskPtr		= std::shared_ptr<GameTask>;
 class Actor;
 class Pawn;
 class Character;
-class AICharacter;
 class RemotePlayer;
 class RemoteClient;
 
 using ActorPtr			= std::shared_ptr<Actor>;
 using PawnPtr			= std::shared_ptr<Pawn>;
 using CharacterPtr		= std::shared_ptr<Character>;
-using AICharacterPtr	= std::shared_ptr<AICharacter>;
 using RemotePlayerPtr	= std::shared_ptr<RemotePlayer>;
 using RemotePlayerRef	= std::weak_ptr<RemotePlayer>;
 using RemoteClientPtr	= std::weak_ptr<RemoteClient>;
@@ -55,6 +53,15 @@ using WorldPtr = std::shared_ptr<World>;
 using WorldRef = std::weak_ptr<World>;
 using AItemPtr = std::shared_ptr<AItem>;
 using Inventoryptr = std::shared_ptr<Inventory>;
+
+//==========================//
+//   GameContent | Enemy	//
+//==========================//
+class EnemyCharacter;
+class EnemySlime;
+
+using EnemyCharacterPtr		= std::shared_ptr<EnemyCharacter>;
+using EnemySlimePtr			= std::shared_ptr<EnemySlime>;
 
 //==========================//
 //		    USING			//

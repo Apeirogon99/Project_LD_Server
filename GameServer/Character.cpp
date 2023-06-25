@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Character.h"
 
-Character::Character(const RemotePlayerRef& inReomtePlayer) : Pawn(L"Character"), mRemotePlayer(inReomtePlayer), mCharacterID(-1), mLastMovementTimeStamp(0), mIsLoad(false)
+Character::Character(const RemotePlayerRef& inReomtePlayer) : Pawn(L"Character"), mRemotePlayer(inReomtePlayer), mCharacterID(-1), mIsLoad(false)
 {
 
 }
@@ -13,7 +13,6 @@ Character::~Character()
 
 void Character::Initialization()
 {
-	mLastMovementTimeStamp = 0;
 	mStats.Clear();
 }
 
@@ -59,9 +58,9 @@ void Character::AppearActor(PlayerStatePtr inAppearPlayerState)
 
 	Protocol::S2C_AppearCharacter appearPacket;
 	appearPacket.set_remote_id(targetRemotePlayer->GetGameObjectID());
-	appearPacket.set_timestamp(this->mLastMovementTimeStamp);
-	appearPacket.mutable_old_location()->CopyFrom(this->GetOldLocation());
-	appearPacket.mutable_new_location()->CopyFrom(this->GetLocation());
+	appearPacket.set_timestamp(this->GetMoveLastTick());
+	appearPacket.mutable_cur_location()->CopyFrom(this->GetLocation());
+	appearPacket.mutable_move_location()->CopyFrom(this->GetMoveLocation());
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inAppearPlayerState);
@@ -106,24 +105,24 @@ void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
 		return;
 	}
 	
-	const Protocol::SVector&	oldLocation = inPakcet.old_location();
-	const Protocol::SVector&	newLocation	= inPakcet.new_location();
-	const int64					remoteID	= remotePlayer->GetGameObjectID();
-	const int64					timestamp	= inPakcet.timestamp();
-
-	this->mLastMovementTimeStamp = timestamp;
-	this->mOldLocation.CopyFrom(oldLocation);
-	this->SetLocation(newLocation);
+	const Protocol::SVector&	curLocation		= inPakcet.cur_location();
+	const Protocol::SVector&	moveLocation	= inPakcet.move_location();
+	const int64					remoteID		= remotePlayer->GetGameObjectID();
+	const int64					timestamp		= inPakcet.timestamp();
 
 	Protocol::S2C_MovementCharacter newMovementPacket;
-	Protocol::SVector* oldMovementLocation = newMovementPacket.mutable_old_location();
-	oldMovementLocation->CopyFrom(oldLocation);
-
-	Protocol::SVector* newMovementLocation = newMovementPacket.mutable_new_location();
-	newMovementLocation->CopyFrom(newLocation);
-
 	newMovementPacket.set_remote_id(remoteID);
+
+	Protocol::SVector* oldMovementLocation = newMovementPacket.mutable_cur_location();
+	oldMovementLocation->CopyFrom(curLocation);
+	this->SetLocation(curLocation);
+
+	Protocol::SVector* newMovementLocation = newMovementPacket.mutable_move_location();
+	newMovementLocation->CopyFrom(moveLocation);
+	this->SetMoveLocation(moveLocation);
+
 	newMovementPacket.set_timestamp(timestamp);
+	this->SetMoveLastTick(timestamp);
 
 	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
 	if (nullptr == playerState)
@@ -149,11 +148,6 @@ void Character::SetCharacterID(const int32& inCharacterID)
 void Character::SetCharacterData(Protocol::SCharacterData inCharacterData)
 {
 	mCharacterData.CopyFrom(inCharacterData);
-}
-
-void Character::SetOldLocation(const Protocol::SVector& inOldLocation)
-{
-	mOldLocation.CopyFrom(inOldLocation);
 }
 
 void Character::ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)

@@ -205,8 +205,24 @@ struct SItemDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SItemDefaultTypeInternal _SItem_default_instance_;
+PROTOBUF_CONSTEXPR SEnemy::SEnemy(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.location_)*/nullptr
+  , /*decltype(_impl_.rotation_)*/nullptr
+  , /*decltype(_impl_.object_id_)*/int64_t{0}
+  , /*decltype(_impl_.enemy_id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SEnemyDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SEnemyDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SEnemyDefaultTypeInternal() {}
+  union {
+    SEnemy _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SEnemyDefaultTypeInternal _SEnemy_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[10];
+static ::_pb::Metadata file_level_metadata_PacketStruct_2eproto[11];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_PacketStruct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketStruct_2eproto = nullptr;
 
@@ -316,6 +332,16 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.world_position_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.inven_position_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.rotation_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.object_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.enemy_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.location_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.rotation_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::SServerInfo)},
@@ -328,6 +354,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 76, -1, -1, sizeof(::Protocol::SRotator)},
   { 85, -1, -1, sizeof(::Protocol::STransform)},
   { 94, -1, -1, sizeof(::Protocol::SItem)},
+  { 105, -1, -1, sizeof(::Protocol::SEnemy)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -341,6 +368,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_SRotator_default_instance_._instance,
   &::Protocol::_STransform_default_instance_._instance,
   &::Protocol::_SItem_default_instance_._instance,
+  &::Protocol::_SEnemy_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -372,16 +400,19 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "\001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_position"
   "\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_posit"
   "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
-  "on\030\005 \001(\005b\006proto3"
+  "on\030\005 \001(\005\"x\n\006SEnemy\022\021\n\tobject_id\030\001 \001(\003\022\020\n"
+  "\010enemy_id\030\002 \001(\005\022#\n\010location\030\003 \001(\0132\021.Prot"
+  "ocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.Protoco"
+  "l.SRotatorb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1136, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1258, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
-    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 10,
+    &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 11,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
     file_level_metadata_PacketStruct_2eproto, file_level_enum_descriptors_PacketStruct_2eproto,
     file_level_service_descriptors_PacketStruct_2eproto,
@@ -3398,6 +3429,299 @@ void SItem::InternalSwap(SItem* other) {
       file_level_metadata_PacketStruct_2eproto[9]);
 }
 
+// ===================================================================
+
+class SEnemy::_Internal {
+ public:
+  static const ::Protocol::SVector& location(const SEnemy* msg);
+  static const ::Protocol::SRotator& rotation(const SEnemy* msg);
+};
+
+const ::Protocol::SVector&
+SEnemy::_Internal::location(const SEnemy* msg) {
+  return *msg->_impl_.location_;
+}
+const ::Protocol::SRotator&
+SEnemy::_Internal::rotation(const SEnemy* msg) {
+  return *msg->_impl_.rotation_;
+}
+SEnemy::SEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.SEnemy)
+}
+SEnemy::SEnemy(const SEnemy& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SEnemy* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){}
+    , decltype(_impl_.enemy_id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_location()) {
+    _this->_impl_.location_ = new ::Protocol::SVector(*from._impl_.location_);
+  }
+  if (from._internal_has_rotation()) {
+    _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
+  }
+  ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.enemy_id_) -
+    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.enemy_id_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.SEnemy)
+}
+
+inline void SEnemy::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){int64_t{0}}
+    , decltype(_impl_.enemy_id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SEnemy::~SEnemy() {
+  // @@protoc_insertion_point(destructor:Protocol.SEnemy)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SEnemy::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.location_;
+  if (this != internal_default_instance()) delete _impl_.rotation_;
+}
+
+void SEnemy::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SEnemy::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.SEnemy)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
+  ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.enemy_id_) -
+      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.enemy_id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SEnemy::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 object_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.object_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 enemy_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.enemy_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SVector location = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_location(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SRotator rotation = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SEnemy::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.SEnemy)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 object_id = 1;
+  if (this->_internal_object_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
+  }
+
+  // int32 enemy_id = 2;
+  if (this->_internal_enemy_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_enemy_id(), target);
+  }
+
+  // .Protocol.SVector location = 3;
+  if (this->_internal_has_location()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::location(this),
+        _Internal::location(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.SRotator rotation = 4;
+  if (this->_internal_has_rotation()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::rotation(this),
+        _Internal::rotation(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.SEnemy)
+  return target;
+}
+
+size_t SEnemy::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.SEnemy)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protocol.SVector location = 3;
+  if (this->_internal_has_location()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.location_);
+  }
+
+  // .Protocol.SRotator rotation = 4;
+  if (this->_internal_has_rotation()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.rotation_);
+  }
+
+  // int64 object_id = 1;
+  if (this->_internal_object_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_object_id());
+  }
+
+  // int32 enemy_id = 2;
+  if (this->_internal_enemy_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_enemy_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SEnemy::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SEnemy::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SEnemy::GetClassData() const { return &_class_data_; }
+
+
+void SEnemy::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SEnemy*>(&to_msg);
+  auto& from = static_cast<const SEnemy&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.SEnemy)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_location()) {
+    _this->_internal_mutable_location()->::Protocol::SVector::MergeFrom(
+        from._internal_location());
+  }
+  if (from._internal_has_rotation()) {
+    _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
+        from._internal_rotation());
+  }
+  if (from._internal_object_id() != 0) {
+    _this->_internal_set_object_id(from._internal_object_id());
+  }
+  if (from._internal_enemy_id() != 0) {
+    _this->_internal_set_enemy_id(from._internal_enemy_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SEnemy::CopyFrom(const SEnemy& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.SEnemy)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SEnemy::IsInitialized() const {
+  return true;
+}
+
+void SEnemy::InternalSwap(SEnemy* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SEnemy, _impl_.enemy_id_)
+      + sizeof(SEnemy::_impl_.enemy_id_)
+      - PROTOBUF_FIELD_OFFSET(SEnemy, _impl_.location_)>(
+          reinterpret_cast<char*>(&_impl_.location_),
+          reinterpret_cast<char*>(&other->_impl_.location_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SEnemy::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_PacketStruct_2eproto_getter, &descriptor_table_PacketStruct_2eproto_once,
+      file_level_metadata_PacketStruct_2eproto[10]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -3440,6 +3764,10 @@ Arena::CreateMaybeMessage< ::Protocol::STransform >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::SItem*
 Arena::CreateMaybeMessage< ::Protocol::SItem >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::SItem >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::SEnemy*
+Arena::CreateMaybeMessage< ::Protocol::SEnemy >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::SEnemy >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
