@@ -13,7 +13,9 @@ GameTask::~GameTask()
 
 void GameTask::Init()
 {
-	PushTask(std::make_shared<World>(L"World", GetTaskPtr())->GetGameObjectPtr());
+	WorldPtr world = std::make_shared<World>(L"World", GetTaskPtr());
+	GameObjectPtr worldGameObject = world->GetGameObjectPtr();
+	PushTask(worldGameObject);
 }
 
 GameDatasPtr GameTask::GetGameDatas()

@@ -6,20 +6,15 @@ public:
 	virtual ~EnemyCharacter();
 
 public:
-	virtual void Initialization()	override;
-	virtual void Destroy()			override;
-	virtual void Tick()				override;
-	virtual bool IsValid()			override { return mEnemyID != 0; }
+	virtual void OnInitialization()					override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()							override { return mEnemyID != 0; }
 
 public:
 	virtual void AppearActor(PlayerStatePtr inClosePlayerState) abstract;
 	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) abstract;
-
-protected:
-	virtual void Attack() abstract;
-	virtual void Hit() abstract;
-	virtual void Death() abstract;
-
+	
 	bool IsAttackRange();
 
 public:
@@ -29,7 +24,6 @@ public:
 	void SetSpawnLocation(const Protocol::SVector& inSpawnLocation);
 
 public:
-	const bool					IsLoad() {}
 	const int32					GetEnemyID()		{ return mEnemyID; }
 	const int64					GetSpawnObjectID()	{ return mSpawnObjectID; }
 	const Stats&				GetStat()			{ return mStats; }
@@ -42,6 +36,7 @@ private:
 	int64 mSpawnObjectID;
 
 	Stats mStats;
+
 	StateManager mStateManager;
 
 	Protocol::SVector mSpawnLocation;

@@ -11,8 +11,10 @@ Inventory::~Inventory()
 	mItems.clear();
 }
 
-void Inventory::Initialization()
+void Inventory::OnInitialization()
 {
+	SetTick(0, false);
+
 	mStorage = mWidth * mHeight;
 	mInventory = new uint8[mStorage]();
 	memset(mInventory, 0, mStorage);
@@ -20,7 +22,7 @@ void Inventory::Initialization()
 	mEqipments.resize(9);
 }
 
-void Inventory::Destroy()
+void Inventory::OnDestroy()
 {
 	if (mInventory)
 	{
@@ -34,7 +36,7 @@ void Inventory::Destroy()
 	mRemotePlayer.reset();
 }
 
-void Inventory::Tick()
+void Inventory::OnTick(const int64 inDeltaTime)
 {
 }
 
@@ -50,13 +52,13 @@ void Inventory::SetLoad(bool inIsLoad)
 
 void Inventory::CreateEqipment(const int32 inItemCode, const int32 inPart)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
-	PlayerStatePtr	playerState = remotePlayer->GetPlayerState().lock();
-	WorldPtr		wolrd = playerState->GetWorld();
-	GameTaskPtr		task = wolrd->GetGameTask();
+	RemotePlayerPtr remotePlayer	= mRemotePlayer.lock();
+	PlayerStatePtr	playerState		= remotePlayer->GetPlayerState().lock();
+	GameTaskPtr		task			= std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
 
 	AItemPtr newItem = std::make_shared<AItem>();
-	task->CreateGameObject(newItem->GetGameObjectPtr());
+	GameObjectPtr gameObject = newItem->GetGameObjectPtr();
+	task->CreateGameObject(gameObject);
 	newItem->Init(inItemCode, 0, 0, 0);
 
 	mEqipments[inPart - 1] = newItem;
@@ -106,14 +108,15 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 	const Protocol::SItem& item = inPacket.item();
 	const int64 objectID = item.object_id();
 
-	WorldPtr world = playerState->GetWorld();
+	WorldPtr world = remotePlayer->GetWorldRef().lock();
 	if (true == world->IsValidActor(objectID))
 	{
 		GameTaskPtr task = world->GetGameTask();
 		world->DestroyActor(objectID);
 
 		AItemPtr newItem = std::make_shared<AItem>();
-		task->CreateGameObject(newItem->GetGameObjectPtr());
+		GameObjectPtr itemGameObject = newItem->GetGameObjectPtr();
+		task->CreateGameObject(itemGameObject);
 
 		const int32					characterID = remotePlayer->GetCharacter()->GetCharacterID();
 		const int32					itemCode = item.item_code();
@@ -208,7 +211,7 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	const Protocol::SItem& item = inPacket.item();
 	const int64 objectID = item.object_id();
 
-	WorldPtr world = playerState->GetWorld();
+	WorldPtr world = remotePlayer->GetWorldRef().lock();
 	if (false == world->IsValidActor(objectID))
 	{
 
@@ -492,7 +495,7 @@ bool Inventory::RollBackItem()
 
 bool Inventory::CheckInventory()
 {
-	PrintInventoryDebug();
+	//PrintInventoryDebug();
 
 	for (int32 index = 0; index < mStorage; ++index)
 	{

@@ -43,6 +43,7 @@ namespace Protocol {
 PROTOBUF_CONSTEXPR C2S_ReplicatedServerTimeStamp::C2S_ReplicatedServerTimeStamp(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.utc_time_)*/int64_t{0}
+  , /*decltype(_impl_.rtt_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2S_ReplicatedServerTimeStampDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_ReplicatedServerTimeStampDefaultTypeInternal()
@@ -55,9 +56,8 @@ struct C2S_ReplicatedServerTimeStampDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_ReplicatedServerTimeStampDefaultTypeInternal _C2S_ReplicatedServerTimeStamp_default_instance_;
 PROTOBUF_CONSTEXPR S2C_ReplicatedServerTimeStamp::S2C_ReplicatedServerTimeStamp(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.time_stamp_)*/int64_t{0}
-  , /*decltype(_impl_.utc_time_)*/int64_t{0}
-  , /*decltype(_impl_.rtt_)*/int64_t{0}
+    /*decltype(_impl_.utc_time_)*/int64_t{0}
+  , /*decltype(_impl_.time_stamp_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_ReplicatedServerTimeStampDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_ReplicatedServerTimeStampDefaultTypeInternal()
@@ -140,15 +140,15 @@ const uint32_t TableStruct_CommonPacket_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplicatedServerTimeStamp, _impl_.utc_time_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_ReplicatedServerTimeStamp, _impl_.rtt_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplicatedServerTimeStamp, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplicatedServerTimeStamp, _impl_.time_stamp_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplicatedServerTimeStamp, _impl_.utc_time_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplicatedServerTimeStamp, _impl_.rtt_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ReplicatedServerTimeStamp, _impl_.time_stamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelLevel, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -187,7 +187,7 @@ const uint32_t TableStruct_CommonPacket_2eproto::offsets[] PROTOBUF_SECTION_VARI
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_ReplicatedServerTimeStamp)},
-  { 7, -1, -1, sizeof(::Protocol::S2C_ReplicatedServerTimeStamp)},
+  { 8, -1, -1, sizeof(::Protocol::S2C_ReplicatedServerTimeStamp)},
   { 16, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
   { 23, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
   { 30, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
@@ -204,11 +204,11 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_CommonPacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\022CommonPacket.proto\022\010Protocol\"1\n\035C2S_Re"
+  "\n\022CommonPacket.proto\022\010Protocol\">\n\035C2S_Re"
   "plicatedServerTimeStamp\022\020\n\010utc_time\030\001 \001("
-  "\003\"R\n\035S2C_ReplicatedServerTimeStamp\022\022\n\nti"
-  "me_stamp\030\001 \001(\003\022\020\n\010utc_time\030\002 \001(\003\022\013\n\003rtt\030"
-  "\003 \001(\003\" \n\017C2S_TravelLevel\022\r\n\005level\030\001 \001(\005\""
+  "\003\022\013\n\003rtt\030\002 \001(\003\"E\n\035S2C_ReplicatedServerTi"
+  "meStamp\022\020\n\010utc_time\030\001 \001(\003\022\022\n\ntime_stamp\030"
+  "\002 \001(\003\" \n\017C2S_TravelLevel\022\r\n\005level\030\001 \001(\005\""
   " \n\017S2C_TravelLevel\022\r\n\005error\030\001 \001(\005\"J\n\020C2S"
   "_TravelServer\022\r\n\005token\030\001 \001(\014\022\021\n\tglobal_i"
   "d\030\002 \001(\005\022\024\n\014character_id\030\003 \001(\005\"s\n\020S2C_Tra"
@@ -250,10 +250,13 @@ C2S_ReplicatedServerTimeStamp::C2S_ReplicatedServerTimeStamp(const C2S_Replicate
   C2S_ReplicatedServerTimeStamp* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.utc_time_){}
+    , decltype(_impl_.rtt_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.utc_time_ = from._impl_.utc_time_;
+  ::memcpy(&_impl_.utc_time_, &from._impl_.utc_time_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.rtt_) -
+    reinterpret_cast<char*>(&_impl_.utc_time_)) + sizeof(_impl_.rtt_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_ReplicatedServerTimeStamp)
 }
 
@@ -263,6 +266,7 @@ inline void C2S_ReplicatedServerTimeStamp::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.utc_time_){int64_t{0}}
+    , decltype(_impl_.rtt_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -290,7 +294,9 @@ void C2S_ReplicatedServerTimeStamp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.utc_time_ = int64_t{0};
+  ::memset(&_impl_.utc_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.rtt_) -
+      reinterpret_cast<char*>(&_impl_.utc_time_)) + sizeof(_impl_.rtt_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -304,6 +310,14 @@ const char* C2S_ReplicatedServerTimeStamp::_InternalParse(const char* ptr, ::_pb
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.utc_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 rtt = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.rtt_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -343,6 +357,12 @@ uint8_t* C2S_ReplicatedServerTimeStamp::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_utc_time(), target);
   }
 
+  // int64 rtt = 2;
+  if (this->_internal_rtt() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_rtt(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -362,6 +382,11 @@ size_t C2S_ReplicatedServerTimeStamp::ByteSizeLong() const {
   // int64 utc_time = 1;
   if (this->_internal_utc_time() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_utc_time());
+  }
+
+  // int64 rtt = 2;
+  if (this->_internal_rtt() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_rtt());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -385,6 +410,9 @@ void C2S_ReplicatedServerTimeStamp::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& 
   if (from._internal_utc_time() != 0) {
     _this->_internal_set_utc_time(from._internal_utc_time());
   }
+  if (from._internal_rtt() != 0) {
+    _this->_internal_set_rtt(from._internal_rtt());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -402,7 +430,12 @@ bool C2S_ReplicatedServerTimeStamp::IsInitialized() const {
 void C2S_ReplicatedServerTimeStamp::InternalSwap(C2S_ReplicatedServerTimeStamp* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.utc_time_, other->_impl_.utc_time_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(C2S_ReplicatedServerTimeStamp, _impl_.rtt_)
+      + sizeof(C2S_ReplicatedServerTimeStamp::_impl_.rtt_)
+      - PROTOBUF_FIELD_OFFSET(C2S_ReplicatedServerTimeStamp, _impl_.utc_time_)>(
+          reinterpret_cast<char*>(&_impl_.utc_time_),
+          reinterpret_cast<char*>(&other->_impl_.utc_time_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_ReplicatedServerTimeStamp::GetMetadata() const {
@@ -427,15 +460,14 @@ S2C_ReplicatedServerTimeStamp::S2C_ReplicatedServerTimeStamp(const S2C_Replicate
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_ReplicatedServerTimeStamp* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.time_stamp_){}
-    , decltype(_impl_.utc_time_){}
-    , decltype(_impl_.rtt_){}
+      decltype(_impl_.utc_time_){}
+    , decltype(_impl_.time_stamp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.time_stamp_, &from._impl_.time_stamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.rtt_) -
-    reinterpret_cast<char*>(&_impl_.time_stamp_)) + sizeof(_impl_.rtt_));
+  ::memcpy(&_impl_.utc_time_, &from._impl_.utc_time_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.time_stamp_) -
+    reinterpret_cast<char*>(&_impl_.utc_time_)) + sizeof(_impl_.time_stamp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_ReplicatedServerTimeStamp)
 }
 
@@ -444,9 +476,8 @@ inline void S2C_ReplicatedServerTimeStamp::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.time_stamp_){int64_t{0}}
-    , decltype(_impl_.utc_time_){int64_t{0}}
-    , decltype(_impl_.rtt_){int64_t{0}}
+      decltype(_impl_.utc_time_){int64_t{0}}
+    , decltype(_impl_.time_stamp_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -474,9 +505,9 @@ void S2C_ReplicatedServerTimeStamp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.time_stamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.rtt_) -
-      reinterpret_cast<char*>(&_impl_.time_stamp_)) + sizeof(_impl_.rtt_));
+  ::memset(&_impl_.utc_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.time_stamp_) -
+      reinterpret_cast<char*>(&_impl_.utc_time_)) + sizeof(_impl_.time_stamp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -486,26 +517,18 @@ const char* S2C_ReplicatedServerTimeStamp::_InternalParse(const char* ptr, ::_pb
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 time_stamp = 1;
+      // int64 utc_time = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.time_stamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int64 utc_time = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.utc_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int64 rtt = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.rtt_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+      // int64 time_stamp = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.time_stamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -539,22 +562,16 @@ uint8_t* S2C_ReplicatedServerTimeStamp::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 time_stamp = 1;
-  if (this->_internal_time_stamp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_time_stamp(), target);
-  }
-
-  // int64 utc_time = 2;
+  // int64 utc_time = 1;
   if (this->_internal_utc_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_utc_time(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_utc_time(), target);
   }
 
-  // int64 rtt = 3;
-  if (this->_internal_rtt() != 0) {
+  // int64 time_stamp = 2;
+  if (this->_internal_time_stamp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_rtt(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_time_stamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -573,19 +590,14 @@ size_t S2C_ReplicatedServerTimeStamp::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int64 time_stamp = 1;
-  if (this->_internal_time_stamp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_time_stamp());
-  }
-
-  // int64 utc_time = 2;
+  // int64 utc_time = 1;
   if (this->_internal_utc_time() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_utc_time());
   }
 
-  // int64 rtt = 3;
-  if (this->_internal_rtt() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_rtt());
+  // int64 time_stamp = 2;
+  if (this->_internal_time_stamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_time_stamp());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -606,14 +618,11 @@ void S2C_ReplicatedServerTimeStamp::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_time_stamp() != 0) {
-    _this->_internal_set_time_stamp(from._internal_time_stamp());
-  }
   if (from._internal_utc_time() != 0) {
     _this->_internal_set_utc_time(from._internal_utc_time());
   }
-  if (from._internal_rtt() != 0) {
-    _this->_internal_set_rtt(from._internal_rtt());
+  if (from._internal_time_stamp() != 0) {
+    _this->_internal_set_time_stamp(from._internal_time_stamp());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -633,11 +642,11 @@ void S2C_ReplicatedServerTimeStamp::InternalSwap(S2C_ReplicatedServerTimeStamp* 
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_ReplicatedServerTimeStamp, _impl_.rtt_)
-      + sizeof(S2C_ReplicatedServerTimeStamp::_impl_.rtt_)
-      - PROTOBUF_FIELD_OFFSET(S2C_ReplicatedServerTimeStamp, _impl_.time_stamp_)>(
-          reinterpret_cast<char*>(&_impl_.time_stamp_),
-          reinterpret_cast<char*>(&other->_impl_.time_stamp_));
+      PROTOBUF_FIELD_OFFSET(S2C_ReplicatedServerTimeStamp, _impl_.time_stamp_)
+      + sizeof(S2C_ReplicatedServerTimeStamp::_impl_.time_stamp_)
+      - PROTOBUF_FIELD_OFFSET(S2C_ReplicatedServerTimeStamp, _impl_.utc_time_)>(
+          reinterpret_cast<char*>(&_impl_.utc_time_),
+          reinterpret_cast<char*>(&other->_impl_.utc_time_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReplicatedServerTimeStamp::GetMetadata() const {

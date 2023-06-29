@@ -9,20 +9,18 @@ EnemyCharacter::~EnemyCharacter()
 {
 }
 
-void EnemyCharacter::Initialization()
+void EnemyCharacter::OnInitialization()
+{
+	SetTick(100, true);
+	mStateManager.SetState(EStateEventType::State_Idle);
+}
+
+void EnemyCharacter::OnDestroy()
 {
 }
 
-void EnemyCharacter::Destroy()
+void EnemyCharacter::OnTick(const int64 inDeltaTime)
 {
-}
-
-void EnemyCharacter::Tick()
-{
-	if (true == IsAttackRange())
-	{
-
-	}
 }
 
 bool EnemyCharacter::IsAttackRange()

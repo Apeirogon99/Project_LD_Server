@@ -75,8 +75,6 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	int32		experience		= inRecordset.GetFieldItem(L"experience");
 
 
-
-
 	Protocol::SCharacterData loadCharacterData;
 	loadCharacterData.set_name(name.c_str());
 	loadCharacterData.set_level(level);
@@ -123,7 +121,6 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	}
 
 	character->SetLoad(true);
-
 	remotePlayer->LoadComplete();
 
 	return true;

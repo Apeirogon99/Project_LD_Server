@@ -15,19 +15,20 @@ RemotePlayer::~RemotePlayer()
 
 }
 
-void RemotePlayer::Initialization()
+void RemotePlayer::OnInitialization()
 {
+	SetTick(0, false);
 	RemotePlayerRef remotePlayerRef = GetRemotePlayer();
 	mInventory = std::make_shared<Inventory>(remotePlayerRef, 12, 7);
 	mCharacter = std::make_shared<Character>(remotePlayerRef);
 }
 
-void RemotePlayer::Destroy()
+void RemotePlayer::OnDestroy()
 {
 	
 }
 
-void RemotePlayer::Tick()
+void RemotePlayer::OnTick(const int64 inDeltaTime)
 {
 
 }
@@ -37,9 +38,10 @@ bool RemotePlayer::IsValid()
 	return true;
 }
 
-bool RemotePlayer::LoadRemotePlayer(const Token& inToken)
+bool RemotePlayer::LoadRemotePlayer(const Token& inToken, WorldRef inWorld)
 {
 
+	mWorld = inWorld;
 	mToken = inToken;
 
 	PlayerStatePtr playerState = mPlayerState.lock();
@@ -85,7 +87,7 @@ void RemotePlayer::LoadComplete()
 		return;
 	}
 
-	WorldPtr world = playerState->GetWorld();
+	WorldPtr world = this->GetWorldRef().lock();
 	if (nullptr == world)
 	{
 		return;
@@ -121,9 +123,14 @@ void RemotePlayer::InitTask(GameTaskPtr& inGameTask)
 		return;
 	}
 
-	inGameTask->PushTask(this->GetGameObjectPtr());
-	inGameTask->PushTask(this->GetCharacter());
-	inGameTask->PushTask(this->GetInventory());
+	GameObjectPtr remoteGameObject = this->GetGameObjectPtr();
+	inGameTask->PushTask(remoteGameObject);
+
+	GameObjectPtr characterGameObject = this->GetCharacter()->GetGameObjectPtr();
+	inGameTask->PushTask(characterGameObject);
+
+	GameObjectPtr inventoryGameObject = this->GetInventory()->GetGameObjectPtr();
+	inGameTask->PushTask(inventoryGameObject);
 }
 
 void RemotePlayer::DestroyTask(GameTaskPtr& inGameTask)
@@ -133,9 +140,14 @@ void RemotePlayer::DestroyTask(GameTaskPtr& inGameTask)
 		return;
 	}
 
-	inGameTask->ReleaseTask(this->GetInventory());
-	inGameTask->ReleaseTask(this->GetCharacter());
-	inGameTask->ReleaseTask(this->GetGameObjectPtr());
+	GameObjectPtr remoteGameObject = this->GetGameObjectPtr();
+	inGameTask->ReleaseTask(remoteGameObject);
+
+	GameObjectPtr characterGameObject = this->GetCharacter()->GetGameObjectPtr();
+	inGameTask->ReleaseTask(characterGameObject);
+
+	GameObjectPtr inventoryGameObject = this->GetInventory()->GetGameObjectPtr();
+	inGameTask->ReleaseTask(inventoryGameObject);
 }
 
 void RemotePlayer::BrodcastViewers(SendBufferPtr inSendBuffer)

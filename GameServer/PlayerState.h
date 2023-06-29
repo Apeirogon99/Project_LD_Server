@@ -16,11 +16,9 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	void SetWorld(WorldRef inWorld);
 	void BroadcastMonitors(SendBufferPtr inSendBuffer);
 
 public:
-	WorldPtr			GetWorld()			{ return mWorld.lock(); }
 	PlayerStateRef		GetPlayerStateRef() { return std::static_pointer_cast<PlayerState>(shared_from_this()); }
 	RemotePlayerPtr&	GetRemotePlayer()	{ return mRemotePlayer; }
 	Monitors&			GetMonitors()		{ return mMonitors; }
@@ -30,7 +28,6 @@ public:
 	void PlayerStateLog(const WCHAR* inLog, Types... inArgs);
 
 private:
-	WorldRef			mWorld;
 	RemotePlayerPtr		mRemotePlayer;
 	Monitors			mMonitors;
 };

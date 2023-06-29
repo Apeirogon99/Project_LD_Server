@@ -4,7 +4,7 @@ template<typename EnemyClass>
 class EnemySpawner : public Actor
 {
 public:
-	EnemySpawner() : Actor(L"[EnemySpawner]"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnedEnemyIDs(nullptr), mSpawnRange(0.0f), mLastSpawnCount(0){}
+	EnemySpawner() : Actor(L"EnemySpawner"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnedEnemyIDs(nullptr), mSpawnRange(0.0f), mLastSpawnCount(0){}
 	~EnemySpawner() {}
 
 	EnemySpawner(const EnemySpawner&) = delete;
@@ -14,12 +14,12 @@ public:
 	EnemySpawner& operator=(EnemySpawner&&) noexcept = delete;
 
 public:
-	virtual void Initialization()	override
+	virtual void OnInitialization()	override
 	{
-		
+		SetTick(1000, true);
 	}
 
-	virtual void Destroy()			override
+	virtual void OnDestroy() override
 	{
 		if (mSpawnedEnemyIDs)
 		{
@@ -28,7 +28,7 @@ public:
 		mSpawnedEnemyIDs = nullptr;
 	}
 
-	virtual void Tick()				override
+	virtual void OnTick(const int64 inDeltaTime) override
 	{
 
 		if (false == IsValid())
@@ -108,10 +108,16 @@ template<typename EnemyClass>
 inline void EnemySpawner<EnemyClass>::SpawnEnemey()
 {
 
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
 	{
 		const Protocol::SVector newLocation = GetRandomSpawnLocation();
-		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(mWorld->CreateActor<EnemyClass>(newLocation, Protocol::SRotator()));
+		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->CreateActor<EnemyClass>(newLocation, Protocol::SRotator()));
 		if (nullptr == newEnemy)
 		{
 			return;
@@ -124,7 +130,7 @@ inline void EnemySpawner<EnemyClass>::SpawnEnemey()
 		newEnemy->SetSpawnLocation(newLocation);
 		newEnemy->SetLocation(newLocation);
 
-		wprintf(L"[%lld]\t[%ld]\t(%f\t:%f\t:%f)\n", newEnemy->GetGameObjectID(), newEnemy->GetEnemyID(), newEnemy->GetLocation().x(), newEnemy->GetLocation().y(), newEnemy->GetLocation().z());
+		GameObjectLog(L"Spawend enemy [ID::%3lld] [TYPE::%2d] [LOC X::%5.3f Y::%5.3f Z::%5.3f]\n", newEnemy->GetGameObjectID(), newEnemy->GetEnemyID(), newLocation.x(), newLocation.y(), newLocation.z());
 
 		mSpawnedEnemyIDs[index] = newEnemy->GetGameObjectID();
 	}

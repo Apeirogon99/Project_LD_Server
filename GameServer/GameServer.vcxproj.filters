@@ -153,6 +153,7 @@
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Content\Private</Filter>
     </ClCompile>
+    <ClCompile Include="PacketUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -253,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Content\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketUtils.h">
+      <Filter>Packet\Handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -202,6 +202,7 @@ class C2S_ReplicatedServerTimeStamp final :
 
   enum : int {
     kUtcTimeFieldNumber = 1,
+    kRttFieldNumber = 2,
   };
   // int64 utc_time = 1;
   void clear_utc_time();
@@ -210,6 +211,15 @@ class C2S_ReplicatedServerTimeStamp final :
   private:
   int64_t _internal_utc_time() const;
   void _internal_set_utc_time(int64_t value);
+  public:
+
+  // int64 rtt = 2;
+  void clear_rtt();
+  int64_t rtt() const;
+  void set_rtt(int64_t value);
+  private:
+  int64_t _internal_rtt() const;
+  void _internal_set_rtt(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.C2S_ReplicatedServerTimeStamp)
@@ -221,6 +231,7 @@ class C2S_ReplicatedServerTimeStamp final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int64_t utc_time_;
+    int64_t rtt_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -349,20 +360,10 @@ class S2C_ReplicatedServerTimeStamp final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTimeStampFieldNumber = 1,
-    kUtcTimeFieldNumber = 2,
-    kRttFieldNumber = 3,
+    kUtcTimeFieldNumber = 1,
+    kTimeStampFieldNumber = 2,
   };
-  // int64 time_stamp = 1;
-  void clear_time_stamp();
-  int64_t time_stamp() const;
-  void set_time_stamp(int64_t value);
-  private:
-  int64_t _internal_time_stamp() const;
-  void _internal_set_time_stamp(int64_t value);
-  public:
-
-  // int64 utc_time = 2;
+  // int64 utc_time = 1;
   void clear_utc_time();
   int64_t utc_time() const;
   void set_utc_time(int64_t value);
@@ -371,13 +372,13 @@ class S2C_ReplicatedServerTimeStamp final :
   void _internal_set_utc_time(int64_t value);
   public:
 
-  // int64 rtt = 3;
-  void clear_rtt();
-  int64_t rtt() const;
-  void set_rtt(int64_t value);
+  // int64 time_stamp = 2;
+  void clear_time_stamp();
+  int64_t time_stamp() const;
+  void set_time_stamp(int64_t value);
   private:
-  int64_t _internal_rtt() const;
-  void _internal_set_rtt(int64_t value);
+  int64_t _internal_time_stamp() const;
+  void _internal_set_time_stamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_ReplicatedServerTimeStamp)
@@ -388,9 +389,8 @@ class S2C_ReplicatedServerTimeStamp final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int64_t time_stamp_;
     int64_t utc_time_;
-    int64_t rtt_;
+    int64_t time_stamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1116,31 +1116,31 @@ inline void C2S_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C2S_ReplicatedServerTimeStamp.utc_time)
 }
 
+// int64 rtt = 2;
+inline void C2S_ReplicatedServerTimeStamp::clear_rtt() {
+  _impl_.rtt_ = int64_t{0};
+}
+inline int64_t C2S_ReplicatedServerTimeStamp::_internal_rtt() const {
+  return _impl_.rtt_;
+}
+inline int64_t C2S_ReplicatedServerTimeStamp::rtt() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_ReplicatedServerTimeStamp.rtt)
+  return _internal_rtt();
+}
+inline void C2S_ReplicatedServerTimeStamp::_internal_set_rtt(int64_t value) {
+  
+  _impl_.rtt_ = value;
+}
+inline void C2S_ReplicatedServerTimeStamp::set_rtt(int64_t value) {
+  _internal_set_rtt(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_ReplicatedServerTimeStamp.rtt)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_ReplicatedServerTimeStamp
 
-// int64 time_stamp = 1;
-inline void S2C_ReplicatedServerTimeStamp::clear_time_stamp() {
-  _impl_.time_stamp_ = int64_t{0};
-}
-inline int64_t S2C_ReplicatedServerTimeStamp::_internal_time_stamp() const {
-  return _impl_.time_stamp_;
-}
-inline int64_t S2C_ReplicatedServerTimeStamp::time_stamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplicatedServerTimeStamp.time_stamp)
-  return _internal_time_stamp();
-}
-inline void S2C_ReplicatedServerTimeStamp::_internal_set_time_stamp(int64_t value) {
-  
-  _impl_.time_stamp_ = value;
-}
-inline void S2C_ReplicatedServerTimeStamp::set_time_stamp(int64_t value) {
-  _internal_set_time_stamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.time_stamp)
-}
-
-// int64 utc_time = 2;
+// int64 utc_time = 1;
 inline void S2C_ReplicatedServerTimeStamp::clear_utc_time() {
   _impl_.utc_time_ = int64_t{0};
 }
@@ -1160,24 +1160,24 @@ inline void S2C_ReplicatedServerTimeStamp::set_utc_time(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.utc_time)
 }
 
-// int64 rtt = 3;
-inline void S2C_ReplicatedServerTimeStamp::clear_rtt() {
-  _impl_.rtt_ = int64_t{0};
+// int64 time_stamp = 2;
+inline void S2C_ReplicatedServerTimeStamp::clear_time_stamp() {
+  _impl_.time_stamp_ = int64_t{0};
 }
-inline int64_t S2C_ReplicatedServerTimeStamp::_internal_rtt() const {
-  return _impl_.rtt_;
+inline int64_t S2C_ReplicatedServerTimeStamp::_internal_time_stamp() const {
+  return _impl_.time_stamp_;
 }
-inline int64_t S2C_ReplicatedServerTimeStamp::rtt() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplicatedServerTimeStamp.rtt)
-  return _internal_rtt();
+inline int64_t S2C_ReplicatedServerTimeStamp::time_stamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReplicatedServerTimeStamp.time_stamp)
+  return _internal_time_stamp();
 }
-inline void S2C_ReplicatedServerTimeStamp::_internal_set_rtt(int64_t value) {
+inline void S2C_ReplicatedServerTimeStamp::_internal_set_time_stamp(int64_t value) {
   
-  _impl_.rtt_ = value;
+  _impl_.time_stamp_ = value;
 }
-inline void S2C_ReplicatedServerTimeStamp::set_rtt(int64_t value) {
-  _internal_set_rtt(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.rtt)
+inline void S2C_ReplicatedServerTimeStamp::set_time_stamp(int64_t value) {
+  _internal_set_time_stamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReplicatedServerTimeStamp.time_stamp)
 }
 
 // -------------------------------------------------------------------

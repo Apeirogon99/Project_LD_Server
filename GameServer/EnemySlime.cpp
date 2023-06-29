@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemySlime.h"
 
-EnemySlime::EnemySlime() : EnemyCharacter(L"[Enemy::Slime]")
+EnemySlime::EnemySlime() : EnemyCharacter(L"Enemy::Slime")
 {
 }
 
@@ -9,11 +9,12 @@ EnemySlime::~EnemySlime()
 {
 }
 
-void EnemySlime::Initialization()
+void EnemySlime::OnInitialization()
 {
+	SetTick(100, true);
 }
 
-void EnemySlime::Destroy()
+void EnemySlime::OnDestroy()
 {
 	std::shared_ptr<EnemySpawner<EnemySlime>> spawner = std::static_pointer_cast<EnemySpawner<EnemySlime>>(GetOwner().lock());
 	if (nullptr == spawner)
@@ -24,8 +25,9 @@ void EnemySlime::Destroy()
 	spawner->OnDestroyEnemy(GetGameObjectID());
 }
 
-void EnemySlime::Tick()
+void EnemySlime::OnTick(const int64 inDeltaTime)
 {
+	
 }
 
 bool EnemySlime::IsValid()
@@ -82,16 +84,4 @@ void EnemySlime::DisAppearActor(PlayerStatePtr inClosePlayerState)
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
 	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disAppearItemPacket);
 	inClosePlayerState->Send(appearItemSendBuffer);
-}
-
-void EnemySlime::Attack()
-{
-}
-
-void EnemySlime::Hit()
-{
-}
-
-void EnemySlime::Death()
-{
 }

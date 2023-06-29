@@ -43,7 +43,7 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	WorldPtr world = playerState->GetWorld();
+	WorldPtr world = remotePlayer->GetWorldRef().lock();
 	if (nullptr == world)
 	{
 		return false;
@@ -71,7 +71,8 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 			int32		rotation	= inRecordset.GetFieldItem(L"rotation");
 
 			AItemPtr newItem = std::make_shared<AItem>();
-			task->CreateGameObject(newItem->GetGameObjectPtr());
+			GameObjectPtr itemGameObject = newItem->GetGameObjectPtr();
+			task->CreateGameObject(itemGameObject);
 			newItem->Init(item_code, inven_pos_x, inven_pos_y, rotation);
 			inventory->InsertItem(newItem);
 
@@ -80,7 +81,6 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 	}
 
 	inventory->SetLoad(true);
-
 	remotePlayer->LoadComplete();
 
 	return true;

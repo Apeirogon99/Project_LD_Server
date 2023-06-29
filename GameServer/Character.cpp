@@ -11,22 +11,29 @@ Character::~Character()
 
 }
 
-void Character::Initialization()
+void Character::OnInitialization()
 {
+	SetTick(100, true);
 	mStats.Clear();
 }
 
-void Character::Destroy()
+void Character::OnDestroy()
 {
 }
 
-void Character::Tick()
+void Character::OnTick(const int64 inDeltaTime)
 {
+	if(false == IsValid())
+	{
+		return;
+	}
+
+	SyncLocation(inDeltaTime);
 }
 
 bool Character::IsValid()
 {
-	return true;
+	return mIsLoad;
 }
 
 void Character::AppearActor(PlayerStatePtr inAppearPlayerState)
@@ -97,32 +104,51 @@ void Character::DisAppearActor(PlayerStatePtr inDisappearPlayerState)
 	inDisappearPlayerState->Send(sendBuffer);
 }
 
-void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
+//void Character::MoveDestination(Protocol::C2S_MovementCharacter inPacket)
+//{
+//	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+//	if (nullptr == remotePlayer)
+//	{
+//		return;
+//	}
+//	
+//	const Protocol::SVector&	curLocation		= inPacket.cur_location();
+//	const Protocol::SVector&	moveLocation	= inPacket.move_location();
+//	const int64					remoteID		= remotePlayer->GetGameObjectID();
+//	const int64					timestamp		= inPacket.timestamp();
+//
+//	Protocol::S2C_MovementCharacter newMovementPacket;
+//	newMovementPacket.set_remote_id(remoteID);
+//
+//	Protocol::SVector* oldMovementLocation = newMovementPacket.mutable_cur_location();
+//	oldMovementLocation->CopyFrom(curLocation);
+//	this->SetLocation(curLocation);
+//
+//	Protocol::SVector* newMovementLocation = newMovementPacket.mutable_move_location();
+//	newMovementLocation->CopyFrom(moveLocation);
+//	this->SetMoveLocation(moveLocation);
+//
+//	newMovementPacket.set_timestamp(timestamp);
+//	this->SetMoveLastTick(timestamp);
+//
+//	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+//	if (nullptr == playerState)
+//	{
+//		return;
+//	}
+//
+//	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+//	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, newMovementPacket);
+//	remotePlayer->BrodcastViewers(sendBuffer);
+//}
+
+void Character::SyncLocation(const int64 inDeltaTime)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
-	
-	const Protocol::SVector&	curLocation		= inPakcet.cur_location();
-	const Protocol::SVector&	moveLocation	= inPakcet.move_location();
-	const int64					remoteID		= remotePlayer->GetGameObjectID();
-	const int64					timestamp		= inPakcet.timestamp();
-
-	Protocol::S2C_MovementCharacter newMovementPacket;
-	newMovementPacket.set_remote_id(remoteID);
-
-	Protocol::SVector* oldMovementLocation = newMovementPacket.mutable_cur_location();
-	oldMovementLocation->CopyFrom(curLocation);
-	this->SetLocation(curLocation);
-
-	Protocol::SVector* newMovementLocation = newMovementPacket.mutable_move_location();
-	newMovementLocation->CopyFrom(moveLocation);
-	this->SetMoveLocation(moveLocation);
-
-	newMovementPacket.set_timestamp(timestamp);
-	this->SetMoveLastTick(timestamp);
 
 	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
 	if (nullptr == playerState)
@@ -130,8 +156,70 @@ void Character::MoveDestination(Protocol::C2S_MovementCharacter inPakcet)
 		return;
 	}
 
+	WorldPtr world = remotePlayer->GetWorldRef().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+
+	const float closeToDestination = MAX_LOCATION_DISTANCE;
+	const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(GetLocation()), PacketUtils::ToFVector(GetMoveLocation()));
+	if (locationDistance > closeToDestination)
+	{
+		this->MovingDestination(serviceTimeStamp);
+	}
+
+	mMoveSyncTick += inDeltaTime;
+	if (mMoveSyncTick > MAX_LOCATION_SYNC_TIME)
+	{
+
+		Protocol::S2C_MovementCharacter movementPacket;
+		movementPacket.set_remote_id(remotePlayer->GetGameObjectID());
+		movementPacket.mutable_cur_location()->CopyFrom(this->GetLocation());
+		movementPacket.mutable_move_location()->CopyFrom(this->GetMoveLocation());
+		movementPacket.set_timestamp(serviceTimeStamp);
+
+		PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);
+		remotePlayer->BrodcastViewers(sendBuffer);
+
+		//wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().x(), this->GetLocation().y(), this->GetLocation().z());
+
+		mMoveSyncTick = 0;
+
+	}
+}
+
+void Character::OnMovement()
+{
+	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	WorldPtr world = remotePlayer->GetWorldRef().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+
+	Protocol::S2C_MovementCharacter movementPacket;
+	movementPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	movementPacket.mutable_cur_location()->CopyFrom(this->GetLocation());
+	movementPacket.mutable_move_location()->CopyFrom(this->GetMoveLocation());
+	movementPacket.set_timestamp(serviceTimeStamp);
+
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, newMovementPacket);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);
 	remotePlayer->BrodcastViewers(sendBuffer);
 }
 

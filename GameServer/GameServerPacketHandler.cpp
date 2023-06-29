@@ -95,9 +95,14 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 
 	const int64 sTime = gameState->GetServiceTimeStamp();
 	const int64 cTime = pkt.timestamp();
-	std::cout << sTime << " - " << cTime << " = " << sTime - cTime << std::endl;
+	wprintf(L"[ID::%lld] [DIFF::%lld]\n", remotePlayer->GetGameObjectID(), sTime - cTime);
 	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &Character::MoveDestination, pkt);
 	return true;
+}
+
+bool Handle_C2S_PlayAnimation(PacketSessionPtr& session, Protocol::C2S_PlayAnimation& pkt)
+{
+	return false;
 }
 
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
@@ -115,6 +120,10 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 	}
 
 	const int64 timestmap = pkt.timestamp();
+	const int64 worldTimeStamp = remotePlayer->GetWorldRef().lock()->GetServiceTimeStamp();
+
+	wprintf(L"[%lld] [%lld] - [%lld]\n", worldTimeStamp, timestmap, worldTimeStamp - timestmap);
+
 	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::LoadItemToInventory, pkt);
 
 	return true;

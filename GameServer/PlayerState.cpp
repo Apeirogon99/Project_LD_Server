@@ -65,11 +65,6 @@ void PlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 	}
 }
 
-void PlayerState::SetWorld(WorldRef inWorld)
-{
-	mWorld = inWorld;
-}
-
 void PlayerState::BroadcastMonitors(SendBufferPtr inSendBuffer)
 {
 	Monitors& monitors = GetMonitors();

@@ -3,16 +3,15 @@
 
 bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C2S_ReplicatedServerTimeStamp& pkt)
 {
-	const int64 serviceTimeStamp = session->GetSessionManager()->GetServiceTimeStamp();
-	const int64 serverUctTimeStamp = Time::GetUTCTime();
-	const int64 clientUtcTimeStamp = pkt.utc_time();
-	//const int64 rtt						= serverUctTimeStamp - clientUtcTimeStamp;
-	const int64 rtt = 0;
+	const int64 serviceTimeStamp	= session->GetSessionManager()->GetServiceTimeStamp();
+
+	const int64 clientUtcTimeStamp	= pkt.utc_time();
+	const int64 rtt					= pkt.rtt();
+
+	session->GetRoundTripTime().AddLatency(rtt);
 
 	Protocol::S2C_ReplicatedServerTimeStamp packet;
-	packet.set_time_stamp(serviceTimeStamp);
-	packet.set_utc_time(serverUctTimeStamp);
-	packet.set_rtt(rtt);
+	packet.set_utc_time(clientUtcTimeStamp);
 
 	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
 	session->Send(sendBuffer);

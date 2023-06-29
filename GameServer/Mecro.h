@@ -1,1 +1,4 @@
 #pragma once
+
+#define MAX_LOCATION_DISTANCE 50.0f
+#define MAX_LOCATION_SYNC_TIME 1000

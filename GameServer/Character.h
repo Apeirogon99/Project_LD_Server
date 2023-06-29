@@ -6,17 +6,18 @@ public:
 	virtual ~Character();
 
 public:
-	virtual void Initialization()	override;
-	virtual void Destroy()			override;
-	virtual void Tick()				override;
-	virtual bool IsValid()			override;
+	virtual void OnInitialization()					override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()							override;
 
 public:
 	virtual void AppearActor(PlayerStatePtr inAppearPlayerState) override;
 	virtual void DisAppearActor(PlayerStatePtr inDisappearPlayerState) override;
 
 public:
-	virtual void MoveDestination(Protocol::C2S_MovementCharacter inPakcet) override;
+	void SyncLocation(const int64 inDeltaTime);
+	virtual void OnMovement() override;
 
 public:
 	void SetLoad(bool inIsLoad);
@@ -39,7 +40,5 @@ private:
 
 	int32						mCharacterID;
 	Protocol::SCharacterData	mCharacterData;
-
-	Stats						mStats;
 };
 

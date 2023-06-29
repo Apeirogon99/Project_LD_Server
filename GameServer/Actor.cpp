@@ -11,16 +11,17 @@ Actor::~Actor()
 	
 }
 
-void Actor::Initialization()
+void Actor::OnInitialization()
 {
+	SetTick(0, false);
 }
 
-void Actor::Destroy()
+void Actor::OnDestroy()
 {
 
 }
 
-void Actor::Tick()
+void Actor::OnTick(const int64 inDeltaTime)
 {
 }
 
@@ -37,12 +38,8 @@ void Actor::CloseToPlayer(PlayerStatePtr inClosePlayerState)
 		return;
 	}
 
-	const double x = std::pow(this->GetLocation().x() - closeCharacter->GetLocation().x(), 2);
-	const double y = std::pow(this->GetLocation().y() - closeCharacter->GetLocation().y(), 2);
-	const double z = std::pow(this->GetLocation().z() - closeCharacter->GetLocation().z(), 2);
-
-	const double possibleVisbleLength = 2000;
-	const double playerDistance = std::sqrt(x + y + z);
+	const float possibleVisbleLength = 2000.0f;
+	const float playerDistance = FVector::Distance(PacketUtils::ToFVector(this->GetLocation()), PacketUtils::ToFVector(closeCharacter->GetLocation()));
 	if (playerDistance < possibleVisbleLength)
 	{
 		AppearActor(inClosePlayerState);
@@ -75,6 +72,13 @@ void Actor::SetTransform(const Protocol::STransform& inTransform)
 	mTransfrom = inTransform;
 }
 
+void Actor::SetTransform(const FVector& inLocation, const FRotator& inRotation, const FVector& inScale)
+{
+	this->mTransfrom.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+	this->mTransfrom.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inRotation));
+	this->mTransfrom.mutable_scale()->CopyFrom(PacketUtils::ToSVector(inScale));
+}
+
 void Actor::SetLocation(const float inX, const float inY, const float inZ)
 {
 	Protocol::SVector* location = mTransfrom.mutable_location();
@@ -87,6 +91,11 @@ void Actor::SetLocation(const Protocol::SVector& inLocation)
 {
 	Protocol::SVector* location = mTransfrom.mutable_location();
 	location->CopyFrom(inLocation);
+}
+
+void Actor::SetLocation(const FVector& inLocation)
+{
+	this->mTransfrom.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
 }
 
 void Actor::SetRotation(const float inRoll, const float inPitch, const float inYaw)
@@ -103,6 +112,11 @@ void Actor::SetRotation(const Protocol::SRotator& inRotator)
 	rotation->CopyFrom(inRotator);
 }
 
+void Actor::SetRotation(const FRotator& inRotator)
+{
+	this->mTransfrom.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inRotator));
+}
+
 void Actor::SetScale(const float inX, const float inY, const float inZ)
 {
 	Protocol::SVector* scale = mTransfrom.mutable_scale();
@@ -117,6 +131,11 @@ void Actor::SetScale(const Protocol::SVector& inScale)
 	scale->CopyFrom(inScale);
 }
 
+void Actor::SetScale(const FVector& inScale)
+{
+	this->mTransfrom.mutable_scale()->CopyFrom(PacketUtils::ToSVector(inScale));
+}
+
 void Actor::SetVelocity(const float inX, const float inY, const float inZ)
 {
 	mVelocity.set_x(inX);
@@ -127,4 +146,9 @@ void Actor::SetVelocity(const float inX, const float inY, const float inZ)
 void Actor::SetVelocity(const Protocol::SVector& inVelocity)
 {
 	mVelocity = inVelocity;
+}
+
+void Actor::SetVelocity(const FVector& inVelocity)
+{
+	this->mVelocity = PacketUtils::ToSVector(inVelocity);
 }

@@ -36,19 +36,20 @@ AItem& AItem::operator=(const Protocol::SItem& inItem)
 	return *this;
 }
 
-void AItem::Initialization()
+void AItem::OnInitialization()
 {
+	SetTick(0, false);
 	mItemCode			= 0;
 	mInvenPosition.set_x(0);
 	mInvenPosition.set_y(0);
 	mInvenRotation		= 0;
 }
 
-void AItem::Destroy()
+void AItem::OnDestroy()
 {
 }
 
-void AItem::Tick()
+void AItem::OnTick(const int64 inDeltaTime)
 {
 
 }

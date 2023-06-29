@@ -37,10 +37,10 @@ private:
 	AItem& operator=(Protocol::SItem&& inItem) = delete;
 
 public:
-	virtual void Initialization()	override;
-	virtual void Destroy()			override;
-	virtual void Tick()				override;
-	virtual bool IsValid()			override;
+	virtual void OnInitialization()				 override;
+	virtual void OnDestroy()					 override;
+	virtual void OnTick(const int64 inDeltaTime) override;
+	virtual bool IsValid()						 override;
 
 public:
 	virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;

@@ -13,6 +13,8 @@
 #include "PacketEnum.pb.h"
 #include "PacketStruct.pb.h"
 
+#include "PacketUtils.h"
+
 //==========================//
 //		   Framework		//
 //==========================//

@@ -11,8 +11,10 @@ World::~World()
 	
 }
 
-void World::Initialization()
+void World::OnInitialization()
 {
+	this->SetTick(100, true);
+
 	Protocol::SVector loc;
 	loc.set_x(0);
 	loc.set_y(0);
@@ -27,12 +29,13 @@ void World::Initialization()
 	item->SetItemCode(31);
 
 	std::shared_ptr<EnemySpawner<EnemySlime>> enemySlimeSpawner = std::make_shared<EnemySpawner<EnemySlime>>();
-	mGameTask->PushTask(enemySlimeSpawner->GetGameObjectPtr());
+	GameObjectPtr slimeGameObject = enemySlimeSpawner->GetGameObjectPtr();
+	mGameTask->PushTask(slimeGameObject);
 	enemySlimeSpawner->SetEnemySpawner(std::static_pointer_cast<World>(shared_from_this()), 1, 5, 20.0f);
 	enemySlimeSpawner->SetLocation(100.0f, 100.0f, 500.0f);
 }
 
-void World::Destroy()
+void World::OnDestroy()
 {
 	if (mGameTask)
 	{
@@ -45,7 +48,7 @@ bool World::IsValid()
 	return true;
 }
 
-void World::Tick()
+void World::OnTick(const int64 inDeltaTime)
 {
 	VisibleAreaSync();
 	//CheackToken();
@@ -147,11 +150,10 @@ void World::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer in
 		packetSession->Send(sendBuffer);
 		return;
 	}
-	inPlayerState->SetWorld(GetWorldRef());
 
 	remotePlayer = std::make_shared<RemotePlayer>(inPlayerState->GetPlayerStateRef());
 	remotePlayer->InitTask(mGameTask);
-	remotePlayer->LoadRemotePlayer(token);
+	remotePlayer->LoadRemotePlayer(token, GetWorldRef());
 
 }
 
@@ -194,7 +196,7 @@ void World::Leave(PlayerStatePtr inPlayerState)
 
 void World::VisibleAreaInit(PlayerStatePtr inPlayerState)
 {
-	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
 	if (nullptr == remotePlayer)
 	{
 		return;
@@ -272,7 +274,8 @@ bool World::DestroyActor(const int64 inGameObjectID)
 		findPos->second->DisAppearActor(playerState.second);
 	}
 
-	mGameTask->ReleaseTask(findPos->second->GetGameObjectPtr());
+	GameObjectPtr actorGameObject = findPos->second->GetGameObjectPtr();
+	mGameTask->ReleaseTask(actorGameObject);
 
 	if (0 == mWorldActors.erase(inGameObjectID))
 	{

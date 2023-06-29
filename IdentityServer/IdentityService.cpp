@@ -69,7 +69,7 @@ bool IdentityService::SettingService()
 
 	//ThreadManager
 	const uint32 MaxThreadCount = 4;
-	const uint32 MaxTimeOut = 100;
+	const uint32 MaxTimeOut = INFINITE;
 	ThreadManagerPtr threadManager = std::make_shared<ThreadManager>(MaxThreadCount, MaxTimeOut);
 	if (false == SetThreadManager(threadManager))
 	{

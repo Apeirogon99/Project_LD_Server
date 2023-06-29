@@ -7,12 +7,10 @@ public:
 	virtual ~World();
 
 protected:
-	virtual void Initialization() override;
-	virtual void Destroy() override;
+	virtual void OnInitialization() override;
+	virtual void OnDestroy() override;
+	virtual void OnTick(const int64 inDeltaTime) override;
 	virtual bool IsValid() override;
-
-public:
-	virtual void Tick() override;
 
 public:
 	void ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServer inPacket);
@@ -55,9 +53,10 @@ inline ActorPtr World::CreateActor(const Protocol::SVector& inLocation, const Pr
 	{
 		return nullptr;
 	}
+	GameObjectPtr gameObject = object->GetGameObjectPtr();
+	mGameTask->PushTask(gameObject);
 
-	mGameTask->PushTask(object->GetGameObjectPtr());
-
+	object->SetWorld(GetWorldRef());
 	object->SetLocation(inLocation);
 	object->SetRotation(inRotator);
 

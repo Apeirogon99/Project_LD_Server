@@ -2,26 +2,26 @@
 
 enum class EStateEventType : uint8
 {
-	None,
-	Idle,
-	Walk,
-	Chase,
-	Attack,
+	State_None,
+	State_Idle,
+	State_Walk,
+	State_Chase,
+	State_Attack,
 };
 
 class IStateEvent
 {
 public:
-	IStateEvent(EStateEventType inType);
+	IStateEvent(EStateEventType inType) : mStateEventType(inType) { }
 
 public:
-	virtual void Enter() {}
-	virtual void FixedUpdate() {}
-	virtual void Update() {}
-	virtual void Exit() {}
+	virtual void Enter()		abstract;
+	virtual void FixedUpdate()	abstract;
+	virtual void Update()		abstract;
+	virtual void Exit()			abstract;
 
 public:
-	const EStateEventType& GetStateEventType() { return mStateEventType; }
+	const EStateEventType& GetStateEventType() const { return mStateEventType; }
 
 private:
 	EStateEventType mStateEventType;
@@ -45,7 +45,7 @@ public:
 
 		if (nullptr == mStateEvent)
 		{
-			mStateEvent = new IStateEvent(inStateType);
+			//mStateEvent = new IStateEvent(inStateType);
 			return;
 		}
 
@@ -59,7 +59,7 @@ public:
 		delete mStateEvent;
 		mStateEvent = nullptr;
 
-		mStateEvent = new IStateEvent(inStateType);
+		//mStateEvent = new IStateEvent(inStateType);
 
 		mStateEvent->Enter();
 	}
@@ -91,23 +91,35 @@ private:
 class IdleState : public IStateEvent
 {
 public:
-	IdleState() : IStateEvent(EStateEventType::Idle) { }
-};
+	IdleState() : IStateEvent(EStateEventType::State_Idle) { }
 
-class WalkState : public IStateEvent
-{
 public:
-	WalkState() : IStateEvent(EStateEventType::Walk) { }
+	virtual void Enter()		override;
+	virtual void FixedUpdate()	override;
+	virtual void Update()		override;
+	virtual void Exit()			override;
 };
 
 class ChaseState : public IStateEvent
 {
 public:
-	ChaseState() : IStateEvent(EStateEventType::Chase) { }
+	ChaseState() : IStateEvent(EStateEventType::State_Chase) { }
+
+public:
+	virtual void Enter()		override;
+	virtual void FixedUpdate()	override;
+	virtual void Update()		override;
+	virtual void Exit()			override;
 };
 
 class AttackState : public IStateEvent
 {
 public:
-	AttackState() : IStateEvent(EStateEventType::Attack) { }
+	AttackState() : IStateEvent(EStateEventType::State_Attack) { }
+
+public:
+	virtual void Enter()		override;
+	virtual void FixedUpdate()	override;
+	virtual void Update()		override;
+	virtual void Exit()			override;
 };
