@@ -18,9 +18,17 @@ void World::Initialization()
 		return;
 	}
 
-	mIdentityTask->PushTask(std::make_shared<LoginRoom>(GetWorldRef())->GetGameObjectPtr());
-	mIdentityTask->PushTask(std::make_shared<SelectRoom>(GetWorldRef())->GetGameObjectPtr());
-	mIdentityTask->PushTask(std::make_shared<CustomRoom>(GetWorldRef())->GetGameObjectPtr());
+	LoginRoomPtr loginRoom = std::make_shared<LoginRoom>(GetWorldRef());
+	GameObjectPtr loginRoomGameObject = loginRoom->GetGameObjectPtr();
+	mIdentityTask->PushTask(loginRoomGameObject);
+
+	SelectRoomPtr selectRoom = std::make_shared<SelectRoom>(GetWorldRef());
+	GameObjectPtr selectRoomGameObject = selectRoom->GetGameObjectPtr();
+	mIdentityTask->PushTask(selectRoomGameObject);
+
+	CustomRoomPtr customRoom = std::make_shared<CustomRoom>(GetWorldRef());
+	GameObjectPtr customRoomGameObject = customRoom->GetGameObjectPtr();
+	mIdentityTask->PushTask(customRoomGameObject);
 
 }
 
@@ -45,7 +53,7 @@ void World::Destroy()
 
 }
 
-void World::Tick()
+void World::Tick(const int64 inDeltaTime)
 {
 
 }
@@ -64,6 +72,8 @@ void World::Enter(PlayerStatePtr inPlayerState)
 
 	RemotePlayerPtr remotePlayer = std::make_shared<RemotePlayer>();
 	inPlayerState->SetRemotePlayer(remotePlayer);
+
+	GameObjectPtr remotePlayer
 	mIdentityTask->CreateGameObject(remotePlayer->GetGameObjectPtr());
 
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();

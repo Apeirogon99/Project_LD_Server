@@ -21,7 +21,7 @@ void LoginRoom::Destroy()
 	
 }
 
-void LoginRoom::Tick()
+void LoginRoom::Tick(const int64 inDeltaTime)
 {
 }
 

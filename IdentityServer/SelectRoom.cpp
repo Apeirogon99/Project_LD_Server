@@ -18,7 +18,7 @@ void SelectRoom::Destroy()
 {
 }
 
-void SelectRoom::Tick()
+void SelectRoom::Tick(const int64 inDeltaTime)
 {
 }
 

@@ -6,10 +6,10 @@ public:
 	virtual ~SelectRoom();
 
 protected:
-	virtual void Initialization() override;
-	virtual void Destroy() override;
-	virtual void Tick() override;
-	virtual bool IsValid() override;
+	virtual void Initialization()				override;
+	virtual void Destroy()						override;
+	virtual void Tick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()						override;
 
 public:
 	void LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_LoadCharacters inPacket);

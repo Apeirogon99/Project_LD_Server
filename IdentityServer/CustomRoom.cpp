@@ -17,7 +17,7 @@ void CustomRoom::Destroy()
 {
 }
 
-void CustomRoom::Tick()
+void CustomRoom::Tick(const int64 inDeltaTime)
 {
 }
 

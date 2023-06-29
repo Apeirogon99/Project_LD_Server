@@ -25,7 +25,7 @@ void RemotePlayer::Destroy()
 	}
 }
 
-void RemotePlayer::Tick()
+void RemotePlayer::Tick(const int64 inDeltaTime)
 {
 
 }
