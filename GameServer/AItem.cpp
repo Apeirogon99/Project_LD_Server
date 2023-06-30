@@ -72,12 +72,13 @@ void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
 		return;
 	}
 
-	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
-	if (viewActors.find(GetGameObjectPtr()) != viewActors.end())
+	Viewers& viewers = this->GetViewers();
+	if (viewers.find(inClosePlayerState) != viewers.end())
 	{
 		return;
 	}
-	targetRemotePlayer->GetViewActors().insert(GetGameObjectPtr());
+	viewers.insert(inClosePlayerState);
+	inClosePlayerState->GetMonitorActors().insert(this->GetActorPtr());
 
 	Protocol::S2C_AppearItem appearItemPacket;
 	appearItemPacket.mutable_item()->CopyFrom(this->ConvertSItem());
@@ -95,12 +96,13 @@ void AItem::DisAppearActor(PlayerStatePtr inClosePlayerState)
 		return;
 	}
 
-	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
-	if (viewActors.find(GetGameObjectPtr()) == viewActors.end())
+	Viewers& viewers = this->GetViewers();
+	if (viewers.find(inClosePlayerState) == viewers.end())
 	{
 		return;
 	}
-	targetRemotePlayer->GetViewActors().erase(GetGameObjectPtr());
+	this->GetViewers().erase(inClosePlayerState);
+	inClosePlayerState->GetMonitorActors().erase(this->GetActorPtr());
 
 	Protocol::S2C_DisAppearGameObject disAppearItemPacket;
 	disAppearItemPacket.set_object_id(this->GetGameObjectID());

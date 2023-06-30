@@ -12,11 +12,12 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;
-	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override;
+	//virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;
+	//virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override;
 
 public:
-	virtual void OnMovement() override {}
+	virtual void OnMovement(const int64 inTimeStamp) override;
+	virtual void OnHit(const float inDamage, const bool inIsStun) override;
 
 protected:
 

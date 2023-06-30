@@ -2167,8 +2167,8 @@ class SEnemy final :
   enum : int {
     kLocationFieldNumber = 3,
     kRotationFieldNumber = 4,
-    kObjectIdFieldNumber = 1,
-    kEnemyIdFieldNumber = 2,
+    kStateFieldNumber = 1,
+    kHpFieldNumber = 2,
   };
   // .Protocol.SVector location = 3;
   bool has_location() const;
@@ -2206,22 +2206,22 @@ class SEnemy final :
       ::Protocol::SRotator* rotation);
   ::Protocol::SRotator* unsafe_arena_release_rotation();
 
-  // int64 object_id = 1;
-  void clear_object_id();
-  int64_t object_id() const;
-  void set_object_id(int64_t value);
+  // .Protocol.EEnemyState state = 1;
+  void clear_state();
+  ::Protocol::EEnemyState state() const;
+  void set_state(::Protocol::EEnemyState value);
   private:
-  int64_t _internal_object_id() const;
-  void _internal_set_object_id(int64_t value);
+  ::Protocol::EEnemyState _internal_state() const;
+  void _internal_set_state(::Protocol::EEnemyState value);
   public:
 
-  // int32 enemy_id = 2;
-  void clear_enemy_id();
-  int32_t enemy_id() const;
-  void set_enemy_id(int32_t value);
+  // float hp = 2;
+  void clear_hp();
+  float hp() const;
+  void set_hp(float value);
   private:
-  int32_t _internal_enemy_id() const;
-  void _internal_set_enemy_id(int32_t value);
+  float _internal_hp() const;
+  void _internal_set_hp(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.SEnemy)
@@ -2234,8 +2234,8 @@ class SEnemy final :
   struct Impl_ {
     ::Protocol::SVector* location_;
     ::Protocol::SRotator* rotation_;
-    int64_t object_id_;
-    int32_t enemy_id_;
+    int state_;
+    float hp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3772,44 +3772,44 @@ inline void SItem::set_rotation(int32_t value) {
 
 // SEnemy
 
-// int64 object_id = 1;
-inline void SEnemy::clear_object_id() {
-  _impl_.object_id_ = int64_t{0};
+// .Protocol.EEnemyState state = 1;
+inline void SEnemy::clear_state() {
+  _impl_.state_ = 0;
 }
-inline int64_t SEnemy::_internal_object_id() const {
-  return _impl_.object_id_;
+inline ::Protocol::EEnemyState SEnemy::_internal_state() const {
+  return static_cast< ::Protocol::EEnemyState >(_impl_.state_);
 }
-inline int64_t SEnemy::object_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.SEnemy.object_id)
-  return _internal_object_id();
+inline ::Protocol::EEnemyState SEnemy::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.state)
+  return _internal_state();
 }
-inline void SEnemy::_internal_set_object_id(int64_t value) {
+inline void SEnemy::_internal_set_state(::Protocol::EEnemyState value) {
   
-  _impl_.object_id_ = value;
+  _impl_.state_ = value;
 }
-inline void SEnemy::set_object_id(int64_t value) {
-  _internal_set_object_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.SEnemy.object_id)
+inline void SEnemy::set_state(::Protocol::EEnemyState value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.SEnemy.state)
 }
 
-// int32 enemy_id = 2;
-inline void SEnemy::clear_enemy_id() {
-  _impl_.enemy_id_ = 0;
+// float hp = 2;
+inline void SEnemy::clear_hp() {
+  _impl_.hp_ = 0;
 }
-inline int32_t SEnemy::_internal_enemy_id() const {
-  return _impl_.enemy_id_;
+inline float SEnemy::_internal_hp() const {
+  return _impl_.hp_;
 }
-inline int32_t SEnemy::enemy_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.SEnemy.enemy_id)
-  return _internal_enemy_id();
+inline float SEnemy::hp() const {
+  // @@protoc_insertion_point(field_get:Protocol.SEnemy.hp)
+  return _internal_hp();
 }
-inline void SEnemy::_internal_set_enemy_id(int32_t value) {
+inline void SEnemy::_internal_set_hp(float value) {
   
-  _impl_.enemy_id_ = value;
+  _impl_.hp_ = value;
 }
-inline void SEnemy::set_enemy_id(int32_t value) {
-  _internal_set_enemy_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.SEnemy.enemy_id)
+inline void SEnemy::set_hp(float value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:Protocol.SEnemy.hp)
 }
 
 // .Protocol.SVector location = 3;

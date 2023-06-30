@@ -152,3 +152,12 @@ void Actor::SetVelocity(const FVector& inVelocity)
 {
 	this->mVelocity = PacketUtils::ToSVector(inVelocity);
 }
+
+void Actor::BrodcastViewers(SendBufferPtr inSendBuffer)
+{
+	Viewers& viewers = GetViewers();
+	for (auto viewer : viewers)
+	{
+		viewer->Send(inSendBuffer);
+	}
+}

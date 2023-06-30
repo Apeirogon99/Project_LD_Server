@@ -21,6 +21,11 @@ public:
 
 	virtual void OnDestroy() override
 	{
+		for (int64 enemyObjectID = 0; enemyObjectID < mMaxEnmeyCount; ++enemyObjectID)
+		{
+			mWorld->DestroyActor(mSpawnedEnemyIDs[enemyObjectID]);
+		}
+
 		if (mSpawnedEnemyIDs)
 		{
 			delete[] mSpawnedEnemyIDs;
@@ -56,19 +61,19 @@ public:
 	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override {};
 
 public:
-	void SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int32 inMaxEnemyCount, const float inSpawnRange);
+	void SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange);
 	void OnDestroyEnemy(const int64 inGameObjectID);
 	void SpawnEnemey();
 	void ReSpawnCount();
 
 public:
 	bool IsLeftEnemy() { return mCurEnemyCount == 0; }
-	const Protocol::SVector GetRandomSpawnLocation();
+	const Protocol::SVector GetRandomLocation();
 
 private:
 	bool  mIsLoad;
-	int32 mMaxEnmeyCount;
-	int32 mCurEnemyCount;
+	int64 mMaxEnmeyCount;
+	int64 mCurEnemyCount;
 	int32 mEnemyID;
 	int64* mSpawnedEnemyIDs;
 	Stats mEnemyStats;
@@ -78,7 +83,7 @@ private:
 };
 
 template<typename EnemyClass>
-inline void EnemySpawner<EnemyClass>::SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int32 inMaxEnemyCount, const float inSpawnRange)
+inline void EnemySpawner<EnemyClass>::SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange)
 {
 	mWorld = inWorld;
 	mEnemyID = inEnemyID;
@@ -101,7 +106,17 @@ inline void EnemySpawner<EnemyClass>::SetEnemySpawner(WorldPtr inWorld, const in
 template<typename EnemyClass>
 inline void EnemySpawner<EnemyClass>::OnDestroyEnemy(const int64 inGameObjectID)
 {
-	mCurEnemyCount--;
+	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
+	{
+		if (mSpawnedEnemyIDs[index] == inGameObjectID)
+		{
+			mSpawnedEnemyIDs[index] = 0;
+			mCurEnemyCount--;
+			return;
+		}
+	}
+
+	GameObjectLog(L"[OnDestroyEnemy] Invalid enemy id(%lld) in this spawner\n", inGameObjectID);
 }
 
 template<typename EnemyClass>
@@ -116,7 +131,7 @@ inline void EnemySpawner<EnemyClass>::SpawnEnemey()
 
 	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
 	{
-		const Protocol::SVector newLocation = GetRandomSpawnLocation();
+		const Protocol::SVector newLocation = GetRandomLocation();
 		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->CreateActor<EnemyClass>(newLocation, Protocol::SRotator()));
 		if (nullptr == newEnemy)
 		{
@@ -130,9 +145,9 @@ inline void EnemySpawner<EnemyClass>::SpawnEnemey()
 		newEnemy->SetSpawnLocation(newLocation);
 		newEnemy->SetLocation(newLocation);
 
-		GameObjectLog(L"Spawend enemy [ID::%3lld] [TYPE::%2d] [LOC X::%5.3f Y::%5.3f Z::%5.3f]\n", newEnemy->GetGameObjectID(), newEnemy->GetEnemyID(), newLocation.x(), newLocation.y(), newLocation.z());
-
-		mSpawnedEnemyIDs[index] = newEnemy->GetGameObjectID();
+		const int64 enemyGameObjectID = newEnemy->GetGameObjectID();
+		GameObjectLog(L"[SpawnEnemey] spawn enemy(%lld)\n", enemyGameObjectID);
+		mSpawnedEnemyIDs[index] = enemyGameObjectID;
 	}
 
 	mLastSpawnCount = 0;
@@ -168,7 +183,7 @@ inline void EnemySpawner<EnemyClass>::ReSpawnCount()
 }
 
 template<typename EnemyClass>
-inline const Protocol::SVector EnemySpawner<EnemyClass>::GetRandomSpawnLocation()
+inline const Protocol::SVector EnemySpawner<EnemyClass>::GetRandomLocation()
 {
 	const Protocol::SVector& location = this->GetLocation();
 	Protocol::SVector newSpawnLocation;
@@ -189,3 +204,31 @@ inline const Protocol::SVector EnemySpawner<EnemyClass>::GetRandomSpawnLocation(
 	newSpawnLocation.set_z(location.z());
 	return newSpawnLocation;
 }
+
+
+class EnemySpawnerManager : public Actor
+{
+public:
+	EnemySpawnerManager();
+	~EnemySpawnerManager();
+
+	EnemySpawnerManager(const EnemySpawnerManager&) = delete;
+	EnemySpawnerManager(EnemySpawnerManager&&) noexcept = delete;
+
+	EnemySpawnerManager& operator=(const EnemySpawnerManager&) = delete;
+	EnemySpawnerManager& operator=(EnemySpawnerManager&&) noexcept = delete;
+
+public:
+	virtual void OnInitialization()					override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()							override;
+
+public:
+
+protected:
+	void CheackSpawners();
+
+private:
+	std::vector<int64> mSpawners;
+};

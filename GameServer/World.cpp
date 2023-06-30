@@ -30,7 +30,7 @@ void World::OnInitialization()
 
 	ActorPtr actor = CreateActor<EnemySpawner<EnemySlime>>(Protocol::SVector(), Protocol::SRotator());
 	std::shared_ptr<EnemySpawner<EnemySlime>> enemySlimeSpawner = std::static_pointer_cast<EnemySpawner<EnemySlime>>(actor);
-	enemySlimeSpawner->SetEnemySpawner(std::static_pointer_cast<World>(shared_from_this()), 1, 5, 20.0f);
+	enemySlimeSpawner->SetEnemySpawner(std::static_pointer_cast<World>(shared_from_this()), 1, 1, 20.0f);
 	enemySlimeSpawner->SetLocation(100.0f, 100.0f, 500.0f);
 }
 
@@ -181,6 +181,14 @@ void World::Leave(PlayerStatePtr inPlayerState)
 	{
 		monitor->get()->GetViewers().erase(inPlayerState);
 	}
+	monitors.clear();
+
+	MonitorActors& monitorActors = inPlayerState->GetMonitorActors();
+	for (auto monitorActor = monitorActors.begin(); monitorActor != monitorActors.end(); ++monitorActor)
+	{
+		monitorActor->get()->GetViewers().erase(inPlayerState);
+	}
+	monitorActors.clear();
 	
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
 	mPlayerStates.erase(gameObjectID);

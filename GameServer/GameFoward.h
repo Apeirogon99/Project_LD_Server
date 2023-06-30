@@ -61,6 +61,7 @@ class EnemyCharacter;
 class EnemySlime;
 
 using EnemyCharacterPtr		= std::shared_ptr<EnemyCharacter>;
+using EnemyCharacterRef		= std::weak_ptr<EnemyCharacter>;
 using EnemySlimePtr			= std::shared_ptr<EnemySlime>;
 
 //==========================//
@@ -69,4 +70,4 @@ using EnemySlimePtr			= std::shared_ptr<EnemySlime>;
 
 using Viewers			= std::set<PlayerStatePtr>;
 using Monitors			= std::set<RemotePlayerPtr>;
-using ViewActors		= std::set<GameObjectPtr>;
+using MonitorActors		= std::set<ActorPtr>;

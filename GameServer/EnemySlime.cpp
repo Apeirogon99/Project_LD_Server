@@ -11,7 +11,9 @@ EnemySlime::~EnemySlime()
 
 void EnemySlime::OnInitialization()
 {
-	SetTick(100, true);
+	SetTick(ENEMY_STATE_TICK, true);
+	mStateManager.SetEnemy(GetEnemyCharacterRef());
+	mStateManager.SetState(EStateType::State_Idle);
 }
 
 void EnemySlime::OnDestroy()
@@ -21,13 +23,19 @@ void EnemySlime::OnDestroy()
 	{
 		return;
 	}
-
 	spawner->OnDestroyEnemy(GetGameObjectID());
 }
 
 void EnemySlime::OnTick(const int64 inDeltaTime)
 {
-	
+	mStateManager.UpdateState(inDeltaTime);
+
+	Protocol::S2C_TickEnemy tickEnemyPacket;
+	tickEnemyPacket.set_object_id(this->GetGameObjectID());
+	tickEnemyPacket.mutable_enemy()->CopyFrom(this->ConvertSEnemy());
+
+	SendBufferPtr SendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickEnemyPacket);
+	this->BrodcastViewers(SendBuffer);
 }
 
 bool EnemySlime::IsValid()
@@ -35,53 +43,28 @@ bool EnemySlime::IsValid()
 	return GetEnemyID() != 0;
 }
 
-void EnemySlime::AppearActor(PlayerStatePtr inClosePlayerState)
+void EnemySlime::OnMovement(const int64 inTimeStamp)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
-	{
-		return;
-	}
+	Protocol::S2C_MovementEnemy movementPacket;
+	movementPacket.set_object_id(this->GetGameObjectID());
+	movementPacket.set_timestamp(inTimeStamp);
+	movementPacket.mutable_cur_location()->CopyFrom(this->GetLocation());
+	movementPacket.mutable_move_location()->CopyFrom(this->GetMoveLocation());
 
-	if (false == IsValid())
-	{
-		return;
-	}
-
-	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
-	if (viewActors.find(GetGameObjectPtr()) != viewActors.end())
-	{
-		return;
-	}
-	targetRemotePlayer->GetViewActors().insert(GetGameObjectPtr());
-
-	Protocol::S2C_AppearEnemy appearPacket;
-	appearPacket.mutable_enemy()->CopyFrom(this->ConvertSEnemy());
-
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
+	SendBufferPtr SendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
+	this->BrodcastViewers(SendBuffer);
 }
 
-void EnemySlime::DisAppearActor(PlayerStatePtr inClosePlayerState)
+void EnemySlime::OnHit(const float inDamage, const bool inIsStun)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
+	mStateManager.SetState(EStateType::State_Hit);
+
+	mStats.SetHealth(-inDamage);
+
+	if (mStats.GetHealth() <= DEATH_HEALTH)
 	{
+		mStateManager.SetState(EStateType::State_Death);
 		return;
 	}
 
-	ViewActors& viewActors = targetRemotePlayer->GetViewActors();
-	if (viewActors.find(GetGameObjectPtr()) == viewActors.end())
-	{
-		return;
-	}
-	targetRemotePlayer->GetViewActors().erase(GetGameObjectPtr());
-
-	Protocol::S2C_DisAppearGameObject disAppearItemPacket;
-	disAppearItemPacket.set_object_id(this->GetGameObjectID());
-
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disAppearItemPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
 }

@@ -40,17 +40,23 @@ public:
 	void SetVelocity(const FVector& inVelocity);
 
 public:
-	GameObjectRef				GetOwner()		const { return mOwner; }
-	WorldRef					GetWorld()		const { return mWorld; }
-	const Protocol::STransform& GetTransform()	const { return mTransfrom; }
-	const Protocol::SVector&	GetLocation()	const { return mTransfrom.location(); }
-	const Protocol::SRotator&	GetRotation()	const { return mTransfrom.rotation(); }
-	const Protocol::SVector&	GetScale()		const { return mTransfrom.scale(); }
-	const Protocol::SVector&	GetVelocity()	const { return mVelocity; }
+	ActorPtr					GetActorPtr()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }
+	GameObjectRef				GetOwner()		const	{ return mOwner; }
+	WorldRef					GetWorld()		const	{ return mWorld; }
+	Viewers&					GetViewers()			{ return mViewers; }
+	const Protocol::STransform& GetTransform()	const	{ return mTransfrom; }
+	const Protocol::SVector&	GetLocation()	const	{ return mTransfrom.location(); }
+	const Protocol::SRotator&	GetRotation()	const	{ return mTransfrom.rotation(); }
+	const Protocol::SVector&	GetScale()		const	{ return mTransfrom.scale(); }
+	const Protocol::SVector&	GetVelocity()	const	{ return mVelocity; }
+
+protected:
+	void BrodcastViewers(SendBufferPtr inSendBuffer);
 
 protected:
 	GameObjectRef			mOwner;
 	WorldRef				mWorld;
+	Viewers					mViewers;
 	Protocol::STransform	mTransfrom;
 	Protocol::SVector		mVelocity;
 };

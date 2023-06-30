@@ -41,7 +41,7 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[3];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[4];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketEnum_2eproto = nullptr;
 const uint32_t TableStruct_PacketEnum_2eproto::offsets[1] = {};
 static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
@@ -57,11 +57,15 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   "t\020\001\022\022\n\016Part_Shoulders\020\002\022\016\n\nPart_Chest\020\003\022"
   "\020\n\014Part_Bracers\020\004\022\016\n\nPart_Hands\020\005\022\016\n\nPar"
   "t_Pants\020\006\022\016\n\nPart_Boots\020\007\022\021\n\rPart_Weapon"
-  "_l\020\010\022\021\n\rPart_Weapon_r\020\tb\006proto3"
+  "_l\020\010\022\021\n\rPart_Weapon_r\020\t*\210\001\n\013EEnemyState\022"
+  "\025\n\021State_Unspecified\020\000\022\016\n\nState_Idle\020\001\022\017"
+  "\n\013State_Round\020\002\022\017\n\013State_Chase\020\003\022\020\n\014Stat"
+  "e_Attack\020\004\022\r\n\tState_Hit\020\005\022\017\n\013State_Death"
+  "\020\006b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 391, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 530, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -122,6 +126,25 @@ bool ECharacterPart_IsValid(int value) {
     case 7:
     case 8:
     case 9:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EEnemyState_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
+  return file_level_enum_descriptors_PacketEnum_2eproto[3];
+}
+bool EEnemyState_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
       return true;
     default:
       return false;

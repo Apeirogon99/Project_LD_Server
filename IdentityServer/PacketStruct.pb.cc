@@ -209,8 +209,8 @@ PROTOBUF_CONSTEXPR SEnemy::SEnemy(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.location_)*/nullptr
   , /*decltype(_impl_.rotation_)*/nullptr
-  , /*decltype(_impl_.object_id_)*/int64_t{0}
-  , /*decltype(_impl_.enemy_id_)*/0
+  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.hp_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SEnemyDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SEnemyDefaultTypeInternal()
@@ -338,8 +338,8 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.object_id_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.enemy_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.hp_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SEnemy, _impl_.rotation_),
 };
@@ -400,17 +400,17 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "\001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_position"
   "\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_posit"
   "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
-  "on\030\005 \001(\005\"x\n\006SEnemy\022\021\n\tobject_id\030\001 \001(\003\022\020\n"
-  "\010enemy_id\030\002 \001(\005\022#\n\010location\030\003 \001(\0132\021.Prot"
-  "ocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.Protoco"
-  "l.SRotatorb\006proto3"
+  "on\030\005 \001(\005\"\205\001\n\006SEnemy\022$\n\005state\030\001 \001(\0162\025.Pro"
+  "tocol.EEnemyState\022\n\n\002hp\030\002 \001(\002\022#\n\010locatio"
+  "n\030\003 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\004"
+  " \001(\0132\022.Protocol.SRotatorb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1258, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1272, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 11,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -3457,8 +3457,8 @@ SEnemy::SEnemy(const SEnemy& from)
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
-    , decltype(_impl_.object_id_){}
-    , decltype(_impl_.enemy_id_){}
+    , decltype(_impl_.state_){}
+    , decltype(_impl_.hp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -3468,9 +3468,9 @@ SEnemy::SEnemy(const SEnemy& from)
   if (from._internal_has_rotation()) {
     _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
   }
-  ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.enemy_id_) -
-    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.enemy_id_));
+  ::memcpy(&_impl_.state_, &from._impl_.state_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.hp_) -
+    reinterpret_cast<char*>(&_impl_.state_)) + sizeof(_impl_.hp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.SEnemy)
 }
 
@@ -3481,8 +3481,8 @@ inline void SEnemy::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
-    , decltype(_impl_.object_id_){int64_t{0}}
-    , decltype(_impl_.enemy_id_){0}
+    , decltype(_impl_.state_){0}
+    , decltype(_impl_.hp_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3520,9 +3520,9 @@ void SEnemy::Clear() {
     delete _impl_.rotation_;
   }
   _impl_.rotation_ = nullptr;
-  ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.enemy_id_) -
-      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.enemy_id_));
+  ::memset(&_impl_.state_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.hp_) -
+      reinterpret_cast<char*>(&_impl_.state_)) + sizeof(_impl_.hp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3532,19 +3532,20 @@ const char* SEnemy::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 object_id = 1;
+      // .Protocol.EEnemyState state = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.object_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_state(static_cast<::Protocol::EEnemyState>(val));
         } else
           goto handle_unusual;
         continue;
-      // int32 enemy_id = 2;
+      // float hp = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.enemy_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _impl_.hp_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -3593,16 +3594,21 @@ uint8_t* SEnemy::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 object_id = 1;
-  if (this->_internal_object_id() != 0) {
+  // .Protocol.EEnemyState state = 1;
+  if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_state(), target);
   }
 
-  // int32 enemy_id = 2;
-  if (this->_internal_enemy_id() != 0) {
+  // float hp = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_hp = this->_internal_hp();
+  uint32_t raw_hp;
+  memcpy(&raw_hp, &tmp_hp, sizeof(tmp_hp));
+  if (raw_hp != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_enemy_id(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_hp(), target);
   }
 
   // .Protocol.SVector location = 3;
@@ -3649,14 +3655,19 @@ size_t SEnemy::ByteSizeLong() const {
         *_impl_.rotation_);
   }
 
-  // int64 object_id = 1;
-  if (this->_internal_object_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_object_id());
+  // .Protocol.EEnemyState state = 1;
+  if (this->_internal_state() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
   }
 
-  // int32 enemy_id = 2;
-  if (this->_internal_enemy_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_enemy_id());
+  // float hp = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_hp = this->_internal_hp();
+  uint32_t raw_hp;
+  memcpy(&raw_hp, &tmp_hp, sizeof(tmp_hp));
+  if (raw_hp != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3685,11 +3696,15 @@ void SEnemy::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
     _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
         from._internal_rotation());
   }
-  if (from._internal_object_id() != 0) {
-    _this->_internal_set_object_id(from._internal_object_id());
+  if (from._internal_state() != 0) {
+    _this->_internal_set_state(from._internal_state());
   }
-  if (from._internal_enemy_id() != 0) {
-    _this->_internal_set_enemy_id(from._internal_enemy_id());
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_hp = from._internal_hp();
+  uint32_t raw_hp;
+  memcpy(&raw_hp, &tmp_hp, sizeof(tmp_hp));
+  if (raw_hp != 0) {
+    _this->_internal_set_hp(from._internal_hp());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3709,8 +3724,8 @@ void SEnemy::InternalSwap(SEnemy* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SEnemy, _impl_.enemy_id_)
-      + sizeof(SEnemy::_impl_.enemy_id_)
+      PROTOBUF_FIELD_OFFSET(SEnemy, _impl_.hp_)
+      + sizeof(SEnemy::_impl_.hp_)
       - PROTOBUF_FIELD_OFFSET(SEnemy, _impl_.location_)>(
           reinterpret_cast<char*>(&_impl_.location_),
           reinterpret_cast<char*>(&other->_impl_.location_));

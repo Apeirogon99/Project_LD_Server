@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_STATS_NUM 21
+#define MAX_STATS_NUM 22
 
 enum EStat
 {
@@ -35,20 +35,20 @@ public:
 	~Stats() {}
 
 	Stats(const Stats& inStatus) { this->InitStats(inStatus.mStats); }
-	Stats(Stats&& inStatus) { this->InitStats(inStatus.mStats); }
+	Stats(Stats&& inStatus) noexcept { this->InitStats(inStatus.mStats); }
 
-	Stats& operator=(const Stats& inStatus) noexcept { this->InitStats(inStatus.mStats); return *this; }
+	Stats& operator=(const Stats& inStatus) { this->InitStats(inStatus.mStats); return *this; }
 	Stats& operator=(Stats&& inStatus) noexcept { this->InitStats(inStatus.mStats); return *this; }
 
 public:
 	void Clear()
 	{
-		::memset(mStats, 0, MAX_STATS_NUM);
+		::memset(mStats, 0, sizeof(float) * MAX_STATS_NUM);
 	}
 
 	void InitStats(const float inStats[MAX_STATS_NUM])
 	{
-		::memcpy(mStats, inStats, MAX_STATS_NUM);
+		::memcpy(mStats, inStats, sizeof(float) *  MAX_STATS_NUM);
 	}
 
 	void InitStats(const float inArmorPenetration, const float inAttackDamage, const float inAttackSpeed, const float inCriticalStrikeChance, const float inCirticalStrikeDamage, const float inLifeSteal, const float inAbilityPower, const float inMagePenetration, const float inOmnivamp, const float inPhysicalVamp, const float inArmor, const float inHealAndShieldPower, const float inHealth, const float inHealthRegeneration, const float inMagicResistance, const float inTenacity, const float inSlowResist, const float inAbilityHaste, const float inMana, const float inManaRegeneration, const float inMovementSpeed, const float inRange)

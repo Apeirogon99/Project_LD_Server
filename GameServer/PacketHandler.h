@@ -18,18 +18,20 @@ enum class EPakcetID : uint16
 	S2C_PlayAnimation = 2011,
 	S2C_AppearItem = 2012,
 	S2C_AppearEnemy = 2013,
-	S2C_DisAppearGameObject = 2014,
-	C2S_LoadInventory = 2015,
-	S2C_LoadInventory = 2016,
-	C2S_InsertInventory = 2017,
-	S2C_InsertInventory = 2018,
-	C2S_UpdateInventory = 2019,
-	S2C_UpdateInventory = 2020,
-	C2S_DeleteInventory = 2021,
-	S2C_DeleteInventory = 2022,
-	S2C_RollbackInventory = 2023,
-	C2S_ReplaceEqipment = 2024,
-	S2C_ReplaceEqipment = 2025,
+	S2C_TickEnemy = 2014,
+	S2C_MovementEnemy = 2015,
+	S2C_DisAppearGameObject = 2016,
+	C2S_LoadInventory = 2017,
+	S2C_LoadInventory = 2018,
+	C2S_InsertInventory = 2019,
+	S2C_InsertInventory = 2020,
+	C2S_UpdateInventory = 2021,
+	S2C_UpdateInventory = 2022,
+	C2S_DeleteInventory = 2023,
+	S2C_DeleteInventory = 2024,
+	S2C_RollbackInventory = 2025,
+	C2S_ReplaceEqipment = 2026,
+	S2C_ReplaceEqipment = 2027,
 
 	C2S_ReplicatedServerTimeStamp = 9000,
 	S2C_ReplicatedServerTimeStamp = 9001,
@@ -64,12 +66,12 @@ private:
 	}
 
 	template<typename T>
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr& session, T& pkt, uint16 pktId)
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, T& pkt, uint16 pktId)
 	{
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(PacketHeader);
 
-		SessionManagerPtr manager = session->GetSessionManager();
+		//SessionManagerPtr manager = session->GetSessionManager();
 		//SendRingBuffer& sendRingBuffer = manager->GetSendRingBuffer();
 		//SendBufferPtr sendBuffer = sendRingBuffer.Writer(packetSize);
 		SendBufferPtr sendBuffer = std::make_shared<SendBuffer>(packetSize);

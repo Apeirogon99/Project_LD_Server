@@ -44,7 +44,7 @@ void Pawn::MoveDestination(Protocol::C2S_MovementCharacter inPacket)
 	this->SetMoveLocation(moveLocation);
 	this->SetMoveLastTick(timestamp);
 
-	OnMovement();
+	OnMovement(timestamp);
 
 }
 
@@ -64,9 +64,7 @@ void Pawn::MovingDestination(const int64 inTime)
 
 	FVector	deadReckoningLocation = curLocation + (velocity * duration);
 
-	//wprintf(L"[CUR] (%5.6f:%5.6f:%5.6f) -> [DER] (%5.6f:%5.6f:%5.6f\n", 
-	//	curLocation.GetX(), curLocation.GetY(), curLocation.GetZ(),
-	//	deadReckoningLocation.GetX(), deadReckoningLocation.GetY(), deadReckoningLocation.GetZ());
+	//GameObjectLog(L"[Move] (%5.6f:%5.6f:%5.6f)\n", deadReckoningLocation.GetX(), deadReckoningLocation.GetY(), deadReckoningLocation.GetZ());
 
 	SetLocation(deadReckoningLocation);
 	SetRotation(rotation);

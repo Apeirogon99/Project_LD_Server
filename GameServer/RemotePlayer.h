@@ -36,7 +36,6 @@ public:
 	Inventoryptr&	GetInventory()				{ return mInventory; }
 	CharacterPtr&	GetCharacter()				{ return mCharacter; }
 	Viewers&		GetViewers()				{ return mViewers; }
-	ViewActors&		GetViewActors()				{ return mViewActors; }
 
 private:
 	WorldRef		mWorld;
@@ -44,7 +43,6 @@ private:
 	Token			mToken;
 	PlayerStateRef	mPlayerState;
 	Viewers			mViewers;
-	ViewActors		mViewActors;
 
 	Inventoryptr	mInventory;
 	CharacterPtr	mCharacter;

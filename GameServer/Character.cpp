@@ -89,6 +89,7 @@ void Character::DisAppearActor(PlayerStatePtr inDisappearPlayerState)
 		return;
 	}
 	targetRemotePlayer->GetViewers().erase(inDisappearPlayerState);
+	inDisappearPlayerState->GetMonitors().erase(targetRemotePlayer);
 
 	RemotePlayerPtr disappearRemotePlayer = inDisappearPlayerState->GetRemotePlayer();
 	if (nullptr == disappearRemotePlayer)
@@ -144,6 +145,7 @@ void Character::DisAppearActor(PlayerStatePtr inDisappearPlayerState)
 
 void Character::SyncLocation(const int64 inDeltaTime)
 {
+
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)
 	{
@@ -191,7 +193,7 @@ void Character::SyncLocation(const int64 inDeltaTime)
 	}
 }
 
-void Character::OnMovement()
+void Character::OnMovement(const int64 inTimeStamp)
 {
 	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
 	if (nullptr == remotePlayer)
@@ -210,13 +212,12 @@ void Character::OnMovement()
 	{
 		return;
 	}
-	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
 
 	Protocol::S2C_MovementCharacter movementPacket;
 	movementPacket.set_remote_id(remotePlayer->GetGameObjectID());
 	movementPacket.mutable_cur_location()->CopyFrom(this->GetLocation());
 	movementPacket.mutable_move_location()->CopyFrom(this->GetMoveLocation());
-	movementPacket.set_timestamp(serviceTimeStamp);
+	movementPacket.set_timestamp(inTimeStamp);
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);

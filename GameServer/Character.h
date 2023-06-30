@@ -17,7 +17,7 @@ public:
 
 public:
 	void SyncLocation(const int64 inDeltaTime);
-	virtual void OnMovement() override;
+	virtual void OnMovement(const int64 inTimeStamp) override;
 
 public:
 	void SetLoad(bool inIsLoad);

@@ -93,9 +93,6 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 		return false;
 	}
 
-	const int64 sTime = gameState->GetServiceTimeStamp();
-	const int64 cTime = pkt.timestamp();
-	wprintf(L"[ID::%lld] [DIFF::%lld]\n", remotePlayer->GetGameObjectID(), sTime - cTime);
 	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &Character::MoveDestination, pkt);
 	return true;
 }
@@ -119,13 +116,7 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 		return false;
 	}
 
-	const int64 timestmap = pkt.timestamp();
-	const int64 worldTimeStamp = remotePlayer->GetWorldRef().lock()->GetServiceTimeStamp();
-
-	wprintf(L"[%lld] [%lld] - [%lld]\n", worldTimeStamp, timestmap, worldTimeStamp - timestmap);
-
-	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::LoadItemToInventory, pkt);
-
+	remotePlayer->GetInventory()->PushTask(pkt.timestamp(), &Inventory::LoadItemToInventory, pkt);
 	return true;
 }
 

@@ -137,6 +137,36 @@ inline bool ECharacterPart_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ECharacterPart>(
     ECharacterPart_descriptor(), name, value);
 }
+enum EEnemyState : int {
+  State_Unspecified = 0,
+  State_Idle = 1,
+  State_Round = 2,
+  State_Chase = 3,
+  State_Attack = 4,
+  State_Hit = 5,
+  State_Death = 6,
+  EEnemyState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  EEnemyState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool EEnemyState_IsValid(int value);
+constexpr EEnemyState EEnemyState_MIN = State_Unspecified;
+constexpr EEnemyState EEnemyState_MAX = State_Death;
+constexpr int EEnemyState_ARRAYSIZE = EEnemyState_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EEnemyState_descriptor();
+template<typename T>
+inline const std::string& EEnemyState_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, EEnemyState>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function EEnemyState_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    EEnemyState_descriptor(), enum_t_value);
+}
+inline bool EEnemyState_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, EEnemyState* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<EEnemyState>(
+    EEnemyState_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -173,6 +203,11 @@ template <> struct is_proto_enum< ::Protocol::ECharacterPart> : ::std::true_type
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ECharacterPart>() {
   return ::Protocol::ECharacterPart_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::EEnemyState> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::EEnemyState>() {
+  return ::Protocol::EEnemyState_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

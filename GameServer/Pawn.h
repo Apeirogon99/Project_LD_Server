@@ -19,7 +19,7 @@ public:
 public:
 	void MoveDestination(Protocol::C2S_MovementCharacter inPacket);
 	void MovingDestination(const int64 inTime);
-	virtual void OnMovement() abstract;
+	virtual void OnMovement(const int64 inTimeStamp) abstract;
 	//virtual void PlayAnimation() abstract;
 
 public:

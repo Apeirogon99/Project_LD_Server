@@ -22,6 +22,7 @@ public:
 	PlayerStateRef		GetPlayerStateRef() { return std::static_pointer_cast<PlayerState>(shared_from_this()); }
 	RemotePlayerPtr&	GetRemotePlayer()	{ return mRemotePlayer; }
 	Monitors&			GetMonitors()		{ return mMonitors; }
+	MonitorActors&		GetMonitorActors()	{ return mMonitorActors; }
 
 public:
 	template <typename... Types>
@@ -30,6 +31,7 @@ public:
 private:
 	RemotePlayerPtr		mRemotePlayer;
 	Monitors			mMonitors;
+	MonitorActors		mMonitorActors;
 };
 
 template<typename ...Types>
