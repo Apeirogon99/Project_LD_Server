@@ -28,6 +28,11 @@ void EnemySlime::OnDestroy()
 
 void EnemySlime::OnTick(const int64 inDeltaTime)
 {
+	if (false == IsValid())
+	{
+		return;
+	}
+
 	mStateManager.UpdateState(inDeltaTime);
 
 	Protocol::S2C_TickEnemy tickEnemyPacket;
@@ -36,6 +41,20 @@ void EnemySlime::OnTick(const int64 inDeltaTime)
 
 	SendBufferPtr SendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickEnemyPacket);
 	this->BrodcastViewers(SendBuffer);
+
+	mMoveSyncTick += inDeltaTime;
+	if (mMoveSyncTick > MAX_LOCATION_SYNC_TIME)
+	{
+		WorldPtr world = GetWorld().lock();
+		if (nullptr == world)
+		{
+			return;
+		}
+
+		const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+		OnMovement(serviceTimeStamp);
+		mMoveSyncTick = 0;
+	}
 }
 
 bool EnemySlime::IsValid()

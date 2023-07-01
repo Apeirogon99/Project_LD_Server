@@ -2,7 +2,7 @@
 
 enum class EStateType : uint8
 {
-	State_None,				//존재하지 않는 상태
+	State_Unspecified,		//존재하지 않는 상태
 	State_Idle,				//가만히 있는 상태
 	State_Round,			//주변을 이동함
 	State_Recovery,			//복귀 상태
@@ -127,7 +127,7 @@ public:
 class StateManager
 {
 public:
-	StateManager() : mCurrentState(EStateType::State_None)
+	StateManager() : mCurrentState(EStateType::State_Unspecified)
 	{
 		mStateTypes.insert(std::make_pair(EStateType::State_Idle,		static_cast<IStateEvent*>(new IdleState())));
 		mStateTypes.insert(std::make_pair(EStateType::State_Round,		static_cast<IStateEvent*>(new RoundState())));
@@ -160,7 +160,7 @@ public:
 	void SetState(const EStateType& inStateType)
 	{
 
-		if (mCurrentState == EStateType::State_None)
+		if (mCurrentState == EStateType::State_Unspecified)
 		{
 			mCurrentState = inStateType;
 			EnterState();
