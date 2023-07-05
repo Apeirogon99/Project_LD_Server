@@ -27,16 +27,21 @@
 #include "GameTask.h"
 
 //==========================//
+//   GameContent | Componet	//
+//==========================//
+#include "StatsComponent.h"
+#include "EqipmentComponent.h"
+#include "AttackComponent.h"
+
+//==========================//
 //		 GameContent		//
 //==========================//
-#include "Actor.h"
-#include "Pawn.h"
-#include "Character.h"
+#include "GameWorld.h"
+#include "GameRemotePlayer.h"
+#include "PlayerCharacter.h"
 #include "NPCCharacter.h"
-#include "RemotePlayer.h"
 #include "AItem.h"
 #include "Inventory.h"
-#include "World.h"
 
 //==========================//
 //   GameContent | Enemy	//

@@ -16,7 +16,7 @@ public:
 public:
 	virtual void OnInitialization()	override
 	{
-		SetTick(1000, true);
+		SetTick(false, DEFAULT_TICK);
 	}
 
 	virtual void OnDestroy() override
@@ -57,18 +57,18 @@ public:
 	}
 
 public:
-	virtual void AppearActor(PlayerStatePtr inClosePlayerState) override {};
-	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override {};
+	virtual void OnAppearActor(ActorPtr inAppearActor) {};
+	virtual void OnDisAppearActor(ActorPtr inDisappearActor) {};
 
 public:
-	void SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange);
+	void SetEnemySpawner(GameWorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange);
 	void OnDestroyEnemy(const int64 inGameObjectID);
 	void SpawnEnemey();
 	void ReSpawnCount();
 
 public:
 	bool IsLeftEnemy() { return mCurEnemyCount == 0; }
-	const Protocol::SVector GetRandomLocation();
+	const Location GetRandomLocation();
 
 private:
 	bool  mIsLoad;
@@ -79,11 +79,11 @@ private:
 	Stats mEnemyStats;
 	float mSpawnRange;
 	int64 mLastSpawnCount;
-	WorldPtr mWorld;
+	GameWorldPtr mWorld;
 };
 
 template<typename EnemyClass>
-inline void EnemySpawner<EnemyClass>::SetEnemySpawner(WorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange)
+inline void EnemySpawner<EnemyClass>::SetEnemySpawner(GameWorldPtr inWorld, const int32 inEnemyID, const int64 inMaxEnemyCount, const float inSpawnRange)
 {
 	mWorld = inWorld;
 	mEnemyID = inEnemyID;
@@ -91,16 +91,9 @@ inline void EnemySpawner<EnemyClass>::SetEnemySpawner(WorldPtr inWorld, const in
 	mSpawnedEnemyIDs = new int64[mMaxEnmeyCount]();
 	mSpawnRange = static_cast<float>((3.14 * ::pow((inSpawnRange/2), 2)));
 
-	GameDatasPtr gameDatas = inWorld->GetGameDatas();
-	CSVRow* enemyStats = gameDatas->PeekRow(static_cast<uint8>(EGameDataType::EnemyStat), mEnemyID);
-
-	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
-	{
-		mEnemyStats.GetStats()[index] = stof(enemyStats->at(index));
-	}
-
+	GameDatasPtr gameDatas = std::static_pointer_cast<GameDatas>(inWorld->GetDatas());
+	mEnemyStats = gameDatas->GetEnemyStat(mEnemyID);
 	mIsLoad = true;
-
 }
 
 template<typename EnemyClass>
@@ -131,19 +124,22 @@ inline void EnemySpawner<EnemyClass>::SpawnEnemey()
 
 	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
 	{
-		const Protocol::SVector newLocation = GetRandomLocation();
-		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->CreateActor<EnemyClass>(newLocation, Protocol::SRotator()));
+		const Location newLocation = GetRandomLocation();
+		const Rotation newRoation = Rotation();
+
+		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyClass>(newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
 		if (nullptr == newEnemy)
 		{
 			return;
 		}
 
-		newEnemy->SetOwner(GetGameObjectRef());
+		newEnemy->SetOwner(this->GetGameObjectRef());
 		newEnemy->SetEnemeyID(this->mEnemyID);
 		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-		newEnemy->SetStats(this->mEnemyStats);
-		newEnemy->SetSpawnLocation(newLocation);
+		newEnemy->SetEnemyStats(this->mEnemyStats);
+		newEnemy->SetRecoveryLocation(newLocation);
 		newEnemy->SetLocation(newLocation);
+		newEnemy->SetRotation(newRoation);
 
 		const int64 enemyGameObjectID = newEnemy->GetGameObjectID();
 		GameObjectLog(L"[SpawnEnemey] spawn enemy(%lld)\n", enemyGameObjectID);
@@ -164,12 +160,12 @@ inline void EnemySpawner<EnemyClass>::ReSpawnCount()
 
 	if (mLastSpawnCount == 0)
 	{
-		mLastSpawnCount = mWorld->GetServiceTimeStamp();
+		mLastSpawnCount = mWorld->GetWorldTime();
 	}
 	else
 	{
 		static int64 MAX_DUARTION = 5000;
-		if (mWorld->GetServiceTimeStamp() - mLastSpawnCount > MAX_DUARTION)
+		if (mWorld->GetWorldTime() - mLastSpawnCount > MAX_DUARTION)
 		{
 			for (int32 index = 0; index < mMaxEnmeyCount; ++index)
 			{
@@ -183,25 +179,25 @@ inline void EnemySpawner<EnemyClass>::ReSpawnCount()
 }
 
 template<typename EnemyClass>
-inline const Protocol::SVector EnemySpawner<EnemyClass>::GetRandomLocation()
+inline const Location EnemySpawner<EnemyClass>::GetRandomLocation()
 {
-	const Protocol::SVector& location = this->GetLocation();
-	Protocol::SVector newSpawnLocation;
+	const Location& spawnerlocation = this->GetLocation();
+	Location newSpawnLocation;
 
-	float minX = location.x() - mSpawnRange;
-	float maxX = location.x() + mSpawnRange;
+	float minX = spawnerlocation.GetX() - mSpawnRange;
+	float maxX = spawnerlocation.GetX() + mSpawnRange;
 
-	float minY = location.y() - mSpawnRange;
-	float maxY = location.y() + mSpawnRange;
+	float minY = spawnerlocation.GetY() - mSpawnRange;
+	float maxY = spawnerlocation.GetY() + mSpawnRange;
 
 	std::random_device randDevice;
 	std::mt19937 gen(randDevice());
 	std::uniform_real_distribution<> distX(minX, maxX);
 	std::uniform_real_distribution<> distY(minY, maxY);
 
-	newSpawnLocation.set_x(static_cast<float>(distX(gen)));
-	newSpawnLocation.set_y(static_cast<float>(distY(gen)));
-	newSpawnLocation.set_z(location.z());
+	newSpawnLocation.SetX(static_cast<float>(distX(gen)));
+	newSpawnLocation.SetY(static_cast<float>(distY(gen)));
+	newSpawnLocation.SetZ(spawnerlocation.GetZ());
 	return newSpawnLocation;
 }
 

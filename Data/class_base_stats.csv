@@ -1,3 +1,2 @@
-base_armor_penetration,base_attack_damage,base_attack_speed,base_critical_strike_chance,base_cirtical_strike_damage,base_life_steal,base_ability_power,base_mage_penetration,base_omnivamp,base_physical_vamp,base_armor,base_heal_and_shield_power,base_health,base_health_regeneration,base_magic_resistance,base_tenacity,base_slow_resist,base_ability_haste,base_mana,base_mana_regeneration,base_movement_speed,base_range
 0,64,0.625,0,0,0,3,0,0,0,33,0,610,9.5,30,0,0,0,290,7,330,175
 0,55,0.625,0,0,0,10,0,0,0,22,0,596,5.5,30,0,0,0,459,8,340,525

@@ -31,13 +31,13 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
-	CharacterPtr character = remotePlayer->GetCharacter();
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
 	if (nullptr == character)
 	{
 		return false;
@@ -104,7 +104,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetCharacterData(loadCharacterData);
 
 	character->SetLocation(800.0f, 100.0f, 480.0f);
-	character->SetMoveLocation(character->GetLocation());
+	character->GetMovementComponent().SetNewDestination(character->GetLocation(), 0);
 	character->SetRotation(0.0f, 0.0f, 0.0f);
 
 	{
@@ -119,9 +119,11 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 		inventory->CreateEqipment(weapon_l, 8);
 		inventory->CreateEqipment(weapon_r, 9);
 	}
+	
+	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?
+	//character->UpdateCharacterStats();
+	//character->SetCharacterStats(character->GetBasicStats());
 
-	character->SetLoad(true);
-	remotePlayer->LoadComplete();
-
+	remotePlayer->OnLoadComplete();
 	return true;
 }

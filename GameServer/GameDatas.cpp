@@ -43,5 +43,81 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    LoadDatas();
     return true;
+}
+
+void GameDatas::LoadDatas()
+{
+    LoadStatsDatas(mEqipmentStats, EGameDataType::ItemEqipment);
+    LoadStatsDatas(mCharacterBaseStats, EGameDataType::BaseStat);
+    LoadStatsDatas(mCharacterGrowStats, EGameDataType::GrowStat);
+    LoadStatsDatas(mEnemyStats, EGameDataType::EnemyStat);
+}
+
+void GameDatas::LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDataType)
+{
+    CSVDatas datas;
+    GetData(datas, static_cast<uint8>(inDataType));
+
+    outDatas.resize(datas.size());
+    for (int32 dataIndex = 0; dataIndex < datas.size(); ++dataIndex)
+    {
+
+        Stats tempStat;
+
+        CSVRow row = datas.at(dataIndex);
+        for (int32 rowIndex = 0; rowIndex < row.size(); ++rowIndex)
+        {
+            float rowFValue = stof(row.at(rowIndex));
+            tempStat.SetStats(rowIndex, rowFValue);
+        }
+
+        outDatas[dataIndex] = tempStat;
+    }
+}
+
+bool GameDatas::GetStats(const EGameDataType inDataType, const int32 inRow, Stats& outStats)
+{
+    bool result = true;
+    switch (inDataType)
+    {
+    case EGameDataType::ItemEqipment:
+        outStats = GetEqipmentStat(inRow);
+        break;
+    case EGameDataType::BaseStat:
+        outStats = GetCharacterBaseStat(inRow);
+        break;
+    case EGameDataType::GrowStat:
+        outStats = GetCharacterGrowStat(inRow);
+        break;
+    case EGameDataType::EnemyStat:
+        outStats = GetEnemyStat(inRow);
+        break;
+    default:
+        result = false;
+        break;
+    }
+
+    return result;
+}
+
+const Stats& GameDatas::GetCharacterBaseStat(const int32 inRow)
+{
+    return mCharacterBaseStats.at(inRow);
+}
+
+const Stats& GameDatas::GetCharacterGrowStat(const int32 inRow)
+{
+    return mCharacterGrowStats.at(inRow);
+}
+
+const Stats& GameDatas::GetEnemyStat(const int32 inRow)
+{
+    return mEnemyStats.at(inRow);
+}
+
+const Stats& GameDatas::GetEqipmentStat(const int32 inRow)
+{
+    return mEqipmentStats.at(inRow);
 }

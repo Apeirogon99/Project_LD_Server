@@ -28,31 +28,43 @@ using GameTaskPtr		= std::shared_ptr<GameTask>;
 //==========================//
 //	   Content Framework	//
 //==========================//
-class Actor;
-class Pawn;
-class Character;
-class RemotePlayer;
-class RemoteClient;
+class GameWorld;
+using GameWorldPtr = std::shared_ptr<GameWorld>;
+using GameWorldRef = std::weak_ptr<GameWorld>;
 
-using ActorPtr			= std::shared_ptr<Actor>;
-using PawnPtr			= std::shared_ptr<Pawn>;
-using CharacterPtr		= std::shared_ptr<Character>;
-using RemotePlayerPtr	= std::shared_ptr<RemotePlayer>;
-using RemotePlayerRef	= std::weak_ptr<RemotePlayer>;
-using RemoteClientPtr	= std::weak_ptr<RemoteClient>;
-
+//==========================//
+//	       Component		//
+//==========================//
+class StatsComponent;
+class EqipmentComponent;
+class AttackComponent;
 
 //==========================//
 //		 GameContent		//
 //==========================//
-class World;
-class AItem;
-class Inventory;
 
-using WorldPtr = std::shared_ptr<World>;
-using WorldRef = std::weak_ptr<World>;
-using AItemPtr = std::shared_ptr<AItem>;
-using Inventoryptr = std::shared_ptr<Inventory>;
+
+//==========================//
+//   GameContent | Item		//
+//==========================//
+class AItem;
+using AItemPtr						= std::shared_ptr<AItem>;
+using AItemRef						= std::weak_ptr<AItem>;
+
+//==========================//
+//   GameContent | Player	//
+//==========================//
+class GameRemotePlayer;
+using GameRemotePlayerPtr			= std::shared_ptr<GameRemotePlayer>;
+using GameRemotePlayerRef			= std::weak_ptr<GameRemotePlayer>;
+
+class PlayerCharacter;
+using PlayerCharacterPtr			= std::shared_ptr<PlayerCharacter>;
+using PlayerCharacterRef			= std::weak_ptr<PlayerCharacter>;
+
+class Inventory;
+using Inventoryptr					= std::shared_ptr<Inventory>;
+using InventoryRef					= std::weak_ptr<Inventory>;
 
 //==========================//
 //   GameContent | Enemy	//
@@ -68,6 +80,8 @@ using EnemySlimePtr			= std::shared_ptr<EnemySlime>;
 //		    USING			//
 //==========================//
 
-using Viewers			= std::set<PlayerStatePtr>;
-using Monitors			= std::set<RemotePlayerPtr>;
-using MonitorActors		= std::set<ActorPtr>;
+
+
+//==========================//
+//		    Mecro			//
+//==========================//

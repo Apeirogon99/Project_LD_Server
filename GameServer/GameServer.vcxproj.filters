@@ -46,14 +46,44 @@
     <Filter Include="Content">
       <UniqueIdentifier>{3b106540-75de-4526-87c4-07a60dd7d5f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Public">
-      <UniqueIdentifier>{0cabc958-0350-4164-b2ae-19c7d5c051b9}</UniqueIdentifier>
+    <Filter Include="Content\Enemy">
+      <UniqueIdentifier>{d4462627-2a35-4b59-9384-d732745e1904}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Private">
-      <UniqueIdentifier>{37176172-de05-418a-bde4-e992aac6edfc}</UniqueIdentifier>
+    <Filter Include="Content\Enemy\Public">
+      <UniqueIdentifier>{54c260a6-6e81-4763-9153-336b948ac487}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Framework">
-      <UniqueIdentifier>{79fefb87-e721-4ee4-8b41-b4732af8b101}</UniqueIdentifier>
+    <Filter Include="Content\Enemy\Private">
+      <UniqueIdentifier>{b666c806-b309-44a0-8239-96cb9cfe02a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player">
+      <UniqueIdentifier>{bf7c2e64-0555-4bb5-96a7-0b69909893d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player\Public">
+      <UniqueIdentifier>{6a8d97e9-5b83-4a4b-9e82-2c24dae84fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player\Private">
+      <UniqueIdentifier>{2ed8c19e-ad89-4d4b-8ef5-785171021fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\World">
+      <UniqueIdentifier>{2939ced2-3673-4717-a353-39c71f64e128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Item">
+      <UniqueIdentifier>{ca521d17-230f-4a87-8b0a-fdf97aeb4c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\NPC">
+      <UniqueIdentifier>{76ffae56-b78a-4913-8c1b-cb8a6582b996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\NPC\Public">
+      <UniqueIdentifier>{03a9c5fd-ae42-4a18-ad8f-2f50063132c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\NPC\Private">
+      <UniqueIdentifier>{9b14f52e-65af-4938-8b9e-5c47d2caed90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Component">
+      <UniqueIdentifier>{ed5c81b1-3381-4f39-b18b-ba45dc8d0b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\PlayerCharacter">
+      <UniqueIdentifier>{df2f259b-bbff-43f1-8c83-4ee8d8202802}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,20 +135,11 @@
     <ClCompile Include="InventoryDatabase.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
     <ClCompile Include="CommonServerPacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
     <ClCompile Include="GameDatas.cpp">
       <Filter>FrameWork\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="AItem.cpp">
-      <Filter>Content\Private</Filter>
     </ClCompile>
     <ClCompile Include="GameTask.cpp">
       <Filter>FrameWork\Private</Filter>
@@ -126,34 +147,49 @@
     <ClCompile Include="CharacterDatabase.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Pawn.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="RemotePlayer.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCharacter.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
+    <ClCompile Include="PacketUtils.cpp" />
     <ClCompile Include="EnemySlime.cpp">
-      <Filter>Content\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="NPCCharacter.cpp">
-      <Filter>Content\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="IStateEvent.cpp">
-      <Filter>Content\Framework</Filter>
+      <Filter>Content\Enemy\Private</Filter>
     </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Content\Private</Filter>
+      <Filter>Content\Enemy\Private</Filter>
     </ClCompile>
-    <ClCompile Include="PacketUtils.cpp" />
+    <ClCompile Include="EnemyCharacter.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>Content\World</Filter>
+    </ClCompile>
+    <ClCompile Include="AItem.cpp">
+      <Filter>Content\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCCharacter.cpp">
+      <Filter>Content\NPC\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRemotePlayer.cpp">
+      <Filter>Content\Player\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="IStateEvent.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="EqipmentComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorCharacter.cpp">
+      <Filter>Content\PlayerCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCharacter.cpp">
+      <Filter>Content\PlayerCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Content\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -207,17 +243,8 @@
     <ClInclude Include="InventoryDatabase.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
     <ClInclude Include="GameDatas.h">
       <Filter>FrameWork\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="AItem.h">
-      <Filter>Content\Public</Filter>
     </ClInclude>
     <ClInclude Include="Mecro.h">
       <Filter>Pch\Public</Filter>
@@ -228,35 +255,50 @@
     <ClInclude Include="CharacterDatabase.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Pawn.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="RemotePlayer.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCharacter.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySlime.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="NPCCharacter.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="IStateEvent.h">
-      <Filter>Content\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawner.h">
-      <Filter>Content\Public</Filter>
-    </ClInclude>
     <ClInclude Include="PacketUtils.h">
       <Filter>Packet\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySlime.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCharacter.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorld.h">
+      <Filter>Content\World</Filter>
+    </ClInclude>
+    <ClInclude Include="AItem.h">
+      <Filter>Content\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCCharacter.h">
+      <Filter>Content\NPC\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRemotePlayer.h">
+      <Filter>Content\Player\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="IStateEvent.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="EqipmentComponent.h">
+      <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="StatsComponent.h">
+      <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackComponent.h">
+      <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorCharacter.h">
+      <Filter>Content\PlayerCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCharacter.h">
+      <Filter>Content\PlayerCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Content\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

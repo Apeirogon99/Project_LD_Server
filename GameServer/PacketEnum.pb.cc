@@ -57,15 +57,16 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   "t\020\001\022\022\n\016Part_Shoulders\020\002\022\016\n\nPart_Chest\020\003\022"
   "\020\n\014Part_Bracers\020\004\022\016\n\nPart_Hands\020\005\022\016\n\nPar"
   "t_Pants\020\006\022\016\n\nPart_Boots\020\007\022\021\n\rPart_Weapon"
-  "_l\020\010\022\021\n\rPart_Weapon_r\020\t*\210\001\n\013EEnemyState\022"
+  "_l\020\010\022\021\n\rPart_Weapon_r\020\t*\254\001\n\013EEnemyState\022"
   "\025\n\021State_Unspecified\020\000\022\016\n\nState_Idle\020\001\022\017"
-  "\n\013State_Round\020\002\022\017\n\013State_Chase\020\003\022\020\n\014Stat"
-  "e_Attack\020\004\022\r\n\tState_Hit\020\005\022\017\n\013State_Death"
-  "\020\006b\006proto3"
+  "\n\013State_Round\020\002\022\022\n\016State_Recovery\020\003\022\017\n\013S"
+  "tate_Chase\020\004\022\020\n\014State_Attack\020\005\022\r\n\tState_"
+  "Hit\020\006\022\016\n\nState_Stun\020\007\022\017\n\013State_Death\020\010b\006"
+  "proto3"
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 530, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 566, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -145,6 +146,8 @@ bool EEnemyState_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
+    case 8:
       return true;
     default:
       return false;

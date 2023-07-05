@@ -31,13 +31,6 @@
 #include <random>
 
 //==========================//
-//		    Math			//
-//==========================//
-#include "MathFoward.h"
-#include "FVector.h"
-#include "FRotator.h"
-
-//==========================//
 //		     STL			//
 //==========================//
 #include <array>
@@ -65,6 +58,8 @@
 #include "DefaultTypes.h"
 #include "DefaultSize.h"
 #include "DefaultMacros.h"
+#include "MathFoward.h"
+#include "GameFrameworkFoward.h"
 
 //==========================//
 //		    sync			//
@@ -131,7 +126,6 @@
 //==========================//
 #include "Task.h"
 #include "TaskManager.h"
-#include "GameObject.h"
 
 //==========================//
 //		    Data			//
@@ -155,3 +149,13 @@
 //		     SMTP			//
 //==========================//
 #include "SMTP.h"
+
+//==========================//
+//		    Math			//
+//==========================//
+#include "MathLibrary.h"
+
+//==========================//
+//		 GameFrameWork		//
+//==========================//
+#include "GameFrameworkLibrary.h"

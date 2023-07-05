@@ -1,5 +1,5 @@
 #pragma once
-class PlayerState : public PacketSession
+class PlayerState : public RemoteClient
 {
 public:
 	PlayerState();
@@ -9,29 +9,16 @@ public:
 	PlayerState& operator=(const PlayerState& player) = delete;
 
 protected:
-	virtual void OnConnected() override;
-	virtual void OnSend(uint32 len) override;
-	virtual void OnIcmp() override;
-	virtual void OnDisconnected() override;
-	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
-
-public:
-	void BroadcastMonitors(SendBufferPtr inSendBuffer);
-
-public:
-	PlayerStateRef		GetPlayerStateRef() { return std::static_pointer_cast<PlayerState>(shared_from_this()); }
-	RemotePlayerPtr&	GetRemotePlayer()	{ return mRemotePlayer; }
-	Monitors&			GetMonitors()		{ return mMonitors; }
-	MonitorActors&		GetMonitorActors()	{ return mMonitorActors; }
+	virtual void OnConnected()									override;
+	virtual void OnSend(uint32 len)								override;
+	virtual void OnIcmp()										override;
+	virtual void OnDisconnected()								override;
+	virtual void OnRecvPacket(BYTE* buffer, const uint32 len)	override;
 
 public:
 	template <typename... Types>
 	void PlayerStateLog(const WCHAR* inLog, Types... inArgs);
 
-private:
-	RemotePlayerPtr		mRemotePlayer;
-	Monitors			mMonitors;
-	MonitorActors		mMonitorActors;
 };
 
 template<typename ...Types>

@@ -1,5 +1,23 @@
 #include "pch.h"
 
+Transform PacketUtils::ToFTransform(const Protocol::STransform& inTransform)
+{
+    Transform transform;
+    transform.SetLocation(PacketUtils::ToFVector(inTransform.location()));
+    transform.SetRotation(PacketUtils::ToFRotator(inTransform.rotation()));
+    transform.SetScale(PacketUtils::ToFVector(inTransform.scale()));
+    return transform;
+}
+
+Protocol::STransform PacketUtils::ToSTransform(const Transform& inTransform)
+{
+    Protocol::STransform transform;
+    transform.mutable_location()->CopyFrom(PacketUtils::ToSVector(inTransform.GetLocation()));
+    transform.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inTransform.GetRotation()));
+    transform.mutable_scale()->CopyFrom(PacketUtils::ToSVector(inTransform.GetScale()));
+    return transform;
+}
+
 FVector PacketUtils::ToFVector(const Protocol::SVector& inVector)
 {
     FVector vector;

@@ -1,5 +1,7 @@
 #pragma once
 
+#define NONE_ITEM 0
+
 enum class EItemCellType
 {
 	id,
@@ -43,8 +45,8 @@ public:
 	virtual bool IsValid()						 override;
 
 public:
-	virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;
-	virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override;
+	virtual void OnAppearActor(ActorPtr inAppearActor) override;
+	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
 	void Clear();

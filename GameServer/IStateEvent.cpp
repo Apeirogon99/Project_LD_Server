@@ -61,10 +61,10 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	enemy->SetMoveLocation(spawner->GetRandomLocation());
-	enemy->SetMoveLastTick(serviceTimeStamp);
-	enemy->OnMovement(serviceTimeStamp);
+	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+	//enemy->SetMoveLocation(spawner->GetRandomLocation());
+	//enemy->SetMoveLastTick(serviceTimeStamp);
+	//enemy->OnMovement(serviceTimeStamp);
 }
 
 void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -81,17 +81,17 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	const float closeToDestination = MAX_LOCATION_DISTANCE;
-	const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), PacketUtils::ToFVector(enemy->GetMoveLocation()));
-	if (locationDistance > closeToDestination)
-	{
-		enemy->MovingDestination(serviceTimeStamp);
-	}
-	else
-	{
-		enemy->GetStateManager().SetState(EStateType::State_Idle);
-	}
+	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+	//const float closeToDestination = MAX_LOCATION_DISTANCE;
+	//const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(enemy->GetMoveLocation()));
+	//if (locationDistance > closeToDestination)
+	//{
+	//	enemy->MovingDestination(serviceTimeStamp);
+	//}
+	//else
+	//{
+	//	enemy->GetStateManager().SetState(EStateType::State_Idle);
+	//}
 }
 
 void RoundState::Exit(EnemyCharacterRef inEnemy)
@@ -102,8 +102,8 @@ void RoundState::Exit(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	enemy->SetMoveLocation(FVector());
-	enemy->SetMoveLastTick(0);
+	//enemy->SetMoveLocation(FVector());
+	//enemy->SetMoveLastTick(0);
 }
 
 //==========================//
@@ -128,17 +128,17 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	const float closeToDestination = MAX_LOCATION_DISTANCE;
-	const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), PacketUtils::ToFVector(enemy->GetSpawnLocation()));
-	if (locationDistance > closeToDestination)
-	{
-		const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-		enemy->MovingDestination(serviceTimeStamp);
-	}
-	else
-	{
-		enemy->GetStateManager().SetState(EStateType::State_Idle);
-	}
+	//const float closeToDestination = MAX_LOCATION_DISTANCE;
+	//const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(enemy->GetSpawnLocation()));
+	//if (locationDistance > closeToDestination)
+	//{
+	//	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+	//	enemy->MovingDestination(serviceTimeStamp);
+	//}
+	//else
+	//{
+	//	enemy->GetStateManager().SetState(EStateType::State_Idle);
+	//}
 }
 
 void RecoveryState::Exit(EnemyCharacterRef inEnemy)
@@ -175,17 +175,17 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	CharacterPtr arroPlayer			= enemy->GetAggroPlayer();
-	const float enemyAttackRange	= enemy->GetStats().GetRange();
-	const float closeToAggroPlayer	= FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), PacketUtils::ToFVector(arroPlayer->GetLocation()));
-	if (enemyAttackRange > closeToAggroPlayer)
-	{
-		enemy->GetStateManager().SetState(EStateType::State_Attack);
-		return;
-	}
-
-	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	enemy->MovingDestination(serviceTimeStamp);
+	//CharacterPtr arroPlayer			= enemy->GetAggroPlayer();
+	//const float enemyAttackRange	= enemy->GetBasicStats().GetRange();
+	//const float closeToAggroPlayer	= FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(arroPlayer->GetLocation()));
+	//if (enemyAttackRange > closeToAggroPlayer)
+	//{
+	//	enemy->GetStateManager().SetState(EStateType::State_Attack);
+	//	return;
+	//}
+	//
+	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
+	//enemy->MovingDestination(serviceTimeStamp);
 
 	mChaseToRecoveryTime += inDeltaTime;
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_MAX_TIME)

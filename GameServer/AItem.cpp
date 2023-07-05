@@ -56,60 +56,80 @@ void AItem::OnTick(const int64 inDeltaTime)
 
 bool AItem::IsValid()
 {
-	return this->GetGameObjectID() != -1;
+	return mItemCode != NONE_ITEM;
 }
 
-void AItem::AppearActor(PlayerStatePtr inClosePlayerState)
+void AItem::OnAppearActor(ActorPtr inAppearActor)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
+	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
+	if (nullptr == anotherPlayerCharacter)
 	{
 		return;
 	}
 
-	if (0 == GetItemCode())
+	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	if (nullptr == anotherRemotePlayer)
 	{
 		return;
 	}
 
-	Viewers& viewers = this->GetViewers();
-	if (viewers.find(inClosePlayerState) != viewers.end())
+	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
+	if (nullptr == anotherPlayerState)
 	{
 		return;
 	}
-	viewers.insert(inClosePlayerState);
-	inClosePlayerState->GetMonitorActors().insert(this->GetActorPtr());
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	if (this->mPlayerViewers.find(anotherPlayerState) != this->mPlayerViewers.end())
+	{
+		return;
+	}
+	this->InsertPlayerViewer(anotherPlayerState);
+	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
 
 	Protocol::S2C_AppearItem appearItemPacket;
 	appearItemPacket.mutable_item()->CopyFrom(this->ConvertSItem());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearItemPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
+	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearItemPacket);
+	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void AItem::DisAppearActor(PlayerStatePtr inClosePlayerState)
+void AItem::OnDisAppearActor(ActorPtr inDisappearActor)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
+	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
+	if (nullptr == anotherPlayerCharacter)
 	{
 		return;
 	}
 
-	Viewers& viewers = this->GetViewers();
-	if (viewers.find(inClosePlayerState) == viewers.end())
+	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	if (nullptr == anotherRemotePlayer)
 	{
 		return;
 	}
-	this->GetViewers().erase(inClosePlayerState);
-	inClosePlayerState->GetMonitorActors().erase(this->GetActorPtr());
+
+	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
+	if (nullptr == anotherPlayerState)
+	{
+		return;
+	}
+
+	if (this->mPlayerViewers.find(anotherPlayerState) == this->mPlayerViewers.end())
+	{
+		return;
+	}
+	this->ReleasePlayerViewer(anotherPlayerState);
+	anotherPlayerState->ReleaseActorMonitor(this->GetActorPtr());
 
 	Protocol::S2C_DisAppearGameObject disAppearItemPacket;
 	disAppearItemPacket.set_object_id(this->GetGameObjectID());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disAppearItemPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
+	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr , disAppearItemPacket);
+	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
 void AItem::Clear()
@@ -133,7 +153,7 @@ void AItem::Init(const Protocol::SItem& inItem)
 	mInvenPosition		= inItem.inven_position();
 	mInvenRotation		= inItem.rotation();
 
-	SetLocation(inItem.world_position());
+	SetLocation(PacketUtils::ToFVector(inItem.world_position()));
 }
 
 void AItem::Init(const AItem& inItem)
@@ -189,6 +209,6 @@ const Protocol::SItem AItem::ConvertSItem()
 	tempItem.set_item_code(this->GetItemCode());
 	tempItem.mutable_inven_position()->CopyFrom(this->GetInventoryPosition());
 	tempItem.set_rotation(this->GetInventoryRoation());
-	tempItem.mutable_world_position()->CopyFrom(this->GetLocation());
+	tempItem.mutable_world_position()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	return tempItem;
 }

@@ -13,35 +13,26 @@ GameTask::~GameTask()
 
 void GameTask::Init()
 {
-	WorldPtr world = std::make_shared<World>(L"World", GetTaskPtr());
+	GameWorldPtr world = std::make_shared<GameWorld>(L"World");
 	GameObjectPtr worldGameObject = world->GetGameObjectPtr();
 	PushTask(worldGameObject);
 }
 
-GameDatasPtr GameTask::GetGameDatas()
+GameWorldPtr GameTask::GetWorld()
 {
-	return std::static_pointer_cast<GameDatas>(GetService()->GetDataManager());
+	GameObjectPtr object;
+	FindTask(L"World", object);
+
+	GameWorldPtr gameWorld = std::static_pointer_cast<GameWorld>(object);
+	if (nullptr == gameWorld)
+	{
+		return nullptr;
+	}
+
+	return gameWorld;
 }
 
 GameTaskPtr GameTask::GetTaskPtr()
 {
 	return std::static_pointer_cast<GameTask>(shared_from_this());
-}
-
-WorldPtr GameTask::GetWorld()
-{
-	GameObjectPtr object;
-	bool findObject = FindTask(L"World", object);
-	if (false == findObject)
-	{
-		return nullptr;
-	}
-	
-	WorldPtr world = std::static_pointer_cast<World>(object);
-	if (nullptr == world)
-	{
-		return nullptr;
-	}
-
-	return world;
 }

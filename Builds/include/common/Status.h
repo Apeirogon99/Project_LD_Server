@@ -40,6 +40,35 @@ public:
 	Stats& operator=(const Stats& inStatus) { this->InitStats(inStatus.mStats); return *this; }
 	Stats& operator=(Stats&& inStatus) noexcept { this->InitStats(inStatus.mStats); return *this; }
 
+	Stats& operator+=(const Stats& inStatus)
+	{
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			this->SetStats(index, this->GetStat(index) + inStatus.GetStat(index));
+		}
+		return *this;
+	}
+
+	Stats operator+(const Stats& inStats)
+	{
+		Stats stats;
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			stats.SetStats(index, this->GetStat(index) + inStats.GetStat(index));
+		}
+		return stats;
+	}
+
+	Stats operator*(const int32 inVlaue)
+	{
+		Stats stats;
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			stats.SetStats(index, this->GetStat(index) * inVlaue);
+		}
+		return stats;
+	}
+
 public:
 	void Clear()
 	{
@@ -100,6 +129,8 @@ public:
 	void SetManaRegeneration(const float inManaRegeneration)			{ mManaRegeneration		= inManaRegeneration; }
 	void SetMovementSpeed(const float inMovementSpeed)					{ mMovementSpeed		= inMovementSpeed; }
 	void SetRange(const float inRange)									{ mRange				= inRange; }
+
+	void SetStats(const int32 inIndex, const float inFValue)			{ mStats[inIndex] = inFValue; }
 		
 public:
 	inline const float GetArmorPenetration()		const { return mArmorPenetration;}
@@ -125,7 +156,8 @@ public:
 	inline const float GetMovementSpeed()			const { return mMovementSpeed; }
 	inline const float GetRange()					const { return mRange; }
 
-	float* GetStats() { return mStats; }
+	const float*		GetStats() const { return mStats; }
+	const float			GetStat(int32 inIndex)		const { return mStats[inIndex]; }
 
 private:
 	union
@@ -158,4 +190,14 @@ private:
 
 		float mStats[MAX_STATS_NUM];
 	};
+};
+
+class StatUtils
+{
+public:
+	const static int64 CoolTime(const float inBasic, const float inEqipment, const float inBuff, const float inDeBuff) { return FloatToMillSecond(1.0f / inBasic * (1.0f + inEqipment) * (1.0f + inBuff) * (1.0f - inDeBuff)); }
+
+
+private:
+	const static int64 FloatToMillSecond(const float inFloatTime) { return static_cast<int64>(inFloatTime * 1000); }
 };

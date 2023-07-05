@@ -47,13 +47,13 @@ bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServ
 		return false;
 	}
 
-	WorldPtr world = task->GetWorld();
+	GameWorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
 	}
 
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::ServerTravel, playerState, pkt);
+	world->PushTask(serviceTimeStamp, &GameWorld::ServerTravel, playerState, pkt);
 	return true;
 }

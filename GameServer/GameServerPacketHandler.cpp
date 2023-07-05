@@ -23,14 +23,14 @@ bool Handle_C2S_EnterGameServer(PacketSessionPtr& session, Protocol::C2S_EnterGa
 		return false;
 	}
 
-	WorldPtr world = task->GetWorld();
+	GameWorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return false;
 	}
 	
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::Enter, playerState, pkt);
+	world->PushTask(serviceTimeStamp, &GameWorld::Enter, playerState, pkt);
 	return true;
 }
 
@@ -81,7 +81,7 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -93,13 +93,38 @@ bool Handle_C2S_MovementCharacter(PacketSessionPtr& session, Protocol::C2S_Movem
 		return false;
 	}
 
-	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &Character::MoveDestination, pkt);
+	remotePlayer->GetCharacter()->PushTask(pkt.timestamp(), &PlayerCharacter::MovementCharacter, pkt);
 	return true;
 }
 
 bool Handle_C2S_PlayAnimation(PacketSessionPtr& session, Protocol::C2S_PlayAnimation& pkt)
 {
 	return false;
+}
+
+bool Handle_C2S_AttackToEnemy(PacketSessionPtr& session, Protocol::C2S_AttackToEnemy& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return false;
+	}
+
+
+	character->PushTask(pkt.timestamp(), &PlayerCharacter::AutoAttack, pkt);
+	return true;
 }
 
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
@@ -110,7 +135,7 @@ bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInven
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -128,7 +153,7 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -148,7 +173,7 @@ bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateI
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -168,7 +193,7 @@ bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteI
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -187,7 +212,7 @@ bool Handle_C2S_ReplaceEqipment(PacketSessionPtr& session, Protocol::C2S_Replace
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;

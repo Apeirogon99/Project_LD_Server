@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Inventory.h"
 
-Inventory::Inventory(const RemotePlayerRef& inReomtePlayer, const int32 inInventoryWidth, const int32 inInventoryHeight) : GameObject(L"Inventory"), mIsLoad(false), mWidth(inInventoryWidth), mHeight(inInventoryHeight), mRemotePlayer(inReomtePlayer), mStorage(0), mInventory(nullptr)
+Inventory::Inventory(const int32 inInventoryWidth, const int32 inInventoryHeight) : GameObject(L"Inventory"), mIsLoad(false), mWidth(inInventoryWidth), mHeight(inInventoryHeight), mStorage(0), mInventory(nullptr)
 {
 
 }
@@ -13,8 +13,6 @@ Inventory::~Inventory()
 
 void Inventory::OnInitialization()
 {
-	SetTick(0, false);
-
 	mStorage = mWidth * mHeight;
 	mInventory = new uint8[mStorage]();
 	memset(mInventory, 0, mStorage);
@@ -33,7 +31,6 @@ void Inventory::OnDestroy()
 	mHeight		= 0;
 	mStorage	= 0;
 	mInventory	= nullptr;
-	mRemotePlayer.reset();
 }
 
 void Inventory::OnTick(const int64 inDeltaTime)
@@ -52,9 +49,9 @@ void Inventory::SetLoad(bool inIsLoad)
 
 void Inventory::CreateEqipment(const int32 inItemCode, const int32 inPart)
 {
-	RemotePlayerPtr remotePlayer	= mRemotePlayer.lock();
-	PlayerStatePtr	playerState		= remotePlayer->GetPlayerState().lock();
-	GameTaskPtr		task			= std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
+	GameRemotePlayerPtr remotePlayer	= std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	PlayerStatePtr		playerState		= std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	GameTaskPtr			task			= std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
 
 	AItemPtr newItem = std::make_shared<AItem>();
 	GameObjectPtr gameObject = newItem->GetGameObjectPtr();
@@ -66,13 +63,13 @@ void Inventory::CreateEqipment(const int32 inItemCode, const int32 inPart)
 
 void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
 		return;
@@ -91,27 +88,28 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 
 void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
 		return;
 	}
+
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Protocol::S2C_InsertInventory InsertInventoryPacket;
 
 	const Protocol::SItem& item = inPacket.item();
 	const int64 objectID = item.object_id();
 
-	WorldPtr world = remotePlayer->GetWorldRef().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	if (true == world->IsValidActor(objectID))
 	{
-		GameTaskPtr task = world->GetGameTask();
+		GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());
 		world->DestroyActor(objectID);
 
 		AItemPtr newItem = std::make_shared<AItem>();
@@ -144,22 +142,23 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 	}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, InsertInventoryPacket);
-	remotePlayer->BrodcastViewers(sendBuffer);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
 void Inventory::UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
 		return;
 	}
+
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Protocol::S2C_UpdateInventory updateInventoryPacket;
 
@@ -193,17 +192,18 @@ void Inventory::UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket)
 
 void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
 		return;
 	}
+
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Protocol::S2C_DeleteInventory deleteInventoryPacket;
 	deleteInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
@@ -211,7 +211,7 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	const Protocol::SItem& item = inPacket.item();
 	const int64 objectID = item.object_id();
 
-	WorldPtr world = remotePlayer->GetWorldRef().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	if (false == world->IsValidActor(objectID))
 	{
 
@@ -222,7 +222,12 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 			bool deleteResult = DeleteItem(deleteItem);
 			if (deleteResult)
 			{
-				ActorPtr newActor = world->CreateActor<AItem>(item.world_position(), Protocol::SRotator());
+
+				Location	newLocation = PacketUtils::ToFVector(item.world_position());
+				Rotation	newRotation;
+				Scale		newScale;
+
+				ActorPtr newActor = world->SpawnActor<AItem>(newLocation, newRotation, newScale);
 				AItemPtr newItem = std::static_pointer_cast<AItem>(newActor);
 				newItem->SetItemCode(deleteItem->GetItemCode());
 
@@ -248,25 +253,25 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 	}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, deleteInventoryPacket);
-	remotePlayer->BrodcastViewers(sendBuffer);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
 void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
 		return;
 	}
 
-	Inventoryptr& inventory = remotePlayer->GetInventory();
-	CharacterPtr& character = remotePlayer->GetCharacter();
+	Inventoryptr&		inventory = remotePlayer->GetInventory();
+	PlayerCharacterPtr& character = remotePlayer->GetCharacter();
 
 	const Protocol::ECharacterPart& part = inPacket.part();
 	AItemPtr insertInventoryItem	= std::make_shared<AItem>(inPacket.insert_inven_item());
@@ -276,8 +281,8 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	bool isValidInventory	= false;
 	bool isReplace			= false;
 
-	isValidEqipment		= (character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode()) && insertInventoryItem->GetItemCode() != 0;
-	isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());
+	//isValidEqipment		= (character->GetEqipmentPartCode(part) == insertInventoryItem->GetItemCode()) && insertInventoryItem->GetItemCode() != 0;
+	//isValidInventory	= inventory->IsValidItem(insertEqipmentItem->GetGameObjectID());
 
 	std::cout << "Replace : [" << insertInventoryItem->GetGameObjectID() << ", " << insertInventoryItem->GetItemCode() << "] >> [" << insertEqipmentItem->GetGameObjectID() << ", " << insertEqipmentItem->GetItemCode() << "]" << std::endl;
 
@@ -294,7 +299,8 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 		inventory->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
 	}
 
-	character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
+	//character->ReplaceEqipment(insertInventoryItem, insertEqipmentItem, part);
+	//character->UpdateCharacterStats();
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 	Handle_ReplaceEqipment_Requset(packetSession, insertInventoryItem, insertEqipmentItem, part);
@@ -306,7 +312,7 @@ void Inventory::ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket)
 	replaceEqipmentPacket.set_error(isReplace);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, replaceEqipmentPacket);
-	remotePlayer->BrodcastViewers(sendBuffer);
+	//remotePlayer->BrodcastViewers(sendBuffer);
 }
 
 bool Inventory::LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems)
@@ -318,7 +324,7 @@ bool Inventory::LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* in
 		Protocol::SItem* loadItem = inItems->Add();
 		loadItem->set_object_id(curItem->GetGameObjectID());
 		loadItem->set_item_code(curItem->GetItemCode());
-		loadItem->mutable_world_position()->CopyFrom(curItem->GetLocation());
+		loadItem->mutable_world_position()->CopyFrom(PacketUtils::ToSVector(curItem->GetLocation()));
 		loadItem->mutable_inven_position()->CopyFrom(curItem->GetInventoryPosition());
 		loadItem->set_rotation(curItem->GetInventoryRoation());
 	}
@@ -510,19 +516,19 @@ bool Inventory::CheckInventory()
 
 CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 {
-	RemotePlayerPtr remotePlayer = mRemotePlayer.lock();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
 		return nullptr;
 	}
 
-	PlayerStatePtr playerState = remotePlayer->GetPlayerState().lock();
-	if (nullptr == playerState)
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+	if (nullptr == world)
 	{
 		return nullptr;
 	}
 
-	DataManagerPtr dataManager = playerState->GetSessionManager()->GetService()->GetDataManager();
+	DataManagerPtr dataManager = world->GetDatas();
 	return dataManager->PeekRow(static_cast<uint8>(EGameDataType::Item), inItemCode);
 }
 

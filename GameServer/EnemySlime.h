@@ -6,18 +6,16 @@ public:
 	virtual ~EnemySlime();
 
 public:
-	virtual void OnInitialization()					override;
-	virtual void OnDestroy()						override;
-	virtual void OnTick(const int64 inDeltaTime)	override;
-	virtual bool IsValid()							override;
+	virtual void	OnInitialization()					override;
+	virtual void	OnDestroy()							override;
+	virtual void	OnTick(const int64 inDeltaTime)		override;
+	virtual bool	IsValid()							override;
 
 public:
-	//virtual void AppearActor(PlayerStatePtr inClosePlayerState) override;
-	//virtual void DisAppearActor(PlayerStatePtr inClosePlayerState) override;
-
-public:
-	virtual void OnMovement(const int64 inTimeStamp) override;
-	virtual void OnHit(const float inDamage, const bool inIsStun) override;
+	virtual void	OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation)	{}//override;
+	virtual void	OnAutoAttackShot(bool inIsRange, ActorPtr inVictim)									{}//override;
+	virtual void	OnAutoAttackTargeting()																{}//override;
+	virtual void	OnAutoAttackOver()																	{}//override;
 
 protected:
 

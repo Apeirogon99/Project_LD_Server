@@ -141,10 +141,12 @@ enum EEnemyState : int {
   State_Unspecified = 0,
   State_Idle = 1,
   State_Round = 2,
-  State_Chase = 3,
-  State_Attack = 4,
-  State_Hit = 5,
-  State_Death = 6,
+  State_Recovery = 3,
+  State_Chase = 4,
+  State_Attack = 5,
+  State_Hit = 6,
+  State_Stun = 7,
+  State_Death = 8,
   EEnemyState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   EEnemyState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };

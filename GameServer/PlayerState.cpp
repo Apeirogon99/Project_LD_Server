@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PlayerState.h"
 
-PlayerState::PlayerState() : mRemotePlayer(nullptr)
+PlayerState::PlayerState()
 {
 }
 
@@ -42,14 +42,14 @@ void PlayerState::OnDisconnected()
 		return;
 	}
 
-	WorldPtr world = task->GetWorld();
+	GameWorldPtr world = task->GetWorld();
 	if (nullptr == world)
 	{
 		return;
 	}
 
 	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
-	world->PushTask(serviceTimeStamp, &World::Leave, playerState);
+	world->PushTask(serviceTimeStamp, &GameWorld::Leave, playerState);
 }
 
 void PlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
@@ -62,18 +62,5 @@ void PlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 	{
 		this->PlayerStateLog(L"PlayerState::OnRecvPacket() : Failed to handle packet\n");
 		return;
-	}
-}
-
-void PlayerState::BroadcastMonitors(SendBufferPtr inSendBuffer)
-{
-	Monitors& monitors = GetMonitors();
-	for (auto monitor : monitors)
-	{
-		PlayerStatePtr playerState = monitor->GetPlayerState().lock();
-		if (nullptr != playerState)
-		{
-			playerState->Send(inSendBuffer);
-		}
 	}
 }

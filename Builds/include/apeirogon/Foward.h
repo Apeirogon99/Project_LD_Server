@@ -88,10 +88,7 @@ using DatabaseTaskQueuePtr	= std::shared_ptr<DatabaseTaskQueue>;
 //==========================//
 //		   Network			//
 //==========================//
-class GameObject;
 
-using GameObjectPtr			= std::shared_ptr<GameObject>;
-using GameObjectRef			= std::weak_ptr<GameObject>;
 
 //==========================//
 //		    Sync			//

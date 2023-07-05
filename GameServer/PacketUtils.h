@@ -3,6 +3,9 @@
 class PacketUtils
 {
 public:
+	static Transform			ToFTransform(const Protocol::STransform& inTransform);
+	static Protocol::STransform	ToSTransform(const Transform& inTransform);
+
 	static FVector				ToFVector(const Protocol::SVector& inVector);
 	static Protocol::SVector	ToSVector(const FVector& inVector);
 

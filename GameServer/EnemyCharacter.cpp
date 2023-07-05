@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Pawn(inName), mEnemyID(0), mSpawnObjectID(0), mStateManager(), mSpawnLocation()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mStateManager()
 {
 }
 
@@ -11,7 +11,7 @@ EnemyCharacter::~EnemyCharacter()
 
 void EnemyCharacter::OnInitialization()
 {
-	SetTick(DEFAULT_SYNC_TICK, false);
+	SetTick(false, DEFAULT_SYNC_TICK);
 }
 
 void EnemyCharacter::OnDestroy()
@@ -28,10 +28,22 @@ bool EnemyCharacter::IsValid()
 	return GetEnemyID() != 0;
 }
 
-void EnemyCharacter::AppearActor(PlayerStatePtr inClosePlayerState)
+void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
+	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
+	if (nullptr == anotherPlayerCharacter)
+	{
+		return;
+	}
+
+	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	if (nullptr == anotherRemotePlayer)
+	{
+		return;
+	}
+
+	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
+	if (nullptr == anotherPlayerState)
 	{
 		return;
 	}
@@ -41,58 +53,54 @@ void EnemyCharacter::AppearActor(PlayerStatePtr inClosePlayerState)
 		return;
 	}
 
-	Viewers& viewers = this->GetViewers();
-	if (viewers.find(inClosePlayerState) != viewers.end())
+	if (mPlayerViewers.find(anotherPlayerState) != mPlayerViewers.end())
 	{
 		return;
 	}
-	viewers.insert(inClosePlayerState);
-	inClosePlayerState->GetMonitorActors().insert(GetActorPtr());
+	this->InsertPlayerViewer(anotherPlayerState);
+	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
 
 	Protocol::S2C_AppearEnemy appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());
 	appearPacket.set_enemy_id(this->GetEnemyID());
 	appearPacket.mutable_enemy()->CopyFrom(this->ConvertSEnemy());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, appearPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
+	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
+	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void EnemyCharacter::DisAppearActor(PlayerStatePtr inClosePlayerState)
+void EnemyCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 {
-	RemotePlayerPtr targetRemotePlayer = inClosePlayerState->GetRemotePlayer();
-	if (nullptr == targetRemotePlayer)
+	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
+	if (nullptr == anotherPlayerCharacter)
 	{
 		return;
 	}
 
-	Viewers& viewers = this->GetViewers();
-	if (viewers.find(inClosePlayerState) == viewers.end())
+	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	if (nullptr == anotherRemotePlayer)
 	{
 		return;
 	}
-	this->GetViewers().erase(inClosePlayerState);
-	inClosePlayerState->GetMonitorActors().erase(this->GetActorPtr());
+
+	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
+	if (nullptr == anotherPlayerState)
+	{
+		return;
+	}
+
+	if (mPlayerViewers.find(anotherPlayerState) == mPlayerViewers.end())
+	{
+		return;
+	}
+	this->ReleasePlayerViewer(anotherPlayerState);
+	anotherPlayerState->ReleaseActorMonitor(this->GetActorPtr());
 
 	Protocol::S2C_DisAppearGameObject disAppearItemPacket;
 	disAppearItemPacket.set_object_id(this->GetGameObjectID());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inClosePlayerState);
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disAppearItemPacket);
-	inClosePlayerState->Send(appearItemSendBuffer);
-}
-
-bool EnemyCharacter::IsAttackRange()
-{
-	if (false == IsValid())
-	{
-		return false;
-	}
-
-	mStats.GetRange();
-
-	return false;
+	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disAppearItemPacket);
+	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
 void EnemyCharacter::SetEnemeyID(const int32 inEnemyID)
@@ -105,9 +113,14 @@ void EnemyCharacter::SetSpawnObjectID(const int64 inSpawnObjectID)
 	mSpawnObjectID = inSpawnObjectID;
 }
 
-void EnemyCharacter::SetSpawnLocation(const Protocol::SVector& inSpawnLocation)
+void EnemyCharacter::SetRecoveryLocation(const Location& inRecoveryLocation)
 {
-	mSpawnLocation = inSpawnLocation;
+	mRecoveryLocation = inRecoveryLocation;
+}
+
+void EnemyCharacter::SetEnemyStats(const Stats& inEnemyStats)
+{
+	mStatsComponent.InitMaxStats(inEnemyStats);
 }
 
 void EnemyCharacter::SetAggroPlayer(const CharacterPtr& inCharacter)
@@ -118,9 +131,9 @@ void EnemyCharacter::SetAggroPlayer(const CharacterPtr& inCharacter)
 const Protocol::SEnemy EnemyCharacter::ConvertSEnemy()
 {
 	Protocol::SEnemy tempEnemy;
-	tempEnemy.set_state(static_cast<Protocol::EEnemyState>(this->GetStateManager().GetCurrentStateType()));
-	tempEnemy.set_hp(this->GetStats().GetHealth());
-	tempEnemy.mutable_location()->CopyFrom(GetLocation());
-	tempEnemy.mutable_rotation()->CopyFrom(this->GetRotation());
+	tempEnemy.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
+	tempEnemy.set_hp(this->mStatsComponent.GetCurrentStats().GetHealth());
+	tempEnemy.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	tempEnemy.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
 	return tempEnemy;
 }

@@ -31,7 +31,7 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -43,13 +43,13 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	WorldPtr world = remotePlayer->GetWorldRef().lock();
+	WorldPtr world = remotePlayer->GetWorld().lock();
 	if (nullptr == world)
 	{
 		return false;
 	}
 
-	GameTaskPtr task = world->GetGameTask();
+	GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());
 	if (nullptr == task)
 	{
 		return false;
@@ -81,7 +81,7 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 	}
 
 	inventory->SetLoad(true);
-	remotePlayer->LoadComplete();
+	remotePlayer->OnLoadComplete();
 
 	return true;
 }
@@ -296,7 +296,7 @@ bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInse
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
@@ -347,7 +347,7 @@ bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection&
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;

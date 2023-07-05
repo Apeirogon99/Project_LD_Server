@@ -3,7 +3,7 @@
 class Inventory : public GameObject
 {
 public:
-	Inventory(const RemotePlayerRef& inReomtePlayer, const int32 inInventoryWidth, const int32 inInventoryHeight);
+	Inventory(const int32 inInventoryWidth, const int32 inInventoryHeight);
 	~Inventory();
 
 public:
@@ -25,6 +25,7 @@ public:
 
 	bool LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems);
 	bool LoadEqipment(google::protobuf::RepeatedPtrField<Protocol::SItem>* inEqipments);
+
 public:
 	bool InsertItem(const AItemPtr& inItem);
 	bool UpdateItem(const AItemPtr& inItem, const Protocol::SVector2D& inNewInventoryPosition);
@@ -42,7 +43,6 @@ public:
 	bool CheckInventory();
 
 public:
-	bool	IsLoad() { return mIsLoad; }
 	CSVRow* PeekItemRow(const int32 inItemCode);
 	const std::vector<AItemPtr>& GetEqipments();
 
@@ -61,7 +61,5 @@ private:
 	uint8*								mInventory;
 	std::unordered_map<int64, AItemPtr>	mItems;
 	std::vector<AItemPtr>				mEqipments;
-
-	RemotePlayerRef						mRemotePlayer;
 };
 

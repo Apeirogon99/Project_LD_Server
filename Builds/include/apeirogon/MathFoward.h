@@ -5,3 +5,5 @@
 
 class FVector;
 class FRotator;
+class Trace;
+class Collision;
