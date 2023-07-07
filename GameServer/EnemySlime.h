@@ -11,6 +11,8 @@ public:
 	virtual void	OnTick(const int64 inDeltaTime)		override;
 	virtual bool	IsValid()							override;
 
+	virtual void	SyncStatus(const int64 inDeltaTime) override;
+
 protected:
 
 };

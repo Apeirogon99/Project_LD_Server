@@ -81,7 +81,7 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), MAX_LOCATION_DISTANCE))
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
@@ -148,7 +148,7 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float disatncePercent = distanceLenght / this->mMaxDistanceLength;
 	
 	const float recoveryHealth = curHealth + (maxHealth - curHealth) * disatncePercent;
-	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStat::health, recoveryHealth);
+	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::health, recoveryHealth);
 
 }
 
@@ -164,7 +164,7 @@ void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 	enemy->OnMovementEnemy();
 
 	const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
-	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStat::health, fullHealth);
+	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::health, fullHealth);
 
 }
 
@@ -283,19 +283,23 @@ void AttackState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	PlayerCharacterPtr aggroPlayer = enemy->GetAggroPlayer();
 	if (nullptr == aggroPlayer)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Recovery);
 		return;
 	}
-
-	//enemy->GetAttackComponent().DoAutoAttack(enemy->GetActorPtr(), aggroPlayer->GetActorPtr(), 1.0f, );
-	enemy->OnAutoAttackShot();
-
-	enemy->GetStateManager().SetState(EStateType::State_Recovery);
 	
-	//enemy->GetAttackComponent()
+	const int64 targetingTime	= 460;
+	const int64 overTime		= 870;
+	enemy->GetAttackComponent().DoAutoAttack(enemy->GetActorPtr(), 1.0f, 1.0f, targetingTime, overTime);
+
 }
 
 void AttackState::Exit(EnemyCharacterRef inEnemy)
@@ -314,7 +318,17 @@ void HitState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
 
 	mHitToChaseTime = 0;
 }
@@ -350,12 +364,27 @@ void DeathState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
 
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
+
+	enemy->OnDeath();
 }
 
 void DeathState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 {
+
+
+	float deathTime = 2670;
+
 }
 
 void DeathState::Exit(EnemyCharacterRef inEnemy)

@@ -17,21 +17,16 @@ void AttackComponent::InitAutoAttack(const EAutoAttackType inAutoAttackType)
 
 void AttackComponent::Update(ActorPtr inInstigated)
 {
-	ActorPtr victim = mVictim.lock();
-	if (nullptr == victim)
-	{
-		return;
-	}
 
-	if (false == this->IsAutoAttackRange(inInstigated, 0.0f))
-	{
-		return;
-	}
-
-	DoAutoAttack(inInstigated, victim, 0.0f, 0.0f, 0, 0);
+	//if (false == this->IsAutoAttackRange(inInstigated, 0.0f))
+	//{
+	//	return;
+	//}
+	//
+	//DoAutoAttack(inInstigated, 0.0f, 0.0f, 0, 0);
 }
 
-bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime)
+bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime)
 {
 	WorldPtr world = inInstigated->GetWorld().lock();
 	if (nullptr == world)
@@ -40,79 +35,27 @@ bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, con
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	if (EAutoAttackType::Attack_Melee != mAutoAttackType)
-	{
-		return false;
-	}
+	//if (EAutoAttackType::Attack_Melee != mAutoAttackType || EAutoAttackType::Attack_Combo_Melee != mAutoAttackType)
+	//{
+	//	return false;
+	//}
 
 	if (false == IsAutoAttacking(inInstigated))
 	{
 		return false;
 	}
 
-	mVictim = inVictim->GetActorRef();
-	if (true == this->IsAutoAttackRange(inInstigated, inRange))
-	{
+	mAutoAttackLastTime = worldTime;
+	mAutoAttackOverTime = inAutoAttackOverTime;
 
-	}
+	inInstigated->PushTask(worldTime, &Actor::OnAutoAttackShot);
 
-	bool isRange = false;
-	float distance = FVector::Distance2D(inInstigated->GetLocation(), inVictim->GetLocation());
-	if (distance <= inRange)
-	{
-		isRange = true;
+	inInstigated->PushTask(worldTime + inTargetingTime, &Actor::OnAutoAttackTargeting);
 
-		mAutoAttackLastTime = worldTime;
-		mAutoAttackOverTime = inAutoAttackOverTime;
-
-		//inInstigated->PushTask(worldTime + inTargetingTime, &AttackComponent::OnAutoAttackTargeting, inInstigated, inDamage);
-
-		//inInstigated->PushTask(worldTime + inAutoAttackOverTime, &AttackComponent::OnAutoAttackOver, inInstigated);
-	}
-
-
-	//inInstigated->OnAutoAttackShot(isRange, inVictim);
-
+	inInstigated->PushTask(worldTime + inAutoAttackOverTime, &Actor::OnAutoAttackOver);
+	
+	mIsAutoAttack = true;
 	return true;
-}
-
-void AttackComponent::OnAutoAttackTargeting(ActorPtr inInstigated)
-{
-	if (false == inInstigated->IsValid())
-	{
-		return;
-	}
-
-	WorldPtr world = inInstigated->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	inInstigated->OnAutoAttackTargeting();
-	const int64 worldTime = world->GetWorldTime();
-
-	Location StartLocation = inInstigated->GetLocation();
-	Location EndLocation = inInstigated->GetRotation().GetForwardVector() * 32.0f;
-
-	Location hitLocation;
-	BoxTrace boxTrace(StartLocation, EndLocation, true, FVector(32.0f, 32.0f, 32.0f), FRotator());
-
-	std::vector<ActorPtr> hitActors;
-	for (ActorPtr hitActor : hitActors)
-	{
-		//hitActor->PushTask(worldTime, &Actor::OnHit, inInstigated, inDamage, hitLocation);
-	}
-}
-
-void AttackComponent::OnAutoAttackOver(ActorPtr inInstigated)
-{
-	inInstigated->OnAutoAttackOver();
-}
-
-ActorRef AttackComponent::GetVictim() const
-{
-	return mVictim;
 }
 
 bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
@@ -132,19 +75,22 @@ bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
 	const int64 afterAttackTime = worldTime - mAutoAttackLastTime;
 	if (afterAttackTime < mAutoAttackOverTime)
 	{
+		mIsAutoAttack = false;
 		return false;
 	}
 
+	mIsAutoAttack = true;
 	return true;
 }
 
 bool AttackComponent::IsAutoAttackRange(ActorPtr inInstigated, const float inRange)
 {
-	float distance = FVector::Distance2D(inInstigated->GetLocation(), mVictim.lock()->GetLocation());
-	if (distance <= inRange)
-	{
-		return true;
-	}
+	//float distance = FVector::Distance2D(inInstigated->GetLocation(), mVictim.lock()->GetLocation());
+	//if (distance <= inRange)
+	//{
+	//	return true;
+	//}
 
+	//return false;
 	return false;
 }

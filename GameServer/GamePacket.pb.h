@@ -115,6 +115,9 @@ extern S2C_DisAppearGameObjectDefaultTypeInternal _S2C_DisAppearGameObject_defau
 class S2C_EnterGameServer;
 struct S2C_EnterGameServerDefaultTypeInternal;
 extern S2C_EnterGameServerDefaultTypeInternal _S2C_EnterGameServer_default_instance_;
+class S2C_HitEnemy;
+struct S2C_HitEnemyDefaultTypeInternal;
+extern S2C_HitEnemyDefaultTypeInternal _S2C_HitEnemy_default_instance_;
 class S2C_InsertInventory;
 struct S2C_InsertInventoryDefaultTypeInternal;
 extern S2C_InsertInventoryDefaultTypeInternal _S2C_InsertInventory_default_instance_;
@@ -174,6 +177,7 @@ template<> ::Protocol::S2C_DeleteInventory* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
+template<> ::Protocol::S2C_HitEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_HitEnemy>(Arena*);
 template<> ::Protocol::S2C_InsertInventory* Arena::CreateMaybeMessage<::Protocol::S2C_InsertInventory>(Arena*);
 template<> ::Protocol::S2C_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_LeaveGameServer>(Arena*);
 template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::S2C_LoadInventory>(Arena*);
@@ -3084,10 +3088,51 @@ class S2C_TickEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kStatIndexFieldNumber = 3,
+    kStatValueFieldNumber = 4,
     kEnemyFieldNumber = 2,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 3,
+    kTimestampFieldNumber = 5,
   };
+  // repeated .Protocol.EStatType stat_index = 3;
+  int stat_index_size() const;
+  private:
+  int _internal_stat_index_size() const;
+  public:
+  void clear_stat_index();
+  private:
+  ::Protocol::EStatType _internal_stat_index(int index) const;
+  void _internal_add_stat_index(::Protocol::EStatType value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_stat_index();
+  public:
+  ::Protocol::EStatType stat_index(int index) const;
+  void set_stat_index(int index, ::Protocol::EStatType value);
+  void add_stat_index(::Protocol::EStatType value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& stat_index() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_stat_index();
+
+  // repeated float stat_value = 4;
+  int stat_value_size() const;
+  private:
+  int _internal_stat_value_size() const;
+  public:
+  void clear_stat_value();
+  private:
+  float _internal_stat_value(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_stat_value() const;
+  void _internal_add_stat_value(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_stat_value();
+  public:
+  float stat_value(int index) const;
+  void set_stat_value(int index, float value);
+  void add_stat_value(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      stat_value() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_stat_value();
+
   // .Protocol.SEnemy enemy = 2;
   bool has_enemy() const;
   private:
@@ -3115,7 +3160,7 @@ class S2C_TickEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 3;
+  // int64 timestamp = 5;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -3132,6 +3177,9 @@ class S2C_TickEnemy final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> stat_index_;
+    mutable std::atomic<int> _stat_index_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > stat_value_;
     ::Protocol::SEnemy* enemy_;
     int64_t object_id_;
     int64_t timestamp_;
@@ -3673,6 +3721,209 @@ class S2C_TargetingToPlayer final :
 };
 // -------------------------------------------------------------------
 
+class S2C_HitEnemy final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_HitEnemy) */ {
+ public:
+  inline S2C_HitEnemy() : S2C_HitEnemy(nullptr) {}
+  ~S2C_HitEnemy() override;
+  explicit PROTOBUF_CONSTEXPR S2C_HitEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_HitEnemy(const S2C_HitEnemy& from);
+  S2C_HitEnemy(S2C_HitEnemy&& from) noexcept
+    : S2C_HitEnemy() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_HitEnemy& operator=(const S2C_HitEnemy& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_HitEnemy& operator=(S2C_HitEnemy&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_HitEnemy& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_HitEnemy* internal_default_instance() {
+    return reinterpret_cast<const S2C_HitEnemy*>(
+               &_S2C_HitEnemy_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(S2C_HitEnemy& a, S2C_HitEnemy& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_HitEnemy* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_HitEnemy* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_HitEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_HitEnemy>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_HitEnemy& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_HitEnemy& from) {
+    S2C_HitEnemy::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_HitEnemy* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_HitEnemy";
+  }
+  protected:
+  explicit S2C_HitEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatIndexFieldNumber = 2,
+    kStatValueFieldNumber = 3,
+    kObjectIdFieldNumber = 1,
+    kTimestampFieldNumber = 4,
+  };
+  // repeated .Protocol.EStatType stat_index = 2;
+  int stat_index_size() const;
+  private:
+  int _internal_stat_index_size() const;
+  public:
+  void clear_stat_index();
+  private:
+  ::Protocol::EStatType _internal_stat_index(int index) const;
+  void _internal_add_stat_index(::Protocol::EStatType value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_stat_index();
+  public:
+  ::Protocol::EStatType stat_index(int index) const;
+  void set_stat_index(int index, ::Protocol::EStatType value);
+  void add_stat_index(::Protocol::EStatType value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& stat_index() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_stat_index();
+
+  // repeated float stat_value = 3;
+  int stat_value_size() const;
+  private:
+  int _internal_stat_value_size() const;
+  public:
+  void clear_stat_value();
+  private:
+  float _internal_stat_value(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_stat_value() const;
+  void _internal_add_stat_value(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_stat_value();
+  public:
+  float stat_value(int index) const;
+  void set_stat_value(int index, float value);
+  void add_stat_value(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      stat_value() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_stat_value();
+
+  // int64 object_id = 1;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // int64 timestamp = 4;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_HitEnemy)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> stat_index_;
+    mutable std::atomic<int> _stat_index_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > stat_value_;
+    int64_t object_id_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_DeathEnemy final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DeathEnemy) */ {
  public:
@@ -3721,7 +3972,7 @@ class S2C_DeathEnemy final :
                &_S2C_DeathEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    21;
 
   friend void swap(S2C_DeathEnemy& a, S2C_DeathEnemy& b) {
     a.Swap(&b);
@@ -3880,7 +4131,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    22;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -4028,7 +4279,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    23;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -4176,7 +4427,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    24;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -4364,7 +4615,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    25;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -4532,7 +4783,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    26;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -4702,7 +4953,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    27;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -4870,7 +5121,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    28;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -5018,7 +5269,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    29;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -5206,7 +5457,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    30;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -5385,7 +5636,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    31;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -5553,7 +5804,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    32;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -5752,7 +6003,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    33;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -7985,7 +8236,97 @@ inline void S2C_TickEnemy::set_allocated_enemy(::Protocol::SEnemy* enemy) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TickEnemy.enemy)
 }
 
-// int64 timestamp = 3;
+// repeated .Protocol.EStatType stat_index = 3;
+inline int S2C_TickEnemy::_internal_stat_index_size() const {
+  return _impl_.stat_index_.size();
+}
+inline int S2C_TickEnemy::stat_index_size() const {
+  return _internal_stat_index_size();
+}
+inline void S2C_TickEnemy::clear_stat_index() {
+  _impl_.stat_index_.Clear();
+}
+inline ::Protocol::EStatType S2C_TickEnemy::_internal_stat_index(int index) const {
+  return static_cast< ::Protocol::EStatType >(_impl_.stat_index_.Get(index));
+}
+inline ::Protocol::EStatType S2C_TickEnemy::stat_index(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.stat_index)
+  return _internal_stat_index(index);
+}
+inline void S2C_TickEnemy::set_stat_index(int index, ::Protocol::EStatType value) {
+  _impl_.stat_index_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.stat_index)
+}
+inline void S2C_TickEnemy::_internal_add_stat_index(::Protocol::EStatType value) {
+  _impl_.stat_index_.Add(value);
+}
+inline void S2C_TickEnemy::add_stat_index(::Protocol::EStatType value) {
+  _internal_add_stat_index(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_TickEnemy.stat_index)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+S2C_TickEnemy::stat_index() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_TickEnemy.stat_index)
+  return _impl_.stat_index_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+S2C_TickEnemy::_internal_mutable_stat_index() {
+  return &_impl_.stat_index_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+S2C_TickEnemy::mutable_stat_index() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TickEnemy.stat_index)
+  return _internal_mutable_stat_index();
+}
+
+// repeated float stat_value = 4;
+inline int S2C_TickEnemy::_internal_stat_value_size() const {
+  return _impl_.stat_value_.size();
+}
+inline int S2C_TickEnemy::stat_value_size() const {
+  return _internal_stat_value_size();
+}
+inline void S2C_TickEnemy::clear_stat_value() {
+  _impl_.stat_value_.Clear();
+}
+inline float S2C_TickEnemy::_internal_stat_value(int index) const {
+  return _impl_.stat_value_.Get(index);
+}
+inline float S2C_TickEnemy::stat_value(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.stat_value)
+  return _internal_stat_value(index);
+}
+inline void S2C_TickEnemy::set_stat_value(int index, float value) {
+  _impl_.stat_value_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.stat_value)
+}
+inline void S2C_TickEnemy::_internal_add_stat_value(float value) {
+  _impl_.stat_value_.Add(value);
+}
+inline void S2C_TickEnemy::add_stat_value(float value) {
+  _internal_add_stat_value(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_TickEnemy.stat_value)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_TickEnemy::_internal_stat_value() const {
+  return _impl_.stat_value_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_TickEnemy::stat_value() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_TickEnemy.stat_value)
+  return _internal_stat_value();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_TickEnemy::_internal_mutable_stat_value() {
+  return &_impl_.stat_value_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_TickEnemy::mutable_stat_value() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TickEnemy.stat_value)
+  return _internal_mutable_stat_value();
+}
+
+// int64 timestamp = 5;
 inline void S2C_TickEnemy::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
@@ -8332,6 +8673,140 @@ inline void S2C_TargetingToPlayer::_internal_set_timestamp(int64_t value) {
 inline void S2C_TargetingToPlayer::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_TargetingToPlayer.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_HitEnemy
+
+// int64 object_id = 1;
+inline void S2C_HitEnemy::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t S2C_HitEnemy::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t S2C_HitEnemy::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.object_id)
+  return _internal_object_id();
+}
+inline void S2C_HitEnemy::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void S2C_HitEnemy::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.object_id)
+}
+
+// repeated .Protocol.EStatType stat_index = 2;
+inline int S2C_HitEnemy::_internal_stat_index_size() const {
+  return _impl_.stat_index_.size();
+}
+inline int S2C_HitEnemy::stat_index_size() const {
+  return _internal_stat_index_size();
+}
+inline void S2C_HitEnemy::clear_stat_index() {
+  _impl_.stat_index_.Clear();
+}
+inline ::Protocol::EStatType S2C_HitEnemy::_internal_stat_index(int index) const {
+  return static_cast< ::Protocol::EStatType >(_impl_.stat_index_.Get(index));
+}
+inline ::Protocol::EStatType S2C_HitEnemy::stat_index(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.stat_index)
+  return _internal_stat_index(index);
+}
+inline void S2C_HitEnemy::set_stat_index(int index, ::Protocol::EStatType value) {
+  _impl_.stat_index_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.stat_index)
+}
+inline void S2C_HitEnemy::_internal_add_stat_index(::Protocol::EStatType value) {
+  _impl_.stat_index_.Add(value);
+}
+inline void S2C_HitEnemy::add_stat_index(::Protocol::EStatType value) {
+  _internal_add_stat_index(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_HitEnemy.stat_index)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+S2C_HitEnemy::stat_index() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_HitEnemy.stat_index)
+  return _impl_.stat_index_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+S2C_HitEnemy::_internal_mutable_stat_index() {
+  return &_impl_.stat_index_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+S2C_HitEnemy::mutable_stat_index() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_HitEnemy.stat_index)
+  return _internal_mutable_stat_index();
+}
+
+// repeated float stat_value = 3;
+inline int S2C_HitEnemy::_internal_stat_value_size() const {
+  return _impl_.stat_value_.size();
+}
+inline int S2C_HitEnemy::stat_value_size() const {
+  return _internal_stat_value_size();
+}
+inline void S2C_HitEnemy::clear_stat_value() {
+  _impl_.stat_value_.Clear();
+}
+inline float S2C_HitEnemy::_internal_stat_value(int index) const {
+  return _impl_.stat_value_.Get(index);
+}
+inline float S2C_HitEnemy::stat_value(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.stat_value)
+  return _internal_stat_value(index);
+}
+inline void S2C_HitEnemy::set_stat_value(int index, float value) {
+  _impl_.stat_value_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.stat_value)
+}
+inline void S2C_HitEnemy::_internal_add_stat_value(float value) {
+  _impl_.stat_value_.Add(value);
+}
+inline void S2C_HitEnemy::add_stat_value(float value) {
+  _internal_add_stat_value(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_HitEnemy.stat_value)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_HitEnemy::_internal_stat_value() const {
+  return _impl_.stat_value_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+S2C_HitEnemy::stat_value() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_HitEnemy.stat_value)
+  return _internal_stat_value();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_HitEnemy::_internal_mutable_stat_value() {
+  return &_impl_.stat_value_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+S2C_HitEnemy::mutable_stat_value() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_HitEnemy.stat_value)
+  return _internal_mutable_stat_value();
+}
+
+// int64 timestamp = 4;
+inline void S2C_HitEnemy::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_HitEnemy::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_HitEnemy::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_HitEnemy::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_HitEnemy::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.timestamp)
 }
 
 // -------------------------------------------------------------------
@@ -9608,6 +10083,8 @@ inline void S2C_ReplaceEqipment::set_error(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

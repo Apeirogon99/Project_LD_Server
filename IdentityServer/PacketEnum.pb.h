@@ -169,6 +169,51 @@ inline bool EEnemyState_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<EEnemyState>(
     EEnemyState_descriptor(), name, value);
 }
+enum EStatType : int {
+  armor_penetration = 0,
+  attack_damage = 1,
+  attack_speed = 2,
+  critical_strike_chance = 3,
+  cirtical_strike_damage = 4,
+  life_steal = 5,
+  ability_power = 6,
+  mage_penetration = 7,
+  omnivamp = 8,
+  physical_vamp = 9,
+  armor = 10,
+  heal_and_shield_power = 11,
+  health = 12,
+  health_regeneration = 13,
+  magic_resistance = 14,
+  tenacity = 15,
+  slow_resist = 16,
+  ability_haste = 17,
+  mana = 18,
+  mana_regeneration = 19,
+  movement_speed = 20,
+  range = 21,
+  EStatType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  EStatType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool EStatType_IsValid(int value);
+constexpr EStatType EStatType_MIN = armor_penetration;
+constexpr EStatType EStatType_MAX = range;
+constexpr int EStatType_ARRAYSIZE = EStatType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EStatType_descriptor();
+template<typename T>
+inline const std::string& EStatType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, EStatType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function EStatType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    EStatType_descriptor(), enum_t_value);
+}
+inline bool EStatType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, EStatType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<EStatType>(
+    EStatType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -210,6 +255,11 @@ template <> struct is_proto_enum< ::Protocol::EEnemyState> : ::std::true_type {}
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::EEnemyState>() {
   return ::Protocol::EEnemyState_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::EStatType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::EStatType>() {
+  return ::Protocol::EStatType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

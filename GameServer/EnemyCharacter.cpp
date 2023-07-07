@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mStateManager()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSyncStatusTime(0),mStateManager()
 {
 }
 
@@ -95,7 +95,7 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Lo
 	this->mAggroPlayer = instigated;
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
-	this->mStatsComponent.UpdateCurrentStat(EStat::health, curHealth);
+	this->mStatsComponent.UpdateCurrentStat(EStatType::health, curHealth);
 	
 	if (0.0f <= curHealth)
 	{
@@ -106,6 +106,18 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Lo
 		this->mStateManager.SetState(EStateType::State_Death);
 	}
 
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	Protocol::S2C_HitEnemy hitPacket;
+	hitPacket.set_object_id(this->GetGameObjectID());
+	hitPacket.set_timestamp(world->GetWorldTime());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void EnemyCharacter::OnDeath()
@@ -148,19 +160,22 @@ void EnemyCharacter::OnAutoAttackTargeting()
 		return;
 	}
 
+	wprintf(L"OnAutoAttackTargeting\n");
+
 	//TODO: Push Hit players
 
-	Protocol::S2C_TargetingToPlayer targetingPacket;
-	//deathPacket.set_object_id(this->GetGameObjectID());
-	//deathPacket.set_timestamp(world->GetWorldTime());
+	//Protocol::S2C_TargetingToPlayer targetingPacket;
+	//targetingPacket.set_object_id(this->GetGameObjectID());
+	//targetingPacket.set_timestamp(world->GetWorldTime());
 
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, targetingPacket);
-	this->BrodcastPlayerViewers(appearItemSendBuffer);
+	//SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, targetingPacket);
+	//this->BrodcastPlayerViewers(appearItemSendBuffer);
 }
 
 void EnemyCharacter::OnAutoAttackOver()
 {
-	//TODO : Attack Again
+	wprintf(L"OnAutoAttackOver\n");
+	this->mStateManager.SetState(EStateType::State_Chase);
 }
 
 void EnemyCharacter::OnMovementEnemy()

@@ -97,7 +97,7 @@ void StatsComponent::UpdateMaxStats(ActorPtr inActor, const int32 inLevel)
 
 }
 
-void StatsComponent::UpdateCurrentStat(const EStat inStatType, const float inValue)
+void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float inValue)
 {
 	switch (inStatType)
 	{

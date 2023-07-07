@@ -5,6 +5,8 @@ enum class EAutoAttackType
 	Attack_None,
 	Attack_Melee,
 	Attack_Ranged,
+	Attack_Combo_Melee,
+	Attack_Combo_Ranged,
 };
 
 class AttackComponent
@@ -24,13 +26,8 @@ public:
 	void Update(ActorPtr inInstigated);
 
 public:
-	bool DoAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime);
+	bool DoAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime);
 	//bool DoAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float inDamage, const float inRange, const int64 inAutoAttackOverTime);
-	void OnAutoAttackTargeting(ActorPtr inInstigated);
-	void OnAutoAttackOver(ActorPtr inInstigated);
-
-public:
-	ActorRef GetVictim() const;
 
 public:
 	bool IsAutoAttacking(ActorPtr inInstigated);
@@ -42,6 +39,4 @@ protected:
 	bool			mIsAutoAttack;
 	int64			mAutoAttackLastTime;
 	int64			mAutoAttackOverTime;
-
-	ActorRef		mVictim;
 };

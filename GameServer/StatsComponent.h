@@ -18,7 +18,7 @@ public:
 
 public:
 	void UpdateMaxStats(ActorPtr inActor, const int32 inLevel);
-	void UpdateCurrentStat(const EStat inStatType, const float inValue);
+	void UpdateCurrentStat(const EStatType inStatType, const float inValue);
 
 public:
 	const Stats& GetMaxStats();

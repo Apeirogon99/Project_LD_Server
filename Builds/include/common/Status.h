@@ -2,7 +2,7 @@
 
 #define MAX_STATS_NUM 22
 
-enum EStat
+enum EStatType
 {
 	armor_penetration,			//방어구 관통력
 	attack_damage,				//공격력
