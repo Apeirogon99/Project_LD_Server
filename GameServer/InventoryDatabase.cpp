@@ -80,7 +80,7 @@ bool Handle_LoadInventory_Response(PacketSessionPtr& inSession, ADOConnection& i
 		}
 	}
 
-	inventory->SetLoad(true);
+	inventory->SetLoadInventory(true);
 	remotePlayer->OnLoadComplete();
 
 	return true;

@@ -28,7 +28,10 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->mMovementComponent.Update(this->GetActorPtr(), MAX_LOCATION_DISTANCE);
+	if (false == this->mMovementComponent.Update(this->GetActorPtr(), MAX_LOCATION_DISTANCE))
+	{
+		this->SetVelocity(0.0f, 0.0f, 0.0f);
+	}
 
 	SyncLocation(inDeltaTime);
 
@@ -37,6 +40,11 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 bool PlayerCharacter::IsValid()
 {
 	return mIsLoad;
+}
+
+void PlayerCharacter::SetLoadCharacter(bool inIsLoad)
+{
+	mIsLoad = inIsLoad;
 }
 
 void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
@@ -58,7 +66,7 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 		return;
 	}
 
-	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	GameRemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
 	if (nullptr == anotherRemotePlayer)
 	{
 		return;
@@ -70,11 +78,11 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 		return;
 	}
 
-	if (this->mPlayerViewers.find(anotherPlayerState) != this->mPlayerViewers.end())
+	if (true == targetRemotePlayer->FindPlayerViewer(anotherPlayerState))
 	{
 		return;
 	}
-	this->mPlayerViewers.insert(anotherPlayerState);
+	targetRemotePlayer->InsertPlayerViewer(anotherPlayerState);
 	anotherPlayerState->InsertPlayerMonitor(targetRemotePlayer);
 
 	Protocol::S2C_AppearCharacter appearPacket;
@@ -83,6 +91,9 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 	appearPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
+
+	this->GetLocation().ToString();
+	this->mMovementComponent.GetDestinationLocation().ToString();
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -102,7 +113,7 @@ void PlayerCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 		return;
 	}
 
-	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
+	GameRemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
 	if (nullptr == anotherRemotePlayer)
 	{
 		return;
@@ -114,11 +125,11 @@ void PlayerCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 		return;
 	}
 
-	if (this->mPlayerViewers.find(anotherPlayerState) == this->mPlayerViewers.end())
+	if (false == targetRemotePlayer->FindPlayerViewer(anotherPlayerState))
 	{
 		return;
 	}
-	this->mPlayerViewers.erase(anotherPlayerState);
+	targetRemotePlayer->ReleasePlayerViewer(anotherPlayerState);
 	anotherPlayerState->ReleasePlayerMonitor(targetRemotePlayer);
 
 	Protocol::S2C_DisAppearCharacter disappearPacket;
@@ -173,7 +184,13 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
 
-	mMovementComponent.SetNewDestination(movementDestination, movementLastTime);
+	const int64 worldTime = GetWorld().lock()->GetWorldTime();
+	//wprintf(L"[SERVER::%lld] [CLIENT::%lld] [DIFF::%lld]\n", worldTime, movementLastTime, worldTime - movementLastTime);
+
+	this->mMovementComponent.SetNewDestination(movementDestination, movementLastTime);
+
+	const float movementSpeed = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
+	this->SetVelocity(movementSpeed, movementSpeed, movementSpeed);
 
 	{
 		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
@@ -213,10 +230,12 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 	const int64 targetingTime	= 170;
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
-	if (false == mAttackComponent.DoAutoAttack(this->GetActorPtr(), outActor, damage, range, targetingTime, overTime))
-	{
-		this->GameObjectLog(L"DoAutoAttack error");
-	}
+	outActor->OnHit(this->GetActorPtr(), 50.0f, Location());
+
+	//if (false == mAttackComponent.DoAutoAttack(this->GetActorPtr(), outActor, damage, range, targetingTime, overTime))
+	//{
+	//	this->GameObjectLog(L"DoAutoAttack error");
+	//}
 
 }
 
@@ -264,11 +283,6 @@ void PlayerCharacter::OnAutoAttackShot(bool inIsRange, ActorPtr inVictim)
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 		remotePlayer->BrodcastPlayerViewers(sendBuffer);
 	}
-}
-
-void PlayerCharacter::LoadCharacter(bool inIsLoad)
-{
-	mIsLoad = inIsLoad;
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

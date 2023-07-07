@@ -42,7 +42,7 @@ bool Inventory::IsValid()
 	return mIsLoad;
 }
 
-void Inventory::SetLoad(bool inIsLoad)
+void Inventory::SetLoadInventory(bool inIsLoad)
 {
 	mIsLoad = inIsLoad;
 }
@@ -227,7 +227,7 @@ void Inventory::DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket)
 				Rotation	newRotation;
 				Scale		newScale;
 
-				ActorPtr newActor = world->SpawnActor<AItem>(newLocation, newRotation, newScale);
+				ActorPtr newActor = world->SpawnActor<AItem>(this->GetOwner(), newLocation, newRotation, newScale);
 				AItemPtr newItem = std::static_pointer_cast<AItem>(newActor);
 				newItem->SetItemCode(deleteItem->GetItemCode());
 

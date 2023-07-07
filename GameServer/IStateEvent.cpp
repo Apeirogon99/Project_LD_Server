@@ -13,6 +13,8 @@ void IdleState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
 	mIdleToRoundTime = 0;
 }
 
@@ -25,7 +27,7 @@ void IdleState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	}
 
 	mIdleToRoundTime += inDeltaTime;
-	if (mIdleToRoundTime >= IDLE_TO_ROUND_MAX_TIME)
+	if (mIdleToRoundTime >= IDLE_TO_ROUND_TIME)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Round);
 	}
@@ -34,7 +36,7 @@ void IdleState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void IdleState::Exit(EnemyCharacterRef inEnemy)
 {
-	
+	mIdleToRoundTime = 0;
 }
 
 //==========================//
@@ -49,7 +51,7 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	std::shared_ptr<EnemySpawner<EnemySlime>> spawner = std::static_pointer_cast<EnemySpawner<EnemySlime>>(enemy->GetOwner().lock());
+	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(enemy->GetOwner().lock());
 	if (nullptr == spawner)
 	{
 		return;
@@ -61,10 +63,14 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	//enemy->SetMoveLocation(spawner->GetRandomLocation());
-	//enemy->SetMoveLastTick(serviceTimeStamp);
-	//enemy->OnMovement(serviceTimeStamp);
+	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
+	enemy->SetVelocity(velocity, velocity, velocity);
+
+	Location nextLocation = spawner->GetRandomLocation();
+	nextLocation.ToString();
+	enemy->GetMovementComponent().SetNewDestination(nextLocation, world->GetWorldTime());
+	enemy->SetRecoveryLocation(nextLocation);
+	enemy->OnMovementEnemy();
 }
 
 void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -75,23 +81,11 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), MAX_LOCATION_DISTANCE))
 	{
-		return;
+		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
 
-	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	//const float closeToDestination = MAX_LOCATION_DISTANCE;
-	//const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(enemy->GetMoveLocation()));
-	//if (locationDistance > closeToDestination)
-	//{
-	//	enemy->MovingDestination(serviceTimeStamp);
-	//}
-	//else
-	//{
-	//	enemy->GetStateManager().SetState(EStateType::State_Idle);
-	//}
 }
 
 void RoundState::Exit(EnemyCharacterRef inEnemy)
@@ -102,8 +96,8 @@ void RoundState::Exit(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	//enemy->SetMoveLocation(FVector());
-	//enemy->SetMoveLastTick(0);
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+	enemy->OnMovementEnemy();
 }
 
 //==========================//
@@ -111,10 +105,6 @@ void RoundState::Exit(EnemyCharacterRef inEnemy)
 //==========================//
 
 void RecoveryState::Enter(EnemyCharacterRef inEnemy)
-{
-}
-
-void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 {
 	EnemyCharacterPtr enemy = inEnemy.lock();
 	if (nullptr == enemy)
@@ -128,21 +118,54 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	//const float closeToDestination = MAX_LOCATION_DISTANCE;
-	//const float locationDistance = FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(enemy->GetSpawnLocation()));
-	//if (locationDistance > closeToDestination)
-	//{
-	//	const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	//	enemy->MovingDestination(serviceTimeStamp);
-	//}
-	//else
-	//{
-	//	enemy->GetStateManager().SetState(EStateType::State_Idle);
-	//}
+	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
+	enemy->SetVelocity(velocity, velocity, velocity);
+
+	Location recoveryLocation	= enemy->GetRecoveryLocation();
+	this->mMaxDistanceLength	= FVector::Distance2D(enemy->GetLocation(), recoveryLocation);
+
+	enemy->GetMovementComponent().SetNewDestination(recoveryLocation, world->GetWorldTime());
+	enemy->OnMovementEnemy();
+}
+
+void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
+{
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), MAX_LOCATION_DISTANCE))
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Idle);
+	}
+
+	const float curHealth = enemy->GetEnemyStatsComponent().GetCurrentStats().GetHealth();
+	const float maxHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
+
+	const float distanceLenght = FVector::Distance2D(enemy->GetLocation(), enemy->GetRecoveryLocation());
+	const float disatncePercent = distanceLenght / this->mMaxDistanceLength;
+	
+	const float recoveryHealth = curHealth + (maxHealth - curHealth) * disatncePercent;
+	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStat::health, recoveryHealth);
+
 }
 
 void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 {
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+	enemy->OnMovementEnemy();
+
+	const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
+	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStat::health, fullHealth);
+
 }
 
 
@@ -157,6 +180,26 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	{
 		return;
 	}
+
+	PlayerCharacterPtr aggroPlayer = enemy->GetAggroPlayer();
+	if (nullptr == aggroPlayer)
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		return;
+	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
+	enemy->SetVelocity(velocity, velocity, velocity);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(aggroPlayer->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
 
 	mChaseToRecoveryTime = 0;
 }
@@ -175,22 +218,32 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	//CharacterPtr arroPlayer			= enemy->GetAggroPlayer();
-	//const float enemyAttackRange	= enemy->GetBasicStats().GetRange();
-	//const float closeToAggroPlayer	= FVector::Distance2D(PacketUtils::ToFVector(enemy->GetLocation()), //PacketUtils::ToFVector(arroPlayer->GetLocation()));
-	//if (enemyAttackRange > closeToAggroPlayer)
-	//{
-	//	enemy->GetStateManager().SetState(EStateType::State_Attack);
-	//	return;
-	//}
-	//
-	//const int64 serviceTimeStamp = world->GetServiceTimeStamp();
-	//enemy->MovingDestination(serviceTimeStamp);
-
-	mChaseToRecoveryTime += inDeltaTime;
-	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_MAX_TIME)
+	PlayerCharacterPtr aggroPlayer	= enemy->GetAggroPlayer();
+	if (nullptr == aggroPlayer)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		return;
+	}
+
+	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange();
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), enemyAttackRange))
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Attack);
+		return;
+	}
+
+	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
+	enemy->SetVelocity(velocity, velocity, velocity);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(aggroPlayer->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
+
+	mChaseToRecoveryTime += inDeltaTime;
+	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		enemy->SetAggroPlayer(nullptr);
 	}
 
 }
@@ -203,7 +256,7 @@ void ChaseState::Exit(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	enemy->SetAggroPlayer(nullptr);
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
 }
 
 //==========================//
@@ -212,10 +265,37 @@ void ChaseState::Exit(EnemyCharacterRef inEnemy)
 
 void AttackState::Enter(EnemyCharacterRef inEnemy)
 {
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	//enemy->GetAttackComponent().DoAutoAttack();
+
 }
 
 void AttackState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 {
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr aggroPlayer = enemy->GetAggroPlayer();
+	if (nullptr == aggroPlayer)
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		return;
+	}
+
+	//enemy->GetAttackComponent().DoAutoAttack(enemy->GetActorPtr(), aggroPlayer->GetActorPtr(), 1.0f, );
+	enemy->OnAutoAttackShot();
+
+	enemy->GetStateManager().SetState(EStateType::State_Recovery);
+	
+	//enemy->GetAttackComponent()
 }
 
 void AttackState::Exit(EnemyCharacterRef inEnemy)
@@ -228,6 +308,14 @@ void AttackState::Exit(EnemyCharacterRef inEnemy)
 
 void HitState::Enter(EnemyCharacterRef inEnemy)
 {
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
 	mHitToChaseTime = 0;
 }
 
@@ -240,8 +328,7 @@ void HitState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	}
 
 	mHitToChaseTime += inDeltaTime;
-	//TODO : StunTime
-	if (mHitToChaseTime >= HIT_TO_CHASE_MAX_TIME)
+	if (mHitToChaseTime >= HIT_TO_CHASE_TIME)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Chase);
 	}
@@ -257,9 +344,14 @@ void HitState::Exit(EnemyCharacterRef inEnemy)
 
 void DeathState::Enter(EnemyCharacterRef inEnemy)
 {
-	//TODO: 아이템 생성
-	//막타한테 경험치?
-	//Destroy
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
 }
 
 void DeathState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -268,4 +360,9 @@ void DeathState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void DeathState::Exit(EnemyCharacterRef inEnemy)
 {
+}
+
+void StateManager::StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType)
+{
+	wprintf(L"[ID::%2lld][ChangeState] [OLD::%ws] -> [NEW::%ws]\n", mEnemy.lock()->GetGameObjectID(), ToStringState(inOldType).c_str(), ToStringState(inNewType).c_str());
 }

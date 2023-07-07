@@ -11,14 +11,14 @@ EnemySlime::~EnemySlime()
 
 void EnemySlime::OnInitialization()
 {
-	SetTick(true, ENEMY_STATE_TICK);
+	SetTick(true, DEFAULT_TICK);
 	mStateManager.SetEnemy(GetEnemyCharacterRef());
 	mStateManager.SetState(EStateType::State_Idle);
 }
 
 void EnemySlime::OnDestroy()
 {
-	std::shared_ptr<EnemySpawner<EnemySlime>> spawner = std::static_pointer_cast<EnemySpawner<EnemySlime>>(GetOwner().lock());
+	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
 	if (nullptr == spawner)
 	{
 		return;

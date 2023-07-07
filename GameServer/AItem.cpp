@@ -38,7 +38,6 @@ AItem& AItem::operator=(const Protocol::SItem& inItem)
 
 void AItem::OnInitialization()
 {
-	SetTick(0, false);
 	mItemCode			= 0;
 	mInvenPosition.set_x(0);
 	mInvenPosition.set_y(0);
@@ -84,7 +83,7 @@ void AItem::OnAppearActor(ActorPtr inAppearActor)
 		return;
 	}
 
-	if (this->mPlayerViewers.find(anotherPlayerState) != this->mPlayerViewers.end())
+	if (true == this->FindPlayerViewer(anotherPlayerState))
 	{
 		return;
 	}
@@ -118,7 +117,7 @@ void AItem::OnDisAppearActor(ActorPtr inDisappearActor)
 		return;
 	}
 
-	if (this->mPlayerViewers.find(anotherPlayerState) == this->mPlayerViewers.end())
+	if (false == this->FindPlayerViewer(anotherPlayerState))
 	{
 		return;
 	}

@@ -100,6 +100,9 @@ extern S2C_AttackToEnemyDefaultTypeInternal _S2C_AttackToEnemy_default_instance_
 class S2C_AttackToPlayer;
 struct S2C_AttackToPlayerDefaultTypeInternal;
 extern S2C_AttackToPlayerDefaultTypeInternal _S2C_AttackToPlayer_default_instance_;
+class S2C_DeathEnemy;
+struct S2C_DeathEnemyDefaultTypeInternal;
+extern S2C_DeathEnemyDefaultTypeInternal _S2C_DeathEnemy_default_instance_;
 class S2C_DeleteInventory;
 struct S2C_DeleteInventoryDefaultTypeInternal;
 extern S2C_DeleteInventoryDefaultTypeInternal _S2C_DeleteInventory_default_instance_;
@@ -136,6 +139,9 @@ extern S2C_ReplaceEqipmentDefaultTypeInternal _S2C_ReplaceEqipment_default_insta
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
+class S2C_TargetingToPlayer;
+struct S2C_TargetingToPlayerDefaultTypeInternal;
+extern S2C_TargetingToPlayerDefaultTypeInternal _S2C_TargetingToPlayer_default_instance_;
 class S2C_Tick;
 struct S2C_TickDefaultTypeInternal;
 extern S2C_TickDefaultTypeInternal _S2C_Tick_default_instance_;
@@ -163,6 +169,7 @@ template<> ::Protocol::S2C_AppearEnemy* Arena::CreateMaybeMessage<::Protocol::S2
 template<> ::Protocol::S2C_AppearItem* Arena::CreateMaybeMessage<::Protocol::S2C_AppearItem>(Arena*);
 template<> ::Protocol::S2C_AttackToEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_AttackToEnemy>(Arena*);
 template<> ::Protocol::S2C_AttackToPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_AttackToPlayer>(Arena*);
+template<> ::Protocol::S2C_DeathEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DeathEnemy>(Arena*);
 template<> ::Protocol::S2C_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::S2C_DeleteInventory>(Arena*);
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
@@ -175,6 +182,7 @@ template<> ::Protocol::S2C_MovementEnemy* Arena::CreateMaybeMessage<::Protocol::
 template<> ::Protocol::S2C_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::S2C_PlayAnimation>(Arena*);
 template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_ReplaceEqipment>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
+template<> ::Protocol::S2C_TargetingToPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_TargetingToPlayer>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_TickEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_TickEnemy>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
@@ -3492,6 +3500,338 @@ class S2C_AttackToPlayer final :
 };
 // -------------------------------------------------------------------
 
+class S2C_TargetingToPlayer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_TargetingToPlayer) */ {
+ public:
+  inline S2C_TargetingToPlayer() : S2C_TargetingToPlayer(nullptr) {}
+  ~S2C_TargetingToPlayer() override;
+  explicit PROTOBUF_CONSTEXPR S2C_TargetingToPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_TargetingToPlayer(const S2C_TargetingToPlayer& from);
+  S2C_TargetingToPlayer(S2C_TargetingToPlayer&& from) noexcept
+    : S2C_TargetingToPlayer() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_TargetingToPlayer& operator=(const S2C_TargetingToPlayer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_TargetingToPlayer& operator=(S2C_TargetingToPlayer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_TargetingToPlayer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_TargetingToPlayer* internal_default_instance() {
+    return reinterpret_cast<const S2C_TargetingToPlayer*>(
+               &_S2C_TargetingToPlayer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  friend void swap(S2C_TargetingToPlayer& a, S2C_TargetingToPlayer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_TargetingToPlayer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_TargetingToPlayer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_TargetingToPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_TargetingToPlayer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_TargetingToPlayer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_TargetingToPlayer& from) {
+    S2C_TargetingToPlayer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_TargetingToPlayer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_TargetingToPlayer";
+  }
+  protected:
+  explicit S2C_TargetingToPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectIdFieldNumber = 1,
+    kTimestampFieldNumber = 2,
+  };
+  // repeated int64 object_id = 1;
+  int object_id_size() const;
+  private:
+  int _internal_object_id_size() const;
+  public:
+  void clear_object_id();
+  private:
+  int64_t _internal_object_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+      _internal_object_id() const;
+  void _internal_add_object_id(int64_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+      _internal_mutable_object_id();
+  public:
+  int64_t object_id(int index) const;
+  void set_object_id(int index, int64_t value);
+  void add_object_id(int64_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+      object_id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+      mutable_object_id();
+
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_TargetingToPlayer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > object_id_;
+    mutable std::atomic<int> _object_id_cached_byte_size_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_DeathEnemy final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DeathEnemy) */ {
+ public:
+  inline S2C_DeathEnemy() : S2C_DeathEnemy(nullptr) {}
+  ~S2C_DeathEnemy() override;
+  explicit PROTOBUF_CONSTEXPR S2C_DeathEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_DeathEnemy(const S2C_DeathEnemy& from);
+  S2C_DeathEnemy(S2C_DeathEnemy&& from) noexcept
+    : S2C_DeathEnemy() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_DeathEnemy& operator=(const S2C_DeathEnemy& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_DeathEnemy& operator=(S2C_DeathEnemy&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_DeathEnemy& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_DeathEnemy* internal_default_instance() {
+    return reinterpret_cast<const S2C_DeathEnemy*>(
+               &_S2C_DeathEnemy_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(S2C_DeathEnemy& a, S2C_DeathEnemy& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_DeathEnemy* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_DeathEnemy* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_DeathEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_DeathEnemy>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_DeathEnemy& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_DeathEnemy& from) {
+    S2C_DeathEnemy::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_DeathEnemy* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_DeathEnemy";
+  }
+  protected:
+  explicit S2C_DeathEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectIdFieldNumber = 1,
+    kTimestampFieldNumber = 2,
+  };
+  // int64 object_id = 1;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_DeathEnemy)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t object_id_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_DisAppearGameObject final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DisAppearGameObject) */ {
  public:
@@ -3540,7 +3880,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    21;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -3688,7 +4028,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    22;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -3836,7 +4176,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    23;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -4024,7 +4364,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    24;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -4192,7 +4532,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    25;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -4362,7 +4702,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    26;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -4530,7 +4870,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    27;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -4678,7 +5018,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    28;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -4866,7 +5206,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -5045,7 +5385,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    30;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -5213,7 +5553,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    31;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -5412,7 +5752,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    32;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -7925,6 +8265,121 @@ inline void S2C_AttackToPlayer::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// S2C_TargetingToPlayer
+
+// repeated int64 object_id = 1;
+inline int S2C_TargetingToPlayer::_internal_object_id_size() const {
+  return _impl_.object_id_.size();
+}
+inline int S2C_TargetingToPlayer::object_id_size() const {
+  return _internal_object_id_size();
+}
+inline void S2C_TargetingToPlayer::clear_object_id() {
+  _impl_.object_id_.Clear();
+}
+inline int64_t S2C_TargetingToPlayer::_internal_object_id(int index) const {
+  return _impl_.object_id_.Get(index);
+}
+inline int64_t S2C_TargetingToPlayer::object_id(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TargetingToPlayer.object_id)
+  return _internal_object_id(index);
+}
+inline void S2C_TargetingToPlayer::set_object_id(int index, int64_t value) {
+  _impl_.object_id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TargetingToPlayer.object_id)
+}
+inline void S2C_TargetingToPlayer::_internal_add_object_id(int64_t value) {
+  _impl_.object_id_.Add(value);
+}
+inline void S2C_TargetingToPlayer::add_object_id(int64_t value) {
+  _internal_add_object_id(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_TargetingToPlayer.object_id)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+S2C_TargetingToPlayer::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+S2C_TargetingToPlayer::object_id() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_TargetingToPlayer.object_id)
+  return _internal_object_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+S2C_TargetingToPlayer::_internal_mutable_object_id() {
+  return &_impl_.object_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+S2C_TargetingToPlayer::mutable_object_id() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TargetingToPlayer.object_id)
+  return _internal_mutable_object_id();
+}
+
+// int64 timestamp = 2;
+inline void S2C_TargetingToPlayer::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_TargetingToPlayer::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_TargetingToPlayer::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TargetingToPlayer.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_TargetingToPlayer::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_TargetingToPlayer::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TargetingToPlayer.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_DeathEnemy
+
+// int64 object_id = 1;
+inline void S2C_DeathEnemy::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t S2C_DeathEnemy::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t S2C_DeathEnemy::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DeathEnemy.object_id)
+  return _internal_object_id();
+}
+inline void S2C_DeathEnemy::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void S2C_DeathEnemy::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DeathEnemy.object_id)
+}
+
+// int64 timestamp = 2;
+inline void S2C_DeathEnemy::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_DeathEnemy::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_DeathEnemy::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DeathEnemy.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_DeathEnemy::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_DeathEnemy::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DeathEnemy.timestamp)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_DisAppearGameObject
 
 // int64 object_id = 1;
@@ -9153,6 +9608,10 @@ inline void S2C_ReplaceEqipment::set_error(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

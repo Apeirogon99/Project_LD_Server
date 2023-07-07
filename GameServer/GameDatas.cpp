@@ -43,6 +43,11 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"enemy_spawner_datas.csv").c_str(), static_cast<int32>(EGameDataType::EnemySpawner)))
+    {
+        return false;
+    }
+
     LoadDatas();
     return true;
 }
@@ -60,8 +65,10 @@ void GameDatas::LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDat
     CSVDatas datas;
     GetData(datas, static_cast<uint8>(inDataType));
 
-    outDatas.resize(datas.size());
-    for (int32 dataIndex = 0; dataIndex < datas.size(); ++dataIndex)
+    const size_t datasSize = datas.size() - 1;
+
+    outDatas.resize(datasSize);
+    for (int32 dataIndex = 0; dataIndex < datasSize; ++dataIndex)
     {
 
         Stats tempStat;

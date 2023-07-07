@@ -12,7 +12,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void			LoadCharacter(bool inIsLoad);
+	void			SetLoadCharacter(bool inIsLoad);
 	virtual void	OnAppearActor(ActorPtr inAppearActor) override;
 	virtual void	OnDisAppearActor(ActorPtr inDisappearActor) override;
 
@@ -37,8 +37,8 @@ public:
 public:
 	int32						GetCharacterID()	{ return mCharacterID; }
 	Protocol::SCharacterData&	GetCharacterData()	{ return mCharacterData; }
-	const StatsComponent&		GetStatComponent() const { return mStatComponent; }
-	const EqipmentComponent&	GetEqipmentStats() const { return mEqipmentComponent; }
+	StatsComponent&				GetStatComponent() 	{ return mStatComponent; }
+	EqipmentComponent&			GetEqipmentStats() 	{ return mEqipmentComponent; }
 
 private:
 	bool						mIsLoad;

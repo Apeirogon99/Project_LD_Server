@@ -66,12 +66,15 @@ public:
 class RecoveryState : public IStateEvent
 {
 public:
-	RecoveryState() : IStateEvent(EStateType::State_Recovery) { }
+	RecoveryState() : IStateEvent(EStateType::State_Recovery), mMaxDistanceLength(0.0f) { }
 
 public:
 	virtual void Enter(EnemyCharacterRef inEnemy)							override;
 	virtual void Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)	override;
 	virtual void Exit(EnemyCharacterRef inEnemy)							override;
+
+private:
+	float mMaxDistanceLength;
 };
 
 class ChaseState : public IStateEvent
@@ -172,7 +175,7 @@ public:
 			return;
 		}
 
-		wprintf(L"[SetState] [OLD::%d] -> [CUR::%d]\n", static_cast<int32>(mCurrentState), static_cast<int32>(inStateType));
+		StateChangeDebugPrint(mCurrentState, inStateType);
 
 		IStateEvent* oldState = mStateTypes.at(mCurrentState);
 		oldState->Exit(mEnemy);
@@ -206,6 +209,46 @@ public:
 	{
 		IStateEvent* curState = mStateTypes.at(mCurrentState);
 		curState->Exit(mEnemy);
+	}
+
+protected:
+	void StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType);
+	const std::wstring ToStringState(const EStateType& type)
+	{
+		std::wstring stateStr;
+		switch (type)
+		{
+		case EStateType::State_Unspecified:
+			stateStr = L"Unspecified";
+			break;
+		case EStateType::State_Idle:
+			stateStr = L"Idle";
+			break;
+		case EStateType::State_Round:
+			stateStr = L"Round";
+			break;
+		case EStateType::State_Recovery:
+			stateStr = L"Recovery";
+			break;
+		case EStateType::State_Chase:
+			stateStr = L"Chase";
+			break;
+		case EStateType::State_Attack:
+			stateStr = L"Attack";
+			break;
+		case EStateType::State_Hit:
+			stateStr = L"Hit";
+			break;
+		case EStateType::State_Stun:
+			stateStr = L"Stun";
+			break;
+		case EStateType::State_Death:
+			stateStr = L"Death";
+			break;
+		default:
+			break;
+		}
+		return stateStr;
 	}
 
 private:

@@ -12,27 +12,28 @@ GameRemotePlayer::~GameRemotePlayer()
 
 void GameRemotePlayer::OnInitialization()
 {
-	GameObjectRef owner = this->GetGameObjectRef();
-	mInventory = std::make_shared<Inventory>(12, 7);
-	mInventory->SetOwner(owner);
-
-	mPlayerCharacter = std::make_shared<PlayerCharacter>();
-	mPlayerCharacter->SetOwner(owner);
-
 	GameTaskPtr taskManager = std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
 	if (nullptr == taskManager)
 	{
 		return;
 	}
 
-	GameObjectPtr remoteGameObject = this->GetGameObjectPtr();
-	taskManager->CreateGameObject(remoteGameObject);
+	GameWorldPtr world = taskManager->GetWorld();
+	if (nullptr == world)
+	{
+		return;
+	}
 
-	GameObjectPtr characterGameObject = this->GetCharacter()->GetGameObjectPtr();
-	taskManager->PushTask(characterGameObject);
+	GameObjectRef owner = this->GetGameObjectRef();
+	mInventory = std::make_shared<Inventory>(12, 7);
+	mInventory->SetOwner(owner);
 
-	GameObjectPtr inventoryGameObject = this->GetInventory()->GetGameObjectPtr();
-	taskManager->CreateGameObject(inventoryGameObject);
+	mPlayerCharacter = std::make_shared<PlayerCharacter>();
+	mPlayerCharacter->SetOwner(owner);
+	mPlayerCharacter->SetWorld(world);
+
+	taskManager->PushTask(this->GetCharacter()->GetGameObjectPtr());
+	taskManager->CreateGameObject(this->GetInventory()->GetGameObjectPtr());
 }
 
 void GameRemotePlayer::OnDestroy()
@@ -43,14 +44,14 @@ void GameRemotePlayer::OnDestroy()
 		return;
 	}
 
-	GameObjectPtr remoteGameObject = this->GetGameObjectPtr();
-	taskManager->DestroyGameObject(remoteGameObject);
+	GameWorldPtr world = taskManager->GetWorld();
+	if (nullptr == world)
+	{
+		return;
+	}
 
-	GameObjectPtr characterGameObject = this->GetCharacter()->GetGameObjectPtr();
-	taskManager->ReleaseTask(characterGameObject);
-
-	GameObjectPtr inventoryGameObject = this->GetInventory()->GetGameObjectPtr();
-	taskManager->DestroyGameObject(inventoryGameObject);
+	taskManager->ReleaseTask(this->GetCharacter()->GetGameObjectPtr());
+	taskManager->DestroyGameObject(this->GetInventory()->GetGameObjectPtr());
 }
 
 void GameRemotePlayer::OnTick(const int64 inDeltaTime)
@@ -132,9 +133,8 @@ void GameRemotePlayer::OnLoadComplete()
 	enterPacket.mutable_transform()->CopyFrom(PacketUtils::ToSTransform(character->GetTransform()));
 	enterPacket.set_error(false);
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, enterPacket);
-	packetSession->Send(sendBuffer);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPacket);
+	playerState->Send(sendBuffer);
 
 	world->VisibleAreaInit(playerState);
 }

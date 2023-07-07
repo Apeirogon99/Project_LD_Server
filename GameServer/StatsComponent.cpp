@@ -12,6 +12,7 @@ StatsComponent::~StatsComponent()
 void StatsComponent::InitMaxStats(const Stats& inMaxStats)
 {
 	mMaxStats = inMaxStats;
+	mCurrentStats = inMaxStats;
 }
 
 void StatsComponent::InitMaxStats(ActorPtr inActor, const EGameDataType inBaseData, int32 inClass)
@@ -49,16 +50,22 @@ void StatsComponent::InitMaxStats(ActorPtr inActor, const EGameDataType inBaseDa
 		return;
 	}
 
+	if (inBaseData == EGameDataType::MAX_GAME_DATA || inGrowData == EGameDataType::MAX_GAME_DATA)
+	{
+		return;
+	}
+
 	Stats baseStats;
-	dataManager->GetStats(mBaseType, mClass, baseStats);
+	dataManager->GetStats(inBaseData, inClass, baseStats);
 
 	Stats growStats;
-	dataManager->GetStats(mGrowType, mClass, growStats);
+	dataManager->GetStats(inGrowData, inClass, growStats);
 
-	mMaxStats = baseStats + (growStats * inLevel);
-	mBaseType = inBaseData;
-	mGrowType = inGrowData;
-	mClass = inClass;
+	mMaxStats		= baseStats + (growStats * inLevel);
+	mCurrentStats	= mMaxStats;
+	mBaseType		= inBaseData;
+	mGrowType		= inGrowData;
+	mClass			= inClass;
 }
 
 void StatsComponent::UpdateMaxStats(ActorPtr inActor, const int32 inLevel)

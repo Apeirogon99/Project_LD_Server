@@ -13,7 +13,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void SetLoad(bool inIsLoad);
+	void SetLoadInventory(bool inIsLoad);
 	void CreateEqipment(const int32 inItemCode, const int32 inPart);
 
 public:

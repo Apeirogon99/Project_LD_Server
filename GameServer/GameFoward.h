@@ -70,10 +70,16 @@ using InventoryRef					= std::weak_ptr<Inventory>;
 //   GameContent | Enemy	//
 //==========================//
 class EnemyCharacter;
+class EnemySpawner;
 class EnemySlime;
+class StateManager;
 
 using EnemyCharacterPtr		= std::shared_ptr<EnemyCharacter>;
 using EnemyCharacterRef		= std::weak_ptr<EnemyCharacter>;
+
+using EnemySpawnerPtr		= std::shared_ptr<EnemySpawner>;
+using EnemySpawnerRef		= std::weak_ptr<EnemySpawner>;
+
 using EnemySlimePtr			= std::shared_ptr<EnemySlime>;
 
 //==========================//

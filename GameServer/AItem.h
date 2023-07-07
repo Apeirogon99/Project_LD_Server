@@ -62,10 +62,10 @@ public:
 	void SetInventoryRoation(const int32 inInventoryRotation);
 
 public:
-	const int32 GetItemCode()							const { return mItemCode; }
-	const Protocol::SVector2D& GetInventoryPosition()	const { return mInvenPosition; }
-	const int32 GetInventoryRoation()					const { return mInvenRotation; }
-	const Protocol::SItem ConvertSItem();
+	const int32					GetItemCode()			const { return mItemCode; }
+	const Protocol::SVector2D&	GetInventoryPosition()	const { return mInvenPosition; }
+	const int32					GetInventoryRoation()	const { return mInvenRotation; }
+	const Protocol::SItem		ConvertSItem();
 
 private:
 	int32				mItemCode;

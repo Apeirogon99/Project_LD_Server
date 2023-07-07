@@ -19,12 +19,10 @@ void GameWorld::OnInitialization()
 	Rotation	rot(0.0f, 0.0f, 0.0f);
 	Scale		sca(1.0f, 1.0f, 1.0f);
 
-	AItemPtr item = std::static_pointer_cast<AItem>(SpawnActor<AItem>(loc, rot, sca));
+	AItemPtr item = std::static_pointer_cast<AItem>(this->SpawnActor<AItem>(this->GetGameObjectRef(), loc, rot, sca));
 	item->SetItemCode(31);
-
-	ActorPtr actor = SpawnActor<EnemySpawner<EnemySlime>>(Location(100.0f, 100.0f, 500.0f), FRotator(), Scale(1.0f, 1.0f, 1.0f));
-	std::shared_ptr<EnemySpawner<EnemySlime>> enemySlimeSpawner = std::static_pointer_cast<EnemySpawner<EnemySlime>>(actor);
-	enemySlimeSpawner->SetEnemySpawner(std::static_pointer_cast<GameWorld>(shared_from_this()), 1, 1, 20.0f);
+	
+	ActorPtr enemySpawnerManager = SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale());
 }
 
 void GameWorld::OnDestroy()
@@ -109,8 +107,8 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	if (inPacket.token().compare("LOCAL_TEST") == 0)
 	{
 		isToken = true;
-		token.SetCharacterID(0);
-		token.SetGlobalID(0);
+		token.SetCharacterID(1);
+		token.SetGlobalID(1);
 	}
 
 	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
@@ -137,6 +135,9 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 
 	remotePlayer = std::make_shared<GameRemotePlayer>();
 	remotePlayer->SetRemoteClient(inPlayerState);
+	inPlayerState->SetRemotePlayer(remotePlayer);
+	mTaskManagerRef.lock()->CreateGameObject(remotePlayer->GetGameObjectPtr());
+
 	remotePlayer->LoadRemotePlayer(token, std::static_pointer_cast<GameWorld>(GetWorldRef().lock()));
 
 }
@@ -163,21 +164,23 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	inPlayerState->BroadcastPlayerMonitors(disappearSendBuffer);
 
 	const PlayerMonitors& playerMonitors = inPlayerState->GetPlayerMonitors();
-	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end(); ++playerMonitor)
+	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
 	{
 		playerMonitor->get()->ReleasePlayerViewer(inPlayerState);
-		inPlayerState->ReleasePlayerMonitor(*playerMonitor);
+		inPlayerState->ReleasePlayerMonitor(*playerMonitor++);
 	}
 
 	const ActorMonitors& actorMonitors = inPlayerState->GetActorMonitors();
-	for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end(); ++actorMonitor)
+	for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end();)
 	{
 		actorMonitor->get()->ReleasePlayerViewer(inPlayerState);
-		inPlayerState->ReleaseActorMonitor(*actorMonitor);
+		inPlayerState->ReleaseActorMonitor(*actorMonitor++);
 	}
 	
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
 	mWorldPlayers.erase(gameObjectID);
+
+	mTaskManagerRef.lock()->DestroyGameObject(remotePlayer->GetGameObjectPtr());
 
 	Protocol::S2C_LeaveGameServer leavePacket;
 	leavePacket.set_error(true);
@@ -213,15 +216,15 @@ void GameWorld::VisibleAreaInit(PlayerStatePtr inPlayerState)
 		newCharacter->CloseToActor(oldCharacter, MAX_POSSIBLE_AREA);
 		oldCharacter->CloseToActor(newCharacter, MAX_POSSIBLE_AREA);
 
-		auto viewActor = mWorldActors.begin();
-		for (viewActor; viewActor != mWorldActors.end(); viewActor++)
-		{
-			viewActor->second->CloseToActor(newCharacter, MAX_POSSIBLE_AREA);
-		}
-
 	}
 
-	std::pair<int64, PlayerStatePtr> newPlayer = std::make_pair(newRemotePlayer->GetGameObjectID(), inPlayerState);
+	auto viewActor = mWorldActors.begin();
+	for (viewActor; viewActor != mWorldActors.end(); viewActor++)
+	{
+		viewActor->second->CloseToActor(newCharacter, MAX_POSSIBLE_AREA);
+	}
+
+	std::pair<int64, RemoteClientPtr> newPlayer = std::make_pair(newRemotePlayer->GetGameObjectID(), inPlayerState);
 	mWorldPlayers.insert(newPlayer);
 }
 
