@@ -179,6 +179,8 @@ void EnemyCharacter::OnAutoAttackShot()
 		return;
 	}
 
+	wprintf(L"OnAutoAttackShot\n");
+
 	//TODO 추가적인 정보가 필요함
 	Protocol::S2C_AttackToPlayer attackPacket;
 	attackPacket.set_object_id(this->GetGameObjectID());

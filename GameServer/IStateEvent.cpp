@@ -46,7 +46,23 @@ void IdleState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void IdleState::Exit(EnemyCharacterRef inEnemy)
 {
-	mIdleToRoundTime = 0;
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
 }
 
 //==========================//
@@ -99,7 +115,23 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void RoundState::Exit(EnemyCharacterRef inEnemy)
 {
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
 
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
 }
 
 //==========================//
@@ -161,6 +193,18 @@ void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 	{
 		return;
 	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
 
 	{
 		const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
@@ -236,10 +280,6 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
 	enemy->SetVelocity(velocity, velocity, velocity);
 
-	const int64 worldTime = world->GetWorldTime();
-	enemy->GetMovementComponent().SetNewDestination(aggroActor->GetLocation(), worldTime);
-	enemy->OnMovementEnemy();
-
 	mChaseToRecoveryTime += inDeltaTime;
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
 	{
@@ -257,6 +297,18 @@ void ChaseState::Exit(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
+
 }
 
 //==========================//
@@ -267,6 +319,12 @@ void AttackState::Enter(EnemyCharacterRef inEnemy)
 {
 	EnemyCharacterPtr enemy = inEnemy.lock();
 	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
 	{
 		return;
 	}
@@ -294,24 +352,6 @@ void AttackState::Exit(EnemyCharacterRef inEnemy)
 
 void HitState::Enter(EnemyCharacterRef inEnemy)
 {
-	EnemyCharacterPtr enemy = inEnemy.lock();
-	if (nullptr == enemy)
-	{
-		return;
-	}
-
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
-
-	const int64 worldTime = world->GetWorldTime();
-	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
-	enemy->OnMovementEnemy();
-
 	mHitToChaseTime = 0;
 }
 
@@ -333,6 +373,59 @@ void HitState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 void HitState::Exit(EnemyCharacterRef inEnemy)
 {
 }
+
+//==========================//
+//		    STUN			//
+//==========================//
+
+void StunState::Enter(EnemyCharacterRef inEnemy)
+{
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
+
+	const int64 worldTime = world->GetWorldTime();
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
+	enemy->OnMovementEnemy();
+
+	mStunToChaseTime	= 0;
+	mStunTime			= 0;
+}
+
+void StunState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
+{
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	mStunToChaseTime += inDeltaTime;
+	if (mStunToChaseTime >= mStunTime)
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Chase);
+	}
+}
+
+void StunState::Exit(EnemyCharacterRef inEnemy)
+{
+}
+
+void StunState::SetStunTime(const int64 inStunTime)
+{
+	mStunTime = inStunTime;
+}
+
 
 //==========================//
 //		    DEATH			//

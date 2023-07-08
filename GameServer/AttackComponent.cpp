@@ -49,11 +49,9 @@ bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, const float inDamage, 
 	mAutoAttackOverTime = inAutoAttackOverTime;
 
 	inInstigated->PushTask(worldTime, &Actor::OnAutoAttackShot);
-
 	inInstigated->PushTask(worldTime + inTargetingTime, &Actor::OnAutoAttackTargeting);
-
 	inInstigated->PushTask(worldTime + inAutoAttackOverTime, &Actor::OnAutoAttackOver);
-	
+
 	mIsAutoAttack = true;
 	return true;
 }

@@ -116,6 +116,24 @@ private:
 	int64 mHitToChaseTime;
 };
 
+class StunState : public IStateEvent
+{
+public:
+	StunState() : IStateEvent(EStateType::State_Stun), mStunTime(0), mStunToChaseTime(0) { }
+
+public:
+	virtual void Enter(EnemyCharacterRef inEnemy)							override;
+	virtual void Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)	override;
+	virtual void Exit(EnemyCharacterRef inEnemy)							override;
+
+public:
+	void SetStunTime(const int64 inStunTime);
+
+private:
+	int64 mStunTime;
+	int64 mStunToChaseTime;
+};
+
 class DeathState : public IStateEvent
 {
 public:
@@ -170,11 +188,6 @@ public:
 			return;
 		}
 
-		if (mCurrentState == inStateType)
-		{
-			return;
-		}
-
 		StateChangeDebugPrint(mCurrentState, inStateType);
 
 		IStateEvent* oldState = mStateTypes.at(mCurrentState);
@@ -190,6 +203,11 @@ public:
 	const EStateType& GetCurrentStateType() const
 	{
 		return mCurrentState;
+	}
+
+	IStateEvent* GetState() const
+	{
+		return mStateTypes.at(mCurrentState);
 	}
 
 public:

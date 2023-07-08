@@ -230,7 +230,7 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 	const int64 targetingTime	= 170;
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
-	outActor->OnHit(this->GetActorPtr(), 50.0f, Location());
+	outActor->OnHit(this->GetActorPtr(), 1.0f, Location());
 
 	//if (false == mAttackComponent.DoAutoAttack(this->GetActorPtr(), outActor, damage, range, targetingTime, overTime))
 	//{
