@@ -59,11 +59,10 @@ void EnemySlime::SyncStatus(const int64 inDeltaTime)
 	}
 	mSyncStatusTime = 0;
 
-	Protocol::S2C_TickEnemy tickPacket;
-	tickPacket.set_object_id(this->GetGameObjectID());
-	tickPacket.mutable_enemy()->CopyFrom(this->ConvertSEnemy());
-	tickPacket.set_timestamp(world->GetWorldTime());
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+	//Protocol::S2C_TickEnemy tickPacket;
+	//tickPacket.set_object_id(this->GetGameObjectID());
+	//tickPacket.set_timestamp(world->GetWorldTime());
+	//
+	//SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
+	//this->BrodcastPlayerViewers(sendBuffer);
 }

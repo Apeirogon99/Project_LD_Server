@@ -170,14 +170,62 @@ void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float i
 	default:
 		break;
 	}
+
+	auto findStat = mUpdateStats.find(inStatType);
+	if (findStat == mUpdateStats.end())
+	{
+		std::pair<EStatType, float> updateStat = std::make_pair(inStatType, inValue);
+		mUpdateStats.insert(updateStat);
+	}
+	else
+	{
+		findStat->second = inValue;
+	}
+
 }
 
-const Stats& StatsComponent::GetMaxStats()
+const Stats& StatsComponent::GetMaxStats() const
 {
     return mMaxStats;
 }
 
-const Stats& StatsComponent::GetCurrentStats()
+const Stats& StatsComponent::GetCurrentStats() const
 {
     return mCurrentStats;
+}
+
+bool StatsComponent::GetUpdateStats(std::map<EStatType, float>& outUpdateStats)
+{
+	if (mUpdateStats.size() == 0)
+	{
+		return false;
+	}
+
+	outUpdateStats.swap(mUpdateStats);
+
+	if (mUpdateStats.size() != 0)
+	{
+		mUpdateStats.clear();
+	}
+
+	return outUpdateStats.size();
+}
+
+bool StatsComponent::GetDifferentStats(std::map<EStatType, float>& outUpdateStats)
+{
+	std::map<EStatType, float> tempDifferentStats;
+
+	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+	{
+		float maxStat = mMaxStats.GetStat(index);
+		float curStat = mCurrentStats.GetStat(index);
+		if (maxStat != curStat)
+		{
+			std::pair<EStatType, float> differentStat = std::make_pair(static_cast<EStatType>(index), curStat);
+			tempDifferentStats.insert(differentStat);
+		}
+	}
+
+	outUpdateStats.swap(tempDifferentStats);
+	return outUpdateStats.size();
 }

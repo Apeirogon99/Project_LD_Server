@@ -49,7 +49,22 @@ void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearEnemy appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());
 	appearPacket.set_enemy_id(this->GetEnemyID());
-	appearPacket.mutable_enemy()->CopyFrom(this->ConvertSEnemy());
+	appearPacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
+	appearPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
+	appearPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
+
+	std::map<EStatType, float> diffrentStats;
+	if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
+	{
+		auto stat = diffrentStats.begin();
+		for (stat; stat != diffrentStats.end(); ++stat)
+		{
+			Protocol::SStat* addStat = appearPacket.add_stats();
+			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+			addStat->set_stat_value(stat->second);
+		}
+	}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -91,19 +106,10 @@ void EnemyCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 
 void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation)
 {
-	PlayerCharacterPtr instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
-	this->mAggroPlayer = instigated;
 
-	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
-	this->mStatsComponent.UpdateCurrentStat(EStatType::health, curHealth);
-	
-	if (0.0f <= curHealth)
+	if (IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Hit);
-	}
-	else
-	{
-		this->mStateManager.SetState(EStateType::State_Death);
+		return;
 	}
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -112,12 +118,46 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Lo
 		return;
 	}
 
-	Protocol::S2C_HitEnemy hitPacket;
-	hitPacket.set_object_id(this->GetGameObjectID());
-	hitPacket.set_timestamp(world->GetWorldTime());
+	PlayerCharacterPtr instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
+	this->mAggroActor = instigated;
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
+	this->mStatsComponent.UpdateCurrentStat(EStatType::health, curHealth);
+	
+	if (curHealth <= 0.0f)
+	{
+		this->mStateManager.SetState(EStateType::State_Death);
+
+		Protocol::S2C_DeathEnemy deathPacket;
+		deathPacket.set_object_id(this->GetGameObjectID());
+		deathPacket.set_timestamp(world->GetWorldTime());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
+	else
+	{
+		this->mStateManager.SetState(EStateType::State_Hit);
+
+		Protocol::S2C_HitEnemy hitPacket;
+		hitPacket.set_object_id(this->GetGameObjectID());
+		hitPacket.set_timestamp(world->GetWorldTime());
+
+		std::map<EStatType, float> updateStats;
+		if (true == this->mStatsComponent.GetUpdateStats(updateStats))
+		{
+			auto stat = updateStats.begin();
+			for (stat; stat != updateStats.end(); ++stat)
+			{
+				Protocol::SStat* addStat = hitPacket.add_stats();
+				addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+				addStat->set_stat_value(stat->second);
+			}
+		}
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemyCharacter::OnDeath()
@@ -128,12 +168,7 @@ void EnemyCharacter::OnDeath()
 		return;
 	}
 
-	Protocol::S2C_DeathEnemy deathPacket;
-	deathPacket.set_object_id(this->GetGameObjectID());
-	deathPacket.set_timestamp(world->GetWorldTime());
-	
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+	wprintf(L"OnDeath\n");
 }
 
 void EnemyCharacter::OnAutoAttackShot()
@@ -144,6 +179,7 @@ void EnemyCharacter::OnAutoAttackShot()
 		return;
 	}
 
+	//TODO 추가적인 정보가 필요함
 	Protocol::S2C_AttackToPlayer attackPacket;
 	attackPacket.set_object_id(this->GetGameObjectID());
 	attackPacket.set_timestamp(world->GetWorldTime());
@@ -182,6 +218,7 @@ void EnemyCharacter::OnMovementEnemy()
 {
 	Protocol::S2C_MovementEnemy movementPacket;
 	movementPacket.set_object_id(this->GetGameObjectID());
+	movementPacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
 	movementPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	movementPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	movementPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
@@ -210,17 +247,12 @@ void EnemyCharacter::SetEnemyStats(const Stats& inEnemyStats)
 	mStatsComponent.InitMaxStats(inEnemyStats);
 }
 
-void EnemyCharacter::SetAggroPlayer(PlayerCharacterPtr inCharacter)
+void EnemyCharacter::SetAggroActor(ActorRef inAggroActor)
 {
-	mAggroPlayer = inCharacter;
+	mAggroActor = inAggroActor;
 }
 
-const Protocol::SEnemy EnemyCharacter::ConvertSEnemy()
+bool EnemyCharacter::IsDeath() const
 {
-	Protocol::SEnemy tempEnemy;
-	tempEnemy.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
-	tempEnemy.set_hp(this->mStatsComponent.GetCurrentStats().GetHealth());
-	tempEnemy.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	tempEnemy.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	return tempEnemy;
+	return this->mStatsComponent.GetCurrentStats().GetHealth() <= 0.0f;
 }

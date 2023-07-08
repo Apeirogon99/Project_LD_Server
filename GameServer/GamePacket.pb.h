@@ -2858,30 +2858,31 @@ class S2C_AppearEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kEnemyFieldNumber = 2,
+    kStatsFieldNumber = 4,
     kCurLocationFieldNumber = 5,
     kMoveLocationFieldNumber = 6,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 4,
-    kEnemyIdFieldNumber = 3,
+    kEnemyIdFieldNumber = 2,
+    kStateFieldNumber = 3,
+    kTimestampFieldNumber = 7,
   };
-  // .Protocol.SEnemy enemy = 2;
-  bool has_enemy() const;
+  // repeated .Protocol.SStat stats = 4;
+  int stats_size() const;
   private:
-  bool _internal_has_enemy() const;
+  int _internal_stats_size() const;
   public:
-  void clear_enemy();
-  const ::Protocol::SEnemy& enemy() const;
-  PROTOBUF_NODISCARD ::Protocol::SEnemy* release_enemy();
-  ::Protocol::SEnemy* mutable_enemy();
-  void set_allocated_enemy(::Protocol::SEnemy* enemy);
+  void clear_stats();
+  ::Protocol::SStat* mutable_stats(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+      mutable_stats();
   private:
-  const ::Protocol::SEnemy& _internal_enemy() const;
-  ::Protocol::SEnemy* _internal_mutable_enemy();
+  const ::Protocol::SStat& _internal_stats(int index) const;
+  ::Protocol::SStat* _internal_add_stats();
   public:
-  void unsafe_arena_set_allocated_enemy(
-      ::Protocol::SEnemy* enemy);
-  ::Protocol::SEnemy* unsafe_arena_release_enemy();
+  const ::Protocol::SStat& stats(int index) const;
+  ::Protocol::SStat* add_stats();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+      stats() const;
 
   // .Protocol.SVector cur_location = 5;
   bool has_cur_location() const;
@@ -2928,22 +2929,31 @@ class S2C_AppearEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 4;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
-  // int32 enemy_id = 3;
+  // int32 enemy_id = 2;
   void clear_enemy_id();
   int32_t enemy_id() const;
   void set_enemy_id(int32_t value);
   private:
   int32_t _internal_enemy_id() const;
   void _internal_set_enemy_id(int32_t value);
+  public:
+
+  // .Protocol.EEnemyState state = 3;
+  void clear_state();
+  ::Protocol::EEnemyState state() const;
+  void set_state(::Protocol::EEnemyState value);
+  private:
+  ::Protocol::EEnemyState _internal_state() const;
+  void _internal_set_state(::Protocol::EEnemyState value);
+  public:
+
+  // int64 timestamp = 7;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_AppearEnemy)
@@ -2954,12 +2964,13 @@ class S2C_AppearEnemy final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::SEnemy* enemy_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat > stats_;
     ::Protocol::SVector* cur_location_;
     ::Protocol::SVector* move_location_;
     int64_t object_id_;
-    int64_t timestamp_;
     int32_t enemy_id_;
+    int state_;
+    int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3088,69 +3099,9 @@ class S2C_TickEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kStatIndexFieldNumber = 3,
-    kStatValueFieldNumber = 4,
-    kEnemyFieldNumber = 2,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 5,
+    kTimestampFieldNumber = 4,
   };
-  // repeated .Protocol.EStatType stat_index = 3;
-  int stat_index_size() const;
-  private:
-  int _internal_stat_index_size() const;
-  public:
-  void clear_stat_index();
-  private:
-  ::Protocol::EStatType _internal_stat_index(int index) const;
-  void _internal_add_stat_index(::Protocol::EStatType value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_stat_index();
-  public:
-  ::Protocol::EStatType stat_index(int index) const;
-  void set_stat_index(int index, ::Protocol::EStatType value);
-  void add_stat_index(::Protocol::EStatType value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& stat_index() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_stat_index();
-
-  // repeated float stat_value = 4;
-  int stat_value_size() const;
-  private:
-  int _internal_stat_value_size() const;
-  public:
-  void clear_stat_value();
-  private:
-  float _internal_stat_value(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      _internal_stat_value() const;
-  void _internal_add_stat_value(float value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      _internal_mutable_stat_value();
-  public:
-  float stat_value(int index) const;
-  void set_stat_value(int index, float value);
-  void add_stat_value(float value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      stat_value() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      mutable_stat_value();
-
-  // .Protocol.SEnemy enemy = 2;
-  bool has_enemy() const;
-  private:
-  bool _internal_has_enemy() const;
-  public:
-  void clear_enemy();
-  const ::Protocol::SEnemy& enemy() const;
-  PROTOBUF_NODISCARD ::Protocol::SEnemy* release_enemy();
-  ::Protocol::SEnemy* mutable_enemy();
-  void set_allocated_enemy(::Protocol::SEnemy* enemy);
-  private:
-  const ::Protocol::SEnemy& _internal_enemy() const;
-  ::Protocol::SEnemy* _internal_mutable_enemy();
-  public:
-  void unsafe_arena_set_allocated_enemy(
-      ::Protocol::SEnemy* enemy);
-  ::Protocol::SEnemy* unsafe_arena_release_enemy();
-
   // int64 object_id = 1;
   void clear_object_id();
   int64_t object_id() const;
@@ -3160,7 +3111,7 @@ class S2C_TickEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 5;
+  // int64 timestamp = 4;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -3177,10 +3128,6 @@ class S2C_TickEnemy final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> stat_index_;
-    mutable std::atomic<int> _stat_index_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > stat_value_;
-    ::Protocol::SEnemy* enemy_;
     int64_t object_id_;
     int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -3314,7 +3261,8 @@ class S2C_MovementEnemy final :
     kCurLocationFieldNumber = 3,
     kMoveLocationFieldNumber = 4,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 2,
+    kTimestampFieldNumber = 5,
+    kStateFieldNumber = 2,
   };
   // .Protocol.SVector cur_location = 3;
   bool has_cur_location() const;
@@ -3361,13 +3309,22 @@ class S2C_MovementEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 2;
+  // int64 timestamp = 5;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
   private:
   int64_t _internal_timestamp() const;
   void _internal_set_timestamp(int64_t value);
+  public:
+
+  // .Protocol.EEnemyState state = 2;
+  void clear_state();
+  ::Protocol::EEnemyState state() const;
+  void set_state(::Protocol::EEnemyState value);
+  private:
+  ::Protocol::EEnemyState _internal_state() const;
+  void _internal_set_state(::Protocol::EEnemyState value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_MovementEnemy)
@@ -3382,6 +3339,7 @@ class S2C_MovementEnemy final :
     ::Protocol::SVector* move_location_;
     int64_t object_id_;
     int64_t timestamp_;
+    int state_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3842,49 +3800,27 @@ class S2C_HitEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kStatIndexFieldNumber = 2,
-    kStatValueFieldNumber = 3,
+    kStatsFieldNumber = 2,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 4,
+    kTimestampFieldNumber = 3,
   };
-  // repeated .Protocol.EStatType stat_index = 2;
-  int stat_index_size() const;
+  // repeated .Protocol.SStat stats = 2;
+  int stats_size() const;
   private:
-  int _internal_stat_index_size() const;
+  int _internal_stats_size() const;
   public:
-  void clear_stat_index();
+  void clear_stats();
+  ::Protocol::SStat* mutable_stats(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+      mutable_stats();
   private:
-  ::Protocol::EStatType _internal_stat_index(int index) const;
-  void _internal_add_stat_index(::Protocol::EStatType value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_stat_index();
+  const ::Protocol::SStat& _internal_stats(int index) const;
+  ::Protocol::SStat* _internal_add_stats();
   public:
-  ::Protocol::EStatType stat_index(int index) const;
-  void set_stat_index(int index, ::Protocol::EStatType value);
-  void add_stat_index(::Protocol::EStatType value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& stat_index() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_stat_index();
-
-  // repeated float stat_value = 3;
-  int stat_value_size() const;
-  private:
-  int _internal_stat_value_size() const;
-  public:
-  void clear_stat_value();
-  private:
-  float _internal_stat_value(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      _internal_stat_value() const;
-  void _internal_add_stat_value(float value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      _internal_mutable_stat_value();
-  public:
-  float stat_value(int index) const;
-  void set_stat_value(int index, float value);
-  void add_stat_value(float value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      stat_value() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      mutable_stat_value();
+  const ::Protocol::SStat& stats(int index) const;
+  ::Protocol::SStat* add_stats();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+      stats() const;
 
   // int64 object_id = 1;
   void clear_object_id();
@@ -3895,7 +3831,7 @@ class S2C_HitEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 4;
+  // int64 timestamp = 3;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -3912,9 +3848,7 @@ class S2C_HitEnemy final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> stat_index_;
-    mutable std::atomic<int> _stat_index_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > stat_value_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat > stats_;
     int64_t object_id_;
     int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -7832,92 +7766,7 @@ inline void S2C_AppearEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_AppearEnemy.object_id)
 }
 
-// .Protocol.SEnemy enemy = 2;
-inline bool S2C_AppearEnemy::_internal_has_enemy() const {
-  return this != internal_default_instance() && _impl_.enemy_ != nullptr;
-}
-inline bool S2C_AppearEnemy::has_enemy() const {
-  return _internal_has_enemy();
-}
-inline const ::Protocol::SEnemy& S2C_AppearEnemy::_internal_enemy() const {
-  const ::Protocol::SEnemy* p = _impl_.enemy_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SEnemy&>(
-      ::Protocol::_SEnemy_default_instance_);
-}
-inline const ::Protocol::SEnemy& S2C_AppearEnemy::enemy() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearEnemy.enemy)
-  return _internal_enemy();
-}
-inline void S2C_AppearEnemy::unsafe_arena_set_allocated_enemy(
-    ::Protocol::SEnemy* enemy) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.enemy_);
-  }
-  _impl_.enemy_ = enemy;
-  if (enemy) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_AppearEnemy.enemy)
-}
-inline ::Protocol::SEnemy* S2C_AppearEnemy::release_enemy() {
-  
-  ::Protocol::SEnemy* temp = _impl_.enemy_;
-  _impl_.enemy_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Protocol::SEnemy* S2C_AppearEnemy::unsafe_arena_release_enemy() {
-  // @@protoc_insertion_point(field_release:Protocol.S2C_AppearEnemy.enemy)
-  
-  ::Protocol::SEnemy* temp = _impl_.enemy_;
-  _impl_.enemy_ = nullptr;
-  return temp;
-}
-inline ::Protocol::SEnemy* S2C_AppearEnemy::_internal_mutable_enemy() {
-  
-  if (_impl_.enemy_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::SEnemy>(GetArenaForAllocation());
-    _impl_.enemy_ = p;
-  }
-  return _impl_.enemy_;
-}
-inline ::Protocol::SEnemy* S2C_AppearEnemy::mutable_enemy() {
-  ::Protocol::SEnemy* _msg = _internal_mutable_enemy();
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearEnemy.enemy)
-  return _msg;
-}
-inline void S2C_AppearEnemy::set_allocated_enemy(::Protocol::SEnemy* enemy) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.enemy_);
-  }
-  if (enemy) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(enemy));
-    if (message_arena != submessage_arena) {
-      enemy = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, enemy, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.enemy_ = enemy;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearEnemy.enemy)
-}
-
-// int32 enemy_id = 3;
+// int32 enemy_id = 2;
 inline void S2C_AppearEnemy::clear_enemy_id() {
   _impl_.enemy_id_ = 0;
 }
@@ -7937,24 +7786,61 @@ inline void S2C_AppearEnemy::set_enemy_id(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_AppearEnemy.enemy_id)
 }
 
-// int64 timestamp = 4;
-inline void S2C_AppearEnemy::clear_timestamp() {
-  _impl_.timestamp_ = int64_t{0};
+// .Protocol.EEnemyState state = 3;
+inline void S2C_AppearEnemy::clear_state() {
+  _impl_.state_ = 0;
 }
-inline int64_t S2C_AppearEnemy::_internal_timestamp() const {
-  return _impl_.timestamp_;
+inline ::Protocol::EEnemyState S2C_AppearEnemy::_internal_state() const {
+  return static_cast< ::Protocol::EEnemyState >(_impl_.state_);
 }
-inline int64_t S2C_AppearEnemy::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearEnemy.timestamp)
-  return _internal_timestamp();
+inline ::Protocol::EEnemyState S2C_AppearEnemy::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearEnemy.state)
+  return _internal_state();
 }
-inline void S2C_AppearEnemy::_internal_set_timestamp(int64_t value) {
+inline void S2C_AppearEnemy::_internal_set_state(::Protocol::EEnemyState value) {
   
-  _impl_.timestamp_ = value;
+  _impl_.state_ = value;
 }
-inline void S2C_AppearEnemy::set_timestamp(int64_t value) {
-  _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AppearEnemy.timestamp)
+inline void S2C_AppearEnemy::set_state(::Protocol::EEnemyState value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_AppearEnemy.state)
+}
+
+// repeated .Protocol.SStat stats = 4;
+inline int S2C_AppearEnemy::_internal_stats_size() const {
+  return _impl_.stats_.size();
+}
+inline int S2C_AppearEnemy::stats_size() const {
+  return _internal_stats_size();
+}
+inline ::Protocol::SStat* S2C_AppearEnemy::mutable_stats(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearEnemy.stats)
+  return _impl_.stats_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+S2C_AppearEnemy::mutable_stats() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_AppearEnemy.stats)
+  return &_impl_.stats_;
+}
+inline const ::Protocol::SStat& S2C_AppearEnemy::_internal_stats(int index) const {
+  return _impl_.stats_.Get(index);
+}
+inline const ::Protocol::SStat& S2C_AppearEnemy::stats(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearEnemy.stats)
+  return _internal_stats(index);
+}
+inline ::Protocol::SStat* S2C_AppearEnemy::_internal_add_stats() {
+  return _impl_.stats_.Add();
+}
+inline ::Protocol::SStat* S2C_AppearEnemy::add_stats() {
+  ::Protocol::SStat* _add = _internal_add_stats();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_AppearEnemy.stats)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+S2C_AppearEnemy::stats() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_AppearEnemy.stats)
+  return _impl_.stats_;
 }
 
 // .Protocol.SVector cur_location = 5;
@@ -8127,6 +8013,26 @@ inline void S2C_AppearEnemy::set_allocated_move_location(::Protocol::SVector* mo
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearEnemy.move_location)
 }
 
+// int64 timestamp = 7;
+inline void S2C_AppearEnemy::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_AppearEnemy::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_AppearEnemy::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearEnemy.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_AppearEnemy::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_AppearEnemy::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_AppearEnemy.timestamp)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_TickEnemy
@@ -8151,182 +8057,7 @@ inline void S2C_TickEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.object_id)
 }
 
-// .Protocol.SEnemy enemy = 2;
-inline bool S2C_TickEnemy::_internal_has_enemy() const {
-  return this != internal_default_instance() && _impl_.enemy_ != nullptr;
-}
-inline bool S2C_TickEnemy::has_enemy() const {
-  return _internal_has_enemy();
-}
-inline const ::Protocol::SEnemy& S2C_TickEnemy::_internal_enemy() const {
-  const ::Protocol::SEnemy* p = _impl_.enemy_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SEnemy&>(
-      ::Protocol::_SEnemy_default_instance_);
-}
-inline const ::Protocol::SEnemy& S2C_TickEnemy::enemy() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.enemy)
-  return _internal_enemy();
-}
-inline void S2C_TickEnemy::unsafe_arena_set_allocated_enemy(
-    ::Protocol::SEnemy* enemy) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.enemy_);
-  }
-  _impl_.enemy_ = enemy;
-  if (enemy) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_TickEnemy.enemy)
-}
-inline ::Protocol::SEnemy* S2C_TickEnemy::release_enemy() {
-  
-  ::Protocol::SEnemy* temp = _impl_.enemy_;
-  _impl_.enemy_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::Protocol::SEnemy* S2C_TickEnemy::unsafe_arena_release_enemy() {
-  // @@protoc_insertion_point(field_release:Protocol.S2C_TickEnemy.enemy)
-  
-  ::Protocol::SEnemy* temp = _impl_.enemy_;
-  _impl_.enemy_ = nullptr;
-  return temp;
-}
-inline ::Protocol::SEnemy* S2C_TickEnemy::_internal_mutable_enemy() {
-  
-  if (_impl_.enemy_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::SEnemy>(GetArenaForAllocation());
-    _impl_.enemy_ = p;
-  }
-  return _impl_.enemy_;
-}
-inline ::Protocol::SEnemy* S2C_TickEnemy::mutable_enemy() {
-  ::Protocol::SEnemy* _msg = _internal_mutable_enemy();
-  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TickEnemy.enemy)
-  return _msg;
-}
-inline void S2C_TickEnemy::set_allocated_enemy(::Protocol::SEnemy* enemy) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.enemy_);
-  }
-  if (enemy) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(enemy));
-    if (message_arena != submessage_arena) {
-      enemy = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, enemy, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.enemy_ = enemy;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TickEnemy.enemy)
-}
-
-// repeated .Protocol.EStatType stat_index = 3;
-inline int S2C_TickEnemy::_internal_stat_index_size() const {
-  return _impl_.stat_index_.size();
-}
-inline int S2C_TickEnemy::stat_index_size() const {
-  return _internal_stat_index_size();
-}
-inline void S2C_TickEnemy::clear_stat_index() {
-  _impl_.stat_index_.Clear();
-}
-inline ::Protocol::EStatType S2C_TickEnemy::_internal_stat_index(int index) const {
-  return static_cast< ::Protocol::EStatType >(_impl_.stat_index_.Get(index));
-}
-inline ::Protocol::EStatType S2C_TickEnemy::stat_index(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.stat_index)
-  return _internal_stat_index(index);
-}
-inline void S2C_TickEnemy::set_stat_index(int index, ::Protocol::EStatType value) {
-  _impl_.stat_index_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.stat_index)
-}
-inline void S2C_TickEnemy::_internal_add_stat_index(::Protocol::EStatType value) {
-  _impl_.stat_index_.Add(value);
-}
-inline void S2C_TickEnemy::add_stat_index(::Protocol::EStatType value) {
-  _internal_add_stat_index(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_TickEnemy.stat_index)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
-S2C_TickEnemy::stat_index() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_TickEnemy.stat_index)
-  return _impl_.stat_index_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-S2C_TickEnemy::_internal_mutable_stat_index() {
-  return &_impl_.stat_index_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-S2C_TickEnemy::mutable_stat_index() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TickEnemy.stat_index)
-  return _internal_mutable_stat_index();
-}
-
-// repeated float stat_value = 4;
-inline int S2C_TickEnemy::_internal_stat_value_size() const {
-  return _impl_.stat_value_.size();
-}
-inline int S2C_TickEnemy::stat_value_size() const {
-  return _internal_stat_value_size();
-}
-inline void S2C_TickEnemy::clear_stat_value() {
-  _impl_.stat_value_.Clear();
-}
-inline float S2C_TickEnemy::_internal_stat_value(int index) const {
-  return _impl_.stat_value_.Get(index);
-}
-inline float S2C_TickEnemy::stat_value(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.stat_value)
-  return _internal_stat_value(index);
-}
-inline void S2C_TickEnemy::set_stat_value(int index, float value) {
-  _impl_.stat_value_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.stat_value)
-}
-inline void S2C_TickEnemy::_internal_add_stat_value(float value) {
-  _impl_.stat_value_.Add(value);
-}
-inline void S2C_TickEnemy::add_stat_value(float value) {
-  _internal_add_stat_value(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_TickEnemy.stat_value)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-S2C_TickEnemy::_internal_stat_value() const {
-  return _impl_.stat_value_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-S2C_TickEnemy::stat_value() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_TickEnemy.stat_value)
-  return _internal_stat_value();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-S2C_TickEnemy::_internal_mutable_stat_value() {
-  return &_impl_.stat_value_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-S2C_TickEnemy::mutable_stat_value() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TickEnemy.stat_value)
-  return _internal_mutable_stat_value();
-}
-
-// int64 timestamp = 5;
+// int64 timestamp = 4;
 inline void S2C_TickEnemy::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
@@ -8370,24 +8101,24 @@ inline void S2C_MovementEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.object_id)
 }
 
-// int64 timestamp = 2;
-inline void S2C_MovementEnemy::clear_timestamp() {
-  _impl_.timestamp_ = int64_t{0};
+// .Protocol.EEnemyState state = 2;
+inline void S2C_MovementEnemy::clear_state() {
+  _impl_.state_ = 0;
 }
-inline int64_t S2C_MovementEnemy::_internal_timestamp() const {
-  return _impl_.timestamp_;
+inline ::Protocol::EEnemyState S2C_MovementEnemy::_internal_state() const {
+  return static_cast< ::Protocol::EEnemyState >(_impl_.state_);
 }
-inline int64_t S2C_MovementEnemy::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_MovementEnemy.timestamp)
-  return _internal_timestamp();
+inline ::Protocol::EEnemyState S2C_MovementEnemy::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_MovementEnemy.state)
+  return _internal_state();
 }
-inline void S2C_MovementEnemy::_internal_set_timestamp(int64_t value) {
+inline void S2C_MovementEnemy::_internal_set_state(::Protocol::EEnemyState value) {
   
-  _impl_.timestamp_ = value;
+  _impl_.state_ = value;
 }
-inline void S2C_MovementEnemy::set_timestamp(int64_t value) {
-  _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.timestamp)
+inline void S2C_MovementEnemy::set_state(::Protocol::EEnemyState value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.state)
 }
 
 // .Protocol.SVector cur_location = 3;
@@ -8560,6 +8291,26 @@ inline void S2C_MovementEnemy::set_allocated_move_location(::Protocol::SVector* 
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_MovementEnemy.move_location)
 }
 
+// int64 timestamp = 5;
+inline void S2C_MovementEnemy::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_MovementEnemy::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_MovementEnemy::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_MovementEnemy.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_MovementEnemy::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_MovementEnemy::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.timestamp)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_AttackToPlayer
@@ -8699,97 +8450,44 @@ inline void S2C_HitEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.object_id)
 }
 
-// repeated .Protocol.EStatType stat_index = 2;
-inline int S2C_HitEnemy::_internal_stat_index_size() const {
-  return _impl_.stat_index_.size();
+// repeated .Protocol.SStat stats = 2;
+inline int S2C_HitEnemy::_internal_stats_size() const {
+  return _impl_.stats_.size();
 }
-inline int S2C_HitEnemy::stat_index_size() const {
-  return _internal_stat_index_size();
+inline int S2C_HitEnemy::stats_size() const {
+  return _internal_stats_size();
 }
-inline void S2C_HitEnemy::clear_stat_index() {
-  _impl_.stat_index_.Clear();
+inline ::Protocol::SStat* S2C_HitEnemy::mutable_stats(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_HitEnemy.stats)
+  return _impl_.stats_.Mutable(index);
 }
-inline ::Protocol::EStatType S2C_HitEnemy::_internal_stat_index(int index) const {
-  return static_cast< ::Protocol::EStatType >(_impl_.stat_index_.Get(index));
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+S2C_HitEnemy::mutable_stats() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_HitEnemy.stats)
+  return &_impl_.stats_;
 }
-inline ::Protocol::EStatType S2C_HitEnemy::stat_index(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.stat_index)
-  return _internal_stat_index(index);
+inline const ::Protocol::SStat& S2C_HitEnemy::_internal_stats(int index) const {
+  return _impl_.stats_.Get(index);
 }
-inline void S2C_HitEnemy::set_stat_index(int index, ::Protocol::EStatType value) {
-  _impl_.stat_index_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.stat_index)
+inline const ::Protocol::SStat& S2C_HitEnemy::stats(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.stats)
+  return _internal_stats(index);
 }
-inline void S2C_HitEnemy::_internal_add_stat_index(::Protocol::EStatType value) {
-  _impl_.stat_index_.Add(value);
+inline ::Protocol::SStat* S2C_HitEnemy::_internal_add_stats() {
+  return _impl_.stats_.Add();
 }
-inline void S2C_HitEnemy::add_stat_index(::Protocol::EStatType value) {
-  _internal_add_stat_index(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_HitEnemy.stat_index)
+inline ::Protocol::SStat* S2C_HitEnemy::add_stats() {
+  ::Protocol::SStat* _add = _internal_add_stats();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_HitEnemy.stats)
+  return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
-S2C_HitEnemy::stat_index() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_HitEnemy.stat_index)
-  return _impl_.stat_index_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-S2C_HitEnemy::_internal_mutable_stat_index() {
-  return &_impl_.stat_index_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-S2C_HitEnemy::mutable_stat_index() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_HitEnemy.stat_index)
-  return _internal_mutable_stat_index();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+S2C_HitEnemy::stats() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_HitEnemy.stats)
+  return _impl_.stats_;
 }
 
-// repeated float stat_value = 3;
-inline int S2C_HitEnemy::_internal_stat_value_size() const {
-  return _impl_.stat_value_.size();
-}
-inline int S2C_HitEnemy::stat_value_size() const {
-  return _internal_stat_value_size();
-}
-inline void S2C_HitEnemy::clear_stat_value() {
-  _impl_.stat_value_.Clear();
-}
-inline float S2C_HitEnemy::_internal_stat_value(int index) const {
-  return _impl_.stat_value_.Get(index);
-}
-inline float S2C_HitEnemy::stat_value(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_HitEnemy.stat_value)
-  return _internal_stat_value(index);
-}
-inline void S2C_HitEnemy::set_stat_value(int index, float value) {
-  _impl_.stat_value_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_HitEnemy.stat_value)
-}
-inline void S2C_HitEnemy::_internal_add_stat_value(float value) {
-  _impl_.stat_value_.Add(value);
-}
-inline void S2C_HitEnemy::add_stat_value(float value) {
-  _internal_add_stat_value(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_HitEnemy.stat_value)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-S2C_HitEnemy::_internal_stat_value() const {
-  return _impl_.stat_value_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-S2C_HitEnemy::stat_value() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_HitEnemy.stat_value)
-  return _internal_stat_value();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-S2C_HitEnemy::_internal_mutable_stat_value() {
-  return &_impl_.stat_value_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-S2C_HitEnemy::mutable_stat_value() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_HitEnemy.stat_value)
-  return _internal_mutable_stat_value();
-}
-
-// int64 timestamp = 4;
+// int64 timestamp = 3;
 inline void S2C_HitEnemy::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }

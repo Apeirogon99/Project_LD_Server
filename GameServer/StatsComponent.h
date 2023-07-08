@@ -1,4 +1,5 @@
 #pragma once
+
 class StatsComponent
 {
 public:
@@ -21,8 +22,10 @@ public:
 	void UpdateCurrentStat(const EStatType inStatType, const float inValue);
 
 public:
-	const Stats& GetMaxStats();
-	const Stats& GetCurrentStats();
+	const Stats&	GetMaxStats() const;
+	const Stats&	GetCurrentStats() const;
+	bool			GetUpdateStats(std::map<EStatType, float>& outUpdateStats);
+	bool			GetDifferentStats(std::map<EStatType, float>& outUpdateStats);
 
 private:
 	Stats			mMaxStats;
@@ -31,5 +34,7 @@ private:
 	int32			mClass;
 	EGameDataType	mBaseType;
 	EGameDataType	mGrowType;
+
+	std::map<EStatType, float> mUpdateStats;
 };
 

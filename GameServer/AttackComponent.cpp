@@ -40,10 +40,10 @@ bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, const float inDamage, 
 	//	return false;
 	//}
 
-	if (false == IsAutoAttacking(inInstigated))
-	{
-		return false;
-	}
+	//if (false == IsAutoAttacking(inInstigated))
+	//{
+	//	return false;
+	//}
 
 	mAutoAttackLastTime = worldTime;
 	mAutoAttackOverTime = inAutoAttackOverTime;

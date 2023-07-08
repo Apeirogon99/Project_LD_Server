@@ -33,7 +33,9 @@ public:
 	void SetSpawnObjectID(const int64 inSpawnObjectID);
 	void SetRecoveryLocation(const Location& inRecoveryLocation);
 	void SetEnemyStats(const Stats& inEnemyStats);
-	void SetAggroPlayer(PlayerCharacterPtr inCharacter);
+	void SetAggroActor(ActorRef inCharacter);
+
+	bool IsDeath() const;
 
 public:
 	EnemyCharacterRef			GetEnemyCharacterRef()		{ return std::static_pointer_cast<EnemyCharacter>(shared_from_this()); }
@@ -43,8 +45,7 @@ public:
 	AttackComponent&			GetAttackComponent()		{ return mAttackComponent; }
 	StateManager&				GetStateManager()			{ return mStateManager; }
 	const Location&				GetRecoveryLocation()		{ return mRecoveryLocation; }
-	const PlayerCharacterPtr&	GetAggroPlayer()			{ return mAggroPlayer; }
-	const Protocol::SEnemy		ConvertSEnemy();
+	ActorRef					GetAggroActor()			{ return mAggroActor; }
 
 protected:
 	int32						mEnemyID;
@@ -56,6 +57,6 @@ protected:
 	StateManager				mStateManager;
 
 	Location					mRecoveryLocation;
-	PlayerCharacterPtr			mAggroPlayer;
+	ActorRef					mAggroActor;
 };
 
