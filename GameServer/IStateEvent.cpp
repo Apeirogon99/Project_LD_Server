@@ -144,7 +144,8 @@ void RecoveryState::Enter(EnemyCharacterRef inEnemy)
 	enemy->SetVelocity(velocity, velocity, velocity);
 
 	Location recoveryLocation	= enemy->GetRecoveryLocation();
-	this->mMaxDistanceLength	= FVector::Distance2D(enemy->GetLocation(), recoveryLocation);
+	this->mCurrentLocation		= enemy->GetLocation();
+	this->mMaxDistanceLength	= FVector::Distance2D(this->mCurrentLocation, recoveryLocation);
 
 	enemy->GetMovementComponent().SetNewDestination(recoveryLocation, world->GetWorldTime());
 	enemy->OnMovementEnemy();
@@ -166,12 +167,12 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float curHealth = enemy->GetEnemyStatsComponent().GetCurrentStats().GetHealth();
 	const float maxHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
 
-	const float distanceLenght = FVector::Distance2D(enemy->GetLocation(), enemy->GetRecoveryLocation());
+	const float distanceLenght = FVector::Distance2D(enemy->GetLocation(), mCurrentLocation);
 	const float disatncePercent = distanceLenght / this->mMaxDistanceLength;
 	
 	const float recoveryHealth = curHealth + (maxHealth - curHealth) * disatncePercent;
 	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, recoveryHealth);
-
+	wprintf(L"recoveryHealth = %f\n", recoveryHealth);
 }
 
 void RecoveryState::Exit(EnemyCharacterRef inEnemy)

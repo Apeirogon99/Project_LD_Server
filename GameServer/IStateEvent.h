@@ -74,7 +74,8 @@ public:
 	virtual void Exit(EnemyCharacterRef inEnemy)							override;
 
 private:
-	float mMaxDistanceLength;
+	float		mMaxDistanceLength;
+	Location	mCurrentLocation;
 };
 
 class ChaseState : public IStateEvent
