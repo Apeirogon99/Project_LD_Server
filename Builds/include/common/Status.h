@@ -4,28 +4,29 @@
 
 enum EStatType
 {
-	armor_penetration,			//방어구 관통력
-	attack_damage,				//공격력
-	attack_speed,				//공격 속도
-	critical_strike_chance,		//치명타 확율
-	cirtical_strike_damage,		//치명타 대미지
-	life_steal,					//기본 피해 흡수
-	ability_power,				//마법력
-	mage_penetration,			//마법 관통력
-	omnivamp,					//스킬 피해 흡수
-	physical_vamp,				//?
-	armor,						//방어력
-	heal_and_shield_power,		//힐 또는 방어막 증가량
-	health,						//체력
-	health_regeneration,		//체력 회복량
-	magic_resistance,			//마법 방어력
-	tenacity,					//군중제어 저항력
-	slow_resist,				//슬로우 저항력
-	ability_haste,				//재사용 대기시간 감소
-	mana,						//마나
-	mana_regeneration,			//마나 회복량
-	movement_speed,				//이동 속도
-	range,						//공격 범위
+	Stat_Unspecified,			//없음
+	Stat_ArmorPenetration,		//방어구 관통력
+	Stat_AttackDamage,			//공격력
+	Stat_AttackSpeed,			//공격 속도
+	Stat_CriticalStrikeChance,	//치명타 확율
+	Stat_CirticalStrikeDamage,	//치명타 대미지
+	Stat_LifeSteal,				//기본 피해 흡수
+	Stat_AbilityPower,			//마법력
+	Stat_MagePenetration,		//마법 관통력
+	Stat_Omnivamp,				//스킬 피해 흡수
+	Stat_PhysicalVamp,			//?
+	Stat_Armor,					//방어력
+	Stat_HealAndShieldPower,	//힐 또는 방어막 증가량
+	Stat_Health,				//체력
+	Stat_HealthRegeneration,	//체력 회복량
+	Stat_MagicResistance,		//마법 방어력
+	Stat_Tenacity,				//군중제어 저항력
+	Stat_SlowResist,			//슬로우 저항력
+	Stat_AbilityHaste,			//재사용 대기시간 감소
+	Stat_Mana,					//마나
+	Stat_ManaRegeneration,		//마나 회복량
+	Stat_MovementSpeed,			//이동 속도
+	Stat_Range					//공격 범위
 };
 
 class Stats

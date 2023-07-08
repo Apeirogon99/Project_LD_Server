@@ -175,7 +175,7 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 
-	//wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().x(), this->GetLocation().y(), this->GetLocation().z());
+	wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)

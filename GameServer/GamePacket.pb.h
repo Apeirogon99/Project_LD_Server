@@ -3099,9 +3099,28 @@ class S2C_TickEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kStatsFieldNumber = 2,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 4,
+    kTimestampFieldNumber = 3,
   };
+  // repeated .Protocol.SStat stats = 2;
+  int stats_size() const;
+  private:
+  int _internal_stats_size() const;
+  public:
+  void clear_stats();
+  ::Protocol::SStat* mutable_stats(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+      mutable_stats();
+  private:
+  const ::Protocol::SStat& _internal_stats(int index) const;
+  ::Protocol::SStat* _internal_add_stats();
+  public:
+  const ::Protocol::SStat& stats(int index) const;
+  ::Protocol::SStat* add_stats();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+      stats() const;
+
   // int64 object_id = 1;
   void clear_object_id();
   int64_t object_id() const;
@@ -3111,7 +3130,7 @@ class S2C_TickEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 4;
+  // int64 timestamp = 3;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -3128,6 +3147,7 @@ class S2C_TickEnemy final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat > stats_;
     int64_t object_id_;
     int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -8057,7 +8077,44 @@ inline void S2C_TickEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_TickEnemy.object_id)
 }
 
-// int64 timestamp = 4;
+// repeated .Protocol.SStat stats = 2;
+inline int S2C_TickEnemy::_internal_stats_size() const {
+  return _impl_.stats_.size();
+}
+inline int S2C_TickEnemy::stats_size() const {
+  return _internal_stats_size();
+}
+inline ::Protocol::SStat* S2C_TickEnemy::mutable_stats(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TickEnemy.stats)
+  return _impl_.stats_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+S2C_TickEnemy::mutable_stats() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TickEnemy.stats)
+  return &_impl_.stats_;
+}
+inline const ::Protocol::SStat& S2C_TickEnemy::_internal_stats(int index) const {
+  return _impl_.stats_.Get(index);
+}
+inline const ::Protocol::SStat& S2C_TickEnemy::stats(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TickEnemy.stats)
+  return _internal_stats(index);
+}
+inline ::Protocol::SStat* S2C_TickEnemy::_internal_add_stats() {
+  return _impl_.stats_.Add();
+}
+inline ::Protocol::SStat* S2C_TickEnemy::add_stats() {
+  ::Protocol::SStat* _add = _internal_add_stats();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_TickEnemy.stats)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+S2C_TickEnemy::stats() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_TickEnemy.stats)
+  return _impl_.stats_;
+}
+
+// int64 timestamp = 3;
 inline void S2C_TickEnemy::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }

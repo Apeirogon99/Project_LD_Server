@@ -101,70 +101,72 @@ void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float i
 {
 	switch (inStatType)
 	{
-	case armor_penetration:
+	case Stat_Unspecified:
+		break;
+	case Stat_ArmorPenetration:
 		mCurrentStats.SetArmorPenetration(inValue);
 		break;
-	case attack_damage:
+	case Stat_AttackDamage:
 		mCurrentStats.SetAttackSpeed(inValue);
 		break;
-	case attack_speed:
+	case Stat_AttackSpeed:
 		mCurrentStats.SetAttackSpeed(inValue);
 		break;
-	case critical_strike_chance:
+	case Stat_CriticalStrikeChance:
 		mCurrentStats.SetCriticalStrikeChance(inValue);
 		break;
-	case cirtical_strike_damage:
+	case Stat_CirticalStrikeDamage:
 		mCurrentStats.SetCirticalStrikeDamage(inValue);
 		break;
-	case life_steal:
+	case Stat_LifeSteal:
 		mCurrentStats.SetLifeSteal(inValue);
 		break;
-	case ability_power:
+	case Stat_AbilityPower:
 		mCurrentStats.SetAbilityPower(inValue);
 		break;
-	case mage_penetration:
+	case Stat_MagePenetration:
 		mCurrentStats.SetMagePenetration(inValue);
 		break;
-	case omnivamp:
+	case Stat_Omnivamp:
 		mCurrentStats.SetOmnivamp(inValue);
 		break;
-	case physical_vamp:
+	case Stat_PhysicalVamp:
 		mCurrentStats.SetPhysicalVamp(inValue);
 		break;
-	case armor:
+	case Stat_Armor:
 		mCurrentStats.SetArmor(inValue);
 		break;
-	case heal_and_shield_power:
+	case Stat_HealAndShieldPower:
 		mCurrentStats.SetHealAndShieldPower(inValue);
 		break;
-	case health:
+	case Stat_Health:
 		mCurrentStats.SetHealth(inValue);
 		break;
-	case health_regeneration:
+	case Stat_HealthRegeneration:
 		mCurrentStats.SetHealthRegeneration(inValue);
 		break;
-	case magic_resistance:
+	case Stat_MagicResistance:
 		mCurrentStats.SetMagicResistance(inValue);
 		break;
-	case tenacity:
+	case Stat_Tenacity:
 		mCurrentStats.SetTenacity(inValue);
 		break;
-	case slow_resist:
+	case Stat_SlowResist:
 		mCurrentStats.SetSlowResist(inValue);
 		break;
-	case ability_haste:
+	case Stat_AbilityHaste:
 		mCurrentStats.SetAbilityHaste(inValue);
 		break;
-	case mana:
+	case Stat_Mana:
 		mCurrentStats.SetMana(inValue);
 		break;
-	case mana_regeneration:
+	case Stat_ManaRegeneration:
 		mCurrentStats.SetManaRegeneration(inValue);
 		break;
-	case movement_speed:
+	case Stat_MovementSpeed:
 		mCurrentStats.SetMovementSpeed(inValue);
 		break;
-	case range:
+	case Stat_Range:
 		mCurrentStats.SetRange(inValue);
 		break;
 	default:

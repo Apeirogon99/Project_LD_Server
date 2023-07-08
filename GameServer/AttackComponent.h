@@ -26,7 +26,7 @@ public:
 	void Update(ActorPtr inInstigated);
 
 public:
-	bool DoAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime);
+	bool DoMelleAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime);
 	//bool DoAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float inDamage, const float inRange, const int64 inAutoAttackOverTime);
 
 public:

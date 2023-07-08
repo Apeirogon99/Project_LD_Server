@@ -26,7 +26,7 @@ void AttackComponent::Update(ActorPtr inInstigated)
 	//DoAutoAttack(inInstigated, 0.0f, 0.0f, 0, 0);
 }
 
-bool AttackComponent::DoAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime)
+bool AttackComponent::DoMelleAutoAttack(ActorPtr inInstigated, const float inDamage, const float inRange, const int64 inTargetingTime, const int64 inAutoAttackOverTime)
 {
 	WorldPtr world = inInstigated->GetWorld().lock();
 	if (nullptr == world)

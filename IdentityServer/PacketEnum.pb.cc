@@ -57,26 +57,30 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   "t\020\001\022\022\n\016Part_Shoulders\020\002\022\016\n\nPart_Chest\020\003\022"
   "\020\n\014Part_Bracers\020\004\022\016\n\nPart_Hands\020\005\022\016\n\nPar"
   "t_Pants\020\006\022\016\n\nPart_Boots\020\007\022\021\n\rPart_Weapon"
-  "_l\020\010\022\021\n\rPart_Weapon_r\020\t*\254\001\n\013EEnemyState\022"
-  "\025\n\021State_Unspecified\020\000\022\016\n\nState_Idle\020\001\022\017"
-  "\n\013State_Round\020\002\022\022\n\016State_Recovery\020\003\022\017\n\013S"
-  "tate_Chase\020\004\022\020\n\014State_Attack\020\005\022\r\n\tState_"
-  "Hit\020\006\022\016\n\nState_Stun\020\007\022\017\n\013State_Death\020\010*\254"
-  "\003\n\tEStatType\022\025\n\021armor_penetration\020\000\022\021\n\ra"
-  "ttack_damage\020\001\022\020\n\014attack_speed\020\002\022\032\n\026crit"
-  "ical_strike_chance\020\003\022\032\n\026cirtical_strike_"
-  "damage\020\004\022\016\n\nlife_steal\020\005\022\021\n\rability_powe"
-  "r\020\006\022\024\n\020mage_penetration\020\007\022\014\n\010omnivamp\020\010\022"
-  "\021\n\rphysical_vamp\020\t\022\t\n\005armor\020\n\022\031\n\025heal_an"
-  "d_shield_power\020\013\022\n\n\006health\020\014\022\027\n\023health_r"
-  "egeneration\020\r\022\024\n\020magic_resistance\020\016\022\014\n\010t"
-  "enacity\020\017\022\017\n\013slow_resist\020\020\022\021\n\rability_ha"
-  "ste\020\021\022\010\n\004mana\020\022\022\025\n\021mana_regeneration\020\023\022\022"
-  "\n\016movement_speed\020\024\022\t\n\005range\020\025b\006proto3"
+  "_l\020\010\022\021\n\rPart_Weapon_r\020\t*\337\001\n\013EEnemyState\022"
+  "\025\n\021State_Unspecified\020\000\022\017\n\013State_Spawn\020\001\022"
+  "\016\n\nState_Idle\020\002\022\017\n\013State_Round\020\003\022\022\n\016Stat"
+  "e_Recovery\020\004\022\017\n\013State_Chase\020\005\022\020\n\014State_A"
+  "ttack\020\006\022\030\n\024State_CirticalAttack\020\007\022\r\n\tSta"
+  "te_Hit\020\010\022\026\n\022State_CrowdControl\020\t\022\017\n\013Stat"
+  "e_Death\020\n*\234\004\n\tEStatType\022\024\n\020Stat_Unspecif"
+  "ied\020\000\022\031\n\025Stat_ArmorPenetration\020\001\022\025\n\021Stat"
+  "_AttackDamage\020\002\022\024\n\020Stat_AttackSpeed\020\003\022\035\n"
+  "\031Stat_CriticalStrikeChance\020\004\022\035\n\031Stat_Cir"
+  "ticalStrikeDamage\020\005\022\022\n\016Stat_LifeSteal\020\006\022"
+  "\025\n\021Stat_AbilityPower\020\007\022\030\n\024Stat_MagePenet"
+  "ration\020\010\022\021\n\rStat_Omnivamp\020\t\022\025\n\021Stat_Phys"
+  "icalVamp\020\n\022\016\n\nStat_Armor\020\013\022\033\n\027Stat_HealA"
+  "ndShieldPower\020\014\022\017\n\013Stat_Health\020\r\022\033\n\027Stat"
+  "_HealthRegeneration\020\016\022\030\n\024Stat_MagicResis"
+  "tance\020\017\022\021\n\rStat_Tenacity\020\020\022\023\n\017Stat_SlowR"
+  "esist\020\021\022\025\n\021Stat_AbilityHaste\020\022\022\r\n\tStat_M"
+  "ana\020\023\022\031\n\025Stat_ManaRegeneration\020\024\022\026\n\022Stat"
+  "_MovementSpeed\020\025\022\016\n\nStat_Range\020\026b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 997, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 1160, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -158,6 +162,8 @@ bool EEnemyState_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
+    case 10:
       return true;
     default:
       return false;
@@ -192,6 +198,7 @@ bool EStatType_IsValid(int value) {
     case 19:
     case 20:
     case 21:
+    case 22:
       return true;
     default:
       return false;

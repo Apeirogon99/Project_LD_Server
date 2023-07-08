@@ -41,28 +41,11 @@ void IdleState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Round);
 	}
-
 }
 
 void IdleState::Exit(EnemyCharacterRef inEnemy)
 {
-	EnemyCharacterPtr enemy = inEnemy.lock();
-	if (nullptr == enemy)
-	{
-		return;
-	}
 
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
-
-	const int64 worldTime = world->GetWorldTime();
-	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
-	enemy->OnMovementEnemy();
 }
 
 //==========================//
@@ -96,6 +79,8 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 	enemy->GetMovementComponent().SetNewDestination(nextLocation, world->GetWorldTime());
 	enemy->SetRecoveryLocation(nextLocation);
 	enemy->OnMovementEnemy();
+
+	//nextLocation.ToString();
 }
 
 void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -106,6 +91,7 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
+	//enemy->GetLocation().ToString();
 	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), MAX_LOCATION_DISTANCE))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
@@ -132,6 +118,8 @@ void RoundState::Exit(EnemyCharacterRef inEnemy)
 	const int64 worldTime = world->GetWorldTime();
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetLocation(), worldTime);
 	enemy->OnMovementEnemy();
+
+	//enemy->GetLocation().ToString();
 }
 
 //==========================//
@@ -182,7 +170,7 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float disatncePercent = distanceLenght / this->mMaxDistanceLength;
 	
 	const float recoveryHealth = curHealth + (maxHealth - curHealth) * disatncePercent;
-	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::health, recoveryHealth);
+	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, recoveryHealth);
 
 }
 
@@ -208,7 +196,7 @@ void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 
 	{
 		const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
-		enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::health, fullHealth);
+		enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, fullHealth);
 	}
 
 }
@@ -331,10 +319,7 @@ void AttackState::Enter(EnemyCharacterRef inEnemy)
 
 	const int64 targetingTime = 460;
 	const int64 overTime = 870;
-	enemy->GetAttackComponent().DoAutoAttack(enemy->GetActorPtr(), 1.0f, 1.0f, targetingTime, overTime);
-
-	//enemy->GetAttackComponent().DoAutoAttack();
-
+	enemy->GetAttackComponent().DoMelleAutoAttack(enemy->GetActorPtr(), 1.0f, 1.0f, targetingTime, overTime);
 }
 
 void AttackState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)

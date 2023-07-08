@@ -139,14 +139,16 @@ inline bool ECharacterPart_Parse(
 }
 enum EEnemyState : int {
   State_Unspecified = 0,
-  State_Idle = 1,
-  State_Round = 2,
-  State_Recovery = 3,
-  State_Chase = 4,
-  State_Attack = 5,
-  State_Hit = 6,
-  State_Stun = 7,
-  State_Death = 8,
+  State_Spawn = 1,
+  State_Idle = 2,
+  State_Round = 3,
+  State_Recovery = 4,
+  State_Chase = 5,
+  State_Attack = 6,
+  State_CirticalAttack = 7,
+  State_Hit = 8,
+  State_CrowdControl = 9,
+  State_Death = 10,
   EEnemyState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   EEnemyState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
@@ -170,34 +172,35 @@ inline bool EEnemyState_Parse(
     EEnemyState_descriptor(), name, value);
 }
 enum EStatType : int {
-  armor_penetration = 0,
-  attack_damage = 1,
-  attack_speed = 2,
-  critical_strike_chance = 3,
-  cirtical_strike_damage = 4,
-  life_steal = 5,
-  ability_power = 6,
-  mage_penetration = 7,
-  omnivamp = 8,
-  physical_vamp = 9,
-  armor = 10,
-  heal_and_shield_power = 11,
-  health = 12,
-  health_regeneration = 13,
-  magic_resistance = 14,
-  tenacity = 15,
-  slow_resist = 16,
-  ability_haste = 17,
-  mana = 18,
-  mana_regeneration = 19,
-  movement_speed = 20,
-  range = 21,
+  Stat_Unspecified = 0,
+  Stat_ArmorPenetration = 1,
+  Stat_AttackDamage = 2,
+  Stat_AttackSpeed = 3,
+  Stat_CriticalStrikeChance = 4,
+  Stat_CirticalStrikeDamage = 5,
+  Stat_LifeSteal = 6,
+  Stat_AbilityPower = 7,
+  Stat_MagePenetration = 8,
+  Stat_Omnivamp = 9,
+  Stat_PhysicalVamp = 10,
+  Stat_Armor = 11,
+  Stat_HealAndShieldPower = 12,
+  Stat_Health = 13,
+  Stat_HealthRegeneration = 14,
+  Stat_MagicResistance = 15,
+  Stat_Tenacity = 16,
+  Stat_SlowResist = 17,
+  Stat_AbilityHaste = 18,
+  Stat_Mana = 19,
+  Stat_ManaRegeneration = 20,
+  Stat_MovementSpeed = 21,
+  Stat_Range = 22,
   EStatType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   EStatType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool EStatType_IsValid(int value);
-constexpr EStatType EStatType_MIN = armor_penetration;
-constexpr EStatType EStatType_MAX = range;
+constexpr EStatType EStatType_MIN = Stat_Unspecified;
+constexpr EStatType EStatType_MAX = Stat_Range;
 constexpr int EStatType_ARRAYSIZE = EStatType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EStatType_descriptor();

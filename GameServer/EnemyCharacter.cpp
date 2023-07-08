@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSyncStatusTime(0),mStateManager()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSyncEnemyTime(0),mStateManager()
 {
 }
 
@@ -104,6 +104,34 @@ void EnemyCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(sendBuffer);
 }
 
+void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	Protocol::S2C_TickEnemy tickPacket;
+	tickPacket.set_object_id(this->GetGameObjectID());
+	tickPacket.set_timestamp(world->GetWorldTime());
+
+	std::map<EStatType, float> diffrentStats;
+	if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
+	{
+		auto stat = diffrentStats.begin();
+		for (stat; stat != diffrentStats.end(); ++stat)
+		{
+			Protocol::SStat* addStat = tickPacket.add_stats();
+			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+			addStat->set_stat_value(stat->second);
+		}
+	}
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+}
+
 void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation)
 {
 
@@ -122,7 +150,7 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Lo
 	this->mAggroActor = instigated;
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
-	this->mStatsComponent.UpdateCurrentStat(EStatType::health, curHealth);
+	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
 	
 	if (curHealth <= 0.0f)
 	{
