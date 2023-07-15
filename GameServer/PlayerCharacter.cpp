@@ -13,8 +13,9 @@ PlayerCharacter::~PlayerCharacter()
 
 void PlayerCharacter::OnInitialization()
 {
-	SetTick(true, DEFAULT_TICK);
-	this->mMovementComponent.SetSynchronizationTime(MAX_LOCATION_SYNC_TIME);
+	SetTick(true, SYSTEM_TICK);
+	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
+	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 }
 
 void PlayerCharacter::OnDestroy()
@@ -28,13 +29,13 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == this->mMovementComponent.Update(this->GetActorPtr(), MAX_LOCATION_DISTANCE))
+	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
 	{
 		this->SetVelocity(0.0f, 0.0f, 0.0f);
 	}
+	this->SyncLocation(inDeltaTime);
 
-	SyncLocation(inDeltaTime);
-
+	//this->GetRotation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
@@ -91,9 +92,6 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 	appearPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
-
-	this->GetLocation().ToString();
-	this->mMovementComponent.GetDestinationLocation().ToString();
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -153,16 +151,16 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 		return;
 	}
 
-	bool isSync = this->mMovementComponent.SyncUpdate(inDeltaTime);
+	bool isSync = this->mMovementComponent.SyncUpdate(this->GetActorPtr(), inDeltaTime);
 	if (false == isSync)
 	{
 		return;
 	}
 
-	const int64			worldTime			= world->GetWorldTime();
 	const int64			remoteID			= remotePlayer->GetGameObjectID();
 	Protocol::SVector	currentLocation		= PacketUtils::ToSVector(this->GetLocation());
 	Protocol::SVector	destinationLocation	= PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation());
+	const int64			worldTime			= this->mMovementComponent.GetLastMovementTime();
 
 
 	Protocol::S2C_MovementCharacter movementPacket;
@@ -175,31 +173,38 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 
-	wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
+	//wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 {
 
+	Location	currentLocation		= PacketUtils::ToFVector(pkt.cur_location());
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
 
-	const int64 worldTime = GetWorld().lock()->GetWorldTime();
-	//wprintf(L"[SERVER::%lld] [CLIENT::%lld] [DIFF::%lld]\n", worldTime, movementLastTime, worldTime - movementLastTime);
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, movementDestination, movementLastTime, 42.0f);
 
-	this->mMovementComponent.SetNewDestination(movementDestination, movementLastTime);
+	OnMovement();
+}
 
+void PlayerCharacter::OnMovement()
+{
 	const float movementSpeed = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(movementSpeed, movementSpeed, movementSpeed);
 
 	{
 		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
-		const int64			remoteID = remotePlayer->GetGameObjectID();
+		const int64	remoteID = remotePlayer->GetGameObjectID();
+		const int64	movementLastTime = this->mMovementComponent.GetLastMovementTime();
+
+		const Protocol::SVector& currentLocation = PacketUtils::ToSVector(this->GetLocation());
+		const Protocol::SVector& movementDestination = PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation());
 
 		Protocol::S2C_MovementCharacter movementPacket;
 		movementPacket.set_remote_id(remoteID);
-		movementPacket.mutable_cur_location()->CopyFrom(pkt.cur_location());
-		movementPacket.mutable_move_location()->CopyFrom(pkt.move_location());
+		movementPacket.mutable_cur_location()->CopyFrom(currentLocation);
+		movementPacket.mutable_move_location()->CopyFrom(movementDestination);
 		movementPacket.set_timestamp(movementLastTime);
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
@@ -215,22 +220,31 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 		return;
 	}
 
+	const int64 worldTime = world->GetWorldTime();
 	const int64 objectID = pkt.object_id();
 	const int64 attackTimeStmap = pkt.timestamp();
 
-	ActorPtr outActor = nullptr;
-	if (false == world->FindActor(objectID, outActor))
+	ActorPtr victimActor = nullptr;
+	if (false == world->FindActor(objectID, victimActor))
 	{
 		return;
 	}
-
-	const Stats& currentStat	= mStatComponent.GetCurrentStats();
-	const float range			= currentStat.GetRange();
-	const float damage			= currentStat.GetAttackDamage();
-	const int64 targetingTime	= 170;
-	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
-
-	outActor->OnHit(this->GetActorPtr(), 1.0f, Location());
+	const Stats& currentStat = mStatComponent.GetCurrentStats();
+	const float range = currentStat.GetRange();
+	if (false == this->mAutoAttackComponent.IsAutoAttackRange(this->GetActorPtr(), victimActor, range))
+	{
+		FVector curLocation = this->GetLocation();
+		FVector victimLocation = victimActor->GetLocation();
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, range);
+		OnMovement();
+	}
+	else
+	{
+		const float damage = currentStat.GetAttackDamage();
+		const int64 targetingTime = 170;
+		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
+		victimActor->OnHit(this->GetActorPtr(), 1.0f, Location());
+	}
 
 	//if (false == mAttackComponent.DoAutoAttack(this->GetActorPtr(), outActor, damage, range, targetingTime, overTime))
 	//{
@@ -263,10 +277,11 @@ void PlayerCharacter::OnAutoAttackShot(bool inIsRange, ActorPtr inVictim)
 	}
 	else
 	{
-		Location	movementDestination = inVictim->GetLocation();
+		Location	currentLocation		= this->GetLocation();
+		Location	victimLocation = inVictim->GetLocation();
 		int64		movementLastTime	= world->GetWorldTime();
 
-		mMovementComponent.SetNewDestination(movementDestination, movementLastTime);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, victimLocation, movementLastTime, 42.0f);
 
 		GameRemotePlayerPtr remotePlayer	= std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
 		const int64			remoteID		= remotePlayer->GetGameObjectID();

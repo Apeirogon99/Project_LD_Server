@@ -1,12 +1,18 @@
 #include "pch.h"
 #include "StatsComponent.h"
 
-StatsComponent::StatsComponent() : mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA)
+StatsComponent::StatsComponent() : mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA), mStatSyncTime(0), mMaxStatSyncTime(0)
 {
 }
 
 StatsComponent::~StatsComponent()
 {
+}
+
+void StatsComponent::SetSyncTime(const int64 inSyncTime)
+{
+	mMaxStatSyncTime	= inSyncTime;
+	mStatSyncTime		= 0;
 }
 
 void StatsComponent::InitMaxStats(const Stats& inMaxStats)
@@ -66,6 +72,32 @@ void StatsComponent::InitMaxStats(ActorPtr inActor, const EGameDataType inBaseDa
 	mBaseType		= inBaseData;
 	mGrowType		= inGrowData;
 	mClass			= inClass;
+}
+
+bool StatsComponent::UpdateStatSync(const int64 inDeltaTime, std::map<EStatType, float>& outUpdateStats)
+{
+	mStatSyncTime += inDeltaTime;
+	if (mStatSyncTime <= mMaxStatSyncTime)
+	{
+		return false;
+	}
+	mStatSyncTime = 0;
+
+	std::map<EStatType, float> tempDifferentStats;
+
+	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+	{
+		float maxStat = mMaxStats.GetStat(index);
+		float curStat = mCurrentStats.GetStat(index);
+		if (maxStat != curStat)
+		{
+			std::pair<EStatType, float> differentStat = std::make_pair(static_cast<EStatType>(index + 1), curStat);
+			tempDifferentStats.insert(differentStat);
+		}
+	}
+
+	outUpdateStats.swap(tempDifferentStats);
+	return outUpdateStats.size();
 }
 
 void StatsComponent::UpdateMaxStats(ActorPtr inActor, const int32 inLevel)
@@ -210,24 +242,5 @@ bool StatsComponent::GetUpdateStats(std::map<EStatType, float>& outUpdateStats)
 		mUpdateStats.clear();
 	}
 
-	return outUpdateStats.size();
-}
-
-bool StatsComponent::GetDifferentStats(std::map<EStatType, float>& outUpdateStats)
-{
-	std::map<EStatType, float> tempDifferentStats;
-
-	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
-	{
-		float maxStat = mMaxStats.GetStat(index);
-		float curStat = mCurrentStats.GetStat(index);
-		if (maxStat != curStat)
-		{
-			std::pair<EStatType, float> differentStat = std::make_pair(static_cast<EStatType>(index), curStat);
-			tempDifferentStats.insert(differentStat);
-		}
-	}
-
-	outUpdateStats.swap(tempDifferentStats);
 	return outUpdateStats.size();
 }

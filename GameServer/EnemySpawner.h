@@ -73,7 +73,8 @@ inline void EnemySpawner::SpawnEnemey()
 			return;
 		}
 
-		newEnemy->GetMovementComponent().SetNewDestination(newLocation, world->GetWorldTime());
+		newEnemy->GetMovementComponent().InitMovement(newLocation, DEFAULT_TICK);
+
 		newEnemy->SetEnemeyID(this->mEnemyID);
 		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
 		newEnemy->SetEnemyStats(this->mEnemyStats);

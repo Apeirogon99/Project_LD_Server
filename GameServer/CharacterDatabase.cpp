@@ -110,7 +110,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetCharacterData(loadCharacterData);
 
 	character->SetLocation(800.0f, 100.0f, 480.0f);
-	character->GetMovementComponent().SetNewDestination(character->GetLocation(), 0);
+	character->GetMovementComponent().InitMovement(character->GetLocation(), DEFAULT_TICK);
 	character->SetRotation(0.0f, 0.0f, 0.0f);
 	character->SetScale(1.0f, 1.0f, 1.0f);
 
@@ -128,7 +128,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	}
 	
 	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?
-	character->GetStatComponent().InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass, level);
+	character->GetStatComponent().InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass - 1, level);
 
 	character->SetLoadCharacter(true);
 

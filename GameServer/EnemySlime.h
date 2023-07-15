@@ -11,5 +11,10 @@ public:
 	virtual void	OnTick(const int64 inDeltaTime)		override;
 	virtual bool	IsValid()							override;
 
+public:
+	virtual void	OnAutoAttackShot()					override;
+	virtual void	OnAutoAttackTargeting()				override;
+	virtual void	OnAutoAttackOver()					override;
+
 };
 

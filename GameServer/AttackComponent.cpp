@@ -81,14 +81,24 @@ bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
 	return true;
 }
 
-bool AttackComponent::IsAutoAttackRange(ActorPtr inInstigated, const float inRange)
+bool AttackComponent::IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange)
 {
-	//float distance = FVector::Distance2D(inInstigated->GetLocation(), mVictim.lock()->GetLocation());
-	//if (distance <= inRange)
-	//{
-	//	return true;
-	//}
+	
+	if (nullptr == inInstigated || nullptr == inVictim)
+	{
+		return false;
+	}
 
-	//return false;
-	return false;
+	if (false == inInstigated->IsValid() || false == inVictim->IsValid())
+	{
+		return false;
+	}
+
+	float distance = FVector::Distance2D(inInstigated->GetLocation(), inVictim->GetLocation());
+	if (distance >= inAttackRange)
+	{
+		return false;
+	}
+
+	return true;
 }

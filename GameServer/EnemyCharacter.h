@@ -16,14 +16,11 @@ public:
 	virtual void OnAppearActor(ActorPtr inAppearActor) override;
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
+	virtual void OnSyncLocation(const int64 inDeltaTime);
 	virtual void OnSyncEnemy(const int64 inDeltaTime);
 
 	virtual void OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation) override;
 	virtual void OnDeath() override;
-
-	virtual void OnAutoAttackShot()			override;
-	virtual void OnAutoAttackTargeting()	override;
-	virtual void OnAutoAttackOver()			override;
 	
 public:
 	void OnMovementEnemy();
@@ -50,7 +47,6 @@ public:
 protected:
 	int32						mEnemyID;
 	int64						mSpawnObjectID;
-	int64						mSyncEnemyTime;
 	StatsComponent				mStatsComponent;
 	AttackComponent				mAttackComponent;
 

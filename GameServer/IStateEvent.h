@@ -198,6 +198,7 @@ public:
 
 		IStateEvent* newState = mStateTypes.at(mCurrentState);
 		newState->Enter(mEnemy);
+
 	}
 
 public:

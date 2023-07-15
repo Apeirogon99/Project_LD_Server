@@ -31,7 +31,7 @@ public:
 
 public:
 	bool IsAutoAttacking(ActorPtr inInstigated);
-	bool IsAutoAttackRange(ActorPtr inInstigated, const float inRange);
+	bool IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange);
 
 protected:
 	EAutoAttackType mAutoAttackType;

@@ -24,6 +24,7 @@ public:
 
 public:
 	void MovementCharacter(Protocol::C2S_MovementCharacter pkt);
+	void OnMovement();
 
 public:
 	void SyncLocation(const int64 inDeltaTime);
@@ -47,6 +48,6 @@ private:
 
 	StatsComponent				mStatComponent;
 	EqipmentComponent			mEqipmentComponent;
-	AttackComponent				mAttackComponent;
+	AttackComponent				mAutoAttackComponent;
 };
 

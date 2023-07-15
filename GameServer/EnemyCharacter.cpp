@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSyncEnemyTime(0),mStateManager()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mStateManager()
 {
 }
 
@@ -46,25 +46,28 @@ void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 	this->InsertPlayerViewer(anotherPlayerState);
 	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
 
+	FVector curLocation = this->GetLocation();
+	Protocol::SVector spawnLocation = PacketUtils::ToSVector(FVector(curLocation.GetX(), curLocation.GetY(), curLocation.GetZ() + 10.0f));
+
 	Protocol::S2C_AppearEnemy appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());
 	appearPacket.set_enemy_id(this->GetEnemyID());
 	appearPacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
-	appearPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearPacket.mutable_cur_location()->CopyFrom(spawnLocation);
 	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	appearPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
 
-	std::map<EStatType, float> diffrentStats;
-	if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
-	{
-		auto stat = diffrentStats.begin();
-		for (stat; stat != diffrentStats.end(); ++stat)
-		{
-			Protocol::SStat* addStat = appearPacket.add_stats();
-			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
-			addStat->set_stat_value(stat->second);
-		}
-	}
+	//std::map<EStatType, float> diffrentStats;
+	//if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
+	//{
+	//	auto stat = diffrentStats.begin();
+	//	for (stat; stat != diffrentStats.end(); ++stat)
+	//	{
+	//		Protocol::SStat* addStat = appearPacket.add_stats();
+	//		addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+	//		addStat->set_stat_value(stat->second);
+	//	}
+	//}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -104,6 +107,24 @@ void EnemyCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(sendBuffer);
 }
 
+void EnemyCharacter::OnSyncLocation(const int64 inDeltaTime)
+{
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	bool isSync = this->mMovementComponent.SyncUpdate(this->GetActorPtr(), inDeltaTime);
+	if (false == isSync)
+	{
+		return;
+	}
+
+	OnMovementEnemy();
+
+}
+
 void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -112,13 +133,13 @@ void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
 		return;
 	}
 
-	Protocol::S2C_TickEnemy tickPacket;
-	tickPacket.set_object_id(this->GetGameObjectID());
-	tickPacket.set_timestamp(world->GetWorldTime());
-
 	std::map<EStatType, float> diffrentStats;
-	if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
+	if (true == this->mStatsComponent.UpdateStatSync(inDeltaTime, diffrentStats))
 	{
+		Protocol::S2C_TickEnemy tickPacket;
+		tickPacket.set_object_id(this->GetGameObjectID());
+		tickPacket.set_timestamp(world->GetWorldTime());
+
 		auto stat = diffrentStats.begin();
 		for (stat; stat != diffrentStats.end(); ++stat)
 		{
@@ -126,10 +147,10 @@ void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
 			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
 			addStat->set_stat_value(stat->second);
 		}
-	}
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation)
@@ -199,62 +220,16 @@ void EnemyCharacter::OnDeath()
 	wprintf(L"OnDeath\n");
 }
 
-void EnemyCharacter::OnAutoAttackShot()
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	wprintf(L"OnAutoAttackShot\n");
-
-	//TODO 추가적인 정보가 필요함
-	Protocol::S2C_AttackToPlayer attackPacket;
-	attackPacket.set_object_id(this->GetGameObjectID());
-	attackPacket.set_timestamp(world->GetWorldTime());
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, attackPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
-}
-
-void EnemyCharacter::OnAutoAttackTargeting()
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	wprintf(L"OnAutoAttackTargeting\n");
-
-	//TODO: Push Hit players
-
-	//Protocol::S2C_TargetingToPlayer targetingPacket;
-	//targetingPacket.set_object_id(this->GetGameObjectID());
-	//targetingPacket.set_timestamp(world->GetWorldTime());
-
-	//SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, targetingPacket);
-	//this->BrodcastPlayerViewers(appearItemSendBuffer);
-}
-
-void EnemyCharacter::OnAutoAttackOver()
-{
-	wprintf(L"OnAutoAttackOver\n");
-	this->mStateManager.SetState(EStateType::State_Chase);
-}
-
 void EnemyCharacter::OnMovementEnemy()
 {
 	Protocol::S2C_MovementEnemy movementPacket;
 	movementPacket.set_object_id(this->GetGameObjectID());
-	movementPacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
 	movementPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	movementPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	movementPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
 	
-	SendBufferPtr appearItemSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
-	this->BrodcastPlayerViewers(appearItemSendBuffer);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void EnemyCharacter::SetEnemeyID(const int32 inEnemyID)
