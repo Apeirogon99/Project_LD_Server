@@ -99,6 +99,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +117,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +135,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +153,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,8 +164,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
+    <ClCompile Include="EnemyNomalSkeleton.cpp" />
+    <ClCompile Include="EnemyWarriorSkeleton.cpp" />
     <ClCompile Include="EqipmentComponent.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
@@ -316,8 +323,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
+    <ClInclude Include="EnemyNomalSkeleton.h" />
+    <ClInclude Include="EnemyWarriorSkeleton.h" />
     <ClInclude Include="EqipmentComponent.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />

@@ -17,10 +17,11 @@ public:
 	virtual void	OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
-	void			AutoAttack(Protocol::C2S_AttackToEnemy pkt);
-	virtual void	OnAutoAttackShot(bool inIsRange, ActorPtr inVictim);	//override;
-	virtual void	OnAutoAttackTargeting()								{}//override;
-	virtual void	OnAutoAttackOver()										{}//override;
+	void			AutoAttack(Protocol::C2S_PlayerAutoAttack pkt);
+	virtual void	OnHit(ActorPtr inInstigated, const float inDamage) override;
+	virtual void	OnAutoAttackShot(ActorPtr inVictim) override;
+	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
+	virtual void	OnAutoAttackOver() override;
 
 public:
 	void MovementCharacter(Protocol::C2S_MovementCharacter pkt);

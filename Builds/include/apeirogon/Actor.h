@@ -16,11 +16,11 @@ public:
 	APEIROGON_API virtual void	OnAppearActor(ActorPtr inAppearActor) {};
 	APEIROGON_API virtual void	OnDisAppearActor(ActorPtr inDisAppearActor) {};
 
-	APEIROGON_API virtual void	OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation) {};
+	APEIROGON_API virtual void	OnHit(ActorPtr inInstigated, const float inDamage) {};
 	APEIROGON_API virtual void	OnDeath() {};
 
-	APEIROGON_API virtual void	OnAutoAttackShot() {};
-	APEIROGON_API virtual void	OnAutoAttackTargeting() {};
+	APEIROGON_API virtual void	OnAutoAttackShot(ActorPtr inVictim) {};
+	APEIROGON_API virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) {};
 	APEIROGON_API virtual void	OnAutoAttackOver() {};
 
 public:
@@ -41,6 +41,7 @@ public:
 	APEIROGON_API void			SetVelocity(const FVector& inVelocity);
 	APEIROGON_API void			SetVelocity(const float inX, const float inY, const float inZ);
 
+	APEIROGON_API void			SetActorType(const uint8& inActorType);
 
 	APEIROGON_API bool			FindPlayerViewer(RemoteClientPtr inRemoteClient);
 	APEIROGON_API bool			InsertPlayerViewer(RemoteClientPtr inRemoteClient);
@@ -57,11 +58,13 @@ public:
 	APEIROGON_API const Rotation&	GetRotation()	const	{ return mTransfrom.GetRotation(); }
 	APEIROGON_API const Scale&		GetScale()		const	{ return mTransfrom.GetScale(); }
 	APEIROGON_API const Velocity&	GetVelocity()	const	{ return mVelocity; }
+	APEIROGON_API const uint8&		GetActorType()	const	{ return mActorType; }
 
 protected:
 	WorldRef		mWorld;
 	Transform		mTransfrom;
 	FVector			mVelocity;
+	uint8			mActorType;
 	PlayerViewer	mPlayerViewers;
 };
 

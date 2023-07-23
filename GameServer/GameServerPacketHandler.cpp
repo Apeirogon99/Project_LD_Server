@@ -102,7 +102,7 @@ bool Handle_C2S_PlayAnimation(PacketSessionPtr& session, Protocol::C2S_PlayAnima
 	return false;
 }
 
-bool Handle_C2S_AttackToEnemy(PacketSessionPtr& session, Protocol::C2S_AttackToEnemy& pkt)
+bool Handle_C2S_PlayerAutoAttack(PacketSessionPtr& session, Protocol::C2S_PlayerAutoAttack& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
 	if (nullptr == playerState)

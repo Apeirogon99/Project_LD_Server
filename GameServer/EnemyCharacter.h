@@ -19,7 +19,7 @@ public:
 	virtual void OnSyncLocation(const int64 inDeltaTime);
 	virtual void OnSyncEnemy(const int64 inDeltaTime);
 
-	virtual void OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation) override;
+	virtual void OnHit(ActorPtr inInstigated, const float inDamage) override;
 	virtual void OnDeath() override;
 	
 public:
@@ -39,16 +39,16 @@ public:
 	const int32					GetEnemyID()				{ return mEnemyID; }
 	const int64					GetSpawnObjectID()			{ return mSpawnObjectID; }
 	StatsComponent&				GetEnemyStatsComponent()	{ return mStatsComponent; }
-	AttackComponent&			GetAttackComponent()		{ return mAttackComponent; }
+	AttackComponent&			GetAutoAttackComponent()	{ return mAutoAttackComponent; }
 	StateManager&				GetStateManager()			{ return mStateManager; }
 	const Location&				GetRecoveryLocation()		{ return mRecoveryLocation; }
-	ActorRef					GetAggroActor()			{ return mAggroActor; }
+	ActorRef					GetAggroActor()				{ return mAggroActor; }
 
 protected:
 	int32						mEnemyID;
 	int64						mSpawnObjectID;
 	StatsComponent				mStatsComponent;
-	AttackComponent				mAttackComponent;
+	AttackComponent				mAutoAttackComponent;
 
 	StateManager				mStateManager;
 

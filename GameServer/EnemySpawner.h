@@ -73,9 +73,8 @@ inline void EnemySpawner::SpawnEnemey()
 			return;
 		}
 
-		newEnemy->GetMovementComponent().InitMovement(newLocation, DEFAULT_TICK);
-
 		newEnemy->SetEnemeyID(this->mEnemyID);
+		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
 		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
 		newEnemy->SetEnemyStats(this->mEnemyStats);
 		newEnemy->SetRecoveryLocation(newLocation);
@@ -114,4 +113,5 @@ protected:
 
 private:
 	std::vector<EnemySpawnerPtr> mSpawners;
+	//KD-Tree
 };

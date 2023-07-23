@@ -16,6 +16,12 @@ void PlayerCharacter::OnInitialization()
 	SetTick(true, SYSTEM_TICK);
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+
+	AttackInfos infos;
+	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(710,		180,	1100, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0,		310,	1000, FVector(100.0f, 100.0f, 100.0f)));
+	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -35,12 +41,15 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 	this->SyncLocation(inDeltaTime);
 
+	//this->mAutoAttackComponent.Update(this->GetActorPtr());
+
 	//this->GetRotation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
 {
-	return mIsLoad;
+	bool isAlive = 0.0f < this->mStatComponent.GetCurrentStats().GetHealth();
+	return mIsLoad && isAlive;
 }
 
 void PlayerCharacter::SetLoadCharacter(bool inIsLoad)
@@ -212,7 +221,7 @@ void PlayerCharacter::OnMovement()
 	}
 }
 
-void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
+void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 {
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
@@ -220,8 +229,8 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 		return;
 	}
 
-	const int64 worldTime = world->GetWorldTime();
-	const int64 objectID = pkt.object_id();
+	const int64 worldTime		= world->GetWorldTime();
+	const int64 objectID		= pkt.object_id();
 	const int64 attackTimeStmap = pkt.timestamp();
 
 	ActorPtr victimActor = nullptr;
@@ -229,8 +238,10 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 	{
 		return;
 	}
+
 	const Stats& currentStat = mStatComponent.GetCurrentStats();
 	const float range = currentStat.GetRange();
+
 	if (false == this->mAutoAttackComponent.IsAutoAttackRange(this->GetActorPtr(), victimActor, range))
 	{
 		FVector curLocation = this->GetLocation();
@@ -240,64 +251,136 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_AttackToEnemy pkt)
 	}
 	else
 	{
-		const float damage = currentStat.GetAttackDamage();
-		const int64 targetingTime = 170;
-		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
-		victimActor->OnHit(this->GetActorPtr(), 1.0f, Location());
-	}
 
-	//if (false == mAttackComponent.DoAutoAttack(this->GetActorPtr(), outActor, damage, range, targetingTime, overTime))
-	//{
-	//	this->GameObjectLog(L"DoAutoAttack error");
-	//}
+		if (false == this->mAutoAttackComponent.IsComboAutoAttacking(this->GetActorPtr()))
+		{
+			return;
+		}
+
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+		const int64	remoteID = remotePlayer->GetGameObjectID();
+
+		const float damage = currentStat.GetAttackDamage();
+		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
+
+		this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
+		const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+
+		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
+		autoAttackPacket.set_remote_id(remoteID);
+		autoAttackPacket.set_combo(autoAttackCount);
+		autoAttackPacket.set_timestamp(worldTime);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+	}
 
 }
 
-void PlayerCharacter::OnAutoAttackShot(bool inIsRange, ActorPtr inVictim)
+void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
+}
+
+void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
+{
+	printf("Player OnAutoAttackShot\n");
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
 		return;
 	}
+	const int64 worldTime = world->GetWorldTime();
 
-	if (inIsRange)
+	EnemyCharacterPtr enemy = std::static_pointer_cast<EnemyCharacter>(inVictim);
+	if (nullptr == enemy)
 	{
-		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
-		const int64			remoteID = remotePlayer->GetGameObjectID();
-		const int64			worldTime = world->GetWorldTime();
-
-		Protocol::S2C_AttackToEnemy attackPacket;
-		attackPacket.set_enemy_id(inVictim->GetGameObjectID());
-		attackPacket.set_remote_id(remoteID);
-		attackPacket.set_timestamp(worldTime);
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, attackPacket);
-		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		return;
 	}
-	else
+
+	if (false == this->mAutoAttackComponent.IsComboShotAutoAttack(this->GetActorPtr()))
 	{
-		Location	currentLocation		= this->GetLocation();
-		Location	victimLocation = inVictim->GetLocation();
-		int64		movementLastTime	= world->GetWorldTime();
-
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, victimLocation, movementLastTime, 42.0f);
-
-		GameRemotePlayerPtr remotePlayer	= std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
-		const int64			remoteID		= remotePlayer->GetGameObjectID();
-		Protocol::SVector	curLocation		= PacketUtils::ToSVector(this->GetLocation());
-		Protocol::SVector	moveLocation	= PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation());
-		const int64			worldTime		= world->GetWorldTime();
-
-		Protocol::S2C_MovementCharacter movementPacket;
-		movementPacket.set_remote_id(remoteID);
-		movementPacket.mutable_cur_location()->CopyFrom(curLocation);
-		movementPacket.mutable_move_location()->CopyFrom(moveLocation);
-		movementPacket.set_timestamp(worldTime);
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
-		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		return;
 	}
+	
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	const int64	remoteID = remotePlayer->GetGameObjectID();
+
+	const Stats& currentStat	= mStatComponent.GetCurrentStats();
+	const float damage			= currentStat.GetAttackDamage();
+	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
+
+	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
+	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+
+	Protocol::S2C_PlayerAutoAttack autoAttackPacket;
+	autoAttackPacket.set_remote_id(remoteID);
+	autoAttackPacket.set_combo(autoAttackCount);
+	autoAttackPacket.set_timestamp(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
+
+}
+
+void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
+{
+	printf("Player OnAutoAttackTargeting\n");
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	FVector		location	= this->GetLocation();
+	FRotator	rotation	= this->GetRotation();
+	FVector		foward		= rotation.GetForwardVector();
+	const float radius		= this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+
+	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
+	BoxTrace	boxTrace(boxLocation, boxLocation, true, inRange, rotation);
+
+	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
+	std::vector<ActorPtr> findActors;
+	bool result = world->FindActors(boxLocation, radius, findActorType, findActors);
+	if (!result)
+	{
+		return;
+	}
+
+	for (ActorPtr actor : findActors)
+	{
+		EnemyCharacterPtr enemy = std::static_pointer_cast<EnemyCharacter>(actor);
+		if (nullptr == enemy)
+		{
+			continue;
+		}
+
+		bool isOverlap = boxTrace.BoxCollisionTrace(enemy->GetCapsuleCollisionComponent());
+		if (isOverlap)
+		{
+			enemy->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
+		}
+
+	}
+}
+
+void PlayerCharacter::OnAutoAttackOver()
+{
+	printf("Player OnAutoAttackOver\n");
+	this->mAutoAttackComponent.OnOverAutoComboAttack();
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

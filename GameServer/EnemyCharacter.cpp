@@ -11,7 +11,9 @@ EnemyCharacter::~EnemyCharacter()
 
 bool EnemyCharacter::IsValid()
 {
-	return GetEnemyID() != 0;
+	bool isLoad = GetEnemyID() != 0;
+	bool isAlive = 0.0f <= this->mStatsComponent.GetCurrentStats().GetHealth();
+	return isLoad && isAlive;
 }
 
 void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
@@ -153,7 +155,7 @@ void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
 	}
 }
 
-void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage, const Location inHitLocation)
+void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
 
 	if (IsDeath())

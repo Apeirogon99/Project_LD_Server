@@ -22,6 +22,10 @@ void EnemySlime::OnInitialization()
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(62.0f, 62.0f, 96.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK);
+
+	AttackInfos infos;
+	infos.push_back(AttackInfo(0, 460, 870, FVector(100.0f, 100.0f, 100.0f)));
+	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
 void EnemySlime::OnDestroy()
@@ -52,10 +56,12 @@ void EnemySlime::OnTick(const int64 inDeltaTime)
 
 bool EnemySlime::IsValid()
 {
-	return GetEnemyID() != 0;
+	bool isLoad = GetEnemyID() != 0;
+	bool isAlive = 0.0f <= this->mStatsComponent.GetCurrentStats().GetHealth();
+	return isLoad && isAlive;
 }
 
-void EnemySlime::OnAutoAttackShot()
+void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -66,15 +72,15 @@ void EnemySlime::OnAutoAttackShot()
 	wprintf(L"OnAutoAttackShot\n");
 
 	//TODO 추가적인 정보가 필요함
-	Protocol::S2C_AttackToPlayer attackPacket;
-	attackPacket.set_object_id(this->GetGameObjectID());
-	attackPacket.set_timestamp(world->GetWorldTime());
+	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
+	autoAttackPacket.set_object_id(this->GetGameObjectID());
+	autoAttackPacket.set_timestamp(world->GetWorldTime());
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, attackPacket);
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
 }
 
-void EnemySlime::OnAutoAttackTargeting()
+void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -87,16 +93,13 @@ void EnemySlime::OnAutoAttackTargeting()
 
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
-
-	const float boxExtent = 100.0f;
+	FVector		foward = rotation.GetForwardVector();
 	const float radius = this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
-	FVector foward = rotation.GetForwardVector();
 
-	FVector		boxLocation = location + (foward * (radius + boxExtent));
-	FVector		extent		= FVector(boxExtent, boxExtent, boxExtent);
+	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
 	FRotator	orientation = this->GetRotation();
 
-	BoxTrace boxTrace(boxLocation, boxLocation, true, extent, orientation);
+	BoxTrace boxTrace(boxLocation, boxLocation, true, inRange, orientation);
 
 	auto playerIter = mPlayerViewers.begin();
 	for (playerIter; playerIter != mPlayerViewers.end(); ++playerIter)
@@ -107,7 +110,7 @@ void EnemySlime::OnAutoAttackTargeting()
 		bool isOverlap = boxTrace.BoxCollisionTrace(character->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
-			character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), 10.0f, Location());
+			character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
 		}
 
 	}

@@ -190,6 +190,15 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>Content\Item</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyNomalSkeleton.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWarriorSkeleton.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyArcherSkeleton.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -299,6 +308,15 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Content\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyNomalSkeleton.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWarriorSkeleton.h">
+      <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcherSkeleton.h">
+      <Filter>Content\Enemy\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

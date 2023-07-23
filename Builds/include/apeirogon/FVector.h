@@ -21,6 +21,8 @@ public:
 
 	bool operator==(const FVector& inVector);
 
+	friend std::ostream& operator<<(std::ostream& inOstream, const FVector& inVector2);
+
 public:
 	bool		Comapre(const FVector& inVector1, const FVector& inVector2, const float inDiff);
 	FRotator	Rotator();

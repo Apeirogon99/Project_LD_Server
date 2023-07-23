@@ -1,5 +1,13 @@
 #pragma once
 
+enum class EActorType
+{
+	Unspecified,
+	Visible,
+	PickUp,
+	Enemy,
+};
+
 class GameWorld : public World
 {
 public:
@@ -18,9 +26,16 @@ public:
 	void Leave(PlayerStatePtr inPlayerState);
 
 	void VisibleAreaInit(PlayerStatePtr inPlayerState);
-	void VisibleAreaSync();
+	void VisibleAreaSync(const int64 inDeltaTime);
 	void CheackToken();
+
+protected:
+	void RefreshWorldObserver();
+
+public:
+	const EnemySpawnerManagerPtr& GetEnemySpawnerManager();
 
 private:
 	std::vector<class Token>			mTokens;
+	EnemySpawnerManagerPtr				mSpawnerManager;
 };

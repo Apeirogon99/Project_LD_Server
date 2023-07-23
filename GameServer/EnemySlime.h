@@ -12,9 +12,9 @@ public:
 	virtual bool	IsValid()							override;
 
 public:
-	virtual void	OnAutoAttackShot()					override;
-	virtual void	OnAutoAttackTargeting()				override;
-	virtual void	OnAutoAttackOver()					override;
+	virtual void	OnAutoAttackShot(ActorPtr inVictim) override;
+	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
+	virtual void	OnAutoAttackOver() override;
 
 };
 

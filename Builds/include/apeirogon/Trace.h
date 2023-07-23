@@ -25,7 +25,8 @@ public:
 	bool HitCollision(Collision& inCollision);
 
 public:
-	const ETraceType& GetTraceType() const;
+	virtual const Location	GetCenterLocation() abstract;
+	const ETraceType&		GetTraceType() const; 
 
 protected:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponent)	abstract;
@@ -53,6 +54,10 @@ public:
 	BoxTrace& operator=(BoxTrace&&) noexcept = delete;
 
 public:
+	virtual const Location	GetCenterLocation() override;
+	const float				GetBoxLength();
+
+public:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponent)	override;
 	virtual bool CapsuleCollisionTrace(const CapsuleCollision& inCapsuleCollision)	override;
 	virtual bool SphereCollisionTrace(const SphereCollision& inSphereCollision)		override;
@@ -73,6 +78,9 @@ public:
 
 	CapsuleTrace& operator=(const CapsuleTrace&) = delete;
 	CapsuleTrace& operator=(CapsuleTrace&&) noexcept = delete;
+
+public:
+	virtual const Location	GetCenterLocation() override { return Location(); }
 
 public:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponent)	override {return false;}
@@ -97,6 +105,9 @@ public:
 	SphereTrace& operator=(SphereTrace&&) noexcept = delete;
 
 public:
+	virtual const Location	GetCenterLocation() override { return Location(); }
+
+public:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponentn)	override {return false;}
 	virtual bool CapsuleCollisionTrace(const CapsuleCollision& inCapsuleCollision)	override {return false;}
 	virtual bool SphereCollisionTrace(const SphereCollision& inSphereCollision)		override {return false;}
@@ -117,6 +128,9 @@ public:
 
 	FrustumTrace& operator=(const FrustumTrace&) = delete;
 	FrustumTrace& operator=(FrustumTrace&&) noexcept = delete;
+
+public:
+	virtual const Location	GetCenterLocation() override { return Location(); }
 
 public:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponent)	override {return false;}

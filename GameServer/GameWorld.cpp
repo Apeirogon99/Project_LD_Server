@@ -13,7 +13,7 @@ GameWorld::~GameWorld()
 
 void GameWorld::OnInitialization()
 {
-	this->SetTick(true, DEFAULT_TICK);
+	this->SetTick(true, SYSTEM_TICK);
 
 	Location	loc(0.0f, 0.0f, 500.0f);
 	Rotation	rot(0.0f, 0.0f, 0.0f);
@@ -22,7 +22,7 @@ void GameWorld::OnInitialization()
 	AItemPtr item = std::static_pointer_cast<AItem>(this->SpawnActor<AItem>(this->GetGameObjectRef(), loc, rot, sca));
 	item->SetItemCode(31);
 	
-	ActorPtr enemySpawnerManager = SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale());
+	mSpawnerManager = std::static_pointer_cast<EnemySpawnerManager>(SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 }
 
 void GameWorld::OnDestroy()
@@ -43,8 +43,13 @@ bool GameWorld::IsValid()
 
 void GameWorld::OnTick(const int64 inDeltaTime)
 {
-	VisibleAreaSync();
+	const int64 nextWorldTime = this->GetNextWorldTime();
+
+	VisibleAreaSync(inDeltaTime);
+
 	//CheackToken();
+
+	this->PushTask(nextWorldTime, &GameWorld::RefreshWorldObserver);
 }
 
 void GameWorld::ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServer inPacket)
@@ -228,8 +233,16 @@ void GameWorld::VisibleAreaInit(PlayerStatePtr inPlayerState)
 	mWorldPlayers.insert(newPlayer);
 }
 
-void GameWorld::VisibleAreaSync()
+void GameWorld::VisibleAreaSync(const int64 inDeltaTime)
 {
+	static int64 visibleSyncTime = 0;
+	visibleSyncTime += inDeltaTime;
+	if (visibleSyncTime < 100)
+	{
+		return;
+	}
+	visibleSyncTime = 0;
+
 	auto player = mWorldPlayers.begin();
 	for (player; player != mWorldPlayers.end(); player++)
 	{
@@ -265,4 +278,29 @@ void GameWorld::CheackToken()
 		}
 		++token;
 	}
+}
+
+void GameWorld::RefreshWorldObserver()
+{
+	mWorldObserver.DeleteTree();
+
+	for (auto& worldActor : mWorldActors)
+	{
+		ActorPtr actor = worldActor.second;
+		if (!actor && !actor->IsValid())
+		{
+			continue;
+		}
+
+		const Location& actorLocation	= actor->GetLocation();
+		const int64		gameObjectID	= actor->GetGameObjectID();
+		const uint8		actorType		= actor->GetActorType();
+
+		mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
+	}
+}
+
+const EnemySpawnerManagerPtr& GameWorld::GetEnemySpawnerManager()
+{
+	return mSpawnerManager;
 }

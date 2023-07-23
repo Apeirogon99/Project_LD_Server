@@ -52,9 +52,6 @@ struct TableStruct_GamePacket_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_GamePacket_2eproto;
 namespace Protocol {
-class C2S_AttackToEnemy;
-struct C2S_AttackToEnemyDefaultTypeInternal;
-extern C2S_AttackToEnemyDefaultTypeInternal _C2S_AttackToEnemy_default_instance_;
 class C2S_DeleteInventory;
 struct C2S_DeleteInventoryDefaultTypeInternal;
 extern C2S_DeleteInventoryDefaultTypeInternal _C2S_DeleteInventory_default_instance_;
@@ -76,6 +73,9 @@ extern C2S_MovementCharacterDefaultTypeInternal _C2S_MovementCharacter_default_i
 class C2S_PlayAnimation;
 struct C2S_PlayAnimationDefaultTypeInternal;
 extern C2S_PlayAnimationDefaultTypeInternal _C2S_PlayAnimation_default_instance_;
+class C2S_PlayerAutoAttack;
+struct C2S_PlayerAutoAttackDefaultTypeInternal;
+extern C2S_PlayerAutoAttackDefaultTypeInternal _C2S_PlayerAutoAttack_default_instance_;
 class C2S_ReplaceEqipment;
 struct C2S_ReplaceEqipmentDefaultTypeInternal;
 extern C2S_ReplaceEqipmentDefaultTypeInternal _C2S_ReplaceEqipment_default_instance_;
@@ -94,24 +94,24 @@ extern S2C_AppearEnemyDefaultTypeInternal _S2C_AppearEnemy_default_instance_;
 class S2C_AppearItem;
 struct S2C_AppearItemDefaultTypeInternal;
 extern S2C_AppearItemDefaultTypeInternal _S2C_AppearItem_default_instance_;
-class S2C_AttackToEnemy;
-struct S2C_AttackToEnemyDefaultTypeInternal;
-extern S2C_AttackToEnemyDefaultTypeInternal _S2C_AttackToEnemy_default_instance_;
-class S2C_AttackToPlayer;
-struct S2C_AttackToPlayerDefaultTypeInternal;
-extern S2C_AttackToPlayerDefaultTypeInternal _S2C_AttackToPlayer_default_instance_;
 class S2C_DeathEnemy;
 struct S2C_DeathEnemyDefaultTypeInternal;
 extern S2C_DeathEnemyDefaultTypeInternal _S2C_DeathEnemy_default_instance_;
 class S2C_DeleteInventory;
 struct S2C_DeleteInventoryDefaultTypeInternal;
 extern S2C_DeleteInventoryDefaultTypeInternal _S2C_DeleteInventory_default_instance_;
+class S2C_DetectChangeEnemy;
+struct S2C_DetectChangeEnemyDefaultTypeInternal;
+extern S2C_DetectChangeEnemyDefaultTypeInternal _S2C_DetectChangeEnemy_default_instance_;
 class S2C_DisAppearCharacter;
 struct S2C_DisAppearCharacterDefaultTypeInternal;
 extern S2C_DisAppearCharacterDefaultTypeInternal _S2C_DisAppearCharacter_default_instance_;
 class S2C_DisAppearGameObject;
 struct S2C_DisAppearGameObjectDefaultTypeInternal;
 extern S2C_DisAppearGameObjectDefaultTypeInternal _S2C_DisAppearGameObject_default_instance_;
+class S2C_EnemyAutoAttack;
+struct S2C_EnemyAutoAttackDefaultTypeInternal;
+extern S2C_EnemyAutoAttackDefaultTypeInternal _S2C_EnemyAutoAttack_default_instance_;
 class S2C_EnterGameServer;
 struct S2C_EnterGameServerDefaultTypeInternal;
 extern S2C_EnterGameServerDefaultTypeInternal _S2C_EnterGameServer_default_instance_;
@@ -136,15 +136,15 @@ extern S2C_MovementEnemyDefaultTypeInternal _S2C_MovementEnemy_default_instance_
 class S2C_PlayAnimation;
 struct S2C_PlayAnimationDefaultTypeInternal;
 extern S2C_PlayAnimationDefaultTypeInternal _S2C_PlayAnimation_default_instance_;
+class S2C_PlayerAutoAttack;
+struct S2C_PlayerAutoAttackDefaultTypeInternal;
+extern S2C_PlayerAutoAttackDefaultTypeInternal _S2C_PlayerAutoAttack_default_instance_;
 class S2C_ReplaceEqipment;
 struct S2C_ReplaceEqipmentDefaultTypeInternal;
 extern S2C_ReplaceEqipmentDefaultTypeInternal _S2C_ReplaceEqipment_default_instance_;
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
-class S2C_TargetingToPlayer;
-struct S2C_TargetingToPlayerDefaultTypeInternal;
-extern S2C_TargetingToPlayerDefaultTypeInternal _S2C_TargetingToPlayer_default_instance_;
 class S2C_Tick;
 struct S2C_TickDefaultTypeInternal;
 extern S2C_TickDefaultTypeInternal _S2C_Tick_default_instance_;
@@ -156,7 +156,6 @@ struct S2C_UpdateInventoryDefaultTypeInternal;
 extern S2C_UpdateInventoryDefaultTypeInternal _S2C_UpdateInventory_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
-template<> ::Protocol::C2S_AttackToEnemy* Arena::CreateMaybeMessage<::Protocol::C2S_AttackToEnemy>(Arena*);
 template<> ::Protocol::C2S_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::C2S_DeleteInventory>(Arena*);
 template<> ::Protocol::C2S_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::C2S_EnterGameServer>(Arena*);
 template<> ::Protocol::C2S_InsertInventory* Arena::CreateMaybeMessage<::Protocol::C2S_InsertInventory>(Arena*);
@@ -164,18 +163,19 @@ template<> ::Protocol::C2S_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::C2S_LoadInventory* Arena::CreateMaybeMessage<::Protocol::C2S_LoadInventory>(Arena*);
 template<> ::Protocol::C2S_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::C2S_MovementCharacter>(Arena*);
 template<> ::Protocol::C2S_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::C2S_PlayAnimation>(Arena*);
+template<> ::Protocol::C2S_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::C2S_PlayerAutoAttack>(Arena*);
 template<> ::Protocol::C2S_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_ReplaceEqipment>(Arena*);
 template<> ::Protocol::C2S_Tick* Arena::CreateMaybeMessage<::Protocol::C2S_Tick>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
 template<> ::Protocol::S2C_AppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_AppearCharacter>(Arena*);
 template<> ::Protocol::S2C_AppearEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_AppearEnemy>(Arena*);
 template<> ::Protocol::S2C_AppearItem* Arena::CreateMaybeMessage<::Protocol::S2C_AppearItem>(Arena*);
-template<> ::Protocol::S2C_AttackToEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_AttackToEnemy>(Arena*);
-template<> ::Protocol::S2C_AttackToPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_AttackToPlayer>(Arena*);
 template<> ::Protocol::S2C_DeathEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DeathEnemy>(Arena*);
 template<> ::Protocol::S2C_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::S2C_DeleteInventory>(Arena*);
+template<> ::Protocol::S2C_DetectChangeEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DetectChangeEnemy>(Arena*);
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
+template<> ::Protocol::S2C_EnemyAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_EnemyAutoAttack>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
 template<> ::Protocol::S2C_HitEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_HitEnemy>(Arena*);
 template<> ::Protocol::S2C_InsertInventory* Arena::CreateMaybeMessage<::Protocol::S2C_InsertInventory>(Arena*);
@@ -184,9 +184,9 @@ template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::
 template<> ::Protocol::S2C_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_MovementCharacter>(Arena*);
 template<> ::Protocol::S2C_MovementEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_MovementEnemy>(Arena*);
 template<> ::Protocol::S2C_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::S2C_PlayAnimation>(Arena*);
+template<> ::Protocol::S2C_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_PlayerAutoAttack>(Arena*);
 template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_ReplaceEqipment>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
-template<> ::Protocol::S2C_TargetingToPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_TargetingToPlayer>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_TickEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_TickEnemy>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
@@ -2251,24 +2251,24 @@ class S2C_PlayAnimation final :
 };
 // -------------------------------------------------------------------
 
-class C2S_AttackToEnemy final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_AttackToEnemy) */ {
+class C2S_PlayerAutoAttack final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_PlayerAutoAttack) */ {
  public:
-  inline C2S_AttackToEnemy() : C2S_AttackToEnemy(nullptr) {}
-  ~C2S_AttackToEnemy() override;
-  explicit PROTOBUF_CONSTEXPR C2S_AttackToEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline C2S_PlayerAutoAttack() : C2S_PlayerAutoAttack(nullptr) {}
+  ~C2S_PlayerAutoAttack() override;
+  explicit PROTOBUF_CONSTEXPR C2S_PlayerAutoAttack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  C2S_AttackToEnemy(const C2S_AttackToEnemy& from);
-  C2S_AttackToEnemy(C2S_AttackToEnemy&& from) noexcept
-    : C2S_AttackToEnemy() {
+  C2S_PlayerAutoAttack(const C2S_PlayerAutoAttack& from);
+  C2S_PlayerAutoAttack(C2S_PlayerAutoAttack&& from) noexcept
+    : C2S_PlayerAutoAttack() {
     *this = ::std::move(from);
   }
 
-  inline C2S_AttackToEnemy& operator=(const C2S_AttackToEnemy& from) {
+  inline C2S_PlayerAutoAttack& operator=(const C2S_PlayerAutoAttack& from) {
     CopyFrom(from);
     return *this;
   }
-  inline C2S_AttackToEnemy& operator=(C2S_AttackToEnemy&& from) noexcept {
+  inline C2S_PlayerAutoAttack& operator=(C2S_PlayerAutoAttack&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -2291,20 +2291,20 @@ class C2S_AttackToEnemy final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const C2S_AttackToEnemy& default_instance() {
+  static const C2S_PlayerAutoAttack& default_instance() {
     return *internal_default_instance();
   }
-  static inline const C2S_AttackToEnemy* internal_default_instance() {
-    return reinterpret_cast<const C2S_AttackToEnemy*>(
-               &_C2S_AttackToEnemy_default_instance_);
+  static inline const C2S_PlayerAutoAttack* internal_default_instance() {
+    return reinterpret_cast<const C2S_PlayerAutoAttack*>(
+               &_C2S_PlayerAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     12;
 
-  friend void swap(C2S_AttackToEnemy& a, C2S_AttackToEnemy& b) {
+  friend void swap(C2S_PlayerAutoAttack& a, C2S_PlayerAutoAttack& b) {
     a.Swap(&b);
   }
-  inline void Swap(C2S_AttackToEnemy* other) {
+  inline void Swap(C2S_PlayerAutoAttack* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -2317,7 +2317,7 @@ class C2S_AttackToEnemy final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(C2S_AttackToEnemy* other) {
+  void UnsafeArenaSwap(C2S_PlayerAutoAttack* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -2325,14 +2325,14 @@ class C2S_AttackToEnemy final :
 
   // implements Message ----------------------------------------------
 
-  C2S_AttackToEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<C2S_AttackToEnemy>(arena);
+  C2S_PlayerAutoAttack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_PlayerAutoAttack>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const C2S_AttackToEnemy& from);
+  void CopyFrom(const C2S_PlayerAutoAttack& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const C2S_AttackToEnemy& from) {
-    C2S_AttackToEnemy::MergeImpl(*this, from);
+  void MergeFrom( const C2S_PlayerAutoAttack& from) {
+    C2S_PlayerAutoAttack::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -2350,15 +2350,15 @@ class C2S_AttackToEnemy final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(C2S_AttackToEnemy* other);
+  void InternalSwap(C2S_PlayerAutoAttack* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.C2S_AttackToEnemy";
+    return "Protocol.C2S_PlayerAutoAttack";
   }
   protected:
-  explicit C2S_AttackToEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit C2S_PlayerAutoAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -2393,7 +2393,7 @@ class C2S_AttackToEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.C2S_AttackToEnemy)
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_PlayerAutoAttack)
  private:
   class _Internal;
 
@@ -2410,24 +2410,24 @@ class C2S_AttackToEnemy final :
 };
 // -------------------------------------------------------------------
 
-class S2C_AttackToEnemy final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_AttackToEnemy) */ {
+class S2C_PlayerAutoAttack final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_PlayerAutoAttack) */ {
  public:
-  inline S2C_AttackToEnemy() : S2C_AttackToEnemy(nullptr) {}
-  ~S2C_AttackToEnemy() override;
-  explicit PROTOBUF_CONSTEXPR S2C_AttackToEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline S2C_PlayerAutoAttack() : S2C_PlayerAutoAttack(nullptr) {}
+  ~S2C_PlayerAutoAttack() override;
+  explicit PROTOBUF_CONSTEXPR S2C_PlayerAutoAttack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  S2C_AttackToEnemy(const S2C_AttackToEnemy& from);
-  S2C_AttackToEnemy(S2C_AttackToEnemy&& from) noexcept
-    : S2C_AttackToEnemy() {
+  S2C_PlayerAutoAttack(const S2C_PlayerAutoAttack& from);
+  S2C_PlayerAutoAttack(S2C_PlayerAutoAttack&& from) noexcept
+    : S2C_PlayerAutoAttack() {
     *this = ::std::move(from);
   }
 
-  inline S2C_AttackToEnemy& operator=(const S2C_AttackToEnemy& from) {
+  inline S2C_PlayerAutoAttack& operator=(const S2C_PlayerAutoAttack& from) {
     CopyFrom(from);
     return *this;
   }
-  inline S2C_AttackToEnemy& operator=(S2C_AttackToEnemy&& from) noexcept {
+  inline S2C_PlayerAutoAttack& operator=(S2C_PlayerAutoAttack&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -2450,20 +2450,20 @@ class S2C_AttackToEnemy final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const S2C_AttackToEnemy& default_instance() {
+  static const S2C_PlayerAutoAttack& default_instance() {
     return *internal_default_instance();
   }
-  static inline const S2C_AttackToEnemy* internal_default_instance() {
-    return reinterpret_cast<const S2C_AttackToEnemy*>(
-               &_S2C_AttackToEnemy_default_instance_);
+  static inline const S2C_PlayerAutoAttack* internal_default_instance() {
+    return reinterpret_cast<const S2C_PlayerAutoAttack*>(
+               &_S2C_PlayerAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     13;
 
-  friend void swap(S2C_AttackToEnemy& a, S2C_AttackToEnemy& b) {
+  friend void swap(S2C_PlayerAutoAttack& a, S2C_PlayerAutoAttack& b) {
     a.Swap(&b);
   }
-  inline void Swap(S2C_AttackToEnemy* other) {
+  inline void Swap(S2C_PlayerAutoAttack* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -2476,7 +2476,7 @@ class S2C_AttackToEnemy final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(S2C_AttackToEnemy* other) {
+  void UnsafeArenaSwap(S2C_PlayerAutoAttack* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -2484,14 +2484,14 @@ class S2C_AttackToEnemy final :
 
   // implements Message ----------------------------------------------
 
-  S2C_AttackToEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<S2C_AttackToEnemy>(arena);
+  S2C_PlayerAutoAttack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_PlayerAutoAttack>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const S2C_AttackToEnemy& from);
+  void CopyFrom(const S2C_PlayerAutoAttack& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const S2C_AttackToEnemy& from) {
-    S2C_AttackToEnemy::MergeImpl(*this, from);
+  void MergeFrom( const S2C_PlayerAutoAttack& from) {
+    S2C_PlayerAutoAttack::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -2509,15 +2509,15 @@ class S2C_AttackToEnemy final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(S2C_AttackToEnemy* other);
+  void InternalSwap(S2C_PlayerAutoAttack* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S2C_AttackToEnemy";
+    return "Protocol.S2C_PlayerAutoAttack";
   }
   protected:
-  explicit S2C_AttackToEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit S2C_PlayerAutoAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -2532,8 +2532,8 @@ class S2C_AttackToEnemy final :
 
   enum : int {
     kRemoteIdFieldNumber = 1,
-    kTimestampFieldNumber = 2,
-    kEnemyIdFieldNumber = 3,
+    kTimestampFieldNumber = 3,
+    kComboFieldNumber = 2,
   };
   // int64 remote_id = 1;
   void clear_remote_id();
@@ -2544,7 +2544,7 @@ class S2C_AttackToEnemy final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int64 timestamp = 2;
+  // int64 timestamp = 3;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -2553,16 +2553,16 @@ class S2C_AttackToEnemy final :
   void _internal_set_timestamp(int64_t value);
   public:
 
-  // int64 enemy_id = 3;
-  void clear_enemy_id();
-  int64_t enemy_id() const;
-  void set_enemy_id(int64_t value);
+  // int32 combo = 2;
+  void clear_combo();
+  int32_t combo() const;
+  void set_combo(int32_t value);
   private:
-  int64_t _internal_enemy_id() const;
-  void _internal_set_enemy_id(int64_t value);
+  int32_t _internal_combo() const;
+  void _internal_set_combo(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.S2C_AttackToEnemy)
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_PlayerAutoAttack)
  private:
   class _Internal;
 
@@ -2572,7 +2572,7 @@ class S2C_AttackToEnemy final :
   struct Impl_ {
     int64_t remote_id_;
     int64_t timestamp_;
-    int64_t enemy_id_;
+    int32_t combo_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3157,6 +3157,185 @@ class S2C_TickEnemy final :
 };
 // -------------------------------------------------------------------
 
+class S2C_DetectChangeEnemy final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DetectChangeEnemy) */ {
+ public:
+  inline S2C_DetectChangeEnemy() : S2C_DetectChangeEnemy(nullptr) {}
+  ~S2C_DetectChangeEnemy() override;
+  explicit PROTOBUF_CONSTEXPR S2C_DetectChangeEnemy(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_DetectChangeEnemy(const S2C_DetectChangeEnemy& from);
+  S2C_DetectChangeEnemy(S2C_DetectChangeEnemy&& from) noexcept
+    : S2C_DetectChangeEnemy() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_DetectChangeEnemy& operator=(const S2C_DetectChangeEnemy& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_DetectChangeEnemy& operator=(S2C_DetectChangeEnemy&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_DetectChangeEnemy& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_DetectChangeEnemy* internal_default_instance() {
+    return reinterpret_cast<const S2C_DetectChangeEnemy*>(
+               &_S2C_DetectChangeEnemy_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    17;
+
+  friend void swap(S2C_DetectChangeEnemy& a, S2C_DetectChangeEnemy& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_DetectChangeEnemy* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_DetectChangeEnemy* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_DetectChangeEnemy* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_DetectChangeEnemy>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_DetectChangeEnemy& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_DetectChangeEnemy& from) {
+    S2C_DetectChangeEnemy::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_DetectChangeEnemy* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_DetectChangeEnemy";
+  }
+  protected:
+  explicit S2C_DetectChangeEnemy(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatsFieldNumber = 2,
+    kObjectIdFieldNumber = 1,
+    kStateFieldNumber = 3,
+  };
+  // repeated .Protocol.SStat stats = 2;
+  int stats_size() const;
+  private:
+  int _internal_stats_size() const;
+  public:
+  void clear_stats();
+  ::Protocol::SStat* mutable_stats(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+      mutable_stats();
+  private:
+  const ::Protocol::SStat& _internal_stats(int index) const;
+  ::Protocol::SStat* _internal_add_stats();
+  public:
+  const ::Protocol::SStat& stats(int index) const;
+  ::Protocol::SStat* add_stats();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+      stats() const;
+
+  // int64 object_id = 1;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // .Protocol.EEnemyState state = 3;
+  void clear_state();
+  ::Protocol::EEnemyState state() const;
+  void set_state(::Protocol::EEnemyState value);
+  private:
+  ::Protocol::EEnemyState _internal_state() const;
+  void _internal_set_state(::Protocol::EEnemyState value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_DetectChangeEnemy)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat > stats_;
+    int64_t object_id_;
+    int state_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_MovementEnemy final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_MovementEnemy) */ {
  public:
@@ -3205,7 +3384,7 @@ class S2C_MovementEnemy final :
                &_S2C_MovementEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    18;
 
   friend void swap(S2C_MovementEnemy& a, S2C_MovementEnemy& b) {
     a.Swap(&b);
@@ -3278,13 +3457,12 @@ class S2C_MovementEnemy final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kCurLocationFieldNumber = 3,
-    kMoveLocationFieldNumber = 4,
+    kCurLocationFieldNumber = 2,
+    kMoveLocationFieldNumber = 3,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 5,
-    kStateFieldNumber = 2,
+    kTimestampFieldNumber = 4,
   };
-  // .Protocol.SVector cur_location = 3;
+  // .Protocol.SVector cur_location = 2;
   bool has_cur_location() const;
   private:
   bool _internal_has_cur_location() const;
@@ -3302,7 +3480,7 @@ class S2C_MovementEnemy final :
       ::Protocol::SVector* cur_location);
   ::Protocol::SVector* unsafe_arena_release_cur_location();
 
-  // .Protocol.SVector move_location = 4;
+  // .Protocol.SVector move_location = 3;
   bool has_move_location() const;
   private:
   bool _internal_has_move_location() const;
@@ -3329,22 +3507,13 @@ class S2C_MovementEnemy final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 5;
+  // int64 timestamp = 4;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
   private:
   int64_t _internal_timestamp() const;
   void _internal_set_timestamp(int64_t value);
-  public:
-
-  // .Protocol.EEnemyState state = 2;
-  void clear_state();
-  ::Protocol::EEnemyState state() const;
-  void set_state(::Protocol::EEnemyState value);
-  private:
-  ::Protocol::EEnemyState _internal_state() const;
-  void _internal_set_state(::Protocol::EEnemyState value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_MovementEnemy)
@@ -3359,7 +3528,6 @@ class S2C_MovementEnemy final :
     ::Protocol::SVector* move_location_;
     int64_t object_id_;
     int64_t timestamp_;
-    int state_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3367,24 +3535,24 @@ class S2C_MovementEnemy final :
 };
 // -------------------------------------------------------------------
 
-class S2C_AttackToPlayer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_AttackToPlayer) */ {
+class S2C_EnemyAutoAttack final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_EnemyAutoAttack) */ {
  public:
-  inline S2C_AttackToPlayer() : S2C_AttackToPlayer(nullptr) {}
-  ~S2C_AttackToPlayer() override;
-  explicit PROTOBUF_CONSTEXPR S2C_AttackToPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline S2C_EnemyAutoAttack() : S2C_EnemyAutoAttack(nullptr) {}
+  ~S2C_EnemyAutoAttack() override;
+  explicit PROTOBUF_CONSTEXPR S2C_EnemyAutoAttack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  S2C_AttackToPlayer(const S2C_AttackToPlayer& from);
-  S2C_AttackToPlayer(S2C_AttackToPlayer&& from) noexcept
-    : S2C_AttackToPlayer() {
+  S2C_EnemyAutoAttack(const S2C_EnemyAutoAttack& from);
+  S2C_EnemyAutoAttack(S2C_EnemyAutoAttack&& from) noexcept
+    : S2C_EnemyAutoAttack() {
     *this = ::std::move(from);
   }
 
-  inline S2C_AttackToPlayer& operator=(const S2C_AttackToPlayer& from) {
+  inline S2C_EnemyAutoAttack& operator=(const S2C_EnemyAutoAttack& from) {
     CopyFrom(from);
     return *this;
   }
-  inline S2C_AttackToPlayer& operator=(S2C_AttackToPlayer&& from) noexcept {
+  inline S2C_EnemyAutoAttack& operator=(S2C_EnemyAutoAttack&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -3407,20 +3575,20 @@ class S2C_AttackToPlayer final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const S2C_AttackToPlayer& default_instance() {
+  static const S2C_EnemyAutoAttack& default_instance() {
     return *internal_default_instance();
   }
-  static inline const S2C_AttackToPlayer* internal_default_instance() {
-    return reinterpret_cast<const S2C_AttackToPlayer*>(
-               &_S2C_AttackToPlayer_default_instance_);
+  static inline const S2C_EnemyAutoAttack* internal_default_instance() {
+    return reinterpret_cast<const S2C_EnemyAutoAttack*>(
+               &_S2C_EnemyAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    19;
 
-  friend void swap(S2C_AttackToPlayer& a, S2C_AttackToPlayer& b) {
+  friend void swap(S2C_EnemyAutoAttack& a, S2C_EnemyAutoAttack& b) {
     a.Swap(&b);
   }
-  inline void Swap(S2C_AttackToPlayer* other) {
+  inline void Swap(S2C_EnemyAutoAttack* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -3433,7 +3601,7 @@ class S2C_AttackToPlayer final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(S2C_AttackToPlayer* other) {
+  void UnsafeArenaSwap(S2C_EnemyAutoAttack* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -3441,14 +3609,14 @@ class S2C_AttackToPlayer final :
 
   // implements Message ----------------------------------------------
 
-  S2C_AttackToPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<S2C_AttackToPlayer>(arena);
+  S2C_EnemyAutoAttack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_EnemyAutoAttack>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const S2C_AttackToPlayer& from);
+  void CopyFrom(const S2C_EnemyAutoAttack& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const S2C_AttackToPlayer& from) {
-    S2C_AttackToPlayer::MergeImpl(*this, from);
+  void MergeFrom( const S2C_EnemyAutoAttack& from) {
+    S2C_EnemyAutoAttack::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -3466,15 +3634,15 @@ class S2C_AttackToPlayer final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(S2C_AttackToPlayer* other);
+  void InternalSwap(S2C_EnemyAutoAttack* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S2C_AttackToPlayer";
+    return "Protocol.S2C_EnemyAutoAttack";
   }
   protected:
-  explicit S2C_AttackToPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit S2C_EnemyAutoAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -3509,7 +3677,7 @@ class S2C_AttackToPlayer final :
   void _internal_set_timestamp(int64_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.S2C_AttackToPlayer)
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_EnemyAutoAttack)
  private:
   class _Internal;
 
@@ -3518,179 +3686,6 @@ class S2C_AttackToPlayer final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int64_t object_id_;
-    int64_t timestamp_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_GamePacket_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S2C_TargetingToPlayer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_TargetingToPlayer) */ {
- public:
-  inline S2C_TargetingToPlayer() : S2C_TargetingToPlayer(nullptr) {}
-  ~S2C_TargetingToPlayer() override;
-  explicit PROTOBUF_CONSTEXPR S2C_TargetingToPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S2C_TargetingToPlayer(const S2C_TargetingToPlayer& from);
-  S2C_TargetingToPlayer(S2C_TargetingToPlayer&& from) noexcept
-    : S2C_TargetingToPlayer() {
-    *this = ::std::move(from);
-  }
-
-  inline S2C_TargetingToPlayer& operator=(const S2C_TargetingToPlayer& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S2C_TargetingToPlayer& operator=(S2C_TargetingToPlayer&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S2C_TargetingToPlayer& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S2C_TargetingToPlayer* internal_default_instance() {
-    return reinterpret_cast<const S2C_TargetingToPlayer*>(
-               &_S2C_TargetingToPlayer_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    19;
-
-  friend void swap(S2C_TargetingToPlayer& a, S2C_TargetingToPlayer& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S2C_TargetingToPlayer* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S2C_TargetingToPlayer* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  S2C_TargetingToPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<S2C_TargetingToPlayer>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const S2C_TargetingToPlayer& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const S2C_TargetingToPlayer& from) {
-    S2C_TargetingToPlayer::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S2C_TargetingToPlayer* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S2C_TargetingToPlayer";
-  }
-  protected:
-  explicit S2C_TargetingToPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 2,
-  };
-  // repeated int64 object_id = 1;
-  int object_id_size() const;
-  private:
-  int _internal_object_id_size() const;
-  public:
-  void clear_object_id();
-  private:
-  int64_t _internal_object_id(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-      _internal_object_id() const;
-  void _internal_add_object_id(int64_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-      _internal_mutable_object_id();
-  public:
-  int64_t object_id(int index) const;
-  void set_object_id(int index, int64_t value);
-  void add_object_id(int64_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-      object_id() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-      mutable_object_id();
-
-  // int64 timestamp = 2;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:Protocol.S2C_TargetingToPlayer)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > object_id_;
-    mutable std::atomic<int> _object_id_cached_byte_size_;
     int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -7567,110 +7562,110 @@ inline void S2C_PlayAnimation::set_type(int32_t value) {
 
 // -------------------------------------------------------------------
 
-// C2S_AttackToEnemy
+// C2S_PlayerAutoAttack
 
 // int64 timestamp = 1;
-inline void C2S_AttackToEnemy::clear_timestamp() {
+inline void C2S_PlayerAutoAttack::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
-inline int64_t C2S_AttackToEnemy::_internal_timestamp() const {
+inline int64_t C2S_PlayerAutoAttack::_internal_timestamp() const {
   return _impl_.timestamp_;
 }
-inline int64_t C2S_AttackToEnemy::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_AttackToEnemy.timestamp)
+inline int64_t C2S_PlayerAutoAttack::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_PlayerAutoAttack.timestamp)
   return _internal_timestamp();
 }
-inline void C2S_AttackToEnemy::_internal_set_timestamp(int64_t value) {
+inline void C2S_PlayerAutoAttack::_internal_set_timestamp(int64_t value) {
   
   _impl_.timestamp_ = value;
 }
-inline void C2S_AttackToEnemy::set_timestamp(int64_t value) {
+inline void C2S_PlayerAutoAttack::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_AttackToEnemy.timestamp)
+  // @@protoc_insertion_point(field_set:Protocol.C2S_PlayerAutoAttack.timestamp)
 }
 
 // int64 object_id = 2;
-inline void C2S_AttackToEnemy::clear_object_id() {
+inline void C2S_PlayerAutoAttack::clear_object_id() {
   _impl_.object_id_ = int64_t{0};
 }
-inline int64_t C2S_AttackToEnemy::_internal_object_id() const {
+inline int64_t C2S_PlayerAutoAttack::_internal_object_id() const {
   return _impl_.object_id_;
 }
-inline int64_t C2S_AttackToEnemy::object_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.C2S_AttackToEnemy.object_id)
+inline int64_t C2S_PlayerAutoAttack::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_PlayerAutoAttack.object_id)
   return _internal_object_id();
 }
-inline void C2S_AttackToEnemy::_internal_set_object_id(int64_t value) {
+inline void C2S_PlayerAutoAttack::_internal_set_object_id(int64_t value) {
   
   _impl_.object_id_ = value;
 }
-inline void C2S_AttackToEnemy::set_object_id(int64_t value) {
+inline void C2S_PlayerAutoAttack::set_object_id(int64_t value) {
   _internal_set_object_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.C2S_AttackToEnemy.object_id)
+  // @@protoc_insertion_point(field_set:Protocol.C2S_PlayerAutoAttack.object_id)
 }
 
 // -------------------------------------------------------------------
 
-// S2C_AttackToEnemy
+// S2C_PlayerAutoAttack
 
 // int64 remote_id = 1;
-inline void S2C_AttackToEnemy::clear_remote_id() {
+inline void S2C_PlayerAutoAttack::clear_remote_id() {
   _impl_.remote_id_ = int64_t{0};
 }
-inline int64_t S2C_AttackToEnemy::_internal_remote_id() const {
+inline int64_t S2C_PlayerAutoAttack::_internal_remote_id() const {
   return _impl_.remote_id_;
 }
-inline int64_t S2C_AttackToEnemy::remote_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AttackToEnemy.remote_id)
+inline int64_t S2C_PlayerAutoAttack::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlayerAutoAttack.remote_id)
   return _internal_remote_id();
 }
-inline void S2C_AttackToEnemy::_internal_set_remote_id(int64_t value) {
+inline void S2C_PlayerAutoAttack::_internal_set_remote_id(int64_t value) {
   
   _impl_.remote_id_ = value;
 }
-inline void S2C_AttackToEnemy::set_remote_id(int64_t value) {
+inline void S2C_PlayerAutoAttack::set_remote_id(int64_t value) {
   _internal_set_remote_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AttackToEnemy.remote_id)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_PlayerAutoAttack.remote_id)
 }
 
-// int64 timestamp = 2;
-inline void S2C_AttackToEnemy::clear_timestamp() {
+// int32 combo = 2;
+inline void S2C_PlayerAutoAttack::clear_combo() {
+  _impl_.combo_ = 0;
+}
+inline int32_t S2C_PlayerAutoAttack::_internal_combo() const {
+  return _impl_.combo_;
+}
+inline int32_t S2C_PlayerAutoAttack::combo() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlayerAutoAttack.combo)
+  return _internal_combo();
+}
+inline void S2C_PlayerAutoAttack::_internal_set_combo(int32_t value) {
+  
+  _impl_.combo_ = value;
+}
+inline void S2C_PlayerAutoAttack::set_combo(int32_t value) {
+  _internal_set_combo(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_PlayerAutoAttack.combo)
+}
+
+// int64 timestamp = 3;
+inline void S2C_PlayerAutoAttack::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
-inline int64_t S2C_AttackToEnemy::_internal_timestamp() const {
+inline int64_t S2C_PlayerAutoAttack::_internal_timestamp() const {
   return _impl_.timestamp_;
 }
-inline int64_t S2C_AttackToEnemy::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AttackToEnemy.timestamp)
+inline int64_t S2C_PlayerAutoAttack::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlayerAutoAttack.timestamp)
   return _internal_timestamp();
 }
-inline void S2C_AttackToEnemy::_internal_set_timestamp(int64_t value) {
+inline void S2C_PlayerAutoAttack::_internal_set_timestamp(int64_t value) {
   
   _impl_.timestamp_ = value;
 }
-inline void S2C_AttackToEnemy::set_timestamp(int64_t value) {
+inline void S2C_PlayerAutoAttack::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AttackToEnemy.timestamp)
-}
-
-// int64 enemy_id = 3;
-inline void S2C_AttackToEnemy::clear_enemy_id() {
-  _impl_.enemy_id_ = int64_t{0};
-}
-inline int64_t S2C_AttackToEnemy::_internal_enemy_id() const {
-  return _impl_.enemy_id_;
-}
-inline int64_t S2C_AttackToEnemy::enemy_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AttackToEnemy.enemy_id)
-  return _internal_enemy_id();
-}
-inline void S2C_AttackToEnemy::_internal_set_enemy_id(int64_t value) {
-  
-  _impl_.enemy_id_ = value;
-}
-inline void S2C_AttackToEnemy::set_enemy_id(int64_t value) {
-  _internal_set_enemy_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AttackToEnemy.enemy_id)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_PlayerAutoAttack.timestamp)
 }
 
 // -------------------------------------------------------------------
@@ -8136,6 +8131,87 @@ inline void S2C_TickEnemy::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// S2C_DetectChangeEnemy
+
+// int64 object_id = 1;
+inline void S2C_DetectChangeEnemy::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t S2C_DetectChangeEnemy::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t S2C_DetectChangeEnemy::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DetectChangeEnemy.object_id)
+  return _internal_object_id();
+}
+inline void S2C_DetectChangeEnemy::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void S2C_DetectChangeEnemy::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DetectChangeEnemy.object_id)
+}
+
+// repeated .Protocol.SStat stats = 2;
+inline int S2C_DetectChangeEnemy::_internal_stats_size() const {
+  return _impl_.stats_.size();
+}
+inline int S2C_DetectChangeEnemy::stats_size() const {
+  return _internal_stats_size();
+}
+inline ::Protocol::SStat* S2C_DetectChangeEnemy::mutable_stats(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_DetectChangeEnemy.stats)
+  return _impl_.stats_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+S2C_DetectChangeEnemy::mutable_stats() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_DetectChangeEnemy.stats)
+  return &_impl_.stats_;
+}
+inline const ::Protocol::SStat& S2C_DetectChangeEnemy::_internal_stats(int index) const {
+  return _impl_.stats_.Get(index);
+}
+inline const ::Protocol::SStat& S2C_DetectChangeEnemy::stats(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DetectChangeEnemy.stats)
+  return _internal_stats(index);
+}
+inline ::Protocol::SStat* S2C_DetectChangeEnemy::_internal_add_stats() {
+  return _impl_.stats_.Add();
+}
+inline ::Protocol::SStat* S2C_DetectChangeEnemy::add_stats() {
+  ::Protocol::SStat* _add = _internal_add_stats();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_DetectChangeEnemy.stats)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+S2C_DetectChangeEnemy::stats() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_DetectChangeEnemy.stats)
+  return _impl_.stats_;
+}
+
+// .Protocol.EEnemyState state = 3;
+inline void S2C_DetectChangeEnemy::clear_state() {
+  _impl_.state_ = 0;
+}
+inline ::Protocol::EEnemyState S2C_DetectChangeEnemy::_internal_state() const {
+  return static_cast< ::Protocol::EEnemyState >(_impl_.state_);
+}
+inline ::Protocol::EEnemyState S2C_DetectChangeEnemy::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DetectChangeEnemy.state)
+  return _internal_state();
+}
+inline void S2C_DetectChangeEnemy::_internal_set_state(::Protocol::EEnemyState value) {
+  
+  _impl_.state_ = value;
+}
+inline void S2C_DetectChangeEnemy::set_state(::Protocol::EEnemyState value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DetectChangeEnemy.state)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_MovementEnemy
 
 // int64 object_id = 1;
@@ -8158,27 +8234,7 @@ inline void S2C_MovementEnemy::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.object_id)
 }
 
-// .Protocol.EEnemyState state = 2;
-inline void S2C_MovementEnemy::clear_state() {
-  _impl_.state_ = 0;
-}
-inline ::Protocol::EEnemyState S2C_MovementEnemy::_internal_state() const {
-  return static_cast< ::Protocol::EEnemyState >(_impl_.state_);
-}
-inline ::Protocol::EEnemyState S2C_MovementEnemy::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_MovementEnemy.state)
-  return _internal_state();
-}
-inline void S2C_MovementEnemy::_internal_set_state(::Protocol::EEnemyState value) {
-  
-  _impl_.state_ = value;
-}
-inline void S2C_MovementEnemy::set_state(::Protocol::EEnemyState value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_MovementEnemy.state)
-}
-
-// .Protocol.SVector cur_location = 3;
+// .Protocol.SVector cur_location = 2;
 inline bool S2C_MovementEnemy::_internal_has_cur_location() const {
   return this != internal_default_instance() && _impl_.cur_location_ != nullptr;
 }
@@ -8263,7 +8319,7 @@ inline void S2C_MovementEnemy::set_allocated_cur_location(::Protocol::SVector* c
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_MovementEnemy.cur_location)
 }
 
-// .Protocol.SVector move_location = 4;
+// .Protocol.SVector move_location = 3;
 inline bool S2C_MovementEnemy::_internal_has_move_location() const {
   return this != internal_default_instance() && _impl_.move_location_ != nullptr;
 }
@@ -8348,7 +8404,7 @@ inline void S2C_MovementEnemy::set_allocated_move_location(::Protocol::SVector* 
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_MovementEnemy.move_location)
 }
 
-// int64 timestamp = 5;
+// int64 timestamp = 4;
 inline void S2C_MovementEnemy::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
@@ -8370,117 +8426,46 @@ inline void S2C_MovementEnemy::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
-// S2C_AttackToPlayer
+// S2C_EnemyAutoAttack
 
 // int64 object_id = 1;
-inline void S2C_AttackToPlayer::clear_object_id() {
+inline void S2C_EnemyAutoAttack::clear_object_id() {
   _impl_.object_id_ = int64_t{0};
 }
-inline int64_t S2C_AttackToPlayer::_internal_object_id() const {
+inline int64_t S2C_EnemyAutoAttack::_internal_object_id() const {
   return _impl_.object_id_;
 }
-inline int64_t S2C_AttackToPlayer::object_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AttackToPlayer.object_id)
+inline int64_t S2C_EnemyAutoAttack::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyAutoAttack.object_id)
   return _internal_object_id();
 }
-inline void S2C_AttackToPlayer::_internal_set_object_id(int64_t value) {
+inline void S2C_EnemyAutoAttack::_internal_set_object_id(int64_t value) {
   
   _impl_.object_id_ = value;
 }
-inline void S2C_AttackToPlayer::set_object_id(int64_t value) {
+inline void S2C_EnemyAutoAttack::set_object_id(int64_t value) {
   _internal_set_object_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AttackToPlayer.object_id)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_EnemyAutoAttack.object_id)
 }
 
 // int64 timestamp = 2;
-inline void S2C_AttackToPlayer::clear_timestamp() {
+inline void S2C_EnemyAutoAttack::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
-inline int64_t S2C_AttackToPlayer::_internal_timestamp() const {
+inline int64_t S2C_EnemyAutoAttack::_internal_timestamp() const {
   return _impl_.timestamp_;
 }
-inline int64_t S2C_AttackToPlayer::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AttackToPlayer.timestamp)
+inline int64_t S2C_EnemyAutoAttack::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyAutoAttack.timestamp)
   return _internal_timestamp();
 }
-inline void S2C_AttackToPlayer::_internal_set_timestamp(int64_t value) {
+inline void S2C_EnemyAutoAttack::_internal_set_timestamp(int64_t value) {
   
   _impl_.timestamp_ = value;
 }
-inline void S2C_AttackToPlayer::set_timestamp(int64_t value) {
+inline void S2C_EnemyAutoAttack::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AttackToPlayer.timestamp)
-}
-
-// -------------------------------------------------------------------
-
-// S2C_TargetingToPlayer
-
-// repeated int64 object_id = 1;
-inline int S2C_TargetingToPlayer::_internal_object_id_size() const {
-  return _impl_.object_id_.size();
-}
-inline int S2C_TargetingToPlayer::object_id_size() const {
-  return _internal_object_id_size();
-}
-inline void S2C_TargetingToPlayer::clear_object_id() {
-  _impl_.object_id_.Clear();
-}
-inline int64_t S2C_TargetingToPlayer::_internal_object_id(int index) const {
-  return _impl_.object_id_.Get(index);
-}
-inline int64_t S2C_TargetingToPlayer::object_id(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_TargetingToPlayer.object_id)
-  return _internal_object_id(index);
-}
-inline void S2C_TargetingToPlayer::set_object_id(int index, int64_t value) {
-  _impl_.object_id_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_TargetingToPlayer.object_id)
-}
-inline void S2C_TargetingToPlayer::_internal_add_object_id(int64_t value) {
-  _impl_.object_id_.Add(value);
-}
-inline void S2C_TargetingToPlayer::add_object_id(int64_t value) {
-  _internal_add_object_id(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_TargetingToPlayer.object_id)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-S2C_TargetingToPlayer::_internal_object_id() const {
-  return _impl_.object_id_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-S2C_TargetingToPlayer::object_id() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_TargetingToPlayer.object_id)
-  return _internal_object_id();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-S2C_TargetingToPlayer::_internal_mutable_object_id() {
-  return &_impl_.object_id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-S2C_TargetingToPlayer::mutable_object_id() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_TargetingToPlayer.object_id)
-  return _internal_mutable_object_id();
-}
-
-// int64 timestamp = 2;
-inline void S2C_TargetingToPlayer::clear_timestamp() {
-  _impl_.timestamp_ = int64_t{0};
-}
-inline int64_t S2C_TargetingToPlayer::_internal_timestamp() const {
-  return _impl_.timestamp_;
-}
-inline int64_t S2C_TargetingToPlayer::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_TargetingToPlayer.timestamp)
-  return _internal_timestamp();
-}
-inline void S2C_TargetingToPlayer::_internal_set_timestamp(int64_t value) {
-  
-  _impl_.timestamp_ = value;
-}
-inline void S2C_TargetingToPlayer::set_timestamp(int64_t value) {
-  _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_TargetingToPlayer.timestamp)
+  // @@protoc_insertion_point(field_set:Protocol.S2C_EnemyAutoAttack.timestamp)
 }
 
 // -------------------------------------------------------------------
