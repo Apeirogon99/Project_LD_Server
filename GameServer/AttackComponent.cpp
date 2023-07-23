@@ -145,7 +145,7 @@ bool AttackComponent::IsComboAutoAttacking(ActorPtr inInstigated)
 		return true;
 	}
 
-	if (mCurrentAutoAttackCount != mAttackInfos.size() - 1)
+	if (this->mCurrentAutoAttackCount != 0)
 	{
 		const int64 attackShotTimne = mAttackInfos.at(mCurrentAutoAttackCount - 1).GetShotTime();
 		if (afterAttackTime <= attackShotTimne)
@@ -155,8 +155,6 @@ bool AttackComponent::IsComboAutoAttacking(ActorPtr inInstigated)
 		}
 	}
 
-	mIsAutoAttack = false;
-	mIsComboAutoAttack = false;
 	return false;
 }
 
