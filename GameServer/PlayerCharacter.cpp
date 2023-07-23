@@ -20,7 +20,7 @@ void PlayerCharacter::OnInitialization()
 	AttackInfos infos;
 	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 100.0f, 100.0f)));
 	infos.push_back(AttackInfo(710,		180,	1100, FVector(100.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(0,		310,	1000, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(1000,	310,	1000, FVector(100.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 }
 
@@ -263,8 +263,8 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 		const float damage = currentStat.GetAttackDamage();
 		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
-		this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 		const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+		this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
 		autoAttackPacket.set_remote_id(remoteID);
@@ -309,8 +309,8 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 	const float damage			= currentStat.GetAttackDamage();
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
-	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 
 	Protocol::S2C_PlayerAutoAttack autoAttackPacket;
 	autoAttackPacket.set_remote_id(remoteID);

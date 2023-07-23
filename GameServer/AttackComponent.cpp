@@ -92,15 +92,8 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 	AttackInfo attackInfo = mAttackInfos.at(mCurrentAutoAttackCount);
 	printf("COMBO ATTACK : [%d] [%lld] [%lld] [%lld]\n", mCurrentAutoAttackCount, attackInfo.GetShotTime(), attackInfo.GetTargetingTime(), attackInfo.GetOverTime());
 
-	if (mCurrentAutoAttackCount == mAttackInfos.size() - 1)
-	{
-		inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
-	}
-	else
-	{
-		inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetShotTime(), &Actor::OnAutoAttackShot, inVictim);
-	}
 
+	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetShotTime(), &Actor::OnAutoAttackShot, inVictim);
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetTargetingTime(), &Actor::OnAutoAttackTargeting, inDamage, attackInfo.GetAttackRange());
 
 	mCurrentAutoAttackCount += 1;
