@@ -86,8 +86,11 @@ void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 
 	wprintf(L"OnAutoAttackShot\n");
 
+	Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
+
 	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
 	autoAttackPacket.set_object_id(this->GetGameObjectID());
+	autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
 	autoAttackPacket.set_timestamp(world->GetWorldTime());
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);

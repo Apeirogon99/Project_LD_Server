@@ -306,7 +306,8 @@ struct S2C_MovementEnemyDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_MovementEnemyDefaultTypeInternal _S2C_MovementEnemy_default_instance_;
 PROTOBUF_CONSTEXPR S2C_EnemyAutoAttack::S2C_EnemyAutoAttack(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.object_id_)*/int64_t{0}
+    /*decltype(_impl_.rotation_)*/nullptr
+  , /*decltype(_impl_.object_id_)*/int64_t{0}
   , /*decltype(_impl_.timestamp_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_EnemyAutoAttackDefaultTypeInternal {
@@ -689,6 +690,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyAutoAttack, _impl_.object_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyAutoAttack, _impl_.rotation_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyAutoAttack, _impl_.timestamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_HitEnemy, _internal_metadata_),
@@ -827,20 +829,20 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 138, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
   { 148, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
   { 158, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
-  { 166, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
-  { 174, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 182, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 189, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 196, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 205, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 213, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 222, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 230, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 237, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 246, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 255, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 263, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 273, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 167, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
+  { 175, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
+  { 183, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 190, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 197, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 206, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 214, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 223, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 231, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 238, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 247, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 256, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 264, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 274, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -926,37 +928,38 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "p\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\tobject_"
   "id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Protoco"
   "l.SVector\022(\n\rmove_location\030\003 \001(\0132\021.Proto"
-  "col.SVector\022\021\n\ttimestamp\030\004 \001(\003\";\n\023S2C_En"
-  "emyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttime"
-  "stamp\030\002 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject_id"
-  "\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_DeathEn"
-  "emy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001("
-  "\003\",\n\027S2C_DisAppearGameObject\022\021\n\tobject_i"
-  "d\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestam"
-  "p\030\001 \001(\003\"d\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003"
-  "(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132\017."
-  "Protocol.SItem\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_Ins"
-  "ertInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030"
-  "\002 \001(\0132\017.Protocol.SItem\"J\n\023S2C_InsertInve"
-  "ntory\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 "
-  "\001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_UpdateInventor"
-  "y\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Pro"
-  "tocol.SItem\"$\n\023S2C_UpdateInventory\022\r\n\005er"
-  "ror\030\001 \001(\005\"l\n\023C2S_DeleteInventory\022\021\n\ttime"
-  "stamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SIt"
-  "em\022#\n\010location\030\003 \001(\0132\021.Protocol.SVector\""
-  "V\n\023S2C_DeleteInventory\022\021\n\tremote_id\030\001 \001("
-  "\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\022\r\n\005erro"
-  "r\030\003 \001(\005\"I\n\025S2C_RollbackInventory\022\021\n\tremo"
-  "te_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SIt"
-  "em\"\247\001\n\023C2S_ReplaceEqipment\022\021\n\ttimestamp\030"
-  "\001 \001(\003\022*\n\021insert_inven_item\030\002 \001(\0132\017.Proto"
-  "col.SItem\022)\n\020insert_eqip_item\030\003 \001(\0132\017.Pr"
-  "otocol.SItem\022&\n\004part\030\004 \001(\0162\030.Protocol.EC"
-  "haracterPart\"g\n\023S2C_ReplaceEqipment\022\021\n\tr"
-  "emote_id\030\001 \001(\003\022.\n\010eqipment\030\002 \001(\0132\034.Proto"
-  "col.SCharacterEqipment\022\r\n\005error\030\003 \001(\005b\006p"
-  "roto3"
+  "col.SVector\022\021\n\ttimestamp\030\004 \001(\003\"a\n\023S2C_En"
+  "emyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022$\n\010rota"
+  "tion\030\002 \001(\0132\022.Protocol.SRotator\022\021\n\ttimest"
+  "amp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject_id\030\001"
+  " \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_DeathEnem"
+  "y\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\""
+  ",\n\027S2C_DisAppearGameObject\022\021\n\tobject_id\030"
+  "\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestamp\030"
+  "\001 \001(\003\"d\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003(\013"
+  "2\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.Pr"
+  "otocol.SItem\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_Inser"
+  "tInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 "
+  "\001(\0132\017.Protocol.SItem\"J\n\023S2C_InsertInvent"
+  "ory\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001("
+  "\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_UpdateInventory\022"
+  "\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Proto"
+  "col.SItem\"$\n\023S2C_UpdateInventory\022\r\n\005erro"
+  "r\030\001 \001(\005\"l\n\023C2S_DeleteInventory\022\021\n\ttimest"
+  "amp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem"
+  "\022#\n\010location\030\003 \001(\0132\021.Protocol.SVector\"V\n"
+  "\023S2C_DeleteInventory\022\021\n\tremote_id\030\001 \001(\003\022"
+  "\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\022\r\n\005error\030"
+  "\003 \001(\005\"I\n\025S2C_RollbackInventory\022\021\n\tremote"
+  "_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem"
+  "\"\247\001\n\023C2S_ReplaceEqipment\022\021\n\ttimestamp\030\001 "
+  "\001(\003\022*\n\021insert_inven_item\030\002 \001(\0132\017.Protoco"
+  "l.SItem\022)\n\020insert_eqip_item\030\003 \001(\0132\017.Prot"
+  "ocol.SItem\022&\n\004part\030\004 \001(\0162\030.Protocol.ECha"
+  "racterPart\"g\n\023S2C_ReplaceEqipment\022\021\n\trem"
+  "ote_id\030\001 \001(\003\022.\n\010eqipment\030\002 \001(\0132\034.Protoco"
+  "l.SCharacterEqipment\022\r\n\005error\030\003 \001(\005b\006pro"
+  "to3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -964,7 +967,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 3045, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 3083, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 33,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -5287,8 +5290,19 @@ void S2C_MovementEnemy::InternalSwap(S2C_MovementEnemy* other) {
 
 class S2C_EnemyAutoAttack::_Internal {
  public:
+  static const ::Protocol::SRotator& rotation(const S2C_EnemyAutoAttack* msg);
 };
 
+const ::Protocol::SRotator&
+S2C_EnemyAutoAttack::_Internal::rotation(const S2C_EnemyAutoAttack* msg) {
+  return *msg->_impl_.rotation_;
+}
+void S2C_EnemyAutoAttack::clear_rotation() {
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
+}
 S2C_EnemyAutoAttack::S2C_EnemyAutoAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -5299,11 +5313,15 @@ S2C_EnemyAutoAttack::S2C_EnemyAutoAttack(const S2C_EnemyAutoAttack& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_EnemyAutoAttack* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.object_id_){}
+      decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){}
     , decltype(_impl_.timestamp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_rotation()) {
+    _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
+  }
   ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timestamp_) -
     reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.timestamp_));
@@ -5315,7 +5333,8 @@ inline void S2C_EnemyAutoAttack::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.object_id_){int64_t{0}}
+      decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){int64_t{0}}
     , decltype(_impl_.timestamp_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -5332,6 +5351,7 @@ S2C_EnemyAutoAttack::~S2C_EnemyAutoAttack() {
 
 inline void S2C_EnemyAutoAttack::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.rotation_;
 }
 
 void S2C_EnemyAutoAttack::SetCachedSize(int size) const {
@@ -5344,6 +5364,10 @@ void S2C_EnemyAutoAttack::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
   ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.timestamp_) -
       reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.timestamp_));
@@ -5364,9 +5388,17 @@ const char* S2C_EnemyAutoAttack::_InternalParse(const char* ptr, ::_pbi::ParseCo
         } else
           goto handle_unusual;
         continue;
-      // int64 timestamp = 2;
+      // .Protocol.SRotator rotation = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 timestamp = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
@@ -5407,10 +5439,17 @@ uint8_t* S2C_EnemyAutoAttack::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // int64 timestamp = 2;
+  // .Protocol.SRotator rotation = 2;
+  if (this->_internal_has_rotation()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::rotation(this),
+        _Internal::rotation(this).GetCachedSize(), target, stream);
+  }
+
+  // int64 timestamp = 3;
   if (this->_internal_timestamp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_timestamp(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_timestamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5429,12 +5468,19 @@ size_t S2C_EnemyAutoAttack::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // .Protocol.SRotator rotation = 2;
+  if (this->_internal_has_rotation()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.rotation_);
+  }
+
   // int64 object_id = 1;
   if (this->_internal_object_id() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_object_id());
   }
 
-  // int64 timestamp = 2;
+  // int64 timestamp = 3;
   if (this->_internal_timestamp() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
@@ -5457,6 +5503,10 @@ void S2C_EnemyAutoAttack::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_rotation()) {
+    _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
+        from._internal_rotation());
+  }
   if (from._internal_object_id() != 0) {
     _this->_internal_set_object_id(from._internal_object_id());
   }
@@ -5483,9 +5533,9 @@ void S2C_EnemyAutoAttack::InternalSwap(S2C_EnemyAutoAttack* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S2C_EnemyAutoAttack, _impl_.timestamp_)
       + sizeof(S2C_EnemyAutoAttack::_impl_.timestamp_)
-      - PROTOBUF_FIELD_OFFSET(S2C_EnemyAutoAttack, _impl_.object_id_)>(
-          reinterpret_cast<char*>(&_impl_.object_id_),
-          reinterpret_cast<char*>(&other->_impl_.object_id_));
+      - PROTOBUF_FIELD_OFFSET(S2C_EnemyAutoAttack, _impl_.rotation_)>(
+          reinterpret_cast<char*>(&_impl_.rotation_),
+          reinterpret_cast<char*>(&other->_impl_.rotation_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_EnemyAutoAttack::GetMetadata() const {

@@ -49,7 +49,7 @@ void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
 
 	FVector curLocation = this->GetLocation();
-	Protocol::SVector spawnLocation = PacketUtils::ToSVector(FVector(curLocation.GetX(), curLocation.GetY(), curLocation.GetZ() + 10.0f));
+	Protocol::SVector spawnLocation = PacketUtils::ToSVector(FVector(curLocation.GetX(), curLocation.GetY(), curLocation.GetZ() + 1.0f));
 
 	Protocol::S2C_AppearEnemy appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());

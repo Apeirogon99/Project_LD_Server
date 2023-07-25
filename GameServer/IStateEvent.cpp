@@ -88,7 +88,7 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f))
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
@@ -152,7 +152,7 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), MAX_LOCATION_DISTANCE))
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
@@ -243,7 +243,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
 	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange();
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), enemyAttackRange))
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Attack);
 		return;

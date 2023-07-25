@@ -35,7 +35,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 5.0f))
 	{
 		this->SetVelocity(0.0f, 0.0f, 0.0f);
 	}
@@ -43,7 +43,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	//this->mAutoAttackComponent.Update(this->GetActorPtr());
 
-	//this->GetRotation().ToString();
+	//this->GetLocation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
@@ -192,11 +192,8 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
 
-	float distance = FVector::Distance2D(currentLocation, this->GetLocation());
-	if (distance >= 42.0f)
-	{
-		return;
-	}
+	currentLocation.ToString();
+	this->GetLocation().ToString();
 
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, movementDestination, movementLastTime, 42.0f);
 

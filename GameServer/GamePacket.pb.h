@@ -3484,9 +3484,28 @@ class S2C_EnemyAutoAttack final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kRotationFieldNumber = 2,
     kObjectIdFieldNumber = 1,
-    kTimestampFieldNumber = 2,
+    kTimestampFieldNumber = 3,
   };
+  // .Protocol.SRotator rotation = 2;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::Protocol::SRotator& rotation() const;
+  PROTOBUF_NODISCARD ::Protocol::SRotator* release_rotation();
+  ::Protocol::SRotator* mutable_rotation();
+  void set_allocated_rotation(::Protocol::SRotator* rotation);
+  private:
+  const ::Protocol::SRotator& _internal_rotation() const;
+  ::Protocol::SRotator* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::Protocol::SRotator* rotation);
+  ::Protocol::SRotator* unsafe_arena_release_rotation();
+
   // int64 object_id = 1;
   void clear_object_id();
   int64_t object_id() const;
@@ -3496,7 +3515,7 @@ class S2C_EnemyAutoAttack final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 timestamp = 2;
+  // int64 timestamp = 3;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -3513,6 +3532,7 @@ class S2C_EnemyAutoAttack final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::Protocol::SRotator* rotation_;
     int64_t object_id_;
     int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -8195,7 +8215,92 @@ inline void S2C_EnemyAutoAttack::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_EnemyAutoAttack.object_id)
 }
 
-// int64 timestamp = 2;
+// .Protocol.SRotator rotation = 2;
+inline bool S2C_EnemyAutoAttack::_internal_has_rotation() const {
+  return this != internal_default_instance() && _impl_.rotation_ != nullptr;
+}
+inline bool S2C_EnemyAutoAttack::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline const ::Protocol::SRotator& S2C_EnemyAutoAttack::_internal_rotation() const {
+  const ::Protocol::SRotator* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SRotator&>(
+      ::Protocol::_SRotator_default_instance_);
+}
+inline const ::Protocol::SRotator& S2C_EnemyAutoAttack::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyAutoAttack.rotation)
+  return _internal_rotation();
+}
+inline void S2C_EnemyAutoAttack::unsafe_arena_set_allocated_rotation(
+    ::Protocol::SRotator* rotation) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_EnemyAutoAttack.rotation)
+}
+inline ::Protocol::SRotator* S2C_EnemyAutoAttack::release_rotation() {
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_EnemyAutoAttack::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_EnemyAutoAttack.rotation)
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_EnemyAutoAttack::_internal_mutable_rotation() {
+  
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SRotator>(GetArenaForAllocation());
+    _impl_.rotation_ = p;
+  }
+  return _impl_.rotation_;
+}
+inline ::Protocol::SRotator* S2C_EnemyAutoAttack::mutable_rotation() {
+  ::Protocol::SRotator* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_EnemyAutoAttack.rotation)
+  return _msg;
+}
+inline void S2C_EnemyAutoAttack::set_allocated_rotation(::Protocol::SRotator* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rotation));
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnemyAutoAttack.rotation)
+}
+
+// int64 timestamp = 3;
 inline void S2C_EnemyAutoAttack::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
