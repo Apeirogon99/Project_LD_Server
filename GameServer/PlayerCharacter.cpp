@@ -20,7 +20,7 @@ void PlayerCharacter::OnInitialization()
 	AttackInfos infos;
 	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 100.0f, 100.0f)));
 	infos.push_back(AttackInfo(710,		180,	1100, FVector(100.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(1000,	310,	1000, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0,		310,	1000, FVector(100.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 }
 
@@ -192,6 +192,12 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
 
+	float distance = FVector::Distance2D(currentLocation, this->GetLocation());
+	if (distance >= 42.0f)
+	{
+		return;
+	}
+
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, movementDestination, movementLastTime, 42.0f);
 
 	OnMovement();
@@ -279,11 +285,11 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
+	printf("Player Hit\n");
 }
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 {
-	printf("Player OnAutoAttackShot\n");
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -297,7 +303,7 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 		return;
 	}
 
-	if (false == this->mAutoAttackComponent.IsComboShotAutoAttack(this->GetActorPtr()))
+	if (false == this->mAutoAttackComponent.CheckComboShotAutoAttack(this->GetActorPtr()))
 	{
 		return;
 	}
@@ -324,7 +330,6 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 
 void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
 {
-	printf("Player OnAutoAttackTargeting\n");
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
@@ -379,7 +384,6 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 
 void PlayerCharacter::OnAutoAttackOver()
 {
-	printf("Player OnAutoAttackOver\n");
 	this->mAutoAttackComponent.OnOverAutoComboAttack();
 }
 

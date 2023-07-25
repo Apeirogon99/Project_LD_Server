@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "StatsComponent.h"
 
-StatsComponent::StatsComponent() : mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA), mStatSyncTime(0), mMaxStatSyncTime(0)
+StatsComponent::StatsComponent() : mIsChanageStats(false), mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA), mStatSyncTime(0), mMaxStatSyncTime(0)
 {
 }
 
@@ -74,16 +74,8 @@ void StatsComponent::InitMaxStats(ActorPtr inActor, const EGameDataType inBaseDa
 	mClass			= inClass;
 }
 
-bool StatsComponent::UpdateStatSync(const int64 inDeltaTime, std::map<EStatType, float>& outUpdateStats)
+bool StatsComponent::ExtractDifferentMaxStats(std::map<EStatType, float>& outDifferentStats)
 {
-	mStatSyncTime += inDeltaTime;
-	if (mStatSyncTime <= mMaxStatSyncTime)
-	{
-		return false;
-	}
-	mStatSyncTime = 0;
-
-	std::map<EStatType, float> tempDifferentStats;
 
 	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
 	{
@@ -92,11 +84,28 @@ bool StatsComponent::UpdateStatSync(const int64 inDeltaTime, std::map<EStatType,
 		if (maxStat != curStat)
 		{
 			std::pair<EStatType, float> differentStat = std::make_pair(static_cast<EStatType>(index + 1), curStat);
-			tempDifferentStats.insert(differentStat);
+			outDifferentStats.insert(differentStat);
 		}
 	}
 
-	outUpdateStats.swap(tempDifferentStats);
+	return outDifferentStats.size();
+}
+
+bool StatsComponent::ExtractChanageMaxStats(std::map<EStatType, float>& outUpdateStats)
+{
+	if (mUpdateStats.size() == 0)
+	{
+		return false;
+	}
+
+	outUpdateStats.swap(mUpdateStats);
+
+	if (mUpdateStats.size() != 0)
+	{
+		mUpdateStats.clear();
+	}
+
+	mIsChanageStats = false;
 	return outUpdateStats.size();
 }
 
@@ -216,6 +225,7 @@ void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float i
 		findStat->second = inValue;
 	}
 
+	mIsChanageStats = true;
 }
 
 const Stats& StatsComponent::GetMaxStats() const
@@ -228,19 +238,7 @@ const Stats& StatsComponent::GetCurrentStats() const
     return mCurrentStats;
 }
 
-bool StatsComponent::GetUpdateStats(std::map<EStatType, float>& outUpdateStats)
+bool StatsComponent::IsChanageStats() const
 {
-	if (mUpdateStats.size() == 0)
-	{
-		return false;
-	}
-
-	outUpdateStats.swap(mUpdateStats);
-
-	if (mUpdateStats.size() != 0)
-	{
-		mUpdateStats.clear();
-	}
-
-	return outUpdateStats.size();
+	return mIsChanageStats;
 }

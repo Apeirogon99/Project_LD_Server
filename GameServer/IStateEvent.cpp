@@ -213,7 +213,7 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	const int64 worldTime = world->GetWorldTime();
 
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
-	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange() + collisionRadius;
+	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange();
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, world->GetWorldTime(), enemyAttackRange);
 	enemy->OnMovementEnemy();
 
@@ -242,7 +242,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	}
 
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
-	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange() + collisionRadius;
+	const float enemyAttackRange = enemy->GetEnemyStatsComponent().GetCurrentStats().GetRange();
 	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), enemyAttackRange))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Attack);
@@ -261,7 +261,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Recovery);
-		//enemy->SetAggroPlayer(nullptr);
+		return;
 	}
 
 }
@@ -279,6 +279,8 @@ void ChaseState::Exit(EnemyCharacterRef inEnemy)
 	{
 		return;
 	}
+
+	enemy->GetAggroActor().reset();
 }
 
 //==========================//
@@ -309,11 +311,8 @@ void AttackState::Enter(EnemyCharacterRef inEnemy)
 	StatsComponent& stat	= enemy->GetEnemyStatsComponent();
 	const float damage		= stat.GetCurrentStats().GetAttackDamage();
 
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
+
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
 
 	enemy->GetAutoAttackComponent().DoMeleeAutoAttack(enemy->GetActorPtr(), aggroActor, damage);
 }
@@ -425,7 +424,7 @@ void DeathState::Enter(EnemyCharacterRef inEnemy)
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
 
 	const int64 worldTime = world->GetWorldTime();
-	const int64 deathTime = worldTime + 2670;
+	const int64 deathTime = worldTime + 1000;
 	enemy->PushTask(deathTime, &Actor::OnDeath);
 }
 
@@ -437,7 +436,101 @@ void DeathState::Exit(EnemyCharacterRef inEnemy)
 {
 }
 
+StateManager::StateManager() : mOldState(EStateType::State_Unspecified), mCurrentState(EStateType::State_Unspecified)
+{
+	mStateTypes.insert(std::make_pair(EStateType::State_Idle, static_cast<IStateEvent*>(new IdleState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Round, static_cast<IStateEvent*>(new RoundState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Recovery, static_cast<IStateEvent*>(new RecoveryState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Chase, static_cast<IStateEvent*>(new ChaseState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Attack, static_cast<IStateEvent*>(new AttackState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Hit, static_cast<IStateEvent*>(new HitState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Death, static_cast<IStateEvent*>(new DeathState())));
+}
+
+StateManager::~StateManager()
+{
+	for (std::map<EStateType, IStateEvent*>::iterator state = mStateTypes.begin(); state != mStateTypes.end(); state++)
+	{
+		delete state->second;
+	}
+}
+
+void StateManager::SetEnemy(EnemyCharacterRef inEnemy)
+{
+	mEnemy = inEnemy;
+}
+
+void StateManager::SetState(const EStateType& inStateType)
+{
+	if (mCurrentState == EStateType::State_Unspecified)
+	{
+		mCurrentState = inStateType;
+		EnterState();
+		return;
+	}
+
+	mOldState = mCurrentState;
+
+	IStateEvent* oldState = mStateTypes.at(mCurrentState);
+	oldState->Exit(mEnemy);
+
+	mCurrentState = inStateType;
+
+	IStateEvent* newState = mStateTypes.at(mCurrentState);
+	newState->Enter(mEnemy);
+
+	EnemyCharacterPtr enemy = mEnemy.lock();
+	if (nullptr != enemy)
+	{
+		mEnemy.lock()->DetectChangeEnemy();
+	}
+	StateChangeDebugPrint(mOldState, mCurrentState);
+}
+
+const EStateType& StateManager::GetCurrentStateType() const
+{
+	return mCurrentState;
+}
+
 void StateManager::StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType)
 {
 	wprintf(L"[ID::%2lld][ChangeState] [OLD::%ws] -> [NEW::%ws]\n", mEnemy.lock()->GetGameObjectID(), ToStringState(inOldType).c_str(), ToStringState(inNewType).c_str());
+}
+
+const std::wstring StateManager::ToStringState(const EStateType& type)
+{
+	std::wstring stateStr;
+	switch (type)
+	{
+	case EStateType::State_Unspecified:
+		stateStr = L"Unspecified";
+		break;
+	case EStateType::State_Idle:
+		stateStr = L"Idle";
+		break;
+	case EStateType::State_Round:
+		stateStr = L"Round";
+		break;
+	case EStateType::State_Recovery:
+		stateStr = L"Recovery";
+		break;
+	case EStateType::State_Chase:
+		stateStr = L"Chase";
+		break;
+	case EStateType::State_Attack:
+		stateStr = L"Attack";
+		break;
+	case EStateType::State_Hit:
+		stateStr = L"Hit";
+		break;
+	case EStateType::State_Stun:
+		stateStr = L"Stun";
+		break;
+	case EStateType::State_Death:
+		stateStr = L"Death";
+		break;
+	default:
+		break;
+	}
+	return stateStr;
 }

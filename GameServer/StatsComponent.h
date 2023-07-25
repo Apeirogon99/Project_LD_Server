@@ -19,16 +19,18 @@ public:
 	void InitMaxStats(ActorPtr inActor, const EGameDataType inBaseData, const EGameDataType inGrowData, const int32 inClass, const int32 inLevel);
 
 public:
-	bool UpdateStatSync(const int64 inDeltaTime, std::map<EStatType, float>& outUpdateStats);
+	bool ExtractDifferentMaxStats(std::map<EStatType, float>& outUpdateStats);
+	bool ExtractChanageMaxStats(std::map<EStatType, float>& outUpdateStats);
 	void UpdateMaxStats(ActorPtr inActor, const int32 inLevel);
 	void UpdateCurrentStat(const EStatType inStatType, const float inValue);
 
 public:
 	const Stats&	GetMaxStats() const;
 	const Stats&	GetCurrentStats() const;
-	bool			GetUpdateStats(std::map<EStatType, float>& outUpdateStats);
+	bool			IsChanageStats() const;
 
 private:
+	bool			mIsChanageStats;
 	Stats			mMaxStats;
 	Stats			mCurrentStats;
 

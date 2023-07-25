@@ -149,23 +149,8 @@ public:
 class StateManager
 {
 public:
-	StateManager() : mCurrentState(EStateType::State_Unspecified)
-	{
-		mStateTypes.insert(std::make_pair(EStateType::State_Idle,		static_cast<IStateEvent*>(new IdleState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Round,		static_cast<IStateEvent*>(new RoundState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Recovery,	static_cast<IStateEvent*>(new RecoveryState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Chase,		static_cast<IStateEvent*>(new ChaseState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Attack,		static_cast<IStateEvent*>(new AttackState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Hit,		static_cast<IStateEvent*>(new HitState())));
-		mStateTypes.insert(std::make_pair(EStateType::State_Death,		static_cast<IStateEvent*>(new DeathState())));
-	}
-	~StateManager()
-	{
-		for (std::map<EStateType, IStateEvent*>::iterator state = mStateTypes.begin(); state != mStateTypes.end(); state++)
-		{
-			delete state->second;
-		}
-	}
+	StateManager();
+	~StateManager();
 
 	StateManager(const StateManager&) = delete;
 	StateManager(StateManager&&) noexcept = delete;
@@ -174,43 +159,11 @@ public:
 	StateManager& operator=(StateManager&&) noexcept = delete;
 
 public:
-	void SetEnemy(EnemyCharacterRef inEnemy)
-	{
-		mEnemy = inEnemy;
-	}
-
-	void SetState(const EStateType& inStateType)
-	{
-
-		if (mCurrentState == EStateType::State_Unspecified)
-		{
-			mCurrentState = inStateType;
-			EnterState();
-			return;
-		}
-
-		StateChangeDebugPrint(mCurrentState, inStateType);
-
-		IStateEvent* oldState = mStateTypes.at(mCurrentState);
-		oldState->Exit(mEnemy);
-
-		mCurrentState = inStateType;
-
-		IStateEvent* newState = mStateTypes.at(mCurrentState);
-		newState->Enter(mEnemy);
-
-	}
+	void SetEnemy(EnemyCharacterRef inEnemy);
+	void SetState(const EStateType& inStateType);
 
 public:
-	const EStateType& GetCurrentStateType() const
-	{
-		return mCurrentState;
-	}
-
-	IStateEvent* GetState() const
-	{
-		return mStateTypes.at(mCurrentState);
-	}
+	const EStateType& GetCurrentStateType() const;
 
 public:
 	void EnterState()
@@ -231,48 +184,13 @@ public:
 		curState->Exit(mEnemy);
 	}
 
-protected:
+public:
 	void StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType);
-	const std::wstring ToStringState(const EStateType& type)
-	{
-		std::wstring stateStr;
-		switch (type)
-		{
-		case EStateType::State_Unspecified:
-			stateStr = L"Unspecified";
-			break;
-		case EStateType::State_Idle:
-			stateStr = L"Idle";
-			break;
-		case EStateType::State_Round:
-			stateStr = L"Round";
-			break;
-		case EStateType::State_Recovery:
-			stateStr = L"Recovery";
-			break;
-		case EStateType::State_Chase:
-			stateStr = L"Chase";
-			break;
-		case EStateType::State_Attack:
-			stateStr = L"Attack";
-			break;
-		case EStateType::State_Hit:
-			stateStr = L"Hit";
-			break;
-		case EStateType::State_Stun:
-			stateStr = L"Stun";
-			break;
-		case EStateType::State_Death:
-			stateStr = L"Death";
-			break;
-		default:
-			break;
-		}
-		return stateStr;
-	}
+	const std::wstring ToStringState(const EStateType& type);
 
 private:
 	EnemyCharacterRef					mEnemy;
 	std::map<EStateType, IStateEvent*>	mStateTypes;
+	EStateType							mOldState;
 	EStateType							mCurrentState;
 };

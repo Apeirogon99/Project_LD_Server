@@ -17,7 +17,7 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 	virtual void OnSyncLocation(const int64 inDeltaTime);
-	virtual void OnSyncEnemy(const int64 inDeltaTime);
+	virtual void DetectChangeEnemy();
 
 	virtual void OnHit(ActorPtr inInstigated, const float inDamage) override;
 	virtual void OnDeath() override;

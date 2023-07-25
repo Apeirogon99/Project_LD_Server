@@ -59,17 +59,17 @@ void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	appearPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
 
-	//std::map<EStatType, float> diffrentStats;
-	//if (true == this->mStatsComponent.GetDifferentStats(diffrentStats))
-	//{
-	//	auto stat = diffrentStats.begin();
-	//	for (stat; stat != diffrentStats.end(); ++stat)
-	//	{
-	//		Protocol::SStat* addStat = appearPacket.add_stats();
-	//		addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
-	//		addStat->set_stat_value(stat->second);
-	//	}
-	//}
+	std::map<EStatType, float> differentStats;
+	if (true == this->mStatsComponent.ExtractDifferentMaxStats(differentStats))
+	{
+		auto stat = differentStats.begin();
+		for (stat; stat != differentStats.end(); ++stat)
+		{
+			Protocol::SStat* addStat = appearPacket.add_stats();
+			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+			addStat->set_stat_value(stat->second);
+		}
+	}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -127,7 +127,7 @@ void EnemyCharacter::OnSyncLocation(const int64 inDeltaTime)
 
 }
 
-void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
+void EnemyCharacter::DetectChangeEnemy()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -135,24 +135,26 @@ void EnemyCharacter::OnSyncEnemy(const int64 inDeltaTime)
 		return;
 	}
 
-	std::map<EStatType, float> diffrentStats;
-	if (true == this->mStatsComponent.UpdateStatSync(inDeltaTime, diffrentStats))
-	{
-		Protocol::S2C_TickEnemy tickPacket;
-		tickPacket.set_object_id(this->GetGameObjectID());
-		tickPacket.set_timestamp(world->GetWorldTime());
+	Protocol::S2C_DetectChangeEnemy detectChanagePacket;
+	detectChanagePacket.set_object_id(this->GetGameObjectID());
+	detectChanagePacket.set_timestamp(world->GetWorldTime());
+	detectChanagePacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
 
-		auto stat = diffrentStats.begin();
-		for (stat; stat != diffrentStats.end(); ++stat)
+	std::map<EStatType, float> chanageStats;
+	if (true == this->mStatsComponent.ExtractChanageMaxStats(chanageStats))
+	{
+		auto stat = chanageStats.begin();
+		for (stat; stat != chanageStats.end(); ++stat)
 		{
-			Protocol::SStat* addStat = tickPacket.add_stats();
+			Protocol::SStat* addStat = detectChanagePacket.add_stats();
 			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
 			addStat->set_stat_value(stat->second);
 		}
 
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, tickPacket);
-		this->BrodcastPlayerViewers(sendBuffer);
 	}
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, detectChanagePacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
@@ -194,18 +196,6 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		hitPacket.set_object_id(this->GetGameObjectID());
 		hitPacket.set_timestamp(world->GetWorldTime());
 
-		std::map<EStatType, float> updateStats;
-		if (true == this->mStatsComponent.GetUpdateStats(updateStats))
-		{
-			auto stat = updateStats.begin();
-			for (stat; stat != updateStats.end(); ++stat)
-			{
-				Protocol::SStat* addStat = hitPacket.add_stats();
-				addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
-				addStat->set_stat_value(stat->second);
-			}
-		}
-
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
 		this->BrodcastPlayerViewers(sendBuffer);
 	}
@@ -219,7 +209,9 @@ void EnemyCharacter::OnDeath()
 		return;
 	}
 
-	wprintf(L"OnDeath\n");
+	const int64 gameObjectID = this->GetGameObjectID();
+	//world->DestroyActor(gameObjectID);
+
 }
 
 void EnemyCharacter::OnMovementEnemy()

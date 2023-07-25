@@ -65,7 +65,14 @@ bool AttackComponent::DoMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim
 		return false;
 	}
 
+	FVector		instigatedLocation = inInstigated->GetLocation();
+	FVector		victimLocation = inVictim->GetLocation();
+	FVector		direction = victimLocation - instigatedLocation;
+	FRotator	rotation = direction.Rotator();
+	inInstigated->SetRotation(rotation);
+
 	AttackInfo attackInfo = mAttackInfos.at(0);
+	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetShotTime()		, &Actor::OnAutoAttackShot, inVictim);
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetTargetingTime()	, &Actor::OnAutoAttackTargeting, inDamage, attackInfo.GetAttackRange());
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime()		, &Actor::OnAutoAttackOver);
 
@@ -89,10 +96,13 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 		return false;
 	}
 
-	AttackInfo attackInfo = mAttackInfos.at(mCurrentAutoAttackCount);
-	printf("COMBO ATTACK : [%d] [%lld] [%lld] [%lld]\n", mCurrentAutoAttackCount, attackInfo.GetShotTime(), attackInfo.GetTargetingTime(), attackInfo.GetOverTime());
+	FVector		instigatedLocation	= inInstigated->GetLocation();
+	FVector		victimLocation		= inVictim->GetLocation();
+	FVector		direction			= victimLocation - instigatedLocation;
+	FRotator	rotation			= direction.Rotator();
+	inInstigated->SetRotation(rotation);
 
-
+	const AttackInfo& attackInfo = mAttackInfos.at(mCurrentAutoAttackCount);
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetShotTime(), &Actor::OnAutoAttackShot, inVictim);
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetTargetingTime(), &Actor::OnAutoAttackTargeting, inDamage, attackInfo.GetAttackRange());
 
@@ -101,7 +111,6 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 
 	mVictimActor = inVictim;
 	mIsAutoAttack = true;
-	mIsComboAutoAttack = false;
 	return true;
 }
 
@@ -138,27 +147,36 @@ bool AttackComponent::IsComboAutoAttacking(ActorPtr inInstigated)
 		assert(world);
 	}
 	const int64 worldTime = world->GetWorldTime();
-	const int64 afterAttackTime = worldTime - mLastAutoAttackTime;
 
+	//첫번째 공격
 	if (false == this->mIsAutoAttack)
 	{
 		return true;
 	}
 
-	if (this->mCurrentAutoAttackCount != 0)
+	if (0 == this->mCurrentAutoAttackCount)
 	{
-		const int64 attackShotTimne = mAttackInfos.at(mCurrentAutoAttackCount - 1).GetShotTime();
-		if (afterAttackTime <= attackShotTimne)
-		{
-			mIsComboAutoAttack = true;
-			return false;
-		}
+		return false;
 	}
 
+	if (true == mIsComboAutoAttack)
+	{
+		return false;
+	}
+
+	//이후 공격
+	const int64 afterAttackTime = worldTime - this->mLastAutoAttackTime;
+	const int64 attackShotTime	= this->mAttackInfos.at(this->mCurrentAutoAttackCount - 1).GetShotTime();
+	if (afterAttackTime <= attackShotTime)
+	{
+		mIsComboAutoAttack = true;
+		return false;
+	}
+	
 	return false;
 }
 
-bool AttackComponent::IsComboShotAutoAttack(ActorPtr inInstigated)
+bool AttackComponent::CheckComboShotAutoAttack(ActorPtr inInstigated)
 {
 	WorldPtr world = inInstigated->GetWorld().lock();
 	if (nullptr == world)
@@ -172,17 +190,22 @@ bool AttackComponent::IsComboShotAutoAttack(ActorPtr inInstigated)
 		return false;
 	}
 
-	if (true == mIsComboAutoAttack)
+	if (this->mCurrentAutoAttackCount == 0)
 	{
-		mIsComboAutoAttack = false;
-		return true;
+		const AttackInfo& attackInfo = mAttackInfos.at(mAttackInfos.size() - 1);
+		inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
+		return false;
 	}
 
-	const int32 currentAttackCount = (mCurrentAutoAttackCount == 0) ? static_cast<int32>(mAttackInfos.size() - 1) : mCurrentAutoAttackCount - 1;
-	AttackInfo attackInfo = mAttackInfos.at(currentAttackCount);
-	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
+	if (false == mIsComboAutoAttack)
+	{
+		const AttackInfo& attackInfo = mAttackInfos.at(mCurrentAutoAttackCount - 1);
+		inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
+		return false;
+	}
 
-	return false;
+	mIsComboAutoAttack = false;
+	return true;
 }
 
 bool AttackComponent::IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange)

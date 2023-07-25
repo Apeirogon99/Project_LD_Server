@@ -65,7 +65,7 @@ public:
 public:
 	bool IsAutoAttacking(ActorPtr inInstigated);
 	bool IsComboAutoAttacking(ActorPtr inInstigated);
-	bool IsComboShotAutoAttack(ActorPtr inInstigated);
+	bool CheckComboShotAutoAttack(ActorPtr inInstigated);
 	bool IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange);
 
 public:

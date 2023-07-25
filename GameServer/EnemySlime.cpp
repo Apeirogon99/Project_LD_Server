@@ -30,12 +30,26 @@ void EnemySlime::OnInitialization()
 
 void EnemySlime::OnDestroy()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
 	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
 	if (nullptr == spawner)
 	{
 		return;
 	}
 	spawner->OnDestroyEnemy(GetGameObjectID());
+
+	Protocol::S2C_DeathEnemy deathEnemyPacket;
+	deathEnemyPacket.set_object_id(this->GetGameObjectID());
+	deathEnemyPacket.set_timestamp(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathEnemyPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void EnemySlime::OnTick(const int64 inDeltaTime)
@@ -51,7 +65,8 @@ void EnemySlime::OnTick(const int64 inDeltaTime)
 	this->OnSyncLocation(inDeltaTime);
 
 	this->mStateManager.UpdateState(inDeltaTime);
-	this->OnSyncEnemy(inDeltaTime);
+
+	//OnHit(nullptr, 10000.0f);
 }
 
 bool EnemySlime::IsValid()
@@ -71,7 +86,6 @@ void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 
 	wprintf(L"OnAutoAttackShot\n");
 
-	//TODO 추가적인 정보가 필요함
 	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
 	autoAttackPacket.set_object_id(this->GetGameObjectID());
 	autoAttackPacket.set_timestamp(world->GetWorldTime());
@@ -119,5 +133,6 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 void EnemySlime::OnAutoAttackOver()
 {
 	wprintf(L"OnAutoAttackOver\n");
+	this->mAutoAttackComponent.OnOverAutoAttack();
 	this->mStateManager.SetState(EStateType::State_Chase);
 }
