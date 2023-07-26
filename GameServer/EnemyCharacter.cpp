@@ -9,6 +9,43 @@ EnemyCharacter::~EnemyCharacter()
 {
 }
 
+void EnemyCharacter::OnDestroy()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	spawner->OnDestroyEnemy(GetGameObjectID());
+
+	Protocol::S2C_DeathEnemy deathEnemyPacket;
+	deathEnemyPacket.set_object_id(this->GetGameObjectID());
+	deathEnemyPacket.set_timestamp(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathEnemyPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+}
+
+void EnemyCharacter::OnTick(const int64 inDeltaTime)
+{
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	this->OnSyncLocation(inDeltaTime);
+
+	this->mStateManager.UpdateState(inDeltaTime);
+
+}
+
 bool EnemyCharacter::IsValid()
 {
 	bool isLoad = GetEnemyID() != 0;
@@ -208,10 +245,12 @@ void EnemyCharacter::OnDeath()
 	{
 		return;
 	}
+	const int64 worldTime = world->GetWorldTime();
+	const int64 deathTime = worldTime + 1000;
 
 	const int64 gameObjectID = this->GetGameObjectID();
-	//world->DestroyActor(gameObjectID);
 
+	this->PushTask(deathTime, &World::DestroyActor, gameObjectID);
 }
 
 void EnemyCharacter::OnMovementEnemy()

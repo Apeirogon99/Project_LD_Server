@@ -176,7 +176,7 @@ void EnemySpawnerManager::OnInitialization()
 	datas->GetData(spawnerDatas, static_cast<uint8>(EGameDataType::EnemySpawner));
 
 	const size_t datasSize = spawnerDatas.size() - 1;
-	for (size_t index = 1; index < 2; ++index)
+	for (size_t index = 1; index < datasSize; ++index)
 	{
 		CSVRow row = spawnerDatas.at(index);
 
@@ -248,13 +248,13 @@ void EnemySpawnerManager::SpawnEnemys(EnemySpawnerPtr inSpanwer)
 		inSpanwer->SpawnEnemey<EnemySlime>();
 		break;
 	case 2:
-		inSpanwer->SpawnEnemey<EnemySlime>();
+		inSpanwer->SpawnEnemey<EnemyNomalSkeleton>();
 		break;
 	case 3:
-		inSpanwer->SpawnEnemey<EnemySlime>();
+		inSpanwer->SpawnEnemey<EnemyWarriorSkeleton>();
 		break;
 	case 4:
-		inSpanwer->SpawnEnemey<EnemySlime>();
+		inSpanwer->SpawnEnemey<EnemyArcherSkeleton>();
 		break;
 
 	default:

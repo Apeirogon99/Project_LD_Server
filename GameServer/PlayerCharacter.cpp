@@ -18,10 +18,12 @@ void PlayerCharacter::OnInitialization()
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(710,		180,	1100, FVector(100.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(0,		310,	1000, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(500,		170,	1100, FVector(80.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(710,		180,	1100, FVector(80.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0,		310,	1000, FVector(120.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
+
+	this->mMovementComponent.SetRestrictMovement(true);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -35,15 +37,16 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 5.0f))
+	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
+	this->SetVelocity(vel, vel, vel);
+
+	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
 	{
-		this->SetVelocity(0.0f, 0.0f, 0.0f);
+		//this->mMovementComponent.SetRestrictMovement(false);
 	}
 	this->SyncLocation(inDeltaTime);
 
 	//this->mAutoAttackComponent.Update(this->GetActorPtr());
-
-	//this->GetLocation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
@@ -187,23 +190,32 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 {
-
-	Location	currentLocation		= PacketUtils::ToFVector(pkt.cur_location());
+	Location	serverLocation		= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	Location	clientLocation		= PacketUtils::ToFVector(pkt.cur_location());
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
+	float		radius = this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
 
-	currentLocation.ToString();
-	this->GetLocation().ToString();
+	if (false == this->mMovementComponent.GetRestrictMovement())
+	{
+		return;
+	}
 
-	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, movementDestination, movementLastTime, 42.0f);
+	float distance = FVector::Distance2D(serverLocation, clientLocation);
+	if (distance <= 50.0f)
+	{
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, radius);
+	}
+	else
+	{
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, radius);
+	}
 
 	OnMovement();
 }
 
 void PlayerCharacter::OnMovement()
 {
-	const float movementSpeed = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
-	this->SetVelocity(movementSpeed, movementSpeed, movementSpeed);
 
 	{
 		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
@@ -211,7 +223,7 @@ void PlayerCharacter::OnMovement()
 		const int64	movementLastTime = this->mMovementComponent.GetLastMovementTime();
 
 		const Protocol::SVector& currentLocation = PacketUtils::ToSVector(this->GetLocation());
-		const Protocol::SVector& movementDestination = PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation());
+		const Protocol::SVector& movementDestination = PacketUtils::ToSVector(this->mMovementComponent.GetServerDestinationLocation());
 
 		Protocol::S2C_MovementCharacter movementPacket;
 		movementPacket.set_remote_id(remoteID);
@@ -247,8 +259,8 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 
 	if (false == this->mAutoAttackComponent.IsAutoAttackRange(this->GetActorPtr(), victimActor, range))
 	{
-		FVector curLocation = this->GetLocation();
-		FVector victimLocation = victimActor->GetLocation();
+		FVector curLocation		= this->GetLocation();
+		FVector victimLocation	= victimActor->GetLocation();
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, range);
 		OnMovement();
 	}
@@ -259,6 +271,8 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 		{
 			return;
 		}
+
+		this->mMovementComponent.SetRestrictMovement(false);
 
 		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
 		const int64	remoteID = remotePlayer->GetGameObjectID();
@@ -282,7 +296,7 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
-	printf("Player Hit\n");
+	printf("Player Hit [%f]\n", inDamage);
 }
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
@@ -304,12 +318,14 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 	{
 		return;
 	}
+
+	this->mMovementComponent.SetRestrictMovement(false);
 	
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
 	const int64	remoteID = remotePlayer->GetGameObjectID();
 
 	const Stats& currentStat	= mStatComponent.GetCurrentStats();
-	const float damage			= currentStat.GetAttackDamage();
+	const float damage			= StatUtils::RandomDamage(currentStat.GetAttackDamage());
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
@@ -382,6 +398,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 void PlayerCharacter::OnAutoAttackOver()
 {
 	this->mAutoAttackComponent.OnOverAutoComboAttack();
+	this->mMovementComponent.SetRestrictMovement(true);
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

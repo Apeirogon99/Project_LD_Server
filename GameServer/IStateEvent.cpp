@@ -309,7 +309,7 @@ void AttackState::Enter(EnemyCharacterRef inEnemy)
 	}
 
 	StatsComponent& stat	= enemy->GetEnemyStatsComponent();
-	const float damage		= stat.GetCurrentStats().GetAttackDamage();
+	const float damage		= StatUtils::RandomDamage(stat.GetCurrentStats().GetAttackDamage());
 
 
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
@@ -421,11 +421,8 @@ void DeathState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
-
-	const int64 worldTime = world->GetWorldTime();
-	const int64 deathTime = worldTime + 1000;
-	enemy->PushTask(deathTime, &Actor::OnDeath);
+	enemy->SetVelocity(0.0f, 0.0f, 0.0f);	
+	enemy->OnDeath();
 }
 
 void DeathState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -462,6 +459,12 @@ void StateManager::SetEnemy(EnemyCharacterRef inEnemy)
 
 void StateManager::SetState(const EStateType& inStateType)
 {
+	EnemyCharacterPtr enemy = mEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
 	if (mCurrentState == EStateType::State_Unspecified)
 	{
 		mCurrentState = inStateType;
@@ -479,11 +482,7 @@ void StateManager::SetState(const EStateType& inStateType)
 	IStateEvent* newState = mStateTypes.at(mCurrentState);
 	newState->Enter(mEnemy);
 
-	EnemyCharacterPtr enemy = mEnemy.lock();
-	if (nullptr != enemy)
-	{
-		mEnemy.lock()->DetectChangeEnemy();
-	}
+	mEnemy.lock()->DetectChangeEnemy();
 	StateChangeDebugPrint(mOldState, mCurrentState);
 }
 

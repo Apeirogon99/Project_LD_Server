@@ -8,8 +8,8 @@ public:
 
 public:
 	virtual void OnInitialization()					abstract;
-	virtual void OnDestroy()						abstract;
-	virtual void OnTick(const int64 inDeltaTime)	abstract;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
 	virtual bool IsValid()							override;
 
 public:

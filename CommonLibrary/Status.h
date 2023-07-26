@@ -1,31 +1,32 @@
 #pragma once
 
-#define MAX_STATS_NUM 21
+#define MAX_STATS_NUM 22
 
-enum EStat
+enum class EStatType
 {
-	armor_penetration,			//방어구 관통력
-	attack_damage,				//공격력
-	attack_speed,				//공격 속도
-	critical_strike_chance,		//치명타 확율
-	cirtical_strike_damage,		//치명타 대미지
-	life_steal,					//기본 피해 흡수
-	ability_power,				//마법력
-	mage_penetration,			//마법 관통력
-	omnivamp,					//스킬 피해 흡수
-	physical_vamp,				//?
-	armor,						//방어력
-	heal_and_shield_power,		//힐 또는 방어막 증가량
-	health,						//체력
-	health_regeneration,		//체력 회복량
-	magic_resistance,			//마법 방어력
-	tenacity,					//군중제어 저항력
-	slow_resist,				//슬로우 저항력
-	ability_haste,				//재사용 대기시간 감소
-	mana,						//마나
-	mana_regeneration,			//마나 회복량
-	movement_speed,				//이동 속도
-	range,						//공격 범위
+	Stat_Unspecified,			//존재하지 않음
+	Stat_ArmorPenetration,		//방어구 관통력
+	Stat_AttackDamage,			//공격력
+	Stat_AttackSpeed,			//공격 속도
+	Stat_CriticalStrikeChance,	//치명타 확율
+	Stat_CirticalStrikeDamage,	//치명타 대미지
+	Stat_LifeSteal,				//기본 피해 흡수
+	Stat_AbilityPower,			//마법력
+	Stat_MagePenetration,		//마법 관통력
+	Stat_Omnivamp,				//스킬 피해 흡수
+	Stat_PhysicalVamp,			//?
+	Stat_Armor,					//방어력
+	Stat_HealAndShieldPower,	//힐 또는 방어막 증가량
+	Stat_Health,				//체력
+	Stat_HealthRegeneration,	//체력 회복량
+	Stat_MagicResistance,		//마법 방어력
+	Stat_Tenacity,				//군중제어 저항력
+	Stat_SlowResist,			//슬로우 저항력
+	Stat_AbilityHaste,			//재사용 대기시간 감소
+	Stat_Mana,					//마나
+	Stat_ManaRegeneration,		//마나 회복량
+	Stat_MovementSpeed,			//이동 속도
+	Stat_Range,					//공격 범위
 };
 
 class Stats
@@ -35,20 +36,49 @@ public:
 	~Stats() {}
 
 	Stats(const Stats& inStatus) { this->InitStats(inStatus.mStats); }
-	Stats(Stats&& inStatus) { this->InitStats(inStatus.mStats); }
+	Stats(Stats&& inStatus) noexcept { this->InitStats(inStatus.mStats); }
 
-	Stats& operator=(const Stats& inStatus) noexcept { this->InitStats(inStatus.mStats); return *this; }
+	Stats& operator=(const Stats& inStatus) { this->InitStats(inStatus.mStats); return *this; }
 	Stats& operator=(Stats&& inStatus) noexcept { this->InitStats(inStatus.mStats); return *this; }
+
+	Stats& operator+=(const Stats& inStatus)
+	{
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			this->SetStats(index, this->GetStat(index) + inStatus.GetStat(index));
+		}
+		return *this;
+	}
+
+	Stats operator+(const Stats& inStats)
+	{
+		Stats stats;
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			stats.SetStats(index, this->GetStat(index) + inStats.GetStat(index));
+		}
+		return stats;
+	}
+
+	Stats operator*(const int32 inVlaue)
+	{
+		Stats stats;
+		for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+		{
+			stats.SetStats(index, this->GetStat(index) * inVlaue);
+		}
+		return stats;
+	}
 
 public:
 	void Clear()
 	{
-		::memset(mStats, 0, MAX_STATS_NUM);
+		::memset(mStats, 0, sizeof(float) * MAX_STATS_NUM);
 	}
 
 	void InitStats(const float inStats[MAX_STATS_NUM])
 	{
-		::memcpy(mStats, inStats, MAX_STATS_NUM);
+		::memcpy(mStats, inStats, sizeof(float) * MAX_STATS_NUM);
 	}
 
 	void InitStats(const float inArmorPenetration, const float inAttackDamage, const float inAttackSpeed, const float inCriticalStrikeChance, const float inCirticalStrikeDamage, const float inLifeSteal, const float inAbilityPower, const float inMagePenetration, const float inOmnivamp, const float inPhysicalVamp, const float inArmor, const float inHealAndShieldPower, const float inHealth, const float inHealthRegeneration, const float inMagicResistance, const float inTenacity, const float inSlowResist, const float inAbilityHaste, const float inMana, const float inManaRegeneration, const float inMovementSpeed, const float inRange)
@@ -100,6 +130,7 @@ public:
 	void SetManaRegeneration(const float inManaRegeneration)			{ mManaRegeneration		= inManaRegeneration; }
 	void SetMovementSpeed(const float inMovementSpeed)					{ mMovementSpeed		= inMovementSpeed; }
 	void SetRange(const float inRange)									{ mRange				= inRange; }
+	void SetStats(const int32 inIndex, const float inFValue)			{ mStats[inIndex] = inFValue; }
 		
 public:
 	inline const float GetArmorPenetration()		const { return mArmorPenetration;}
@@ -124,6 +155,8 @@ public:
 	inline const float GetManaRegeneration()		const { return mManaRegeneration; }
 	inline const float GetMovementSpeed()			const { return mMovementSpeed; }
 	inline const float GetRange()					const { return mRange; }
+	const float*	   GetStats()					const { return mStats; }
+	const float		   GetStat(int32 inIndex)		const { return mStats[inIndex]; }
 
 	float* GetStats() { return mStats; }
 
@@ -158,4 +191,15 @@ private:
 
 		float mStats[MAX_STATS_NUM];
 	};
+};
+
+class StatUtils
+{
+public:
+	const static float RandomDamage(const float inDamage) { return static_cast<float>(Random::GetNormalDistribution(inDamage / 2, 0.8) + inDamage * 0.2); }
+	const static int64 CoolTime(const float inBasic, const float inEqipment, const float inBuff, const float inDeBuff) { return FloatToMillSecond(1.0f / inBasic * (1.0f + inEqipment) * (1.0f + inBuff) * (1.0f - inDeBuff)); }
+
+
+private:
+	const static int64 FloatToMillSecond(const float inFloatTime) { return static_cast<int64>(inFloatTime * 1000); }
 };

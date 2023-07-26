@@ -51,7 +51,7 @@ private:
 class TaskQueue : public std::enable_shared_from_this<TaskQueue>
 {
 public:
-	APEIROGON_API TaskQueue() : mFastSpinLock() {}
+	APEIROGON_API TaskQueue() : mFastSpinLock(), mIsClear(false) {}
 	APEIROGON_API ~TaskQueue() {}
 
 	TaskQueue(TaskQueue&&) = delete;
@@ -85,6 +85,8 @@ public:
 			mTaskQueue.Dequeue(taskNode);
 			taskNode.reset();
 		}
+
+		mIsClear = true;
 	}
 
 	APEIROGON_API bool Execute(const int64 inServiceTimeStamp)
@@ -125,6 +127,11 @@ public:
 			TaskNodes[curTaskNode]->Execute();
 		}
 
+		if (mIsClear)
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -145,7 +152,8 @@ public:
 	}
 
 private:
-	FastSpinLock				mFastSpinLock;
-	PriorityQueue				mTaskQueue;
+	FastSpinLock	mFastSpinLock;
+	PriorityQueue	mTaskQueue;
+	bool			mIsClear;
 };
 

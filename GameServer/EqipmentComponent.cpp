@@ -29,6 +29,6 @@ void EqipmentComponent::UpdateEqipmentStats(ActorPtr inActor, Inventoryptr inInv
 	for (AItemPtr eqipment : eqipments)
 	{
 		const Stats& eqipmentStats = dataManager->GetEqipmentStat(eqipment->GetItemCode());
-		mEqipmentStats += eqipmentStats;
+		//mEqipmentStats += eqipmentStats;
 	}
 }

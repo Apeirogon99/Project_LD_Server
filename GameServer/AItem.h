@@ -62,14 +62,16 @@ public:
 	void SetInventoryRoation(const int32 inInventoryRotation);
 
 public:
-	const int32					GetItemCode()			const { return mItemCode; }
-	const Protocol::SVector2D&	GetInventoryPosition()	const { return mInvenPosition; }
-	const int32					GetInventoryRoation()	const { return mInvenRotation; }
-	const Protocol::SItem		ConvertSItem();
+	const int32						GetItemCode()					const { return mItemCode; }
+	const Protocol::SVector2D&		GetInventoryPosition()			const { return mInvenPosition; }
+	const int32						GetInventoryRoation()			const { return mInvenRotation; }
+	const SphereCollisionComponent& GetSphereCollisionComponent()	const { return mCollisionComponent; }
+	const Protocol::SItem			ConvertSItem();
 
 private:
-	int32				mItemCode;
-	Protocol::SVector2D mInvenPosition;
-	int32				mInvenRotation;
+	int32						mItemCode;
+	Protocol::SVector2D			mInvenPosition;
+	int32						mInvenRotation;
+	SphereCollisionComponent	mCollisionComponent;
 };
 

@@ -42,6 +42,8 @@ void AItem::OnInitialization()
 	mInvenPosition.set_x(0);
 	mInvenPosition.set_y(0);
 	mInvenRotation		= 0;
+
+	mCollisionComponent.SetSphereCollisione(50.0f);
 }
 
 void AItem::OnDestroy()

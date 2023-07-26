@@ -142,72 +142,72 @@ void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float i
 {
 	switch (inStatType)
 	{
-	case Stat_Unspecified:
+	case EStatType::Stat_Unspecified:
 		break;
-	case Stat_ArmorPenetration:
+	case EStatType::Stat_ArmorPenetration:
 		mCurrentStats.SetArmorPenetration(inValue);
 		break;
-	case Stat_AttackDamage:
+	case EStatType::Stat_AttackDamage:
+		mCurrentStats.SetAttackDamage(inValue);
+		break;
+	case EStatType::Stat_AttackSpeed:
 		mCurrentStats.SetAttackSpeed(inValue);
 		break;
-	case Stat_AttackSpeed:
-		mCurrentStats.SetAttackSpeed(inValue);
-		break;
-	case Stat_CriticalStrikeChance:
+	case EStatType::Stat_CriticalStrikeChance:
 		mCurrentStats.SetCriticalStrikeChance(inValue);
 		break;
-	case Stat_CirticalStrikeDamage:
+	case EStatType::Stat_CirticalStrikeDamage:
 		mCurrentStats.SetCirticalStrikeDamage(inValue);
 		break;
-	case Stat_LifeSteal:
+	case EStatType::Stat_LifeSteal:
 		mCurrentStats.SetLifeSteal(inValue);
 		break;
-	case Stat_AbilityPower:
+	case EStatType::Stat_AbilityPower:
 		mCurrentStats.SetAbilityPower(inValue);
 		break;
-	case Stat_MagePenetration:
+	case EStatType::Stat_MagePenetration:
 		mCurrentStats.SetMagePenetration(inValue);
 		break;
-	case Stat_Omnivamp:
+	case EStatType::Stat_Omnivamp:
 		mCurrentStats.SetOmnivamp(inValue);
 		break;
-	case Stat_PhysicalVamp:
+	case EStatType::Stat_PhysicalVamp:
 		mCurrentStats.SetPhysicalVamp(inValue);
 		break;
-	case Stat_Armor:
+	case EStatType::Stat_Armor:
 		mCurrentStats.SetArmor(inValue);
 		break;
-	case Stat_HealAndShieldPower:
+	case EStatType::Stat_HealAndShieldPower:
 		mCurrentStats.SetHealAndShieldPower(inValue);
 		break;
-	case Stat_Health:
+	case EStatType::Stat_Health:
 		mCurrentStats.SetHealth(inValue);
 		break;
-	case Stat_HealthRegeneration:
+	case EStatType::Stat_HealthRegeneration:
 		mCurrentStats.SetHealthRegeneration(inValue);
 		break;
-	case Stat_MagicResistance:
+	case EStatType::Stat_MagicResistance:
 		mCurrentStats.SetMagicResistance(inValue);
 		break;
-	case Stat_Tenacity:
+	case EStatType::Stat_Tenacity:
 		mCurrentStats.SetTenacity(inValue);
 		break;
-	case Stat_SlowResist:
+	case EStatType::Stat_SlowResist:
 		mCurrentStats.SetSlowResist(inValue);
 		break;
-	case Stat_AbilityHaste:
+	case EStatType::Stat_AbilityHaste:
 		mCurrentStats.SetAbilityHaste(inValue);
 		break;
-	case Stat_Mana:
+	case EStatType::Stat_Mana:
 		mCurrentStats.SetMana(inValue);
 		break;
-	case Stat_ManaRegeneration:
+	case EStatType::Stat_ManaRegeneration:
 		mCurrentStats.SetManaRegeneration(inValue);
 		break;
-	case Stat_MovementSpeed:
+	case EStatType::Stat_MovementSpeed:
 		mCurrentStats.SetMovementSpeed(inValue);
 		break;
-	case Stat_Range:
+	case EStatType::Stat_Range:
 		mCurrentStats.SetRange(inValue);
 		break;
 	default:

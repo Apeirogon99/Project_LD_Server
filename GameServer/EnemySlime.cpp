@@ -28,54 +28,6 @@ void EnemySlime::OnInitialization()
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
-void EnemySlime::OnDestroy()
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-	const int64 worldTime = world->GetWorldTime();
-
-	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
-	if (nullptr == spawner)
-	{
-		return;
-	}
-	spawner->OnDestroyEnemy(GetGameObjectID());
-
-	Protocol::S2C_DeathEnemy deathEnemyPacket;
-	deathEnemyPacket.set_object_id(this->GetGameObjectID());
-	deathEnemyPacket.set_timestamp(worldTime);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathEnemyPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
-}
-
-void EnemySlime::OnTick(const int64 inDeltaTime)
-{
-	if (false == IsValid())
-	{
-		return;
-	}
-
-	//this->GetRotation().ToString();
-	//this->GetLocation().ToString();
-
-	this->OnSyncLocation(inDeltaTime);
-
-	this->mStateManager.UpdateState(inDeltaTime);
-
-	//OnHit(nullptr, 10000.0f);
-}
-
-bool EnemySlime::IsValid()
-{
-	bool isLoad = GetEnemyID() != 0;
-	bool isAlive = 0.0f <= this->mStatsComponent.GetCurrentStats().GetHealth();
-	return isLoad && isAlive;
-}
-
 void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -106,8 +58,6 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	wprintf(L"OnAutoAttackTargeting\n");
-
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
@@ -135,7 +85,10 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 
 void EnemySlime::OnAutoAttackOver()
 {
-	wprintf(L"OnAutoAttackOver\n");
 	this->mAutoAttackComponent.OnOverAutoAttack();
-	this->mStateManager.SetState(EStateType::State_Chase);
+
+	if (false == this->IsDeath())
+	{
+		this->mStateManager.SetState(EStateType::State_Chase);
+	}
 }

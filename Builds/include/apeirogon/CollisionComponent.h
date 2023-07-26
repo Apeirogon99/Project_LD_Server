@@ -2,8 +2,8 @@
 class CollisionComponent
 {
 public:
-	CollisionComponent() {}
-	~CollisionComponent() {}
+	APEIROGON_API CollisionComponent() {}
+	APEIROGON_API ~CollisionComponent() {}
 
 	CollisionComponent(const CollisionComponent&) = delete;
 	CollisionComponent(CollisionComponent&&) noexcept = delete;
@@ -12,10 +12,10 @@ public:
 	CollisionComponent& operator=(CollisionComponent&&) noexcept = delete;
 
 public:
-	void SetOwner(ActorRef inOwner) { mOwner = inOwner; }
+	APEIROGON_API void SetOwner(ActorRef inOwner) { mOwner = inOwner; }
 
 public:
-	const ActorRef& GetOwner() const { return mOwner; }
+	APEIROGON_API const ActorRef& GetOwner() const { return mOwner; }
 
 protected:
 	ActorRef mOwner;
@@ -24,8 +24,8 @@ protected:
 class BoxCollisionComponent : public CollisionComponent
 {
 public:
-	BoxCollisionComponent();
-	~BoxCollisionComponent();
+	APEIROGON_API BoxCollisionComponent();
+	APEIROGON_API ~BoxCollisionComponent();
 
 	BoxCollisionComponent(const BoxCollisionComponent&) = delete;
 	BoxCollisionComponent(BoxCollisionComponent&&) noexcept = delete;
@@ -46,8 +46,8 @@ private:
 class CapsuleCollisionComponent : public CollisionComponent
 {
 public:
-	CapsuleCollisionComponent();
-	~CapsuleCollisionComponent();
+	APEIROGON_API CapsuleCollisionComponent();
+	APEIROGON_API ~CapsuleCollisionComponent();
 
 	CapsuleCollisionComponent(const CapsuleCollisionComponent&) = delete;
 	CapsuleCollisionComponent(CapsuleCollisionComponent&&) noexcept = delete;
@@ -68,8 +68,8 @@ private:
 class SphereCollisionComponent : public CollisionComponent
 {
 public:
-	SphereCollisionComponent();
-	~SphereCollisionComponent();
+	APEIROGON_API SphereCollisionComponent();
+	APEIROGON_API ~SphereCollisionComponent();
 
 	SphereCollisionComponent(const SphereCollisionComponent&) = delete;
 	SphereCollisionComponent(SphereCollisionComponent&&) noexcept = delete;

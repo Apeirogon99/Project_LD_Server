@@ -21,7 +21,7 @@ void GameTask::Init()
 GameWorldPtr GameTask::GetWorld()
 {
 	GameObjectPtr object;
-	FindTask(L"World", object);
+	FindTask(1, object);
 
 	GameWorldPtr gameWorld = std::static_pointer_cast<GameWorld>(object);
 	if (nullptr == gameWorld)

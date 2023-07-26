@@ -2,9 +2,9 @@
 
 #define MAX_STATS_NUM 22
 
-enum EStatType
+enum class EStatType
 {
-	Stat_Unspecified,			//없음
+	Stat_Unspecified,			//존재하지 않음
 	Stat_ArmorPenetration,		//방어구 관통력
 	Stat_AttackDamage,			//공격력
 	Stat_AttackSpeed,			//공격 속도
@@ -26,7 +26,7 @@ enum EStatType
 	Stat_Mana,					//마나
 	Stat_ManaRegeneration,		//마나 회복량
 	Stat_MovementSpeed,			//이동 속도
-	Stat_Range					//공격 범위
+	Stat_Range,					//공격 범위
 };
 
 class Stats
@@ -78,7 +78,7 @@ public:
 
 	void InitStats(const float inStats[MAX_STATS_NUM])
 	{
-		::memcpy(mStats, inStats, sizeof(float) *  MAX_STATS_NUM);
+		::memcpy(mStats, inStats, sizeof(float) * MAX_STATS_NUM);
 	}
 
 	void InitStats(const float inArmorPenetration, const float inAttackDamage, const float inAttackSpeed, const float inCriticalStrikeChance, const float inCirticalStrikeDamage, const float inLifeSteal, const float inAbilityPower, const float inMagePenetration, const float inOmnivamp, const float inPhysicalVamp, const float inArmor, const float inHealAndShieldPower, const float inHealth, const float inHealthRegeneration, const float inMagicResistance, const float inTenacity, const float inSlowResist, const float inAbilityHaste, const float inMana, const float inManaRegeneration, const float inMovementSpeed, const float inRange)
@@ -130,7 +130,6 @@ public:
 	void SetManaRegeneration(const float inManaRegeneration)			{ mManaRegeneration		= inManaRegeneration; }
 	void SetMovementSpeed(const float inMovementSpeed)					{ mMovementSpeed		= inMovementSpeed; }
 	void SetRange(const float inRange)									{ mRange				= inRange; }
-
 	void SetStats(const int32 inIndex, const float inFValue)			{ mStats[inIndex] = inFValue; }
 		
 public:
@@ -156,9 +155,10 @@ public:
 	inline const float GetManaRegeneration()		const { return mManaRegeneration; }
 	inline const float GetMovementSpeed()			const { return mMovementSpeed; }
 	inline const float GetRange()					const { return mRange; }
+	const float*	   GetStats()					const { return mStats; }
+	const float		   GetStat(int32 inIndex)		const { return mStats[inIndex]; }
 
-	const float*		GetStats() const { return mStats; }
-	const float			GetStat(int32 inIndex)		const { return mStats[inIndex]; }
+	float* GetStats() { return mStats; }
 
 private:
 	union
@@ -196,6 +196,7 @@ private:
 class StatUtils
 {
 public:
+	const static float RandomDamage(const float inDamage) { return static_cast<float>(Random::GetNormalDistribution(inDamage / 2, 0.8) + inDamage * 0.2); }
 	const static int64 CoolTime(const float inBasic, const float inEqipment, const float inBuff, const float inDeBuff) { return FloatToMillSecond(1.0f / inBasic * (1.0f + inEqipment) * (1.0f + inBuff) * (1.0f - inDeBuff)); }
 
 

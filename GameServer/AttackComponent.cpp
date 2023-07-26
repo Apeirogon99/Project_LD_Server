@@ -211,16 +211,6 @@ bool AttackComponent::CheckComboShotAutoAttack(ActorPtr inInstigated)
 bool AttackComponent::IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange)
 {
 	
-	if (nullptr == inInstigated || nullptr == inVictim)
-	{
-		return false;
-	}
-
-	if (false == inInstigated->IsValid() || false == inVictim->IsValid())
-	{
-		return false;
-	}
-
 	float distance = FVector::Distance2D(inInstigated->GetLocation(), inVictim->GetLocation());
 	if (distance >= inAttackRange)
 	{

@@ -107,7 +107,25 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 	const int64 objectID = item.object_id();
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
-	if (true == world->IsValidActor(objectID))
+	ActorPtr itemActor;
+	if (false == world->FindActor(objectID, itemActor))
+	{
+		InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INVALID_ACTOR_IN_WORLD));
+	}
+
+	CharacterPtr character = remotePlayer->GetCharacter();
+	Location characterLocation = character->GetLocation();
+	Location itemLocation = itemActor->GetLocation();
+
+	float distance = FVector::Distance2D(characterLocation, itemLocation);
+	if (distance >= 50.0f)
+	{
+		InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::ACTOR_FAR_FROM_CHARACTER));
+
+		character->GetMovementComponent().SetNewDestination(character->GetActorPtr(), characterLocation, itemLocation, world->GetWorldTime(), character->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX());
+	}
+
+	if (InsertInventoryPacket.error() == 0)
 	{
 		GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());
 		world->DestroyActor(objectID);
@@ -118,7 +136,7 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 
 		const int32					characterID = remotePlayer->GetCharacter()->GetCharacterID();
 		const int32					itemCode = item.item_code();
-		const Protocol::SVector2D&	inventoryPosition = item.inven_position();
+		const Protocol::SVector2D& inventoryPosition = item.inven_position();
 		const int32					inventoryRotation = item.rotation();
 
 		newItem->Init(itemCode, inventoryPosition.x(), inventoryPosition.y(), inventoryRotation);
@@ -135,10 +153,6 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 		{
 			InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INSERT_ERROR));
 		}
-	}
-	else
-	{
-		InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INVALID_ACTOR_IN_WORLD));
 	}
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, InsertInventoryPacket);

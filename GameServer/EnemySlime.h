@@ -7,9 +7,6 @@ public:
 
 public:
 	virtual void	OnInitialization()					override;
-	virtual void	OnDestroy()							override;
-	virtual void	OnTick(const int64 inDeltaTime)		override;
-	virtual bool	IsValid()							override;
 
 public:
 	virtual void	OnAutoAttackShot(ActorPtr inVictim) override;
@@ -17,4 +14,3 @@ public:
 	virtual void	OnAutoAttackOver() override;
 
 };
-

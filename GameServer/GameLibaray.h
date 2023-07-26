@@ -50,6 +50,9 @@
 #include "EnemyCharacter.h"
 #include "EnemySpawner.h"
 #include "EnemySlime.h"
+#include "EnemyNomalSkeleton.h"
+#include "EnemyArcherSkeleton.h"
+#include "EnemyWarriorSkeleton.h"
 
 //==========================//
 //		    Packet			//
