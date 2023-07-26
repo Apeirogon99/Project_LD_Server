@@ -208,8 +208,8 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	float velocity = enemy->GetEnemyStatsComponent().GetCurrentStats().GetMovementSpeed();
 	enemy->SetVelocity(velocity, velocity, velocity);
 
-	Location currentLocation = enemy->GetLocation();
-	Location aggroLocation = aggroActor->GetLocation();
+	Location aggroLocation		= aggroActor->GetLocation();
+	Location currentLocation	= Location(enemy->GetLocation().GetX(), enemy->GetLocation().GetY(), aggroActor->GetLocation().GetZ());
 	const int64 worldTime = world->GetWorldTime();
 
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
@@ -482,7 +482,7 @@ void StateManager::SetState(const EStateType& inStateType)
 	IStateEvent* newState = mStateTypes.at(mCurrentState);
 	newState->Enter(mEnemy);
 
-	mEnemy.lock()->DetectChangeEnemy();
+	enemy->DetectChangeEnemy();
 	StateChangeDebugPrint(mOldState, mCurrentState);
 }
 

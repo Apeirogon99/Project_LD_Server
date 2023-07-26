@@ -281,15 +281,19 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 		const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+		Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
 		this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 
-		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
-		autoAttackPacket.set_remote_id(remoteID);
-		autoAttackPacket.set_combo(autoAttackCount);
-		autoAttackPacket.set_timestamp(worldTime);
+		{
+			Protocol::S2C_PlayerAutoAttack autoAttackPacket;
+			autoAttackPacket.set_remote_id(remoteID);
+			autoAttackPacket.set_combo(autoAttackCount);
+			autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
+			autoAttackPacket.set_timestamp(worldTime);
 
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
-		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+			SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+			remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		}
 	}
 
 }
@@ -329,15 +333,19 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+	Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 
-	Protocol::S2C_PlayerAutoAttack autoAttackPacket;
-	autoAttackPacket.set_remote_id(remoteID);
-	autoAttackPacket.set_combo(autoAttackCount);
-	autoAttackPacket.set_timestamp(worldTime);
+	{
+		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
+		autoAttackPacket.set_remote_id(remoteID);
+		autoAttackPacket.set_combo(autoAttackCount);
+		autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
+		autoAttackPacket.set_timestamp(worldTime);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
-	remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+	}
 
 }
 

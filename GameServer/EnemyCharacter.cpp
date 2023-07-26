@@ -25,12 +25,15 @@ void EnemyCharacter::OnDestroy()
 	}
 	spawner->OnDestroyEnemy(GetGameObjectID());
 
-	Protocol::S2C_DeathEnemy deathEnemyPacket;
-	deathEnemyPacket.set_object_id(this->GetGameObjectID());
-	deathEnemyPacket.set_timestamp(worldTime);
+	{
+		Protocol::S2C_DeathEnemy deathPacket;
+		deathPacket.set_object_id(this->GetGameObjectID());
+		deathPacket.set_timestamp(world->GetWorldTime());
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathEnemyPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
+
 }
 
 void EnemyCharacter::OnTick(const int64 inDeltaTime)
@@ -217,13 +220,6 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 	if (curHealth <= 0.0f)
 	{
 		this->mStateManager.SetState(EStateType::State_Death);
-
-		Protocol::S2C_DeathEnemy deathPacket;
-		deathPacket.set_object_id(this->GetGameObjectID());
-		deathPacket.set_timestamp(world->GetWorldTime());
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathPacket);
-		this->BrodcastPlayerViewers(sendBuffer);
 	}
 	else
 	{
@@ -246,11 +242,10 @@ void EnemyCharacter::OnDeath()
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
-	const int64 deathTime = worldTime + 1000;
-
+	const int64 deathTime = worldTime + 1300;
 	const int64 gameObjectID = this->GetGameObjectID();
 
-	this->PushTask(deathTime, &World::DestroyActor, gameObjectID);
+	world->PushTask(deathTime, &World::DestroyActor, gameObjectID);
 }
 
 void EnemyCharacter::OnMovementEnemy()

@@ -80,7 +80,7 @@ inline void EnemySpawner::SpawnEnemey()
 		newEnemy->SetRecoveryLocation(newLocation);
 
 		const int64 enemyGameObjectID = newEnemy->GetGameObjectID();
-		GameObjectLog(L"[SpawnEnemey] spawn enemy(%lld)\n", enemyGameObjectID);
+		//GameObjectLog(L"[SpawnEnemey] spawn enemy(%lld)\n", enemyGameObjectID);
 		mEnemyCharacters[index] = newEnemy;
 	}
 
