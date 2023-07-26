@@ -469,6 +469,7 @@ void StateManager::SetState(const EStateType& inStateType)
 	{
 		mCurrentState = inStateType;
 		EnterState();
+		enemy->DetectChangeEnemy();
 		return;
 	}
 
@@ -483,7 +484,6 @@ void StateManager::SetState(const EStateType& inStateType)
 	newState->Enter(mEnemy);
 
 	enemy->DetectChangeEnemy();
-	StateChangeDebugPrint(mOldState, mCurrentState);
 }
 
 const EStateType& StateManager::GetCurrentStateType() const
@@ -491,9 +491,9 @@ const EStateType& StateManager::GetCurrentStateType() const
 	return mCurrentState;
 }
 
-void StateManager::StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType)
+void StateManager::StateChangeDebugPrint()
 {
-	wprintf(L"[ID::%2lld][ChangeState] [OLD::%ws] -> [NEW::%ws]\n", mEnemy.lock()->GetGameObjectID(), ToStringState(inOldType).c_str(), ToStringState(inNewType).c_str());
+	wprintf(L"[ID::%2lld][ChangeState] [OLD::%ws] -> [NEW::%ws]\n", mEnemy.lock()->GetGameObjectID(), ToStringState(mOldState).c_str(), ToStringState(mCurrentState).c_str());
 }
 
 const std::wstring StateManager::ToStringState(const EStateType& type)

@@ -11,6 +11,12 @@ EnemyWarriorSkeleton::~EnemyWarriorSkeleton()
 
 void EnemyWarriorSkeleton::OnInitialization()
 {
+	WorldPtr world = this->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(!world);
+	}
+
 	SetTick(true, SYSTEM_TICK);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
@@ -21,7 +27,7 @@ void EnemyWarriorSkeleton::OnInitialization()
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK);
+	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK, world->GetWorldTime());
 
 	AttackInfos infos;
 	infos.push_back(AttackInfo(0, 600, 1600, FVector(100.0f, 100.0f, 100.0f)));

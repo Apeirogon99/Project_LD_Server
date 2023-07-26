@@ -11,6 +11,12 @@ EnemySlime::~EnemySlime()
 
 void EnemySlime::OnInitialization()
 {
+	WorldPtr world = this->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(!world);
+	}
+
 	SetTick(true, SYSTEM_TICK);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
@@ -21,7 +27,10 @@ void EnemySlime::OnInitialization()
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(62.0f, 62.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK);
+	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK, world->GetWorldTime());
+
+	Location initLocation = this->GetLocation();
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), initLocation, initLocation, world->GetWorldTime(), 62.0f);
 
 	AttackInfos infos;
 	infos.push_back(AttackInfo(0, 460, 870, FVector(100.0f, 100.0f, 100.0f)));

@@ -88,16 +88,17 @@ void EnemyCharacter::OnAppearActor(ActorPtr inAppearActor)
 	this->InsertPlayerViewer(anotherPlayerState);
 	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
 
-	FVector curLocation = this->GetLocation();
-	Protocol::SVector spawnLocation = PacketUtils::ToSVector(FVector(curLocation.GetX(), curLocation.GetY(), curLocation.GetZ() + 1.0f));
+	FVector				curLocation		= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	FVector				moveLocation	= this->mMovementComponent.GetDestinationLocation();
+	const int64			worldTime		= this->GetWorld().lock()->GetWorldTime();
 
 	Protocol::S2C_AppearEnemy appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());
 	appearPacket.set_enemy_id(this->GetEnemyID());
 	appearPacket.set_state(static_cast<Protocol::EEnemyState>(this->mStateManager.GetCurrentStateType()));
-	appearPacket.mutable_cur_location()->CopyFrom(spawnLocation);
-	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
-	appearPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
+	appearPacket.mutable_cur_location()->CopyFrom(PacketUtils::ToSVector(curLocation));
+	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(moveLocation));
+	appearPacket.set_timestamp(worldTime);
 
 	std::map<EStatType, float> differentStats;
 	if (true == this->mStatsComponent.ExtractDifferentMaxStats(differentStats))
@@ -174,6 +175,8 @@ void EnemyCharacter::DetectChangeEnemy()
 	{
 		return;
 	}
+
+	this->mStateManager.StateChangeDebugPrint();
 
 	Protocol::S2C_DetectChangeEnemy detectChanagePacket;
 	detectChanagePacket.set_object_id(this->GetGameObjectID());

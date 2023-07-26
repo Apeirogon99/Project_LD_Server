@@ -12,7 +12,7 @@ public:
 	MovementComponent& operator=(MovementComponent&&) noexcept = delete;
 
 public:
-	void InitMovement(const Location& inInitLocation, const int64& inMovementMaxSyncTime);
+	void InitMovement(const Location& inInitLocation, const int64& inMovementMaxSyncTime, const int64& inWorldTime);
 	bool Update(ActorPtr inOwner, const float& inCloseToDestination);
 	bool SyncUpdate(ActorPtr inOwner, const int64 inSyncTime);
 

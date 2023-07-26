@@ -185,7 +185,7 @@ public:
 	}
 
 public:
-	void StateChangeDebugPrint(const EStateType& inOldType, const EStateType& inNewType);
+	void StateChangeDebugPrint();
 	const std::wstring ToStringState(const EStateType& type);
 
 private:

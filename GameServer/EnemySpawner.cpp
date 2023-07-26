@@ -158,7 +158,7 @@ EnemySpawnerManager::~EnemySpawnerManager()
 
 void EnemySpawnerManager::OnInitialization()
 {
-	SetTick(true, DEFAULT_TICK);
+	SetTick(true, MAX_CHECK_ENEMY_TIME);
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
