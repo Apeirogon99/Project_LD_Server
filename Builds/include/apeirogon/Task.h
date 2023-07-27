@@ -94,6 +94,11 @@ public:
 		std::vector<TaskNodePtr> TaskNodes;
 		{
 			FastLockGuard lockGaurd(mFastSpinLock);
+			if (mIsClear)
+			{
+				return false;
+			}
+
 			if (mTaskQueue.IsEmpty())
 			{
 				return true;
@@ -127,12 +132,7 @@ public:
 			TaskNodes[curTaskNode]->Execute();
 		}
 
-		if (mIsClear)
-		{
-			return false;
-		}
-
-		return true;
+		return (mIsClear == false);
 	}
 
 	APEIROGON_API const int64 TaskTop()

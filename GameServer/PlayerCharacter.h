@@ -37,10 +37,10 @@ public:
 
 
 public:
-	int32						GetCharacterID()	{ return mCharacterID; }
-	Protocol::SCharacterData&	GetCharacterData()	{ return mCharacterData; }
-	StatsComponent&				GetStatComponent() 	{ return mStatComponent; }
-	EqipmentComponent&			GetEqipmentStats() 	{ return mEqipmentComponent; }
+	int32						GetCharacterID()		{ return mCharacterID; }
+	Protocol::SCharacterData&	GetCharacterData()		{ return mCharacterData; }
+	StatsComponent&				GetStatComponent() 		{ return mStatComponent; }
+	EqipmentComponent&			GetEqipmentComponent() 	{ return mEqipmentComponent; }
 
 private:
 	bool						mIsLoad;

@@ -191,7 +191,7 @@ bool Handle_UpdateInventory_Requset(PacketSessionPtr& inSession, const int32 inC
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 	
 
-	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_InsertInventory_Response);
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_UpdateInventory_Response);
 	return true;
 }
 

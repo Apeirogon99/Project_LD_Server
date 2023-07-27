@@ -115,16 +115,17 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetScale(1.0f, 1.0f, 1.0f);
 
 	{
-		Inventoryptr& inventory = remotePlayer->GetInventory();
-		inventory->CreateEqipment(helmet, 1);
-		inventory->CreateEqipment(shoulders, 2);
-		inventory->CreateEqipment(chest, 3);
-		inventory->CreateEqipment(bracers, 4);
-		inventory->CreateEqipment(hands, 5);
-		inventory->CreateEqipment(pants, 6);
-		inventory->CreateEqipment(boots, 7);
-		inventory->CreateEqipment(weapon_l, 8);
-		inventory->CreateEqipment(weapon_r, 9);
+		TaskManagerPtr taskManager = character->GetTaskManagerRef().lock();
+		EqipmentComponent& eqipment = character->GetEqipmentComponent();
+		eqipment.CreateEqipment(taskManager, helmet,	1);
+		eqipment.CreateEqipment(taskManager, shoulders, 2);
+		eqipment.CreateEqipment(taskManager, chest,		3);
+		eqipment.CreateEqipment(taskManager, bracers,	4);
+		eqipment.CreateEqipment(taskManager, hands,		5);
+		eqipment.CreateEqipment(taskManager, pants,		6);
+		eqipment.CreateEqipment(taskManager, boots,		7);
+		eqipment.CreateEqipment(taskManager, weapon_l,	8);
+		eqipment.CreateEqipment(taskManager, weapon_r,	9);
 	}
 	
 	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?

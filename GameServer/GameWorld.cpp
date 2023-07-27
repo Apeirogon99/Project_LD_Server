@@ -237,7 +237,7 @@ void GameWorld::VisibleAreaSync(const int64 inDeltaTime)
 {
 	static int64 visibleSyncTime = 0;
 	visibleSyncTime += inDeltaTime;
-	if (visibleSyncTime < 100)
+	if (visibleSyncTime < SYSTEM_TICK)
 	{
 		return;
 	}

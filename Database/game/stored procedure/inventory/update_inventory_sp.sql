@@ -51,13 +51,13 @@ GO
 -- ==================================== --
 USE game_database;
 
-DECLARE @character_id	INT = 0
-DECLARE @item_id		INT = 3
+DECLARE @character_id	INT = 1
+DECLARE @item_id		INT = 31
 DECLARE @ret			INT
 
 SELECT * FROM inventory_tb
 
-EXEC @ret=update_inventory_sp @character_id, 1, 0, 0 , 0, 13, 0
+EXEC @ret=update_inventory_sp @character_id, @item_id, 0, 0 , 0, 10, 0
 print @ret
 
 SELECT * FROM inventory_tb

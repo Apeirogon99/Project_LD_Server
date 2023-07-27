@@ -176,7 +176,7 @@ void EnemyCharacter::DetectChangeEnemy()
 		return;
 	}
 
-	this->mStateManager.StateChangeDebugPrint();
+	//this->mStateManager.StateChangeDebugPrint();
 
 	Protocol::S2C_DetectChangeEnemy detectChanagePacket;
 	detectChanagePacket.set_object_id(this->GetGameObjectID());
@@ -214,7 +214,7 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	PlayerCharacterPtr instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
+	PlayerCharacterRef instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
 	this->mAggroActor = instigated;
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;

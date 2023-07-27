@@ -33,7 +33,7 @@ void GameRemotePlayer::OnInitialization()
 	mPlayerCharacter->SetWorld(world);
 
 	taskManager->PushTask(this->GetCharacter()->GetGameObjectPtr());
-	taskManager->CreateGameObject(this->GetInventory()->GetGameObjectPtr());
+	taskManager->PushTask(this->GetInventory()->GetGameObjectPtr());
 }
 
 void GameRemotePlayer::OnDestroy()
@@ -51,7 +51,10 @@ void GameRemotePlayer::OnDestroy()
 	}
 
 	taskManager->ReleaseTask(this->GetCharacter()->GetGameObjectPtr());
-	taskManager->DestroyGameObject(this->GetInventory()->GetGameObjectPtr());
+	this->mPlayerCharacter.reset();
+
+	taskManager->ReleaseTask(this->GetInventory()->GetGameObjectPtr());
+	this->mInventory.reset();
 }
 
 void GameRemotePlayer::OnTick(const int64 inDeltaTime)
@@ -129,7 +132,7 @@ void GameRemotePlayer::OnLoadComplete()
 	enterPacket.set_remote_id(this->GetGameObjectID());
 	enterPacket.mutable_character_data()->CopyFrom(character->GetCharacterData());
 	GetInventory()->LoadItem(enterPacket.mutable_item());
-	GetInventory()->LoadEqipment(enterPacket.mutable_eqipment());
+	GetCharacter()->GetEqipmentComponent().LoadEqipment(enterPacket.mutable_eqipment());
 	enterPacket.mutable_transform()->CopyFrom(PacketUtils::ToSTransform(character->GetTransform()));
 	enterPacket.set_error(false);
 

@@ -14,7 +14,6 @@ public:
 
 public:
 	void SetLoadInventory(bool inIsLoad);
-	void CreateEqipment(const int32 inItemCode, const int32 inPart);
 
 public:
 	void LoadItemToInventory(Protocol::C2S_LoadInventory inPacket);
@@ -24,16 +23,11 @@ public:
 	void ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket);
 
 	bool LoadItem(google::protobuf::RepeatedPtrField<Protocol::SItem>* inItems);
-	bool LoadEqipment(google::protobuf::RepeatedPtrField<Protocol::SItem>* inEqipments);
 
 public:
 	bool InsertItem(const AItemPtr& inItem);
 	bool UpdateItem(const AItemPtr& inItem, const Protocol::SVector2D& inNewInventoryPosition);
 	bool DeleteItem(const AItemPtr& inItem);
-
-	bool InsertEqipment(const AItemPtr& inInsertInventoryItem, const Protocol::ECharacterPart& inPart);
-	bool DeleteEqipment(const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
-	bool ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 
 	bool FindItem(const int64 inObjectID, AItemPtr& outItem);
 	bool FindItem(const int32 inItemCode, const int32 inInventoryPositionX, const int32 inInventoryPositionY, AItemPtr& outItem);
@@ -44,7 +38,6 @@ public:
 
 public:
 	CSVRow* PeekItemRow(const int32 inItemCode);
-	const std::vector<AItemPtr>& GetEqipments();
 
 protected:
 	bool AddItem(const AItemPtr& item);
@@ -60,6 +53,5 @@ private:
 	int32								mStorage;
 	uint8*								mInventory;
 	std::unordered_map<int64, AItemPtr>	mItems;
-	std::vector<AItemPtr>				mEqipments;
 };
 

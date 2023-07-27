@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "AItem.h"
 
-AItem::AItem() : Actor(L"[ITEM]")
+AItem::AItem() : Actor(L"ITEM")
 {
 	mItemCode			= 0;
 	mInvenPosition.set_x(0);
@@ -14,12 +14,12 @@ AItem::~AItem()
 	
 }
 
-AItem::AItem(const AItem& inItem) : Actor(L"[ITEM]")
+AItem::AItem(const AItem& inItem) : Actor(L"ITEM")
 {
 	Init(inItem);
 }
 
-AItem::AItem(const Protocol::SItem& inItem) : Actor(L"[ITEM]")
+AItem::AItem(const Protocol::SItem& inItem) : Actor(L"ITEM")
 {
 	Init(inItem);
 }

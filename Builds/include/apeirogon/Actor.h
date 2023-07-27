@@ -49,16 +49,17 @@ public:
 	APEIROGON_API void			BrodcastPlayerViewers(SendBufferPtr inSendBuffer);
 
 public:
-	APEIROGON_API ActorPtr			GetActorPtr()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }
-	APEIROGON_API ActorRef			GetActorRef()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }
-	APEIROGON_API WorldRef			GetWorld()		const	{ return mWorld; }
+	APEIROGON_API ActorPtr				GetActorPtr()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }
+	APEIROGON_API ActorRef				GetActorRef()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }
+	APEIROGON_API WorldRef				GetWorld()		const	{ return mWorld; }
 
-	APEIROGON_API const Transform&	GetTransform()	const	{ return mTransfrom; }
-	APEIROGON_API const Location&	GetLocation()	const	{ return mTransfrom.GetLocation(); }
-	APEIROGON_API const Rotation&	GetRotation()	const	{ return mTransfrom.GetRotation(); }
-	APEIROGON_API const Scale&		GetScale()		const	{ return mTransfrom.GetScale(); }
-	APEIROGON_API const Velocity&	GetVelocity()	const	{ return mVelocity; }
-	APEIROGON_API const uint8&		GetActorType()	const	{ return mActorType; }
+	APEIROGON_API const Transform&		GetTransform()	const	{ return mTransfrom; }
+	APEIROGON_API const Location&		GetLocation()	const	{ return mTransfrom.GetLocation(); }
+	APEIROGON_API const Rotation&		GetRotation()	const	{ return mTransfrom.GetRotation(); }
+	APEIROGON_API const Scale&			GetScale()		const	{ return mTransfrom.GetScale(); }
+	APEIROGON_API const Velocity&		GetVelocity()	const	{ return mVelocity; }
+	APEIROGON_API const uint8&			GetActorType()	const	{ return mActorType; }
+	APEIROGON_API const PlayerViewer&	GetPlayerViewers()		{ return mPlayerViewers; }
 
 protected:
 	WorldRef		mWorld;
