@@ -18,9 +18,9 @@ void PlayerCharacter::OnInitialization()
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(500,		170,	1100, FVector(80.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(710,		180,	1100, FVector(80.0f, 100.0f, 100.0f)));
-	infos.push_back(AttackInfo(0,		310,	1000, FVector(120.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(500,		170,	1100, FVector(130.0f, 200.0f, 200.0f)));
+	infos.push_back(AttackInfo(710,		180,	1100, FVector(130.0f, 200.0f, 200.0f)));
+	infos.push_back(AttackInfo(0,		310,	1000, FVector(180.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 
 	this->mMovementComponent.SetRestrictMovement(true);
@@ -28,6 +28,7 @@ void PlayerCharacter::OnInitialization()
 
 void PlayerCharacter::OnDestroy()
 {
+	mIsLoad = false;
 }
 
 void PlayerCharacter::OnTick(const int64 inDeltaTime)
@@ -281,7 +282,7 @@ void PlayerCharacter::AutoAttack(Protocol::C2S_PlayerAutoAttack pkt)
 		const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 		const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
-		Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
+		Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 		this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 
 		{
@@ -333,7 +334,7 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
+	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 
 	{
@@ -370,17 +371,20 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector		location	= this->GetLocation();
-	FRotator	rotation	= this->GetRotation();
+	FVector		location	= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	FRotator	rotation	= FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
 	FVector		foward		= rotation.GetForwardVector();
-	const float radius		= this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collision	= this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
+	const float radius		= (0.5f * std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2)));	//외접원 반지름
 
-	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
-	BoxTrace	boxTrace(boxLocation, boxLocation, true, inRange, rotation);
+	const FVector minusCollision = foward * collision;
+	const FVector addRange = foward * inRange.GetX();
+	Location	boxCenterLocation = location - minusCollision + addRange;
+	BoxTrace	boxTrace(boxCenterLocation, boxCenterLocation, true, inRange, rotation);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(boxLocation, radius, findActorType, findActors);
+	bool result = world->FindActors(boxCenterLocation, radius, findActorType, findActors);
 	if (!result)
 	{
 		return;

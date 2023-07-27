@@ -60,7 +60,8 @@ public:
 public:
 	bool DoMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
 	bool DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
-	//bool DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float inDamage, const float inRange, const int64 inAutoAttackOverTime);
+
+	bool DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
 
 public:
 	bool IsAutoAttacking(ActorPtr inInstigated);
@@ -69,9 +70,10 @@ public:
 	bool IsAutoAttackRange(const ActorPtr& inInstigated, const ActorPtr& inVictim, const float& inAttackRange);
 
 public:
-	const AttackInfo&	GetAttackInfo(const int32& inIndex);
-	const int32			GetAutoAttackCount() const;
-	const bool			IsComboAutoAttack() const;
+	const EAutoAttackType&	GetAttackType() const;
+	const AttackInfo&		GetAttackInfo(const int32& inIndex);
+	const int32				GetAutoAttackCount() const;
+	const bool				IsComboAutoAttack() const;
 
 protected:
 	EAutoAttackType mAutoAttackType;

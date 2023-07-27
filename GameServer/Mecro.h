@@ -1,6 +1,7 @@
 #pragma once
 
 #define SYSTEM_TICK 10
+#define GAME_TICK 33
 #define DEFAULT_TICK 100
 #define DEFAULT_SYNC_TICK 1000
 

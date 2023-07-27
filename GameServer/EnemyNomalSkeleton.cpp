@@ -22,15 +22,15 @@ void EnemyNomalSkeleton::OnInitialization()
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);
 
-	this->mStatsComponent.SetSyncTime(DEFAULT_TICK);
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(0, 650, 1600, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0, 650, 1700, FVector(60.0f, 80.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
@@ -42,7 +42,7 @@ void EnemyNomalSkeleton::OnAutoAttackShot(ActorPtr inVictim)
 		return;
 	}
 
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
+	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 
 	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
 	autoAttackPacket.set_object_id(this->GetGameObjectID());
@@ -62,15 +62,16 @@ void EnemyNomalSkeleton::OnAutoAttackTargeting(const float inDamage, const FVect
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector		location = this->GetLocation();
-	FRotator	rotation = this->GetRotation();
+	FVector		location = this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	FRotator	rotation = FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
 	FVector		foward = rotation.GetForwardVector();
-	const float radius = this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collision = this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
+	const float radius = (0.5f * std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2)));	//외접원 반지름
 
-	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
-	FRotator	orientation = this->GetRotation();
-
-	BoxTrace boxTrace(boxLocation, boxLocation, true, inRange, orientation);
+	const FVector	minusCollision = foward * collision;
+	const FVector	addRange = foward * inRange.GetX();
+	Location		boxCenterLocation = location - minusCollision + addRange;
+	BoxTrace		boxTrace(boxCenterLocation, boxCenterLocation, true, inRange, rotation);
 
 	auto playerIter = mPlayerViewers.begin();
 	for (playerIter; playerIter != mPlayerViewers.end(); ++playerIter)
@@ -90,5 +91,9 @@ void EnemyNomalSkeleton::OnAutoAttackTargeting(const float inDamage, const FVect
 void EnemyNomalSkeleton::OnAutoAttackOver()
 {
 	this->mAutoAttackComponent.OnOverAutoAttack();
-	this->mStateManager.SetState(EStateType::State_Chase);
+
+	if (false == this->IsDeath())
+	{
+		this->mStateManager.SetState(EStateType::State_Chase);
+	}
 }

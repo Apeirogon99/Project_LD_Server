@@ -114,6 +114,41 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 	return true;
 }
 
+bool AttackComponent::DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage)
+{
+	WorldPtr world = inInstigated->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return false;
+	}
+	const int64 worldTime = world->GetWorldTime();
+	mLastAutoAttackTime = worldTime;
+
+	if (EAutoAttackType::Attack_Ranged != mAutoAttackType)
+	{
+		return false;
+	}
+
+	if (false == IsAutoAttacking(inInstigated))
+	{
+		return false;
+	}
+
+	FVector		instigatedLocation = inInstigated->GetLocation();
+	FVector		victimLocation = inVictim->GetLocation();
+	FVector		direction = victimLocation - instigatedLocation;
+	FRotator	rotation = direction.Rotator();
+	inInstigated->SetRotation(rotation);
+
+	AttackInfo attackInfo = mAttackInfos.at(0);
+	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetTargetingTime(), &Actor::OnAutoAttackTargeting, inDamage, attackInfo.GetAttackRange());
+	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
+
+	mVictimActor = inVictim;
+	mIsAutoAttack = true;
+	return true;
+}
+
 bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
 {
 	WorldPtr world = inInstigated->GetWorld().lock();
@@ -218,6 +253,11 @@ bool AttackComponent::IsAutoAttackRange(const ActorPtr& inInstigated, const Acto
 	}
 
 	return true;
+}
+
+const EAutoAttackType& AttackComponent::GetAttackType() const
+{
+	return mAutoAttackType;
 }
 
 const AttackInfo& AttackComponent::GetAttackInfo(const int32& inIndex)

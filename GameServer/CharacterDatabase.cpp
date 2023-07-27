@@ -110,7 +110,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetCharacterData(loadCharacterData);
 
 	character->SetLocation(800.0f, 100.0f, 480.0f);
-	character->GetMovementComponent().InitMovement(character->GetLocation(), DEFAULT_TICK, world->GetWorldTime());
+	character->GetMovementComponent().InitMovement(character->GetLocation(), GAME_TICK, world->GetWorldTime());
 	character->SetRotation(0.0f, 0.0f, 0.0f);
 	character->SetScale(1.0f, 1.0f, 1.0f);
 

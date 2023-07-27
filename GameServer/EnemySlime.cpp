@@ -22,18 +22,18 @@ void EnemySlime::OnInitialization()
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);
 
-	this->mStatsComponent.SetSyncTime(DEFAULT_TICK);
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(62.0f, 62.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), DEFAULT_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	Location initLocation = this->GetLocation();
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), initLocation, initLocation, world->GetWorldTime(), 62.0f);
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(0, 460, 870, FVector(100.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0, 460, 1000, FVector(110.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
@@ -45,9 +45,7 @@ void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 		return;
 	}
 
-	wprintf(L"OnAutoAttackShot\n");
-
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(this->GetRotation());
+	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 
 	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
 	autoAttackPacket.set_object_id(this->GetGameObjectID());

@@ -245,7 +245,7 @@ void EnemyCharacter::OnDeath()
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
-	const int64 deathTime = worldTime + 1300;
+	const int64 deathTime = worldTime + 2000;
 	const int64 gameObjectID = this->GetGameObjectID();
 
 	world->PushTask(deathTime, &World::DestroyActor, gameObjectID);
