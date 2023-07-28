@@ -3,6 +3,7 @@ USE game_database
 DROP TABLE IF EXISTS appearance_tb;
 DROP TABLE IF EXISTS eqipment_tb;
 DROP TABLE IF EXISTS inventory_tb;
+DROP TABLE IF EXISTS money_tb;
 DROP TABLE IF EXISTS level_tb;
 DROP TABLE IF EXISTS character_tb;
 GO
@@ -59,6 +60,14 @@ CREATE TABLE inventory_tb
 );
 Go
 
+CREATE TABLE money_tb
+(
+	id					INT		NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	character_id		INT		NOT NULL FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
+	amount				INT		NOT NULL DEFAULT 0,
+);
+GO
+
 CREATE TABLE level_tb
 (
 	character_id		INT	NOT NULL FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
@@ -71,5 +80,6 @@ SELECT * FROM character_tb
 SELECT * FROM appearance_tb
 SELECT * FROM eqipment_tb
 SELECT * FROM inventory_tb
-SELECT * FROM level_tb;
+SELECT * FROM money_tb
+SELECT * FROM level_tb
 GO

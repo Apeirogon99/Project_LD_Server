@@ -7,6 +7,7 @@ AItem::AItem() : Actor(L"ITEM")
 	mInvenPosition.set_x(0);
 	mInvenPosition.set_y(0);
 	mInvenRotation		= 0;
+	mAmount				= 0;
 }
 
 AItem::~AItem()
@@ -153,6 +154,7 @@ void AItem::Init(const Protocol::SItem& inItem)
 	mItemCode			= inItem.item_code();
 	mInvenPosition		= inItem.inven_position();
 	mInvenRotation		= inItem.rotation();
+	mAmount				= inItem.amount();
 
 	SetLocation(PacketUtils::ToFVector(inItem.world_position()));
 }
@@ -165,27 +167,29 @@ void AItem::Init(const AItem& inItem)
 	mItemCode			= inItem.mItemCode;
 	mInvenPosition		= inItem.mInvenPosition;
 	mInvenRotation		= inItem.mInvenRotation;
+	mAmount				= inItem.mAmount;
 
 	SetLocation(inItem.GetLocation());
 }
 
-void AItem::Init(const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation)
+void AItem::Init(const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation, const int32 inAmount)
 {
 	mItemCode			= inItemCode;
 	mInvenPosition.set_x(inInvenPositionX);
 	mInvenPosition.set_y(inInvenPositionY);
 	mInvenRotation		= inRotation;
+	mAmount				= inAmount;
 
 	SetLocation(inWorldPositionX, inWorldPositionY, inWorldPositionZ);
 }
 
-void AItem::Init(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation)
+void AItem::Init(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation, const int32 inAmount)
 {
 	mItemCode			= inItemCode;
 	mInvenPosition.set_x(inInvenPositionX);
 	mInvenPosition.set_y(inInvenPositionY);
 	mInvenRotation		= inRotation;
-
+	mAmount				= inAmount;
 }
 
 void AItem::SetItemCode(const int32 inItemCode)
@@ -203,6 +207,11 @@ void AItem::SetInventoryRoation(const int32 inInventoryRotation)
 	mInvenRotation = inInventoryRotation;
 }
 
+void AItem::SetAmount(const int32& inAmount)
+{
+	mAmount = inAmount;
+}
+
 const Protocol::SItem AItem::ConvertSItem()
 {
 	Protocol::SItem tempItem;
@@ -211,5 +220,6 @@ const Protocol::SItem AItem::ConvertSItem()
 	tempItem.mutable_inven_position()->CopyFrom(this->GetInventoryPosition());
 	tempItem.set_rotation(this->GetInventoryRoation());
 	tempItem.mutable_world_position()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	tempItem.set_amount(this->mAmount);
 	return tempItem;
 }

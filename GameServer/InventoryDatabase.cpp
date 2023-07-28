@@ -361,3 +361,62 @@ bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection&
 
 	return true;
 }
+
+bool Handle_UpdateMoney_Requset(PacketSessionPtr& inSession, const int32 inMoneyAmount)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
+	ADOConnection connection;
+	connection.Open(ConnectionInfo);
+
+
+	ADOVariant character_id = remotePlayer->GetCharacter()->GetCharacterID();
+	ADOVariant amount		= inMoneyAmount;
+
+	ADOCommand command;
+	command.SetStoredProcedure(connection, L"dbo.update_money_sp");
+	command.SetReturnParam();
+	command.SetInputParam(L"@character_id", character_id);
+	command.SetInputParam(L"@amount", amount);
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+
+
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_UpdateMoney_Response);
+	return true;
+}
+
+bool Handle_UpdateMoney_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	int32 ret = inCommand.GetReturnParam();
+	if (false == remotePlayer->GetInventory()->CheckInventory() || ret != 0)
+	{
+		remotePlayer->GetInventory()->RollBackItem();
+	}
+
+	return true;
+}

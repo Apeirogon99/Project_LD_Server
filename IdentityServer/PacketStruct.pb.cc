@@ -195,6 +195,7 @@ PROTOBUF_CONSTEXPR SItem::SItem(
   , /*decltype(_impl_.object_id_)*/int64_t{0}
   , /*decltype(_impl_.item_code_)*/0
   , /*decltype(_impl_.rotation_)*/0
+  , /*decltype(_impl_.amount_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SItemDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SItemDefaultTypeInternal()
@@ -330,6 +331,7 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.world_position_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.inven_position_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.rotation_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SItem, _impl_.amount_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::SStat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -350,7 +352,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 76, -1, -1, sizeof(::Protocol::SRotator)},
   { 85, -1, -1, sizeof(::Protocol::STransform)},
   { 94, -1, -1, sizeof(::Protocol::SItem)},
-  { 105, -1, -1, sizeof(::Protocol::SStat)},
+  { 106, -1, -1, sizeof(::Protocol::SStat)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -392,20 +394,20 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n\010location\030\001 "
   "\001(\0132\021.Protocol.SVector\022$\n\010rotation\030\002 \001(\013"
   "2\022.Protocol.SRotator\022 \n\005scale\030\003 \001(\0132\021.Pr"
-  "otocol.SVector\"\227\001\n\005SItem\022\021\n\tobject_id\030\001 "
+  "otocol.SVector\"\247\001\n\005SItem\022\021\n\tobject_id\030\001 "
   "\001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_position"
   "\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_posit"
   "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
-  "on\030\005 \001(\005\"C\n\005SStat\022&\n\tstat_type\030\001 \001(\0162\023.P"
-  "rotocol.EStatType\022\022\n\nstat_value\030\002 \001(\002b\006p"
-  "roto3"
+  "on\030\005 \001(\005\022\016\n\006amount\030\006 \001(\005\"C\n\005SStat\022&\n\tsta"
+  "t_type\030\001 \001(\0162\023.Protocol.EStatType\022\022\n\nsta"
+  "t_value\030\002 \001(\002b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1205, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1221, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 11,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -3138,6 +3140,7 @@ SItem::SItem(const SItem& from)
     , decltype(_impl_.object_id_){}
     , decltype(_impl_.item_code_){}
     , decltype(_impl_.rotation_){}
+    , decltype(_impl_.amount_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -3148,8 +3151,8 @@ SItem::SItem(const SItem& from)
     _this->_impl_.inven_position_ = new ::Protocol::SVector2D(*from._impl_.inven_position_);
   }
   ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.rotation_) -
-    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.rotation_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.amount_) -
+    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.amount_));
   // @@protoc_insertion_point(copy_constructor:Protocol.SItem)
 }
 
@@ -3163,6 +3166,7 @@ inline void SItem::SharedCtor(
     , decltype(_impl_.object_id_){int64_t{0}}
     , decltype(_impl_.item_code_){0}
     , decltype(_impl_.rotation_){0}
+    , decltype(_impl_.amount_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3201,8 +3205,8 @@ void SItem::Clear() {
   }
   _impl_.inven_position_ = nullptr;
   ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.rotation_) -
-      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.rotation_));
+      reinterpret_cast<char*>(&_impl_.amount_) -
+      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.amount_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3248,6 +3252,14 @@ const char* SItem::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.rotation_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 amount = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.amount_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -3313,6 +3325,12 @@ uint8_t* SItem::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_rotation(), target);
   }
 
+  // int32 amount = 6;
+  if (this->_internal_amount() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_amount(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3358,6 +3376,11 @@ size_t SItem::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_rotation());
   }
 
+  // int32 amount = 6;
+  if (this->_internal_amount() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_amount());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3393,6 +3416,9 @@ void SItem::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF
   if (from._internal_rotation() != 0) {
     _this->_internal_set_rotation(from._internal_rotation());
   }
+  if (from._internal_amount() != 0) {
+    _this->_internal_set_amount(from._internal_amount());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3411,8 +3437,8 @@ void SItem::InternalSwap(SItem* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SItem, _impl_.rotation_)
-      + sizeof(SItem::_impl_.rotation_)
+      PROTOBUF_FIELD_OFFSET(SItem, _impl_.amount_)
+      + sizeof(SItem::_impl_.amount_)
       - PROTOBUF_FIELD_OFFSET(SItem, _impl_.world_position_)>(
           reinterpret_cast<char*>(&_impl_.world_position_),
           reinterpret_cast<char*>(&other->_impl_.world_position_));

@@ -133,6 +133,7 @@ void GameRemotePlayer::OnLoadComplete()
 	enterPacket.mutable_character_data()->CopyFrom(character->GetCharacterData());
 	GetInventory()->LoadItem(enterPacket.mutable_item());
 	GetCharacter()->GetEqipmentComponent().LoadEqipment(enterPacket.mutable_eqipment());
+	enterPacket.set_money(GetInventory()->GetMoney());
 	enterPacket.mutable_transform()->CopyFrom(PacketUtils::ToSTransform(character->GetTransform()));
 	enterPacket.set_error(false);
 

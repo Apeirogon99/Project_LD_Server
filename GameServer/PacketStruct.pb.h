@@ -1960,6 +1960,7 @@ class SItem final :
     kObjectIdFieldNumber = 1,
     kItemCodeFieldNumber = 2,
     kRotationFieldNumber = 5,
+    kAmountFieldNumber = 6,
   };
   // .Protocol.SVector world_position = 3;
   bool has_world_position() const;
@@ -2024,6 +2025,15 @@ class SItem final :
   void _internal_set_rotation(int32_t value);
   public:
 
+  // int32 amount = 6;
+  void clear_amount();
+  int32_t amount() const;
+  void set_amount(int32_t value);
+  private:
+  int32_t _internal_amount() const;
+  void _internal_set_amount(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.SItem)
  private:
   class _Internal;
@@ -2037,6 +2047,7 @@ class SItem final :
     int64_t object_id_;
     int32_t item_code_;
     int32_t rotation_;
+    int32_t amount_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3726,6 +3737,26 @@ inline void SItem::_internal_set_rotation(int32_t value) {
 inline void SItem::set_rotation(int32_t value) {
   _internal_set_rotation(value);
   // @@protoc_insertion_point(field_set:Protocol.SItem.rotation)
+}
+
+// int32 amount = 6;
+inline void SItem::clear_amount() {
+  _impl_.amount_ = 0;
+}
+inline int32_t SItem::_internal_amount() const {
+  return _impl_.amount_;
+}
+inline int32_t SItem::amount() const {
+  // @@protoc_insertion_point(field_get:Protocol.SItem.amount)
+  return _internal_amount();
+}
+inline void SItem::_internal_set_amount(int32_t value) {
+  
+  _impl_.amount_ = value;
+}
+inline void SItem::set_amount(int32_t value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:Protocol.SItem.amount)
 }
 
 // -------------------------------------------------------------------

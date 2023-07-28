@@ -74,6 +74,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	int32		level			= inRecordset.GetFieldItem(L"level");
 	int32		experience		= inRecordset.GetFieldItem(L"experience");
 
+	int32		amount			= inRecordset.GetFieldItem(L"amount");
 
 	Protocol::SCharacterData loadCharacterData;
 	loadCharacterData.set_name(name.c_str());
@@ -113,6 +114,8 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->GetMovementComponent().InitMovement(character->GetLocation(), GAME_TICK, world->GetWorldTime());
 	character->SetRotation(0.0f, 0.0f, 0.0f);
 	character->SetScale(1.0f, 1.0f, 1.0f);
+
+	remotePlayer->GetInventory()->UpdateMoney(amount);
 
 	{
 		TaskManagerPtr taskManager = character->GetTaskManagerRef().lock();

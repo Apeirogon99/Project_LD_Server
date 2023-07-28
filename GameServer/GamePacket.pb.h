@@ -468,9 +468,10 @@ class S2C_EnterGameServer final :
     kItemFieldNumber = 3,
     kEqipmentFieldNumber = 4,
     kCharacterDataFieldNumber = 2,
-    kTransformFieldNumber = 5,
+    kTransformFieldNumber = 6,
     kRemoteIdFieldNumber = 1,
-    kErrorFieldNumber = 6,
+    kMoneyFieldNumber = 5,
+    kErrorFieldNumber = 7,
   };
   // repeated .Protocol.SItem item = 3;
   int item_size() const;
@@ -526,7 +527,7 @@ class S2C_EnterGameServer final :
       ::Protocol::SCharacterData* character_data);
   ::Protocol::SCharacterData* unsafe_arena_release_character_data();
 
-  // .Protocol.STransform transform = 5;
+  // .Protocol.STransform transform = 6;
   bool has_transform() const;
   private:
   bool _internal_has_transform() const;
@@ -553,7 +554,16 @@ class S2C_EnterGameServer final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int32 error = 6;
+  // int32 money = 5;
+  void clear_money();
+  int32_t money() const;
+  void set_money(int32_t value);
+  private:
+  int32_t _internal_money() const;
+  void _internal_set_money(int32_t value);
+  public:
+
+  // int32 error = 7;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -575,6 +585,7 @@ class S2C_EnterGameServer final :
     ::Protocol::SCharacterData* character_data_;
     ::Protocol::STransform* transform_;
     int64_t remote_id_;
+    int32_t money_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -4299,7 +4310,8 @@ class S2C_LoadInventory final :
   enum : int {
     kItemFieldNumber = 1,
     kEqipmentFieldNumber = 2,
-    kErrorFieldNumber = 3,
+    kMoneyFieldNumber = 3,
+    kErrorFieldNumber = 4,
   };
   // repeated .Protocol.SItem item = 1;
   int item_size() const;
@@ -4337,7 +4349,16 @@ class S2C_LoadInventory final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem >&
       eqipment() const;
 
-  // int32 error = 3;
+  // int32 money = 3;
+  void clear_money();
+  int32_t money() const;
+  void set_money(int32_t value);
+  private:
+  int32_t _internal_money() const;
+  void _internal_set_money(int32_t value);
+  public:
+
+  // int32 error = 4;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -4356,6 +4377,7 @@ class S2C_LoadInventory final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > item_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SItem > eqipment_;
+    int32_t money_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -6173,7 +6195,27 @@ S2C_EnterGameServer::eqipment() const {
   return _impl_.eqipment_;
 }
 
-// .Protocol.STransform transform = 5;
+// int32 money = 5;
+inline void S2C_EnterGameServer::clear_money() {
+  _impl_.money_ = 0;
+}
+inline int32_t S2C_EnterGameServer::_internal_money() const {
+  return _impl_.money_;
+}
+inline int32_t S2C_EnterGameServer::money() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnterGameServer.money)
+  return _internal_money();
+}
+inline void S2C_EnterGameServer::_internal_set_money(int32_t value) {
+  
+  _impl_.money_ = value;
+}
+inline void S2C_EnterGameServer::set_money(int32_t value) {
+  _internal_set_money(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_EnterGameServer.money)
+}
+
+// .Protocol.STransform transform = 6;
 inline bool S2C_EnterGameServer::_internal_has_transform() const {
   return this != internal_default_instance() && _impl_.transform_ != nullptr;
 }
@@ -6258,7 +6300,7 @@ inline void S2C_EnterGameServer::set_allocated_transform(::Protocol::STransform*
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnterGameServer.transform)
 }
 
-// int32 error = 6;
+// int32 error = 7;
 inline void S2C_EnterGameServer::clear_error() {
   _impl_.error_ = 0;
 }
@@ -8639,7 +8681,27 @@ S2C_LoadInventory::eqipment() const {
   return _impl_.eqipment_;
 }
 
-// int32 error = 3;
+// int32 money = 3;
+inline void S2C_LoadInventory::clear_money() {
+  _impl_.money_ = 0;
+}
+inline int32_t S2C_LoadInventory::_internal_money() const {
+  return _impl_.money_;
+}
+inline int32_t S2C_LoadInventory::money() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadInventory.money)
+  return _internal_money();
+}
+inline void S2C_LoadInventory::_internal_set_money(int32_t value) {
+  
+  _impl_.money_ = value;
+}
+inline void S2C_LoadInventory::set_money(int32_t value) {
+  _internal_set_money(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadInventory.money)
+}
+
+// int32 error = 4;
 inline void S2C_LoadInventory::clear_error() {
   _impl_.error_ = 0;
 }

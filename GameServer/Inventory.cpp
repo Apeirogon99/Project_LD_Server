@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Inventory.h"
 
-Inventory::Inventory(const int32 inInventoryWidth, const int32 inInventoryHeight) : GameObject(L"Inventory"), mIsLoad(false), mWidth(inInventoryWidth), mHeight(inInventoryHeight), mStorage(0), mInventory(nullptr)
+Inventory::Inventory(const int32 inInventoryWidth, const int32 inInventoryHeight) : GameObject(L"Inventory"), mIsLoad(false), mWidth(inInventoryWidth), mHeight(inInventoryHeight), mStorage(0), mInventory(nullptr), mMoney(0)
 {
 
 }
@@ -72,6 +72,7 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 
 	this->LoadItem(loadInventoryPacket.mutable_item());
 	eqipment.LoadEqipment(loadInventoryPacket.mutable_eqipment());
+	loadInventoryPacket.set_money(this->mMoney);
 	loadInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadInventoryPacket);
@@ -126,31 +127,41 @@ void Inventory::InsertItemToInventory(Protocol::C2S_InsertInventory inPacket)
 		}
 		else
 		{
-			AItemPtr newItem = std::make_shared<AItem>();
-			GameObjectPtr itemGameObject = newItem->GetGameObjectPtr();
-			task->CreateGameObject(itemGameObject);
 
-			const int32					characterID = remotePlayer->GetCharacter()->GetCharacterID();
-			const int32					itemCode = item.item_code();
-			const Protocol::SVector2D& inventoryPosition = item.inven_position();
-			const int32					inventoryRotation = item.rotation();
-
-			newItem->Init(itemCode, inventoryPosition.x(), inventoryPosition.y(), inventoryRotation);
-			bool insertResult = InsertItem(newItem);
-			if (insertResult)
+			if (inPacket.item().item_code() == 171)
 			{
-				Handle_InsertInventory_Requset(packetSession, characterID, itemCode, inventoryPosition, inventoryRotation);
-
-				InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
-				InsertInventoryPacket.set_object_id(objectID);
+				UpdateMoney(item.amount());
+				Handle_UpdateMoney_Requset(packetSession, item.amount());
 				InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
 			}
 			else
 			{
-				InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INSERT_ERROR));
+				AItemPtr newItem = std::make_shared<AItem>();
+				GameObjectPtr itemGameObject = newItem->GetGameObjectPtr();
+				task->CreateGameObject(itemGameObject);
+
+				const int32					characterID = remotePlayer->GetCharacter()->GetCharacterID();
+				const int32					itemCode = item.item_code();
+				const Protocol::SVector2D& inventoryPosition = item.inven_position();
+				const int32					inventoryRotation = item.rotation();
+
+				newItem->Init(itemCode, inventoryPosition.x(), inventoryPosition.y(), inventoryRotation);
+				bool insertResult = InsertItem(newItem);
+				if (insertResult)
+				{
+					Handle_InsertInventory_Requset(packetSession, characterID, itemCode, inventoryPosition, inventoryRotation);
+					InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
+				}
+				else
+				{
+					InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INSERT_ERROR));
+				}
 			}
 		}
 	}
+
+	InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	InsertInventoryPacket.set_object_id(objectID);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, InsertInventoryPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
@@ -476,6 +487,11 @@ bool Inventory::CheckInventory()
 	return true;
 }
 
+void Inventory::UpdateMoney(const int32& inMoeny)
+{
+	mMoney += inMoeny;
+}
+
 CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 {
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
@@ -492,6 +508,11 @@ CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 
 	DataManagerPtr dataManager = world->GetDatas();
 	return dataManager->PeekRow(static_cast<uint8>(EGameDataType::Item), inItemCode);
+}
+
+const int32& Inventory::GetMoney() const
+{
+	return mMoney;
 }
 
 bool Inventory::AddItem(const AItemPtr& item)
@@ -583,6 +604,7 @@ bool Inventory::SubItem(const AItemPtr& item)
 
 void Inventory::PrintInventoryDebug()
 {
+	printf("[MONEY : %d]\n", this->mMoney);
 	for (int32 i = 0; i < mStorage; ++i)
 	{
 		if (i % mWidth == 0)

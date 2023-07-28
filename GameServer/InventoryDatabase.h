@@ -21,3 +21,9 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 //==========================//
 bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem, Protocol::ECharacterPart inPart);
 bool Handle_ReplaceEqipment_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+
+//==========================//
+//		   Money			//
+//==========================//
+bool Handle_UpdateMoney_Requset(PacketSessionPtr& inSession, const int32 inMoneyAmount);
+bool Handle_UpdateMoney_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);

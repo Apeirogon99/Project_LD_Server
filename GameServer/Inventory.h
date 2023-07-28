@@ -37,7 +37,11 @@ public:
 	bool CheckInventory();
 
 public:
+	void UpdateMoney(const int32& inMoeny);
+
+public:
 	CSVRow* PeekItemRow(const int32 inItemCode);
+	const int32& GetMoney() const;
 
 protected:
 	bool AddItem(const AItemPtr& item);
@@ -52,6 +56,8 @@ private:
 	int32								mHeight;
 	int32								mStorage;
 	uint8*								mInventory;
+
+	int32								mMoney;
 	std::unordered_map<int64, AItemPtr>	mItems;
 };
 
