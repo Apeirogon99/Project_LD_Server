@@ -97,3 +97,24 @@ void EnemyNomalSkeleton::OnAutoAttackOver()
 		this->mStateManager.SetState(EStateType::State_Chase);
 	}
 }
+
+void EnemyNomalSkeleton::OnReward()
+{
+	WorldPtr world = this->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	Location location = this->GetLocation();
+
+	AItemPtr money = std::static_pointer_cast<AItem>(world->SpawnActor<AItem>(world->GetGameObjectRef(), Random::GetRandomVectorInRange2D(location, 100.0f), FRotator(), FVector()));
+	money->SetItemCode(171);
+	money->SetAmount(static_cast<int32>(Random::GetNormalDistribution(70, 0.6)));
+
+	if (true == Random::GetRandomProbability(1.0, 100.0, 60.0))
+	{
+		AItemPtr bone = std::static_pointer_cast<AItem>(world->SpawnActor<AItem>(world->GetGameObjectRef(), Random::GetRandomVectorInRange2D(location, 100.0f), FRotator(), FVector()));
+		bone->SetItemCode(173);
+	}
+}

@@ -21,6 +21,8 @@ public:
 
 	virtual void OnHit(ActorPtr inInstigated, const float inDamage) override;
 	virtual void OnDeath() override;
+
+	virtual void OnReward() abstract;
 	
 public:
 	void OnMovementEnemy();

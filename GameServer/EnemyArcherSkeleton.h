@@ -13,4 +13,6 @@ public:
 	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
 	virtual void	OnAutoAttackOver() override;
 
+public:
+	virtual void OnReward() override;
 };
