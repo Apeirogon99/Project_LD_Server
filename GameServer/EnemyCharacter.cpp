@@ -26,6 +26,7 @@ void EnemyCharacter::OnDestroy()
 	spawner->OnDestroyEnemy(GetGameObjectID());
 
 	OnReward();
+
 	{
 		Protocol::S2C_DeathEnemy deathPacket;
 		deathPacket.set_object_id(this->GetGameObjectID());

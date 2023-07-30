@@ -123,7 +123,7 @@ bool Handle_C2S_PlayerAutoAttack(PacketSessionPtr& session, Protocol::C2S_Player
 	}
 
 
-	character->PushTask(pkt.timestamp(), &PlayerCharacter::AutoAttack, pkt);
+	character->PushTask(pkt.timestamp(), &PlayerCharacter::AutoAttack, pkt.object_id());
 	return true;
 }
 
@@ -159,8 +159,11 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 		return false;
 	}
 
+	AItemPtr newItem = std::make_shared<AItem>();
+	newItem->Init(pkt.item());
+
 	const int64 timestmap = pkt.timestamp();
-	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToInventory, pkt);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToInventory, newItem);
 
 	return true;
 }

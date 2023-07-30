@@ -13,3 +13,12 @@ enum class ECharacterClass : int32
 	WARRIOR_CLASS = 1,
 	WIZARD_CLASS = 2,
 };
+
+enum class EPlayerMode : int32
+{
+	Unspecified_MODE = 0,
+	Move_MODE,
+	PickUp_MODE,
+	Attack_MODE,
+	Skill_MODE,
+};

@@ -17,7 +17,7 @@ public:
 
 public:
 	void LoadItemToInventory(Protocol::C2S_LoadInventory inPacket);
-	void InsertItemToInventory(Protocol::C2S_InsertInventory inPacket);
+	void InsertItemToInventory(AItemPtr inItem);
 	void UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket);
 	void DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket);
 	void ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket);

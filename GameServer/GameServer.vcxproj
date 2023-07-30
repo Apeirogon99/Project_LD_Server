@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
@@ -322,6 +323,7 @@
     <ClCompile Include="WarriorCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyCharacter.h" />

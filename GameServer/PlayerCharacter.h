@@ -17,7 +17,7 @@ public:
 	virtual void	OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
-	void			AutoAttack(Protocol::C2S_PlayerAutoAttack pkt);
+	void			AutoAttack(const int64 inAttackingObjectID);
 	virtual void	OnHit(ActorPtr inInstigated, const float inDamage) override;
 	virtual void	OnAutoAttackShot(ActorPtr inVictim) override;
 	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
@@ -33,12 +33,14 @@ public:
 public:
 	void SetCharacterID(const int32& inCharacterID);
 	void SetCharacterData(Protocol::SCharacterData inCharacterData);
-	//void ReplaceEqipment(const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
-
+	void SetPlayerMode(const EPlayerMode& inPlayerMode);
+	void SetTargetActor(ActorRef inTargetActor);
 
 public:
 	int32						GetCharacterID()		{ return mCharacterID; }
 	Protocol::SCharacterData&	GetCharacterData()		{ return mCharacterData; }
+	const EPlayerMode&			GetPlayerMode()			{ return mPlayerMode; }
+	ActorRef					GetTargetActor()		{ return mTargetActor; }
 	StatsComponent&				GetStatComponent() 		{ return mStatComponent; }
 	EqipmentComponent&			GetEqipmentComponent() 	{ return mEqipmentComponent; }
 
@@ -46,6 +48,9 @@ private:
 	bool						mIsLoad;
 	int32						mCharacterID;
 	Protocol::SCharacterData	mCharacterData;
+
+	EPlayerMode					mPlayerMode;
+	ActorRef					mTargetActor;
 
 	StatsComponent				mStatComponent;
 	EqipmentComponent			mEqipmentComponent;
