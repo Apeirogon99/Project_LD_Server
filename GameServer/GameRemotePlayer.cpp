@@ -27,13 +27,9 @@ void GameRemotePlayer::OnInitialization()
 	GameObjectRef owner = this->GetGameObjectRef();
 	mInventory = std::make_shared<Inventory>(12, 7);
 	mInventory->SetOwner(owner);
-
-	mPlayerCharacter = std::make_shared<PlayerCharacter>();
-	mPlayerCharacter->SetOwner(owner);
-	mPlayerCharacter->SetWorld(world);
-
-	taskManager->PushTask(this->GetCharacter()->GetGameObjectPtr());
 	taskManager->PushTask(this->GetInventory()->GetGameObjectPtr());
+
+	this->mPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(world->SpawnActor<PlayerCharacter>(owner, Location(), Rotation(), Scale()));
 }
 
 void GameRemotePlayer::OnDestroy()
@@ -50,7 +46,8 @@ void GameRemotePlayer::OnDestroy()
 		return;
 	}
 
-	taskManager->ReleaseTask(this->GetCharacter()->GetGameObjectPtr());
+	world->DestroyActor(this->GetCharacter()->GetGameObjectID());
+	//taskManager->ReleaseTask(this->GetCharacter()->GetGameObjectPtr());
 	this->mPlayerCharacter.reset();
 
 	taskManager->ReleaseTask(this->GetInventory()->GetGameObjectPtr());

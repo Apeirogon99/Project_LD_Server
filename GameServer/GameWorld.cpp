@@ -230,7 +230,10 @@ void GameWorld::VisibleAreaInit(PlayerStatePtr inPlayerState)
 	auto viewActor = mWorldActors.begin();
 	for (viewActor; viewActor != mWorldActors.end(); viewActor++)
 	{
-		viewActor->second->CloseToActor(newCharacter, MAX_POSSIBLE_AREA);
+		if (newCharacter != viewActor->second)
+		{
+			viewActor->second->CloseToActor(newCharacter, MAX_POSSIBLE_AREA);
+		}
 	}
 
 	std::pair<int64, RemoteClientPtr> newPlayer = std::make_pair(newRemotePlayer->GetGameObjectID(), inPlayerState);
@@ -263,7 +266,10 @@ void GameWorld::VisibleAreaSync(const int64 inDeltaTime)
 		auto viewActor = mWorldActors.begin();
 		for (viewActor; viewActor != mWorldActors.end(); viewActor++)
 		{
-			viewActor->second->CloseToActor(playerRemotePlayer->GetCharacter(), MAX_POSSIBLE_AREA);
+			if (playerRemotePlayer->GetCharacter() != viewActor->second)
+			{
+				viewActor->second->CloseToActor(playerRemotePlayer->GetCharacter(), MAX_POSSIBLE_AREA);
+			}
 		}
 	}
 }

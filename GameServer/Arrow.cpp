@@ -7,6 +7,7 @@ Arrow::Arrow() : Actor(L"Arrow"), mIsCollision(false), mDamage(0.0f), mLifeTime(
 
 Arrow::~Arrow()
 {
+
 }
 
 void Arrow::OnInitialization()
@@ -20,11 +21,11 @@ void Arrow::OnInitialization()
 	SetTick(true, SYSTEM_TICK);
 
 	this->mCollisionComponent.SetOwner(this->GetActorRef());
-	this->mCollisionComponent.SetSphereCollisione(20.0f);
+	this->mCollisionComponent.SetSphereCollisione(40.0f);
 
 	this->mProjectileComponent.InitProjectile(this->GetLocation(), this->GetRotation(), GAME_TICK, world->GetWorldTime());
 
-	this->SetVelocity(300.0f, 300.0f, 300.0f);
+	this->SetVelocity(100.0f, 100.0f, 100.0f);
 }
 
 void Arrow::OnDestroy()
@@ -211,6 +212,8 @@ void Arrow::CheackCollision()
 		if (isOverlap)
 		{
 			player->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->mDamage);
+
+			printf("HIT PLAYER\n");
 
 			bool ret = world->DestroyActor(this->GetGameObjectID());
 			if (false == ret)

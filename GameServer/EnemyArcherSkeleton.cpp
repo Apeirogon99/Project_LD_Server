@@ -49,6 +49,8 @@ void EnemyArcherSkeleton::OnAutoAttackShot(ActorPtr inVictim)
 
 	this->SetRotation(rotation);
 
+	this->GetRotation().ToString();
+
 	{
 		Protocol::S2C_EnemyAutoAttack autoAttackPacket;
 		autoAttackPacket.set_object_id(this->GetGameObjectID());
