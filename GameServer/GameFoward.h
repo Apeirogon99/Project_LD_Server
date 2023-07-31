@@ -67,6 +67,14 @@ using Inventoryptr					= std::shared_ptr<Inventory>;
 using InventoryRef					= std::weak_ptr<Inventory>;
 
 //==========================//
+//  GameContent | Projctile //
+//==========================//
+class Arrow;
+
+using ArrowPtr						= std::shared_ptr<Arrow>;
+using ArrowRef						= std::weak_ptr<Arrow>;
+
+//==========================//
 //   GameContent | Enemy	//
 //==========================//
 class EnemyCharacter;

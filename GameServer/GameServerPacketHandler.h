@@ -18,24 +18,26 @@ enum class EPakcetID: uint16
 	C2S_PlayerAutoAttack = 2012,
 	S2C_PlayerAutoAttack = 2013,
 	S2C_AppearItem = 2014,
-	S2C_AppearEnemy = 2015,
-	S2C_DetectChangeEnemy = 2016,
-	S2C_MovementEnemy = 2017,
-	S2C_EnemyAutoAttack = 2018,
-	S2C_HitEnemy = 2019,
-	S2C_DeathEnemy = 2020,
-	S2C_DisAppearGameObject = 2021,
-	C2S_LoadInventory = 2022,
-	S2C_LoadInventory = 2023,
-	C2S_InsertInventory = 2024,
-	S2C_InsertInventory = 2025,
-	C2S_UpdateInventory = 2026,
-	S2C_UpdateInventory = 2027,
-	C2S_DeleteInventory = 2028,
-	S2C_DeleteInventory = 2029,
-	S2C_RollbackInventory = 2030,
-	C2S_ReplaceEqipment = 2031,
-	S2C_ReplaceEqipment = 2032,
+	S2C_AppearArrow = 2015,
+	S2C_MovementProjectile = 2016,
+	S2C_AppearEnemy = 2017,
+	S2C_DetectChangeEnemy = 2018,
+	S2C_MovementEnemy = 2019,
+	S2C_EnemyAutoAttack = 2020,
+	S2C_HitEnemy = 2021,
+	S2C_DeathEnemy = 2022,
+	S2C_DisAppearGameObject = 2023,
+	C2S_LoadInventory = 2024,
+	S2C_LoadInventory = 2025,
+	C2S_InsertInventory = 2026,
+	S2C_InsertInventory = 2027,
+	C2S_UpdateInventory = 2028,
+	S2C_UpdateInventory = 2029,
+	C2S_DeleteInventory = 2030,
+	S2C_DeleteInventory = 2031,
+	S2C_RollbackInventory = 2032,
+	C2S_ReplaceEqipment = 2033,
+	S2C_ReplaceEqipment = 2034,
 };
 */
 
@@ -78,6 +80,8 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_PlayAnimation& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_PlayAnimation)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_PlayerAutoAttack& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_PlayerAutoAttack)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearItem)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearArrow& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearArrow)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementProjectile& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementProjectile)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearEnemy)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DetectChangeEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DetectChangeEnemy)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementEnemy)); }

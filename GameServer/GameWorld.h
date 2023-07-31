@@ -4,6 +4,7 @@ enum class EActorType
 {
 	Unspecified,
 	Visible,
+	Player,
 	PickUp,
 	Enemy,
 };

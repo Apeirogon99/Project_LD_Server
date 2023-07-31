@@ -3,7 +3,7 @@ class Arrow : public Actor
 {
 public:
 	Arrow();
-	~Arrow();
+	virtual ~Arrow();
 
 	Arrow(const Arrow&) = delete;
 	Arrow(Arrow&&) noexcept = delete;
@@ -18,11 +18,28 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void SetDamage();
+	virtual void OnAppearActor(ActorPtr inAppearActor) override;
+	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
+
+public:
+	void SyncLocation(const int64 inDeltaTime);
+	void CheackCollision();
+
+public:
+	void SetDamage(const float& inDamage);
+	void SetLifeTime(const int64& inLifeTime);
+
+public:
+	const float					GetDamage() const;
+	const int64					GetLifeTime() const;
+	ProjectileComponent&		GetProjectileComponent();
+	SphereCollisionComponent&	GetSphereCollisionComponent();
 	
 private:
+	bool mIsCollision;
 	float mDamage;
-
+	int64 mLifeTime;
+	
 	ProjectileComponent			mProjectileComponent;
 	SphereCollisionComponent	mCollisionComponent;
 };

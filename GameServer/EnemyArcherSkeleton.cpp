@@ -36,12 +36,48 @@ void EnemyArcherSkeleton::OnInitialization()
 
 void EnemyArcherSkeleton::OnAutoAttackShot(ActorPtr inVictim)
 {
-	//NONE
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	FVector		instigatedLocation = this->GetLocation();
+	FVector		victimLocation = inVictim->GetLocation();
+	FVector		direction = victimLocation - instigatedLocation;
+	FRotator	rotation = direction.Rotator();
+
+	this->SetRotation(rotation);
+
+	{
+		Protocol::S2C_EnemyAutoAttack autoAttackPacket;
+		autoAttackPacket.set_object_id(this->GetGameObjectID());
+		autoAttackPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f)));
+		autoAttackPacket.set_timestamp(world->GetWorldTime());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemyArcherSkeleton::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
 {
-	//TODO : Arrow
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	//Arrow
+	ActorPtr actor = world->SpawnActor<Arrow>(this->GetGameObjectRef(), this->GetLocation(), this->GetRotation(), Scale());
+	ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
+	if (nullptr == arrow)
+	{
+		return;
+	}
+
+	arrow->SetDamage(inDamage);
+	arrow->SetLifeTime(5000);
 }
 
 void EnemyArcherSkeleton::OnAutoAttackOver()

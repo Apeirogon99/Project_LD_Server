@@ -26,6 +26,8 @@ void PlayerCharacter::OnInitialization()
 	this->mMovementComponent.SetRestrictMovement(true);
 
 	this->SetPlayerMode(EPlayerMode::Move_MODE);
+
+	this->SetActorType(static_cast<uint8>(EActorType::Player));
 }
 
 void PlayerCharacter::OnDestroy()

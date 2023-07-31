@@ -134,13 +134,8 @@ bool AttackComponent::DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim
 		return false;
 	}
 
-	FVector		instigatedLocation = inInstigated->GetLocation();
-	FVector		victimLocation = inVictim->GetLocation();
-	FVector		direction = victimLocation - instigatedLocation;
-	FRotator	rotation = direction.Rotator();
-	inInstigated->SetRotation(rotation);
-
 	AttackInfo attackInfo = mAttackInfos.at(0);
+	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetShotTime(), &Actor::OnAutoAttackShot, inVictim);
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetTargetingTime(), &Actor::OnAutoAttackTargeting, inDamage, attackInfo.GetAttackRange());
 	inInstigated->PushTask(mLastAutoAttackTime + attackInfo.GetOverTime(), &Actor::OnAutoAttackOver);
 

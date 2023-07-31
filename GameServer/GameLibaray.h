@@ -47,6 +47,7 @@
 //   GameContent | Enemy	//
 //==========================//
 #include "IStateEvent.h"
+#include "Arrow.h"
 #include "EnemyCharacter.h"
 #include "EnemySpawner.h"
 #include "EnemySlime.h"

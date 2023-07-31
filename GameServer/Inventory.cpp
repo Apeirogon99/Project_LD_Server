@@ -166,8 +166,6 @@ void Inventory::InsertItemToInventory(AItemPtr inItem)
 	InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
 	InsertInventoryPacket.set_object_id(gameObjectID);
 
-	printf("ITEKTEMKTMEKTMK k MKPTMKEMTKEMKTM %lld", gameObjectID);
-
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, InsertInventoryPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
