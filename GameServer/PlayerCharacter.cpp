@@ -42,6 +42,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
+	this->GetLocation().ToString();
+
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(vel, vel, vel);
 
@@ -302,13 +304,15 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+	Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 
 	{
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
 		autoAttackPacket.set_remote_id(remoteID);
 		autoAttackPacket.set_combo(autoAttackCount);
+		autoAttackPacket.mutable_location()->CopyFrom(location);
 		autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
 		autoAttackPacket.set_timestamp(worldTime);
 
@@ -355,12 +359,14 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
 	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 
 	{
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
 		autoAttackPacket.set_remote_id(remoteID);
 		autoAttackPacket.set_combo(autoAttackCount);
+		autoAttackPacket.mutable_location()->CopyFrom(location);
 		autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
 		autoAttackPacket.set_timestamp(worldTime);
 

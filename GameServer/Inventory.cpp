@@ -607,15 +607,15 @@ bool Inventory::SubItem(const AItemPtr& item)
 
 void Inventory::PrintInventoryDebug()
 {
-	printf("[MONEY : %d]\n", this->mMoney);
-	for (int32 i = 0; i < mStorage; ++i)
-	{
-		if (i % mWidth == 0)
-		{
-			printf("\n");
-		}
+	//printf("[MONEY : %d]\n", this->mMoney);
+	//for (int32 i = 0; i < mStorage; ++i)
+	//{
+	//	if (i % mWidth == 0)
+	//	{
+	//		printf("\n");
+	//	}
 
-		printf("[%hhu]", mInventory[i]);
-	}
-	printf("\n");
+	//	printf("[%hhu]", mInventory[i]);
+	//}
+	//printf("\n");
 }

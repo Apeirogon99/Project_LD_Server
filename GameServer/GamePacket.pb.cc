@@ -228,7 +228,8 @@ struct C2S_PlayerAutoAttackDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_PlayerAutoAttackDefaultTypeInternal _C2S_PlayerAutoAttack_default_instance_;
 PROTOBUF_CONSTEXPR S2C_PlayerAutoAttack::S2C_PlayerAutoAttack(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.rotation_)*/nullptr
+    /*decltype(_impl_.location_)*/nullptr
+  , /*decltype(_impl_.rotation_)*/nullptr
   , /*decltype(_impl_.remote_id_)*/int64_t{0}
   , /*decltype(_impl_.timestamp_)*/int64_t{0}
   , /*decltype(_impl_.combo_)*/0
@@ -677,6 +678,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_PlayerAutoAttack, _impl_.remote_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_PlayerAutoAttack, _impl_.combo_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_PlayerAutoAttack, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_PlayerAutoAttack, _impl_.rotation_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_PlayerAutoAttack, _impl_.timestamp_),
   ~0u,  // no _has_bits_
@@ -880,27 +882,27 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 93, -1, -1, sizeof(::Protocol::S2C_PlayAnimation)},
   { 102, -1, -1, sizeof(::Protocol::C2S_PlayerAutoAttack)},
   { 110, -1, -1, sizeof(::Protocol::S2C_PlayerAutoAttack)},
-  { 120, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
-  { 127, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
-  { 137, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
-  { 146, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
-  { 159, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
-  { 169, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
-  { 179, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
-  { 188, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
-  { 196, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 204, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 211, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 218, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 228, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 236, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 245, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 253, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 260, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 269, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 278, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 286, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 296, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 121, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
+  { 128, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
+  { 138, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
+  { 147, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
+  { 160, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
+  { 170, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
+  { 180, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
+  { 189, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
+  { 197, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
+  { 205, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 212, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 219, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 229, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 237, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 246, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 254, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 261, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 270, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 279, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 287, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 297, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -973,60 +975,61 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "\n\021S2C_PlayAnimation\022\021\n\tremote_id\030\001 \001(\003\022\021"
   "\n\ttimestamp\030\002 \001(\003\022\014\n\004type\030\003 \001(\005\"<\n\024C2S_P"
   "layerAutoAttack\022\021\n\ttimestamp\030\001 \001(\003\022\021\n\tob"
-  "ject_id\030\002 \001(\003\"q\n\024S2C_PlayerAutoAttack\022\021\n"
-  "\tremote_id\030\001 \001(\003\022\r\n\005combo\030\002 \001(\005\022$\n\010rotat"
-  "ion\030\003 \001(\0132\022.Protocol.SRotator\022\021\n\ttimesta"
-  "mp\030\004 \001(\003\"/\n\016S2C_AppearItem\022\035\n\004item\030\001 \001(\013"
-  "2\017.Protocol.SItem\"\202\001\n\017S2C_AppearArrow\022\021\n"
-  "\tobject_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.Pro"
-  "tocol.SVector\022$\n\010rotation\030\003 \001(\0132\022.Protoc"
-  "ol.SRotator\022\021\n\ttimestamp\030\004 \001(\003\"c\n\026S2C_Mo"
-  "vementProjectile\022\021\n\tobject_id\030\001 \001(\003\022#\n\010l"
-  "ocation\030\002 \001(\0132\021.Protocol.SVector\022\021\n\ttime"
-  "stamp\030\003 \001(\003\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobjec"
-  "t_id\030\001 \001(\003\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030\003 "
-  "\001(\0162\025.Protocol.EEnemyState\022\036\n\005stats\030\004 \003("
-  "\0132\017.Protocol.SStat\022\'\n\014cur_location\030\005 \001(\013"
-  "2\021.Protocol.SVector\022(\n\rmove_location\030\006 \001"
-  "(\0132\021.Protocol.SVector\022\021\n\ttimestamp\030\007 \001(\003"
-  "\"\203\001\n\025S2C_DetectChangeEnemy\022\021\n\tobject_id\030"
-  "\001 \001(\003\022\036\n\005stats\030\002 \003(\0132\017.Protocol.SStat\022$\n"
-  "\005state\030\003 \001(\0162\025.Protocol.EEnemyState\022\021\n\tt"
-  "imestamp\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\t"
-  "object_id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021."
-  "Protocol.SVector\022(\n\rmove_location\030\003 \001(\0132"
-  "\021.Protocol.SVector\022\021\n\ttimestamp\030\004 \001(\003\"a\n"
-  "\023S2C_EnemyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022"
-  "$\n\010rotation\030\002 \001(\0132\022.Protocol.SRotator\022\021\n"
-  "\ttimestamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobje"
-  "ct_id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_De"
-  "athEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp"
-  "\030\002 \001(\003\",\n\027S2C_DisAppearGameObject\022\021\n\tobj"
-  "ect_id\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttim"
-  "estamp\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004ite"
-  "m\030\001 \003(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 \003"
-  "(\0132\017.Protocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005er"
-  "ror\030\004 \001(\005\"G\n\023C2S_InsertInventory\022\021\n\ttime"
-  "stamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SIt"
-  "em\"J\n\023S2C_InsertInventory\022\021\n\tremote_id\030\001"
-  " \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G"
-  "\n\023C2S_UpdateInventory\022\021\n\ttimestamp\030\001 \001(\003"
-  "\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_U"
-  "pdateInventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_Del"
-  "eteInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030"
-  "\002 \001(\0132\017.Protocol.SItem\022#\n\010location\030\003 \001(\013"
-  "2\021.Protocol.SVector\"V\n\023S2C_DeleteInvento"
-  "ry\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Pr"
-  "otocol.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_Rollb"
-  "ackInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030"
-  "\002 \001(\0132\017.Protocol.SItem\"\247\001\n\023C2S_ReplaceEq"
-  "ipment\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inve"
-  "n_item\030\002 \001(\0132\017.Protocol.SItem\022)\n\020insert_"
-  "eqip_item\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part"
-  "\030\004 \001(\0162\030.Protocol.ECharacterPart\"g\n\023S2C_"
-  "ReplaceEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eq"
-  "ipment\030\002 \001(\0132\034.Protocol.SCharacterEqipme"
-  "nt\022\r\n\005error\030\003 \001(\005b\006proto3"
+  "ject_id\030\002 \001(\003\"\226\001\n\024S2C_PlayerAutoAttack\022\021"
+  "\n\tremote_id\030\001 \001(\003\022\r\n\005combo\030\002 \001(\005\022#\n\010loca"
+  "tion\030\003 \001(\0132\021.Protocol.SVector\022$\n\010rotatio"
+  "n\030\004 \001(\0132\022.Protocol.SRotator\022\021\n\ttimestamp"
+  "\030\005 \001(\003\"/\n\016S2C_AppearItem\022\035\n\004item\030\001 \001(\0132\017"
+  ".Protocol.SItem\"\202\001\n\017S2C_AppearArrow\022\021\n\to"
+  "bject_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.Proto"
+  "col.SVector\022$\n\010rotation\030\003 \001(\0132\022.Protocol"
+  ".SRotator\022\021\n\ttimestamp\030\004 \001(\003\"c\n\026S2C_Move"
+  "mentProjectile\022\021\n\tobject_id\030\001 \001(\003\022#\n\010loc"
+  "ation\030\002 \001(\0132\021.Protocol.SVector\022\021\n\ttimest"
+  "amp\030\003 \001(\003\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobject_"
+  "id\030\001 \001(\003\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030\003 \001("
+  "\0162\025.Protocol.EEnemyState\022\036\n\005stats\030\004 \003(\0132"
+  "\017.Protocol.SStat\022\'\n\014cur_location\030\005 \001(\0132\021"
+  ".Protocol.SVector\022(\n\rmove_location\030\006 \001(\013"
+  "2\021.Protocol.SVector\022\021\n\ttimestamp\030\007 \001(\003\"\203"
+  "\001\n\025S2C_DetectChangeEnemy\022\021\n\tobject_id\030\001 "
+  "\001(\003\022\036\n\005stats\030\002 \003(\0132\017.Protocol.SStat\022$\n\005s"
+  "tate\030\003 \001(\0162\025.Protocol.EEnemyState\022\021\n\ttim"
+  "estamp\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\tob"
+  "ject_id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Pr"
+  "otocol.SVector\022(\n\rmove_location\030\003 \001(\0132\021."
+  "Protocol.SVector\022\021\n\ttimestamp\030\004 \001(\003\"a\n\023S"
+  "2C_EnemyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022$\n"
+  "\010rotation\030\002 \001(\0132\022.Protocol.SRotator\022\021\n\tt"
+  "imestamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject"
+  "_id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_Deat"
+  "hEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002"
+  " \001(\003\",\n\027S2C_DisAppearGameObject\022\021\n\tobjec"
+  "t_id\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimes"
+  "tamp\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004item\030"
+  "\001 \003(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\013"
+  "2\017.Protocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005erro"
+  "r\030\004 \001(\005\"G\n\023C2S_InsertInventory\022\021\n\ttimest"
+  "amp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem"
+  "\"J\n\023S2C_InsertInventory\022\021\n\tremote_id\030\001 \001"
+  "(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023"
+  "C2S_UpdateInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035"
+  "\n\004item\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_Upd"
+  "ateInventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_Delet"
+  "eInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 "
+  "\001(\0132\017.Protocol.SItem\022#\n\010location\030\003 \001(\0132\021"
+  ".Protocol.SVector\"V\n\023S2C_DeleteInventory"
+  "\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Prot"
+  "ocol.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_Rollbac"
+  "kInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 "
+  "\001(\0132\017.Protocol.SItem\"\247\001\n\023C2S_ReplaceEqip"
+  "ment\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_"
+  "item\030\002 \001(\0132\017.Protocol.SItem\022)\n\020insert_eq"
+  "ip_item\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004"
+  " \001(\0162\030.Protocol.ECharacterPart\"g\n\023S2C_Re"
+  "placeEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eqip"
+  "ment\030\002 \001(\0132\034.Protocol.SCharacterEqipment"
+  "\022\r\n\005error\030\003 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -1034,7 +1037,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 3385, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 3423, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 35,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -3974,12 +3977,23 @@ void C2S_PlayerAutoAttack::InternalSwap(C2S_PlayerAutoAttack* other) {
 
 class S2C_PlayerAutoAttack::_Internal {
  public:
+  static const ::Protocol::SVector& location(const S2C_PlayerAutoAttack* msg);
   static const ::Protocol::SRotator& rotation(const S2C_PlayerAutoAttack* msg);
 };
 
+const ::Protocol::SVector&
+S2C_PlayerAutoAttack::_Internal::location(const S2C_PlayerAutoAttack* msg) {
+  return *msg->_impl_.location_;
+}
 const ::Protocol::SRotator&
 S2C_PlayerAutoAttack::_Internal::rotation(const S2C_PlayerAutoAttack* msg) {
   return *msg->_impl_.rotation_;
+}
+void S2C_PlayerAutoAttack::clear_location() {
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
 }
 void S2C_PlayerAutoAttack::clear_rotation() {
   if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
@@ -3997,13 +4011,17 @@ S2C_PlayerAutoAttack::S2C_PlayerAutoAttack(const S2C_PlayerAutoAttack& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_PlayerAutoAttack* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.rotation_){nullptr}
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
     , decltype(_impl_.remote_id_){}
     , decltype(_impl_.timestamp_){}
     , decltype(_impl_.combo_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_location()) {
+    _this->_impl_.location_ = new ::Protocol::SVector(*from._impl_.location_);
+  }
   if (from._internal_has_rotation()) {
     _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
   }
@@ -4018,7 +4036,8 @@ inline void S2C_PlayerAutoAttack::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.rotation_){nullptr}
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
     , decltype(_impl_.remote_id_){int64_t{0}}
     , decltype(_impl_.timestamp_){int64_t{0}}
     , decltype(_impl_.combo_){0}
@@ -4037,6 +4056,7 @@ S2C_PlayerAutoAttack::~S2C_PlayerAutoAttack() {
 
 inline void S2C_PlayerAutoAttack::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.location_;
   if (this != internal_default_instance()) delete _impl_.rotation_;
 }
 
@@ -4050,6 +4070,10 @@ void S2C_PlayerAutoAttack::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
   if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
     delete _impl_.rotation_;
   }
@@ -4082,17 +4106,25 @@ const char* S2C_PlayerAutoAttack::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SRotator rotation = 3;
+      // .Protocol.SVector location = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_location(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SRotator rotation = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int64 timestamp = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+      // int64 timestamp = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
@@ -4139,17 +4171,24 @@ uint8_t* S2C_PlayerAutoAttack::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_combo(), target);
   }
 
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SVector location = 3;
+  if (this->_internal_has_location()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::location(this),
+        _Internal::location(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.SRotator rotation = 4;
   if (this->_internal_has_rotation()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::rotation(this),
+      InternalWriteMessage(4, _Internal::rotation(this),
         _Internal::rotation(this).GetCachedSize(), target, stream);
   }
 
-  // int64 timestamp = 4;
+  // int64 timestamp = 5;
   if (this->_internal_timestamp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_timestamp(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(5, this->_internal_timestamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4168,7 +4207,14 @@ size_t S2C_PlayerAutoAttack::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SVector location = 3;
+  if (this->_internal_has_location()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.location_);
+  }
+
+  // .Protocol.SRotator rotation = 4;
   if (this->_internal_has_rotation()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -4180,7 +4226,7 @@ size_t S2C_PlayerAutoAttack::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_remote_id());
   }
 
-  // int64 timestamp = 4;
+  // int64 timestamp = 5;
   if (this->_internal_timestamp() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
@@ -4208,6 +4254,10 @@ void S2C_PlayerAutoAttack::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_location()) {
+    _this->_internal_mutable_location()->::Protocol::SVector::MergeFrom(
+        from._internal_location());
+  }
   if (from._internal_has_rotation()) {
     _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
         from._internal_rotation());
@@ -4241,9 +4291,9 @@ void S2C_PlayerAutoAttack::InternalSwap(S2C_PlayerAutoAttack* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S2C_PlayerAutoAttack, _impl_.combo_)
       + sizeof(S2C_PlayerAutoAttack::_impl_.combo_)
-      - PROTOBUF_FIELD_OFFSET(S2C_PlayerAutoAttack, _impl_.rotation_)>(
-          reinterpret_cast<char*>(&_impl_.rotation_),
-          reinterpret_cast<char*>(&other->_impl_.rotation_));
+      - PROTOBUF_FIELD_OFFSET(S2C_PlayerAutoAttack, _impl_.location_)>(
+          reinterpret_cast<char*>(&_impl_.location_),
+          reinterpret_cast<char*>(&other->_impl_.location_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_PlayerAutoAttack::GetMetadata() const {

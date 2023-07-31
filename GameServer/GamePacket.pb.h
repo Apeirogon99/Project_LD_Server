@@ -2546,12 +2546,31 @@ class S2C_PlayerAutoAttack final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRotationFieldNumber = 3,
+    kLocationFieldNumber = 3,
+    kRotationFieldNumber = 4,
     kRemoteIdFieldNumber = 1,
-    kTimestampFieldNumber = 4,
+    kTimestampFieldNumber = 5,
     kComboFieldNumber = 2,
   };
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SVector location = 3;
+  bool has_location() const;
+  private:
+  bool _internal_has_location() const;
+  public:
+  void clear_location();
+  const ::Protocol::SVector& location() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_location();
+  ::Protocol::SVector* mutable_location();
+  void set_allocated_location(::Protocol::SVector* location);
+  private:
+  const ::Protocol::SVector& _internal_location() const;
+  ::Protocol::SVector* _internal_mutable_location();
+  public:
+  void unsafe_arena_set_allocated_location(
+      ::Protocol::SVector* location);
+  ::Protocol::SVector* unsafe_arena_release_location();
+
+  // .Protocol.SRotator rotation = 4;
   bool has_rotation() const;
   private:
   bool _internal_has_rotation() const;
@@ -2578,7 +2597,7 @@ class S2C_PlayerAutoAttack final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int64 timestamp = 4;
+  // int64 timestamp = 5;
   void clear_timestamp();
   int64_t timestamp() const;
   void set_timestamp(int64_t value);
@@ -2604,6 +2623,7 @@ class S2C_PlayerAutoAttack final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::Protocol::SVector* location_;
     ::Protocol::SRotator* rotation_;
     int64_t remote_id_;
     int64_t timestamp_;
@@ -7924,7 +7944,92 @@ inline void S2C_PlayerAutoAttack::set_combo(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_PlayerAutoAttack.combo)
 }
 
-// .Protocol.SRotator rotation = 3;
+// .Protocol.SVector location = 3;
+inline bool S2C_PlayerAutoAttack::_internal_has_location() const {
+  return this != internal_default_instance() && _impl_.location_ != nullptr;
+}
+inline bool S2C_PlayerAutoAttack::has_location() const {
+  return _internal_has_location();
+}
+inline const ::Protocol::SVector& S2C_PlayerAutoAttack::_internal_location() const {
+  const ::Protocol::SVector* p = _impl_.location_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
+}
+inline const ::Protocol::SVector& S2C_PlayerAutoAttack::location() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlayerAutoAttack.location)
+  return _internal_location();
+}
+inline void S2C_PlayerAutoAttack::unsafe_arena_set_allocated_location(
+    ::Protocol::SVector* location) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  _impl_.location_ = location;
+  if (location) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_PlayerAutoAttack.location)
+}
+inline ::Protocol::SVector* S2C_PlayerAutoAttack::release_location() {
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SVector* S2C_PlayerAutoAttack::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_PlayerAutoAttack.location)
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* S2C_PlayerAutoAttack::_internal_mutable_location() {
+  
+  if (_impl_.location_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.location_ = p;
+  }
+  return _impl_.location_;
+}
+inline ::Protocol::SVector* S2C_PlayerAutoAttack::mutable_location() {
+  ::Protocol::SVector* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_PlayerAutoAttack.location)
+  return _msg;
+}
+inline void S2C_PlayerAutoAttack::set_allocated_location(::Protocol::SVector* location) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  if (location) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(location));
+    if (message_arena != submessage_arena) {
+      location = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, location, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.location_ = location;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_PlayerAutoAttack.location)
+}
+
+// .Protocol.SRotator rotation = 4;
 inline bool S2C_PlayerAutoAttack::_internal_has_rotation() const {
   return this != internal_default_instance() && _impl_.rotation_ != nullptr;
 }
@@ -8009,7 +8114,7 @@ inline void S2C_PlayerAutoAttack::set_allocated_rotation(::Protocol::SRotator* r
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_PlayerAutoAttack.rotation)
 }
 
-// int64 timestamp = 4;
+// int64 timestamp = 5;
 inline void S2C_PlayerAutoAttack::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
