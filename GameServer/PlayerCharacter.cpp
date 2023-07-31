@@ -42,8 +42,6 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->GetLocation().ToString();
-
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(vel, vel, vel);
 
