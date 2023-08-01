@@ -169,9 +169,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 168,,,,,,,,,,,,
 169,,,,,,,,,,,,
 170,,,,,,,,,,,,
-171,8,0,0,1,µ·,µ·,1,1,1,1,,SkeletalMesh'/Game/Infinity_Blade_Assets/Meshes/SM_Loot.SM_Loot'
-172,9,0,0,1,¸¶³ª °áÁ¤¼®,¸¶³ª °áÁ¤¼®,50,1,1,1,Texture2D'/Game/CraftResourcesIcons/Textures/Tex_gemstone_04_b.Tex_gemstone_04_b',
-173,9,0,0,1,»À,»À,10,1,1,1,Texture2D'/Game/CraftResourcesIcons/Textures/Tex_bone_07_b.Tex_bone_07_b',
+171,11,0,0,1,µ·,µ·,1,1,1,1,,SkeletalMesh'/Game/Infinity_Blade_Assets/Meshes/SM_Loot.SM_Loot'
+172,12,0,0,1,¸¶³ª °áÁ¤¼®,¸¶³ª °áÁ¤¼®,50,1,1,1,Texture2D'/Game/CraftResourcesIcons/Textures/Tex_gemstone_04_b.Tex_gemstone_04_b',
+173,12,0,0,1,»À,»À,10,1,1,1,Texture2D'/Game/CraftResourcesIcons/Textures/Tex_bone_07_b.Tex_bone_07_b',
 174,,,,,,,,,,,,
 175,,,,,,,,,,,,
 176,,,,,,,,,,,,

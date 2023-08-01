@@ -220,6 +220,6 @@ const Protocol::SItem AItem::ConvertSItem()
 	tempItem.mutable_inven_position()->CopyFrom(this->GetInventoryPosition());
 	tempItem.set_rotation(this->GetInventoryRoation());
 	tempItem.mutable_world_position()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	tempItem.set_amount(this->mAmount);
+	tempItem.set_amount(this->GetAmount());
 	return tempItem;
 }
