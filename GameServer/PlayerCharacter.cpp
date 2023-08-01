@@ -18,8 +18,8 @@ void PlayerCharacter::OnInitialization()
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(500,		170,	1100, FVector(130.0f, 200.0f, 200.0f)));
-	infos.push_back(AttackInfo(710,		180,	1100, FVector(130.0f, 200.0f, 200.0f)));
+	infos.push_back(AttackInfo(500,		170,	1100, FVector(130.0f, 300.0f, 300.0f)));
+	infos.push_back(AttackInfo(710,		180,	1100, FVector(130.0f, 300.0f, 300.0f)));
 	infos.push_back(AttackInfo(0,		310,	1000, FVector(180.0f, 150.0f, 150.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 
@@ -302,9 +302,10 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
+
 	Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
-	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
 
 	{
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
@@ -356,9 +357,10 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
+	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
+
 	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
-	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
 
 	{
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
