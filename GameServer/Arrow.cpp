@@ -189,7 +189,7 @@ void Arrow::CheackCollision()
 	const int64 worldTime = world->GetWorldTime();
 
 	FVector		location	= this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
-	FVector		foward		= this->GetRotation().GetForwardVector() * -20.0f;
+	FVector		foward		= this->GetRotation().GetForwardVector() * -50.0f;
 	FVector		arrowHead	= location + foward;
 	const float radius		= this->mCollisionComponent.GetSphereCollision().GetRadius();
 	SphereTrace	sphereTrace(arrowHead, arrowHead, true, radius);
