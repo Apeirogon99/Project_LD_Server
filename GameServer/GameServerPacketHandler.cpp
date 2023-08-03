@@ -127,6 +127,36 @@ bool Handle_C2S_PlayerAutoAttack(PacketSessionPtr& session, Protocol::C2S_Player
 	return true;
 }
 
+bool Handle_C2S_Chat(PacketSessionPtr& session, Protocol::C2S_Chat& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	world->PushTask(pkt.timestamp(), &GameWorld::WorldChat, playerState, pkt.timestamp(), pkt.message());
+	return true;
+}
+
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
@@ -159,11 +189,10 @@ bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertI
 		return false;
 	}
 
-	AItemPtr newItem = std::make_shared<AItem>();
-	newItem->Init(pkt.item());
+	const Protocol::SItem&	item = pkt.item();
+	const int64				timestmap = pkt.timestamp();
 
-	const int64 timestmap = pkt.timestamp();
-	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToInventory, newItem);
+	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::InsertItemToInventory, item.object_id(), item.item_code(), FVector(item.world_position().x(), item.world_position().y(), item.world_position().z()), item.inven_position(), item.rotation(), item.amount());
 
 	return true;
 }

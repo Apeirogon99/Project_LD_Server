@@ -41,14 +41,16 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[5];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[6];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketEnum_2eproto = nullptr;
 const uint32_t TableStruct_PacketEnum_2eproto::offsets[1] = {};
 static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
 static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020PacketEnum.proto\022\010Protocol*I\n\005ERace\022\024\n"
+  "\n\020PacketEnum.proto\022\010Protocol*N\n\005EChat\022\024\n"
+  "\020Chat_Unspecified\020\000\022\016\n\nChat_World\020\001\022\016\n\nC"
+  "hat_Party\020\002\022\017\n\013Chat_Friend\020\003*I\n\005ERace\022\024\n"
   "\020Race_Unspecified\020\000\022\014\n\010Race_Men\020\001\022\016\n\nRac"
   "e_Women\020\002\022\014\n\010Race_Orc\020\003*P\n\017ECharacterCla"
   "ss\022\026\n\022CClass_Unspecified\020\000\022\022\n\016CClass_War"
@@ -80,7 +82,7 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 1160, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 1240, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -94,9 +96,25 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_PacketEn
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_PacketEnum_2eproto(&descriptor_table_PacketEnum_2eproto);
 namespace Protocol {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ERace_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EChat_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
   return file_level_enum_descriptors_PacketEnum_2eproto[0];
+}
+bool EChat_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ERace_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
+  return file_level_enum_descriptors_PacketEnum_2eproto[1];
 }
 bool ERace_IsValid(int value) {
   switch (value) {
@@ -112,7 +130,7 @@ bool ERace_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECharacterClass_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
-  return file_level_enum_descriptors_PacketEnum_2eproto[1];
+  return file_level_enum_descriptors_PacketEnum_2eproto[2];
 }
 bool ECharacterClass_IsValid(int value) {
   switch (value) {
@@ -127,7 +145,7 @@ bool ECharacterClass_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECharacterPart_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
-  return file_level_enum_descriptors_PacketEnum_2eproto[2];
+  return file_level_enum_descriptors_PacketEnum_2eproto[3];
 }
 bool ECharacterPart_IsValid(int value) {
   switch (value) {
@@ -149,7 +167,7 @@ bool ECharacterPart_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EEnemyState_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
-  return file_level_enum_descriptors_PacketEnum_2eproto[3];
+  return file_level_enum_descriptors_PacketEnum_2eproto[4];
 }
 bool EEnemyState_IsValid(int value) {
   switch (value) {
@@ -172,7 +190,7 @@ bool EEnemyState_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EStatType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
-  return file_level_enum_descriptors_PacketEnum_2eproto[4];
+  return file_level_enum_descriptors_PacketEnum_2eproto[5];
 }
 bool EStatType_IsValid(int value) {
   switch (value) {

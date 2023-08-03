@@ -51,6 +51,33 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
+enum EChat : int {
+  Chat_Unspecified = 0,
+  Chat_World = 1,
+  Chat_Party = 2,
+  Chat_Friend = 3,
+  EChat_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  EChat_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool EChat_IsValid(int value);
+constexpr EChat EChat_MIN = Chat_Unspecified;
+constexpr EChat EChat_MAX = Chat_Friend;
+constexpr int EChat_ARRAYSIZE = EChat_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EChat_descriptor();
+template<typename T>
+inline const std::string& EChat_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, EChat>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function EChat_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    EChat_descriptor(), enum_t_value);
+}
+inline bool EChat_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, EChat* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<EChat>(
+    EChat_descriptor(), name, value);
+}
 enum ERace : int {
   Race_Unspecified = 0,
   Race_Men = 1,
@@ -239,6 +266,11 @@ inline bool EStatType_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::Protocol::EChat> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::EChat>() {
+  return ::Protocol::EChat_descriptor();
+}
 template <> struct is_proto_enum< ::Protocol::ERace> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ERace>() {

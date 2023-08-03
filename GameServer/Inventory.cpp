@@ -79,8 +79,16 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 	playerState->Send(sendBuffer);
 }
 
-void Inventory::InsertItemToInventory(AItemPtr inItem)
+void Inventory::InsertItemToInventory(const int64 inGameObjectID, const int32 inItemCode, const Location inLocation, Protocol::SVector2D inInvenPosition, const int32 inRotation, const int32 inAmount)
 {
+	printf("[  ITEM   ]\n");
+	printf("[OBJECT ID] %lld\n", inGameObjectID);
+	printf("[ITEM CODE] %d\n", inItemCode);
+	printf("[INVEN POS] (%d, %d)\n", inInvenPosition.x(), inInvenPosition.y());
+	printf("[INVEN ROT] %d\n", inRotation);
+	printf("[WORLD POS] (%f, %f, %f)\n", inLocation.GetX(), inLocation.GetY(), inLocation.GetZ());
+	printf("[ AMOUNT  ] %d\n", inAmount);
+
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
@@ -97,18 +105,17 @@ void Inventory::InsertItemToInventory(AItemPtr inItem)
 	Protocol::S2C_InsertInventory InsertInventoryPacket;
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
-	const int64 gameObjectID = inItem->GetGameObjectID();
 
 	ActorPtr itemActor;
-	if (false == world->FindActor(gameObjectID, itemActor))
+	if (false == world->FindActor(inGameObjectID, itemActor))
 	{
 		InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INVALID_ACTOR_IN_WORLD));
 	}
 	else
 	{
-		PlayerCharacterPtr character = remotePlayer->GetCharacter();
-		Location characterLocation = character->GetLocation();
-		Location itemLocation = itemActor->GetLocation();
+		PlayerCharacterPtr	character			= remotePlayer->GetCharacter();
+		Location			characterLocation	= character->GetLocation();
+		Location			itemLocation		= itemActor->GetLocation();
 
 		float distance = FVector::Distance2D(characterLocation, itemLocation);
 		if (distance >= 100.0f)
@@ -125,10 +132,10 @@ void Inventory::InsertItemToInventory(AItemPtr inItem)
 		if (InsertInventoryPacket.error() == 0)
 		{
 			GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());
-			if (inItem->GetItemCode() == 171)
+			if (inItemCode == 171)
 			{
-				UpdateMoney(inItem->GetAmount());
-				Handle_UpdateMoney_Requset(packetSession, inItem->GetAmount());
+				UpdateMoney(inAmount);
+				Handle_UpdateMoney_Requset(packetSession, inAmount);
 				InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
 			}
 			else
@@ -138,17 +145,14 @@ void Inventory::InsertItemToInventory(AItemPtr inItem)
 				task->CreateGameObject(itemGameObject);
 
 				const int32					characterID = remotePlayer->GetCharacter()->GetCharacterID();
-				const int32					itemCode = inItem->GetItemCode();
-				const Protocol::SVector2D&	inventoryPosition = inItem->GetInventoryPosition();
-				const int32					inventoryRotation = inItem->GetInventoryRoation();
 
-				newItem->Init(itemCode, inventoryPosition.x(), inventoryPosition.y(), inventoryRotation);
+				newItem->Init(inItemCode, inInvenPosition.x(), inInvenPosition.y(), inRotation);
 				bool insertResult = InsertItem(newItem);
 				if (insertResult)
 				{
-					Handle_InsertInventory_Requset(packetSession, characterID, itemCode, inventoryPosition, inventoryRotation);
+					Handle_InsertInventory_Requset(packetSession, characterID, newItem->GetItemCode(), newItem->GetInventoryPosition(), newItem->GetInventoryRoation());
 
-					if (false == world->DestroyActor(gameObjectID))
+					if (false == world->DestroyActor(inGameObjectID))
 					{
 						InsertInventoryPacket.set_error(ErrorToInt(EGameErrorType::INSERT_ERROR));
 					}
@@ -165,7 +169,7 @@ void Inventory::InsertItemToInventory(AItemPtr inItem)
 	}
 
 	InsertInventoryPacket.set_remote_id(remotePlayer->GetGameObjectID());
-	InsertInventoryPacket.set_object_id(gameObjectID);
+	InsertInventoryPacket.set_object_id(inGameObjectID);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, InsertInventoryPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);

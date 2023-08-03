@@ -212,6 +212,17 @@ void AItem::SetAmount(const int32& inAmount)
 	mAmount = inAmount;
 }
 
+void AItem::ItemDebug()
+{
+	printf("[  ITEM   ]\n");
+	printf("[OBJECT ID] %lld\n", this->GetGameObjectID());
+	printf("[ITEM CODE] %d\n", this->GetItemCode());
+	printf("[INVEN POS] (%d, %d)\n", this->GetInventoryPosition().x(), this->GetInventoryPosition().y());
+	printf("[INVEN ROT] %d\n", this->GetInventoryRoation());
+	printf("[WORLD POS] (%f, %f, %f)\n",this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
+	printf("[ AMOUNT  ] %d\n", this->GetAmount());
+}
+
 const Protocol::SItem AItem::ConvertSItem()
 {
 	Protocol::SItem tempItem;

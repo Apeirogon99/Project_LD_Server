@@ -28,6 +28,8 @@ public:
 
 	APEIROGON_API bool				IsValidActor(const int64 inGameObjectID);
 
+	APEIROGON_API void				SendWorldPlayers(SendBufferPtr inSendBuffer);
+
 public:
 	APEIROGON_API WorldPtr			GetWorldPtr()		{ return std::static_pointer_cast<World>(shared_from_this()); }
 	APEIROGON_API WorldRef			GetWorldRef()		{ return std::static_pointer_cast<World>(shared_from_this()); }

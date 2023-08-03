@@ -26,6 +26,8 @@ public:
 	void Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket);
 	void Leave(PlayerStatePtr inPlayerState);
 
+	void WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage);
+
 	void VisibleAreaInit(PlayerStatePtr inPlayerState);
 	void VisibleAreaSync(const int64 inDeltaTime);
 	void CheackToken();

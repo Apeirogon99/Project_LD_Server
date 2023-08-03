@@ -198,6 +198,31 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	packetSession->Send(sendBuffer);
 }
 
+void GameWorld::WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)
+{
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr playerCharacter = remotePlayer->GetCharacter();
+	if (nullptr == playerCharacter)
+	{
+		return;
+	}
+
+	Protocol::S2C_Chat chatPacket;
+	chatPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	chatPacket.set_name(playerCharacter->GetCharacterData().name());
+	chatPacket.set_message(inMessage);
+	chatPacket.set_chat_type(Protocol::Chat_World);
+	chatPacket.set_timestamp(inWorldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, chatPacket);
+	this->SendWorldPlayers(sendBuffer);
+}
+
 void GameWorld::VisibleAreaInit(PlayerStatePtr inPlayerState)
 {
 	GameRemotePlayerPtr newRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());

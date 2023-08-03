@@ -62,6 +62,8 @@ public:
 	void SetInventoryRoation(const int32 inInventoryRotation);
 	void SetAmount(const int32& inAmount);
 
+	void ItemDebug();
+
 public:
 	const int32						GetItemCode()					const { return mItemCode; }
 	const Protocol::SVector2D&		GetInventoryPosition()			const { return mInvenPosition; }

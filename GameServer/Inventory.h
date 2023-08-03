@@ -17,7 +17,7 @@ public:
 
 public:
 	void LoadItemToInventory(Protocol::C2S_LoadInventory inPacket);
-	void InsertItemToInventory(AItemPtr inItem);
+	void InsertItemToInventory(const int64 inGameObjectID, const int32 inItemCode, const Location inLocation, Protocol::SVector2D inInvenPosition, const int32 inRotation, const int32 inAmount);
 	void UpdateItemToInventory(Protocol::C2S_UpdateInventory inPacket);
 	void DeleteItemToInventory(Protocol::C2S_DeleteInventory inPacket);
 	void ReplcaeItemToEqipment(Protocol::C2S_ReplaceEqipment inPacket);

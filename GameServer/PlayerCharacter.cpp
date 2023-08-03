@@ -50,18 +50,17 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		ActorPtr target = mTargetActor.lock();
 		if (nullptr != target)
 		{
-			switch (this->mPlayerMode)
+			if (this->mPlayerMode == EPlayerMode::PickUp_MODE)
 			{
-			case EPlayerMode::PickUp_MODE:
-				std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetInventory()->InsertItemToInventory(std::static_pointer_cast<AItem>(target));
-				break;
-			case EPlayerMode::Attack_MODE:
+				AItemPtr item = std::static_pointer_cast<AItem>(target);
+				std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetInventory()->InsertItemToInventory(item->GetGameObjectID(), item->GetItemCode(), item->GetLocation(), item->GetInventoryPosition(), item->GetInventoryRoation(), item->GetAmount());
+			}
+			else if (this->mPlayerMode == EPlayerMode::Attack_MODE)
+			{
 				this->AutoAttack(target->GetGameObjectID());
-				break;
-			case EPlayerMode::Skill_MODE:
-				break;
-			default:
-				break;
+			}
+			else if (this->mPlayerMode == EPlayerMode::Skill_MODE)
+			{
 			}
 
 			this->mTargetActor.reset();
