@@ -49,6 +49,11 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 
 	this->mStateManager.UpdateState(inDeltaTime);
 
+	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
+	{
+		this->DetectChangeEnemy();
+	}
+
 }
 
 bool EnemyCharacter::IsValid()
@@ -178,8 +183,6 @@ void EnemyCharacter::DetectChangeEnemy()
 		return;
 	}
 
-	//this->mStateManager.StateChangeDebugPrint();
-
 	Protocol::S2C_DetectChangeEnemy detectChanagePacket;
 	detectChanagePacket.set_object_id(this->GetGameObjectID());
 	detectChanagePacket.set_timestamp(world->GetWorldTime());
@@ -225,17 +228,16 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 	if (curHealth <= 0.0f)
 	{
 		this->mStateManager.SetState(EStateType::State_Death);
+		return;
+	}
+
+	if (this->mStateManager.GetCurrentStateType() != EStateType::State_Attack)
+	{
+		this->mStateManager.SetState(EStateType::State_Hit);
 	}
 	else
 	{
-		this->mStateManager.SetState(EStateType::State_Hit);
-
-		Protocol::S2C_HitEnemy hitPacket;
-		hitPacket.set_object_id(this->GetGameObjectID());
-		hitPacket.set_timestamp(world->GetWorldTime());
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
-		this->BrodcastPlayerViewers(sendBuffer);
+		this->DetectChangeEnemy();
 	}
 }
 

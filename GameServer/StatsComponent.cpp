@@ -238,7 +238,19 @@ const Stats& StatsComponent::GetCurrentStats() const
     return mCurrentStats;
 }
 
-bool StatsComponent::IsChanageStats() const
+bool StatsComponent::IsChanageStats(const int64 inDeletaTime)
 {
-	return mIsChanageStats;
+	mStatSyncTime += inDeletaTime;
+	if (mStatSyncTime < mMaxStatSyncTime)
+	{
+		return false;
+	}
+	mStatSyncTime = 0;
+
+	if (false == mIsChanageStats)
+	{
+		return false;
+	}
+
+	return true;
 }

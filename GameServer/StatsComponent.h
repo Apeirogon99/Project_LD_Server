@@ -27,7 +27,7 @@ public:
 public:
 	const Stats&	GetMaxStats() const;
 	const Stats&	GetCurrentStats() const;
-	bool			IsChanageStats() const;
+	bool			IsChanageStats(const int64 inDeletaTime);
 
 private:
 	bool			mIsChanageStats;

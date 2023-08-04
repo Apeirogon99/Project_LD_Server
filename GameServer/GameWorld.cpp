@@ -14,18 +14,6 @@ GameWorld::~GameWorld()
 void GameWorld::OnInitialization()
 {
 	this->SetTick(true, SYSTEM_TICK);
-
-	Location	loc(0.0f, 0.0f, 500.0f);
-	Rotation	rot(0.0f, 0.0f, 0.0f);
-	Scale		sca(1.0f, 1.0f, 1.0f);
-
-	AItemPtr item = std::static_pointer_cast<AItem>(this->SpawnActor<AItem>(this->GetGameObjectRef(), loc, rot, sca));
-	item->SetItemCode(31);
-
-	AItemPtr money = std::static_pointer_cast<AItem>(this->SpawnActor<AItem>(this->GetGameObjectRef(), FVector(100.0f , 0.0f, 500.0f), FRotator(), FVector()));
-	money->SetItemCode(171);
-	money->SetAmount(100);
-	
 	mSpawnerManager = std::static_pointer_cast<EnemySpawnerManager>(SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 }
 
