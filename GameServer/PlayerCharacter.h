@@ -29,6 +29,7 @@ public:
 
 public:
 	void SyncLocation(const int64 inDeltaTime);
+	void DetectChangePlayer();
 
 public:
 	void SetCharacterID(const int32& inCharacterID);

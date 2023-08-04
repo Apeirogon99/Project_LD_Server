@@ -17,6 +17,8 @@ void PlayerCharacter::OnInitialization()
 	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
 	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
+	this->mStatComponent.SetSyncTime(GAME_TICK);
+
 	AttackInfos infos;
 	infos.push_back(AttackInfo(500,		170,	1100, FVector(130.0f, 300.0f, 300.0f)));
 	infos.push_back(AttackInfo(710,		180,	1100, FVector(130.0f, 300.0f, 300.0f)));
@@ -69,6 +71,11 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 		this->SetPlayerMode(EPlayerMode::Move_MODE);
 	}
 	this->SyncLocation(inDeltaTime);
+
+	if (this->mStatComponent.IsChanageStats(inDeltaTime))
+	{
+		this->DetectChangePlayer();
+	}
 }
 
 bool PlayerCharacter::IsValid()
@@ -208,6 +215,41 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 
 	//wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
+}
+
+void PlayerCharacter::DetectChangePlayer()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	Protocol::S2C_DetectChangePlayer detectChanagePacket;
+	detectChanagePacket.set_remote_id(this->GetGameObjectID());
+	detectChanagePacket.set_timestamp(world->GetWorldTime());
+
+	std::map<EStatType, float> chanageStats;
+	if (true == this->mStatComponent.ExtractChanageMaxStats(chanageStats))
+	{
+		auto stat = chanageStats.begin();
+		for (stat; stat != chanageStats.end(); ++stat)
+		{
+			Protocol::SStat* addStat = detectChanagePacket.add_stats();
+			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+			addStat->set_stat_value(stat->second);
+		}
+
+	}
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, detectChanagePacket);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
