@@ -82,6 +82,8 @@ BEGIN TRY
 
 		INSERT INTO level_tb (character_id, level, experience) VALUES (@temp_character_id, 1, 0)
 
+		INSERT INTO trace_tb (character_id, locale, world_pos_x, world_pos_y, world_pos_z) VALUES (@temp_character_id, 1, 0, 0, 0)
+
 		COMMIT TRANSACTION
 		RETURN 0
 

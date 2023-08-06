@@ -22,9 +22,14 @@ public:
 	bool LoadRemotePlayer(const Token& inToken, GameWorldRef inWorld);
 	void OnLoadComplete();
 
+	//bool LeaveRemotePlayer();
+	//void OnLeaveComplete();
+
 public:
-	WorldRef			GetWorld()	{ return mWorld; }
+	WorldRef			GetWorld()		{ return mWorld; }
+	const Token&		GetToken()		{ return mToken; }
 	Inventoryptr&		GetInventory()	{ return mInventory; }
+	FriendPtr&			GetFriend()		{ return mFriend; }
 	PlayerCharacterPtr&	GetCharacter()	{ return mPlayerCharacter; }
 
 private:
@@ -32,5 +37,6 @@ private:
 	WorldRef			mWorld;
 
 	Inventoryptr		mInventory;
+	FriendPtr			mFriend;
 	PlayerCharacterPtr	mPlayerCharacter;
 };

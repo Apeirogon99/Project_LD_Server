@@ -25,9 +25,14 @@ void GameRemotePlayer::OnInitialization()
 	}
 
 	GameObjectRef owner = this->GetGameObjectRef();
+
 	mInventory = std::make_shared<Inventory>(12, 7);
 	mInventory->SetOwner(owner);
 	taskManager->PushTask(this->GetInventory()->GetGameObjectPtr());
+
+	mFriend = std::make_shared<Friend>();
+	mFriend->SetOwner(owner);
+	taskManager->PushTask(this->GetFriend()->GetGameObjectPtr());
 
 	this->mPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(world->SpawnActor<PlayerCharacter>(owner, Location(), Rotation(), Scale()));
 }
@@ -47,11 +52,13 @@ void GameRemotePlayer::OnDestroy()
 	}
 
 	world->DestroyActor(this->GetCharacter()->GetGameObjectID());
-	//taskManager->ReleaseTask(this->GetCharacter()->GetGameObjectPtr());
 	this->mPlayerCharacter.reset();
 
 	taskManager->ReleaseTask(this->GetInventory()->GetGameObjectPtr());
 	this->mInventory.reset();
+
+	taskManager->ReleaseTask(this->GetFriend()->GetGameObjectPtr());
+	this->mFriend.reset();
 }
 
 void GameRemotePlayer::OnTick(const int64 inDeltaTime)
@@ -92,6 +99,8 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 		return false;
 	}
 
+	this->GetFriend()->NotifyConnectToFriend();
+
 	return true;
 }
 
@@ -109,6 +118,11 @@ void GameRemotePlayer::OnLoadComplete()
 	}
 
 	if (false == GetInventory()->IsValid())
+	{
+		return;
+	}
+
+	if (false == GetFriend()->IsValid())
 	{
 		return;
 	}
@@ -137,5 +151,6 @@ void GameRemotePlayer::OnLoadComplete()
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPacket);
 	playerState->Send(sendBuffer);
 
+	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), this->GetGameObjectID());
 	world->VisibleAreaInit(playerState);
 }

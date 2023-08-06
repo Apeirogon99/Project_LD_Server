@@ -171,6 +171,8 @@
     <ClCompile Include="EnemyNomalSkeleton.cpp" />
     <ClCompile Include="EnemyWarriorSkeleton.cpp" />
     <ClCompile Include="EqipmentComponent.cpp" />
+    <ClCompile Include="Friend.cpp" />
+    <ClCompile Include="friendDatabase.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
     <ClCompile Include="CommonPacket.pb.cc">
@@ -331,6 +333,8 @@
     <ClInclude Include="EnemyNomalSkeleton.h" />
     <ClInclude Include="EnemyWarriorSkeleton.h" />
     <ClInclude Include="EqipmentComponent.h" />
+    <ClInclude Include="Friend.h" />
+    <ClInclude Include="friendDatabase.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />

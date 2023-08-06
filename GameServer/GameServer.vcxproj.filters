@@ -85,6 +85,9 @@
     <Filter Include="Content\PlayerCharacter">
       <UniqueIdentifier>{df2f259b-bbff-43f1-8c83-4ee8d8202802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Friend">
+      <UniqueIdentifier>{92d0993e-9b1c-408d-a353-743b94e89516}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -201,6 +204,12 @@
     </ClCompile>
     <ClCompile Include="Arrow.cpp">
       <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="friendDatabase.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Friend.cpp">
+      <Filter>Content\Friend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +332,12 @@
     </ClInclude>
     <ClInclude Include="Arrow.h">
       <Filter>Content\Enemy\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="friendDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Friend.h">
+      <Filter>Content\Friend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

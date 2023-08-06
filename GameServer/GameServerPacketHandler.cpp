@@ -157,6 +157,78 @@ bool Handle_C2S_Chat(PacketSessionPtr& session, Protocol::C2S_Chat& pkt)
 	return true;
 }
 
+bool Handle_C2S_LoadFriendList(PacketSessionPtr& session, Protocol::C2S_LoadFriendList& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	FriendPtr friends = remotePlayer->GetFriend();
+	if (nullptr == friends)
+	{
+		return false;
+	}
+
+	friends->PushTask(pkt.timestamp(), &Friend::LoadFriendList, pkt.list_type());
+	return true;
+}
+
+bool Handle_C2S_RequestFriend(PacketSessionPtr& session, Protocol::C2S_RequestFriend& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	FriendPtr friends = remotePlayer->GetFriend();
+	if (nullptr == friends)
+	{
+		return false;
+	}
+
+	friends->PushTask(pkt.timestamp(), &Friend::RequestFriend, pkt.nick_name(), pkt.action());
+	return true;
+}
+
+bool Handle_C2S_BlockFriend(PacketSessionPtr& session, Protocol::C2S_BlockFriend& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	FriendPtr friends = remotePlayer->GetFriend();
+	if (nullptr == friends)
+	{
+		return false;
+	}
+
+	friends->PushTask(pkt.timestamp(), &Friend::BlockFriend, pkt.nick_name(), pkt.action());
+	return true;
+}
+
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);

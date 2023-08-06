@@ -66,6 +66,10 @@ class Inventory;
 using Inventoryptr					= std::shared_ptr<Inventory>;
 using InventoryRef					= std::weak_ptr<Inventory>;
 
+class Friend;
+using FriendPtr						= std::shared_ptr<Friend>;
+using FriendRef						= std::weak_ptr<Friend>;
+
 //==========================//
 //  GameContent | Projctile //
 //==========================//

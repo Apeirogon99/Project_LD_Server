@@ -59,6 +59,9 @@ extern SCharacterDataDefaultTypeInternal _SCharacterData_default_instance_;
 class SCharacterEqipment;
 struct SCharacterEqipmentDefaultTypeInternal;
 extern SCharacterEqipmentDefaultTypeInternal _SCharacterEqipment_default_instance_;
+class SFriend;
+struct SFriendDefaultTypeInternal;
+extern SFriendDefaultTypeInternal _SFriend_default_instance_;
 class SItem;
 struct SItemDefaultTypeInternal;
 extern SItemDefaultTypeInternal _SItem_default_instance_;
@@ -88,6 +91,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::SCharacterAppearance* Arena::CreateMaybeMessage<::Protocol::SCharacterAppearance>(Arena*);
 template<> ::Protocol::SCharacterData* Arena::CreateMaybeMessage<::Protocol::SCharacterData>(Arena*);
 template<> ::Protocol::SCharacterEqipment* Arena::CreateMaybeMessage<::Protocol::SCharacterEqipment>(Arena*);
+template<> ::Protocol::SFriend* Arena::CreateMaybeMessage<::Protocol::SFriend>(Arena*);
 template<> ::Protocol::SItem* Arena::CreateMaybeMessage<::Protocol::SItem>(Arena*);
 template<> ::Protocol::SRotator* Arena::CreateMaybeMessage<::Protocol::SRotator>(Arena*);
 template<> ::Protocol::SServerInfo* Arena::CreateMaybeMessage<::Protocol::SServerInfo>(Arena*);
@@ -2212,6 +2216,192 @@ class SStat final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_PacketStruct_2eproto;
 };
+// -------------------------------------------------------------------
+
+class SFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.SFriend) */ {
+ public:
+  inline SFriend() : SFriend(nullptr) {}
+  ~SFriend() override;
+  explicit PROTOBUF_CONSTEXPR SFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SFriend(const SFriend& from);
+  SFriend(SFriend&& from) noexcept
+    : SFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline SFriend& operator=(const SFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SFriend& operator=(SFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SFriend* internal_default_instance() {
+    return reinterpret_cast<const SFriend*>(
+               &_SFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(SFriend& a, SFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SFriend& from) {
+    SFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.SFriend";
+  }
+  protected:
+  explicit SFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNickNameFieldNumber = 1,
+    kLevelFieldNumber = 2,
+    kCharacterClassFieldNumber = 3,
+    kLocaleFieldNumber = 4,
+  };
+  // bytes nick_name = 1;
+  void clear_nick_name();
+  const std::string& nick_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_nick_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_nick_name();
+  PROTOBUF_NODISCARD std::string* release_nick_name();
+  void set_allocated_nick_name(std::string* nick_name);
+  private:
+  const std::string& _internal_nick_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_nick_name(const std::string& value);
+  std::string* _internal_mutable_nick_name();
+  public:
+
+  // int32 level = 2;
+  void clear_level();
+  int32_t level() const;
+  void set_level(int32_t value);
+  private:
+  int32_t _internal_level() const;
+  void _internal_set_level(int32_t value);
+  public:
+
+  // .Protocol.ECharacterClass character_class = 3;
+  void clear_character_class();
+  ::Protocol::ECharacterClass character_class() const;
+  void set_character_class(::Protocol::ECharacterClass value);
+  private:
+  ::Protocol::ECharacterClass _internal_character_class() const;
+  void _internal_set_character_class(::Protocol::ECharacterClass value);
+  public:
+
+  // int32 locale = 4;
+  void clear_locale();
+  int32_t locale() const;
+  void set_locale(int32_t value);
+  private:
+  int32_t _internal_locale() const;
+  void _internal_set_locale(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.SFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
+    int32_t level_;
+    int character_class_;
+    int32_t locale_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_PacketStruct_2eproto;
+};
 // ===================================================================
 
 
@@ -3803,9 +3993,125 @@ inline void SStat::set_stat_value(float value) {
   // @@protoc_insertion_point(field_set:Protocol.SStat.stat_value)
 }
 
+// -------------------------------------------------------------------
+
+// SFriend
+
+// bytes nick_name = 1;
+inline void SFriend::clear_nick_name() {
+  _impl_.nick_name_.ClearToEmpty();
+}
+inline const std::string& SFriend::nick_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.SFriend.nick_name)
+  return _internal_nick_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SFriend::set_nick_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.nick_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.SFriend.nick_name)
+}
+inline std::string* SFriend::mutable_nick_name() {
+  std::string* _s = _internal_mutable_nick_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.SFriend.nick_name)
+  return _s;
+}
+inline const std::string& SFriend::_internal_nick_name() const {
+  return _impl_.nick_name_.Get();
+}
+inline void SFriend::_internal_set_nick_name(const std::string& value) {
+  
+  _impl_.nick_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SFriend::_internal_mutable_nick_name() {
+  
+  return _impl_.nick_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SFriend::release_nick_name() {
+  // @@protoc_insertion_point(field_release:Protocol.SFriend.nick_name)
+  return _impl_.nick_name_.Release();
+}
+inline void SFriend::set_allocated_nick_name(std::string* nick_name) {
+  if (nick_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.nick_name_.SetAllocated(nick_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.nick_name_.IsDefault()) {
+    _impl_.nick_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.SFriend.nick_name)
+}
+
+// int32 level = 2;
+inline void SFriend::clear_level() {
+  _impl_.level_ = 0;
+}
+inline int32_t SFriend::_internal_level() const {
+  return _impl_.level_;
+}
+inline int32_t SFriend::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.SFriend.level)
+  return _internal_level();
+}
+inline void SFriend::_internal_set_level(int32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void SFriend::set_level(int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:Protocol.SFriend.level)
+}
+
+// .Protocol.ECharacterClass character_class = 3;
+inline void SFriend::clear_character_class() {
+  _impl_.character_class_ = 0;
+}
+inline ::Protocol::ECharacterClass SFriend::_internal_character_class() const {
+  return static_cast< ::Protocol::ECharacterClass >(_impl_.character_class_);
+}
+inline ::Protocol::ECharacterClass SFriend::character_class() const {
+  // @@protoc_insertion_point(field_get:Protocol.SFriend.character_class)
+  return _internal_character_class();
+}
+inline void SFriend::_internal_set_character_class(::Protocol::ECharacterClass value) {
+  
+  _impl_.character_class_ = value;
+}
+inline void SFriend::set_character_class(::Protocol::ECharacterClass value) {
+  _internal_set_character_class(value);
+  // @@protoc_insertion_point(field_set:Protocol.SFriend.character_class)
+}
+
+// int32 locale = 4;
+inline void SFriend::clear_locale() {
+  _impl_.locale_ = 0;
+}
+inline int32_t SFriend::_internal_locale() const {
+  return _impl_.locale_;
+}
+inline int32_t SFriend::locale() const {
+  // @@protoc_insertion_point(field_get:Protocol.SFriend.locale)
+  return _internal_locale();
+}
+inline void SFriend::_internal_set_locale(int32_t value) {
+  
+  _impl_.locale_ = value;
+}
+inline void SFriend::set_locale(int32_t value) {
+  _internal_set_locale(value);
+  // @@protoc_insertion_point(field_set:Protocol.SFriend.locale)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

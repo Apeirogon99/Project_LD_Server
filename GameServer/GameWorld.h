@@ -32,6 +32,10 @@ public:
 	void VisibleAreaSync(const int64 inDeltaTime);
 	void CheackToken();
 
+	void PushCharacterIDandRemoteID(const int64& inCharacterID, const int64& inPlayerID);
+	void ReleaseCharacterIDandRemoteID(const int64& inCharacterID);
+	bool IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemoteClientPtr);
+
 protected:
 	void RefreshWorldObserver();
 
@@ -40,5 +44,6 @@ public:
 
 private:
 	std::vector<class Token>			mTokens;
+	std::map<int64, int64>				mPlayerIDs;
 	EnemySpawnerManagerPtr				mSpawnerManager;
 };

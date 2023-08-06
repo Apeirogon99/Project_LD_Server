@@ -52,6 +52,9 @@ struct TableStruct_GamePacket_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_GamePacket_2eproto;
 namespace Protocol {
+class C2S_BlockFriend;
+struct C2S_BlockFriendDefaultTypeInternal;
+extern C2S_BlockFriendDefaultTypeInternal _C2S_BlockFriend_default_instance_;
 class C2S_Chat;
 struct C2S_ChatDefaultTypeInternal;
 extern C2S_ChatDefaultTypeInternal _C2S_Chat_default_instance_;
@@ -67,6 +70,9 @@ extern C2S_InsertInventoryDefaultTypeInternal _C2S_InsertInventory_default_insta
 class C2S_LeaveGameServer;
 struct C2S_LeaveGameServerDefaultTypeInternal;
 extern C2S_LeaveGameServerDefaultTypeInternal _C2S_LeaveGameServer_default_instance_;
+class C2S_LoadFriendList;
+struct C2S_LoadFriendListDefaultTypeInternal;
+extern C2S_LoadFriendListDefaultTypeInternal _C2S_LoadFriendList_default_instance_;
 class C2S_LoadInventory;
 struct C2S_LoadInventoryDefaultTypeInternal;
 extern C2S_LoadInventoryDefaultTypeInternal _C2S_LoadInventory_default_instance_;
@@ -82,6 +88,9 @@ extern C2S_PlayerAutoAttackDefaultTypeInternal _C2S_PlayerAutoAttack_default_ins
 class C2S_ReplaceEqipment;
 struct C2S_ReplaceEqipmentDefaultTypeInternal;
 extern C2S_ReplaceEqipmentDefaultTypeInternal _C2S_ReplaceEqipment_default_instance_;
+class C2S_RequestFriend;
+struct C2S_RequestFriendDefaultTypeInternal;
+extern C2S_RequestFriendDefaultTypeInternal _C2S_RequestFriend_default_instance_;
 class C2S_Tick;
 struct C2S_TickDefaultTypeInternal;
 extern C2S_TickDefaultTypeInternal _C2S_Tick_default_instance_;
@@ -100,9 +109,15 @@ extern S2C_AppearEnemyDefaultTypeInternal _S2C_AppearEnemy_default_instance_;
 class S2C_AppearItem;
 struct S2C_AppearItemDefaultTypeInternal;
 extern S2C_AppearItemDefaultTypeInternal _S2C_AppearItem_default_instance_;
+class S2C_BlockFriend;
+struct S2C_BlockFriendDefaultTypeInternal;
+extern S2C_BlockFriendDefaultTypeInternal _S2C_BlockFriend_default_instance_;
 class S2C_Chat;
 struct S2C_ChatDefaultTypeInternal;
 extern S2C_ChatDefaultTypeInternal _S2C_Chat_default_instance_;
+class S2C_ConnectFriend;
+struct S2C_ConnectFriendDefaultTypeInternal;
+extern S2C_ConnectFriendDefaultTypeInternal _S2C_ConnectFriend_default_instance_;
 class S2C_DeathEnemy;
 struct S2C_DeathEnemyDefaultTypeInternal;
 extern S2C_DeathEnemyDefaultTypeInternal _S2C_DeathEnemy_default_instance_;
@@ -121,6 +136,9 @@ extern S2C_DisAppearCharacterDefaultTypeInternal _S2C_DisAppearCharacter_default
 class S2C_DisAppearGameObject;
 struct S2C_DisAppearGameObjectDefaultTypeInternal;
 extern S2C_DisAppearGameObjectDefaultTypeInternal _S2C_DisAppearGameObject_default_instance_;
+class S2C_DisConnectFriend;
+struct S2C_DisConnectFriendDefaultTypeInternal;
+extern S2C_DisConnectFriendDefaultTypeInternal _S2C_DisConnectFriend_default_instance_;
 class S2C_EnemyAutoAttack;
 struct S2C_EnemyAutoAttackDefaultTypeInternal;
 extern S2C_EnemyAutoAttackDefaultTypeInternal _S2C_EnemyAutoAttack_default_instance_;
@@ -136,6 +154,9 @@ extern S2C_InsertInventoryDefaultTypeInternal _S2C_InsertInventory_default_insta
 class S2C_LeaveGameServer;
 struct S2C_LeaveGameServerDefaultTypeInternal;
 extern S2C_LeaveGameServerDefaultTypeInternal _S2C_LeaveGameServer_default_instance_;
+class S2C_LoadFriendList;
+struct S2C_LoadFriendListDefaultTypeInternal;
+extern S2C_LoadFriendListDefaultTypeInternal _S2C_LoadFriendList_default_instance_;
 class S2C_LoadInventory;
 struct S2C_LoadInventoryDefaultTypeInternal;
 extern S2C_LoadInventoryDefaultTypeInternal _S2C_LoadInventory_default_instance_;
@@ -157,6 +178,9 @@ extern S2C_PlayerAutoAttackDefaultTypeInternal _S2C_PlayerAutoAttack_default_ins
 class S2C_ReplaceEqipment;
 struct S2C_ReplaceEqipmentDefaultTypeInternal;
 extern S2C_ReplaceEqipmentDefaultTypeInternal _S2C_ReplaceEqipment_default_instance_;
+class S2C_RequestFriend;
+struct S2C_RequestFriendDefaultTypeInternal;
+extern S2C_RequestFriendDefaultTypeInternal _S2C_RequestFriend_default_instance_;
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
@@ -168,34 +192,41 @@ struct S2C_UpdateInventoryDefaultTypeInternal;
 extern S2C_UpdateInventoryDefaultTypeInternal _S2C_UpdateInventory_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::C2S_BlockFriend* Arena::CreateMaybeMessage<::Protocol::C2S_BlockFriend>(Arena*);
 template<> ::Protocol::C2S_Chat* Arena::CreateMaybeMessage<::Protocol::C2S_Chat>(Arena*);
 template<> ::Protocol::C2S_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::C2S_DeleteInventory>(Arena*);
 template<> ::Protocol::C2S_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::C2S_EnterGameServer>(Arena*);
 template<> ::Protocol::C2S_InsertInventory* Arena::CreateMaybeMessage<::Protocol::C2S_InsertInventory>(Arena*);
 template<> ::Protocol::C2S_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::C2S_LeaveGameServer>(Arena*);
+template<> ::Protocol::C2S_LoadFriendList* Arena::CreateMaybeMessage<::Protocol::C2S_LoadFriendList>(Arena*);
 template<> ::Protocol::C2S_LoadInventory* Arena::CreateMaybeMessage<::Protocol::C2S_LoadInventory>(Arena*);
 template<> ::Protocol::C2S_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::C2S_MovementCharacter>(Arena*);
 template<> ::Protocol::C2S_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::C2S_PlayAnimation>(Arena*);
 template<> ::Protocol::C2S_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::C2S_PlayerAutoAttack>(Arena*);
 template<> ::Protocol::C2S_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_ReplaceEqipment>(Arena*);
+template<> ::Protocol::C2S_RequestFriend* Arena::CreateMaybeMessage<::Protocol::C2S_RequestFriend>(Arena*);
 template<> ::Protocol::C2S_Tick* Arena::CreateMaybeMessage<::Protocol::C2S_Tick>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
 template<> ::Protocol::S2C_AppearArrow* Arena::CreateMaybeMessage<::Protocol::S2C_AppearArrow>(Arena*);
 template<> ::Protocol::S2C_AppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_AppearCharacter>(Arena*);
 template<> ::Protocol::S2C_AppearEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_AppearEnemy>(Arena*);
 template<> ::Protocol::S2C_AppearItem* Arena::CreateMaybeMessage<::Protocol::S2C_AppearItem>(Arena*);
+template<> ::Protocol::S2C_BlockFriend* Arena::CreateMaybeMessage<::Protocol::S2C_BlockFriend>(Arena*);
 template<> ::Protocol::S2C_Chat* Arena::CreateMaybeMessage<::Protocol::S2C_Chat>(Arena*);
+template<> ::Protocol::S2C_ConnectFriend* Arena::CreateMaybeMessage<::Protocol::S2C_ConnectFriend>(Arena*);
 template<> ::Protocol::S2C_DeathEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DeathEnemy>(Arena*);
 template<> ::Protocol::S2C_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::S2C_DeleteInventory>(Arena*);
 template<> ::Protocol::S2C_DetectChangeEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DetectChangeEnemy>(Arena*);
 template<> ::Protocol::S2C_DetectChangePlayer* Arena::CreateMaybeMessage<::Protocol::S2C_DetectChangePlayer>(Arena*);
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
+template<> ::Protocol::S2C_DisConnectFriend* Arena::CreateMaybeMessage<::Protocol::S2C_DisConnectFriend>(Arena*);
 template<> ::Protocol::S2C_EnemyAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_EnemyAutoAttack>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
 template<> ::Protocol::S2C_HitEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_HitEnemy>(Arena*);
 template<> ::Protocol::S2C_InsertInventory* Arena::CreateMaybeMessage<::Protocol::S2C_InsertInventory>(Arena*);
 template<> ::Protocol::S2C_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_LeaveGameServer>(Arena*);
+template<> ::Protocol::S2C_LoadFriendList* Arena::CreateMaybeMessage<::Protocol::S2C_LoadFriendList>(Arena*);
 template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::S2C_LoadInventory>(Arena*);
 template<> ::Protocol::S2C_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_MovementCharacter>(Arena*);
 template<> ::Protocol::S2C_MovementEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_MovementEnemy>(Arena*);
@@ -203,6 +234,7 @@ template<> ::Protocol::S2C_MovementProjectile* Arena::CreateMaybeMessage<::Proto
 template<> ::Protocol::S2C_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::S2C_PlayAnimation>(Arena*);
 template<> ::Protocol::S2C_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_PlayerAutoAttack>(Arena*);
 template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_ReplaceEqipment>(Arena*);
+template<> ::Protocol::S2C_RequestFriend* Arena::CreateMaybeMessage<::Protocol::S2C_RequestFriend>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
@@ -3192,6 +3224,1340 @@ class S2C_Chat final :
 };
 // -------------------------------------------------------------------
 
+class C2S_LoadFriendList final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_LoadFriendList) */ {
+ public:
+  inline C2S_LoadFriendList() : C2S_LoadFriendList(nullptr) {}
+  ~C2S_LoadFriendList() override;
+  explicit PROTOBUF_CONSTEXPR C2S_LoadFriendList(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_LoadFriendList(const C2S_LoadFriendList& from);
+  C2S_LoadFriendList(C2S_LoadFriendList&& from) noexcept
+    : C2S_LoadFriendList() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_LoadFriendList& operator=(const C2S_LoadFriendList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_LoadFriendList& operator=(C2S_LoadFriendList&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_LoadFriendList& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_LoadFriendList* internal_default_instance() {
+    return reinterpret_cast<const C2S_LoadFriendList*>(
+               &_C2S_LoadFriendList_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    17;
+
+  friend void swap(C2S_LoadFriendList& a, C2S_LoadFriendList& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_LoadFriendList* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_LoadFriendList* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_LoadFriendList* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_LoadFriendList>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_LoadFriendList& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_LoadFriendList& from) {
+    C2S_LoadFriendList::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_LoadFriendList* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_LoadFriendList";
+  }
+  protected:
+  explicit C2S_LoadFriendList(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 2,
+    kListTypeFieldNumber = 1,
+  };
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 list_type = 1;
+  void clear_list_type();
+  int32_t list_type() const;
+  void set_list_type(int32_t value);
+  private:
+  int32_t _internal_list_type() const;
+  void _internal_set_list_type(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_LoadFriendList)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    int32_t list_type_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_LoadFriendList final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_LoadFriendList) */ {
+ public:
+  inline S2C_LoadFriendList() : S2C_LoadFriendList(nullptr) {}
+  ~S2C_LoadFriendList() override;
+  explicit PROTOBUF_CONSTEXPR S2C_LoadFriendList(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_LoadFriendList(const S2C_LoadFriendList& from);
+  S2C_LoadFriendList(S2C_LoadFriendList&& from) noexcept
+    : S2C_LoadFriendList() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_LoadFriendList& operator=(const S2C_LoadFriendList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_LoadFriendList& operator=(S2C_LoadFriendList&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_LoadFriendList& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_LoadFriendList* internal_default_instance() {
+    return reinterpret_cast<const S2C_LoadFriendList*>(
+               &_S2C_LoadFriendList_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    18;
+
+  friend void swap(S2C_LoadFriendList& a, S2C_LoadFriendList& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_LoadFriendList* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_LoadFriendList* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_LoadFriendList* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_LoadFriendList>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_LoadFriendList& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_LoadFriendList& from) {
+    S2C_LoadFriendList::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_LoadFriendList* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_LoadFriendList";
+  }
+  protected:
+  explicit S2C_LoadFriendList(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFriendsFieldNumber = 1,
+    kTimestampFieldNumber = 3,
+    kListTypeFieldNumber = 2,
+  };
+  // repeated .Protocol.SFriend friends = 1;
+  int friends_size() const;
+  private:
+  int _internal_friends_size() const;
+  public:
+  void clear_friends();
+  ::Protocol::SFriend* mutable_friends(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SFriend >*
+      mutable_friends();
+  private:
+  const ::Protocol::SFriend& _internal_friends(int index) const;
+  ::Protocol::SFriend* _internal_add_friends();
+  public:
+  const ::Protocol::SFriend& friends(int index) const;
+  ::Protocol::SFriend* add_friends();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SFriend >&
+      friends() const;
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 list_type = 2;
+  void clear_list_type();
+  int32_t list_type() const;
+  void set_list_type(int32_t value);
+  private:
+  int32_t _internal_list_type() const;
+  void _internal_set_list_type(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_LoadFriendList)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SFriend > friends_;
+    int64_t timestamp_;
+    int32_t list_type_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_RequestFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_RequestFriend) */ {
+ public:
+  inline C2S_RequestFriend() : C2S_RequestFriend(nullptr) {}
+  ~C2S_RequestFriend() override;
+  explicit PROTOBUF_CONSTEXPR C2S_RequestFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_RequestFriend(const C2S_RequestFriend& from);
+  C2S_RequestFriend(C2S_RequestFriend&& from) noexcept
+    : C2S_RequestFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_RequestFriend& operator=(const C2S_RequestFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_RequestFriend& operator=(C2S_RequestFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_RequestFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_RequestFriend* internal_default_instance() {
+    return reinterpret_cast<const C2S_RequestFriend*>(
+               &_C2S_RequestFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  friend void swap(C2S_RequestFriend& a, C2S_RequestFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_RequestFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_RequestFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_RequestFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_RequestFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_RequestFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_RequestFriend& from) {
+    C2S_RequestFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_RequestFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_RequestFriend";
+  }
+  protected:
+  explicit C2S_RequestFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNickNameFieldNumber = 1,
+    kTimestampFieldNumber = 3,
+    kActionFieldNumber = 2,
+  };
+  // bytes nick_name = 1;
+  void clear_nick_name();
+  const std::string& nick_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_nick_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_nick_name();
+  PROTOBUF_NODISCARD std::string* release_nick_name();
+  void set_allocated_nick_name(std::string* nick_name);
+  private:
+  const std::string& _internal_nick_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_nick_name(const std::string& value);
+  std::string* _internal_mutable_nick_name();
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 action = 2;
+  void clear_action();
+  int32_t action() const;
+  void set_action(int32_t value);
+  private:
+  int32_t _internal_action() const;
+  void _internal_set_action(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_RequestFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
+    int64_t timestamp_;
+    int32_t action_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_RequestFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_RequestFriend) */ {
+ public:
+  inline S2C_RequestFriend() : S2C_RequestFriend(nullptr) {}
+  ~S2C_RequestFriend() override;
+  explicit PROTOBUF_CONSTEXPR S2C_RequestFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_RequestFriend(const S2C_RequestFriend& from);
+  S2C_RequestFriend(S2C_RequestFriend&& from) noexcept
+    : S2C_RequestFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_RequestFriend& operator=(const S2C_RequestFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_RequestFriend& operator=(S2C_RequestFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_RequestFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_RequestFriend* internal_default_instance() {
+    return reinterpret_cast<const S2C_RequestFriend*>(
+               &_S2C_RequestFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(S2C_RequestFriend& a, S2C_RequestFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_RequestFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_RequestFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_RequestFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_RequestFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_RequestFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_RequestFriend& from) {
+    S2C_RequestFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_RequestFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_RequestFriend";
+  }
+  protected:
+  explicit S2C_RequestFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 2,
+    kErrorFieldNumber = 1,
+  };
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 error = 1;
+  void clear_error();
+  int32_t error() const;
+  void set_error(int32_t value);
+  private:
+  int32_t _internal_error() const;
+  void _internal_set_error(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_RequestFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    int32_t error_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_BlockFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_BlockFriend) */ {
+ public:
+  inline C2S_BlockFriend() : C2S_BlockFriend(nullptr) {}
+  ~C2S_BlockFriend() override;
+  explicit PROTOBUF_CONSTEXPR C2S_BlockFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_BlockFriend(const C2S_BlockFriend& from);
+  C2S_BlockFriend(C2S_BlockFriend&& from) noexcept
+    : C2S_BlockFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_BlockFriend& operator=(const C2S_BlockFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_BlockFriend& operator=(C2S_BlockFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_BlockFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_BlockFriend* internal_default_instance() {
+    return reinterpret_cast<const C2S_BlockFriend*>(
+               &_C2S_BlockFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  friend void swap(C2S_BlockFriend& a, C2S_BlockFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_BlockFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_BlockFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_BlockFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_BlockFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_BlockFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_BlockFriend& from) {
+    C2S_BlockFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_BlockFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_BlockFriend";
+  }
+  protected:
+  explicit C2S_BlockFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNickNameFieldNumber = 1,
+    kTimestampFieldNumber = 3,
+    kActionFieldNumber = 2,
+  };
+  // bytes nick_name = 1;
+  void clear_nick_name();
+  const std::string& nick_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_nick_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_nick_name();
+  PROTOBUF_NODISCARD std::string* release_nick_name();
+  void set_allocated_nick_name(std::string* nick_name);
+  private:
+  const std::string& _internal_nick_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_nick_name(const std::string& value);
+  std::string* _internal_mutable_nick_name();
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 action = 2;
+  void clear_action();
+  int32_t action() const;
+  void set_action(int32_t value);
+  private:
+  int32_t _internal_action() const;
+  void _internal_set_action(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_BlockFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
+    int64_t timestamp_;
+    int32_t action_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_BlockFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_BlockFriend) */ {
+ public:
+  inline S2C_BlockFriend() : S2C_BlockFriend(nullptr) {}
+  ~S2C_BlockFriend() override;
+  explicit PROTOBUF_CONSTEXPR S2C_BlockFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_BlockFriend(const S2C_BlockFriend& from);
+  S2C_BlockFriend(S2C_BlockFriend&& from) noexcept
+    : S2C_BlockFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_BlockFriend& operator=(const S2C_BlockFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_BlockFriend& operator=(S2C_BlockFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_BlockFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_BlockFriend* internal_default_instance() {
+    return reinterpret_cast<const S2C_BlockFriend*>(
+               &_S2C_BlockFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  friend void swap(S2C_BlockFriend& a, S2C_BlockFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_BlockFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_BlockFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_BlockFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_BlockFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_BlockFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_BlockFriend& from) {
+    S2C_BlockFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_BlockFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_BlockFriend";
+  }
+  protected:
+  explicit S2C_BlockFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 2,
+    kErrorFieldNumber = 1,
+  };
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 error = 1;
+  void clear_error();
+  int32_t error() const;
+  void set_error(int32_t value);
+  private:
+  int32_t _internal_error() const;
+  void _internal_set_error(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_BlockFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    int32_t error_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_ConnectFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_ConnectFriend) */ {
+ public:
+  inline S2C_ConnectFriend() : S2C_ConnectFriend(nullptr) {}
+  ~S2C_ConnectFriend() override;
+  explicit PROTOBUF_CONSTEXPR S2C_ConnectFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_ConnectFriend(const S2C_ConnectFriend& from);
+  S2C_ConnectFriend(S2C_ConnectFriend&& from) noexcept
+    : S2C_ConnectFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_ConnectFriend& operator=(const S2C_ConnectFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_ConnectFriend& operator=(S2C_ConnectFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_ConnectFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_ConnectFriend* internal_default_instance() {
+    return reinterpret_cast<const S2C_ConnectFriend*>(
+               &_S2C_ConnectFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    23;
+
+  friend void swap(S2C_ConnectFriend& a, S2C_ConnectFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_ConnectFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_ConnectFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_ConnectFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_ConnectFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_ConnectFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_ConnectFriend& from) {
+    S2C_ConnectFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_ConnectFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_ConnectFriend";
+  }
+  protected:
+  explicit S2C_ConnectFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNickNameFieldNumber = 1,
+    kTimestampFieldNumber = 2,
+  };
+  // bytes nick_name = 1;
+  void clear_nick_name();
+  const std::string& nick_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_nick_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_nick_name();
+  PROTOBUF_NODISCARD std::string* release_nick_name();
+  void set_allocated_nick_name(std::string* nick_name);
+  private:
+  const std::string& _internal_nick_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_nick_name(const std::string& value);
+  std::string* _internal_mutable_nick_name();
+  public:
+
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_ConnectFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_DisConnectFriend final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DisConnectFriend) */ {
+ public:
+  inline S2C_DisConnectFriend() : S2C_DisConnectFriend(nullptr) {}
+  ~S2C_DisConnectFriend() override;
+  explicit PROTOBUF_CONSTEXPR S2C_DisConnectFriend(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_DisConnectFriend(const S2C_DisConnectFriend& from);
+  S2C_DisConnectFriend(S2C_DisConnectFriend&& from) noexcept
+    : S2C_DisConnectFriend() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_DisConnectFriend& operator=(const S2C_DisConnectFriend& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_DisConnectFriend& operator=(S2C_DisConnectFriend&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_DisConnectFriend& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_DisConnectFriend* internal_default_instance() {
+    return reinterpret_cast<const S2C_DisConnectFriend*>(
+               &_S2C_DisConnectFriend_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    24;
+
+  friend void swap(S2C_DisConnectFriend& a, S2C_DisConnectFriend& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_DisConnectFriend* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_DisConnectFriend* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_DisConnectFriend* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_DisConnectFriend>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_DisConnectFriend& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_DisConnectFriend& from) {
+    S2C_DisConnectFriend::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_DisConnectFriend* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_DisConnectFriend";
+  }
+  protected:
+  explicit S2C_DisConnectFriend(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNickNameFieldNumber = 1,
+    kTimestampFieldNumber = 2,
+  };
+  // bytes nick_name = 1;
+  void clear_nick_name();
+  const std::string& nick_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_nick_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_nick_name();
+  PROTOBUF_NODISCARD std::string* release_nick_name();
+  void set_allocated_nick_name(std::string* nick_name);
+  private:
+  const std::string& _internal_nick_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_nick_name(const std::string& value);
+  std::string* _internal_mutable_nick_name();
+  public:
+
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_DisConnectFriend)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_AppearItem final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_AppearItem) */ {
  public:
@@ -3240,7 +4606,7 @@ class S2C_AppearItem final :
                &_S2C_AppearItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    25;
 
   friend void swap(S2C_AppearItem& a, S2C_AppearItem& b) {
     a.Swap(&b);
@@ -3397,7 +4763,7 @@ class S2C_AppearArrow final :
                &_S2C_AppearArrow_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    26;
 
   friend void swap(S2C_AppearArrow& a, S2C_AppearArrow& b) {
     a.Swap(&b);
@@ -3596,7 +4962,7 @@ class S2C_MovementProjectile final :
                &_S2C_MovementProjectile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    27;
 
   friend void swap(S2C_MovementProjectile& a, S2C_MovementProjectile& b) {
     a.Swap(&b);
@@ -3775,7 +5141,7 @@ class S2C_AppearEnemy final :
                &_S2C_AppearEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    28;
 
   friend void swap(S2C_AppearEnemy& a, S2C_AppearEnemy& b) {
     a.Swap(&b);
@@ -4016,7 +5382,7 @@ class S2C_DetectChangeEnemy final :
                &_S2C_DetectChangeEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    29;
 
   friend void swap(S2C_DetectChangeEnemy& a, S2C_DetectChangeEnemy& b) {
     a.Swap(&b);
@@ -4206,7 +5572,7 @@ class S2C_MovementEnemy final :
                &_S2C_MovementEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    30;
 
   friend void swap(S2C_MovementEnemy& a, S2C_MovementEnemy& b) {
     a.Swap(&b);
@@ -4405,7 +5771,7 @@ class S2C_EnemyAutoAttack final :
                &_S2C_EnemyAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    31;
 
   friend void swap(S2C_EnemyAutoAttack& a, S2C_EnemyAutoAttack& b) {
     a.Swap(&b);
@@ -4584,7 +5950,7 @@ class S2C_HitEnemy final :
                &_S2C_HitEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    32;
 
   friend void swap(S2C_HitEnemy& a, S2C_HitEnemy& b) {
     a.Swap(&b);
@@ -4743,7 +6109,7 @@ class S2C_DeathEnemy final :
                &_S2C_DeathEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    33;
 
   friend void swap(S2C_DeathEnemy& a, S2C_DeathEnemy& b) {
     a.Swap(&b);
@@ -4902,7 +6268,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    34;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -5050,7 +6416,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    35;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -5198,7 +6564,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    36;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -5397,7 +6763,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    37;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -5565,7 +6931,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    38;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -5735,7 +7101,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    39;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -5903,7 +7269,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    40;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -6051,7 +7417,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    41;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -6239,7 +7605,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    42;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -6418,7 +7784,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    43;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -6586,7 +7952,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    44;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -6785,7 +8151,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    45;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -9008,6 +10374,555 @@ inline void S2C_Chat::_internal_set_timestamp(int64_t value) {
 inline void S2C_Chat::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_Chat.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_LoadFriendList
+
+// int32 list_type = 1;
+inline void C2S_LoadFriendList::clear_list_type() {
+  _impl_.list_type_ = 0;
+}
+inline int32_t C2S_LoadFriendList::_internal_list_type() const {
+  return _impl_.list_type_;
+}
+inline int32_t C2S_LoadFriendList::list_type() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_LoadFriendList.list_type)
+  return _internal_list_type();
+}
+inline void C2S_LoadFriendList::_internal_set_list_type(int32_t value) {
+  
+  _impl_.list_type_ = value;
+}
+inline void C2S_LoadFriendList::set_list_type(int32_t value) {
+  _internal_set_list_type(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_LoadFriendList.list_type)
+}
+
+// int64 timestamp = 2;
+inline void C2S_LoadFriendList::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_LoadFriendList::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_LoadFriendList::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_LoadFriendList.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_LoadFriendList::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_LoadFriendList::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_LoadFriendList.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_LoadFriendList
+
+// repeated .Protocol.SFriend friends = 1;
+inline int S2C_LoadFriendList::_internal_friends_size() const {
+  return _impl_.friends_.size();
+}
+inline int S2C_LoadFriendList::friends_size() const {
+  return _internal_friends_size();
+}
+inline ::Protocol::SFriend* S2C_LoadFriendList::mutable_friends(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_LoadFriendList.friends)
+  return _impl_.friends_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SFriend >*
+S2C_LoadFriendList::mutable_friends() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadFriendList.friends)
+  return &_impl_.friends_;
+}
+inline const ::Protocol::SFriend& S2C_LoadFriendList::_internal_friends(int index) const {
+  return _impl_.friends_.Get(index);
+}
+inline const ::Protocol::SFriend& S2C_LoadFriendList::friends(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadFriendList.friends)
+  return _internal_friends(index);
+}
+inline ::Protocol::SFriend* S2C_LoadFriendList::_internal_add_friends() {
+  return _impl_.friends_.Add();
+}
+inline ::Protocol::SFriend* S2C_LoadFriendList::add_friends() {
+  ::Protocol::SFriend* _add = _internal_add_friends();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadFriendList.friends)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SFriend >&
+S2C_LoadFriendList::friends() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadFriendList.friends)
+  return _impl_.friends_;
+}
+
+// int32 list_type = 2;
+inline void S2C_LoadFriendList::clear_list_type() {
+  _impl_.list_type_ = 0;
+}
+inline int32_t S2C_LoadFriendList::_internal_list_type() const {
+  return _impl_.list_type_;
+}
+inline int32_t S2C_LoadFriendList::list_type() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadFriendList.list_type)
+  return _internal_list_type();
+}
+inline void S2C_LoadFriendList::_internal_set_list_type(int32_t value) {
+  
+  _impl_.list_type_ = value;
+}
+inline void S2C_LoadFriendList::set_list_type(int32_t value) {
+  _internal_set_list_type(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadFriendList.list_type)
+}
+
+// int64 timestamp = 3;
+inline void S2C_LoadFriendList::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_LoadFriendList::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_LoadFriendList::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadFriendList.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_LoadFriendList::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_LoadFriendList::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadFriendList.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_RequestFriend
+
+// bytes nick_name = 1;
+inline void C2S_RequestFriend::clear_nick_name() {
+  _impl_.nick_name_.ClearToEmpty();
+}
+inline const std::string& C2S_RequestFriend::nick_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_RequestFriend.nick_name)
+  return _internal_nick_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2S_RequestFriend::set_nick_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.nick_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C2S_RequestFriend.nick_name)
+}
+inline std::string* C2S_RequestFriend::mutable_nick_name() {
+  std::string* _s = _internal_mutable_nick_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.C2S_RequestFriend.nick_name)
+  return _s;
+}
+inline const std::string& C2S_RequestFriend::_internal_nick_name() const {
+  return _impl_.nick_name_.Get();
+}
+inline void C2S_RequestFriend::_internal_set_nick_name(const std::string& value) {
+  
+  _impl_.nick_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2S_RequestFriend::_internal_mutable_nick_name() {
+  
+  return _impl_.nick_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2S_RequestFriend::release_nick_name() {
+  // @@protoc_insertion_point(field_release:Protocol.C2S_RequestFriend.nick_name)
+  return _impl_.nick_name_.Release();
+}
+inline void C2S_RequestFriend::set_allocated_nick_name(std::string* nick_name) {
+  if (nick_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.nick_name_.SetAllocated(nick_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.nick_name_.IsDefault()) {
+    _impl_.nick_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_RequestFriend.nick_name)
+}
+
+// int32 action = 2;
+inline void C2S_RequestFriend::clear_action() {
+  _impl_.action_ = 0;
+}
+inline int32_t C2S_RequestFriend::_internal_action() const {
+  return _impl_.action_;
+}
+inline int32_t C2S_RequestFriend::action() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_RequestFriend.action)
+  return _internal_action();
+}
+inline void C2S_RequestFriend::_internal_set_action(int32_t value) {
+  
+  _impl_.action_ = value;
+}
+inline void C2S_RequestFriend::set_action(int32_t value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_RequestFriend.action)
+}
+
+// int64 timestamp = 3;
+inline void C2S_RequestFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_RequestFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_RequestFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_RequestFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_RequestFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_RequestFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_RequestFriend.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_RequestFriend
+
+// int32 error = 1;
+inline void S2C_RequestFriend::clear_error() {
+  _impl_.error_ = 0;
+}
+inline int32_t S2C_RequestFriend::_internal_error() const {
+  return _impl_.error_;
+}
+inline int32_t S2C_RequestFriend::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_RequestFriend.error)
+  return _internal_error();
+}
+inline void S2C_RequestFriend::_internal_set_error(int32_t value) {
+  
+  _impl_.error_ = value;
+}
+inline void S2C_RequestFriend::set_error(int32_t value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_RequestFriend.error)
+}
+
+// int64 timestamp = 2;
+inline void S2C_RequestFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_RequestFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_RequestFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_RequestFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_RequestFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_RequestFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_RequestFriend.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_BlockFriend
+
+// bytes nick_name = 1;
+inline void C2S_BlockFriend::clear_nick_name() {
+  _impl_.nick_name_.ClearToEmpty();
+}
+inline const std::string& C2S_BlockFriend::nick_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_BlockFriend.nick_name)
+  return _internal_nick_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2S_BlockFriend::set_nick_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.nick_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C2S_BlockFriend.nick_name)
+}
+inline std::string* C2S_BlockFriend::mutable_nick_name() {
+  std::string* _s = _internal_mutable_nick_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.C2S_BlockFriend.nick_name)
+  return _s;
+}
+inline const std::string& C2S_BlockFriend::_internal_nick_name() const {
+  return _impl_.nick_name_.Get();
+}
+inline void C2S_BlockFriend::_internal_set_nick_name(const std::string& value) {
+  
+  _impl_.nick_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2S_BlockFriend::_internal_mutable_nick_name() {
+  
+  return _impl_.nick_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2S_BlockFriend::release_nick_name() {
+  // @@protoc_insertion_point(field_release:Protocol.C2S_BlockFriend.nick_name)
+  return _impl_.nick_name_.Release();
+}
+inline void C2S_BlockFriend::set_allocated_nick_name(std::string* nick_name) {
+  if (nick_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.nick_name_.SetAllocated(nick_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.nick_name_.IsDefault()) {
+    _impl_.nick_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C2S_BlockFriend.nick_name)
+}
+
+// int32 action = 2;
+inline void C2S_BlockFriend::clear_action() {
+  _impl_.action_ = 0;
+}
+inline int32_t C2S_BlockFriend::_internal_action() const {
+  return _impl_.action_;
+}
+inline int32_t C2S_BlockFriend::action() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_BlockFriend.action)
+  return _internal_action();
+}
+inline void C2S_BlockFriend::_internal_set_action(int32_t value) {
+  
+  _impl_.action_ = value;
+}
+inline void C2S_BlockFriend::set_action(int32_t value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_BlockFriend.action)
+}
+
+// int64 timestamp = 3;
+inline void C2S_BlockFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_BlockFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_BlockFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_BlockFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_BlockFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_BlockFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_BlockFriend.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_BlockFriend
+
+// int32 error = 1;
+inline void S2C_BlockFriend::clear_error() {
+  _impl_.error_ = 0;
+}
+inline int32_t S2C_BlockFriend::_internal_error() const {
+  return _impl_.error_;
+}
+inline int32_t S2C_BlockFriend::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_BlockFriend.error)
+  return _internal_error();
+}
+inline void S2C_BlockFriend::_internal_set_error(int32_t value) {
+  
+  _impl_.error_ = value;
+}
+inline void S2C_BlockFriend::set_error(int32_t value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_BlockFriend.error)
+}
+
+// int64 timestamp = 2;
+inline void S2C_BlockFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_BlockFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_BlockFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_BlockFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_BlockFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_BlockFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_BlockFriend.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_ConnectFriend
+
+// bytes nick_name = 1;
+inline void S2C_ConnectFriend::clear_nick_name() {
+  _impl_.nick_name_.ClearToEmpty();
+}
+inline const std::string& S2C_ConnectFriend::nick_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ConnectFriend.nick_name)
+  return _internal_nick_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_ConnectFriend::set_nick_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.nick_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ConnectFriend.nick_name)
+}
+inline std::string* S2C_ConnectFriend::mutable_nick_name() {
+  std::string* _s = _internal_mutable_nick_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_ConnectFriend.nick_name)
+  return _s;
+}
+inline const std::string& S2C_ConnectFriend::_internal_nick_name() const {
+  return _impl_.nick_name_.Get();
+}
+inline void S2C_ConnectFriend::_internal_set_nick_name(const std::string& value) {
+  
+  _impl_.nick_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_ConnectFriend::_internal_mutable_nick_name() {
+  
+  return _impl_.nick_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_ConnectFriend::release_nick_name() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_ConnectFriend.nick_name)
+  return _impl_.nick_name_.Release();
+}
+inline void S2C_ConnectFriend::set_allocated_nick_name(std::string* nick_name) {
+  if (nick_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.nick_name_.SetAllocated(nick_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.nick_name_.IsDefault()) {
+    _impl_.nick_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_ConnectFriend.nick_name)
+}
+
+// int64 timestamp = 2;
+inline void S2C_ConnectFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_ConnectFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_ConnectFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ConnectFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_ConnectFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_ConnectFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ConnectFriend.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_DisConnectFriend
+
+// bytes nick_name = 1;
+inline void S2C_DisConnectFriend::clear_nick_name() {
+  _impl_.nick_name_.ClearToEmpty();
+}
+inline const std::string& S2C_DisConnectFriend::nick_name() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DisConnectFriend.nick_name)
+  return _internal_nick_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_DisConnectFriend::set_nick_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.nick_name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DisConnectFriend.nick_name)
+}
+inline std::string* S2C_DisConnectFriend::mutable_nick_name() {
+  std::string* _s = _internal_mutable_nick_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_DisConnectFriend.nick_name)
+  return _s;
+}
+inline const std::string& S2C_DisConnectFriend::_internal_nick_name() const {
+  return _impl_.nick_name_.Get();
+}
+inline void S2C_DisConnectFriend::_internal_set_nick_name(const std::string& value) {
+  
+  _impl_.nick_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_DisConnectFriend::_internal_mutable_nick_name() {
+  
+  return _impl_.nick_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_DisConnectFriend::release_nick_name() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_DisConnectFriend.nick_name)
+  return _impl_.nick_name_.Release();
+}
+inline void S2C_DisConnectFriend::set_allocated_nick_name(std::string* nick_name) {
+  if (nick_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.nick_name_.SetAllocated(nick_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.nick_name_.IsDefault()) {
+    _impl_.nick_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_DisConnectFriend.nick_name)
+}
+
+// int64 timestamp = 2;
+inline void S2C_DisConnectFriend::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_DisConnectFriend::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_DisConnectFriend::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DisConnectFriend.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_DisConnectFriend::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_DisConnectFriend::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DisConnectFriend.timestamp)
 }
 
 // -------------------------------------------------------------------
@@ -11515,6 +13430,22 @@ inline void S2C_ReplaceEqipment::set_error(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

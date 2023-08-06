@@ -42,6 +42,7 @@
 #include "NPCCharacter.h"
 #include "AItem.h"
 #include "Inventory.h"
+#include "Friend.h"
 
 //==========================//
 //   GameContent | Enemy	//
@@ -68,3 +69,4 @@
 #include "GameDataBaseHandler.h"
 #include "CharacterDatabase.h"
 #include "InventoryDatabase.h"
+#include "friendDatabase.h"

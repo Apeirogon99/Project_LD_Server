@@ -23,6 +23,15 @@ enum class EDCommonErrorType
 	POSTION_DISTINCT = 2002,
 	NAME_DISTINCT = 2003,
 	CHARACTER_NONE = 2004,
+
+	//Friend
+	NOT_EXISTS_FRIEND_NAME					= 4001,	//존재하지 않는 이름
+	NOT_FRIEND_WITH_PLAYER					= 4002,	//플레이어와 친구가 아님
+	ALREADY_FRIEND_WITH_PLAYER				= 4003, //이미 친구임
+	ALREADY_FRIEND_IS_BLOCK					= 4004, //이미 블락된 상태임
+	ALREADY_FRIEND_IS_REQUEST				= 4005, //이미 요청을 보낸 상태임
+	INVALID_LIST_TYPE						= 4009, //없는 리스트 타입
+	ALREADY_SAME_ACTION						= 4010, //이미 같은 행동을 하고 있음
 };
 
 static std::string GetNetworkError(int32 error)

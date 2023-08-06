@@ -104,8 +104,10 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	if (inPacket.token().compare("LOCAL_TEST") == 0)
 	{
 		isToken = true;
-		token.SetCharacterID(1);
-		token.SetGlobalID(1);
+		static int32 number = 0;
+		token.SetCharacterID((number % 2) + 1);
+		token.SetGlobalID((number % 2) + 1);
+		number++;
 	}
 
 	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
@@ -141,7 +143,7 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 
 void GameWorld::Leave(PlayerStatePtr inPlayerState)
 {
-	RemotePlayerPtr& remotePlayer = inPlayerState->GetRemotePlayer();
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return;
@@ -160,6 +162,8 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disappearCharacterPacket);
 	inPlayerState->BroadcastPlayerMonitors(disappearSendBuffer);
 
+	remotePlayer->GetFriend()->NotifyDisConnectToFriend();
+
 	const PlayerMonitors& playerMonitors = inPlayerState->GetPlayerMonitors();
 	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
 	{
@@ -175,6 +179,7 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	}
 	
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
+	this->ReleaseCharacterIDandRemoteID(remotePlayer->GetToken().GetCharacterID());
 	mWorldPlayers.erase(gameObjectID);
 
 	mTaskManagerRef.lock()->DestroyGameObject(remotePlayer->GetGameObjectPtr());
@@ -301,6 +306,35 @@ void GameWorld::CheackToken()
 		}
 		++token;
 	}
+}
+
+void GameWorld::PushCharacterIDandRemoteID(const int64& inCharacterID, const int64& inPlayerID)
+{
+	std::pair<int64, int64> ids = std::make_pair(inCharacterID, inPlayerID);
+	this->mPlayerIDs.insert(ids);
+}
+
+void GameWorld::ReleaseCharacterIDandRemoteID(const int64& inCharacterID)
+{
+	mPlayerIDs.erase(inCharacterID);
+}
+
+bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemoteClientPtr)
+{
+	auto findPos = mPlayerIDs.find(inCharacterID);
+	if (findPos == mPlayerIDs.end())
+	{
+		return false;
+	}
+
+	auto playerPos = mWorldPlayers.find(findPos->second);
+	if (playerPos == mWorldPlayers.end())
+	{
+		return false;
+	}
+
+	outRemoteClientPtr = std::static_pointer_cast<GameRemotePlayer>(playerPos->second->GetRemotePlayer());
+	return true;
 }
 
 void GameWorld::RefreshWorldObserver()
