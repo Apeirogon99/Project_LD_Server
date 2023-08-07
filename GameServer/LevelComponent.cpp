@@ -59,13 +59,14 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 	}
 
 	const int32 characterID = remotePlayer->GetToken().GetCharacterID();
-	Handle_Update_Experience_Request(session, characterID, this->mLevel, this->mCurrentExperience);
+	Handle_Update_Experience_Request(session, characterID, this->GetLevel(), this->GetCurrentExperience());
 
 
 	if (true == IsNextLevel())
 	{
 		this->mLevel += 1;
-		LoadNextExperience(world, mLevel);
+		player->GetCharacterData().set_level(this->GetLevel());
+		LoadNextExperience(world, this->GetLevel());
 
 		Protocol::S2C_LevelUp levelUpPacket;
 		levelUpPacket.set_remote_id(remotePlayer->GetGameObjectID());
@@ -86,6 +87,8 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, updateExperiencePacket);
 		session->Send(sendBuffer);
 	}
+
+	player->GetCharacterData().set_experience(this->GetCurrentExperience());
 
 }
 
