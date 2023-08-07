@@ -337,6 +337,17 @@ bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& o
 	return true;
 }
 
+bool GameWorld::IsValidPlayer(const int64& inCharacterID)
+{
+	auto findPos = mPlayerIDs.find(inCharacterID);
+	if (findPos == mPlayerIDs.end())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 void GameWorld::RefreshWorldObserver()
 {
 	mWorldObserver.DeleteTree();

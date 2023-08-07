@@ -35,6 +35,7 @@ public:
 	void PushCharacterIDandRemoteID(const int64& inCharacterID, const int64& inPlayerID);
 	void ReleaseCharacterIDandRemoteID(const int64& inCharacterID);
 	bool IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemoteClientPtr);
+	bool IsValidPlayer(const int64& inCharacterID);
 
 protected:
 	void RefreshWorldObserver();

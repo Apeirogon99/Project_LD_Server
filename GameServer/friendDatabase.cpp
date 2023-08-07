@@ -189,6 +189,12 @@ bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& 
 		return false;
 	}
 
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return false;
+	}
+
 	FriendPtr friends = remotePlayer->GetFriend();
 	if (nullptr == friends)
 	{
@@ -225,18 +231,24 @@ bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& 
 		{
 			Protocol::SFriend* newFriend = loadFriendPacket.add_friends();
 
+			int32 friendID = inRecordset.GetFieldItem(L"friend_character_id");
 			std::string	name = inRecordset.GetFieldItem(L"name");
+			int32 classID = inRecordset.GetFieldItem(L"character_calss_id");
+			int32 level	  = inRecordset.GetFieldItem(L"level");
+			int32 locale  = inRecordset.GetFieldItem(L"locale");
+
 			newFriend->set_nick_name(name);
+			newFriend->set_character_class(static_cast<Protocol::ECharacterClass>(classID));
+			newFriend->set_level(level);
+			newFriend->set_locale(locale);
 
 			if (list_type == 0)
 			{
-				int32 classID = inRecordset.GetFieldItem(L"character_calss_id");
-				int32 level	  = inRecordset.GetFieldItem(L"level");
-				int32 locale  = inRecordset.GetFieldItem(L"locale");
-
-				newFriend->set_character_class(static_cast<Protocol::ECharacterClass>(classID));
-				newFriend->set_level(level);
-				newFriend->set_locale(locale);
+				newFriend->set_state((world->IsValidPlayer(friendID) == true) ? 1 : 3);
+			}
+			else
+			{
+				newFriend->set_state(0);
 			}
 
 			inRecordset.MoveNext();

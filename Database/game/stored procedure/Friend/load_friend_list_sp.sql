@@ -47,6 +47,7 @@ BEGIN TRY
 			END
 
 		SELECT DISTINCT
+		f.friend_character_id,
 		c.name,
 		a.character_calss_id,
 		l.level,

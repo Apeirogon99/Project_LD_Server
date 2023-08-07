@@ -226,6 +226,7 @@ PROTOBUF_CONSTEXPR SFriend::SFriend(
   , /*decltype(_impl_.level_)*/0
   , /*decltype(_impl_.character_class_)*/0
   , /*decltype(_impl_.locale_)*/0
+  , /*decltype(_impl_.state_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SFriendDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SFriendDefaultTypeInternal()
@@ -366,6 +367,7 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::SFriend, _impl_.level_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SFriend, _impl_.character_class_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SFriend, _impl_.locale_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::SFriend, _impl_.state_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::SServerInfo)},
@@ -428,17 +430,17 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
   "on\030\005 \001(\005\022\016\n\006amount\030\006 \001(\005\"C\n\005SStat\022&\n\tsta"
   "t_type\030\001 \001(\0162\023.Protocol.EStatType\022\022\n\nsta"
-  "t_value\030\002 \001(\002\"o\n\007SFriend\022\021\n\tnick_name\030\001 "
+  "t_value\030\002 \001(\002\"~\n\007SFriend\022\021\n\tnick_name\030\001 "
   "\001(\014\022\r\n\005level\030\002 \001(\005\0222\n\017character_class\030\003 "
   "\001(\0162\031.Protocol.ECharacterClass\022\016\n\006locale"
-  "\030\004 \001(\005b\006proto3"
+  "\030\004 \001(\005\022\r\n\005state\030\005 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1334, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1349, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 12,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -3727,6 +3729,7 @@ SFriend::SFriend(const SFriend& from)
     , decltype(_impl_.level_){}
     , decltype(_impl_.character_class_){}
     , decltype(_impl_.locale_){}
+    , decltype(_impl_.state_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -3739,8 +3742,8 @@ SFriend::SFriend(const SFriend& from)
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.level_, &from._impl_.level_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.locale_) -
-    reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.locale_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.state_) -
+    reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.state_));
   // @@protoc_insertion_point(copy_constructor:Protocol.SFriend)
 }
 
@@ -3753,6 +3756,7 @@ inline void SFriend::SharedCtor(
     , decltype(_impl_.level_){0}
     , decltype(_impl_.character_class_){0}
     , decltype(_impl_.locale_){0}
+    , decltype(_impl_.state_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.nick_name_.InitDefault();
@@ -3787,8 +3791,8 @@ void SFriend::Clear() {
 
   _impl_.nick_name_.ClearToEmpty();
   ::memset(&_impl_.level_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.locale_) -
-      reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.locale_));
+      reinterpret_cast<char*>(&_impl_.state_) -
+      reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.state_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3828,6 +3832,14 @@ const char* SFriend::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.locale_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 state = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -3886,6 +3898,12 @@ uint8_t* SFriend::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_locale(), target);
   }
 
+  // int32 state = 5;
+  if (this->_internal_state() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_state(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3925,6 +3943,11 @@ size_t SFriend::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_locale());
   }
 
+  // int32 state = 5;
+  if (this->_internal_state() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3955,6 +3978,9 @@ void SFriend::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
   if (from._internal_locale() != 0) {
     _this->_internal_set_locale(from._internal_locale());
   }
+  if (from._internal_state() != 0) {
+    _this->_internal_set_state(from._internal_state());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3979,8 +4005,8 @@ void SFriend::InternalSwap(SFriend* other) {
       &other->_impl_.nick_name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SFriend, _impl_.locale_)
-      + sizeof(SFriend::_impl_.locale_)
+      PROTOBUF_FIELD_OFFSET(SFriend, _impl_.state_)
+      + sizeof(SFriend::_impl_.state_)
       - PROTOBUF_FIELD_OFFSET(SFriend, _impl_.level_)>(
           reinterpret_cast<char*>(&_impl_.level_),
           reinterpret_cast<char*>(&other->_impl_.level_));

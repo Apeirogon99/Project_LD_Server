@@ -2343,6 +2343,7 @@ class SFriend final :
     kLevelFieldNumber = 2,
     kCharacterClassFieldNumber = 3,
     kLocaleFieldNumber = 4,
+    kStateFieldNumber = 5,
   };
   // bytes nick_name = 1;
   void clear_nick_name();
@@ -2385,6 +2386,15 @@ class SFriend final :
   void _internal_set_locale(int32_t value);
   public:
 
+  // int32 state = 5;
+  void clear_state();
+  int32_t state() const;
+  void set_state(int32_t value);
+  private:
+  int32_t _internal_state() const;
+  void _internal_set_state(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.SFriend)
  private:
   class _Internal;
@@ -2397,6 +2407,7 @@ class SFriend final :
     int32_t level_;
     int character_class_;
     int32_t locale_;
+    int32_t state_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4105,6 +4116,26 @@ inline void SFriend::_internal_set_locale(int32_t value) {
 inline void SFriend::set_locale(int32_t value) {
   _internal_set_locale(value);
   // @@protoc_insertion_point(field_set:Protocol.SFriend.locale)
+}
+
+// int32 state = 5;
+inline void SFriend::clear_state() {
+  _impl_.state_ = 0;
+}
+inline int32_t SFriend::_internal_state() const {
+  return _impl_.state_;
+}
+inline int32_t SFriend::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.SFriend.state)
+  return _internal_state();
+}
+inline void SFriend::_internal_set_state(int32_t value) {
+  
+  _impl_.state_ = value;
+}
+inline void SFriend::set_state(int32_t value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.SFriend.state)
 }
 
 #ifdef __GNUC__

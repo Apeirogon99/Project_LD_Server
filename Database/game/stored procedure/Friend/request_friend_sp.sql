@@ -35,10 +35,10 @@ BEGIN TRY
 
 		DECLARE @cur_is_friend INT
 		DECLARE @cur_action INT
-		IF EXISTS (SELECT 1 FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id)
+		IF EXISTS (SELECT 1 FROM friend_tb WHERE user_character_id=@friend_id AND friend_character_id=@character_id)
 			BEGIN
 
-				SELECT @cur_is_friend=is_friend, @cur_action=action FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id
+				SELECT @cur_is_friend=is_friend, @cur_action=action FROM friend_tb WHERE user_character_id=@friend_id AND friend_character_id=@character_id
 
 				IF @cur_is_friend=1 AND @cur_action=0
 					BEGIN
@@ -57,12 +57,18 @@ BEGIN TRY
 					END
 				ELSE IF @cur_is_friend=0 AND @cur_action=1 AND @action=0
 					BEGIN
-						DELETE FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id
+						DELETE FROM friend_tb WHERE user_character_id=@friend_id AND friend_character_id=@character_id
 					END
 			END
 		ELSE
 			BEGIN
-				INSERT friend_tb (user_character_id, friend_character_id, is_friend, action) VALUES (@character_id, @friend_id, 0, 1)
+				INSERT friend_tb (user_character_id, friend_character_id, is_friend, action) VALUES (@friend_id, @character_id, 0, 1)
+
+				IF EXISTS (SELECT 1 FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id AND is_friend=0 AND action=1) AND EXISTS (SELECT 1 FROM friend_tb WHERE user_character_id=@friend_id AND friend_character_id=@character_id AND is_friend=0 AND action=1)
+					BEGIN
+						UPDATE friend_tb SET is_friend=1 WHERE user_character_id=@character_id AND friend_character_id=@friend_id
+						UPDATE friend_tb SET is_friend=1 WHERE user_character_id=@friend_id AND friend_character_id=@character_id
+					END
 			END
 
 		COMMIT TRANSACTION;

@@ -211,6 +211,9 @@
     <ClCompile Include="Friend.cpp">
       <Filter>Content\Friend</Filter>
     </ClCompile>
+    <ClCompile Include="LevelComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -338,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="Friend.h">
       <Filter>Content\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelComponent.h">
+      <Filter>Content\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
