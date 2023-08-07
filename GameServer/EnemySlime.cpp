@@ -127,5 +127,5 @@ void EnemySlime::OnReward()
 		return;
 	}
 
-	instigated->GetLevelComponent().AddExperience(Random::GetNormalDistribution(4, 0.8));
+	instigated->GetLevelComponent().AddExperience(static_cast<int32>(Random::GetNormalDistribution(4, 0.8)));
 }

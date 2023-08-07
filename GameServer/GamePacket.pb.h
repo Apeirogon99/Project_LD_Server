@@ -154,6 +154,9 @@ extern S2C_InsertInventoryDefaultTypeInternal _S2C_InsertInventory_default_insta
 class S2C_LeaveGameServer;
 struct S2C_LeaveGameServerDefaultTypeInternal;
 extern S2C_LeaveGameServerDefaultTypeInternal _S2C_LeaveGameServer_default_instance_;
+class S2C_LevelUp;
+struct S2C_LevelUpDefaultTypeInternal;
+extern S2C_LevelUpDefaultTypeInternal _S2C_LevelUp_default_instance_;
 class S2C_LoadFriendList;
 struct S2C_LoadFriendListDefaultTypeInternal;
 extern S2C_LoadFriendListDefaultTypeInternal _S2C_LoadFriendList_default_instance_;
@@ -187,6 +190,9 @@ extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_i
 class S2C_Tick;
 struct S2C_TickDefaultTypeInternal;
 extern S2C_TickDefaultTypeInternal _S2C_Tick_default_instance_;
+class S2C_UpdateExperience;
+struct S2C_UpdateExperienceDefaultTypeInternal;
+extern S2C_UpdateExperienceDefaultTypeInternal _S2C_UpdateExperience_default_instance_;
 class S2C_UpdateInventory;
 struct S2C_UpdateInventoryDefaultTypeInternal;
 extern S2C_UpdateInventoryDefaultTypeInternal _S2C_UpdateInventory_default_instance_;
@@ -226,6 +232,7 @@ template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::S2C_HitEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_HitEnemy>(Arena*);
 template<> ::Protocol::S2C_InsertInventory* Arena::CreateMaybeMessage<::Protocol::S2C_InsertInventory>(Arena*);
 template<> ::Protocol::S2C_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_LeaveGameServer>(Arena*);
+template<> ::Protocol::S2C_LevelUp* Arena::CreateMaybeMessage<::Protocol::S2C_LevelUp>(Arena*);
 template<> ::Protocol::S2C_LoadFriendList* Arena::CreateMaybeMessage<::Protocol::S2C_LoadFriendList>(Arena*);
 template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::S2C_LoadInventory>(Arena*);
 template<> ::Protocol::S2C_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_MovementCharacter>(Arena*);
@@ -237,6 +244,7 @@ template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::S2C_RequestFriend* Arena::CreateMaybeMessage<::Protocol::S2C_RequestFriend>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
+template<> ::Protocol::S2C_UpdateExperience* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateExperience>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
@@ -2858,6 +2866,357 @@ class S2C_PlayerAutoAttack final :
 };
 // -------------------------------------------------------------------
 
+class S2C_UpdateExperience final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_UpdateExperience) */ {
+ public:
+  inline S2C_UpdateExperience() : S2C_UpdateExperience(nullptr) {}
+  ~S2C_UpdateExperience() override;
+  explicit PROTOBUF_CONSTEXPR S2C_UpdateExperience(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_UpdateExperience(const S2C_UpdateExperience& from);
+  S2C_UpdateExperience(S2C_UpdateExperience&& from) noexcept
+    : S2C_UpdateExperience() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_UpdateExperience& operator=(const S2C_UpdateExperience& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_UpdateExperience& operator=(S2C_UpdateExperience&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_UpdateExperience& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_UpdateExperience* internal_default_instance() {
+    return reinterpret_cast<const S2C_UpdateExperience*>(
+               &_S2C_UpdateExperience_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(S2C_UpdateExperience& a, S2C_UpdateExperience& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_UpdateExperience* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_UpdateExperience* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_UpdateExperience* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_UpdateExperience>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_UpdateExperience& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_UpdateExperience& from) {
+    S2C_UpdateExperience::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_UpdateExperience* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_UpdateExperience";
+  }
+  protected:
+  explicit S2C_UpdateExperience(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRemoteIdFieldNumber = 1,
+    kTimestampFieldNumber = 3,
+    kExperienceFieldNumber = 2,
+  };
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 experience = 2;
+  void clear_experience();
+  int32_t experience() const;
+  void set_experience(int32_t value);
+  private:
+  int32_t _internal_experience() const;
+  void _internal_set_experience(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_UpdateExperience)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t remote_id_;
+    int64_t timestamp_;
+    int32_t experience_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_LevelUp final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_LevelUp) */ {
+ public:
+  inline S2C_LevelUp() : S2C_LevelUp(nullptr) {}
+  ~S2C_LevelUp() override;
+  explicit PROTOBUF_CONSTEXPR S2C_LevelUp(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_LevelUp(const S2C_LevelUp& from);
+  S2C_LevelUp(S2C_LevelUp&& from) noexcept
+    : S2C_LevelUp() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_LevelUp& operator=(const S2C_LevelUp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_LevelUp& operator=(S2C_LevelUp&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_LevelUp& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_LevelUp* internal_default_instance() {
+    return reinterpret_cast<const S2C_LevelUp*>(
+               &_S2C_LevelUp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(S2C_LevelUp& a, S2C_LevelUp& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_LevelUp* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_LevelUp* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_LevelUp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_LevelUp>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_LevelUp& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_LevelUp& from) {
+    S2C_LevelUp::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_LevelUp* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_LevelUp";
+  }
+  protected:
+  explicit S2C_LevelUp(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRemoteIdFieldNumber = 1,
+    kLevelFieldNumber = 2,
+    kExperienceFieldNumber = 3,
+    kTimestampFieldNumber = 4,
+  };
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // int32 level = 2;
+  void clear_level();
+  int32_t level() const;
+  void set_level(int32_t value);
+  private:
+  int32_t _internal_level() const;
+  void _internal_set_level(int32_t value);
+  public:
+
+  // int32 experience = 3;
+  void clear_experience();
+  int32_t experience() const;
+  void set_experience(int32_t value);
+  private:
+  int32_t _internal_experience() const;
+  void _internal_set_experience(int32_t value);
+  public:
+
+  // int64 timestamp = 4;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_LevelUp)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t remote_id_;
+    int32_t level_;
+    int32_t experience_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class C2S_Chat final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_Chat) */ {
  public:
@@ -2906,7 +3265,7 @@ class C2S_Chat final :
                &_C2S_Chat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    17;
 
   friend void swap(C2S_Chat& a, C2S_Chat& b) {
     a.Swap(&b);
@@ -3070,7 +3429,7 @@ class S2C_Chat final :
                &_S2C_Chat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    18;
 
   friend void swap(S2C_Chat& a, S2C_Chat& b) {
     a.Swap(&b);
@@ -3272,7 +3631,7 @@ class C2S_LoadFriendList final :
                &_C2S_LoadFriendList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    19;
 
   friend void swap(C2S_LoadFriendList& a, C2S_LoadFriendList& b) {
     a.Swap(&b);
@@ -3431,7 +3790,7 @@ class S2C_LoadFriendList final :
                &_S2C_LoadFriendList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    20;
 
   friend void swap(S2C_LoadFriendList& a, S2C_LoadFriendList& b) {
     a.Swap(&b);
@@ -3610,7 +3969,7 @@ class C2S_RequestFriend final :
                &_C2S_RequestFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    21;
 
   friend void swap(C2S_RequestFriend& a, C2S_RequestFriend& b) {
     a.Swap(&b);
@@ -3785,7 +4144,7 @@ class S2C_RequestFriend final :
                &_S2C_RequestFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    22;
 
   friend void swap(S2C_RequestFriend& a, S2C_RequestFriend& b) {
     a.Swap(&b);
@@ -3944,7 +4303,7 @@ class C2S_BlockFriend final :
                &_C2S_BlockFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    23;
 
   friend void swap(C2S_BlockFriend& a, C2S_BlockFriend& b) {
     a.Swap(&b);
@@ -4119,7 +4478,7 @@ class S2C_BlockFriend final :
                &_S2C_BlockFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    24;
 
   friend void swap(S2C_BlockFriend& a, S2C_BlockFriend& b) {
     a.Swap(&b);
@@ -4278,7 +4637,7 @@ class S2C_ConnectFriend final :
                &_S2C_ConnectFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    25;
 
   friend void swap(S2C_ConnectFriend& a, S2C_ConnectFriend& b) {
     a.Swap(&b);
@@ -4442,7 +4801,7 @@ class S2C_DisConnectFriend final :
                &_S2C_DisConnectFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    26;
 
   friend void swap(S2C_DisConnectFriend& a, S2C_DisConnectFriend& b) {
     a.Swap(&b);
@@ -4606,7 +4965,7 @@ class S2C_AppearItem final :
                &_S2C_AppearItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    27;
 
   friend void swap(S2C_AppearItem& a, S2C_AppearItem& b) {
     a.Swap(&b);
@@ -4763,7 +5122,7 @@ class S2C_AppearArrow final :
                &_S2C_AppearArrow_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    28;
 
   friend void swap(S2C_AppearArrow& a, S2C_AppearArrow& b) {
     a.Swap(&b);
@@ -4962,7 +5321,7 @@ class S2C_MovementProjectile final :
                &_S2C_MovementProjectile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   friend void swap(S2C_MovementProjectile& a, S2C_MovementProjectile& b) {
     a.Swap(&b);
@@ -5141,7 +5500,7 @@ class S2C_AppearEnemy final :
                &_S2C_AppearEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    30;
 
   friend void swap(S2C_AppearEnemy& a, S2C_AppearEnemy& b) {
     a.Swap(&b);
@@ -5382,7 +5741,7 @@ class S2C_DetectChangeEnemy final :
                &_S2C_DetectChangeEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    31;
 
   friend void swap(S2C_DetectChangeEnemy& a, S2C_DetectChangeEnemy& b) {
     a.Swap(&b);
@@ -5572,7 +5931,7 @@ class S2C_MovementEnemy final :
                &_S2C_MovementEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    32;
 
   friend void swap(S2C_MovementEnemy& a, S2C_MovementEnemy& b) {
     a.Swap(&b);
@@ -5771,7 +6130,7 @@ class S2C_EnemyAutoAttack final :
                &_S2C_EnemyAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    33;
 
   friend void swap(S2C_EnemyAutoAttack& a, S2C_EnemyAutoAttack& b) {
     a.Swap(&b);
@@ -5950,7 +6309,7 @@ class S2C_HitEnemy final :
                &_S2C_HitEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    34;
 
   friend void swap(S2C_HitEnemy& a, S2C_HitEnemy& b) {
     a.Swap(&b);
@@ -6109,7 +6468,7 @@ class S2C_DeathEnemy final :
                &_S2C_DeathEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    35;
 
   friend void swap(S2C_DeathEnemy& a, S2C_DeathEnemy& b) {
     a.Swap(&b);
@@ -6268,7 +6627,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    36;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -6416,7 +6775,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    37;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -6564,7 +6923,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    38;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -6763,7 +7122,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    39;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -6931,7 +7290,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    40;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -7101,7 +7460,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    41;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -7269,7 +7628,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    42;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -7417,7 +7776,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    43;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -7605,7 +7964,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    44;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -7784,7 +8143,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    45;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -7952,7 +8311,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    46;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -8151,7 +8510,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    47;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -10136,6 +10495,154 @@ inline void S2C_PlayerAutoAttack::_internal_set_timestamp(int64_t value) {
 inline void S2C_PlayerAutoAttack::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_PlayerAutoAttack.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_UpdateExperience
+
+// int64 remote_id = 1;
+inline void S2C_UpdateExperience::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_UpdateExperience::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_UpdateExperience::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateExperience.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_UpdateExperience::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_UpdateExperience::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateExperience.remote_id)
+}
+
+// int32 experience = 2;
+inline void S2C_UpdateExperience::clear_experience() {
+  _impl_.experience_ = 0;
+}
+inline int32_t S2C_UpdateExperience::_internal_experience() const {
+  return _impl_.experience_;
+}
+inline int32_t S2C_UpdateExperience::experience() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateExperience.experience)
+  return _internal_experience();
+}
+inline void S2C_UpdateExperience::_internal_set_experience(int32_t value) {
+  
+  _impl_.experience_ = value;
+}
+inline void S2C_UpdateExperience::set_experience(int32_t value) {
+  _internal_set_experience(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateExperience.experience)
+}
+
+// int64 timestamp = 3;
+inline void S2C_UpdateExperience::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_UpdateExperience::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_UpdateExperience::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateExperience.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_UpdateExperience::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_UpdateExperience::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateExperience.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_LevelUp
+
+// int64 remote_id = 1;
+inline void S2C_LevelUp::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_LevelUp::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_LevelUp::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LevelUp.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_LevelUp::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_LevelUp::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LevelUp.remote_id)
+}
+
+// int32 level = 2;
+inline void S2C_LevelUp::clear_level() {
+  _impl_.level_ = 0;
+}
+inline int32_t S2C_LevelUp::_internal_level() const {
+  return _impl_.level_;
+}
+inline int32_t S2C_LevelUp::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LevelUp.level)
+  return _internal_level();
+}
+inline void S2C_LevelUp::_internal_set_level(int32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void S2C_LevelUp::set_level(int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LevelUp.level)
+}
+
+// int32 experience = 3;
+inline void S2C_LevelUp::clear_experience() {
+  _impl_.experience_ = 0;
+}
+inline int32_t S2C_LevelUp::_internal_experience() const {
+  return _impl_.experience_;
+}
+inline int32_t S2C_LevelUp::experience() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LevelUp.experience)
+  return _internal_experience();
+}
+inline void S2C_LevelUp::_internal_set_experience(int32_t value) {
+  
+  _impl_.experience_ = value;
+}
+inline void S2C_LevelUp::set_experience(int32_t value) {
+  _internal_set_experience(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LevelUp.experience)
+}
+
+// int64 timestamp = 4;
+inline void S2C_LevelUp::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_LevelUp::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_LevelUp::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LevelUp.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_LevelUp::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_LevelUp::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LevelUp.timestamp)
 }
 
 // -------------------------------------------------------------------
@@ -13430,6 +13937,10 @@ inline void S2C_ReplaceEqipment::set_error(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

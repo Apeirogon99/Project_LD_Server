@@ -46,12 +46,6 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 		return;
 	}
 
-	if (true == IsNextLevel())
-	{
-		this->mLevel += 1;
-		LoadNextExperience(world, mLevel);
-	}
-
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
@@ -66,6 +60,33 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 
 	const int32 characterID = remotePlayer->GetToken().GetCharacterID();
 	Handle_Update_Experience_Request(session, characterID, this->mLevel, this->mCurrentExperience);
+
+
+	if (true == IsNextLevel())
+	{
+		this->mLevel += 1;
+		LoadNextExperience(world, mLevel);
+
+		Protocol::S2C_LevelUp levelUpPacket;
+		levelUpPacket.set_remote_id(remotePlayer->GetGameObjectID());
+		levelUpPacket.set_level(this->GetLevel());
+		levelUpPacket.set_experience(this->GetCurrentExperience());
+		levelUpPacket.set_timestamp(world->GetWorldTime());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, levelUpPacket);
+		session->Send(sendBuffer);
+	}
+	else
+	{
+		Protocol::S2C_UpdateExperience updateExperiencePacket;
+		updateExperiencePacket.set_remote_id(remotePlayer->GetGameObjectID());
+		updateExperiencePacket.set_experience(this->GetCurrentExperience());
+		updateExperiencePacket.set_timestamp(world->GetWorldTime());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, updateExperiencePacket);
+		session->Send(sendBuffer);
+	}
+
 }
 
 const bool LevelComponent::IsNextLevel() const

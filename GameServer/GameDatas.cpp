@@ -101,7 +101,7 @@ void GameDatas::LoadLevelDatas(std::map<int32, int32>& outDatas)
     for (int32 dataIndex = 1; dataIndex < datasSize; ++dataIndex)
     {
         CSVRow row = datas.at(dataIndex);
-        std::pair<int32, int32> level = std::make_pair(stoi(row.at(0)), stoi(row.at(1)));
+        std::pair<int32, int32> level = std::make_pair(stoi(row.at(1)), stoi(row.at(2)));
         outDatas.insert(level);
     }
 }

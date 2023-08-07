@@ -128,5 +128,5 @@ void EnemyArcherSkeleton::OnReward()
 		return;
 	}
 
-	instigated->GetLevelComponent().AddExperience(Random::GetNormalDistribution(60, 0.8));
+	instigated->GetLevelComponent().AddExperience(static_cast<int32>(Random::GetNormalDistribution(60, 0.8)));
 }

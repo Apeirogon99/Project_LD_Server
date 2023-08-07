@@ -125,5 +125,5 @@ void EnemyWarriorSkeleton::OnReward()
 		return;
 	}
 
-	instigated->GetLevelComponent().AddExperience(Random::GetNormalDistribution(100, 0.8));
+	instigated->GetLevelComponent().AddExperience(static_cast<int32>(Random::GetNormalDistribution(100, 0.8)));
 }

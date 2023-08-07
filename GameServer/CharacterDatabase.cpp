@@ -133,6 +133,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	
 	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?
 	character->GetStatComponent().InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass - 1, level);
+	character->GetLevelComponent().Init(character, level, experience);
 	
 
 	character->SetLoadCharacter(true);
