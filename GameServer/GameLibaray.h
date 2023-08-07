@@ -32,6 +32,7 @@
 #include "StatsComponent.h"
 #include "EqipmentComponent.h"
 #include "AttackComponent.h"
+#include "LevelComponent.h"
 
 //==========================//
 //		 GameContent		//

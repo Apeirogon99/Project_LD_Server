@@ -118,4 +118,12 @@ void EnemyNomalSkeleton::OnReward()
 		AItemPtr bone = std::static_pointer_cast<AItem>(world->SpawnActor<AItem>(world->GetGameObjectRef(), Random::GetRandomVectorInRange2D(location, 100.0f), FRotator(), FVector()));
 		bone->SetItemCode(173);
 	}
+
+	PlayerCharacterPtr instigated = std::static_pointer_cast<PlayerCharacter>(this->GetAggroActor().lock());
+	if (nullptr == instigated)
+	{
+		return;
+	}
+
+	instigated->GetLevelComponent().AddExperience(Random::GetNormalDistribution(40, 0.8));
 }

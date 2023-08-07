@@ -44,6 +44,7 @@ public:
 	ActorRef					GetTargetActor()		{ return mTargetActor; }
 	StatsComponent&				GetStatComponent() 		{ return mStatComponent; }
 	EqipmentComponent&			GetEqipmentComponent() 	{ return mEqipmentComponent; }
+	LevelComponent&				GetLevelComponent()		{ return mLevelComponent; }
 
 private:
 	bool						mIsLoad;
@@ -56,5 +57,6 @@ private:
 	StatsComponent				mStatComponent;
 	EqipmentComponent			mEqipmentComponent;
 	AttackComponent				mAutoAttackComponent;
+	LevelComponent				mLevelComponent;
 };
 

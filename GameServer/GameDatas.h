@@ -8,7 +8,14 @@ enum class EGameDataType : uint8
 	GrowStat,
 	EnemyStat,
 	EnemySpawner,
+	Level,
 	MAX_GAME_DATA,
+};
+
+enum class EDataType : uint8
+{
+	Float,
+	Integer,
 };
 
 class GameDatas : public DataManager
@@ -28,6 +35,7 @@ public:
 	void LoadDatas();
 
 	void LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDataType);
+	void LoadLevelDatas(std::map<int32, int32>& outDatas);
 
 public:
 	bool			GetStats(const EGameDataType inDataType, const int32 inRow, Stats& outStats);
@@ -35,11 +43,13 @@ public:
 	const Stats&	GetCharacterGrowStat(const int32 inRow);
 	const Stats&	GetEnemyStat(const int32 inRow);
 	const Stats&	GetEqipmentStat(const int32 inRow);
+	const int32		GetNextExperience(const int32& inLevel);
 
 private:
 	std::vector<Stats> mCharacterBaseStats;
 	std::vector<Stats> mCharacterGrowStats;
 	std::vector<Stats> mEnemyStats;
 	std::vector<Stats> mEqipmentStats;
+	std::map<int32, int32> mLevelDatas;
 };
 

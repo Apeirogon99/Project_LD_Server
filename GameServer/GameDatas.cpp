@@ -48,6 +48,11 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"level_datas.csv").c_str(), static_cast<int32>(EGameDataType::Level)))
+    {
+        return false;
+    }
+
     LoadDatas();
     return true;
 }
@@ -58,6 +63,8 @@ void GameDatas::LoadDatas()
     LoadStatsDatas(mCharacterBaseStats, EGameDataType::BaseStat);
     LoadStatsDatas(mCharacterGrowStats, EGameDataType::GrowStat);
     LoadStatsDatas(mEnemyStats, EGameDataType::EnemyStat);
+
+    LoadLevelDatas(mLevelDatas);
 }
 
 void GameDatas::LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDataType)
@@ -81,6 +88,21 @@ void GameDatas::LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDat
         }
 
         outDatas[dataIndex] = tempStat;
+    }
+}
+
+void GameDatas::LoadLevelDatas(std::map<int32, int32>& outDatas)
+{
+    CSVDatas datas;
+    GetData(datas, static_cast<uint8>(EGameDataType::Level));
+
+    const size_t datasSize = datas.size() - 1;
+
+    for (int32 dataIndex = 1; dataIndex < datasSize; ++dataIndex)
+    {
+        CSVRow row = datas.at(dataIndex);
+        std::pair<int32, int32> level = std::make_pair(stoi(row.at(0)), stoi(row.at(1)));
+        outDatas.insert(level);
     }
 }
 
@@ -127,4 +149,15 @@ const Stats& GameDatas::GetEnemyStat(const int32 inRow)
 const Stats& GameDatas::GetEqipmentStat(const int32 inRow)
 {
     return mEqipmentStats.at(inRow);
+}
+
+const int32 GameDatas::GetNextExperience(const int32& inLevel)
+{
+    auto find = mLevelDatas.find(inLevel);
+    if (find == mLevelDatas.end())
+    {
+        return -1;
+    }
+
+    return find->second;
 }

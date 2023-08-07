@@ -133,9 +133,46 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	
 	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?
 	character->GetStatComponent().InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass - 1, level);
+	
 
 	character->SetLoadCharacter(true);
 
 	remotePlayer->OnLoadComplete();
+	return true;
+}
+
+bool Handle_Update_Experience_Request(PacketSessionPtr& inSession, const int32& characterID, const int32& inLevel, const int32& inExperience)
+{
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
+	ADOConnection connection;
+	connection.Open(ConnectionInfo);
+
+	ADOVariant character_id = characterID;
+	ADOVariant level		= inLevel;
+	ADOVariant experience	= inExperience;
+
+	ADOCommand command;
+	command.SetStoredProcedure(connection, L"dbo.update_experience_sp");
+	command.SetReturnParam();
+	command.SetInputParam(L"@character_id", character_id);
+	command.SetInputParam(L"@level", level);
+	command.SetInputParam(L"@experience", experience);
+
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_Update_Experience_Response);
+	return true;
+}
+
+bool Handle_Update_Experience_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+{
+
+	int32 error = inCommand.GetReturnParam();
+	if (error != ErrorToInt(EDCommonErrorType::SUCCESS))
+	{
+		printf("[Handle_Update_Experience_Response] Erorr\n");
+	}
 	return true;
 }

@@ -219,8 +219,8 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	PlayerCharacterRef instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
-	this->mAggroActor = instigated;
+	//PlayerCharacterRef instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
+	this->SetAggroActor(inInstigated);
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
 	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
