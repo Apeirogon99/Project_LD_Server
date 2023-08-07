@@ -101,6 +101,6 @@ void LevelComponent::LoadNextExperience(GameWorldPtr inGameWorld, const int32& i
 		return;
 	}
 
-	this->mNextExperience = data->GetNextExperience(inLevel);
+	this->mNextExperience = data->GetNextExperience(inLevel + 1);
 	this->mCurrentExperience = this->mCurrentExperience % this->mNextExperience;
 }

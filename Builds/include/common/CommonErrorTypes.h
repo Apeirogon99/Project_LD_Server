@@ -85,6 +85,27 @@ static std::string GetNetworkError(int32 error)
 	case EDCommonErrorType::CHARACTER_NONE:
 		return std::string("캐릭터가 존재하지 않습니다.");
 		break;
+	case EDCommonErrorType::NOT_EXISTS_FRIEND_NAME:
+		return std::string("존재하지 않는 이름입니다.");
+		break;
+	case EDCommonErrorType::NOT_FRIEND_WITH_PLAYER:
+		return std::string("플레이와 친구가 아닌 상태입니다");
+		break;
+	case EDCommonErrorType::ALREADY_FRIEND_WITH_PLAYER:
+		return std::string("이미 친구인 상태입니다.");
+		break;
+	case EDCommonErrorType::ALREADY_FRIEND_IS_BLOCK:
+		return std::string("이미 차단되어 있는 상태입니다.");
+		break;
+	case EDCommonErrorType::ALREADY_FRIEND_IS_REQUEST:
+		return std::string("이미 요청을 보낸 상태입니다.");
+		break;
+	case EDCommonErrorType::INVALID_LIST_TYPE:
+		return std::string("올바른 리스트 타입이 아닙니다.");
+		break;
+	case EDCommonErrorType::ALREADY_SAME_ACTION:
+		return std::string("이미 처리 되어있습니다.");
+		break;
 	default:
 		return std::string("알 수 없는 에러");
 		break;

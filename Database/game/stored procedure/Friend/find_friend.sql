@@ -25,8 +25,7 @@ BEGIN TRY
 
 		IF @friend_id IS NULL
 			BEGIN
-				ROLLBACK TRANSACTION;
-				return -3001
+				return 4001
 			END
 
 		COMMIT TRANSACTION;
@@ -46,7 +45,7 @@ GO
 -- ==================================== --
 USE game_database;
 
-DECLARE @friend_name	NVARCHAR(8) = '¿æµÎ'
+DECLARE @friend_name	NVARCHAR(8) = '¸ô¶ó'
 DECLARE @friend_id		INT
 DECLARE @ret			INT
 

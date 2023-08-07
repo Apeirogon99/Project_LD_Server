@@ -25,7 +25,7 @@ BEGIN TRY
 		SET NOCOUNT ON;
 
 		DECLARE @friend_id INT
-		EXEC dbo.find_friend_sp @friend_name, @friend_id OUTPUT
+		SELECT @friend_id=id FROM character_tb WHERE name=@friend_name
 
 		IF @friend_id IS NULL
 			BEGIN

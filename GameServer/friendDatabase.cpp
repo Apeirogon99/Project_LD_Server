@@ -74,6 +74,7 @@ bool Handle_ConnectLoadFriendList_Response(PacketSessionPtr& inSession, ADOConne
 	}
 
 	friends->SetLoadFriend(error == ErrorToInt(EDCommonErrorType::SUCCESS));
+	remotePlayer->OnLoadComplete();
 	return true;
 }
 
@@ -175,7 +176,7 @@ bool Handle_LoadFriendList_Request(PacketSessionPtr& inSession, const int64& inC
 	return true;
 }
 
-bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset) 
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
 	if (nullptr == playerState)
@@ -201,41 +202,21 @@ bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& 
 		return false;
 	}
 
+	int32 list_type = inCommand.GetParam(L"@list_type");
+
 	Protocol::S2C_LoadFriendList loadFriendPacket;
 	int32 error = inCommand.GetReturnParam();
 	if (error == ErrorToInt(EDCommonErrorType::SUCCESS))
 	{
-		int32 list_type = inCommand.GetParam(L"@list_type");
-		int32 is_friend = 0;
-		int32 action = 0;
-
-		switch (list_type)
-		{
-		case 0:
-			is_friend = 1;
-			action = 0;
-			break;
-		case 1:
-			is_friend = 0;
-			action = 1;
-			break;
-		case 2:
-			is_friend = 1;
-			action = 1;
-			break;
-		default:
-			break;
-		}
-
 		while (!inRecordset.IsEof())
 		{
 			Protocol::SFriend* newFriend = loadFriendPacket.add_friends();
 
-			int32 friendID = inRecordset.GetFieldItem(L"friend_character_id");
-			std::string	name = inRecordset.GetFieldItem(L"name");
-			int32 classID = inRecordset.GetFieldItem(L"character_calss_id");
-			int32 level	  = inRecordset.GetFieldItem(L"level");
-			int32 locale  = inRecordset.GetFieldItem(L"locale");
+			int32 friendID		= inRecordset.GetFieldItem(L"friend_character_id");
+			std::string	name	= inRecordset.GetFieldItem(L"name");
+			int32 classID		= inRecordset.GetFieldItem(L"character_calss_id");
+			int32 level			= inRecordset.GetFieldItem(L"level");
+			int32 locale		= inRecordset.GetFieldItem(L"locale");
 
 			newFriend->set_nick_name(name);
 			newFriend->set_character_class(static_cast<Protocol::ECharacterClass>(classID));
@@ -254,6 +235,7 @@ bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& 
 			inRecordset.MoveNext();
 		}
 	}
+	loadFriendPacket.set_list_type(list_type);
 	loadFriendPacket.set_timestamp(remotePlayer->GetWorld().lock()->GetWorldTime());
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, loadFriendPacket);
