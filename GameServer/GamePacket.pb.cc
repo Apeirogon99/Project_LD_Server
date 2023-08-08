@@ -366,8 +366,9 @@ struct C2S_RequestFriendDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_RequestFriendDefaultTypeInternal _C2S_RequestFriend_default_instance_;
 PROTOBUF_CONSTEXPR S2C_RequestFriend::S2C_RequestFriend(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.timestamp_)*/int64_t{0}
-  , /*decltype(_impl_.error_)*/0
+    /*decltype(_impl_.error_)*/0
+  , /*decltype(_impl_.action_)*/0
+  , /*decltype(_impl_.timestamp_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_RequestFriendDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_RequestFriendDefaultTypeInternal()
@@ -395,8 +396,9 @@ struct C2S_BlockFriendDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_BlockFriendDefaultTypeInternal _C2S_BlockFriend_default_instance_;
 PROTOBUF_CONSTEXPR S2C_BlockFriend::S2C_BlockFriend(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.timestamp_)*/int64_t{0}
-  , /*decltype(_impl_.error_)*/0
+    /*decltype(_impl_.error_)*/0
+  , /*decltype(_impl_.action_)*/0
+  , /*decltype(_impl_.timestamp_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_BlockFriendDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_BlockFriendDefaultTypeInternal()
@@ -953,6 +955,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_RequestFriend, _impl_.error_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_RequestFriend, _impl_.action_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_RequestFriend, _impl_.timestamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_BlockFriend, _internal_metadata_),
@@ -970,6 +973,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_BlockFriend, _impl_.error_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_BlockFriend, _impl_.action_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_BlockFriend, _impl_.timestamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_ConnectFriend, _internal_metadata_),
@@ -1197,31 +1201,31 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 176, -1, -1, sizeof(::Protocol::S2C_LoadFriendList)},
   { 185, -1, -1, sizeof(::Protocol::C2S_RequestFriend)},
   { 194, -1, -1, sizeof(::Protocol::S2C_RequestFriend)},
-  { 202, -1, -1, sizeof(::Protocol::C2S_BlockFriend)},
-  { 211, -1, -1, sizeof(::Protocol::S2C_BlockFriend)},
-  { 219, -1, -1, sizeof(::Protocol::S2C_ConnectFriend)},
-  { 227, -1, -1, sizeof(::Protocol::S2C_DisConnectFriend)},
-  { 235, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
-  { 242, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
-  { 252, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
-  { 261, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
-  { 274, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
-  { 284, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
-  { 294, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
-  { 303, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
-  { 311, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 319, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 326, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 333, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 343, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 351, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 360, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 368, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 375, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 384, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 393, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 401, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 411, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 203, -1, -1, sizeof(::Protocol::C2S_BlockFriend)},
+  { 212, -1, -1, sizeof(::Protocol::S2C_BlockFriend)},
+  { 221, -1, -1, sizeof(::Protocol::S2C_ConnectFriend)},
+  { 229, -1, -1, sizeof(::Protocol::S2C_DisConnectFriend)},
+  { 237, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
+  { 244, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
+  { 254, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
+  { 263, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
+  { 276, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
+  { 286, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
+  { 296, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
+  { 305, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
+  { 313, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
+  { 321, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 328, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 335, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 345, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 353, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 362, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 370, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 377, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 386, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 395, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 403, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 413, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -1327,65 +1331,66 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "\"\n\007friends\030\001 \003(\0132\021.Protocol.SFriend\022\021\n\tl"
   "ist_type\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"I\n\021C2S"
   "_RequestFriend\022\021\n\tnick_name\030\001 \001(\014\022\016\n\006act"
-  "ion\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"5\n\021S2C_Requ"
-  "estFriend\022\r\n\005error\030\001 \001(\005\022\021\n\ttimestamp\030\002 "
-  "\001(\003\"G\n\017C2S_BlockFriend\022\021\n\tnick_name\030\001 \001("
-  "\014\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"3\n\017"
-  "S2C_BlockFriend\022\r\n\005error\030\001 \001(\005\022\021\n\ttimest"
-  "amp\030\002 \001(\003\"9\n\021S2C_ConnectFriend\022\021\n\tnick_n"
-  "ame\030\001 \001(\014\022\021\n\ttimestamp\030\002 \001(\003\"<\n\024S2C_DisC"
-  "onnectFriend\022\021\n\tnick_name\030\001 \001(\014\022\021\n\ttimes"
-  "tamp\030\002 \001(\003\"/\n\016S2C_AppearItem\022\035\n\004item\030\001 \001"
-  "(\0132\017.Protocol.SItem\"\202\001\n\017S2C_AppearArrow\022"
-  "\021\n\tobject_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.P"
-  "rotocol.SVector\022$\n\010rotation\030\003 \001(\0132\022.Prot"
-  "ocol.SRotator\022\021\n\ttimestamp\030\004 \001(\003\"c\n\026S2C_"
-  "MovementProjectile\022\021\n\tobject_id\030\001 \001(\003\022#\n"
-  "\010location\030\002 \001(\0132\021.Protocol.SVector\022\021\n\tti"
-  "mestamp\030\003 \001(\003\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobj"
-  "ect_id\030\001 \001(\003\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030"
-  "\003 \001(\0162\025.Protocol.EEnemyState\022\036\n\005stats\030\004 "
-  "\003(\0132\017.Protocol.SStat\022\'\n\014cur_location\030\005 \001"
-  "(\0132\021.Protocol.SVector\022(\n\rmove_location\030\006"
-  " \001(\0132\021.Protocol.SVector\022\021\n\ttimestamp\030\007 \001"
-  "(\003\"\203\001\n\025S2C_DetectChangeEnemy\022\021\n\tobject_i"
-  "d\030\001 \001(\003\022\036\n\005stats\030\002 \003(\0132\017.Protocol.SStat\022"
-  "$\n\005state\030\003 \001(\0162\025.Protocol.EEnemyState\022\021\n"
-  "\ttimestamp\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021"
-  "\n\tobject_id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132"
-  "\021.Protocol.SVector\022(\n\rmove_location\030\003 \001("
-  "\0132\021.Protocol.SVector\022\021\n\ttimestamp\030\004 \001(\003\""
-  "a\n\023S2C_EnemyAutoAttack\022\021\n\tobject_id\030\001 \001("
-  "\003\022$\n\010rotation\030\002 \001(\0132\022.Protocol.SRotator\022"
-  "\021\n\ttimestamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tob"
-  "ject_id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_"
-  "DeathEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimesta"
-  "mp\030\002 \001(\003\",\n\027S2C_DisAppearGameObject\022\021\n\to"
-  "bject_id\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\tt"
-  "imestamp\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004i"
-  "tem\030\001 \003(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002"
-  " \003(\0132\017.Protocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005"
-  "error\030\004 \001(\005\"G\n\023C2S_InsertInventory\022\021\n\tti"
-  "mestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.S"
-  "Item\"J\n\023S2C_InsertInventory\022\021\n\tremote_id"
-  "\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005"
-  "\"G\n\023C2S_UpdateInventory\022\021\n\ttimestamp\030\001 \001"
-  "(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C"
-  "_UpdateInventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_D"
-  "eleteInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004ite"
-  "m\030\002 \001(\0132\017.Protocol.SItem\022#\n\010location\030\003 \001"
-  "(\0132\021.Protocol.SVector\"V\n\023S2C_DeleteInven"
-  "tory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017."
-  "Protocol.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_Rol"
-  "lbackInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004ite"
-  "m\030\002 \001(\0132\017.Protocol.SItem\"\247\001\n\023C2S_Replace"
-  "Eqipment\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_in"
-  "ven_item\030\002 \001(\0132\017.Protocol.SItem\022)\n\020inser"
-  "t_eqip_item\030\003 \001(\0132\017.Protocol.SItem\022&\n\004pa"
-  "rt\030\004 \001(\0162\030.Protocol.ECharacterPart\"g\n\023S2"
-  "C_ReplaceEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010"
-  "eqipment\030\002 \001(\0132\034.Protocol.SCharacterEqip"
-  "ment\022\r\n\005error\030\003 \001(\005b\006proto3"
+  "ion\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"E\n\021S2C_Requ"
+  "estFriend\022\r\n\005error\030\001 \001(\005\022\016\n\006action\030\002 \001(\005"
+  "\022\021\n\ttimestamp\030\003 \001(\003\"G\n\017C2S_BlockFriend\022\021"
+  "\n\tnick_name\030\001 \001(\014\022\016\n\006action\030\002 \001(\005\022\021\n\ttim"
+  "estamp\030\003 \001(\003\"C\n\017S2C_BlockFriend\022\r\n\005error"
+  "\030\001 \001(\005\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001("
+  "\003\"9\n\021S2C_ConnectFriend\022\021\n\tnick_name\030\001 \001("
+  "\014\022\021\n\ttimestamp\030\002 \001(\003\"<\n\024S2C_DisConnectFr"
+  "iend\022\021\n\tnick_name\030\001 \001(\014\022\021\n\ttimestamp\030\002 \001"
+  "(\003\"/\n\016S2C_AppearItem\022\035\n\004item\030\001 \001(\0132\017.Pro"
+  "tocol.SItem\"\202\001\n\017S2C_AppearArrow\022\021\n\tobjec"
+  "t_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol."
+  "SVector\022$\n\010rotation\030\003 \001(\0132\022.Protocol.SRo"
+  "tator\022\021\n\ttimestamp\030\004 \001(\003\"c\n\026S2C_Movement"
+  "Projectile\022\021\n\tobject_id\030\001 \001(\003\022#\n\010locatio"
+  "n\030\002 \001(\0132\021.Protocol.SVector\022\021\n\ttimestamp\030"
+  "\003 \001(\003\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobject_id\030\001"
+  " \001(\003\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030\003 \001(\0162\025."
+  "Protocol.EEnemyState\022\036\n\005stats\030\004 \003(\0132\017.Pr"
+  "otocol.SStat\022\'\n\014cur_location\030\005 \001(\0132\021.Pro"
+  "tocol.SVector\022(\n\rmove_location\030\006 \001(\0132\021.P"
+  "rotocol.SVector\022\021\n\ttimestamp\030\007 \001(\003\"\203\001\n\025S"
+  "2C_DetectChangeEnemy\022\021\n\tobject_id\030\001 \001(\003\022"
+  "\036\n\005stats\030\002 \003(\0132\017.Protocol.SStat\022$\n\005state"
+  "\030\003 \001(\0162\025.Protocol.EEnemyState\022\021\n\ttimesta"
+  "mp\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\tobject"
+  "_id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Protoc"
+  "ol.SVector\022(\n\rmove_location\030\003 \001(\0132\021.Prot"
+  "ocol.SVector\022\021\n\ttimestamp\030\004 \001(\003\"a\n\023S2C_E"
+  "nemyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022$\n\010rot"
+  "ation\030\002 \001(\0132\022.Protocol.SRotator\022\021\n\ttimes"
+  "tamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject_id\030"
+  "\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_DeathEne"
+  "my\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003"
+  "\",\n\027S2C_DisAppearGameObject\022\021\n\tobject_id"
+  "\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestamp"
+  "\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003("
+  "\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.P"
+  "rotocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005error\030\004 "
+  "\001(\005\"G\n\023C2S_InsertInventory\022\021\n\ttimestamp\030"
+  "\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"J\n\023"
+  "S2C_InsertInventory\022\021\n\tremote_id\030\001 \001(\003\022\021"
+  "\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_"
+  "UpdateInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004it"
+  "em\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_UpdateI"
+  "nventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_DeleteInv"
+  "entory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132"
+  "\017.Protocol.SItem\022#\n\010location\030\003 \001(\0132\021.Pro"
+  "tocol.SVector\"V\n\023S2C_DeleteInventory\022\021\n\t"
+  "remote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol"
+  ".SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_RollbackInv"
+  "entory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132"
+  "\017.Protocol.SItem\"\247\001\n\023C2S_ReplaceEqipment"
+  "\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_item"
+  "\030\002 \001(\0132\017.Protocol.SItem\022)\n\020insert_eqip_i"
+  "tem\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 \001(\016"
+  "2\030.Protocol.ECharacterPart\"g\n\023S2C_Replac"
+  "eEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eqipment"
+  "\030\002 \001(\0132\034.Protocol.SCharacterEqipment\022\r\n\005"
+  "error\030\003 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -1393,7 +1398,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 4387, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 4419, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 48,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -6688,14 +6693,15 @@ S2C_RequestFriend::S2C_RequestFriend(const S2C_RequestFriend& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_RequestFriend* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.timestamp_){}
-    , decltype(_impl_.error_){}
+      decltype(_impl_.error_){}
+    , decltype(_impl_.action_){}
+    , decltype(_impl_.timestamp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.error_));
+  ::memcpy(&_impl_.error_, &from._impl_.error_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timestamp_) -
+    reinterpret_cast<char*>(&_impl_.error_)) + sizeof(_impl_.timestamp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_RequestFriend)
 }
 
@@ -6704,8 +6710,9 @@ inline void S2C_RequestFriend::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.timestamp_){int64_t{0}}
-    , decltype(_impl_.error_){0}
+      decltype(_impl_.error_){0}
+    , decltype(_impl_.action_){0}
+    , decltype(_impl_.timestamp_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -6733,9 +6740,9 @@ void S2C_RequestFriend::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.error_));
+  ::memset(&_impl_.error_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.timestamp_) -
+      reinterpret_cast<char*>(&_impl_.error_)) + sizeof(_impl_.timestamp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -6753,9 +6760,17 @@ const char* S2C_RequestFriend::_InternalParse(const char* ptr, ::_pbi::ParseCont
         } else
           goto handle_unusual;
         continue;
-      // int64 timestamp = 2;
+      // int32 action = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.action_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 timestamp = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
@@ -6796,10 +6811,16 @@ uint8_t* S2C_RequestFriend::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
   }
 
-  // int64 timestamp = 2;
+  // int32 action = 2;
+  if (this->_internal_action() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_action(), target);
+  }
+
+  // int64 timestamp = 3;
   if (this->_internal_timestamp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_timestamp(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_timestamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6818,14 +6839,19 @@ size_t S2C_RequestFriend::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int64 timestamp = 2;
-  if (this->_internal_timestamp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
-  }
-
   // int32 error = 1;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
+  }
+
+  // int32 action = 2;
+  if (this->_internal_action() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_action());
+  }
+
+  // int64 timestamp = 3;
+  if (this->_internal_timestamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -6846,11 +6872,14 @@ void S2C_RequestFriend::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_timestamp() != 0) {
-    _this->_internal_set_timestamp(from._internal_timestamp());
-  }
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
+  }
+  if (from._internal_action() != 0) {
+    _this->_internal_set_action(from._internal_action());
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_internal_set_timestamp(from._internal_timestamp());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -6870,11 +6899,11 @@ void S2C_RequestFriend::InternalSwap(S2C_RequestFriend* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_RequestFriend, _impl_.error_)
-      + sizeof(S2C_RequestFriend::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_RequestFriend, _impl_.timestamp_)>(
-          reinterpret_cast<char*>(&_impl_.timestamp_),
-          reinterpret_cast<char*>(&other->_impl_.timestamp_));
+      PROTOBUF_FIELD_OFFSET(S2C_RequestFriend, _impl_.timestamp_)
+      + sizeof(S2C_RequestFriend::_impl_.timestamp_)
+      - PROTOBUF_FIELD_OFFSET(S2C_RequestFriend, _impl_.error_)>(
+          reinterpret_cast<char*>(&_impl_.error_),
+          reinterpret_cast<char*>(&other->_impl_.error_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_RequestFriend::GetMetadata() const {
@@ -7157,14 +7186,15 @@ S2C_BlockFriend::S2C_BlockFriend(const S2C_BlockFriend& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_BlockFriend* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.timestamp_){}
-    , decltype(_impl_.error_){}
+      decltype(_impl_.error_){}
+    , decltype(_impl_.action_){}
+    , decltype(_impl_.timestamp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.error_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.error_));
+  ::memcpy(&_impl_.error_, &from._impl_.error_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timestamp_) -
+    reinterpret_cast<char*>(&_impl_.error_)) + sizeof(_impl_.timestamp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_BlockFriend)
 }
 
@@ -7173,8 +7203,9 @@ inline void S2C_BlockFriend::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.timestamp_){int64_t{0}}
-    , decltype(_impl_.error_){0}
+      decltype(_impl_.error_){0}
+    , decltype(_impl_.action_){0}
+    , decltype(_impl_.timestamp_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -7202,9 +7233,9 @@ void S2C_BlockFriend::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.error_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.error_));
+  ::memset(&_impl_.error_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.timestamp_) -
+      reinterpret_cast<char*>(&_impl_.error_)) + sizeof(_impl_.timestamp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -7222,9 +7253,17 @@ const char* S2C_BlockFriend::_InternalParse(const char* ptr, ::_pbi::ParseContex
         } else
           goto handle_unusual;
         continue;
-      // int64 timestamp = 2;
+      // int32 action = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.action_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 timestamp = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
@@ -7265,10 +7304,16 @@ uint8_t* S2C_BlockFriend::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
   }
 
-  // int64 timestamp = 2;
+  // int32 action = 2;
+  if (this->_internal_action() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_action(), target);
+  }
+
+  // int64 timestamp = 3;
   if (this->_internal_timestamp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_timestamp(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_timestamp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7287,14 +7332,19 @@ size_t S2C_BlockFriend::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int64 timestamp = 2;
-  if (this->_internal_timestamp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
-  }
-
   // int32 error = 1;
   if (this->_internal_error() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error());
+  }
+
+  // int32 action = 2;
+  if (this->_internal_action() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_action());
+  }
+
+  // int64 timestamp = 3;
+  if (this->_internal_timestamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_timestamp());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -7315,11 +7365,14 @@ void S2C_BlockFriend::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_timestamp() != 0) {
-    _this->_internal_set_timestamp(from._internal_timestamp());
-  }
   if (from._internal_error() != 0) {
     _this->_internal_set_error(from._internal_error());
+  }
+  if (from._internal_action() != 0) {
+    _this->_internal_set_action(from._internal_action());
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_internal_set_timestamp(from._internal_timestamp());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -7339,11 +7392,11 @@ void S2C_BlockFriend::InternalSwap(S2C_BlockFriend* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_BlockFriend, _impl_.error_)
-      + sizeof(S2C_BlockFriend::_impl_.error_)
-      - PROTOBUF_FIELD_OFFSET(S2C_BlockFriend, _impl_.timestamp_)>(
-          reinterpret_cast<char*>(&_impl_.timestamp_),
-          reinterpret_cast<char*>(&other->_impl_.timestamp_));
+      PROTOBUF_FIELD_OFFSET(S2C_BlockFriend, _impl_.timestamp_)
+      + sizeof(S2C_BlockFriend::_impl_.timestamp_)
+      - PROTOBUF_FIELD_OFFSET(S2C_BlockFriend, _impl_.error_)>(
+          reinterpret_cast<char*>(&_impl_.error_),
+          reinterpret_cast<char*>(&other->_impl_.error_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_BlockFriend::GetMetadata() const {

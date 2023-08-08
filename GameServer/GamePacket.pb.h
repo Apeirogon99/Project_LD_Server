@@ -4217,18 +4217,10 @@ class S2C_RequestFriend final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTimestampFieldNumber = 2,
     kErrorFieldNumber = 1,
+    kActionFieldNumber = 2,
+    kTimestampFieldNumber = 3,
   };
-  // int64 timestamp = 2;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
   // int32 error = 1;
   void clear_error();
   int32_t error() const;
@@ -4236,6 +4228,24 @@ class S2C_RequestFriend final :
   private:
   int32_t _internal_error() const;
   void _internal_set_error(int32_t value);
+  public:
+
+  // int32 action = 2;
+  void clear_action();
+  int32_t action() const;
+  void set_action(int32_t value);
+  private:
+  int32_t _internal_action() const;
+  void _internal_set_action(int32_t value);
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_RequestFriend)
@@ -4246,8 +4256,9 @@ class S2C_RequestFriend final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int64_t timestamp_;
     int32_t error_;
+    int32_t action_;
+    int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4551,18 +4562,10 @@ class S2C_BlockFriend final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTimestampFieldNumber = 2,
     kErrorFieldNumber = 1,
+    kActionFieldNumber = 2,
+    kTimestampFieldNumber = 3,
   };
-  // int64 timestamp = 2;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
   // int32 error = 1;
   void clear_error();
   int32_t error() const;
@@ -4570,6 +4573,24 @@ class S2C_BlockFriend final :
   private:
   int32_t _internal_error() const;
   void _internal_set_error(int32_t value);
+  public:
+
+  // int32 action = 2;
+  void clear_action();
+  int32_t action() const;
+  void set_action(int32_t value);
+  private:
+  int32_t _internal_action() const;
+  void _internal_set_action(int32_t value);
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_BlockFriend)
@@ -4580,8 +4601,9 @@ class S2C_BlockFriend final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int64_t timestamp_;
     int32_t error_;
+    int32_t action_;
+    int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -11126,7 +11148,27 @@ inline void S2C_RequestFriend::set_error(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_RequestFriend.error)
 }
 
-// int64 timestamp = 2;
+// int32 action = 2;
+inline void S2C_RequestFriend::clear_action() {
+  _impl_.action_ = 0;
+}
+inline int32_t S2C_RequestFriend::_internal_action() const {
+  return _impl_.action_;
+}
+inline int32_t S2C_RequestFriend::action() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_RequestFriend.action)
+  return _internal_action();
+}
+inline void S2C_RequestFriend::_internal_set_action(int32_t value) {
+  
+  _impl_.action_ = value;
+}
+inline void S2C_RequestFriend::set_action(int32_t value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_RequestFriend.action)
+}
+
+// int64 timestamp = 3;
 inline void S2C_RequestFriend::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }
@@ -11264,7 +11306,27 @@ inline void S2C_BlockFriend::set_error(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_BlockFriend.error)
 }
 
-// int64 timestamp = 2;
+// int32 action = 2;
+inline void S2C_BlockFriend::clear_action() {
+  _impl_.action_ = 0;
+}
+inline int32_t S2C_BlockFriend::_internal_action() const {
+  return _impl_.action_;
+}
+inline int32_t S2C_BlockFriend::action() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_BlockFriend.action)
+  return _internal_action();
+}
+inline void S2C_BlockFriend::_internal_set_action(int32_t value) {
+  
+  _impl_.action_ = value;
+}
+inline void S2C_BlockFriend::set_action(int32_t value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_BlockFriend.action)
+}
+
+// int64 timestamp = 3;
 inline void S2C_BlockFriend::clear_timestamp() {
   _impl_.timestamp_ = int64_t{0};
 }

@@ -23,22 +23,26 @@ BEGIN TRY
 		SET NOCOUNT ON;
 
 		DECLARE @is_friend	INT
-		DECLARE @action		INT
+		DECLARE @is_request INT
+		DECLARE @is_block	INT
 
 		IF @list_type=0
 			BEGIN
-				SET @is_friend = 1
-				SET @action = 0
+				SET @is_friend	= 1
+				SET @is_request = 0
+				SET @is_block	= 0
 			END
 		ELSE IF @list_type=1
 			BEGIN
-				SET @is_friend = 0
-				SET @action = 1
+				SET @is_friend	= 0
+				SET @is_request = 2
+				SET @is_block	= 0
 			END
 		ELSE IF @list_type=2
 			BEGIN
-				SET @is_friend = 1
-				SET @action = 1
+				SET @is_friend	= 1
+				SET @is_request = 0
+				SET @is_block	= 1
 			END
 		ELSE
 			BEGIN
@@ -57,7 +61,7 @@ BEGIN TRY
 		INNER JOIN appearance_tb	AS a ON f.friend_character_id = a.character_id
 		INNER JOIN level_tb			AS l ON f.friend_character_id = l.character_id
 		INNER JOIN trace_tb			AS t ON f.friend_character_id = t.character_id
-		WHERE is_friend=@is_friend AND action=@action
+		WHERE user_character_id=@character_id AND is_friend=@is_friend AND is_request=@is_request AND is_block=@is_block
 		ORDER BY c.name ASC
 		
 		COMMIT TRANSACTION;
@@ -77,10 +81,11 @@ GO
 -- ==================================== --
 USE game_database;
 
-DECLARE @character_id	INT = 1
+DECLARE @character_id	INT = 2
+DECLARE @list_type		INT = 2
 DECLARE @ret			INT
 
-EXEC @ret=load_friend_list_sp 0, 1
+EXEC @ret=load_friend_list_sp @character_id, @list_type
 print @ret
 
 

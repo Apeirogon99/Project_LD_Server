@@ -104,10 +104,16 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	if (inPacket.token().compare("LOCAL_TEST") == 0)
 	{
 		isToken = true;
-		static int32 number = 0;
-		token.SetCharacterID((number % 2) + 1);
-		token.SetGlobalID((number % 2) + 1);
-		number++;
+		if (mPlayerIDs.find(1) == mPlayerIDs.end())
+		{
+			token.SetCharacterID(1);
+			token.SetGlobalID(1);
+		}
+		else
+		{
+			token.SetCharacterID(2);
+			token.SetGlobalID(2);
+		}
 	}
 
 	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
@@ -162,8 +168,6 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disappearCharacterPacket);
 	inPlayerState->BroadcastPlayerMonitors(disappearSendBuffer);
 
-	remotePlayer->GetFriend()->NotifyDisConnectToFriend();
-
 	const PlayerMonitors& playerMonitors = inPlayerState->GetPlayerMonitors();
 	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
 	{
@@ -177,18 +181,23 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 		actorMonitor->get()->ReleasePlayerViewer(inPlayerState);
 		inPlayerState->ReleaseActorMonitor(*actorMonitor++);
 	}
-	
+
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
 	this->ReleaseCharacterIDandRemoteID(remotePlayer->GetToken().GetCharacterID());
 	mWorldPlayers.erase(gameObjectID);
 
-	mTaskManagerRef.lock()->DestroyGameObject(remotePlayer->GetGameObjectPtr());
+	remotePlayer->LeaveRemotePlayer();
+	if (true == remotePlayer->LeaveComplete())
+	{
+		mTaskManagerRef.lock()->DestroyGameObject(remotePlayer->GetGameObjectPtr());
 
-	Protocol::S2C_LeaveGameServer leavePacket;
-	leavePacket.set_error(true);
+		Protocol::S2C_LeaveGameServer leavePacket;
+		leavePacket.set_error(true);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, leavePacket);
-	packetSession->Send(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, leavePacket);
+		packetSession->Send(sendBuffer);
+	}
+
 }
 
 void GameWorld::WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)

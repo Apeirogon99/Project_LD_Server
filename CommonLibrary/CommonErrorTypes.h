@@ -30,6 +30,7 @@ enum class EDCommonErrorType
 	ALREADY_FRIEND_WITH_PLAYER				= 4003, //이미 친구임
 	ALREADY_FRIEND_IS_BLOCK					= 4004, //이미 블락된 상태임
 	ALREADY_FRIEND_IS_REQUEST				= 4005, //이미 요청을 보낸 상태임
+	INVALID_FRIEND_IS_REQUEST				= 4006, //요청이 들어와있지 않은 상태임
 	INVALID_LIST_TYPE						= 4009, //없는 리스트 타입
 	ALREADY_SAME_ACTION						= 4010, //이미 같은 행동을 하고 있음
 };

@@ -22,8 +22,8 @@ public:
 	bool LoadRemotePlayer(const Token& inToken, GameWorldRef inWorld);
 	void OnLoadComplete();
 
-	//bool LeaveRemotePlayer();
-	//void OnLeaveComplete();
+	void LeaveRemotePlayer();
+	bool LeaveComplete();
 
 public:
 	WorldRef			GetWorld()		{ return mWorld; }

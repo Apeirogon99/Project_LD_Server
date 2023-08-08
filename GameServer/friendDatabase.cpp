@@ -61,14 +61,14 @@ bool Handle_ConnectLoadFriendList_Response(PacketSessionPtr& inSession, ADOConne
 			return false;
 		}
 
+		std::string playerName = remotePlayer->GetCharacter()->GetCharacterData().name();
 		for (const int64& id : firendIDs)
 		{
-			GameRemotePlayerPtr remotePlayer;
-			if (true == world->IsValidPlayer(id, remotePlayer))
+			GameRemotePlayerPtr friendRemotePlayer;
+			if (true == world->IsValidPlayer(id, friendRemotePlayer))
 			{
-				std::string friendName = remotePlayer->GetCharacter()->GetCharacterData().name();
-				FriendPtr otherFriend = remotePlayer->GetFriend();
-				otherFriend->DelegateOnlineFriend(playerCharacterID, friendName);
+				FriendPtr otherFriend = friendRemotePlayer->GetFriend();
+				otherFriend->DelegateOnlineFriend(playerCharacterID, playerName);
 			}
 		}
 	}
@@ -138,18 +138,20 @@ bool Handle_DisConnectLoadFriendList_Response(PacketSessionPtr& inSession, ADOCo
 			return false;
 		}
 
+		std::string playerName = remotePlayer->GetCharacter()->GetCharacterData().name();
 		for (const int64& id : firendIDs)
 		{
-			GameRemotePlayerPtr remotePlayer;
-			if (true == world->IsValidPlayer(id, remotePlayer))
+			GameRemotePlayerPtr friendRemotePlayer;
+			if (true == world->IsValidPlayer(id, friendRemotePlayer))
 			{
-				std::string friendName = remotePlayer->GetCharacter()->GetCharacterData().name();
-				FriendPtr otherFriend = remotePlayer->GetFriend();
-				otherFriend->DelegateOfflineFriend(playerCharacterID, friendName);
+				FriendPtr otherFriend = friendRemotePlayer->GetFriend();
+				otherFriend->DelegateOfflineFriend(playerCharacterID, playerName);
 			}
 		}
 	}
 
+	friends->SetLoadFriend(error != ErrorToInt(EDCommonErrorType::SUCCESS));
+	remotePlayer->LeaveComplete();
 	return true;
 }
 
@@ -289,7 +291,8 @@ bool Handle_RequestFriend_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	int32 error = inCommand.GetReturnParam();
+	int32 error		= inCommand.GetReturnParam();
+	int32 action	= inCommand.GetParam(L"@action");
 	if (error == ErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		Handle_LoadFriendList_Request(inSession, remotePlayer->GetToken().GetCharacterID(), 1);
@@ -297,6 +300,7 @@ bool Handle_RequestFriend_Response(PacketSessionPtr& inSession, ADOConnection& i
 
 	Protocol::S2C_RequestFriend requestFriendPacket;
 	requestFriendPacket.set_error(error);
+	requestFriendPacket.set_action(action);
 	requestFriendPacket.set_timestamp(remotePlayer->GetWorld().lock()->GetWorldTime());
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, requestFriendPacket);
@@ -350,7 +354,8 @@ bool Handle_BlockFriend_Response(PacketSessionPtr& inSession, ADOConnection& inC
 		return false;
 	}
 
-	int32 error = inCommand.GetReturnParam();
+	int32 error		= inCommand.GetReturnParam();
+	int32 action	= inCommand.GetParam(L"@action");
 	if (error == ErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		Handle_LoadFriendList_Request(inSession, remotePlayer->GetToken().GetCharacterID(), 2);
@@ -358,6 +363,7 @@ bool Handle_BlockFriend_Response(PacketSessionPtr& inSession, ADOConnection& inC
 
 	Protocol::S2C_BlockFriend blockFriendPacket;
 	blockFriendPacket.set_error(error);
+	blockFriendPacket.set_action(action);
 	blockFriendPacket.set_timestamp(remotePlayer->GetWorld().lock()->GetWorldTime());
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(inSession, blockFriendPacket);

@@ -23,7 +23,7 @@ BEGIN TRY
 		SELECT
 		f.friend_character_id
 		FROM friend_tb AS f
-		WHERE is_friend=1 AND action=0
+		WHERE is_friend=1 AND user_character_id=@character_id
 		ORDER BY f.id ASC
 
 		COMMIT TRANSACTION;

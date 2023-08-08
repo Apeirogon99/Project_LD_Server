@@ -154,3 +154,30 @@ void GameRemotePlayer::OnLoadComplete()
 	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), this->GetGameObjectID());
 	world->VisibleAreaInit(playerState);
 }
+
+void GameRemotePlayer::LeaveRemotePlayer()
+{
+	this->GetFriend()->NotifyDisConnectToFriend();
+	this->GetCharacter()->SetLoadCharacter(false);
+	this->GetInventory()->SetLoadInventory(false);
+}
+
+bool GameRemotePlayer::LeaveComplete()
+{
+	if (true == GetCharacter()->IsValid())
+	{
+		return false;
+	}
+
+	if (true == GetInventory()->IsValid())
+	{
+		return false;
+	}
+
+	if (true == GetFriend()->IsValid())
+	{
+		return false;
+	}
+
+	return true;
+}

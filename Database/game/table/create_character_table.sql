@@ -75,8 +75,9 @@ CREATE TABLE friend_tb
 	id					INT		NOT NULL	IDENTITY(0,1) PRIMARY KEY,
 	user_character_id	INT		NOT NULL	FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
 	friend_character_id	INT		NOT NULL	DEFAULT 0,
-	is_friend			INT		NOT NULL	CHECK (is_friend = 0 OR is_friend = 1),
-	action				INT		NOT NULL	CHECK (action = 0 OR action = 1), -- 0 = 없음, 1 = 요청
+	is_friend			INT		NOT NULL	CHECK (is_friend	= 0	OR is_friend	= 1),
+	is_request			INT		NOT NULL	CHECK (is_request	= 0	OR is_request	= 1 OR is_request	= 2),
+	is_block			INT		NOT NULL	CHECK (is_block		= 0	OR is_block		= 1),
 );
 GO
 

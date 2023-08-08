@@ -9,7 +9,7 @@ GO
 -- Params
 -- @character_id		: 캐릭터 아이디
 -- @friend_name			: 친구 이름
--- @action				: 액션 (0=차단, 1=해제)
+-- @action				: 액션 (미정 = 0, 차단 = 1, 해제 = 2)
 -- =============================================
 USE game_database;
 DROP PROCEDURE IF EXISTS block_friend_sp;
@@ -24,6 +24,7 @@ BEGIN TRY
 	BEGIN TRANSACTION
 		SET NOCOUNT ON;
 
+		--친구 아이디 검색
 		DECLARE @friend_id INT
 		SELECT @friend_id=id FROM character_tb WHERE name=@friend_name
 
@@ -33,22 +34,26 @@ BEGIN TRY
 				return 4001
 			END
 
+		--친구가 맞는지 검색
 		IF NOT EXISTS (SELECT 1 FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id AND is_friend=1)
 			BEGIN
 				ROLLBACK TRANSACTION;
 				return 4002
 			END
 
-		DECLARE @cur_action INT
-		SELECT @cur_action=action FROM friend_tb WHERE user_character_id=@character_id AND friend_character_id=@friend_id
-
-		IF @cur_action=@action
+		IF @action=1
+			BEGIN
+				UPDATE friend_tb SET is_block=1 WHERE user_character_id=@character_id AND friend_character_id=@friend_id
+			END
+		ELSE IF @action=2
+			BEGIN
+				UPDATE friend_tb SET is_block=0 WHERE user_character_id=@character_id AND friend_character_id=@friend_id
+			END
+		ELSE
 			BEGIN
 				ROLLBACK TRANSACTION;
-				return 4010
+				return 4009
 			END
-
-		UPDATE friend_tb SET action=@action WHERE user_character_id=@character_id AND friend_character_id=@friend_id
 
 		COMMIT TRANSACTION;
 		RETURN 0
