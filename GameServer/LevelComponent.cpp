@@ -39,13 +39,13 @@ void LevelComponent::Init(PlayerCharacterRef inOwner, const int32& inLevel, cons
 		return;
 	}
 
-	Protocol::S2C_UpdateExperience updateExperiencePacket;
-	updateExperiencePacket.set_remote_id(remotePlayer->GetGameObjectID());
-	updateExperiencePacket.set_experience(this->GetCurrentExperience());
-	updateExperiencePacket.set_timestamp(world->GetWorldTime());
+	//Protocol::S2C_UpdateExperience updateExperiencePacket;
+	//updateExperiencePacket.set_remote_id(remotePlayer->GetGameObjectID());
+	//updateExperiencePacket.set_experience(this->GetCurrentExperience());
+	//updateExperiencePacket.set_timestamp(world->GetWorldTime());
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, updateExperiencePacket);
-	session->Send(sendBuffer);
+	//SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, updateExperiencePacket);
+	//session->Send(sendBuffer);
 
 	LoadNextExperience(world, inLevel);
 }
