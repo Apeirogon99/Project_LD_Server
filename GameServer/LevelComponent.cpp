@@ -21,11 +21,31 @@ void LevelComponent::Init(PlayerCharacterRef inOwner, const int32& inLevel, cons
 		return;
 	}
 
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PacketSessionPtr session = std::static_pointer_cast<PacketSession>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == session)
+	{
+		return;
+	}
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(player->GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
+
+	Protocol::S2C_UpdateExperience updateExperiencePacket;
+	updateExperiencePacket.set_remote_id(remotePlayer->GetGameObjectID());
+	updateExperiencePacket.set_experience(this->GetCurrentExperience());
+	updateExperiencePacket.set_timestamp(world->GetWorldTime());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(session, updateExperiencePacket);
+	session->Send(sendBuffer);
 
 	LoadNextExperience(world, inLevel);
 }
