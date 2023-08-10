@@ -58,13 +58,10 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 		return;
 	}
 
-	const int32 characterID = remotePlayer->GetToken().GetCharacterID();
-	Handle_Update_Experience_Request(session, characterID, this->GetLevel(), this->GetCurrentExperience());
-
-
 	if (true == IsNextLevel())
 	{
 		this->mLevel += 1;
+		this->mCurrentExperience = this->mCurrentExperience % this->mNextExperience;
 		player->GetCharacterData().set_level(this->GetLevel());
 		LoadNextExperience(world, this->GetLevel());
 
@@ -90,11 +87,13 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 
 	player->GetCharacterData().set_experience(this->GetCurrentExperience());
 
+	const int32 characterID = remotePlayer->GetToken().GetCharacterID();
+	Handle_Update_Experience_Request(session, characterID, this->GetLevel(), this->GetCurrentExperience());
 }
 
 const bool LevelComponent::IsNextLevel() const
 {
-	if (mNextExperience >= mCurrentExperience)
+	if (mNextExperience > mCurrentExperience)
 	{
 		return false;
 	}
@@ -126,5 +125,4 @@ void LevelComponent::LoadNextExperience(GameWorldPtr inGameWorld, const int32& i
 	}
 
 	this->mNextExperience = data->GetNextExperience(inLevel + 1);
-	this->mCurrentExperience = this->mCurrentExperience % this->mNextExperience;
 }
