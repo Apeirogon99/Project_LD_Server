@@ -326,3 +326,27 @@ bool Handle_C2S_ReplaceEqipment(PacketSessionPtr& session, Protocol::C2S_Replace
 	remotePlayer->GetInventory()->PushTask(timestmap, &Inventory::ReplcaeItemToEqipment, pkt);
 	return true;
 }
+
+bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateSkillTree& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	SkillPtr skill = remotePlayer->GetSkill();
+	if (nullptr == skill)
+	{
+		return false;
+	}
+
+	skill->PushTask(pkt.timestamp(), &Skill::UpdateSkillTree, pkt.skill_id(), pkt.skill_count());
+	return true;
+}

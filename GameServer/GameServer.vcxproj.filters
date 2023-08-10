@@ -88,6 +88,15 @@
     <Filter Include="Content\Friend">
       <UniqueIdentifier>{92d0993e-9b1c-408d-a353-743b94e89516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Skill">
+      <UniqueIdentifier>{2291bf4e-0f7c-43a1-8257-625461c76b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Skill\Warrior">
+      <UniqueIdentifier>{643cfaf4-42d3-4a9e-aafc-54cb6a92fe11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Party">
+      <UniqueIdentifier>{00797370-feb7-42d8-8597-e7c2f4fc3aae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -213,6 +222,33 @@
     </ClCompile>
     <ClCompile Include="LevelComponent.cpp">
       <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillDatabase.cpp">
+      <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>Content\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveSkill.cpp">
+      <Filter>Content\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PassiveSkill.cpp">
+      <Filter>Content\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorParrying.cpp">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorSwordBlow.cpp">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorShieldBash.cpp">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="BuffSkill.cpp">
+      <Filter>Content\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorBuff.cpp">
+      <Filter>Content\Skill\Warrior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +380,33 @@
     </ClInclude>
     <ClInclude Include="LevelComponent.h">
       <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillDatabase.h">
+      <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>Content\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveSkill.h">
+      <Filter>Content\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PassiveSkill.h">
+      <Filter>Content\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorParrying.h">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorSwordBlow.h">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorShieldBash.h">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="BuffSkill.h">
+      <Filter>Content\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorBuff.h">
+      <Filter>Content\Skill\Warrior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS money_tb;
 DROP TABLE IF EXISTS friend_tb;
 DROP TABLE IF EXISTS level_tb;
 DROP TABLE IF EXISTS trace_tb;
+DROP TABLE IF EXISTS skill_tb;
 DROP TABLE IF EXISTS character_tb;
 GO
 
@@ -99,6 +100,14 @@ CREATE TABLE trace_tb
 )
 GO
 
+CREATE TABLE skill_tb
+(
+	character_id		INT	NOT NULL FOREIGN KEY REFERENCES character_tb(id)	ON DELETE CASCADE,
+	skill_id			INT NOT NULL ,
+	count				INT NOT NULL DEFAULT 0
+)
+GO
+
 SELECT * FROM character_tb
 SELECT * FROM appearance_tb
 SELECT * FROM eqipment_tb
@@ -106,4 +115,5 @@ SELECT * FROM inventory_tb
 SELECT * FROM money_tb
 SELECT * FROM friend_tb
 SELECT * FROM level_tb
+SELECT * FROM skill_tb
 GO

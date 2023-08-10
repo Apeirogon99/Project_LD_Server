@@ -44,6 +44,7 @@
 #include "AItem.h"
 #include "Inventory.h"
 #include "Friend.h"
+#include "Skill.h"
 
 //==========================//
 //   GameContent | Enemy	//
@@ -71,3 +72,4 @@
 #include "CharacterDatabase.h"
 #include "InventoryDatabase.h"
 #include "friendDatabase.h"
+#include "SkillDatabase.h"

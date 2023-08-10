@@ -34,6 +34,10 @@ void GameRemotePlayer::OnInitialization()
 	mFriend->SetOwner(owner);
 	taskManager->PushTask(this->GetFriend()->GetGameObjectPtr());
 
+	mSkill = std::make_shared<Skill>();
+	mSkill->SetOwner(owner);
+	taskManager->PushTask(this->GetSkill()->GetGameObjectPtr());
+
 	this->mPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(world->SpawnActor<PlayerCharacter>(owner, Location(), Rotation(), Scale()));
 }
 
@@ -59,6 +63,9 @@ void GameRemotePlayer::OnDestroy()
 
 	taskManager->ReleaseTask(this->GetFriend()->GetGameObjectPtr());
 	this->mFriend.reset();
+
+	taskManager->ReleaseTask(this->GetSkill()->GetGameObjectPtr());
+	this->mSkill.reset();
 }
 
 void GameRemotePlayer::OnTick(const int64 inDeltaTime)
@@ -95,6 +102,11 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	}
 
 	if (false == Handle_LoadInventory_Requset(packetSession, mToken.GetCharacterID()))
+	{
+		return false;
+	}
+
+	if (false == Handle_LoadSkillTree_Request(packetSession, mToken.GetCharacterID()))
 	{
 		return false;
 	}

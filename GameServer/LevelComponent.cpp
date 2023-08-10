@@ -32,7 +32,7 @@ void LevelComponent::Init(PlayerCharacterRef inOwner, const int32& inLevel, cons
 
 void LevelComponent::AddExperience(const int32& inNextExperience)
 {
-	this->mNextExperience += inNextExperience;
+	this->mCurrentExperience += inNextExperience;
 
 	PlayerCharacterPtr player = mOwner.lock();
 	if (nullptr == player)

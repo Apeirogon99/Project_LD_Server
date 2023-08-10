@@ -163,8 +163,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActiveSkill.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="BuffSkill.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
@@ -174,6 +176,7 @@
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="friendDatabase.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="PassiveSkill.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
     <ClCompile Include="CommonPacket.pb.cc">
@@ -322,12 +325,20 @@
     </ClCompile>
     <ClCompile Include="GameRemotePlayer.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillDatabase.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
+    <ClCompile Include="WarriorBuff.cpp" />
+    <ClCompile Include="WarriorSwordBlow.cpp" />
     <ClCompile Include="WarriorCharacter.cpp" />
+    <ClCompile Include="WarriorParrying.cpp" />
+    <ClCompile Include="WarriorShieldBash.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActiveSkill.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="BuffSkill.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
@@ -337,6 +348,7 @@
     <ClInclude Include="Friend.h" />
     <ClInclude Include="friendDatabase.h" />
     <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="PassiveSkill.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />
@@ -367,8 +379,14 @@
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameRemotePlayer.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillDatabase.h" />
     <ClInclude Include="StatsComponent.h" />
+    <ClInclude Include="WarriorBuff.h" />
+    <ClInclude Include="WarriorSwordBlow.h" />
     <ClInclude Include="WarriorCharacter.h" />
+    <ClInclude Include="WarriorParrying.h" />
+    <ClInclude Include="WarriorShieldBash.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

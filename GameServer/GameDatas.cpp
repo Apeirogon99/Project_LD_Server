@@ -53,6 +53,11 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"skill_datas.csv").c_str(), static_cast<int32>(EGameDataType::Skill)))
+    {
+        return false;
+    }
+
     LoadDatas();
     return true;
 }
@@ -63,6 +68,8 @@ void GameDatas::LoadDatas()
     LoadStatsDatas(mCharacterBaseStats, EGameDataType::BaseStat);
     LoadStatsDatas(mCharacterGrowStats, EGameDataType::GrowStat);
     LoadStatsDatas(mEnemyStats, EGameDataType::EnemyStat);
+
+    LoadSkillDatas(mSkillDatas);
 
     LoadLevelDatas(mLevelDatas);
 }
@@ -104,6 +111,50 @@ void GameDatas::LoadLevelDatas(std::map<int32, int32>& outDatas)
         std::pair<int32, int32> level = std::make_pair(stoi(row.at(1)), stoi(row.at(2)));
         outDatas.insert(level);
     }
+}
+
+void GameDatas::LoadSkillDatas(std::vector<SkillInfo>& outSkillDtatas)
+{
+    CSVDatas datas;
+    GetData(datas, static_cast<uint8>(EGameDataType::Skill));
+
+    const size_t datasSize = datas.size() - 1;
+
+    std::wstring delim = L"-";
+    SkillInfo skillInfo;
+    std::map<int32, int32> conditions;
+
+    for (int32 dataIndex = 1; dataIndex < datasSize; ++dataIndex)
+    {
+        conditions.clear();
+        skillInfo.Clear();
+
+        CSVRow row = datas.at(dataIndex);
+        const int32& id     = stoi(row.at(0));
+        const int32& type   = stoi(row.at(1));
+        const int32& max    = stoi(row.at(4));
+        std::wstring line   = row.at(5);
+
+        if (0 != stoi(line))
+        {
+            size_t pos = 0;
+            while ((pos = line.find(delim)) != std::wstring::npos)
+            {
+                size_t mid = line.find(L".");
+                int32 a = stoi(line.substr(0, mid));
+                int32 b = stoi(line.substr(mid+1, pos-1));
+
+                std::pair<int32, int32> condition = std::make_pair(a, b);
+                conditions.insert(condition);
+
+                line.erase(0, pos + delim.length());
+            }
+        }
+
+        skillInfo.Init(id, type, max, conditions);
+        outSkillDtatas.push_back(skillInfo);
+    }
+
 }
 
 bool GameDatas::GetStats(const EGameDataType inDataType, const int32 inRow, Stats& outStats)
@@ -160,4 +211,9 @@ const int32 GameDatas::GetNextExperience(const int32& inLevel)
     }
 
     return find->second;
+}
+
+const SkillInfo& GameDatas::GetSkillInfo(const int32& inSkillID)
+{
+    return mSkillDatas[inSkillID - 1];
 }

@@ -52,6 +52,9 @@ enum class EPakcetID : uint16
 	S2C_RollbackInventory = 2045,
 	C2S_ReplaceEqipment = 2046,
 	S2C_ReplaceEqipment = 2047,
+	S2C_LoadSkillTree = 2048,
+	C2S_UpdateSkillTree = 2049,
+	S2C_UpdateSkillTree = 2050,
 
 	C2S_ReplicatedServerTimeStamp = 9000,
 	S2C_ReplicatedServerTimeStamp = 9001,

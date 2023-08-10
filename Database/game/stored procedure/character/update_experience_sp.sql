@@ -43,3 +43,10 @@ BEGIN CATCH
 	RETURN -1
 END CATCH
 GO
+
+--TEST
+BEGIN
+	EXEC dbo.update_experience_sp 1, 1, 0
+	SELECT * FROM level_tb
+END
+GO

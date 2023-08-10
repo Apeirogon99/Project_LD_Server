@@ -97,6 +97,9 @@ extern C2S_TickDefaultTypeInternal _C2S_Tick_default_instance_;
 class C2S_UpdateInventory;
 struct C2S_UpdateInventoryDefaultTypeInternal;
 extern C2S_UpdateInventoryDefaultTypeInternal _C2S_UpdateInventory_default_instance_;
+class C2S_UpdateSkillTree;
+struct C2S_UpdateSkillTreeDefaultTypeInternal;
+extern C2S_UpdateSkillTreeDefaultTypeInternal _C2S_UpdateSkillTree_default_instance_;
 class S2C_AppearArrow;
 struct S2C_AppearArrowDefaultTypeInternal;
 extern S2C_AppearArrowDefaultTypeInternal _S2C_AppearArrow_default_instance_;
@@ -163,6 +166,9 @@ extern S2C_LoadFriendListDefaultTypeInternal _S2C_LoadFriendList_default_instanc
 class S2C_LoadInventory;
 struct S2C_LoadInventoryDefaultTypeInternal;
 extern S2C_LoadInventoryDefaultTypeInternal _S2C_LoadInventory_default_instance_;
+class S2C_LoadSkillTree;
+struct S2C_LoadSkillTreeDefaultTypeInternal;
+extern S2C_LoadSkillTreeDefaultTypeInternal _S2C_LoadSkillTree_default_instance_;
 class S2C_MovementCharacter;
 struct S2C_MovementCharacterDefaultTypeInternal;
 extern S2C_MovementCharacterDefaultTypeInternal _S2C_MovementCharacter_default_instance_;
@@ -196,6 +202,9 @@ extern S2C_UpdateExperienceDefaultTypeInternal _S2C_UpdateExperience_default_ins
 class S2C_UpdateInventory;
 struct S2C_UpdateInventoryDefaultTypeInternal;
 extern S2C_UpdateInventoryDefaultTypeInternal _S2C_UpdateInventory_default_instance_;
+class S2C_UpdateSkillTree;
+struct S2C_UpdateSkillTreeDefaultTypeInternal;
+extern S2C_UpdateSkillTreeDefaultTypeInternal _S2C_UpdateSkillTree_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C2S_BlockFriend* Arena::CreateMaybeMessage<::Protocol::C2S_BlockFriend>(Arena*);
@@ -213,6 +222,7 @@ template<> ::Protocol::C2S_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::C2S_RequestFriend* Arena::CreateMaybeMessage<::Protocol::C2S_RequestFriend>(Arena*);
 template<> ::Protocol::C2S_Tick* Arena::CreateMaybeMessage<::Protocol::C2S_Tick>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
+template<> ::Protocol::C2S_UpdateSkillTree* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateSkillTree>(Arena*);
 template<> ::Protocol::S2C_AppearArrow* Arena::CreateMaybeMessage<::Protocol::S2C_AppearArrow>(Arena*);
 template<> ::Protocol::S2C_AppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_AppearCharacter>(Arena*);
 template<> ::Protocol::S2C_AppearEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_AppearEnemy>(Arena*);
@@ -235,6 +245,7 @@ template<> ::Protocol::S2C_LeaveGameServer* Arena::CreateMaybeMessage<::Protocol
 template<> ::Protocol::S2C_LevelUp* Arena::CreateMaybeMessage<::Protocol::S2C_LevelUp>(Arena*);
 template<> ::Protocol::S2C_LoadFriendList* Arena::CreateMaybeMessage<::Protocol::S2C_LoadFriendList>(Arena*);
 template<> ::Protocol::S2C_LoadInventory* Arena::CreateMaybeMessage<::Protocol::S2C_LoadInventory>(Arena*);
+template<> ::Protocol::S2C_LoadSkillTree* Arena::CreateMaybeMessage<::Protocol::S2C_LoadSkillTree>(Arena*);
 template<> ::Protocol::S2C_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_MovementCharacter>(Arena*);
 template<> ::Protocol::S2C_MovementEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_MovementEnemy>(Arena*);
 template<> ::Protocol::S2C_MovementProjectile* Arena::CreateMaybeMessage<::Protocol::S2C_MovementProjectile>(Arena*);
@@ -246,6 +257,7 @@ template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protoc
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_UpdateExperience* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateExperience>(Arena*);
 template<> ::Protocol::S2C_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateInventory>(Arena*);
+template<> ::Protocol::S2C_UpdateSkillTree* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateSkillTree>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -8661,6 +8673,555 @@ class S2C_ReplaceEqipment final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_GamePacket_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S2C_LoadSkillTree final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_LoadSkillTree) */ {
+ public:
+  inline S2C_LoadSkillTree() : S2C_LoadSkillTree(nullptr) {}
+  ~S2C_LoadSkillTree() override;
+  explicit PROTOBUF_CONSTEXPR S2C_LoadSkillTree(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_LoadSkillTree(const S2C_LoadSkillTree& from);
+  S2C_LoadSkillTree(S2C_LoadSkillTree&& from) noexcept
+    : S2C_LoadSkillTree() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_LoadSkillTree& operator=(const S2C_LoadSkillTree& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_LoadSkillTree& operator=(S2C_LoadSkillTree&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_LoadSkillTree& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_LoadSkillTree* internal_default_instance() {
+    return reinterpret_cast<const S2C_LoadSkillTree*>(
+               &_S2C_LoadSkillTree_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  friend void swap(S2C_LoadSkillTree& a, S2C_LoadSkillTree& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_LoadSkillTree* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_LoadSkillTree* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_LoadSkillTree* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_LoadSkillTree>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_LoadSkillTree& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_LoadSkillTree& from) {
+    S2C_LoadSkillTree::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_LoadSkillTree* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_LoadSkillTree";
+  }
+  protected:
+  explicit S2C_LoadSkillTree(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSkillIdFieldNumber = 1,
+    kSkillCountFieldNumber = 2,
+    kTimestampFieldNumber = 3,
+  };
+  // repeated int32 skill_id = 1;
+  int skill_id_size() const;
+  private:
+  int _internal_skill_id_size() const;
+  public:
+  void clear_skill_id();
+  private:
+  int32_t _internal_skill_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_skill_id() const;
+  void _internal_add_skill_id(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_skill_id();
+  public:
+  int32_t skill_id(int index) const;
+  void set_skill_id(int index, int32_t value);
+  void add_skill_id(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      skill_id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_skill_id();
+
+  // repeated int32 skill_count = 2;
+  int skill_count_size() const;
+  private:
+  int _internal_skill_count_size() const;
+  public:
+  void clear_skill_count();
+  private:
+  int32_t _internal_skill_count(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_skill_count() const;
+  void _internal_add_skill_count(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_skill_count();
+  public:
+  int32_t skill_count(int index) const;
+  void set_skill_count(int index, int32_t value);
+  void add_skill_count(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      skill_count() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_skill_count();
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_LoadSkillTree)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > skill_id_;
+    mutable std::atomic<int> _skill_id_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > skill_count_;
+    mutable std::atomic<int> _skill_count_cached_byte_size_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_UpdateSkillTree final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_UpdateSkillTree) */ {
+ public:
+  inline C2S_UpdateSkillTree() : C2S_UpdateSkillTree(nullptr) {}
+  ~C2S_UpdateSkillTree() override;
+  explicit PROTOBUF_CONSTEXPR C2S_UpdateSkillTree(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_UpdateSkillTree(const C2S_UpdateSkillTree& from);
+  C2S_UpdateSkillTree(C2S_UpdateSkillTree&& from) noexcept
+    : C2S_UpdateSkillTree() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_UpdateSkillTree& operator=(const C2S_UpdateSkillTree& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_UpdateSkillTree& operator=(C2S_UpdateSkillTree&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_UpdateSkillTree& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_UpdateSkillTree* internal_default_instance() {
+    return reinterpret_cast<const C2S_UpdateSkillTree*>(
+               &_C2S_UpdateSkillTree_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    49;
+
+  friend void swap(C2S_UpdateSkillTree& a, C2S_UpdateSkillTree& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_UpdateSkillTree* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_UpdateSkillTree* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_UpdateSkillTree* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_UpdateSkillTree>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_UpdateSkillTree& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_UpdateSkillTree& from) {
+    C2S_UpdateSkillTree::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_UpdateSkillTree* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_UpdateSkillTree";
+  }
+  protected:
+  explicit C2S_UpdateSkillTree(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSkillIdFieldNumber = 1,
+    kSkillCountFieldNumber = 2,
+    kTimestampFieldNumber = 3,
+  };
+  // int32 skill_id = 1;
+  void clear_skill_id();
+  int32_t skill_id() const;
+  void set_skill_id(int32_t value);
+  private:
+  int32_t _internal_skill_id() const;
+  void _internal_set_skill_id(int32_t value);
+  public:
+
+  // int32 skill_count = 2;
+  void clear_skill_count();
+  int32_t skill_count() const;
+  void set_skill_count(int32_t value);
+  private:
+  int32_t _internal_skill_count() const;
+  void _internal_set_skill_count(int32_t value);
+  public:
+
+  // int64 timestamp = 3;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_UpdateSkillTree)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t skill_id_;
+    int32_t skill_count_;
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_UpdateSkillTree final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_UpdateSkillTree) */ {
+ public:
+  inline S2C_UpdateSkillTree() : S2C_UpdateSkillTree(nullptr) {}
+  ~S2C_UpdateSkillTree() override;
+  explicit PROTOBUF_CONSTEXPR S2C_UpdateSkillTree(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_UpdateSkillTree(const S2C_UpdateSkillTree& from);
+  S2C_UpdateSkillTree(S2C_UpdateSkillTree&& from) noexcept
+    : S2C_UpdateSkillTree() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_UpdateSkillTree& operator=(const S2C_UpdateSkillTree& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_UpdateSkillTree& operator=(S2C_UpdateSkillTree&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_UpdateSkillTree& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_UpdateSkillTree* internal_default_instance() {
+    return reinterpret_cast<const S2C_UpdateSkillTree*>(
+               &_S2C_UpdateSkillTree_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    50;
+
+  friend void swap(S2C_UpdateSkillTree& a, S2C_UpdateSkillTree& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_UpdateSkillTree* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_UpdateSkillTree* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_UpdateSkillTree* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_UpdateSkillTree>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_UpdateSkillTree& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_UpdateSkillTree& from) {
+    S2C_UpdateSkillTree::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_UpdateSkillTree* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_UpdateSkillTree";
+  }
+  protected:
+  explicit S2C_UpdateSkillTree(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorFieldNumber = 1,
+    kSkillIdFieldNumber = 2,
+    kTimestampFieldNumber = 4,
+    kSkillCountFieldNumber = 3,
+  };
+  // int32 error = 1;
+  void clear_error();
+  int32_t error() const;
+  void set_error(int32_t value);
+  private:
+  int32_t _internal_error() const;
+  void _internal_set_error(int32_t value);
+  public:
+
+  // int32 skill_id = 2;
+  void clear_skill_id();
+  int32_t skill_id() const;
+  void set_skill_id(int32_t value);
+  private:
+  int32_t _internal_skill_id() const;
+  void _internal_set_skill_id(int32_t value);
+  public:
+
+  // int64 timestamp = 4;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 skill_count = 3;
+  void clear_skill_count();
+  int32_t skill_count() const;
+  void set_skill_count(int32_t value);
+  private:
+  int32_t _internal_skill_count() const;
+  void _internal_set_skill_count(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_UpdateSkillTree)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t error_;
+    int32_t skill_id_;
+    int64_t timestamp_;
+    int32_t skill_count_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
 // ===================================================================
 
 
@@ -13996,9 +14557,281 @@ inline void S2C_ReplaceEqipment::set_error(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_ReplaceEqipment.error)
 }
 
+// -------------------------------------------------------------------
+
+// S2C_LoadSkillTree
+
+// repeated int32 skill_id = 1;
+inline int S2C_LoadSkillTree::_internal_skill_id_size() const {
+  return _impl_.skill_id_.size();
+}
+inline int S2C_LoadSkillTree::skill_id_size() const {
+  return _internal_skill_id_size();
+}
+inline void S2C_LoadSkillTree::clear_skill_id() {
+  _impl_.skill_id_.Clear();
+}
+inline int32_t S2C_LoadSkillTree::_internal_skill_id(int index) const {
+  return _impl_.skill_id_.Get(index);
+}
+inline int32_t S2C_LoadSkillTree::skill_id(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadSkillTree.skill_id)
+  return _internal_skill_id(index);
+}
+inline void S2C_LoadSkillTree::set_skill_id(int index, int32_t value) {
+  _impl_.skill_id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadSkillTree.skill_id)
+}
+inline void S2C_LoadSkillTree::_internal_add_skill_id(int32_t value) {
+  _impl_.skill_id_.Add(value);
+}
+inline void S2C_LoadSkillTree::add_skill_id(int32_t value) {
+  _internal_add_skill_id(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadSkillTree.skill_id)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadSkillTree::_internal_skill_id() const {
+  return _impl_.skill_id_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadSkillTree::skill_id() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadSkillTree.skill_id)
+  return _internal_skill_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadSkillTree::_internal_mutable_skill_id() {
+  return &_impl_.skill_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadSkillTree::mutable_skill_id() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadSkillTree.skill_id)
+  return _internal_mutable_skill_id();
+}
+
+// repeated int32 skill_count = 2;
+inline int S2C_LoadSkillTree::_internal_skill_count_size() const {
+  return _impl_.skill_count_.size();
+}
+inline int S2C_LoadSkillTree::skill_count_size() const {
+  return _internal_skill_count_size();
+}
+inline void S2C_LoadSkillTree::clear_skill_count() {
+  _impl_.skill_count_.Clear();
+}
+inline int32_t S2C_LoadSkillTree::_internal_skill_count(int index) const {
+  return _impl_.skill_count_.Get(index);
+}
+inline int32_t S2C_LoadSkillTree::skill_count(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadSkillTree.skill_count)
+  return _internal_skill_count(index);
+}
+inline void S2C_LoadSkillTree::set_skill_count(int index, int32_t value) {
+  _impl_.skill_count_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadSkillTree.skill_count)
+}
+inline void S2C_LoadSkillTree::_internal_add_skill_count(int32_t value) {
+  _impl_.skill_count_.Add(value);
+}
+inline void S2C_LoadSkillTree::add_skill_count(int32_t value) {
+  _internal_add_skill_count(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadSkillTree.skill_count)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadSkillTree::_internal_skill_count() const {
+  return _impl_.skill_count_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_LoadSkillTree::skill_count() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadSkillTree.skill_count)
+  return _internal_skill_count();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadSkillTree::_internal_mutable_skill_count() {
+  return &_impl_.skill_count_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_LoadSkillTree::mutable_skill_count() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadSkillTree.skill_count)
+  return _internal_mutable_skill_count();
+}
+
+// int64 timestamp = 3;
+inline void S2C_LoadSkillTree::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_LoadSkillTree::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_LoadSkillTree::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadSkillTree.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_LoadSkillTree::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_LoadSkillTree::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadSkillTree.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_UpdateSkillTree
+
+// int32 skill_id = 1;
+inline void C2S_UpdateSkillTree::clear_skill_id() {
+  _impl_.skill_id_ = 0;
+}
+inline int32_t C2S_UpdateSkillTree::_internal_skill_id() const {
+  return _impl_.skill_id_;
+}
+inline int32_t C2S_UpdateSkillTree::skill_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateSkillTree.skill_id)
+  return _internal_skill_id();
+}
+inline void C2S_UpdateSkillTree::_internal_set_skill_id(int32_t value) {
+  
+  _impl_.skill_id_ = value;
+}
+inline void C2S_UpdateSkillTree::set_skill_id(int32_t value) {
+  _internal_set_skill_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_UpdateSkillTree.skill_id)
+}
+
+// int32 skill_count = 2;
+inline void C2S_UpdateSkillTree::clear_skill_count() {
+  _impl_.skill_count_ = 0;
+}
+inline int32_t C2S_UpdateSkillTree::_internal_skill_count() const {
+  return _impl_.skill_count_;
+}
+inline int32_t C2S_UpdateSkillTree::skill_count() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateSkillTree.skill_count)
+  return _internal_skill_count();
+}
+inline void C2S_UpdateSkillTree::_internal_set_skill_count(int32_t value) {
+  
+  _impl_.skill_count_ = value;
+}
+inline void C2S_UpdateSkillTree::set_skill_count(int32_t value) {
+  _internal_set_skill_count(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_UpdateSkillTree.skill_count)
+}
+
+// int64 timestamp = 3;
+inline void C2S_UpdateSkillTree::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_UpdateSkillTree::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_UpdateSkillTree::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_UpdateSkillTree.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_UpdateSkillTree::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_UpdateSkillTree::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_UpdateSkillTree.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_UpdateSkillTree
+
+// int32 error = 1;
+inline void S2C_UpdateSkillTree::clear_error() {
+  _impl_.error_ = 0;
+}
+inline int32_t S2C_UpdateSkillTree::_internal_error() const {
+  return _impl_.error_;
+}
+inline int32_t S2C_UpdateSkillTree::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateSkillTree.error)
+  return _internal_error();
+}
+inline void S2C_UpdateSkillTree::_internal_set_error(int32_t value) {
+  
+  _impl_.error_ = value;
+}
+inline void S2C_UpdateSkillTree::set_error(int32_t value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateSkillTree.error)
+}
+
+// int32 skill_id = 2;
+inline void S2C_UpdateSkillTree::clear_skill_id() {
+  _impl_.skill_id_ = 0;
+}
+inline int32_t S2C_UpdateSkillTree::_internal_skill_id() const {
+  return _impl_.skill_id_;
+}
+inline int32_t S2C_UpdateSkillTree::skill_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateSkillTree.skill_id)
+  return _internal_skill_id();
+}
+inline void S2C_UpdateSkillTree::_internal_set_skill_id(int32_t value) {
+  
+  _impl_.skill_id_ = value;
+}
+inline void S2C_UpdateSkillTree::set_skill_id(int32_t value) {
+  _internal_set_skill_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateSkillTree.skill_id)
+}
+
+// int32 skill_count = 3;
+inline void S2C_UpdateSkillTree::clear_skill_count() {
+  _impl_.skill_count_ = 0;
+}
+inline int32_t S2C_UpdateSkillTree::_internal_skill_count() const {
+  return _impl_.skill_count_;
+}
+inline int32_t S2C_UpdateSkillTree::skill_count() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateSkillTree.skill_count)
+  return _internal_skill_count();
+}
+inline void S2C_UpdateSkillTree::_internal_set_skill_count(int32_t value) {
+  
+  _impl_.skill_count_ = value;
+}
+inline void S2C_UpdateSkillTree::set_skill_count(int32_t value) {
+  _internal_set_skill_count(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateSkillTree.skill_count)
+}
+
+// int64 timestamp = 4;
+inline void S2C_UpdateSkillTree::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t S2C_UpdateSkillTree::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t S2C_UpdateSkillTree::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_UpdateSkillTree.timestamp)
+  return _internal_timestamp();
+}
+inline void S2C_UpdateSkillTree::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void S2C_UpdateSkillTree::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_UpdateSkillTree.timestamp)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
