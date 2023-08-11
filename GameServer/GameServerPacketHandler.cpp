@@ -231,17 +231,122 @@ bool Handle_C2S_BlockFriend(PacketSessionPtr& session, Protocol::C2S_BlockFriend
 
 bool Handle_C2S_CreateParty(PacketSessionPtr& session, Protocol::C2S_CreateParty& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return false;
+	}
+
+	party->PushTask(pkt.timestamp(), &Party::CreateParty);
+	return true;
 }
 
-bool Handle_C2S_RequestParty(PacketSessionPtr& session, Protocol::C2S_RequestParty& pkt)
+bool Handle_C2S_RequestEnterParty(PacketSessionPtr& session, Protocol::C2S_RequestEnterParty& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return false;
+	}
+
+	party->PushTask(pkt.timestamp(), &Party::RequestEnterParty, pkt.nick_name());
+	return true;
+}
+
+bool Handle_C2S_RequestLeaveParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaveParty& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return false;
+	}
+
+	party->PushTask(pkt.timestamp(), &Party::RequestLeaveParty, pkt.nick_name());
+	return true;
+}
+
+bool Handle_C2S_RequestLeaderParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaderParty& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return false;
+	}
+
+	party->PushTask(pkt.timestamp(), &Party::RequestLeaderParty, pkt.nick_name());
+	return true;
 }
 
 bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponeParty& pkt)
 {
-	return false;
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return false;
+	}
+
+	party->PushTask(pkt.timestamp(), &Party::ResponseEnterParty, pkt.nick_name(), pkt.action());
+	return true;
 }
 
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)

@@ -32,37 +32,41 @@ enum class EPakcetID: uint16
 	S2C_DisConnectFriend = 2026,
 	C2S_CreateParty = 2027,
 	S2C_CreateParty = 2028,
-	C2S_RequestParty = 2029,
-	S2C_RequestParty = 2030,
-	C2S_ResponeParty = 2031,
-	S2C_ResponeParty = 2032,
-	S2C_NotifyParty = 2033,
-	S2C_EnterPartyPlayer = 2034,
-	S2C_LeavePartyPlayer = 2035,
-	S2C_AppearItem = 2036,
-	S2C_AppearArrow = 2037,
-	S2C_MovementProjectile = 2038,
-	S2C_AppearEnemy = 2039,
-	S2C_DetectChangeEnemy = 2040,
-	S2C_MovementEnemy = 2041,
-	S2C_EnemyAutoAttack = 2042,
-	S2C_HitEnemy = 2043,
-	S2C_DeathEnemy = 2044,
-	S2C_DisAppearGameObject = 2045,
-	C2S_LoadInventory = 2046,
-	S2C_LoadInventory = 2047,
-	C2S_InsertInventory = 2048,
-	S2C_InsertInventory = 2049,
-	C2S_UpdateInventory = 2050,
-	S2C_UpdateInventory = 2051,
-	C2S_DeleteInventory = 2052,
-	S2C_DeleteInventory = 2053,
-	S2C_RollbackInventory = 2054,
-	C2S_ReplaceEqipment = 2055,
-	S2C_ReplaceEqipment = 2056,
-	S2C_LoadSkillTree = 2057,
-	C2S_UpdateSkillTree = 2058,
-	S2C_UpdateSkillTree = 2059,
+	C2S_RequestEnterParty = 2029,
+	S2C_RequestEnterParty = 2030,
+	C2S_RequestLeaveParty = 2031,
+	S2C_RequestLeaveParty = 2032,
+	C2S_RequestLeaderParty = 2033,
+	S2C_RequestLeaderParty = 2034,
+	C2S_ResponeParty = 2035,
+	S2C_ResponeParty = 2036,
+	S2C_NotifyParty = 2037,
+	S2C_EnterPartyPlayer = 2038,
+	S2C_LeavePartyPlayer = 2039,
+	S2C_AppearItem = 2040,
+	S2C_AppearArrow = 2041,
+	S2C_MovementProjectile = 2042,
+	S2C_AppearEnemy = 2043,
+	S2C_DetectChangeEnemy = 2044,
+	S2C_MovementEnemy = 2045,
+	S2C_EnemyAutoAttack = 2046,
+	S2C_HitEnemy = 2047,
+	S2C_DeathEnemy = 2048,
+	S2C_DisAppearGameObject = 2049,
+	C2S_LoadInventory = 2050,
+	S2C_LoadInventory = 2051,
+	C2S_InsertInventory = 2052,
+	S2C_InsertInventory = 2053,
+	C2S_UpdateInventory = 2054,
+	S2C_UpdateInventory = 2055,
+	C2S_DeleteInventory = 2056,
+	S2C_DeleteInventory = 2057,
+	S2C_RollbackInventory = 2058,
+	C2S_ReplaceEqipment = 2059,
+	S2C_ReplaceEqipment = 2060,
+	S2C_LoadSkillTree = 2061,
+	C2S_UpdateSkillTree = 2062,
+	S2C_UpdateSkillTree = 2063,
 };
 */
 
@@ -78,7 +82,9 @@ bool Handle_C2S_LoadFriendList(PacketSessionPtr& session, Protocol::C2S_LoadFrie
 bool Handle_C2S_RequestFriend(PacketSessionPtr& session, Protocol::C2S_RequestFriend& pkt);
 bool Handle_C2S_BlockFriend(PacketSessionPtr& session, Protocol::C2S_BlockFriend& pkt);
 bool Handle_C2S_CreateParty(PacketSessionPtr& session, Protocol::C2S_CreateParty& pkt);
-bool Handle_C2S_RequestParty(PacketSessionPtr& session, Protocol::C2S_RequestParty& pkt);
+bool Handle_C2S_RequestEnterParty(PacketSessionPtr& session, Protocol::C2S_RequestEnterParty& pkt);
+bool Handle_C2S_RequestLeaveParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaveParty& pkt);
+bool Handle_C2S_RequestLeaderParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaderParty& pkt);
 bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponeParty& pkt);
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt);
 bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt);
@@ -103,7 +109,9 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestFriend)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestFriend>(Handle_C2S_RequestFriend, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_BlockFriend)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_BlockFriend>(Handle_C2S_BlockFriend, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_CreateParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_CreateParty>(Handle_C2S_CreateParty, session, buffer, len); };
-		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestParty>(Handle_C2S_RequestParty, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestEnterParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestEnterParty>(Handle_C2S_RequestEnterParty, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestLeaveParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestLeaveParty>(Handle_C2S_RequestLeaveParty, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestLeaderParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestLeaderParty>(Handle_C2S_RequestLeaderParty, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ResponeParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ResponeParty>(Handle_C2S_ResponeParty, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_LoadInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_LoadInventory>(Handle_C2S_LoadInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_InsertInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_InsertInventory>(Handle_C2S_InsertInventory, session, buffer, len); };
@@ -130,7 +138,9 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ConnectFriend& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ConnectFriend)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DisConnectFriend& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DisConnectFriend)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_CreateParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_CreateParty)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestParty)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestEnterParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestEnterParty)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestLeaveParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestLeaveParty)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestLeaderParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestLeaderParty)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ResponeParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ResponeParty)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_NotifyParty& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_NotifyParty)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EnterPartyPlayer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterPartyPlayer)); }

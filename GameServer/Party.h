@@ -18,12 +18,17 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void CreateParty(const int64 inRemoteID);
-	void RequestParty(const std::string inPlayerName);
-	void ResponseParty(const std::string inPlayerName, const int32 inAction);
+	void CreateParty();
+	void RequestEnterParty(const std::string inPlayerName);
+	void RequestLeaveParty(const std::string inPlayerName);
+	void RequestLeaderParty(const std::string inPlayerName);
+	void ResponseEnterParty(const std::string inPlayerName, const int32 inAction);
 
 	void PartyChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage);
 	void PartyBroadCast(SendBufferPtr inSendBuffer);
+
+	void EnterParty(const int64& inRemoteID, GameRemotePlayerPtr inRemotePlayer);
+	void LeaveParty(const int64& inRemoteID);
 
 public:
 	bool IsParty() const;
