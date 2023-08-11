@@ -34,6 +34,10 @@ void GameRemotePlayer::OnInitialization()
 	mFriend->SetOwner(owner);
 	taskManager->PushTask(this->GetFriend()->GetGameObjectPtr());
 
+	mParty = std::make_shared<Party>();
+	mParty->SetOwner(owner);
+	taskManager->PushTask(this->GetFriend()->GetGameObjectPtr());
+
 	mSkill = std::make_shared<Skill>();
 	mSkill->SetOwner(owner);
 	taskManager->PushTask(this->GetSkill()->GetGameObjectPtr());
@@ -63,6 +67,9 @@ void GameRemotePlayer::OnDestroy()
 
 	taskManager->ReleaseTask(this->GetFriend()->GetGameObjectPtr());
 	this->mFriend.reset();
+
+	taskManager->ReleaseTask(this->GetParty()->GetGameObjectPtr());
+	this->mParty.reset();
 
 	taskManager->ReleaseTask(this->GetSkill()->GetGameObjectPtr());
 	this->mSkill.reset();
@@ -163,7 +170,7 @@ void GameRemotePlayer::OnLoadComplete()
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPacket);
 	playerState->Send(sendBuffer);
 
-	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), this->GetGameObjectID());
+	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), character->GetCharacterData().name(), this->GetGameObjectID());
 	world->VisibleAreaInit(playerState);
 }
 

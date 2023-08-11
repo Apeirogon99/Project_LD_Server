@@ -70,6 +70,10 @@ class Friend;
 using FriendPtr						= std::shared_ptr<Friend>;
 using FriendRef						= std::weak_ptr<Friend>;
 
+class Party;
+using PartyPtr						= std::shared_ptr<Party>;
+using PartyRef						= std::weak_ptr<Party>;
+
 class Skill;
 using SkillPtr						= std::shared_ptr<Skill>;
 using SkillRef						= std::weak_ptr<Skill>;

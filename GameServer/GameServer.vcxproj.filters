@@ -250,6 +250,9 @@
     <ClCompile Include="WarriorBuff.cpp">
       <Filter>Content\Skill\Warrior</Filter>
     </ClCompile>
+    <ClCompile Include="Party.cpp">
+      <Filter>Content\Party</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="WarriorBuff.h">
       <Filter>Content\Skill\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="Party.h">
+      <Filter>Content\Party</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

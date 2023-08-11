@@ -9,6 +9,25 @@ enum class EActorType
 	Enemy,
 };
 
+class WorldPlayerInfo
+{
+public:
+	WorldPlayerInfo() : mCharacterID(0), mCharacterName("") {}
+	~WorldPlayerInfo() {}
+
+public:
+	void SetRemoteID(const int64& inRemoteID) { mCharacterID = inRemoteID; }
+	void SetCharacterName(const std::string& inCharacterName) { mCharacterName = inCharacterName; }
+
+public:
+	const int64& GetRemoteID() const { return mCharacterID; }
+	const std::string& GetCharacterName() const { return mCharacterName; }
+
+private:
+	int64		mCharacterID;
+	std::string mCharacterName;
+};
+
 class GameWorld : public World
 {
 public:
@@ -32,9 +51,10 @@ public:
 	void VisibleAreaSync(const int64 inDeltaTime);
 	void CheackToken();
 
-	void PushCharacterIDandRemoteID(const int64& inCharacterID, const int64& inPlayerID);
+	void PushCharacterIDandRemoteID(const int64& inCharacterID, const std::string& inCharacterName, const int64& inRemoteID);
 	void ReleaseCharacterIDandRemoteID(const int64& inCharacterID);
-	bool IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemoteClientPtr);
+	bool IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr);
+	bool IsValidPlayer(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr);
 	bool IsValidPlayer(const int64& inCharacterID);
 
 protected:
@@ -45,6 +65,6 @@ public:
 
 private:
 	std::vector<class Token>			mTokens;
-	std::map<int64, int64>				mPlayerIDs;
+	std::map<int64, WorldPlayerInfo>	mPlayerIDs;
 	EnemySpawnerManagerPtr				mSpawnerManager;
 };

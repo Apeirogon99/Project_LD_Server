@@ -229,6 +229,21 @@ bool Handle_C2S_BlockFriend(PacketSessionPtr& session, Protocol::C2S_BlockFriend
 	return true;
 }
 
+bool Handle_C2S_CreateParty(PacketSessionPtr& session, Protocol::C2S_CreateParty& pkt)
+{
+	return false;
+}
+
+bool Handle_C2S_RequestParty(PacketSessionPtr& session, Protocol::C2S_RequestParty& pkt)
+{
+	return false;
+}
+
+bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponeParty& pkt)
+{
+	return false;
+}
+
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);

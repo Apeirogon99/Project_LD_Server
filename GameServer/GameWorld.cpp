@@ -317,9 +317,13 @@ void GameWorld::CheackToken()
 	}
 }
 
-void GameWorld::PushCharacterIDandRemoteID(const int64& inCharacterID, const int64& inPlayerID)
+void GameWorld::PushCharacterIDandRemoteID(const int64& inCharacterID, const std::string& inCharacterName, const int64& inRemoteID)
 {
-	std::pair<int64, int64> ids = std::make_pair(inCharacterID, inPlayerID);
+	WorldPlayerInfo worldPlayerInfo;
+	worldPlayerInfo.SetRemoteID(inRemoteID);
+	worldPlayerInfo.SetCharacterName(inCharacterName);
+
+	std::pair<int64, WorldPlayerInfo> ids = std::make_pair(inCharacterID, worldPlayerInfo);
 	this->mPlayerIDs.insert(ids);
 }
 
@@ -328,7 +332,7 @@ void GameWorld::ReleaseCharacterIDandRemoteID(const int64& inCharacterID)
 	mPlayerIDs.erase(inCharacterID);
 }
 
-bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemoteClientPtr)
+bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr)
 {
 	auto findPos = mPlayerIDs.find(inCharacterID);
 	if (findPos == mPlayerIDs.end())
@@ -336,13 +340,39 @@ bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& o
 		return false;
 	}
 
-	auto playerPos = mWorldPlayers.find(findPos->second);
+	auto playerPos = mWorldPlayers.find(findPos->second.GetRemoteID());
 	if (playerPos == mWorldPlayers.end())
 	{
 		return false;
 	}
 
-	outRemoteClientPtr = std::static_pointer_cast<GameRemotePlayer>(playerPos->second->GetRemotePlayer());
+	outRemotePlayerPtr = std::static_pointer_cast<GameRemotePlayer>(playerPos->second->GetRemotePlayer());
+	return true;
+}
+
+bool GameWorld::IsValidPlayer(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr)
+{
+	auto findPos = mPlayerIDs.begin();
+	for (findPos; findPos != mPlayerIDs.end(); ++findPos)
+	{
+		if (0 == inCharacterName.compare(findPos->second.GetCharacterName()))
+		{
+			break;
+		}
+	}
+
+	if (findPos == mPlayerIDs.end())
+	{
+		return false;
+	}
+
+	auto playerPos = mWorldPlayers.find(findPos->second.GetRemoteID());
+	if (playerPos == mWorldPlayers.end())
+	{
+		return false;
+	}
+
+	outRemotePlayerPtr = std::static_pointer_cast<GameRemotePlayer>(playerPos->second->GetRemotePlayer());
 	return true;
 }
 

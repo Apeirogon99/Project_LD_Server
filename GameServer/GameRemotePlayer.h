@@ -30,6 +30,7 @@ public:
 	const Token&		GetToken()		{ return mToken; }
 	Inventoryptr&		GetInventory()	{ return mInventory; }
 	FriendPtr&			GetFriend()		{ return mFriend; }
+	PartyPtr&			GetParty()		{ return mParty; }
 	SkillPtr&			GetSkill()		{ return mSkill; }
 	PlayerCharacterPtr&	GetCharacter()	{ return mPlayerCharacter; }
 
@@ -39,6 +40,7 @@ private:
 
 	Inventoryptr		mInventory;
 	FriendPtr			mFriend;
+	PartyPtr			mParty;
 	SkillPtr			mSkill;
 	PlayerCharacterPtr	mPlayerCharacter;
 };
