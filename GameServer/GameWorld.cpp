@@ -332,7 +332,7 @@ void GameWorld::ReleaseCharacterIDandRemoteID(const int64& inCharacterID)
 	mPlayerIDs.erase(inCharacterID);
 }
 
-bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr)
+bool GameWorld::IsValidCharacter(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr)
 {
 	auto findPos = mPlayerIDs.find(inCharacterID);
 	if (findPos == mPlayerIDs.end())
@@ -350,7 +350,7 @@ bool GameWorld::IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& o
 	return true;
 }
 
-bool GameWorld::IsValidPlayer(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr)
+bool GameWorld::IsValidCharacter(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr)
 {
 	auto findPos = mPlayerIDs.begin();
 	for (findPos; findPos != mPlayerIDs.end(); ++findPos)
@@ -376,7 +376,7 @@ bool GameWorld::IsValidPlayer(const std::string& inCharacterName, GameRemotePlay
 	return true;
 }
 
-bool GameWorld::IsValidPlayer(const int64& inCharacterID)
+bool GameWorld::IsValidCharacter(const int64& inCharacterID)
 {
 	auto findPos = mPlayerIDs.find(inCharacterID);
 	if (findPos == mPlayerIDs.end())
@@ -384,6 +384,18 @@ bool GameWorld::IsValidPlayer(const int64& inCharacterID)
 		return false;
 	}
 
+	return true;
+}
+
+bool GameWorld::IsValidPlayer(const int64& inRemoteID, GameRemotePlayerPtr& outRemotePlayerPtr)
+{
+	auto playerPos = mWorldPlayers.find(inRemoteID);
+	if (playerPos == mWorldPlayers.end())
+	{
+		return false;
+	}
+
+	outRemotePlayerPtr = std::static_pointer_cast<GameRemotePlayer>(playerPos->second->GetRemotePlayer());
 	return true;
 }
 

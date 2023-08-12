@@ -297,7 +297,7 @@ bool Handle_C2S_RequestLeaveParty(PacketSessionPtr& session, Protocol::C2S_Reque
 		return false;
 	}
 
-	party->PushTask(pkt.timestamp(), &Party::RequestLeaveParty, pkt.nick_name());
+	party->PushTask(pkt.timestamp(), &Party::RequestLeaveParty, pkt.remote_id());
 	return true;
 }
 
@@ -321,7 +321,7 @@ bool Handle_C2S_RequestLeaderParty(PacketSessionPtr& session, Protocol::C2S_Requ
 		return false;
 	}
 
-	party->PushTask(pkt.timestamp(), &Party::RequestLeaderParty, pkt.nick_name());
+	party->PushTask(pkt.timestamp(), &Party::RequestLeaderParty, pkt.remote_id());
 	return true;
 }
 
@@ -345,7 +345,7 @@ bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponePar
 		return false;
 	}
 
-	party->PushTask(pkt.timestamp(), &Party::ResponseEnterParty, pkt.nick_name(), pkt.action());
+	party->PushTask(pkt.timestamp(), &Party::ResponseEnterParty, pkt.remote_id(), pkt.action());
 	return true;
 }
 

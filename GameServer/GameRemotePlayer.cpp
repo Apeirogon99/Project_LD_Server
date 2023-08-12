@@ -36,7 +36,7 @@ void GameRemotePlayer::OnInitialization()
 
 	mParty = std::make_shared<Party>();
 	mParty->SetOwner(owner);
-	taskManager->PushTask(this->GetFriend()->GetGameObjectPtr());
+	taskManager->PushTask(this->GetParty()->GetGameObjectPtr());
 
 	mSkill = std::make_shared<Skill>();
 	mSkill->SetOwner(owner);

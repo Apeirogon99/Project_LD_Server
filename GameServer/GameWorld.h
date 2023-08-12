@@ -53,9 +53,11 @@ public:
 
 	void PushCharacterIDandRemoteID(const int64& inCharacterID, const std::string& inCharacterName, const int64& inRemoteID);
 	void ReleaseCharacterIDandRemoteID(const int64& inCharacterID);
-	bool IsValidPlayer(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr);
-	bool IsValidPlayer(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr);
-	bool IsValidPlayer(const int64& inCharacterID);
+	bool IsValidCharacter(const int64& inCharacterID, GameRemotePlayerPtr& outRemotePlayerPtr);
+	bool IsValidCharacter(const std::string& inCharacterName, GameRemotePlayerPtr& outRemotePlayerPtr);
+	bool IsValidCharacter(const int64& inCharacterID);
+
+	bool IsValidPlayer(const int64& inRemoteID, GameRemotePlayerPtr& outRemotePlayerPtr);
 
 protected:
 	void RefreshWorldObserver();

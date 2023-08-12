@@ -20,13 +20,14 @@ public:
 public:
 	void CreateParty();
 	void RequestEnterParty(const std::string inPlayerName);
-	void RequestLeaveParty(const std::string inPlayerName);
-	void RequestLeaderParty(const std::string inPlayerName);
-	void ResponseEnterParty(const std::string inPlayerName, const int32 inAction);
+	void RequestLeaveParty(const int64 inLeaveRemoteID);
+	void RequestLeaderParty(const int64 inLeaderRemoteID);
+	void ResponseEnterParty(const int64 inResponeRemoteID, const int32 inAction);
 
 	void PartyChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage);
 	void PartyBroadCast(SendBufferPtr inSendBuffer);
 
+	void LoadParty(Protocol::S2C_LoadParty& inLoadPartyPacket);
 	void EnterParty(const int64& inRemoteID, GameRemotePlayerPtr inRemotePlayer);
 	void LeaveParty(const int64& inRemoteID);
 
@@ -35,6 +36,7 @@ public:
 	bool IsFull() const;
 
 private:
+	int64 mLeaderPlayer;
 	std::map<int64, PlayerCharacterPtr> mPlayers;
 };
 

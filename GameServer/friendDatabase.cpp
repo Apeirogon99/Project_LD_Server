@@ -65,7 +65,7 @@ bool Handle_ConnectLoadFriendList_Response(PacketSessionPtr& inSession, ADOConne
 		for (const int64& id : firendIDs)
 		{
 			GameRemotePlayerPtr friendRemotePlayer;
-			if (true == world->IsValidPlayer(id, friendRemotePlayer))
+			if (true == world->IsValidCharacter(id, friendRemotePlayer))
 			{
 				FriendPtr otherFriend = friendRemotePlayer->GetFriend();
 				otherFriend->DelegateOnlineFriend(playerCharacterID, playerName);
@@ -142,7 +142,7 @@ bool Handle_DisConnectLoadFriendList_Response(PacketSessionPtr& inSession, ADOCo
 		for (const int64& id : firendIDs)
 		{
 			GameRemotePlayerPtr friendRemotePlayer;
-			if (true == world->IsValidPlayer(id, friendRemotePlayer))
+			if (true == world->IsValidCharacter(id, friendRemotePlayer))
 			{
 				FriendPtr otherFriend = friendRemotePlayer->GetFriend();
 				otherFriend->DelegateOfflineFriend(playerCharacterID, playerName);
@@ -227,7 +227,7 @@ bool Handle_LoadFriendList_Response(PacketSessionPtr& inSession, ADOConnection& 
 
 			if (list_type == 0)
 			{
-				newFriend->set_state((world->IsValidPlayer(friendID) == true) ? 1 : 3);
+				newFriend->set_state((world->IsValidCharacter(friendID) == true) ? 1 : 3);
 			}
 			else
 			{

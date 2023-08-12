@@ -30,8 +30,15 @@ enum class EDCommonErrorType
 	ALREADY_FRIEND_WITH_PLAYER				= 4003, //이미 친구임
 	ALREADY_FRIEND_IS_BLOCK					= 4004, //이미 블락된 상태임
 	ALREADY_FRIEND_IS_REQUEST				= 4005, //이미 요청을 보낸 상태임
+	INVALID_FRIEND_IS_REQUEST				= 4006, //요청이 들어와있지 않은 상태임
 	INVALID_LIST_TYPE						= 4009, //없는 리스트 타입
 	ALREADY_SAME_ACTION						= 4010, //이미 같은 행동을 하고 있음
+
+	//Party
+	ALREADY_PART_OF_PARTY					= 5000, //이미 파티에 가입되어있다
+	INVALID_PART_OF_PARTY					= 5001, //파티에 가입되어 있지 않음
+	NOT_CONNECT_PLAYER						= 5002, //플레이어가 실시간 접속 상태가 아님
+	ALREADY_FULL_PARTY						= 5003, //파티 정원 초과
 };
 
 static std::string GetNetworkError(int32 error)
@@ -105,6 +112,18 @@ static std::string GetNetworkError(int32 error)
 		break;
 	case EDCommonErrorType::ALREADY_SAME_ACTION:
 		return std::string("이미 처리 되어있습니다.");
+		break;
+	case EDCommonErrorType::ALREADY_PART_OF_PARTY:
+		return std::string("해당 플레이어는 가입된 파티가 있습니다.");
+		break;
+	case EDCommonErrorType::INVALID_PART_OF_PARTY:
+		return std::string("해당 플레이어는 가입된 파티가 없습니다.");
+		break;
+	case EDCommonErrorType::NOT_CONNECT_PLAYER:
+		return std::string("플레이어가 현재 접속중이 아닙니다.");
+		break;
+	case EDCommonErrorType::ALREADY_FULL_PARTY:
+		return std::string("이미 파티가 정원을 초과하였습니다.");
 		break;
 	default:
 		return std::string("알 수 없는 에러");
