@@ -390,8 +390,6 @@ void StunState::Enter(EnemyCharacterRef inEnemy)
 
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
 
-	mStunToChaseTime	= 0;
-	mStunTime			= 0;
 }
 
 void StunState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -411,6 +409,8 @@ void StunState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void StunState::Exit(EnemyCharacterRef inEnemy)
 {
+	mStunToChaseTime = 0;
+	mStunTime = 0;
 }
 
 void StunState::SetStunTime(const int64 inStunTime)

@@ -23,6 +23,9 @@ public:
 	void CheackCollision();
 
 public:
+	void SetDuration(const int64& inDuration);
+
+public:
 	const int64& GetDuration();
 
 private:

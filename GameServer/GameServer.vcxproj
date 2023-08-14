@@ -175,6 +175,7 @@
     <ClCompile Include="EqipmentComponent.cpp" />
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="friendDatabase.cpp" />
+    <ClCompile Include="ItemHandler.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PassiveSkill.cpp" />
@@ -328,7 +329,9 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="SkillDatabase.cpp" />
+    <ClCompile Include="SkillHandler.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
     <ClCompile Include="WarriorBuff.cpp" />
     <ClCompile Include="WarriorSwordBlow.cpp" />
@@ -349,6 +352,7 @@
     <ClInclude Include="EqipmentComponent.h" />
     <ClInclude Include="Friend.h" />
     <ClInclude Include="friendDatabase.h" />
+    <ClInclude Include="ItemHandler.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PassiveSkill.h" />
@@ -384,7 +388,9 @@
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="SkillDatabase.h" />
+    <ClInclude Include="SkillHandler.h" />
     <ClInclude Include="StatsComponent.h" />
     <ClInclude Include="WarriorBuff.h" />
     <ClInclude Include="WarriorSwordBlow.h" />

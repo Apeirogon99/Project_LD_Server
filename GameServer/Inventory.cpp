@@ -45,7 +45,6 @@ void Inventory::SetLoadInventory(bool inIsLoad)
 	mIsLoad = inIsLoad;
 }
 
-
 void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 {
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());

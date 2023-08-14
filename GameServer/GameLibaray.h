@@ -33,6 +33,7 @@
 #include "EqipmentComponent.h"
 #include "AttackComponent.h"
 #include "LevelComponent.h"
+#include "KeyboardComponent.h"
 
 //==========================//
 //		 GameContent		//
@@ -61,6 +62,11 @@
 #include "EnemyWarriorSkeleton.h"
 
 //==========================//
+//   GameContent | Skill	//
+//==========================//
+#include "WarriorBuff.h"
+
+//==========================//
 //		    Packet			//
 //==========================//
 #include "PacketHandler.h"
@@ -75,3 +81,9 @@
 #include "InventoryDatabase.h"
 #include "friendDatabase.h"
 #include "SkillDatabase.h"
+
+//==========================//
+//  GameContent | Handler	//
+//==========================//
+#include "SkillHandler.h"
+#include "ItemHandler.h"

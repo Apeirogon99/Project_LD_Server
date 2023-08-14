@@ -23,6 +23,32 @@ void WarriorBuff::OnInitialization()
 
 void WarriorBuff::OnDestroy()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const Stats& stat = this->mStatsComponent.GetMaxStats();
+
+	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
+	{
+		GameRemotePlayerPtr overlapRemotePlayer = nullptr;
+		if (true == world->IsValidPlayer(player->first, overlapRemotePlayer))
+		{
+			PlayerCharacterPtr playerCharacter = std::static_pointer_cast<PlayerCharacter>(overlapRemotePlayer->GetCharacter());
+			if (nullptr == playerCharacter)
+			{
+				continue;
+			}
+			const int64& playerGameObjectID = playerCharacter->GetGameObjectID();
+
+			StatsComponent& playerStats = playerCharacter->GetStatComponent();
+			playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() - stat.GetAttackDamage());
+			playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() - stat.GetArmor());
+			playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() - stat.GetMovementSpeed());
+		}
+	}
+
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
 
@@ -186,21 +212,37 @@ void WarriorBuff::CheackCollision()
 
 	for (ActorPtr actor : findActors)
 	{
-		PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(actor);
-		if (nullptr == player)
+		PlayerCharacterPtr overlapPlayer = std::static_pointer_cast<PlayerCharacter>(actor);
+		if (nullptr == overlapPlayer)
 		{
 			continue;
 		}
-		const int64& playerGameObjectID = player->GetGameObjectID();
+
+		GameRemotePlayerPtr overlapRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(overlapPlayer->GetOwner().lock());
+		if (nullptr == overlapRemotePlayer)
+		{
+
+		}
+		const int64& playerGameObjectID = overlapRemotePlayer->GetGameObjectID();
 
 		if (false == party->IsParty())
 		{
-			if (remotePlayer->GetGameObjectID() == playerGameObjectID)
+			auto findOverlapPlayer = mOverlapPlayer.find(playerGameObjectID);
+			if (findOverlapPlayer == mOverlapPlayer.end())
 			{
-				StatsComponent& playerStats = player->GetStatComponent();
-				playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() + stat.GetAttackDamage());
-				playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() + stat.GetArmor());
-				playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() + stat.GetMovementSpeed());
+				if (remotePlayer->GetGameObjectID() == playerGameObjectID)
+				{
+					mOverlapPlayer.insert(std::make_pair(playerGameObjectID, true));
+
+					StatsComponent& playerStats = overlapPlayer->GetStatComponent();
+					playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() + stat.GetAttackDamage());
+					playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() + stat.GetArmor());
+					playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() + stat.GetMovementSpeed());
+				}
+			}
+			else
+			{
+				findOverlapPlayer->second = true;
 			}
 
 		}
@@ -216,10 +258,9 @@ void WarriorBuff::CheackCollision()
 			auto findOverlapPlayer = mOverlapPlayer.find(playerGameObjectID);
 			if (findOverlapPlayer == mOverlapPlayer.end())
 			{
-				std::pair<int64, bool> overlapPlayer = std::make_pair(playerGameObjectID, true);
-				mOverlapPlayer.insert(overlapPlayer);
+				mOverlapPlayer.insert(std::make_pair(playerGameObjectID, true));
 
-				StatsComponent& playerStats = player->GetStatComponent();
+				StatsComponent& playerStats = overlapPlayer->GetStatComponent();
 				playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() + stat.GetAttackDamage());
 				playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() + stat.GetArmor());
 				playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() + stat.GetMovementSpeed());
@@ -254,7 +295,14 @@ void WarriorBuff::CheackCollision()
 
 			mOverlapPlayer.erase(player++);
 		}
+
+		++player;
 	}
+}
+
+void WarriorBuff::SetDuration(const int64& inDuration)
+{
+	mDuration = inDuration;
 }
 
 const int64& WarriorBuff::GetDuration()

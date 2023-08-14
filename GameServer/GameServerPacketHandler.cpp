@@ -470,3 +470,40 @@ bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateS
 	skill->PushTask(pkt.timestamp(), &Skill::UpdateSkillTree, pkt.skill_id(), pkt.skill_count());
 	return true;
 }
+
+bool Handle_C2S_PressedUseKeyAction(PacketSessionPtr& session, Protocol::C2S_PressedUseKeyAction& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+	const int64& timestamp = pkt.timestamp();
+	remotePlayer->PushTask(timestamp, &GameRemotePlayer::PressKey, pkt.key_id());
+
+	return true;
+}
+
+bool Handle_C2S_ReleaseUseKeyAction(PacketSessionPtr& session, Protocol::C2S_ReleaseUseKeyAction& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+	remotePlayer->PushTask(pkt.timestamp(), &GameRemotePlayer::ReleaseKey, pkt.key_id());
+
+	return true;
+}

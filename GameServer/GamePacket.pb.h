@@ -88,6 +88,12 @@ extern C2S_PlayAnimationDefaultTypeInternal _C2S_PlayAnimation_default_instance_
 class C2S_PlayerAutoAttack;
 struct C2S_PlayerAutoAttackDefaultTypeInternal;
 extern C2S_PlayerAutoAttackDefaultTypeInternal _C2S_PlayerAutoAttack_default_instance_;
+class C2S_PressedUseKeyAction;
+struct C2S_PressedUseKeyActionDefaultTypeInternal;
+extern C2S_PressedUseKeyActionDefaultTypeInternal _C2S_PressedUseKeyAction_default_instance_;
+class C2S_ReleaseUseKeyAction;
+struct C2S_ReleaseUseKeyActionDefaultTypeInternal;
+extern C2S_ReleaseUseKeyActionDefaultTypeInternal _C2S_ReleaseUseKeyAction_default_instance_;
 class C2S_ReplaceEqipment;
 struct C2S_ReplaceEqipmentDefaultTypeInternal;
 extern C2S_ReplaceEqipmentDefaultTypeInternal _C2S_ReplaceEqipment_default_instance_;
@@ -267,6 +273,8 @@ template<> ::Protocol::C2S_LoadInventory* Arena::CreateMaybeMessage<::Protocol::
 template<> ::Protocol::C2S_MovementCharacter* Arena::CreateMaybeMessage<::Protocol::C2S_MovementCharacter>(Arena*);
 template<> ::Protocol::C2S_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::C2S_PlayAnimation>(Arena*);
 template<> ::Protocol::C2S_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::C2S_PlayerAutoAttack>(Arena*);
+template<> ::Protocol::C2S_PressedUseKeyAction* Arena::CreateMaybeMessage<::Protocol::C2S_PressedUseKeyAction>(Arena*);
+template<> ::Protocol::C2S_ReleaseUseKeyAction* Arena::CreateMaybeMessage<::Protocol::C2S_ReleaseUseKeyAction>(Arena*);
 template<> ::Protocol::C2S_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::C2S_ReplaceEqipment>(Arena*);
 template<> ::Protocol::C2S_RequestEnterParty* Arena::CreateMaybeMessage<::Protocol::C2S_RequestEnterParty>(Arena*);
 template<> ::Protocol::C2S_RequestFriend* Arena::CreateMaybeMessage<::Protocol::C2S_RequestFriend>(Arena*);
@@ -11910,6 +11918,324 @@ class S2C_UpdateSkillTree final :
 };
 // -------------------------------------------------------------------
 
+class C2S_PressedUseKeyAction final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_PressedUseKeyAction) */ {
+ public:
+  inline C2S_PressedUseKeyAction() : C2S_PressedUseKeyAction(nullptr) {}
+  ~C2S_PressedUseKeyAction() override;
+  explicit PROTOBUF_CONSTEXPR C2S_PressedUseKeyAction(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_PressedUseKeyAction(const C2S_PressedUseKeyAction& from);
+  C2S_PressedUseKeyAction(C2S_PressedUseKeyAction&& from) noexcept
+    : C2S_PressedUseKeyAction() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_PressedUseKeyAction& operator=(const C2S_PressedUseKeyAction& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_PressedUseKeyAction& operator=(C2S_PressedUseKeyAction&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_PressedUseKeyAction& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_PressedUseKeyAction* internal_default_instance() {
+    return reinterpret_cast<const C2S_PressedUseKeyAction*>(
+               &_C2S_PressedUseKeyAction_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    66;
+
+  friend void swap(C2S_PressedUseKeyAction& a, C2S_PressedUseKeyAction& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_PressedUseKeyAction* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_PressedUseKeyAction* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_PressedUseKeyAction* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_PressedUseKeyAction>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_PressedUseKeyAction& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_PressedUseKeyAction& from) {
+    C2S_PressedUseKeyAction::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_PressedUseKeyAction* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_PressedUseKeyAction";
+  }
+  protected:
+  explicit C2S_PressedUseKeyAction(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 2,
+    kKeyIdFieldNumber = 1,
+  };
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 key_id = 1;
+  void clear_key_id();
+  int32_t key_id() const;
+  void set_key_id(int32_t value);
+  private:
+  int32_t _internal_key_id() const;
+  void _internal_set_key_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_PressedUseKeyAction)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    int32_t key_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_ReleaseUseKeyAction final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_ReleaseUseKeyAction) */ {
+ public:
+  inline C2S_ReleaseUseKeyAction() : C2S_ReleaseUseKeyAction(nullptr) {}
+  ~C2S_ReleaseUseKeyAction() override;
+  explicit PROTOBUF_CONSTEXPR C2S_ReleaseUseKeyAction(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_ReleaseUseKeyAction(const C2S_ReleaseUseKeyAction& from);
+  C2S_ReleaseUseKeyAction(C2S_ReleaseUseKeyAction&& from) noexcept
+    : C2S_ReleaseUseKeyAction() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_ReleaseUseKeyAction& operator=(const C2S_ReleaseUseKeyAction& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_ReleaseUseKeyAction& operator=(C2S_ReleaseUseKeyAction&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_ReleaseUseKeyAction& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_ReleaseUseKeyAction* internal_default_instance() {
+    return reinterpret_cast<const C2S_ReleaseUseKeyAction*>(
+               &_C2S_ReleaseUseKeyAction_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    67;
+
+  friend void swap(C2S_ReleaseUseKeyAction& a, C2S_ReleaseUseKeyAction& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_ReleaseUseKeyAction* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_ReleaseUseKeyAction* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_ReleaseUseKeyAction* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_ReleaseUseKeyAction>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_ReleaseUseKeyAction& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_ReleaseUseKeyAction& from) {
+    C2S_ReleaseUseKeyAction::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_ReleaseUseKeyAction* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_ReleaseUseKeyAction";
+  }
+  protected:
+  explicit C2S_ReleaseUseKeyAction(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 2,
+    kKeyIdFieldNumber = 1,
+  };
+  // int64 timestamp = 2;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // int32 key_id = 1;
+  void clear_key_id();
+  int32_t key_id() const;
+  void set_key_id(int32_t value);
+  private:
+  int32_t _internal_key_id() const;
+  void _internal_set_key_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_ReleaseUseKeyAction)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    int32_t key_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_AppearBuff final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_AppearBuff) */ {
  public:
@@ -11958,7 +12284,7 @@ class S2C_AppearBuff final :
                &_S2C_AppearBuff_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    68;
 
   friend void swap(S2C_AppearBuff& a, S2C_AppearBuff& b) {
     a.Swap(&b);
@@ -18933,6 +19259,94 @@ inline void S2C_UpdateSkillTree::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// C2S_PressedUseKeyAction
+
+// int32 key_id = 1;
+inline void C2S_PressedUseKeyAction::clear_key_id() {
+  _impl_.key_id_ = 0;
+}
+inline int32_t C2S_PressedUseKeyAction::_internal_key_id() const {
+  return _impl_.key_id_;
+}
+inline int32_t C2S_PressedUseKeyAction::key_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_PressedUseKeyAction.key_id)
+  return _internal_key_id();
+}
+inline void C2S_PressedUseKeyAction::_internal_set_key_id(int32_t value) {
+  
+  _impl_.key_id_ = value;
+}
+inline void C2S_PressedUseKeyAction::set_key_id(int32_t value) {
+  _internal_set_key_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_PressedUseKeyAction.key_id)
+}
+
+// int64 timestamp = 2;
+inline void C2S_PressedUseKeyAction::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_PressedUseKeyAction::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_PressedUseKeyAction::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_PressedUseKeyAction.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_PressedUseKeyAction::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_PressedUseKeyAction::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_PressedUseKeyAction.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_ReleaseUseKeyAction
+
+// int32 key_id = 1;
+inline void C2S_ReleaseUseKeyAction::clear_key_id() {
+  _impl_.key_id_ = 0;
+}
+inline int32_t C2S_ReleaseUseKeyAction::_internal_key_id() const {
+  return _impl_.key_id_;
+}
+inline int32_t C2S_ReleaseUseKeyAction::key_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_ReleaseUseKeyAction.key_id)
+  return _internal_key_id();
+}
+inline void C2S_ReleaseUseKeyAction::_internal_set_key_id(int32_t value) {
+  
+  _impl_.key_id_ = value;
+}
+inline void C2S_ReleaseUseKeyAction::set_key_id(int32_t value) {
+  _internal_set_key_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_ReleaseUseKeyAction.key_id)
+}
+
+// int64 timestamp = 2;
+inline void C2S_ReleaseUseKeyAction::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_ReleaseUseKeyAction::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_ReleaseUseKeyAction::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_ReleaseUseKeyAction.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_ReleaseUseKeyAction::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_ReleaseUseKeyAction::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_ReleaseUseKeyAction.timestamp)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_AppearBuff
 
 // int64 remote_id = 1;
@@ -19168,6 +19582,10 @@ inline void S2C_AppearBuff::set_duration(int64_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -367,8 +367,6 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
 	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth();
 	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP - inDamage);
-
-	printf("Hit Player %f, Cur HP %f\n", inDamage, this->mStatComponent.GetCurrentStats().GetHealth());
 }
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)

@@ -100,6 +100,9 @@
     <Filter Include="Content\Quest">
       <UniqueIdentifier>{35a10621-6404-4012-afe0-b790215ba61b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Skill\Handler">
+      <UniqueIdentifier>{4c18ecaf-f627-4f3b-8564-349833e2c4b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -258,6 +261,15 @@
     </ClCompile>
     <ClCompile Include="Quest.cpp">
       <Filter>Content\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillHandler.cpp">
+      <Filter>Content\Skill\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemHandler.cpp">
+      <Filter>Content\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,6 +434,15 @@
     </ClInclude>
     <ClInclude Include="Quest.h">
       <Filter>Content\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardComponent.h">
+      <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillHandler.h">
+      <Filter>Content\Skill\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemHandler.h">
+      <Filter>Content\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

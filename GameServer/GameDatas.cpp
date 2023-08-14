@@ -58,6 +58,9 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    SkillHandler::Init();
+    ItemHandler::Init();
+
     LoadDatas();
     return true;
 }

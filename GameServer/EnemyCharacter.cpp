@@ -219,7 +219,6 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	//PlayerCharacterRef instigated = std::static_pointer_cast<PlayerCharacter>(inInstigated);
 	this->SetAggroActor(inInstigated);
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
@@ -231,7 +230,7 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	if (this->mStateManager.GetCurrentStateType() != EStateType::State_Attack)
+	if (this->mStateManager.GetCurrentStateType() != EStateType::State_Attack && this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
 	{
 		this->mStateManager.SetState(EStateType::State_Hit);
 	}

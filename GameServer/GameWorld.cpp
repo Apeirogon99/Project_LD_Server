@@ -141,7 +141,7 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	remotePlayer = std::make_shared<GameRemotePlayer>();
 	remotePlayer->SetRemoteClient(inPlayerState);
 	inPlayerState->SetRemotePlayer(remotePlayer);
-	mTaskManagerRef.lock()->CreateGameObject(remotePlayer->GetGameObjectPtr());
+	mTaskManagerRef.lock()->PushTask(remotePlayer->GetGameObjectPtr());
 
 	remotePlayer->LoadRemotePlayer(token, std::static_pointer_cast<GameWorld>(GetWorldRef().lock()));
 

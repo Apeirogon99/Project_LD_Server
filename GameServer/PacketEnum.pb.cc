@@ -41,7 +41,7 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[6];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_PacketEnum_2eproto[7];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_PacketEnum_2eproto = nullptr;
 const uint32_t TableStruct_PacketEnum_2eproto::offsets[1] = {};
 static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
@@ -78,11 +78,13 @@ const char descriptor_table_protodef_PacketEnum_2eproto[] PROTOBUF_SECTION_VARIA
   "tance\020\017\022\021\n\rStat_Tenacity\020\020\022\023\n\017Stat_SlowR"
   "esist\020\021\022\025\n\021Stat_AbilityHaste\020\022\022\r\n\tStat_M"
   "ana\020\023\022\031\n\025Stat_ManaRegeneration\020\024\022\026\n\022Stat"
-  "_MovementSpeed\020\025\022\016\n\nStat_Range\020\026b\006proto3"
+  "_MovementSpeed\020\025\022\016\n\nStat_Range\020\026*H\n\013EAct"
+  "ionType\022\026\n\022Action_Unspecified\020\000\022\017\n\013Actio"
+  "n_Item\020\001\022\020\n\014Action_Skill\020\002b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_PacketEnum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketEnum_2eproto = {
-    false, false, 1240, descriptor_table_protodef_PacketEnum_2eproto,
+    false, false, 1314, descriptor_table_protodef_PacketEnum_2eproto,
     "PacketEnum.proto",
     &descriptor_table_PacketEnum_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_PacketEnum_2eproto::offsets,
@@ -217,6 +219,21 @@ bool EStatType_IsValid(int value) {
     case 20:
     case 21:
     case 22:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EActionType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PacketEnum_2eproto);
+  return file_level_enum_descriptors_PacketEnum_2eproto[6];
+}
+bool EActionType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;
