@@ -54,8 +54,8 @@ public:
 	bool IsFull() const;
 
 public:
-	const std::map<int64, PlayerCharacterRef> GetPartyPlayers() const;
-	const std::set<int64> GetReservationPlayers() const;
+	const std::map<int64, PlayerCharacterRef>& GetPartyPlayers() const;
+	const std::set<int64>& GetReservationPlayers() const;
 	const int64& GetLeaderRemoteID() const;
 
 private:

@@ -69,6 +69,7 @@ enum class EPakcetID: uint16
 	S2C_LoadSkillTree = 2063,
 	C2S_UpdateSkillTree = 2064,
 	S2C_UpdateSkillTree = 2065,
+	S2C_AppearBuff = 2066,
 };
 */
 
@@ -167,5 +168,6 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReplaceEqipment& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReplaceEqipment)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LoadSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadSkillTree)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_UpdateSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateSkillTree)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearBuff& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearBuff)); }
 
 };

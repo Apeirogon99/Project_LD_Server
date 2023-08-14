@@ -821,12 +821,12 @@ bool Party::IsFull() const
 	return mPartyPlayers.size() == 4;
 }
 
-const std::map<int64, PlayerCharacterRef> Party::GetPartyPlayers() const
+const std::map<int64, PlayerCharacterRef>& Party::GetPartyPlayers() const
 {
 	return mPartyPlayers;
 }
 
-const std::set<int64> Party::GetReservationPlayers() const
+const std::set<int64>& Party::GetReservationPlayers() const
 {
 	return mReservationPlayers;
 }
