@@ -23,6 +23,7 @@ public:
 	bool ExtractChanageMaxStats(std::map<EStatType, float>& outUpdateStats);
 	void UpdateMaxStats(ActorPtr inActor, const int32 inLevel);
 	void UpdateCurrentStat(const EStatType inStatType, const float inValue);
+	void UpdateCurrentStat(const Stats& inStats);
 
 public:
 	const Stats&	GetMaxStats() const;

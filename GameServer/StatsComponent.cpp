@@ -228,6 +228,34 @@ void StatsComponent::UpdateCurrentStat(const EStatType inStatType, const float i
 	mIsChanageStats = true;
 }
 
+void StatsComponent::UpdateCurrentStat(const Stats& inStats)
+{
+
+	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
+	{
+		const float&	 value	= inStats.GetStats()[index];
+		const EStatType& type	= static_cast<EStatType>(index + 1);
+
+		if (value == 0.0f)
+		{
+			continue;
+		}
+
+		auto findStat = mUpdateStats.find(type);
+		if (findStat == mUpdateStats.end())
+		{
+			std::pair<EStatType, float> updateStat = std::make_pair(type, value);
+			mUpdateStats.insert(updateStat);
+		}
+		else
+		{
+			findStat->second = value;
+		}
+	}
+
+	mIsChanageStats = true;
+}
+
 const Stats& StatsComponent::GetMaxStats() const
 {
     return mMaxStats;

@@ -232,7 +232,7 @@ void PlayerCharacter::DetectChangePlayer()
 	}
 
 	Protocol::S2C_DetectChangePlayer detectChanagePacket;
-	detectChanagePacket.set_remote_id(this->GetGameObjectID());
+	detectChanagePacket.set_remote_id(remotePlayer->GetGameObjectID());
 	detectChanagePacket.set_timestamp(world->GetWorldTime());
 
 	std::map<EStatType, float> chanageStats;
@@ -365,7 +365,10 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
-	printf("Player Hit [%f]\n", inDamage);
+	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth();
+	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP - inDamage);
+
+	printf("Hit Player %f, Cur HP %f\n", inDamage, this->mStatComponent.GetCurrentStats().GetHealth());
 }
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
