@@ -78,6 +78,10 @@ class Skill;
 using SkillPtr						= std::shared_ptr<Skill>;
 using SkillRef						= std::weak_ptr<Skill>;
 
+class Quest;
+using QuestPtr						= std::shared_ptr<Quest>;
+using QuestRef						= std::weak_ptr<Quest>;
+
 //==========================//
 //  GameContent | Projctile //
 //==========================//

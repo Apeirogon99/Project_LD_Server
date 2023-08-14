@@ -326,6 +326,7 @@
     </ClCompile>
     <ClCompile Include="GameRemotePlayer.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SkillDatabase.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
@@ -381,6 +382,7 @@
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameRemotePlayer.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Quest.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="SkillDatabase.h" />
     <ClInclude Include="StatsComponent.h" />

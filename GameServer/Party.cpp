@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Party.h"
 
-Party::Party() : GameObject(L"Party"), mLeaderPlayer(0)
+Party::Party() : GameObject(L"Party"), mLoad(0), mLeaderPlayer(0)
 {
 }
 
@@ -23,7 +23,12 @@ void Party::OnTick(const int64 inDeltaTime)
 
 bool Party::IsValid()
 {
-	return (this->GetOwner().lock() != nullptr);
+	return this->mLoad;
+}
+
+void Party::SetPartyLoad(const bool& inLoad)
+{
+	this->mLoad = inLoad;
 }
 
 void Party::CreateParty()
@@ -34,6 +39,7 @@ void Party::CreateParty()
 	{
 		return;
 	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
 
 	RemoteClientPtr remoteClient = remotePlayer->GetRemoteClient().lock();
 	if (nullptr == remoteClient)
@@ -58,16 +64,21 @@ void Party::CreateParty()
 		error = static_cast<int32>(EDCommonErrorType::ALREADY_PART_OF_PARTY);
 	}
 
-	Protocol::S2C_CreateParty createPartyPacket;
-	createPartyPacket.set_error(error);
+	{
+		Protocol::S2C_CreateParty createPartyPacket;
+		createPartyPacket.set_error(error);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, createPartyPacket);
-	remoteClient->Send(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, createPartyPacket);
+		remoteClient->Send(sendBuffer);
+	}
 
-	std::pair<int64, PlayerCharacterPtr> player = std::make_pair(remotePlayer->GetGameObjectID(), character);
-	mPlayers.insert(player);
+	if (static_cast<int32>(EDCommonErrorType::SUCCESS) != error)
+	{
+		return;
+	}
 
-	mLeaderPlayer = remotePlayer->GetGameObjectID();
+	this->PushPartyPlayer(remoteID, character);
+	this->LeaderParty(remoteID);
 }
 
 void Party::RequestEnterParty(const std::string inPlayerName)
@@ -86,24 +97,36 @@ void Party::RequestEnterParty(const std::string inPlayerName)
 		return;
 	}
 
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return;
+	}
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	GameRemotePlayerPtr otherRemotePlayer;
+	GameRemotePlayerPtr otherRemotePlayer = nullptr;
 	if (false == world->IsValidCharacter(inPlayerName, otherRemotePlayer))
 	{
 		error = static_cast<int32>(EDCommonErrorType::NOT_CONNECT_PLAYER);
 	}
 
+	PartyPtr otherParty = nullptr;
 	if (otherRemotePlayer)
 	{
-		PartyPtr party = otherRemotePlayer->GetParty();
-		if (true == party->IsParty())
+		otherParty = otherRemotePlayer->GetParty();
+		if (true == otherParty->IsParty())
 		{
 			error = static_cast<int32>(EDCommonErrorType::ALREADY_PART_OF_PARTY);
+		}
+
+		if (true == otherParty->IsReservationParty(otherRemotePlayer->GetGameObjectID()))
+		{
+			error = static_cast<int32>(EDCommonErrorType::ALREADY_RESERVATION_PARTY);
 		}
 	}
 
@@ -116,36 +139,41 @@ void Party::RequestEnterParty(const std::string inPlayerName)
 		remoteClient->Send(sendBuffer);
 	}
 
-	if (0 == error)
+	if (static_cast<int32>(EDCommonErrorType::SUCCESS) != error)
 	{
-		PlayerCharacterPtr character = remotePlayer->GetCharacter();
-		if (nullptr == character)
-		{
-			return;
-		}
-		const Protocol::SCharacterData& characterData = character->GetCharacterData();
-
-		RemoteClientPtr otherRemoteClient = otherRemotePlayer->GetRemoteClient().lock();
-		if (nullptr == otherRemoteClient)
-		{
-			return;
-		}
-
-		Protocol::S2C_RequestParty requestPartyPacket;
-		requestPartyPacket.set_remote_id(remotePlayer->GetGameObjectID());
-		requestPartyPacket.set_nick_name(characterData.name());
-		requestPartyPacket.set_level(characterData.level());
-		requestPartyPacket.set_character_class(characterData.character_class());
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, requestPartyPacket);
-		otherRemoteClient->Send(sendBuffer);
+		return;
 	}
+
+	party->PushReservationParty(otherRemotePlayer->GetGameObjectID());
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+	const Protocol::SCharacterData& characterData = character->GetCharacterData();
+
+	RemoteClientPtr otherRemoteClient = otherRemotePlayer->GetRemoteClient().lock();
+	if (nullptr == otherRemoteClient)
+	{
+		return;
+	}
+
+	Protocol::S2C_RequestParty requestPartyPacket;
+	requestPartyPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	requestPartyPacket.set_nick_name(characterData.name());
+	requestPartyPacket.set_level(characterData.level());
+	requestPartyPacket.set_character_class(characterData.character_class());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, requestPartyPacket);
+	otherRemoteClient->Send(sendBuffer);
+	
 }
 
 void Party::RequestLeaveParty(const int64 inLeaveRemoteID)
 {
-	int32 error = 0;
 	int32 cause = 0;
+	int32 error = 0;
 
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
@@ -171,86 +199,40 @@ void Party::RequestLeaveParty(const int64 inLeaveRemoteID)
 
 		if (remotePlayerID == mLeaderPlayer && remotePlayerID != inLeaveRemoteID)
 		{
-			cause = 1;
-			for (auto oldPlayer : mPlayers)
-			{
-				GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer.second->GetOwner().lock());
-				if (nullptr == oldRemotePlayer)
-				{
-					return;
-				}
+			cause = 0;
 
-				if (oldRemotePlayer->GetGameObjectID() == inLeaveRemoteID)
-				{
-					RemoteClientPtr oldRemoteClient = std::static_pointer_cast<RemoteClient>(oldRemotePlayer->GetRemoteClient().lock());
-					if (nullptr == oldRemoteClient)
-					{
-						return;
-					}
+			this->BroadCastLeavePartyWithKick(inLeaveRemoteID);
 
-					Protocol::S2C_RequestLeaveParty leavePartyPacket;
-					leavePartyPacket.set_error(error);
-					leavePartyPacket.set_cause(cause);
-
-					SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leavePartyPacket);
-					oldRemoteClient->Send(sendBuffer);
-				}
-				else if (oldRemotePlayer->GetGameObjectID() != remotePlayerID)
-				{
-					oldRemotePlayer->GetParty()->LeaveParty(inLeaveRemoteID);
-				}
-
-			}
-			this->LeaveParty(inLeaveRemoteID);
-			return;
 		}
 		else if (remotePlayerID == mLeaderPlayer && remotePlayerID == inLeaveRemoteID)
 		{
 			cause = 2;
 
-			GameRemotePlayerPtr newLeaderRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(mPlayers.begin()->second->GetOwner().lock());
-			if (nullptr == newLeaderRemotePlayer)
-			{
-				return;
-			}
+			this->ReleasePartyPlayer(inLeaveRemoteID);
 
-			for (auto oldPlayer : mPlayers)
+			if (mPartyPlayers.size())
 			{
-				GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer.second->GetOwner().lock());
-				if (nullptr == oldRemotePlayer)
+				GameRemotePlayerPtr newLeaderRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(mPartyPlayers.begin()->second.lock()->GetOwner().lock());
+				if (newLeaderRemotePlayer)
 				{
-					return;
-				}
-
-				if (oldRemotePlayer->GetGameObjectID() != inLeaveRemoteID)
-				{
-					oldRemotePlayer->GetParty()->LeaveParty(inLeaveRemoteID);
-					oldRemotePlayer->GetParty()->RequestLeaderParty(newLeaderRemotePlayer->GetGameObjectID());
+					this->BroadCastLeavePartyWithLeader(inLeaveRemoteID, newLeaderRemotePlayer->GetGameObjectID());
 				}
 			}
-			mPlayers.clear();
+
+			mPartyPlayers.clear();
 			mLeaderPlayer = 0;
+
 		}
 		else
 		{
 			cause = 3;
 
-			for (auto oldPlayer : mPlayers)
-			{
-				GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer.second->GetOwner().lock());
-				if (nullptr == oldRemotePlayer)
-				{
-					return;
-				}
+			this->BroadCastLeaveParty(inLeaveRemoteID);
 
-				if (oldRemotePlayer->GetGameObjectID() != inLeaveRemoteID)
-				{
-					oldRemotePlayer->GetParty()->LeaveParty(remotePlayer->GetGameObjectID());
-				}
-			}
-			mPlayers.clear();
+			mPartyPlayers.clear();
 			mLeaderPlayer = 0;
 		}
+
 	}
 
 	Protocol::S2C_RequestLeaveParty leavePartyPacket;
@@ -263,6 +245,44 @@ void Party::RequestLeaveParty(const int64 inLeaveRemoteID)
 
 void Party::RequestLeaderParty(const int64 inLeaderRemoteID)
 {
+	int32 error = 0;
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64& remotePlayerID = remotePlayer->GetGameObjectID();
+
+	RemoteClientPtr remoteClient = remotePlayer->GetRemoteClient().lock();
+	if (nullptr == remoteClient)
+	{
+		return;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (false == party->IsParty())
+	{
+		error = error = static_cast<int32>(EDCommonErrorType::INVALID_PART_OF_PARTY);
+	}
+
+	if (party->GetLeaderRemoteID() != remotePlayerID)
+	{
+		error = error = static_cast<int32>(EDCommonErrorType::NOT_LEADER_PARTY);
+	}
+
+	Protocol::S2C_RequestLeaderParty leaderPartyPacket;
+	leaderPartyPacket.set_error(error);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leaderPartyPacket);
+	remoteClient->Send(sendBuffer);
+
+	if (static_cast<int32>(EDCommonErrorType::SUCCESS) != error)
+	{
+		return;
+	}
+
+	this->BroadCastLeaderParty(inLeaderRemoteID);
+
 }
 
 void Party::ResponseEnterParty(const int64 inResponeRemoteID, const int32 inAction)
@@ -274,9 +294,23 @@ void Party::ResponseEnterParty(const int64 inResponeRemoteID, const int32 inActi
 	{
 		return;
 	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+	const Protocol::SCharacterData& characterData = character->GetCharacterData();
 
 	RemoteClientPtr remoteClient = remotePlayer->GetRemoteClient().lock();
 	if (nullptr == remoteClient)
+	{
+		return;
+	}
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
 	{
 		return;
 	}
@@ -287,43 +321,38 @@ void Party::ResponseEnterParty(const int64 inResponeRemoteID, const int32 inActi
 		return;
 	}
 
-	if (inAction == 2)
+	GameRemotePlayerPtr otherRemotePlayer = nullptr;	//요청을 보낸사람
+	if (false == world->IsValidPlayer(inResponeRemoteID, otherRemotePlayer))
 	{
-		Protocol::S2C_LoadParty loadPartyPacket;
-		GameRemotePlayerPtr otherRemotePlayer;
-		if (false == world->IsValidPlayer(inResponeRemoteID, otherRemotePlayer))
-		{
-			error = static_cast<int32>(EDCommonErrorType::NOT_CONNECT_PLAYER);
-		}
-
-		if (otherRemotePlayer)
-		{
-			PartyPtr party = otherRemotePlayer->GetParty();
-			if (false == party->IsParty())
-			{
-				error = static_cast<int32>(EDCommonErrorType::INVALID_PART_OF_PARTY);
-			}
-
-			if (true == party->IsFull())
-			{
-				error = static_cast<int32>(EDCommonErrorType::ALREADY_FULL_PARTY);
-			}
-
-			party->EnterParty(remotePlayer->GetGameObjectID(), remotePlayer);
-
-			party->LoadParty(loadPartyPacket);
-		}
-		loadPartyPacket.set_error(error);
-		loadPartyPacket.set_timestamp(world->GetWorldTime());
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadPartyPacket);
-		remoteClient->Send(sendBuffer);
-	}
-	else if (inAction == 3)
-	{
-
+		error = static_cast<int32>(EDCommonErrorType::NOT_CONNECT_PLAYER);
 	}
 
+	PartyPtr otherParty = nullptr;
+	if (otherRemotePlayer)
+	{
+		otherParty = otherRemotePlayer->GetParty();
+		if (false == otherParty->IsParty())
+		{
+			error = static_cast<int32>(EDCommonErrorType::INVALID_PART_OF_PARTY);
+		}
+
+		if (true == party->IsParty())
+		{
+			error = static_cast<int32>(EDCommonErrorType::ALREADY_PART_OF_PARTY);
+		}
+
+		if (true == otherParty->IsFull())
+		{
+			error = static_cast<int32>(EDCommonErrorType::ALREADY_FULL_PARTY);
+		}
+
+		if (false == otherParty->IsReservationParty(remoteID))
+		{
+			error = static_cast<int32>(EDCommonErrorType::NOT_RESERVATION_PARTY);
+		}
+
+	}
+	
 	{
 		Protocol::S2C_ResponeParty responePacket;
 		responePacket.set_error(error);
@@ -335,36 +364,46 @@ void Party::ResponseEnterParty(const int64 inResponeRemoteID, const int32 inActi
 		remoteClient->Send(sendBuffer);
 	}
 
-
-	if (0 == error)
+	if (static_cast<int32>(EDCommonErrorType::SUCCESS) != error)
 	{
-		PlayerCharacterPtr character = remotePlayer->GetCharacter();
-		if (nullptr == character)
-		{
-			return;
-		}
-
-		GameRemotePlayerPtr otherRemotePlayer;
-		if (true == world->IsValidPlayer(inResponeRemoteID, otherRemotePlayer))
-		{
-			RemoteClientPtr otherRemoteClient = otherRemotePlayer->GetRemoteClient().lock();
-			if (nullptr == otherRemoteClient)
-			{
-				return;
-			}
-
-			Protocol::S2C_NotifyParty notifyPacket;
-			notifyPacket.set_nick_name(character->GetCharacterData().name());
-			notifyPacket.set_action(inAction);
-			notifyPacket.set_timestamp(world->GetWorldTime());
-
-			SendBufferPtr NotyfyPacketSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, notifyPacket);
-			otherRemoteClient->Send(NotyfyPacketSendBuffer);
-		}
+		return;
 	}
+
+	if (inAction == 2)
+	{
+		otherParty->BroadCastEnterParty(remoteID, character);
+
+		party->LeaderParty(otherParty->GetLeaderRemoteID());
+		party->SetPartyPlayers(otherParty->GetPartyPlayers());
+
+		Protocol::S2C_LoadParty loadPartyPacket;
+		party->LoadParty(loadPartyPacket);
+		loadPartyPacket.set_error(error);
+		loadPartyPacket.set_timestamp(world->GetWorldTime());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadPartyPacket);
+		remoteClient->Send(sendBuffer);
+	}
+	otherParty->ReleaseReservationParty(remoteID);
+
+	RemoteClientPtr otherRemoteClient = otherRemotePlayer->GetRemoteClient().lock();
+	if (nullptr == otherRemoteClient)
+	{
+		return;
+	}
+
+	Protocol::S2C_NotifyParty notifyPacket;
+	notifyPacket.set_nick_name(characterData.name());
+	notifyPacket.set_action(inAction);
+	notifyPacket.set_timestamp(world->GetWorldTime());
+
+	SendBufferPtr NotyfyPacketSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, notifyPacket);
+	otherRemoteClient->Send(NotyfyPacketSendBuffer);
+		
+	
 }
 
-void Party::PartyChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)
+void Party::RequestPartyChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)
 {
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
@@ -397,9 +436,9 @@ void Party::PartyChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std
 
 void Party::PartyBroadCast(SendBufferPtr inSendBuffer)
 {
-	for (auto player : mPlayers)
+	for (auto player : mPartyPlayers)
 	{
-		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player.second->GetOwner().lock());
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player.second.lock()->GetOwner().lock());
 		if (nullptr == remotePlayer)
 		{
 			return;
@@ -417,68 +456,56 @@ void Party::PartyBroadCast(SendBufferPtr inSendBuffer)
 
 void Party::LoadParty(Protocol::S2C_LoadParty& inLoadPartyPacket)
 {
-	for (auto player : mPlayers)
+
+	inLoadPartyPacket.set_leader_id(this->mLeaderPlayer);
+
+	for (auto player : mPartyPlayers)
 	{
-		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player.second->GetOwner().lock());
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player.second.lock()->GetOwner().lock());
 		if (nullptr == remotePlayer)
 		{
 			return;
 		}
-		const Protocol::SCharacterData& characterData = player.second->GetCharacterData();
+		const int64 remoteID = remotePlayer->GetGameObjectID();
+		const Protocol::SCharacterData& characterData = player.second.lock()->GetCharacterData();
 
-		inLoadPartyPacket.add_remote_id(remotePlayer->GetGameObjectID());
-		inLoadPartyPacket.add_is_leader(static_cast<int32>(this->mLeaderPlayer == remotePlayer->GetGameObjectID()));
+		inLoadPartyPacket.add_remote_id(remoteID);
 		inLoadPartyPacket.add_nick_name(characterData.name());
-		inLoadPartyPacket.level(characterData.level());
+		inLoadPartyPacket.add_level(characterData.level());
 		inLoadPartyPacket.add_character_class(characterData.character_class());
 	}
 }
 
-void Party::EnterParty(const int64& inRemoteID, GameRemotePlayerPtr inRemotePlayer)
+void Party::EnterParty(const int64& inRemoteID)
 {
-
-	auto find = mPlayers.find(inRemoteID);
-	if (find != mPlayers.end())
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	PlayerCharacterPtr character = inRemotePlayer->GetCharacter();
-	const Protocol::SCharacterData& characterData = character->GetCharacterData();
-
-	Protocol::S2C_EnterPartyPlayer enterPartyPacket;
-	enterPartyPacket.set_remote_id(inRemotePlayer->GetGameObjectID());
-	enterPartyPacket.set_is_leader(0);
-	enterPartyPacket.set_nick_name(characterData.name());
-	enterPartyPacket.set_level(characterData.level());
-	enterPartyPacket.set_character_class(characterData.character_class());
-
-	SendBufferPtr EnterPacketSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPartyPacket);
-	PartyBroadCast(EnterPacketSendBuffer);
-
-	Protocol::S2C_LoadParty loadParty;
-	loadParty.set_error(0);
-	for (auto oldPlayer : mPlayers)
-	{
-		PlayerCharacterPtr oldCharacter = oldPlayer.second;
-		const Protocol::SCharacterData& oldCharacterData = character->GetCharacterData();
-		loadParty.add_remote_id(oldCharacter->GetOwner().lock()->GetGameObjectID());
-		loadParty.add_nick_name(characterData.name());
-		loadParty.add_level(characterData.level());
-		loadParty.add_character_class(characterData.character_class());
-	}
-
-	RemoteClientPtr remoteClient = inRemotePlayer->GetRemoteClient().lock();
+	RemoteClientPtr remoteClient = std::static_pointer_cast<RemoteClient>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == remoteClient)
 	{
 		return;
 	}
 
-	SendBufferPtr ResponePartySendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadParty);
-	remoteClient->Send(ResponePartySendBuffer);
-	
-	std::pair<int64, PlayerCharacterPtr> newPlayer = std::make_pair(inRemoteID, inRemotePlayer->GetCharacter());
-	mPlayers.insert(newPlayer);
+	auto enterPlayer = mPartyPlayers.find(inRemoteID);
+	if (enterPlayer == mPartyPlayers.end())
+	{
+		return;
+	}
+	const Protocol::SCharacterData& characterData = enterPlayer->second.lock()->GetCharacterData();
+
+	Protocol::S2C_EnterPartyPlayer enterPartyPacket;
+	enterPartyPacket.set_remote_id(inRemoteID);
+	enterPartyPacket.set_leader_id(this->mLeaderPlayer);
+	enterPartyPacket.set_nick_name(characterData.name());
+	enterPartyPacket.set_level(characterData.level());
+	enterPartyPacket.set_character_class(characterData.character_class());
+
+	SendBufferPtr enterPacketSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPartyPacket);
+	PartyBroadCast(enterPacketSendBuffer);
 }
 
 void Party::LeaveParty(const int64& inRemoteID)
@@ -495,19 +522,10 @@ void Party::LeaveParty(const int64& inRemoteID)
 		return;
 	}
 
-	if (inRemoteID == remotePlayer->GetGameObjectID())
+	auto enterPlayer = mPartyPlayers.find(inRemoteID);
+	if (enterPlayer != mPartyPlayers.end())
 	{
-		mPlayers.clear();
-		mLeaderPlayer = 0;
-	}
-	else
-	{
-		auto find = mPlayers.find(inRemoteID);
-		if (find == mPlayers.end())
-		{
-			return;
-		}
-		mPlayers.erase(inRemoteID);
+		return;
 	}
 
 	Protocol::S2C_LeavePartyPlayer leavePartyPlayer;
@@ -517,12 +535,296 @@ void Party::LeaveParty(const int64& inRemoteID)
 	remoteClient->Send(leavePartyPlayerSendBuffer);
 }
 
+void Party::LeaderParty(const int64& inRemoteID)
+{
+	this->mLeaderPlayer = inRemoteID;
+}
+
+void Party::BroadCastEnterParty(const int64& inRemoteID, PlayerCharacterPtr inPlayerCharacter)
+{
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		if (inRemoteID == oldRemotePlayer->GetGameObjectID())
+		{
+			continue;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+
+		party->PushPartyPlayer(inRemoteID, inPlayerCharacter);
+		party->EnterParty(inRemoteID);
+	}
+}
+
+void Party::BroadCastLeaveParty(const int64& inRemoteID)
+{
+
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		if (inRemoteID == oldRemotePlayer->GetGameObjectID())
+		{
+			continue;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+
+		party->ReleasePartyPlayer(inRemoteID);
+		party->LeaveParty(inRemoteID);
+	}
+}
+
+void Party::BroadCastLeavePartyWithKick(const int64& inRemoteID)
+{
+	auto find = mPartyPlayers.find(inRemoteID);
+	if (find == mPartyPlayers.end())
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr romtePlayer = std::static_pointer_cast<GameRemotePlayer>(find->second.lock()->GetOwner().lock());
+	if (nullptr == romtePlayer)
+	{
+		return;
+	}
+
+	RemoteClientPtr remoteClient = std::static_pointer_cast<RemoteClient>(romtePlayer->GetRemoteClient().lock());
+	if (nullptr == remoteClient)
+	{
+		return;
+	}
+
+	{
+		Protocol::S2C_RequestLeaveParty leavePartyPacket;
+		leavePartyPacket.set_error(0);
+		leavePartyPacket.set_cause(1);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leavePartyPacket);
+		remoteClient->Send(sendBuffer);
+	}
+	this->ReleasePartyPlayer(inRemoteID);
+
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+
+		party->ReleasePartyPlayer(inRemoteID);
+		party->LeaveParty(inRemoteID);
+	}
+}
+
+void Party::BroadCastLeavePartyWithLeader(const int64& inRemoteID, const int64& inLeaderRemoteID)
+{
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		if (remotePlayer->GetGameObjectID() == oldRemotePlayer->GetGameObjectID())
+		{
+			continue;
+		}
+
+		RemoteClientPtr oldRemoteClient = oldRemotePlayer->GetRemoteClient().lock();
+		if (nullptr == oldRemoteClient)
+		{
+			return;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+		//party->LeaveParty(inRemoteID);
+		party->LeaderParty(inLeaderRemoteID);
+		party->ReleasePartyPlayer(inRemoteID);
+
+		Protocol::S2C_LoadParty loadPartyPacket;
+		loadPartyPacket.set_error(0);
+		party->LoadParty(loadPartyPacket);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadPartyPacket);
+		oldRemoteClient->Send(sendBuffer);
+	}
+}
+
+void Party::BroadCastLeaderParty(const int64& inRemoteID)
+{
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		RemoteClientPtr oldRemoteClient = oldRemotePlayer->GetRemoteClient().lock();
+		if (nullptr == oldRemoteClient)
+		{
+			return;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+		party->LeaderParty(inRemoteID);
+
+		Protocol::S2C_LoadParty loadPartyPacket;
+		loadPartyPacket.set_error(0);
+		party->LoadParty(loadPartyPacket);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadPartyPacket);
+		oldRemoteClient->Send(sendBuffer);
+	}
+}
+
+bool Party::PushPartyPlayer(const int64& inRemoteID, PlayerCharacterPtr inPlayerCharacter)
+{
+	auto find = mPartyPlayers.find(inRemoteID);
+	if (find != mPartyPlayers.end())
+	{
+		return false;
+	}
+
+	std::pair<int64, PlayerCharacterPtr> newPartyPlayer = std::make_pair(inRemoteID, inPlayerCharacter);
+	mPartyPlayers.insert(newPartyPlayer);
+
+	return true;
+}
+
+bool Party::ReleasePartyPlayer(const int64& inRemoteID)
+{
+	auto find = mPartyPlayers.find(inRemoteID);
+	if (find == mPartyPlayers.end())
+	{
+		return false;
+	}
+
+	mPartyPlayers.erase(inRemoteID);
+
+	return true;
+}
+
+bool Party::IsPartyPlayer(const int64& inRemoteID)
+{
+	auto find = mPartyPlayers.find(inRemoteID);
+	if (find == mPartyPlayers.end())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Party::PushReservationParty(const int64& inRemoteID)
+{
+	auto find = mReservationPlayers.find(inRemoteID);
+	if (find != mReservationPlayers.end())
+	{
+		return false;
+	}
+
+	mReservationPlayers.insert(inRemoteID);
+
+	return true;
+}
+
+bool Party::ReleaseReservationParty(const int64& inRemoteID)
+{
+	auto find = mReservationPlayers.find(inRemoteID);
+	if (find == mReservationPlayers.end())
+	{
+		return false;
+	}
+
+	mReservationPlayers.erase(inRemoteID);
+
+	return true;
+}
+
+bool Party::IsReservationParty(const int64& inRemoteID)
+{
+	auto find = mReservationPlayers.find(inRemoteID);
+	if (find == mReservationPlayers.end())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void Party::SetPartyPlayers(const std::map<int64, PlayerCharacterRef>& inPartyPlayers)
+{
+	mPartyPlayers = inPartyPlayers;
+}
+
 bool Party::IsParty() const
 {
-	return mPlayers.size();
+	return mPartyPlayers.size();
 }
 
 bool Party::IsFull() const
 {
-	return mPlayers.size() == 4;
+	return mPartyPlayers.size() == 4;
+}
+
+const std::map<int64, PlayerCharacterRef> Party::GetPartyPlayers() const
+{
+	return mPartyPlayers;
+}
+
+const std::set<int64> Party::GetReservationPlayers() const
+{
+	return mReservationPlayers;
+}
+
+const int64& Party::GetLeaderRemoteID() const
+{
+	return mLeaderPlayer;
 }

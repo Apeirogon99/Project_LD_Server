@@ -46,6 +46,7 @@
 #include "Friend.h"
 #include "Skill.h"
 #include "Party.h"
+#include "Quest.h"
 
 //==========================//
 //   GameContent | Enemy	//

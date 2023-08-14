@@ -6946,15 +6946,15 @@ class S2C_LoadParty final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRemoteIdFieldNumber = 2,
-    kIsLeaderFieldNumber = 3,
+    kRemoteIdFieldNumber = 3,
     kNickNameFieldNumber = 4,
     kLevelFieldNumber = 5,
     kCharacterClassFieldNumber = 6,
+    kLeaderIdFieldNumber = 2,
     kTimestampFieldNumber = 7,
     kErrorFieldNumber = 1,
   };
-  // repeated int64 remote_id = 2;
+  // repeated int64 remote_id = 3;
   int remote_id_size() const;
   private:
   int _internal_remote_id_size() const;
@@ -6975,28 +6975,6 @@ class S2C_LoadParty final :
       remote_id() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
       mutable_remote_id();
-
-  // repeated int32 is_leader = 3;
-  int is_leader_size() const;
-  private:
-  int _internal_is_leader_size() const;
-  public:
-  void clear_is_leader();
-  private:
-  int32_t _internal_is_leader(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      _internal_is_leader() const;
-  void _internal_add_is_leader(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      _internal_mutable_is_leader();
-  public:
-  int32_t is_leader(int index) const;
-  void set_is_leader(int index, int32_t value);
-  void add_is_leader(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      is_leader() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      mutable_is_leader();
 
   // repeated bytes nick_name = 4;
   int nick_name_size() const;
@@ -7061,6 +7039,15 @@ class S2C_LoadParty final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& character_class() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_character_class();
 
+  // int64 leader_id = 2;
+  void clear_leader_id();
+  int64_t leader_id() const;
+  void set_leader_id(int64_t value);
+  private:
+  int64_t _internal_leader_id() const;
+  void _internal_set_leader_id(int64_t value);
+  public:
+
   // int64 timestamp = 7;
   void clear_timestamp();
   int64_t timestamp() const;
@@ -7089,13 +7076,12 @@ class S2C_LoadParty final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > remote_id_;
     mutable std::atomic<int> _remote_id_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > is_leader_;
-    mutable std::atomic<int> _is_leader_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> nick_name_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > level_;
     mutable std::atomic<int> _level_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> character_class_;
     mutable std::atomic<int> _character_class_cached_byte_size_;
+    int64_t leader_id_;
     int64_t timestamp_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -7403,10 +7389,10 @@ class S2C_EnterPartyPlayer final :
   enum : int {
     kNickNameFieldNumber = 3,
     kRemoteIdFieldNumber = 1,
-    kIsLeaderFieldNumber = 2,
+    kLeaderIdFieldNumber = 2,
     kLevelFieldNumber = 4,
-    kTimestampFieldNumber = 6,
     kCharacterClassFieldNumber = 5,
+    kTimestampFieldNumber = 6,
   };
   // bytes nick_name = 3;
   void clear_nick_name();
@@ -7431,13 +7417,13 @@ class S2C_EnterPartyPlayer final :
   void _internal_set_remote_id(int64_t value);
   public:
 
-  // int32 is_leader = 2;
-  void clear_is_leader();
-  int32_t is_leader() const;
-  void set_is_leader(int32_t value);
+  // int64 leader_id = 2;
+  void clear_leader_id();
+  int64_t leader_id() const;
+  void set_leader_id(int64_t value);
   private:
-  int32_t _internal_is_leader() const;
-  void _internal_set_is_leader(int32_t value);
+  int64_t _internal_leader_id() const;
+  void _internal_set_leader_id(int64_t value);
   public:
 
   // int32 level = 4;
@@ -7449,15 +7435,6 @@ class S2C_EnterPartyPlayer final :
   void _internal_set_level(int32_t value);
   public:
 
-  // int64 timestamp = 6;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
   // .Protocol.ECharacterClass character_class = 5;
   void clear_character_class();
   ::Protocol::ECharacterClass character_class() const;
@@ -7465,6 +7442,15 @@ class S2C_EnterPartyPlayer final :
   private:
   ::Protocol::ECharacterClass _internal_character_class() const;
   void _internal_set_character_class(::Protocol::ECharacterClass value);
+  public:
+
+  // int64 timestamp = 6;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_EnterPartyPlayer)
@@ -7477,10 +7463,10 @@ class S2C_EnterPartyPlayer final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_name_;
     int64_t remote_id_;
-    int32_t is_leader_;
+    int64_t leader_id_;
     int32_t level_;
-    int64_t timestamp_;
     int character_class_;
+    int64_t timestamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -15419,7 +15405,27 @@ inline void S2C_LoadParty::set_error(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_LoadParty.error)
 }
 
-// repeated int64 remote_id = 2;
+// int64 leader_id = 2;
+inline void S2C_LoadParty::clear_leader_id() {
+  _impl_.leader_id_ = int64_t{0};
+}
+inline int64_t S2C_LoadParty::_internal_leader_id() const {
+  return _impl_.leader_id_;
+}
+inline int64_t S2C_LoadParty::leader_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadParty.leader_id)
+  return _internal_leader_id();
+}
+inline void S2C_LoadParty::_internal_set_leader_id(int64_t value) {
+  
+  _impl_.leader_id_ = value;
+}
+inline void S2C_LoadParty::set_leader_id(int64_t value) {
+  _internal_set_leader_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadParty.leader_id)
+}
+
+// repeated int64 remote_id = 3;
 inline int S2C_LoadParty::_internal_remote_id_size() const {
   return _impl_.remote_id_.size();
 }
@@ -15464,53 +15470,6 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
 S2C_LoadParty::mutable_remote_id() {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadParty.remote_id)
   return _internal_mutable_remote_id();
-}
-
-// repeated int32 is_leader = 3;
-inline int S2C_LoadParty::_internal_is_leader_size() const {
-  return _impl_.is_leader_.size();
-}
-inline int S2C_LoadParty::is_leader_size() const {
-  return _internal_is_leader_size();
-}
-inline void S2C_LoadParty::clear_is_leader() {
-  _impl_.is_leader_.Clear();
-}
-inline int32_t S2C_LoadParty::_internal_is_leader(int index) const {
-  return _impl_.is_leader_.Get(index);
-}
-inline int32_t S2C_LoadParty::is_leader(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_LoadParty.is_leader)
-  return _internal_is_leader(index);
-}
-inline void S2C_LoadParty::set_is_leader(int index, int32_t value) {
-  _impl_.is_leader_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_LoadParty.is_leader)
-}
-inline void S2C_LoadParty::_internal_add_is_leader(int32_t value) {
-  _impl_.is_leader_.Add(value);
-}
-inline void S2C_LoadParty::add_is_leader(int32_t value) {
-  _internal_add_is_leader(value);
-  // @@protoc_insertion_point(field_add:Protocol.S2C_LoadParty.is_leader)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S2C_LoadParty::_internal_is_leader() const {
-  return _impl_.is_leader_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S2C_LoadParty::is_leader() const {
-  // @@protoc_insertion_point(field_list:Protocol.S2C_LoadParty.is_leader)
-  return _internal_is_leader();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S2C_LoadParty::_internal_mutable_is_leader() {
-  return &_impl_.is_leader_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S2C_LoadParty::mutable_is_leader() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_LoadParty.is_leader)
-  return _internal_mutable_is_leader();
 }
 
 // repeated bytes nick_name = 4;
@@ -15816,24 +15775,24 @@ inline void S2C_EnterPartyPlayer::set_remote_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_EnterPartyPlayer.remote_id)
 }
 
-// int32 is_leader = 2;
-inline void S2C_EnterPartyPlayer::clear_is_leader() {
-  _impl_.is_leader_ = 0;
+// int64 leader_id = 2;
+inline void S2C_EnterPartyPlayer::clear_leader_id() {
+  _impl_.leader_id_ = int64_t{0};
 }
-inline int32_t S2C_EnterPartyPlayer::_internal_is_leader() const {
-  return _impl_.is_leader_;
+inline int64_t S2C_EnterPartyPlayer::_internal_leader_id() const {
+  return _impl_.leader_id_;
 }
-inline int32_t S2C_EnterPartyPlayer::is_leader() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_EnterPartyPlayer.is_leader)
-  return _internal_is_leader();
+inline int64_t S2C_EnterPartyPlayer::leader_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnterPartyPlayer.leader_id)
+  return _internal_leader_id();
 }
-inline void S2C_EnterPartyPlayer::_internal_set_is_leader(int32_t value) {
+inline void S2C_EnterPartyPlayer::_internal_set_leader_id(int64_t value) {
   
-  _impl_.is_leader_ = value;
+  _impl_.leader_id_ = value;
 }
-inline void S2C_EnterPartyPlayer::set_is_leader(int32_t value) {
-  _internal_set_is_leader(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_EnterPartyPlayer.is_leader)
+inline void S2C_EnterPartyPlayer::set_leader_id(int64_t value) {
+  _internal_set_leader_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_EnterPartyPlayer.leader_id)
 }
 
 // bytes nick_name = 3;

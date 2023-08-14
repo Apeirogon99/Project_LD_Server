@@ -39,6 +39,9 @@ enum class EDCommonErrorType
 	INVALID_PART_OF_PARTY					= 5001, //파티에 가입되어 있지 않음
 	NOT_CONNECT_PLAYER						= 5002, //플레이어가 실시간 접속 상태가 아님
 	ALREADY_FULL_PARTY						= 5003, //파티 정원 초과
+	NOT_RESERVATION_PARTY					= 5004, //파티에 예약이 안되어있음
+	ALREADY_RESERVATION_PARTY				= 5005, //파티에 예약이 되어있음
+	NOT_LEADER_PARTY						= 5006, //파티에 리더가 아님
 };
 
 static std::string GetNetworkError(int32 error)
@@ -124,6 +127,15 @@ static std::string GetNetworkError(int32 error)
 		break;
 	case EDCommonErrorType::ALREADY_FULL_PARTY:
 		return std::string("이미 파티가 정원을 초과하였습니다.");
+		break;
+	case EDCommonErrorType::NOT_RESERVATION_PARTY:
+		return std::string("파티 초대를 받지 않았습니다.");
+		break;
+	case EDCommonErrorType::ALREADY_RESERVATION_PARTY:
+		return std::string("이미 파티에 초대하였습니다.");
+		break;
+	case EDCommonErrorType::NOT_LEADER_PARTY:
+		return std::string("권한이 존재하지 않습니다.");
 		break;
 	default:
 		return std::string("알 수 없는 에러");

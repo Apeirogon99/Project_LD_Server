@@ -119,6 +119,7 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	}
 
 	this->GetFriend()->NotifyConnectToFriend();
+	this->GetParty()->SetPartyLoad(true);
 
 	return true;
 }
@@ -177,7 +178,12 @@ void GameRemotePlayer::OnLoadComplete()
 void GameRemotePlayer::LeaveRemotePlayer()
 {
 	this->GetFriend()->NotifyDisConnectToFriend();
+
+	this->GetParty()->RequestLeaveParty(this->GetGameObjectID());
+	this->GetParty()->SetPartyLoad(false);
+
 	this->GetCharacter()->SetLoadCharacter(false);
+
 	this->GetInventory()->SetLoadInventory(false);
 }
 
@@ -194,6 +200,11 @@ bool GameRemotePlayer::LeaveComplete()
 	}
 
 	if (true == GetFriend()->IsValid())
+	{
+		return false;
+	}
+
+	if (true == GetParty()->IsValid())
 	{
 		return false;
 	}

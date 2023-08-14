@@ -97,6 +97,9 @@
     <Filter Include="Content\Party">
       <UniqueIdentifier>{00797370-feb7-42d8-8597-e7c2f4fc3aae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Quest">
+      <UniqueIdentifier>{35a10621-6404-4012-afe0-b790215ba61b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="Party.cpp">
       <Filter>Content\Party</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>Content\Quest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -413,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="Party.h">
       <Filter>Content\Party</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>Content\Quest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
