@@ -115,18 +115,25 @@ void Party::RequestEnterParty(const std::string inPlayerName)
 		error = static_cast<int32>(EDCommonErrorType::NOT_CONNECT_PLAYER);
 	}
 
-	PartyPtr otherParty = nullptr;
-	if (otherRemotePlayer)
+	if (otherRemotePlayer->GetGameObjectID() == remotePlayer->GetGameObjectID())
 	{
-		otherParty = otherRemotePlayer->GetParty();
-		if (true == otherParty->IsParty())
+		error = static_cast<int32>(EDCommonErrorType::NOT_INVALITE_SELF);
+	}
+	else
+	{
+		PartyPtr otherParty = nullptr;
+		if (otherRemotePlayer)
 		{
-			error = static_cast<int32>(EDCommonErrorType::ALREADY_PART_OF_PARTY);
-		}
+			otherParty = otherRemotePlayer->GetParty();
+			if (true == otherParty->IsParty())
+			{
+				error = static_cast<int32>(EDCommonErrorType::ALREADY_PART_OF_PARTY);
+			}
 
-		if (true == otherParty->IsReservationParty(otherRemotePlayer->GetGameObjectID()))
-		{
-			error = static_cast<int32>(EDCommonErrorType::ALREADY_RESERVATION_PARTY);
+			if (true == otherParty->IsReservationParty(otherRemotePlayer->GetGameObjectID()))
+			{
+				error = static_cast<int32>(EDCommonErrorType::ALREADY_RESERVATION_PARTY);
+			}
 		}
 	}
 

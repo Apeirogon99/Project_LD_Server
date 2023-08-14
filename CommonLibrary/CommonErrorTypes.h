@@ -42,6 +42,7 @@ enum class EDCommonErrorType
 	NOT_RESERVATION_PARTY					= 5004, //파티에 예약이 안되어있음
 	ALREADY_RESERVATION_PARTY				= 5005, //파티에 예약이 되어있음
 	NOT_LEADER_PARTY						= 5006, //파티에 리더가 아님
+	NOT_INVALITE_SELF						= 5007, //자기 자신은 초대할 수 없음
 };
 
 static std::string GetNetworkError(int32 error)
@@ -136,6 +137,9 @@ static std::string GetNetworkError(int32 error)
 		break;
 	case EDCommonErrorType::NOT_LEADER_PARTY:
 		return std::string("권한이 존재하지 않습니다.");
+		break;
+	case EDCommonErrorType::NOT_INVALITE_SELF:
+		return std::string("자신을 초대할 수 없습니다.");
 		break;
 	default:
 		return std::string("알 수 없는 에러");
