@@ -1,43 +1,50 @@
 #include "pch.h"
-#include "Skill.h"
+#include "SkillTree.h"
 
-Skill::Skill() : GameObject(L"Skill"), mIsLoad(false)
+SkillTree::SkillTree() : GameObject(L"SkillTree"), mIsLoad(false)
 {
 }
 
-Skill::~Skill()
+SkillTree::~SkillTree()
 {
 }
 
-void Skill::OnInitialization()
+void SkillTree::OnInitialization()
 {
 }
 
-void Skill::OnDestroy()
+void SkillTree::OnDestroy()
 {
 }
 
-void Skill::OnTick(const int64 inDeltaTime)
+void SkillTree::OnTick(const int64 inDeltaTime)
 {
 }
 
-bool Skill::IsValid()
+bool SkillTree::IsValid()
 {
 	return false;
 }
 
-void Skill::SetLoadSkill(const bool& inLoad)
+void SkillTree::SetLoadSkillTree(const bool& inLoad)
 {
 	mIsLoad = inLoad;
 }
 
-void Skill::LoadSkillTree(const int32& inSkillID, const int32& inSkillCount)
+void SkillTree::LoadSkillTree(const int32& inSkillID, const int32& inSkillCount)
 {
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	remotePlayer->GetCharacter()->GetSkillComponent().PushSkill(inSkillID);
+
 	std::pair<int32, int32> skill = std::make_pair(inSkillID, inSkillCount);
-	mSkills.insert(skill);
+	mSkillTrees.insert(skill);
 }
 
-void Skill::UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount)
+void SkillTree::UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount)
 {
 
 	if (false == CanUpdateSkill(inSkillID))
@@ -45,11 +52,11 @@ void Skill::UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount)
 		return;
 	}
 
-	auto find = mSkills.find(inSkillID);
-	if (find == mSkills.end())
+	auto find = mSkillTrees.find(inSkillID);
+	if (find == mSkillTrees.end())
 	{
 		std::pair<int32, int32> skill = std::make_pair(inSkillID, 1);
-		mSkills.insert(skill);
+		mSkillTrees.insert(skill);
 	}
 	else
 	{
@@ -57,7 +64,7 @@ void Skill::UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount)
 
 		if (find->second <= 0)
 		{
-			mSkills.erase(inSkillID);
+			mSkillTrees.erase(inSkillID);
 		}
 
 	}
@@ -78,13 +85,13 @@ void Skill::UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount)
 	Handle_UpdateSkillTree_Request(remoteClinet, inCharacterID, inSkillID, inSkillCount);
 }
 
-void Skill::RollbackSkillTree(const int32& inSkillID, const int32& inSkillCount)
+void SkillTree::RollbackSkillTree(const int32& inSkillID, const int32& inSkillCount)
 {
-	auto find = mSkills.find(inSkillID);
-	if (find == mSkills.end())
+	auto find = mSkillTrees.find(inSkillID);
+	if (find == mSkillTrees.end())
 	{
 		std::pair<int32, int32> skill = std::make_pair(inSkillID, 1);
-		mSkills.insert(skill);
+		mSkillTrees.insert(skill);
 	}
 	else
 	{
@@ -92,12 +99,12 @@ void Skill::RollbackSkillTree(const int32& inSkillID, const int32& inSkillCount)
 
 		if (find->second <= 0)
 		{
-			mSkills.erase(inSkillID);
+			mSkillTrees.erase(inSkillID);
 		}
 	}
 }
 
-bool Skill::CanUpdateSkill(const int32 inSkillID)
+bool SkillTree::CanUpdateSkill(const int32 inSkillID)
 {
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
@@ -117,7 +124,7 @@ bool Skill::CanUpdateSkill(const int32 inSkillID)
 		return false;
 	}
 
-	const SkillInfo& skillInfo = data->GetSkillInfo(inSkillID);
+	const SkillTreeInfo& skillInfo = data->GetSkillInfo(inSkillID);
 	const std::map<int32, int32> skillConditions = skillInfo.GetConditions();
 	if(skillConditions.size() == 0)
 	{
@@ -126,8 +133,8 @@ bool Skill::CanUpdateSkill(const int32 inSkillID)
 
 	for (auto conditions : skillConditions)
 	{
-		auto find = mSkills.find(conditions.first);
-		if (find == mSkills.end())
+		auto find = mSkillTrees.find(conditions.first);
+		if (find == mSkillTrees.end())
 		{
 			return false;
 		}

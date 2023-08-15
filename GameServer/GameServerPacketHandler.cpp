@@ -461,13 +461,13 @@ bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateS
 		return false;
 	}
 
-	SkillPtr skill = remotePlayer->GetSkill();
+	SkillTreePtr skill = remotePlayer->GetSkillTree();
 	if (nullptr == skill)
 	{
 		return false;
 	}
 
-	skill->PushTask(pkt.timestamp(), &Skill::UpdateSkillTree, pkt.skill_id(), pkt.skill_count());
+	skill->PushTask(pkt.timestamp(), &SkillTree::UpdateSkillTree, pkt.skill_id(), pkt.skill_count());
 	return true;
 }
 

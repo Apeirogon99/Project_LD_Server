@@ -163,10 +163,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActiveSkill.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
-    <ClCompile Include="BuffSkill.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
@@ -178,7 +176,6 @@
     <ClCompile Include="ItemHandler.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="Party.cpp" />
-    <ClCompile Include="PassiveSkill.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
     <ClCompile Include="CommonPacket.pb.cc">
@@ -328,8 +325,9 @@
     <ClCompile Include="GameRemotePlayer.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Quest.cpp" />
-    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillTree.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
+    <ClCompile Include="SkillComponent.cpp" />
     <ClCompile Include="SkillDatabase.cpp" />
     <ClCompile Include="SkillHandler.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
@@ -340,10 +338,8 @@
     <ClCompile Include="WarriorShieldBash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActiveSkill.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
-    <ClInclude Include="BuffSkill.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
@@ -355,7 +351,6 @@
     <ClInclude Include="ItemHandler.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="Party.h" />
-    <ClInclude Include="PassiveSkill.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />
     <ClInclude Include="CommonPacket.pb.h" />
@@ -387,8 +382,9 @@
     <ClInclude Include="GameRemotePlayer.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Quest.h" />
-    <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillTree.h" />
     <ClInclude Include="KeyboardComponent.h" />
+    <ClInclude Include="SkillComponent.h" />
     <ClInclude Include="SkillDatabase.h" />
     <ClInclude Include="SkillHandler.h" />
     <ClInclude Include="StatsComponent.h" />

@@ -36,7 +36,7 @@ bool Handle_LoadSkillTree_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
-	SkillPtr skill = remotePlayer->GetSkill();
+	SkillTreePtr skill = remotePlayer->GetSkillTree();
 	if (nullptr == skill)
 	{
 		return false;
@@ -66,7 +66,7 @@ bool Handle_LoadSkillTree_Response(PacketSessionPtr& inSession, ADOConnection& i
 		inSession->Send(sendBuffer);
 	}
 
-	skill->SetLoadSkill(error == ErrorToInt(EDCommonErrorType::SUCCESS));
+	skill->SetLoadSkillTree(error == ErrorToInt(EDCommonErrorType::SUCCESS));
 	remotePlayer->OnLoadComplete();
 	return true;
 }
@@ -110,7 +110,7 @@ bool Handle_UpdateSkillTree_Response(PacketSessionPtr& inSession, ADOConnection&
 		return false;
 	}
 
-	SkillPtr skill = remotePlayer->GetSkill();
+	SkillTreePtr skill = remotePlayer->GetSkillTree();
 	if (nullptr == skill)
 	{
 		return false;

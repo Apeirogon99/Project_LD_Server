@@ -55,4 +55,5 @@ public:
 private:
 	GameRemotePlayerRef mOwner;
 	std::map<int32, BindAction> mKeyActions;
+	std::set<int32> mUseKeys;
 };

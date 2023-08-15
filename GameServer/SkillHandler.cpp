@@ -25,6 +25,14 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer)
     {
         return false;
     }
+    SkillComponent& skillComponent = character->GetSkillComponent();
+
+    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
+    {
+        return false;
+    }
+    skillComponent.UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff), 5000);
+
     
     ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), character->GetLocation(), FRotator(), Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)

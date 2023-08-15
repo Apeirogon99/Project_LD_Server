@@ -34,6 +34,7 @@
 #include "AttackComponent.h"
 #include "LevelComponent.h"
 #include "KeyboardComponent.h"
+#include "SkillComponent.h"
 
 //==========================//
 //		 GameContent		//
@@ -45,7 +46,7 @@
 #include "AItem.h"
 #include "Inventory.h"
 #include "Friend.h"
-#include "Skill.h"
+#include "SkillTree.h"
 #include "Party.h"
 #include "Quest.h"
 

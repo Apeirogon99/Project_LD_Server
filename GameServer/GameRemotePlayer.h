@@ -34,7 +34,7 @@ public:
 	Inventoryptr&			GetInventory()			{ return mInventory; }
 	FriendPtr&				GetFriend()				{ return mFriend; }
 	PartyPtr&				GetParty()				{ return mParty; }
-	SkillPtr&				GetSkill()				{ return mSkill; }
+	SkillTreePtr&			GetSkillTree()			{ return mSkillTree; }
 	PlayerCharacterPtr&		GetCharacter()			{ return mPlayerCharacter; }
 	KeyboardComponent&		GetKeyboardComponent()	{ return mKeyboardComponet; }
 
@@ -45,7 +45,7 @@ private:
 	Inventoryptr			mInventory;
 	FriendPtr				mFriend;
 	PartyPtr				mParty;
-	SkillPtr				mSkill;
+	SkillTreePtr			mSkillTree;
 	PlayerCharacterPtr		mPlayerCharacter;
 
 	KeyboardComponent		mKeyboardComponet;

@@ -38,9 +38,9 @@ void GameRemotePlayer::OnInitialization()
 	mParty->SetOwner(owner);
 	taskManager->PushTask(this->GetParty()->GetGameObjectPtr());
 
-	mSkill = std::make_shared<Skill>();
-	mSkill->SetOwner(owner);
-	taskManager->PushTask(this->GetSkill()->GetGameObjectPtr());
+	mSkillTree = std::make_shared<SkillTree>();
+	mSkillTree->SetOwner(owner);
+	taskManager->PushTask(this->GetSkillTree()->GetGameObjectPtr());
 
 	this->mPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(world->SpawnActor<PlayerCharacter>(owner, Location(), Rotation(), Scale()));
 }
@@ -71,8 +71,8 @@ void GameRemotePlayer::OnDestroy()
 	taskManager->ReleaseTask(this->GetParty()->GetGameObjectPtr());
 	this->mParty.reset();
 
-	taskManager->ReleaseTask(this->GetSkill()->GetGameObjectPtr());
-	this->mSkill.reset();
+	taskManager->ReleaseTask(this->GetSkillTree()->GetGameObjectPtr());
+	this->mSkillTree.reset();
 }
 
 void GameRemotePlayer::OnTick(const int64 inDeltaTime)

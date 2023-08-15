@@ -1,13 +1,13 @@
 #pragma once
 
-class SkillInfo
+class SkillTreeInfo
 {
 public:
-	SkillInfo() : mID(0), mType(0), mMax(0)
+	SkillTreeInfo() : mID(0), mType(0), mMax(0)
 	{
 	}
 
-	~SkillInfo()
+	~SkillTreeInfo()
 	{
 	}
 
@@ -40,17 +40,17 @@ private:
 	std::map<int32, int32> mConditions;
 };
 
-class Skill : public GameObject
+class SkillTree : public GameObject
 {
 public:
-	Skill();
-	virtual ~Skill();
+	SkillTree();
+	virtual ~SkillTree();
 
-	Skill(const Skill&) = delete;
-	Skill(Skill&&) noexcept = delete;
+	SkillTree(const SkillTree&) = delete;
+	SkillTree(SkillTree&&) noexcept = delete;
 
-	Skill& operator=(const Skill&) = delete;
-	Skill& operator=(Skill&&) noexcept = delete;
+	SkillTree& operator=(const SkillTree&) = delete;
+	SkillTree& operator=(SkillTree&&) noexcept = delete;
 
 public:
 	virtual void OnInitialization()					override;
@@ -59,7 +59,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void SetLoadSkill(const bool& inLoad);
+	void SetLoadSkillTree(const bool& inLoad);
 
 	void LoadSkillTree(const int32& inSkillID, const int32& inSkillCount);
 	void UpdateSkillTree(const int32 inSkillID, const int32 inSkillCount);
@@ -70,6 +70,6 @@ public:
 
 private:
 	bool mIsLoad;
-	std::map<int32, int32> mSkills;
+	std::map<int32, int32> mSkillTrees;
 };
 

@@ -232,13 +232,7 @@
     <ClCompile Include="SkillDatabase.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>Content\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="ActiveSkill.cpp">
-      <Filter>Content\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="PassiveSkill.cpp">
+    <ClCompile Include="SkillTree.cpp">
       <Filter>Content\Skill</Filter>
     </ClCompile>
     <ClCompile Include="WarriorParrying.cpp">
@@ -249,9 +243,6 @@
     </ClCompile>
     <ClCompile Include="WarriorShieldBash.cpp">
       <Filter>Content\Skill\Warrior</Filter>
-    </ClCompile>
-    <ClCompile Include="BuffSkill.cpp">
-      <Filter>Content\Skill</Filter>
     </ClCompile>
     <ClCompile Include="WarriorBuff.cpp">
       <Filter>Content\Skill\Warrior</Filter>
@@ -270,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="ItemHandler.cpp">
       <Filter>Content\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillComponent.cpp">
+      <Filter>Content\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,13 +399,7 @@
     <ClInclude Include="SkillDatabase.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>Content\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="ActiveSkill.h">
-      <Filter>Content\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="PassiveSkill.h">
+    <ClInclude Include="SkillTree.h">
       <Filter>Content\Skill</Filter>
     </ClInclude>
     <ClInclude Include="WarriorParrying.h">
@@ -422,9 +410,6 @@
     </ClInclude>
     <ClInclude Include="WarriorShieldBash.h">
       <Filter>Content\Skill\Warrior</Filter>
-    </ClInclude>
-    <ClInclude Include="BuffSkill.h">
-      <Filter>Content\Skill</Filter>
     </ClInclude>
     <ClInclude Include="WarriorBuff.h">
       <Filter>Content\Skill\Warrior</Filter>
@@ -443,6 +428,9 @@
     </ClInclude>
     <ClInclude Include="ItemHandler.h">
       <Filter>Content\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillComponent.h">
+      <Filter>Content\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

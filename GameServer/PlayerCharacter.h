@@ -45,6 +45,7 @@ public:
 	StatsComponent&				GetStatComponent() 		{ return mStatComponent; }
 	EqipmentComponent&			GetEqipmentComponent() 	{ return mEqipmentComponent; }
 	LevelComponent&				GetLevelComponent()		{ return mLevelComponent; }
+	SkillComponent&				GetSkillComponent()		{ return mSkillComponent; }
 
 private:
 	bool						mIsLoad;
@@ -58,5 +59,6 @@ private:
 	EqipmentComponent			mEqipmentComponent;
 	AttackComponent				mAutoAttackComponent;
 	LevelComponent				mLevelComponent;
+	SkillComponent				mSkillComponent;
 };
 

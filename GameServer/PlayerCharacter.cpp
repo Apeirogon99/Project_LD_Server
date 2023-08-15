@@ -30,6 +30,12 @@ void PlayerCharacter::OnInitialization()
 	this->SetPlayerMode(EPlayerMode::Move_MODE);
 
 	this->SetActorType(static_cast<uint8>(EActorType::Player));
+
+	//TEMP
+	this->mSkillComponent.PushSkill(1);
+	this->mSkillComponent.PushSkill(2);
+	this->mSkillComponent.PushSkill(3);
+	this->mSkillComponent.PushSkill(4);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -76,6 +82,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangePlayer();
 	}
+
+	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 }
 
 bool PlayerCharacter::IsValid()

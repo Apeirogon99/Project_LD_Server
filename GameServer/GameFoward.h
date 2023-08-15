@@ -74,9 +74,9 @@ class Party;
 using PartyPtr						= std::shared_ptr<Party>;
 using PartyRef						= std::weak_ptr<Party>;
 
-class Skill;
-using SkillPtr						= std::shared_ptr<Skill>;
-using SkillRef						= std::weak_ptr<Skill>;
+class SkillTree;
+using SkillTreePtr					= std::shared_ptr<SkillTree>;
+using SkillTreeRef					= std::weak_ptr<SkillTree>;
 
 class Quest;
 using QuestPtr						= std::shared_ptr<Quest>;

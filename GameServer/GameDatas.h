@@ -1,5 +1,5 @@
 #pragma once
-#include "Skill.h"
+#include "SkillTree.h"
 
 enum class EGameDataType : uint8
 {
@@ -38,7 +38,7 @@ public:
 
 	void LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDataType);
 	void LoadLevelDatas(std::map<int32, int32>& outDatas);
-	void LoadSkillDatas(std::vector<SkillInfo>& outSkillDatas);
+	void LoadSkillDatas(std::vector<SkillTreeInfo>& outSkillDatas);
 
 public:
 	bool				GetStats(const EGameDataType inDataType, const int32 inRow, Stats& outStats);
@@ -47,14 +47,14 @@ public:
 	const Stats&		GetEnemyStat(const int32 inRow);
 	const Stats&		GetEqipmentStat(const int32 inRow);
 	const int32			GetNextExperience(const int32& inLevel);
-	const SkillInfo&	GetSkillInfo(const int32& inSkillID);
+	const SkillTreeInfo& GetSkillInfo(const int32& inSkillID);
 
 private:
 	std::vector<Stats> mCharacterBaseStats;
 	std::vector<Stats> mCharacterGrowStats;
 	std::vector<Stats> mEnemyStats;
 	std::vector<Stats> mEqipmentStats;
-	std::vector<SkillInfo> mSkillDatas;
+	std::vector<SkillTreeInfo> mSkillDatas;
 	std::map<int32, int32> mLevelDatas;
 };
 

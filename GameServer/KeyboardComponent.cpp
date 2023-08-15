@@ -37,7 +37,7 @@ void KeyboardComponent::PressedKey(int32 inKey)
     {
         return;
     }
-    const BindAction&   action = findKey->second;
+    const BindAction& action = findKey->second;
 
     GameRemotePlayerPtr owner = mOwner.lock();
     if (nullptr == owner)
@@ -45,20 +45,20 @@ void KeyboardComponent::PressedKey(int32 inKey)
         return;
     }
 
+    bool result = false;
     switch (action.GetActionType())
     {
     case EBindActionType::Action_Unspecified:
         break;
     case EBindActionType::Action_Item:
-        ItemHandler::HandlePacket(mOwner, action.GetActionID());
+        result = ItemHandler::HandlePacket(mOwner, action.GetActionID());
         break;
     case EBindActionType::Action_Skill:
-        SkillHandler::HandlePacket(mOwner, action.GetActionID());
+        result = SkillHandler::HandlePacket(mOwner, action.GetActionID());
         break;
     default:
         break;
     }   
-
 }
 
 void KeyboardComponent::ReleaseKey(int32 inKey)

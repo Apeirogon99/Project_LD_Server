@@ -116,7 +116,7 @@ void GameDatas::LoadLevelDatas(std::map<int32, int32>& outDatas)
     }
 }
 
-void GameDatas::LoadSkillDatas(std::vector<SkillInfo>& outSkillDtatas)
+void GameDatas::LoadSkillDatas(std::vector<SkillTreeInfo>& outSkillDtatas)
 {
     CSVDatas datas;
     GetData(datas, static_cast<uint8>(EGameDataType::Skill));
@@ -124,7 +124,7 @@ void GameDatas::LoadSkillDatas(std::vector<SkillInfo>& outSkillDtatas)
     const size_t datasSize = datas.size() - 1;
 
     std::wstring delim = L"-";
-    SkillInfo skillInfo;
+    SkillTreeInfo skillInfo;
     std::map<int32, int32> conditions;
 
     for (int32 dataIndex = 1; dataIndex < datasSize; ++dataIndex)
@@ -216,7 +216,7 @@ const int32 GameDatas::GetNextExperience(const int32& inLevel)
     return find->second;
 }
 
-const SkillInfo& GameDatas::GetSkillInfo(const int32& inSkillID)
+const SkillTreeInfo& GameDatas::GetSkillInfo(const int32& inSkillID)
 {
     return mSkillDatas[inSkillID - 1];
 }
