@@ -16,7 +16,7 @@ public:
 	virtual bool IsValid()						 override;
 
 public:
-	void SetWarriorShieldBash(const float& inSturnRadius, const float& inMaxRadius, const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSlowTime);
+	void SetWarriorShieldBash(const float& inSturnRadius, const float& inMaxRadius, const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSturnTime, const int64& inActiveSlowTime);
 
 public:
 	virtual void Active() override;
@@ -30,5 +30,6 @@ private:
 	float mDebuffMovement;
 	int64 mSturnDuration;
 	int64 mSlowDuration;
+	int64 mActiveSturnTime;
 	int64 mActiveSlowTime;
 };

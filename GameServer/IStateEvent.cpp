@@ -457,6 +457,7 @@ StateManager::StateManager() : mOldState(EStateType::State_Unspecified), mCurren
 	mStateTypes.insert(std::make_pair(EStateType::State_Chase, static_cast<IStateEvent*>(new ChaseState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Attack, static_cast<IStateEvent*>(new AttackState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Hit, static_cast<IStateEvent*>(new HitState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Stun, static_cast<IStateEvent*>(new StunState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Death, static_cast<IStateEvent*>(new DeathState())));
 }
 

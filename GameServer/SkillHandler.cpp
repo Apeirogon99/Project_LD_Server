@@ -96,7 +96,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer)
     {
         return false;
     }
-    warriorShieldBash->SetWarriorShieldBash(200.0f, 500.0f, 10.0f, -50.0f, 1500, 2000, 1000);
+    warriorShieldBash->SetWarriorShieldBash(200.0f, 500.0f, 10.0f, -50.0f, 2000, 3000, 1070, 1470);
 
     warriorShieldBash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), world->GetWorldTime());
     warriorShieldBash->Active();

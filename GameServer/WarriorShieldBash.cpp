@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorShieldBash.h"
 
-WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(0.0f), mMaxRadius(0.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSlowTime(0)
+WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(0.0f), mMaxRadius(0.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
 {
 }
 
@@ -31,7 +31,7 @@ bool WarriorShieldBash::IsValid()
 	return true;
 }
 
-void WarriorShieldBash::SetWarriorShieldBash(const float& inSturnRadius, const float& inMaxRadius, const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSlowTime)
+void WarriorShieldBash::SetWarriorShieldBash(const float& inSturnRadius, const float& inMaxRadius, const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSturnTime, const int64& inActiveSlowTime)
 {
     this->mSturnRadis       = inSturnRadius;
     this->mMaxRadius        = inMaxRadius;
@@ -39,6 +39,7 @@ void WarriorShieldBash::SetWarriorShieldBash(const float& inSturnRadius, const f
     this->mDebuffMovement   = inDebuffMovement;
     this->mSturnDuration    = inSturnDuration;
     this->mSlowDuration     = inSlowDuration;
+    this->mActiveSturnTime  = inActiveSturnTime;
     this->mActiveSlowTime   = inActiveSlowTime;
 }
 
@@ -52,7 +53,7 @@ void WarriorShieldBash::Active()
     }
     const int64 worldTime = world->GetWorldTime();
 
-    this->PushTask(worldTime, &WarriorShieldBash::SturnActive);
+    this->PushTask(worldTime + this->mActiveSturnTime, &WarriorShieldBash::SturnActive);
     this->PushTask(worldTime + this->mActiveSlowTime, &WarriorShieldBash::SlowActive);
 
 }
@@ -97,7 +98,7 @@ void WarriorShieldBash::SturnActive()
         }
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
-        float distanceDamage = mDamage * std::lerp(mMaxRadius, 0.0f, distance2D);
+        float distanceDamage = mDamage * (1.0f - (distance2D / mMaxRadius));
         if (distance2D <= mSturnRadis)
         {
             enemy->GetStateManager().SetState(EStateType::State_Stun);
@@ -155,7 +156,7 @@ void WarriorShieldBash::SlowActive()
         }
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
-        float distanceDamage = mDamage * std::lerp(mMaxRadius, 0.0f, distance2D);
+        float distanceDamage = mDamage * (1.0f - (distance2D / mMaxRadius));
         if (mSturnRadis < distance2D && distance2D <= mMaxRadius)
         {
             enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
