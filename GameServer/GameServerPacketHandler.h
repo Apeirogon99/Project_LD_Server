@@ -69,9 +69,11 @@ enum class EPakcetID: uint16
 	S2C_LoadSkillTree = 2063,
 	C2S_UpdateSkillTree = 2064,
 	S2C_UpdateSkillTree = 2065,
-	C2S_PressedUseKeyAction = 2066,
-	C2S_ReleaseUseKeyAction = 2067,
-	S2C_AppearBuff = 2068,
+	C2S_SetUseKeyAction = 2066,
+	S2C_SetUseKeyAction = 2067,
+	C2S_PressedUseKeyAction = 2068,
+	C2S_ReleaseUseKeyAction = 2069,
+	S2C_AppearSkill = 2070,
 };
 */
 
@@ -97,6 +99,7 @@ bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateI
 bool Handle_C2S_DeleteInventory(PacketSessionPtr& session, Protocol::C2S_DeleteInventory& pkt);
 bool Handle_C2S_ReplaceEqipment(PacketSessionPtr& session, Protocol::C2S_ReplaceEqipment& pkt);
 bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateSkillTree& pkt);
+bool Handle_C2S_SetUseKeyAction(PacketSessionPtr& session, Protocol::C2S_SetUseKeyAction& pkt);
 bool Handle_C2S_PressedUseKeyAction(PacketSessionPtr& session, Protocol::C2S_PressedUseKeyAction& pkt);
 bool Handle_C2S_ReleaseUseKeyAction(PacketSessionPtr& session, Protocol::C2S_ReleaseUseKeyAction& pkt);
 
@@ -126,6 +129,7 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_DeleteInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_DeleteInventory>(Handle_C2S_DeleteInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ReplaceEqipment)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ReplaceEqipment>(Handle_C2S_ReplaceEqipment, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_UpdateSkillTree)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_UpdateSkillTree>(Handle_C2S_UpdateSkillTree, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_SetUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_SetUseKeyAction>(Handle_C2S_SetUseKeyAction, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_PressedUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_PressedUseKeyAction>(Handle_C2S_PressedUseKeyAction, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ReleaseUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ReleaseUseKeyAction>(Handle_C2S_ReleaseUseKeyAction, session, buffer, len); };
 	}
@@ -174,6 +178,7 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReplaceEqipment& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReplaceEqipment)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LoadSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadSkillTree)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_UpdateSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateSkillTree)); }
-	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearBuff& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearBuff)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SetUseKeyAction& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SetUseKeyAction)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearSkill)); }
 
 };

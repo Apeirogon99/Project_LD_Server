@@ -187,6 +187,7 @@ public:
 public:
 	void StateChangeDebugPrint();
 	const std::wstring ToStringState(const EStateType& type);
+	IStateEvent* GetCurrentStateEvent();
 
 private:
 	EnemyCharacterRef					mEnemy;

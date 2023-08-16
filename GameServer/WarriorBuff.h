@@ -1,5 +1,5 @@
 #pragma once
-class WarriorBuff : public Actor
+class WarriorBuff : public ActiveSkill
 {
 public:
 	WarriorBuff();
@@ -16,23 +16,12 @@ public:
 	virtual bool IsValid()						 override;
 
 public:
-	virtual void OnAppearActor(ActorPtr inAppearActor) override;
-	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
-
-public:
-	void CheackCollision();
-
-public:
-	void SetDuration(const int64& inDuration);
-
-public:
-	const int64& GetDuration();
+	virtual void Active() override;
 
 private:
 	SphereCollisionComponent	mSphereCollisionComponent;
 	StatsComponent				mStatsComponent;
 
-	int64						mDuration;
 	std::map<int64, bool>		mOverlapPlayer;
 };
 

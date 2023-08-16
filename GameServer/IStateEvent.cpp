@@ -549,3 +549,14 @@ const std::wstring StateManager::ToStringState(const EStateType& type)
 	}
 	return stateStr;
 }
+
+IStateEvent* StateManager::GetCurrentStateEvent()
+{
+	auto findStateEvent = mStateTypes.find(this->GetCurrentStateType());
+	if (findStateEvent == mStateTypes.end())
+	{
+		return nullptr;
+	}
+
+	return findStateEvent->second;
+}

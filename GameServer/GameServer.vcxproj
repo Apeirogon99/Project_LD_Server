@@ -163,8 +163,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActiveSkill.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="BuffComponent.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
@@ -338,8 +340,10 @@
     <ClCompile Include="WarriorShieldBash.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActiveSkill.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="BuffComponent.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />

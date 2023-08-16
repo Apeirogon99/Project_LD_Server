@@ -254,6 +254,19 @@ void EnemyCharacter::OnDeath()
 	world->PushTask(deathTime, &World::DestroyActor, gameObjectID);
 }
 
+void EnemyCharacter::OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush)
+{
+	if (inIsPush)
+	{
+		this->mBuffComponent.PushBuff(this->mStatsComponent, inStatType, inValue);
+	}
+	else
+	{
+		this->mBuffComponent.ReleaseBuff(this->mStatsComponent, inStatType, inValue);
+	}
+
+}
+
 void EnemyCharacter::OnMovementEnemy()
 {
 	Protocol::S2C_MovementEnemy movementPacket;

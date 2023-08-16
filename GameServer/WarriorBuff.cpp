@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorBuff.h"
 
-WarriorBuff::WarriorBuff() : Actor(L"WarriorBuff"), mDuration(0)
+WarriorBuff::WarriorBuff() : ActiveSkill(L"WarriorBuff")
 {
 }
 
@@ -43,9 +43,10 @@ void WarriorBuff::OnDestroy()
 			const int64& playerGameObjectID = playerCharacter->GetGameObjectID();
 
 			StatsComponent& playerStats = playerCharacter->GetStatComponent();
-			playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() - stat.GetAttackDamage());
-			playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() - stat.GetArmor());
-			playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() - stat.GetMovementSpeed());
+			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
+			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
+			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 		}
 	}
 
@@ -58,115 +59,37 @@ void WarriorBuff::OnDestroy()
 
 void WarriorBuff::OnTick(const int64 inDeltaTime)
 {
-	if (!IsValid())
-	{
-		return;
-	}
-
-	this->CheackCollision();
-
-	mDuration -= inDeltaTime;
-	if (mDuration <= 0)
-	{
-		GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
-		if (nullptr == world)
-		{
-			return;
-		}
-
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->mDuration = 0;
-			this->GameObjectLog(L"Can't destroy buff\n");
-		}
-
-	}
-}
-
-bool WarriorBuff::IsValid()
-{
-	return mDuration > 0;
-}
-
-void WarriorBuff::OnAppearActor(ActorPtr inAppearActor)
-{
-	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
-	if (nullptr == anotherPlayerCharacter)
-	{
-		return;
-	}
-
-	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
-	if (nullptr == anotherRemotePlayer)
-	{
-		return;
-	}
-
-	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
-	if (nullptr == anotherPlayerState)
-	{
-		return;
-	}
-
 	if (false == IsValid())
 	{
 		return;
 	}
 
-	if (true == this->FindPlayerViewer(anotherPlayerState))
-	{
-		return;
-	}
-	this->InsertPlayerViewer(anotherPlayerState);
-	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
-
-	Protocol::S2C_AppearBuff appearBuffPacket;
-	appearBuffPacket.set_remote_id(this->GetGameObjectID());
-	appearBuffPacket.set_object_id(this->GetGameObjectID());
-	appearBuffPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	appearBuffPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	appearBuffPacket.set_duration(this->GetDuration());
-
-	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearBuffPacket);
-	anotherPlayerState->Send(appearSendBuffer);
+	this->Active();
 }
 
-void WarriorBuff::OnDisAppearActor(ActorPtr inDisappearActor)
+bool WarriorBuff::IsValid()
 {
-	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
-	if (nullptr == anotherPlayerCharacter)
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
 	{
-		return;
+		return false;
 	}
 
-	RemotePlayerPtr anotherRemotePlayer = std::static_pointer_cast<RemotePlayer>(anotherPlayerCharacter->GetOwner().lock());
-	if (nullptr == anotherRemotePlayer)
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
 	{
-		return;
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
+		{
+			this->GameObjectLog(L"Can't destroy skill\n");
+		}
+		return ret;
 	}
 
-	PlayerStatePtr anotherPlayerState = std::static_pointer_cast<PlayerState>(anotherRemotePlayer->GetRemoteClient().lock());
-	if (nullptr == anotherPlayerState)
-	{
-		return;
-	}
-
-	if (false == this->FindPlayerViewer(anotherPlayerState))
-	{
-		return;
-	}
-	this->ReleasePlayerViewer(anotherPlayerState);
-	anotherPlayerState->ReleaseActorMonitor(this->GetActorPtr());
-
-	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
-	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
-
-	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disappearGameObjectPacket);
-	anotherPlayerState->Send(disappearSendBuffer);
+	return true;
 }
 
-void WarriorBuff::CheackCollision()
+void WarriorBuff::Active()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -176,17 +99,6 @@ void WarriorBuff::CheackCollision()
 	const int64 worldTime	= world->GetWorldTime();
 
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
-	if (nullptr == remotePlayer)
-	{
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->mDuration = 0;
-			this->GameObjectLog(L"Can't destroy buff\n");
-		}
-		return;
-	}
-
 	PartyPtr party = remotePlayer->GetParty();
 	if (nullptr == party)
 	{
@@ -200,10 +112,6 @@ void WarriorBuff::CheackCollision()
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
 	bool result = world->FindActors(location, radius, findActorType, findActors);
-	if (!result)
-	{
-		return;
-	}
 
 	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
 	{
@@ -235,9 +143,10 @@ void WarriorBuff::CheackCollision()
 					mOverlapPlayer.insert(std::make_pair(playerGameObjectID, true));
 
 					StatsComponent& playerStats = overlapPlayer->GetStatComponent();
-					playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() + stat.GetAttackDamage());
-					playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() + stat.GetArmor());
-					playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() + stat.GetMovementSpeed());
+					BuffComponent& playerbuff = overlapPlayer->GetBuffComponent();
+					playerbuff.PushBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+					playerbuff.PushBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
+					playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 				}
 			}
 			else
@@ -260,10 +169,12 @@ void WarriorBuff::CheackCollision()
 			{
 				mOverlapPlayer.insert(std::make_pair(playerGameObjectID, true));
 
+
 				StatsComponent& playerStats = overlapPlayer->GetStatComponent();
-				playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() + stat.GetAttackDamage());
-				playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() + stat.GetArmor());
-				playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() + stat.GetMovementSpeed());
+				BuffComponent& playerbuff = overlapPlayer->GetBuffComponent();
+				playerbuff.PushBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+				playerbuff.PushBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
+				playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 			}
 			else
 			{
@@ -285,27 +196,20 @@ void WarriorBuff::CheackCollision()
 				{
 					continue;
 				}
-				const int64& playerGameObjectID = playerCharacter->GetGameObjectID();
 
 				StatsComponent& playerStats = playerCharacter->GetStatComponent();
-				playerStats.UpdateCurrentStat(EStatType::Stat_AttackDamage, playerStats.GetCurrentStats().GetAttackDamage() - stat.GetAttackDamage());
-				playerStats.UpdateCurrentStat(EStatType::Stat_Armor, playerStats.GetCurrentStats().GetArmor() - stat.GetArmor());
-				playerStats.UpdateCurrentStat(EStatType::Stat_MovementSpeed, playerStats.GetCurrentStats().GetMovementSpeed() - stat.GetMovementSpeed());
+				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
+				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
+				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 			}
 
 			mOverlapPlayer.erase(player++);
 		}
+		else
+		{
+			++player;
+		}
 
-		++player;
 	}
-}
-
-void WarriorBuff::SetDuration(const int64& inDuration)
-{
-	mDuration = inDuration;
-}
-
-const int64& WarriorBuff::GetDuration()
-{
-	return mDuration;
 }

@@ -265,6 +265,12 @@
     <ClCompile Include="SkillComponent.cpp">
       <Filter>Content\Component</Filter>
     </ClCompile>
+    <ClCompile Include="BuffComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveSkill.cpp">
+      <Filter>Content\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -431,6 +437,12 @@
     </ClInclude>
     <ClInclude Include="SkillComponent.h">
       <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BuffComponent.h">
+      <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveSkill.h">
+      <Filter>Content\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

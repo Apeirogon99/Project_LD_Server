@@ -24,6 +24,7 @@ public:
 	void UpdateMaxStats(ActorPtr inActor, const int32 inLevel);
 	void UpdateCurrentStat(const EStatType inStatType, const float inValue);
 	void UpdateCurrentStat(const Stats& inStats);
+	void LevelUp(GameWorldPtr inGameWorld, const int32 inLevel);
 
 public:
 	const Stats&	GetMaxStats() const;

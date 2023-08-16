@@ -256,6 +256,34 @@ void StatsComponent::UpdateCurrentStat(const Stats& inStats)
 	mIsChanageStats = true;
 }
 
+void StatsComponent::LevelUp(GameWorldPtr inGameWorld, const int32 inLevel)
+{
+	if (nullptr == inGameWorld)
+	{
+		return;
+	}
+
+	GameDatasPtr dataManager = std::static_pointer_cast<GameDatas>(inGameWorld->GetDatas());
+	if (nullptr == dataManager)
+	{
+		return;
+	}
+
+	if (mBaseType == EGameDataType::MAX_GAME_DATA || mGrowType == EGameDataType::MAX_GAME_DATA)
+	{
+		return;
+	}
+
+	Stats baseStats;
+	dataManager->GetStats(mBaseType, mClass, baseStats);
+
+	Stats growStats;
+	dataManager->GetStats(mGrowType, mClass, growStats);
+
+	mMaxStats = baseStats + (growStats * inLevel);
+	mCurrentStats = mMaxStats;
+}
+
 const Stats& StatsComponent::GetMaxStats() const
 {
     return mMaxStats;

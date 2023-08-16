@@ -85,6 +85,9 @@ void LevelComponent::AddExperience(const int32& inNextExperience)
 		player->GetCharacterData().set_level(this->GetLevel());
 		LoadNextExperience(world, this->GetLevel());
 
+		player->GetStatComponent().LevelUp(world, this->mLevel);
+		player->GetBuffComponent().ReapplyBuff(player->GetStatComponent());
+
 		Protocol::S2C_LevelUp levelUpPacket;
 		levelUpPacket.set_remote_id(remotePlayer->GetGameObjectID());
 		levelUpPacket.set_level(this->GetLevel());

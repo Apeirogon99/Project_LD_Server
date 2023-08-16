@@ -23,6 +23,8 @@ public:
 	virtual void OnDeath() override;
 
 	virtual void OnReward() abstract;
+
+	virtual void OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush);
 	
 public:
 	void OnMovementEnemy();
@@ -42,6 +44,7 @@ public:
 	const int64					GetSpawnObjectID()			{ return mSpawnObjectID; }
 	StatsComponent&				GetEnemyStatsComponent()	{ return mStatsComponent; }
 	AttackComponent&			GetAutoAttackComponent()	{ return mAutoAttackComponent; }
+	BuffComponent&				GetBuffComponent()			{ return mBuffComponent; }
 	StateManager&				GetStateManager()			{ return mStateManager; }
 	const Location&				GetRecoveryLocation()		{ return mRecoveryLocation; }
 	ActorRef					GetAggroActor()				{ return mAggroActor; }
@@ -51,6 +54,7 @@ protected:
 	int64						mSpawnObjectID;
 	StatsComponent				mStatsComponent;
 	AttackComponent				mAutoAttackComponent;
+	BuffComponent				mBuffComponent;
 
 	StateManager				mStateManager;
 

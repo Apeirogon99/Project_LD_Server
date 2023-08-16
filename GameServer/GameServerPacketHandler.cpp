@@ -471,6 +471,11 @@ bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateS
 	return true;
 }
 
+bool Handle_C2S_SetUseKeyAction(PacketSessionPtr& session, Protocol::C2S_SetUseKeyAction& pkt)
+{
+	return true;
+}
+
 bool Handle_C2S_PressedUseKeyAction(PacketSessionPtr& session, Protocol::C2S_PressedUseKeyAction& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);

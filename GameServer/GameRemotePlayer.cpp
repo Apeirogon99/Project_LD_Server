@@ -122,9 +122,9 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	this->GetParty()->SetPartyLoad(true);
 
 	std::map<int32, BindAction> keyActions;
-	keyActions.insert(std::make_pair(81, BindAction(EBindActionType::Action_Skill, 1)));
+	keyActions.insert(std::make_pair(81, BindAction(EBindActionType::Action_Skill, 3)));
 	keyActions.insert(std::make_pair(87, BindAction(EBindActionType::Action_Skill, 2)));
-	keyActions.insert(std::make_pair(69, BindAction(EBindActionType::Action_Skill, 3)));
+	keyActions.insert(std::make_pair(69, BindAction(EBindActionType::Action_Skill, 1)));
 	keyActions.insert(std::make_pair(82, BindAction(EBindActionType::Action_Skill, 4)));
 	this->mKeyboardComponet.LoadBindKeyAndAction(std::static_pointer_cast<GameRemotePlayer>(shared_from_this()), keyActions);
 

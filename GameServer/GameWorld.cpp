@@ -418,26 +418,26 @@ void GameWorld::RefreshWorldObserver()
 		mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
 	}
 
-	for (auto& worldPlayer : mWorldPlayers)
-	{
-		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(worldPlayer.second->GetRemotePlayer());
-		if (nullptr == remotePlayer)
-		{
-			continue;
-		}
+	//for (auto& worldPlayer : mWorldPlayers)
+	//{
+	//	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(worldPlayer.second->GetRemotePlayer());
+	//	if (nullptr == remotePlayer)
+	//	{
+	//		continue;
+	//	}
 
-		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(remotePlayer->GetCharacter());
-		if (nullptr == character)
-		{
-			continue;
-		}
+	//	PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(remotePlayer->GetCharacter());
+	//	if (nullptr == character)
+	//	{
+	//		continue;
+	//	}
 
-		const Location& actorLocation	= character->GetLocation();
-		const int64		gameObjectID	= character->GetGameObjectID();
-		const uint8		actorType		= character->GetActorType();
+	//	const Location& actorLocation	= character->GetLocation();
+	//	const int64		gameObjectID	= character->GetGameObjectID();
+	//	const uint8		actorType		= character->GetActorType();
 
-		mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
-	}
+	//	mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
+	//}
 }
 
 const EnemySpawnerManagerPtr& GameWorld::GetEnemySpawnerManager()

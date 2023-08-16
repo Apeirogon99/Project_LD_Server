@@ -35,6 +35,7 @@
 #include "LevelComponent.h"
 #include "KeyboardComponent.h"
 #include "SkillComponent.h"
+#include "BuffComponent.h"
 
 //==========================//
 //		 GameContent		//
@@ -65,7 +66,9 @@
 //==========================//
 //   GameContent | Skill	//
 //==========================//
+#include "ActiveSkill.h"
 #include "WarriorBuff.h"
+#include "WarriorShieldBash.h"
 
 //==========================//
 //		    Packet			//
