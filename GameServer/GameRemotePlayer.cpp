@@ -122,10 +122,10 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	this->GetParty()->SetPartyLoad(true);
 
 	std::map<int32, BindAction> keyActions;
-	keyActions.insert(std::make_pair('Q', BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Parrying))));
-	keyActions.insert(std::make_pair('W', BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash))));
-	keyActions.insert(std::make_pair('E', BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Buff))));
-	keyActions.insert(std::make_pair('R', BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow))));
+	keyActions.insert(std::make_pair(static_cast<int32>('Q'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Parrying))));				 
+	keyActions.insert(std::make_pair(static_cast<int32>('W'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash))));			 
+	keyActions.insert(std::make_pair(static_cast<int32>('E'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Buff))));					 
+	keyActions.insert(std::make_pair(static_cast<int32>('R'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow))));
 	this->mKeyboardComponet.LoadBindKeyAndAction(std::static_pointer_cast<GameRemotePlayer>(shared_from_this()), keyActions);
 
 	return true;

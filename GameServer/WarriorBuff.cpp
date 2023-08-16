@@ -13,11 +13,11 @@ void WarriorBuff::OnInitialization()
 {
 	this->SetTick(true, SYSTEM_TICK);
 
-	mSphereCollisionComponent.SetSphereCollisione(100.0f);
+	mSphereCollisionComponent.SetSphereCollisione(430.0f);
 	mSphereCollisionComponent.SetOwner(this->GetActorRef());
 
 	Stats buff;
-	buff.InitStats(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f); //공격력, 아머, 이동속도 증가
+	buff.InitStats(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f);
 	mStatsComponent.InitMaxStats(buff);
 }
 
