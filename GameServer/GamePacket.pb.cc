@@ -1104,6 +1104,7 @@ PROTOBUF_CONSTEXPR S2C_DebugBox::S2C_DebugBox(
     /*decltype(_impl_.start_location_)*/nullptr
   , /*decltype(_impl_.end_location_)*/nullptr
   , /*decltype(_impl_.extent_)*/nullptr
+  , /*decltype(_impl_.duration_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_DebugBoxDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_DebugBoxDefaultTypeInternal()
@@ -1118,6 +1119,7 @@ PROTOBUF_CONSTEXPR S2C_DebugCircle::S2C_DebugCircle(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.location_)*/nullptr
   , /*decltype(_impl_.radius_)*/0
+  , /*decltype(_impl_.duration_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_DebugCircleDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_DebugCircleDefaultTypeInternal()
@@ -1773,6 +1775,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugBox, _impl_.start_location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugBox, _impl_.end_location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugBox, _impl_.extent_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugBox, _impl_.duration_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugCircle, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1781,6 +1784,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugCircle, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugCircle, _impl_.radius_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DebugCircle, _impl_.duration_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterGameServer)},
@@ -1855,7 +1859,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 610, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
   { 618, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
   { 630, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
-  { 639, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
+  { 640, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2094,12 +2098,13 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "_id\030\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030"
   "\004 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\005 \001"
   "(\0132\022.Protocol.SRotator\022\020\n\010duration\030\006 \001(\003"
-  "\"\205\001\n\014S2C_DebugBox\022)\n\016start_location\030\001 \001("
+  "\"\227\001\n\014S2C_DebugBox\022)\n\016start_location\030\001 \001("
   "\0132\021.Protocol.SVector\022\'\n\014end_location\030\002 \001"
   "(\0132\021.Protocol.SVector\022!\n\006extent\030\003 \001(\0132\021."
-  "Protocol.SVector\"F\n\017S2C_DebugCircle\022#\n\010l"
-  "ocation\030\001 \001(\0132\021.Protocol.SVector\022\016\n\006radi"
-  "us\030\002 \001(\002b\006proto3"
+  "Protocol.SVector\022\020\n\010duration\030\004 \001(\002\"X\n\017S2"
+  "C_DebugCircle\022#\n\010location\030\001 \001(\0132\021.Protoc"
+  "ol.SVector\022\016\n\006radius\030\002 \001(\002\022\020\n\010duration\030\003"
+  " \001(\002b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -2107,7 +2112,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 6576, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 6612, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 73,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -19520,6 +19525,7 @@ S2C_DebugBox::S2C_DebugBox(const S2C_DebugBox& from)
       decltype(_impl_.start_location_){nullptr}
     , decltype(_impl_.end_location_){nullptr}
     , decltype(_impl_.extent_){nullptr}
+    , decltype(_impl_.duration_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -19532,6 +19538,7 @@ S2C_DebugBox::S2C_DebugBox(const S2C_DebugBox& from)
   if (from._internal_has_extent()) {
     _this->_impl_.extent_ = new ::Protocol::SVector(*from._impl_.extent_);
   }
+  _this->_impl_.duration_ = from._impl_.duration_;
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_DebugBox)
 }
 
@@ -19543,6 +19550,7 @@ inline void S2C_DebugBox::SharedCtor(
       decltype(_impl_.start_location_){nullptr}
     , decltype(_impl_.end_location_){nullptr}
     , decltype(_impl_.extent_){nullptr}
+    , decltype(_impl_.duration_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -19585,6 +19593,7 @@ void S2C_DebugBox::Clear() {
     delete _impl_.extent_;
   }
   _impl_.extent_ = nullptr;
+  _impl_.duration_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -19615,6 +19624,14 @@ const char* S2C_DebugBox::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_extent(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // float duration = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _impl_.duration_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -19668,6 +19685,16 @@ uint8_t* S2C_DebugBox::_InternalSerialize(
         _Internal::extent(this).GetCachedSize(), target, stream);
   }
 
+  // float duration = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = this->_internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_duration(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -19705,6 +19732,15 @@ size_t S2C_DebugBox::ByteSizeLong() const {
         *_impl_.extent_);
   }
 
+  // float duration = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = this->_internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    total_size += 1 + 4;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -19735,6 +19771,13 @@ void S2C_DebugBox::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
     _this->_internal_mutable_extent()->::Protocol::SVector::MergeFrom(
         from._internal_extent());
   }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = from._internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    _this->_internal_set_duration(from._internal_duration());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -19753,8 +19796,8 @@ void S2C_DebugBox::InternalSwap(S2C_DebugBox* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_DebugBox, _impl_.extent_)
-      + sizeof(S2C_DebugBox::_impl_.extent_)
+      PROTOBUF_FIELD_OFFSET(S2C_DebugBox, _impl_.duration_)
+      + sizeof(S2C_DebugBox::_impl_.duration_)
       - PROTOBUF_FIELD_OFFSET(S2C_DebugBox, _impl_.start_location_)>(
           reinterpret_cast<char*>(&_impl_.start_location_),
           reinterpret_cast<char*>(&other->_impl_.start_location_));
@@ -19795,13 +19838,16 @@ S2C_DebugCircle::S2C_DebugCircle(const S2C_DebugCircle& from)
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.radius_){}
+    , decltype(_impl_.duration_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_location()) {
     _this->_impl_.location_ = new ::Protocol::SVector(*from._impl_.location_);
   }
-  _this->_impl_.radius_ = from._impl_.radius_;
+  ::memcpy(&_impl_.radius_, &from._impl_.radius_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.duration_) -
+    reinterpret_cast<char*>(&_impl_.radius_)) + sizeof(_impl_.duration_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_DebugCircle)
 }
 
@@ -19812,6 +19858,7 @@ inline void S2C_DebugCircle::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.radius_){0}
+    , decltype(_impl_.duration_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -19844,7 +19891,9 @@ void S2C_DebugCircle::Clear() {
     delete _impl_.location_;
   }
   _impl_.location_ = nullptr;
-  _impl_.radius_ = 0;
+  ::memset(&_impl_.radius_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.duration_) -
+      reinterpret_cast<char*>(&_impl_.radius_)) + sizeof(_impl_.duration_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -19866,6 +19915,14 @@ const char* S2C_DebugCircle::_InternalParse(const char* ptr, ::_pbi::ParseContex
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
           _impl_.radius_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // float duration = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _impl_.duration_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else
           goto handle_unusual;
@@ -19916,6 +19973,16 @@ uint8_t* S2C_DebugCircle::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_radius(), target);
   }
 
+  // float duration = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = this->_internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_duration(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -19948,6 +20015,15 @@ size_t S2C_DebugCircle::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
+  // float duration = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = this->_internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    total_size += 1 + 4;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -19977,6 +20053,13 @@ void S2C_DebugCircle::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   if (raw_radius != 0) {
     _this->_internal_set_radius(from._internal_radius());
   }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_duration = from._internal_duration();
+  uint32_t raw_duration;
+  memcpy(&raw_duration, &tmp_duration, sizeof(tmp_duration));
+  if (raw_duration != 0) {
+    _this->_internal_set_duration(from._internal_duration());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -19995,8 +20078,8 @@ void S2C_DebugCircle::InternalSwap(S2C_DebugCircle* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_DebugCircle, _impl_.radius_)
-      + sizeof(S2C_DebugCircle::_impl_.radius_)
+      PROTOBUF_FIELD_OFFSET(S2C_DebugCircle, _impl_.duration_)
+      + sizeof(S2C_DebugCircle::_impl_.duration_)
       - PROTOBUF_FIELD_OFFSET(S2C_DebugCircle, _impl_.location_)>(
           reinterpret_cast<char*>(&_impl_.location_),
           reinterpret_cast<char*>(&other->_impl_.location_));

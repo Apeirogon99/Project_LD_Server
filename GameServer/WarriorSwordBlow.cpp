@@ -55,7 +55,7 @@ bool WarriorSwordBlow::IsValid()
 
 		if(false == world->IsValidActor(this->GetGameObjectID()))
 		{
-			return;
+			return false;
 		}
 
 		bool ret = world->DestroyActor(this->GetGameObjectID());
@@ -116,6 +116,7 @@ void WarriorSwordBlow::Active()
 	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(start));
 	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(end));
 	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(extent));
+	debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
 	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);

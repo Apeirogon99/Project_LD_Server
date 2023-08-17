@@ -81,7 +81,7 @@ bool WarriorBuff::IsValid()
 
 		if (false == world->IsValidActor(this->GetGameObjectID()))
 		{
-			return;
+			return false;
 		}
 
 		bool ret = world->DestroyActor(this->GetGameObjectID());
@@ -119,6 +119,7 @@ void WarriorBuff::Active()
 	Protocol::S2C_DebugCircle debugPacket;
 	debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
 	debugPacket.set_radius(radius);
+	debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
 	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);

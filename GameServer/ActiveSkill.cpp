@@ -119,6 +119,7 @@ void ActiveSkill::DeActive(const int64& inDuration)
 	}
 	const int64& worldTime = world->GetWorldTime();
 
+	mDeActiveTime = inDuration;
 	world->PushTask(worldTime + inDuration, &GameWorld::DestroyActor, this->GetGameObjectID());
 
 }

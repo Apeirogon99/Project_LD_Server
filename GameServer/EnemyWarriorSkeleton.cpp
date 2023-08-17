@@ -75,9 +75,10 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 
 	//DEBUG
 	Protocol::S2C_DebugBox debugPacket;
-	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(location));
-	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(location));
+	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(boxCenterLocation));
+	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(boxCenterLocation));
 	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inRange));
+	debugPacket.set_duration((1700 - 600) / 1000.0f);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
 	this->BrodcastPlayerViewers(sendBuffer);

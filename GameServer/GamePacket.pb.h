@@ -12926,6 +12926,7 @@ class S2C_DebugBox final :
     kStartLocationFieldNumber = 1,
     kEndLocationFieldNumber = 2,
     kExtentFieldNumber = 3,
+    kDurationFieldNumber = 4,
   };
   // .Protocol.SVector start_location = 1;
   bool has_start_location() const;
@@ -12981,6 +12982,15 @@ class S2C_DebugBox final :
       ::Protocol::SVector* extent);
   ::Protocol::SVector* unsafe_arena_release_extent();
 
+  // float duration = 4;
+  void clear_duration();
+  float duration() const;
+  void set_duration(float value);
+  private:
+  float _internal_duration() const;
+  void _internal_set_duration(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S2C_DebugBox)
  private:
   class _Internal;
@@ -12992,6 +13002,7 @@ class S2C_DebugBox final :
     ::Protocol::SVector* start_location_;
     ::Protocol::SVector* end_location_;
     ::Protocol::SVector* extent_;
+    float duration_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -13122,6 +13133,7 @@ class S2C_DebugCircle final :
   enum : int {
     kLocationFieldNumber = 1,
     kRadiusFieldNumber = 2,
+    kDurationFieldNumber = 3,
   };
   // .Protocol.SVector location = 1;
   bool has_location() const;
@@ -13150,6 +13162,15 @@ class S2C_DebugCircle final :
   void _internal_set_radius(float value);
   public:
 
+  // float duration = 3;
+  void clear_duration();
+  float duration() const;
+  void set_duration(float value);
+  private:
+  float _internal_duration() const;
+  void _internal_set_duration(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S2C_DebugCircle)
  private:
   class _Internal;
@@ -13160,6 +13181,7 @@ class S2C_DebugCircle final :
   struct Impl_ {
     ::Protocol::SVector* location_;
     float radius_;
+    float duration_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -20687,6 +20709,26 @@ inline void S2C_DebugBox::set_allocated_extent(::Protocol::SVector* extent) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_DebugBox.extent)
 }
 
+// float duration = 4;
+inline void S2C_DebugBox::clear_duration() {
+  _impl_.duration_ = 0;
+}
+inline float S2C_DebugBox::_internal_duration() const {
+  return _impl_.duration_;
+}
+inline float S2C_DebugBox::duration() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DebugBox.duration)
+  return _internal_duration();
+}
+inline void S2C_DebugBox::_internal_set_duration(float value) {
+  
+  _impl_.duration_ = value;
+}
+inline void S2C_DebugBox::set_duration(float value) {
+  _internal_set_duration(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DebugBox.duration)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_DebugCircle
@@ -20794,6 +20836,26 @@ inline void S2C_DebugCircle::_internal_set_radius(float value) {
 inline void S2C_DebugCircle::set_radius(float value) {
   _internal_set_radius(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_DebugCircle.radius)
+}
+
+// float duration = 3;
+inline void S2C_DebugCircle::clear_duration() {
+  _impl_.duration_ = 0;
+}
+inline float S2C_DebugCircle::_internal_duration() const {
+  return _impl_.duration_;
+}
+inline float S2C_DebugCircle::duration() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DebugCircle.duration)
+  return _internal_duration();
+}
+inline void S2C_DebugCircle::_internal_set_duration(float value) {
+  
+  _impl_.duration_ = value;
+}
+inline void S2C_DebugCircle::set_duration(float value) {
+  _internal_set_duration(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DebugCircle.duration)
 }
 
 #ifdef __GNUC__

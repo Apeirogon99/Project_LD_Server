@@ -31,5 +31,6 @@ public:
 protected:
 	int32 mSKillID;
 	int64 mActiveTime;
+	int64 mDeActiveTime;
 };
 

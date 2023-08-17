@@ -39,7 +39,7 @@ bool WarriorShieldBash::IsValid()
     {
         if (false == world->IsValidActor(this->GetGameObjectID()))
         {
-            return;
+            return false;
         }
 
         bool ret = world->DestroyActor(this->GetGameObjectID());
@@ -105,6 +105,7 @@ void WarriorShieldBash::SturnActive()
     Protocol::S2C_DebugCircle debugPacket;
     debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
     debugPacket.set_radius(mSturnRadis);
+    debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
 
     SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
     owner->GetRemoteClient().lock()->Send(sendBuffer);
@@ -171,6 +172,7 @@ void WarriorShieldBash::SlowActive()
     Protocol::S2C_DebugCircle debugPacket;
     debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
     debugPacket.set_radius(mMaxRadius);
+    debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
 
     SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
     owner->GetRemoteClient().lock()->Send(sendBuffer);
