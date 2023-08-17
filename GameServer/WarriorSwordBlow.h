@@ -25,8 +25,9 @@ public:
 	const bool& IsCharge() const;
 
 private:
-	bool mIsCharge;
-	FVector mChargeVelocity;
+	bool	mIsCharge;
+	float	mChargeVelocity;
 	float	mMaxChargeDuration;
+	float	mDefaultChargeDuration;
 };
 

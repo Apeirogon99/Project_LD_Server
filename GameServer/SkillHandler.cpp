@@ -182,7 +182,7 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         {
             return true;
         }
-        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 15000);
+        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 1000);
 
         warriorSwordBlow->Active();
         warriorSwordBlow->DeActive(2000);

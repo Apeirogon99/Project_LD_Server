@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorSwordBlow.h"
 
-WarriorSwordBlow::WarriorSwordBlow() : ActiveSkill(L"WarriorSwordBlow"), mIsCharge(false), mChargeVelocity(100.0f, 100.0f, 100.0f), mMaxChargeDuration(3000.0f)
+WarriorSwordBlow::WarriorSwordBlow() : ActiveSkill(L"WarriorSwordBlow"), mIsCharge(false), mChargeVelocity(100.0f), mMaxChargeDuration(3.0f), mDefaultChargeDuration(1.0f)
 {
 }
 
@@ -63,7 +63,7 @@ void WarriorSwordBlow::Active()
 	}
 	const int64& endChargeTime = world->GetWorldTime();
 	float chargeDuration = (endChargeTime - this->mActiveTime) / 1000.0f;
-	chargeDuration = (chargeDuration >= mMaxChargeDuration) ? mMaxChargeDuration : chargeDuration;
+	chargeDuration = (chargeDuration >= mMaxChargeDuration) ? mMaxChargeDuration : (chargeDuration >= mDefaultChargeDuration) ? chargeDuration : mDefaultChargeDuration;
 
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
@@ -71,25 +71,27 @@ void WarriorSwordBlow::Active()
 		return;
 	}
 
-	PlayerCharacterPtr character = remotePlayer->GetCharacter();
-	if (nullptr == character)
+	PlayerCharacterPtr instigated = remotePlayer->GetCharacter();
+	if (nullptr == instigated)
 	{
 		return;
 	}
 
 	FRotator rotation = this->GetRotation();
-	FVector fowrad = this->GetRotation().GetForwardVector();
+	FVector fowrad = rotation.GetForwardVector();
 
 	FVector start = this->GetLocation();
 	FVector end = start + (fowrad * chargeDuration * mChargeVelocity);
-	FVector extent = FVector(100.0f, 100.0f, 100.0f);
-	const float radius = (0.5f * std::sqrtf(std::powf(extent.GetX(), 2) + std::powf(extent.GetY(), 2)));	//외접원 반지름
+	FVector mid = start - (start - end) / 2;
+	FVector extent = FVector(50.0f, chargeDuration * mChargeVelocity, 50.0f);
 
-	BoxTrace boxTrace(start, end, false, extent, rotation);
+	BoxTrace boxTrace(mid, mid, false, extent, rotation);
+
+	const float radius = (0.5f * std::sqrtf(std::powf(extent.GetX(), 2) + std::powf(extent.GetY(), 2)));	//외접원 반지름
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
-	bool result = world->FindActors((start - end) / 2, radius, findActorType, findActors);
+	bool result = world->FindActors(mid, radius, findActorType, findActors);
 	if (!result)
 	{
 		return;
@@ -106,7 +108,7 @@ void WarriorSwordBlow::Active()
 		bool isOverlap = boxTrace.BoxCollisionTrace(enemy->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
-			enemy->PushTask(endChargeTime, &Actor::OnHit, this->GetActorPtr(), 100.0f);
+			enemy->PushTask(endChargeTime, &Actor::OnHit, instigated->GetActorPtr(), 100.0f);
 		}
 
 	}

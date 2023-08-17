@@ -52,7 +52,9 @@ public:
 	BoxTrace& operator=(BoxTrace&&) noexcept = delete;
 
 public:
-	const float				GetBoxLength();
+	const float	GetXLength();
+	const float	GetYLength();
+	const float	GetZLength();
 
 public:
 	virtual bool BoxCollisionTrace(BoxCollisionComponent& inBoxCollisionComponent)				override;
