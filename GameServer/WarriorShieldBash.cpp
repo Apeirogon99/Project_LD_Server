@@ -96,6 +96,14 @@ void WarriorShieldBash::SturnActive()
 
     FVector	location = this->GetLocation();
 
+    //DEBUG
+    Protocol::S2C_DebugCircle debugPacket;
+    debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+    debugPacket.set_radius(mSturnRadis);
+
+    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+    owner->GetRemoteClient().lock()->Send(sendBuffer);
+
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;
     bool result = world->FindActors(location, mSturnRadis, findActorType, findActors);
@@ -153,6 +161,14 @@ void WarriorShieldBash::SlowActive()
     const int64 worldTime = world->GetWorldTime();
 
     FVector	location = this->GetLocation();
+
+    //DEBUG
+    Protocol::S2C_DebugCircle debugPacket;
+    debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+    debugPacket.set_radius(mMaxRadius);
+
+    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+    owner->GetRemoteClient().lock()->Send(sendBuffer);
 
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;

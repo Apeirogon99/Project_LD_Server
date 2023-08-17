@@ -89,6 +89,15 @@ void WarriorSwordBlow::Active()
 
 	const float radius = (0.5f * std::sqrtf(std::powf(extent.GetX(), 2) + std::powf(extent.GetY(), 2)));	//외접원 반지름
 
+	//DEBUG
+	Protocol::S2C_DebugBox debugPacket;
+	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(start));
+	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(end));
+	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(extent));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
+
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
 	bool result = world->FindActors(mid, radius, findActorType, findActors);

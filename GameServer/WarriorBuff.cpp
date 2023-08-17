@@ -109,6 +109,14 @@ void WarriorBuff::Active()
 	const float radius		= this->mSphereCollisionComponent.GetSphereCollision().GetRadius();
 	const Stats& stat		= this->mStatsComponent.GetMaxStats();
 
+	//DEBUG
+	Protocol::S2C_DebugCircle debugPacket;
+	debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	debugPacket.set_radius(radius);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
+
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
 	bool result = world->FindActors(location, radius, findActorType, findActors);

@@ -458,6 +458,15 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	Location	boxCenterLocation = location - minusCollision + addRange;
 	BoxTrace	boxTrace(boxCenterLocation, boxCenterLocation, true, inRange, rotation);
 
+	//DEBUG
+	Protocol::S2C_DebugBox debugPacket;
+	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(location));
+	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(location));
+	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inRange));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
+
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
 	std::vector<ActorPtr> findActors;
 	bool result = world->FindActors(boxCenterLocation, radius, findActorType, findActors);
