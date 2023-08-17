@@ -37,6 +37,11 @@ bool WarriorShieldBash::IsValid()
     GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
     if (nullptr == remotePlayer)
     {
+        if (false == world->IsValidActor(this->GetGameObjectID()))
+        {
+            return;
+        }
+
         bool ret = world->DestroyActor(this->GetGameObjectID());
         if (false == ret)
         {

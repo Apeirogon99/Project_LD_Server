@@ -11,6 +11,7 @@ WarriorSwordBlow::~WarriorSwordBlow()
 
 void WarriorSwordBlow::OnInitialization()
 {
+	SetTick(true, SYSTEM_TICK);
 }
 
 void WarriorSwordBlow::OnDestroy()
@@ -24,6 +25,20 @@ void WarriorSwordBlow::OnDestroy()
 
 void WarriorSwordBlow::OnTick(const int64 inDeltaTime)
 {
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	printf("CHARGE : %f\n", (world->GetWorldTime() - this->mActiveTime) / 1000.0f);
+
 }
 
 bool WarriorSwordBlow::IsValid()
@@ -37,6 +52,12 @@ bool WarriorSwordBlow::IsValid()
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
+
+		if(false == world->IsValidActor(this->GetGameObjectID()))
+		{
+			return;
+		}
+
 		bool ret = world->DestroyActor(this->GetGameObjectID());
 		if (false == ret)
 		{
@@ -80,10 +101,11 @@ void WarriorSwordBlow::Active()
 	FRotator rotation = this->GetRotation();
 	FVector fowrad = rotation.GetForwardVector();
 
-	FVector start = this->GetLocation();
+	float playerCollision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	FVector start = (fowrad * playerCollision) * this->GetLocation();
 	FVector end = start + (fowrad * chargeDuration * mChargeVelocity);
 	FVector mid = start - (start - end) / 2;
-	FVector extent = FVector(50.0f, chargeDuration * mChargeVelocity, 50.0f);
+	FVector extent = FVector(chargeDuration * mChargeVelocity, 50.0f, 50.0f);
 
 	BoxTrace boxTrace(mid, mid, false, extent, rotation);
 
