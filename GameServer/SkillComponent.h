@@ -19,12 +19,15 @@ public:
 	void UpdateSkillCoolTime(const int64& inDeltaTime);
 
 public:
-	void UseSkill(const int32& inSkillID, const int64& inDuration);
+	void UseSkill(ActiveSkillRef inActiveSkill, const int32& inSkillID, const int64& inDuration);
+	void SetActiveSkill(ActiveSkillRef inActiveSkill);
 
 public:
 	const bool CanUseSkill(const int32& inSkillID);
+	ActiveSkillRef GetActiveSkill();
 
 private:
-	std::map<int32, int64> mSkills;
-	std::set<int32> mUseSkills;
+	ActiveSkillRef			mActiveSkill;
+	std::map<int32, int64>	mSkills;
+	std::set<int32>			mUseSkills;
 };

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorShieldBash.h"
 
-WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(0.0f), mMaxRadius(0.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
+WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mMaxRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
 {
 }
 
@@ -28,13 +28,28 @@ void WarriorShieldBash::OnTick(const int64 inDeltaTime)
 
 bool WarriorShieldBash::IsValid()
 {
-	return true;
+    GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+    if (nullptr == world)
+    {
+        return false;
+    }
+
+    GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+    if (nullptr == remotePlayer)
+    {
+        bool ret = world->DestroyActor(this->GetGameObjectID());
+        if (false == ret)
+        {
+            this->GameObjectLog(L"Can't destroy skill\n");
+        }
+        return ret;
+    }
+
+    return true;
 }
 
-void WarriorShieldBash::SetWarriorShieldBash(const float& inSturnRadius, const float& inMaxRadius, const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSturnTime, const int64& inActiveSlowTime)
+void WarriorShieldBash::SetWarriorShieldBash(const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSturnTime, const int64& inActiveSlowTime)
 {
-    this->mSturnRadis       = inSturnRadius;
-    this->mMaxRadius        = inMaxRadius;
     this->mDamage           = inDamage;
     this->mDebuffMovement   = inDebuffMovement;
     this->mSturnDuration    = inSturnDuration;

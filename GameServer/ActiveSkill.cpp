@@ -122,3 +122,8 @@ void ActiveSkill::DeActive(const int64& inDuration)
 	world->PushTask(worldTime + inDuration, &GameWorld::DestroyActor, this->GetGameObjectID());
 
 }
+
+const int32& ActiveSkill::GetSkillID() const
+{
+	return mSKillID;
+}

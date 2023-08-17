@@ -39,7 +39,7 @@ void SkillComponent::UpdateSkillCoolTime(const int64& inDeltaTime)
 	}
 }
 
-void SkillComponent::UseSkill(const int32& inSkillID, const int64& inDuration)
+void SkillComponent::UseSkill(ActiveSkillRef inActiveSkill, const int32& inSkillID, const int64& inDuration)
 {
 	auto findSkill = mSkills.find(inSkillID);
 	if (findSkill == mSkills.end())
@@ -57,6 +57,11 @@ void SkillComponent::UseSkill(const int32& inSkillID, const int64& inDuration)
 	findSkill->second = inDuration;
 }
 
+void SkillComponent::SetActiveSkill(ActiveSkillRef inActiveSkill)
+{
+	mActiveSkill = inActiveSkill;
+}
+
 const bool SkillComponent::CanUseSkill(const int32& inSkillID)
 {
 	auto findSkill = mSkills.find(inSkillID);
@@ -72,4 +77,9 @@ const bool SkillComponent::CanUseSkill(const int32& inSkillID)
 	}
 
 	return true;
+}
+
+ActiveSkillRef SkillComponent::GetActiveSkill()
+{
+	return mActiveSkill;
 }

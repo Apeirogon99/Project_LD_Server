@@ -51,10 +51,10 @@ void KeyboardComponent::PressedKey(int32 inKey)
     case EBindActionType::Action_Unspecified:
         break;
     case EBindActionType::Action_Item:
-        result = ItemHandler::HandlePacket(mOwner, action.GetActionID());
+        result = ItemHandler::HandlePacket(mOwner, action.GetActionID(), true);
         break;
     case EBindActionType::Action_Skill:
-        result = SkillHandler::HandlePacket(mOwner, action.GetActionID());
+        result = SkillHandler::HandlePacket(mOwner, action.GetActionID(), true);
         break;
     default:
         break;
@@ -81,10 +81,10 @@ void KeyboardComponent::ReleaseKey(int32 inKey)
     case EBindActionType::Action_Unspecified:
         break;
     case EBindActionType::Action_Item:
-        ItemHandler::HandlePacket(mOwner, action.GetActionID());
+        ItemHandler::HandlePacket(mOwner, action.GetActionID(), false);
         break;
     case EBindActionType::Action_Skill:
-        SkillHandler::HandlePacket(mOwner, action.GetActionID());
+        SkillHandler::HandlePacket(mOwner, action.GetActionID(), false);
         break;
     default:
         break;

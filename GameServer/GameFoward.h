@@ -86,9 +86,17 @@ using QuestRef						= std::weak_ptr<Quest>;
 //  GameContent | Projctile //
 //==========================//
 class Arrow;
-
 using ArrowPtr						= std::shared_ptr<Arrow>;
 using ArrowRef						= std::weak_ptr<Arrow>;
+
+//==========================//
+//  GameContent | Skill		//
+//==========================//
+class ActiveSkill;
+using ActiveSkillPtr = std::shared_ptr<ActiveSkill>;
+using ActiveSkillRef = std::weak_ptr<ActiveSkill>;
+
+
 
 //==========================//
 //   GameContent | Enemy	//

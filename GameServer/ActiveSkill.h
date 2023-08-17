@@ -25,7 +25,10 @@ public:
 	virtual void Active();
 	void DeActive(const int64& inDuration);
 
-private:
+public:
+	const int32& GetSkillID() const;
+
+protected:
 	int32 mSKillID;
 	int64 mActiveTime;
 };

@@ -69,6 +69,8 @@
 #include "ActiveSkill.h"
 #include "WarriorBuff.h"
 #include "WarriorShieldBash.h"
+#include "WarriorSwordBlow.h"
+#include "WarriorParrying.h"
 
 //==========================//
 //		    Packet			//
