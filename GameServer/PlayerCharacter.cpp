@@ -373,6 +373,16 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
+
+	printf("[OnHit]\n");
+
+	ActiveSkillPtr activeSKill = this->GetSkillComponent().GetActiveSkill().lock();
+	if (nullptr != activeSKill)
+	{
+		activeSKill->OnHit(inInstigated, inDamage);
+		return;
+	}
+
 	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth();
 	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP - inDamage);
 }

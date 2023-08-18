@@ -31,13 +31,14 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     }
     SkillComponent& skillComponent = character->GetSkillComponent();
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
+    FRotator rotation = character->GetRotation();
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
     {
         return false;
     }
     
-    ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+    ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
     {
         return false;
@@ -49,6 +50,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
         return false;
     }
     skillComponent.UseSkill(warriorBuff, static_cast<int32>(ESkillID::Skill_Warrior_Buff), 60000);
+    skillComponent.SetActiveSkill(warriorBuff);
 
     warriorBuff->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff), world->GetWorldTime());
     warriorBuff->Active();
@@ -64,6 +66,46 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     {
         return true;
     }
+
+    GameRemotePlayerPtr remotePlayer = inGameRemotePlayer.lock();
+
+    GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+    if (nullptr == world)
+    {
+        return false;
+    }
+    const int64 worldTime = world->GetWorldTime();
+
+    PlayerCharacterPtr character = remotePlayer->GetCharacter();
+    if (nullptr == character)
+    {
+        return false;
+    }
+    SkillComponent& skillComponent = character->GetSkillComponent();
+    FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
+    FRotator rotation = character->GetRotation();
+
+    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying)))
+    {
+        return false;
+    }
+
+    ActorPtr newActor = world->SpawnActor<WarriorParrying>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
+    if (nullptr == newActor)
+    {
+        return false;
+    }
+
+    std::shared_ptr<WarriorParrying> warriorParrying = std::static_pointer_cast<WarriorParrying>(newActor);
+    if (nullptr == warriorParrying)
+    {
+        return false;
+    }
+    skillComponent.UseSkill(warriorParrying, static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 2000);
+    skillComponent.SetActiveSkill(warriorParrying);
+
+    warriorParrying->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), world->GetWorldTime());
+    warriorParrying->Active();
 
     return true;
 }
@@ -92,13 +134,14 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     }
     SkillComponent& skillComponent = character->GetSkillComponent();
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
+    FRotator rotation = character->GetRotation();
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash)))
     {
         return false;
     }
 
-    ActorPtr newActor = world->SpawnActor<WarriorShieldBash>(remotePlayer->GetGameObjectRef(), location, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+    ActorPtr newActor = world->SpawnActor<WarriorShieldBash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
     {
         return false;
@@ -110,6 +153,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
         return false;
     }
     skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 10000);
+    skillComponent.SetActiveSkill(warriorShieldBash);
 
     warriorShieldBash->SetWarriorShieldBash(10.0f, -50.0f, 2000, 3000, 1070, 1470);
 
