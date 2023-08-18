@@ -20,9 +20,9 @@ void PlayerCharacter::OnInitialization()
 	this->mStatComponent.SetSyncTime(GAME_TICK);
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(500,		170,	1100, FVector(130.0f, 300.0f, 300.0f)));
-	infos.push_back(AttackInfo(710,		180,	1100, FVector(130.0f, 300.0f, 300.0f)));
-	infos.push_back(AttackInfo(0,		310,	1000, FVector(180.0f, 150.0f, 150.0f)));
+	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 150.0f, 100.0f)));
+	infos.push_back(AttackInfo(710,		180,	1100, FVector(100.0f, 150.0f, 100.0f)));
+	infos.push_back(AttackInfo(0,		310,	1000, FVector(180.0f, 100.0f, 150.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 
 	this->mMovementComponent.SetRestrictMovement(true);
@@ -447,25 +447,21 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector		location	= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
-	FRotator	rotation	= FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
-	FVector		foward		= rotation.GetForwardVector();
-	const float collision	= this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
-	const float radius		= (0.5f * std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2)));	//외접원 반지름
+	FVector			location	= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	FRotator		rotation	= FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
+	FVector			foward		= rotation.GetForwardVector();
+	const float		collision	= this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
+	const float		radius		= std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2));	//외접원 반지름
 
-	const FVector minusCollision = foward * collision;
-	const FVector addRange = foward * inRange.GetX();
-	Location	boxCenterLocation = location - minusCollision + addRange;
-	BoxTrace	boxTrace(boxCenterLocation, boxCenterLocation, true, inRange, rotation);
+	Location		boxStartLocation	= location; // +(foward * collision); 앞에 두고 싶으면 추가해야함
+	Location		boxEndLocation		= boxStartLocation + (foward * (inRange.GetX() * 2));
+	Location		boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
+	BoxTrace		boxTrace(boxStartLocation, boxEndLocation, true, inRange, rotation);
 
 	//DEBUG
-	Protocol::S2C_DebugBox debugPacket;
-	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(location));
-	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(location));
-	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inRange));
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawBox(remotePlayer->GetRemoteClient().lock(), boxStartLocation, boxEndLocation, inRange, debugDuration);
+	PacketUtils::DebugDrawSphere(remotePlayer->GetRemoteClient().lock(), boxCenterLocation, radius, debugDuration);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
 	std::vector<ActorPtr> findActors;

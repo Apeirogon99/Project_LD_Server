@@ -25,7 +25,7 @@ public:
 
 private:
 	float mSturnRadis;
-	float mMaxRadius;
+	float mSlowRadius;
 	float mDamage;
 	float mDebuffMovement;
 	int64 mSturnDuration;

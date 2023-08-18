@@ -30,7 +30,7 @@ void EnemyWarriorSkeleton::OnInitialization()
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(0, 600, 1700, FVector(80.0f, 80.0f, 100.0f)));
+	infos.push_back(AttackInfo(0, 600, 1700, FVector(50.0f, 80.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
@@ -66,22 +66,17 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 	FRotator	rotation = FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
 	FVector		foward = rotation.GetForwardVector();
 	const float collision = this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
-	const float radius = (0.5f * std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2)));	//외접원 반지름
+	const float radius = std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2));	//외접원 반지름
 
-	const FVector	minusCollision = foward * collision;
-	const FVector	addRange = foward * inRange.GetX();
-	Location		boxCenterLocation = location - minusCollision + addRange;
-	BoxTrace		boxTrace(boxCenterLocation, boxCenterLocation, true, inRange, rotation);
+	Location boxStartLocation = location;
+	Location boxEndLocation = boxStartLocation + (foward * (inRange.GetX() * 2));
+	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
+	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, inRange, rotation);
 
 	//DEBUG
-	Protocol::S2C_DebugBox debugPacket;
-	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(boxCenterLocation));
-	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(boxCenterLocation));
-	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inRange));
-	debugPacket.set_duration((1700 - 600) / 1000.0f);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, inRange, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
 	auto playerIter = mPlayerViewers.begin();
 	for (playerIter; playerIter != mPlayerViewers.end(); ++playerIter)

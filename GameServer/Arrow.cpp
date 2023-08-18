@@ -189,14 +189,15 @@ void Arrow::CheackCollision()
 	const int64 worldTime = world->GetWorldTime();
 
 	FVector		location	= this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
-	FVector		foward		= this->GetRotation().GetForwardVector() * -50.0f;
-	FVector		arrowHead	= location + foward;
 	const float radius		= this->mCollisionComponent.GetSphereCollision().GetRadius();
-	SphereTrace	sphereTrace(arrowHead, arrowHead, true, radius);
+	SphereTrace	sphereTrace(location, location, true, radius);
+
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 20.0f, debugDuration);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(arrowHead, 100.0f, findActorType, findActors);
+	bool result = world->FindActors(location, 50.0f, findActorType, findActors);
 	if (!result)
 	{
 		return;

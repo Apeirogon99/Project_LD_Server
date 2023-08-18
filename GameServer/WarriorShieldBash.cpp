@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorShieldBash.h"
 
-WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mMaxRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
+WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mSlowRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
 {
 }
 
@@ -102,13 +102,8 @@ void WarriorShieldBash::SturnActive()
     FVector	location = this->GetLocation();
 
     //DEBUG
-    Protocol::S2C_DebugCircle debugPacket;
-    debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-    debugPacket.set_radius(mSturnRadis);
-    debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
-
-    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-    owner->GetRemoteClient().lock()->Send(sendBuffer);
+    const float duration = 3.0f;
+    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSturnRadis, duration);
 
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;
@@ -127,7 +122,7 @@ void WarriorShieldBash::SturnActive()
         }
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
-        float distanceDamage = mDamage * (1.0f - (distance2D / mMaxRadius));
+        float distanceDamage = mDamage * (1.0f - (distance2D / mSlowRadius));
         if (distance2D <= mSturnRadis)
         {
             enemy->GetStateManager().SetState(EStateType::State_Stun);
@@ -169,17 +164,12 @@ void WarriorShieldBash::SlowActive()
     FVector	location = this->GetLocation();
 
     //DEBUG
-    Protocol::S2C_DebugCircle debugPacket;
-    debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-    debugPacket.set_radius(mMaxRadius);
-    debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
-
-    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-    owner->GetRemoteClient().lock()->Send(sendBuffer);
+    const float duration = 3.0f;
+    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSlowRadius, duration);
 
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;
-    bool result = world->FindActors(location, mMaxRadius, findActorType, findActors);
+    bool result = world->FindActors(location, mSlowRadius, findActorType, findActors);
     if (!result)
     {
         return;
@@ -194,8 +184,8 @@ void WarriorShieldBash::SlowActive()
         }
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
-        float distanceDamage = mDamage * (1.0f - (distance2D / mMaxRadius));
-        if (mSturnRadis < distance2D && distance2D <= mMaxRadius)
+        float distanceDamage = mDamage * (1.0f - (distance2D / mSlowRadius));
+        if (mSturnRadis < distance2D && distance2D <= mSlowRadius)
         {
             enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
             enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, false);

@@ -87,6 +87,11 @@ void EnemyArcherSkeleton::OnAutoAttackTargeting(const float inDamage, const FVec
 		return;
 	}
 
+	//DEBUG
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), this->GetEnemyStatsComponent().GetCurrentStats().GetRange(), debugDuration);
+
+
 	arrow->SetDamage(inDamage);
 	arrow->SetLifeTime(5000);
 }

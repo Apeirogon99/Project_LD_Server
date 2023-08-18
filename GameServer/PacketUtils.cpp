@@ -53,3 +53,75 @@ Protocol::SRotator PacketUtils::ToSRotator(const FRotator& inRotator)
     rotator.set_roll(inRotator.GetRoll());
     return rotator;
 }
+
+void PacketUtils::DebugDrawBox(RemoteClientPtr inClient, const FVector& inStart, const FVector& inEnd, const FVector& inExtent, const float& inDuration)
+{
+#ifdef DEBUG_DRAW
+    if (inClient)
+    {
+        Protocol::S2C_DebugBox debugPacket;
+        debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(inStart));
+        debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(inEnd));
+        debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inExtent));
+        debugPacket.set_duration(inDuration);
+
+        SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+        inClient->Send(sendBuffer);
+    }
+#endif // DEBUG_DRAW
+}
+
+void PacketUtils::DebugDrawBox(const std::set<RemoteClientPtr>& inClients, const FVector& inStart, const FVector& inEnd, const FVector& inExtent, const float& inDuration)
+{
+#ifdef DEBUG_DRAW
+    
+    Protocol::S2C_DebugBox debugPacket;
+    debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(inStart));
+    debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(inEnd));
+    debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(inExtent));
+    debugPacket.set_duration(inDuration);
+
+    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+
+    for (auto player : inClients)
+    {
+        player->Send(sendBuffer);
+    }
+
+#endif // DEBUG_DRAW
+}
+
+void PacketUtils::DebugDrawSphere(RemoteClientPtr inClient, const FVector& inLocation, const float& inRadius, const float& inDuration)
+{
+#ifdef DEBUG_DRAW
+    if (inClient)
+    {
+        Protocol::S2C_DebugCircle debugPacket;
+        debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+        debugPacket.set_radius(inRadius);
+        debugPacket.set_duration(inDuration);
+
+        SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+        inClient->Send(sendBuffer);
+    }
+#endif // DEBUG_DRAW
+}
+
+void PacketUtils::DebugDrawSphere(const std::set<RemoteClientPtr>& inClients, const FVector& inLocation, const float& inRadius, const float& inDuration)
+{
+#ifdef DEBUG_DRAW
+
+    Protocol::S2C_DebugCircle debugPacket;
+    debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+    debugPacket.set_radius(inRadius);
+    debugPacket.set_duration(inDuration);
+
+    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
+
+    for (auto player : inClients)
+    {
+        player->Send(sendBuffer);
+    }
+
+#endif // DEBUG_DRAW
+}

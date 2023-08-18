@@ -31,6 +31,11 @@ void WarriorSwordBlow::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
+	if (false == mIsCharge)
+	{
+		return;
+	}
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -75,7 +80,11 @@ void WarriorSwordBlow::Active()
     {
         mIsCharge = true;
 		return;
-    }
+	}
+	else
+	{
+		mIsCharge = false;
+	}
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -86,44 +95,40 @@ void WarriorSwordBlow::Active()
 	float chargeDuration = (endChargeTime - this->mActiveTime) / 1000.0f;
 	chargeDuration = (chargeDuration >= mMaxChargeDuration) ? mMaxChargeDuration : (chargeDuration >= mDefaultChargeDuration) ? chargeDuration : mDefaultChargeDuration;
 
-	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
-	if (nullptr == remotePlayer)
+	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == owner)
 	{
 		return;
 	}
 
-	PlayerCharacterPtr instigated = remotePlayer->GetCharacter();
+	PlayerCharacterPtr instigated = owner->GetCharacter();
 	if (nullptr == instigated)
 	{
 		return;
 	}
 
-	FRotator rotation = this->GetRotation();
-	FVector fowrad = rotation.GetForwardVector();
+	FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
 
-	float playerCollision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
-	FVector start = (fowrad * playerCollision) * this->GetLocation();
-	FVector end = start + (fowrad * chargeDuration * mChargeVelocity);
-	FVector mid = start - (start - end) / 2;
-	FVector extent = FVector(chargeDuration * mChargeVelocity, 50.0f, 50.0f);
+	FVector		location = instigated->GetMovementComponent().GetCurrentLocation(instigated->GetActorPtr());
+	FRotator	rotation = this->GetRotation();
+	FVector		foward = rotation.GetForwardVector();
+	const float collision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
-	BoxTrace boxTrace(mid, mid, false, extent, rotation);
-
-	const float radius = (0.5f * std::sqrtf(std::powf(extent.GetX(), 2) + std::powf(extent.GetY(), 2)));	//외접원 반지름
+	Location boxStartLocation	= location + (foward * collision);
+	Location boxEndLocation		= boxStartLocation + (foward * (boxExtent.GetX() * 2));
+	Location boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
+	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	//DEBUG
-	Protocol::S2C_DebugBox debugPacket;
-	debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(start));
-	debugPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(end));
-	debugPacket.mutable_extent()->CopyFrom(PacketUtils::ToSVector(extent));
-	debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
-	bool result = world->FindActors(mid, radius, findActorType, findActors);
+	bool result = world->FindActors(boxCenterLocation, radius, findActorType, findActors);
 	if (!result)
 	{
 		return;

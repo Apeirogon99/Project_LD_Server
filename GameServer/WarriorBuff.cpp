@@ -13,7 +13,7 @@ void WarriorBuff::OnInitialization()
 {
 	this->SetTick(true, SYSTEM_TICK);
 
-	mSphereCollisionComponent.SetSphereCollisione(430.0f);
+	mSphereCollisionComponent.SetSphereCollisione(400.0f);
 	mSphereCollisionComponent.SetOwner(this->GetActorRef());
 
 	Stats buff;
@@ -104,8 +104,8 @@ void WarriorBuff::Active()
 	}
 	const int64 worldTime	= world->GetWorldTime();
 
-	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
-	PartyPtr party = remotePlayer->GetParty();
+	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	PartyPtr party = owner->GetParty();
 	if (nullptr == party)
 	{
 		return;
@@ -116,13 +116,8 @@ void WarriorBuff::Active()
 	const Stats& stat		= this->mStatsComponent.GetMaxStats();
 
 	//DEBUG
-	Protocol::S2C_DebugCircle debugPacket;
-	debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-	debugPacket.set_radius(radius);
-	debugPacket.set_duration(this->mDeActiveTime / 1000.0f);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, debugPacket);
-	remotePlayer->GetRemoteClient().lock()->Send(sendBuffer);
+	const float duration = (worldTime - this->mDeActiveTime) / 1000.0f;
+	PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, radius, duration);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
@@ -153,7 +148,7 @@ void WarriorBuff::Active()
 			auto findOverlapPlayer = mOverlapPlayer.find(playerGameObjectID);
 			if (findOverlapPlayer == mOverlapPlayer.end())
 			{
-				if (remotePlayer->GetGameObjectID() == playerGameObjectID)
+				if (owner->GetGameObjectID() == playerGameObjectID)
 				{
 					mOverlapPlayer.insert(std::make_pair(playerGameObjectID, true));
 
