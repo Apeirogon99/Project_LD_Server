@@ -8,6 +8,7 @@
 //		     Math			//
 //==========================//
 #include "FVector.h"
+#include "Matrix.h"
 #include "FRotator.h"
 #include "Collision.h"
 #include "Trace.h"

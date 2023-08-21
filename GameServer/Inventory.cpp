@@ -80,13 +80,13 @@ void Inventory::LoadItemToInventory(Protocol::C2S_LoadInventory inPacket)
 
 void Inventory::InsertItemToInventory(const int64 inGameObjectID, const int32 inItemCode, const Location inLocation, Protocol::SVector2D inInvenPosition, const int32 inRotation, const int32 inAmount)
 {
-	printf("[  ITEM   ]\n");
-	printf("[OBJECT ID] %lld\n", inGameObjectID);
-	printf("[ITEM CODE] %d\n", inItemCode);
-	printf("[INVEN POS] (%d, %d)\n", inInvenPosition.x(), inInvenPosition.y());
-	printf("[INVEN ROT] %d\n", inRotation);
-	printf("[WORLD POS] (%f, %f, %f)\n", inLocation.GetX(), inLocation.GetY(), inLocation.GetZ());
-	printf("[ AMOUNT  ] %d\n", inAmount);
+	//printf("[  ITEM   ]\n");
+	//printf("[OBJECT ID] %lld\n", inGameObjectID);
+	//printf("[ITEM CODE] %d\n", inItemCode);
+	//printf("[INVEN POS] (%d, %d)\n", inInvenPosition.x(), inInvenPosition.y());
+	//printf("[INVEN ROT] %d\n", inRotation);
+	//printf("[WORLD POS] (%f, %f, %f)\n", inLocation.GetX(), inLocation.GetY(), inLocation.GetZ());
+	//printf("[ AMOUNT  ] %d\n", inAmount);
 
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)

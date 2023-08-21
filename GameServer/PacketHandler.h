@@ -75,8 +75,9 @@ enum class EPakcetID : uint16
 	C2S_PressedUseKeyAction = 2068,
 	C2S_ReleaseUseKeyAction = 2069,
 	S2C_AppearSkill = 2070,
-	S2C_DebugBox = 2071,
-	S2C_DebugCircle = 2072,
+	S2C_ReactionSkill = 2071,
+	S2C_DebugBox = 2072,
+	S2C_DebugCircle = 2073,
 
 	C2S_ReplicatedServerTimeStamp = 9000,
 	S2C_ReplicatedServerTimeStamp = 9001,

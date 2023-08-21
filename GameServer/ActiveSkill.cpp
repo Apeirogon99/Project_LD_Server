@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ActiveSkill.h"
 
-ActiveSkill::ActiveSkill(const WCHAR* inName) : Actor(inName), mSKillID(0), mActiveTime(0)
+ActiveSkill::ActiveSkill(const WCHAR* inName) : Actor(inName), mSKillID(0), mActiveTime(0), mDeActiveTime(0)
 {
 }
 

@@ -118,7 +118,7 @@ void WarriorSwordBlow::Active()
 	Location boxStartLocation	= location + (foward * collision);
 	Location boxEndLocation		= boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	//DEBUG
 	const float debugDuration = 1.0f;
@@ -150,6 +150,16 @@ void WarriorSwordBlow::Active()
 
 	}
 
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(this->GetSkillID());
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	reactionSkill.set_duration(endChargeTime - this->mActiveTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 const bool& WarriorSwordBlow::IsCharge() const

@@ -190,7 +190,7 @@ void Arrow::CheackCollision()
 
 	FVector		location	= this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
 	const float radius		= this->mCollisionComponent.GetSphereCollision().GetRadius();
-	SphereTrace	sphereTrace(location, location, true, radius);
+	SphereTrace	sphereTrace(this->GetActorRef(), location, true, radius);
 
 	const float debugDuration = 1.0f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 20.0f, debugDuration);

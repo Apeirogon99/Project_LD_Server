@@ -232,6 +232,9 @@ extern S2C_PlayAnimationDefaultTypeInternal _S2C_PlayAnimation_default_instance_
 class S2C_PlayerAutoAttack;
 struct S2C_PlayerAutoAttackDefaultTypeInternal;
 extern S2C_PlayerAutoAttackDefaultTypeInternal _S2C_PlayerAutoAttack_default_instance_;
+class S2C_ReactionSkill;
+struct S2C_ReactionSkillDefaultTypeInternal;
+extern S2C_ReactionSkillDefaultTypeInternal _S2C_ReactionSkill_default_instance_;
 class S2C_ReplaceEqipment;
 struct S2C_ReplaceEqipmentDefaultTypeInternal;
 extern S2C_ReplaceEqipmentDefaultTypeInternal _S2C_ReplaceEqipment_default_instance_;
@@ -333,6 +336,7 @@ template<> ::Protocol::S2C_MovementProjectile* Arena::CreateMaybeMessage<::Proto
 template<> ::Protocol::S2C_NotifyParty* Arena::CreateMaybeMessage<::Protocol::S2C_NotifyParty>(Arena*);
 template<> ::Protocol::S2C_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::S2C_PlayAnimation>(Arena*);
 template<> ::Protocol::S2C_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_PlayerAutoAttack>(Arena*);
+template<> ::Protocol::S2C_ReactionSkill* Arena::CreateMaybeMessage<::Protocol::S2C_ReactionSkill>(Arena*);
 template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_ReplaceEqipment>(Arena*);
 template<> ::Protocol::S2C_RequestEnterParty* Arena::CreateMaybeMessage<::Protocol::S2C_RequestEnterParty>(Arena*);
 template<> ::Protocol::S2C_RequestFriend* Arena::CreateMaybeMessage<::Protocol::S2C_RequestFriend>(Arena*);
@@ -12802,6 +12806,227 @@ class S2C_AppearSkill final :
 };
 // -------------------------------------------------------------------
 
+class S2C_ReactionSkill final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_ReactionSkill) */ {
+ public:
+  inline S2C_ReactionSkill() : S2C_ReactionSkill(nullptr) {}
+  ~S2C_ReactionSkill() override;
+  explicit PROTOBUF_CONSTEXPR S2C_ReactionSkill(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_ReactionSkill(const S2C_ReactionSkill& from);
+  S2C_ReactionSkill(S2C_ReactionSkill&& from) noexcept
+    : S2C_ReactionSkill() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_ReactionSkill& operator=(const S2C_ReactionSkill& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_ReactionSkill& operator=(S2C_ReactionSkill&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_ReactionSkill& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_ReactionSkill* internal_default_instance() {
+    return reinterpret_cast<const S2C_ReactionSkill*>(
+               &_S2C_ReactionSkill_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    71;
+
+  friend void swap(S2C_ReactionSkill& a, S2C_ReactionSkill& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_ReactionSkill* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_ReactionSkill* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_ReactionSkill* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_ReactionSkill>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_ReactionSkill& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_ReactionSkill& from) {
+    S2C_ReactionSkill::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_ReactionSkill* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_ReactionSkill";
+  }
+  protected:
+  explicit S2C_ReactionSkill(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLocationFieldNumber = 4,
+    kRotationFieldNumber = 5,
+    kRemoteIdFieldNumber = 1,
+    kObjectIdFieldNumber = 2,
+    kDurationFieldNumber = 6,
+    kSkillIdFieldNumber = 3,
+  };
+  // .Protocol.SVector location = 4;
+  bool has_location() const;
+  private:
+  bool _internal_has_location() const;
+  public:
+  void clear_location();
+  const ::Protocol::SVector& location() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_location();
+  ::Protocol::SVector* mutable_location();
+  void set_allocated_location(::Protocol::SVector* location);
+  private:
+  const ::Protocol::SVector& _internal_location() const;
+  ::Protocol::SVector* _internal_mutable_location();
+  public:
+  void unsafe_arena_set_allocated_location(
+      ::Protocol::SVector* location);
+  ::Protocol::SVector* unsafe_arena_release_location();
+
+  // .Protocol.SRotator rotation = 5;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::Protocol::SRotator& rotation() const;
+  PROTOBUF_NODISCARD ::Protocol::SRotator* release_rotation();
+  ::Protocol::SRotator* mutable_rotation();
+  void set_allocated_rotation(::Protocol::SRotator* rotation);
+  private:
+  const ::Protocol::SRotator& _internal_rotation() const;
+  ::Protocol::SRotator* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::Protocol::SRotator* rotation);
+  ::Protocol::SRotator* unsafe_arena_release_rotation();
+
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // int64 object_id = 2;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // int64 duration = 6;
+  void clear_duration();
+  int64_t duration() const;
+  void set_duration(int64_t value);
+  private:
+  int64_t _internal_duration() const;
+  void _internal_set_duration(int64_t value);
+  public:
+
+  // int32 skill_id = 3;
+  void clear_skill_id();
+  int32_t skill_id() const;
+  void set_skill_id(int32_t value);
+  private:
+  int32_t _internal_skill_id() const;
+  void _internal_set_skill_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_ReactionSkill)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Protocol::SVector* location_;
+    ::Protocol::SRotator* rotation_;
+    int64_t remote_id_;
+    int64_t object_id_;
+    int64_t duration_;
+    int32_t skill_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_DebugBox final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DebugBox) */ {
  public:
@@ -12850,7 +13075,7 @@ class S2C_DebugBox final :
                &_S2C_DebugBox_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    72;
 
   friend void swap(S2C_DebugBox& a, S2C_DebugBox& b) {
     a.Swap(&b);
@@ -12926,7 +13151,8 @@ class S2C_DebugBox final :
     kStartLocationFieldNumber = 1,
     kEndLocationFieldNumber = 2,
     kExtentFieldNumber = 3,
-    kDurationFieldNumber = 4,
+    kRotationFieldNumber = 4,
+    kDurationFieldNumber = 5,
   };
   // .Protocol.SVector start_location = 1;
   bool has_start_location() const;
@@ -12982,7 +13208,25 @@ class S2C_DebugBox final :
       ::Protocol::SVector* extent);
   ::Protocol::SVector* unsafe_arena_release_extent();
 
-  // float duration = 4;
+  // .Protocol.SRotator rotation = 4;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::Protocol::SRotator& rotation() const;
+  PROTOBUF_NODISCARD ::Protocol::SRotator* release_rotation();
+  ::Protocol::SRotator* mutable_rotation();
+  void set_allocated_rotation(::Protocol::SRotator* rotation);
+  private:
+  const ::Protocol::SRotator& _internal_rotation() const;
+  ::Protocol::SRotator* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::Protocol::SRotator* rotation);
+  ::Protocol::SRotator* unsafe_arena_release_rotation();
+
+  // float duration = 5;
   void clear_duration();
   float duration() const;
   void set_duration(float value);
@@ -13002,6 +13246,7 @@ class S2C_DebugBox final :
     ::Protocol::SVector* start_location_;
     ::Protocol::SVector* end_location_;
     ::Protocol::SVector* extent_;
+    ::Protocol::SRotator* rotation_;
     float duration_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -13058,7 +13303,7 @@ class S2C_DebugCircle final :
                &_S2C_DebugCircle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    73;
 
   friend void swap(S2C_DebugCircle& a, S2C_DebugCircle& b) {
     a.Swap(&b);
@@ -20452,6 +20697,260 @@ inline void S2C_AppearSkill::set_duration(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// S2C_ReactionSkill
+
+// int64 remote_id = 1;
+inline void S2C_ReactionSkill::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_ReactionSkill::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_ReactionSkill::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_ReactionSkill::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_ReactionSkill::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReactionSkill.remote_id)
+}
+
+// int64 object_id = 2;
+inline void S2C_ReactionSkill::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t S2C_ReactionSkill::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t S2C_ReactionSkill::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.object_id)
+  return _internal_object_id();
+}
+inline void S2C_ReactionSkill::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void S2C_ReactionSkill::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReactionSkill.object_id)
+}
+
+// int32 skill_id = 3;
+inline void S2C_ReactionSkill::clear_skill_id() {
+  _impl_.skill_id_ = 0;
+}
+inline int32_t S2C_ReactionSkill::_internal_skill_id() const {
+  return _impl_.skill_id_;
+}
+inline int32_t S2C_ReactionSkill::skill_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.skill_id)
+  return _internal_skill_id();
+}
+inline void S2C_ReactionSkill::_internal_set_skill_id(int32_t value) {
+  
+  _impl_.skill_id_ = value;
+}
+inline void S2C_ReactionSkill::set_skill_id(int32_t value) {
+  _internal_set_skill_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReactionSkill.skill_id)
+}
+
+// .Protocol.SVector location = 4;
+inline bool S2C_ReactionSkill::_internal_has_location() const {
+  return this != internal_default_instance() && _impl_.location_ != nullptr;
+}
+inline bool S2C_ReactionSkill::has_location() const {
+  return _internal_has_location();
+}
+inline const ::Protocol::SVector& S2C_ReactionSkill::_internal_location() const {
+  const ::Protocol::SVector* p = _impl_.location_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
+}
+inline const ::Protocol::SVector& S2C_ReactionSkill::location() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.location)
+  return _internal_location();
+}
+inline void S2C_ReactionSkill::unsafe_arena_set_allocated_location(
+    ::Protocol::SVector* location) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  _impl_.location_ = location;
+  if (location) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_ReactionSkill.location)
+}
+inline ::Protocol::SVector* S2C_ReactionSkill::release_location() {
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SVector* S2C_ReactionSkill::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_ReactionSkill.location)
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* S2C_ReactionSkill::_internal_mutable_location() {
+  
+  if (_impl_.location_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.location_ = p;
+  }
+  return _impl_.location_;
+}
+inline ::Protocol::SVector* S2C_ReactionSkill::mutable_location() {
+  ::Protocol::SVector* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_ReactionSkill.location)
+  return _msg;
+}
+inline void S2C_ReactionSkill::set_allocated_location(::Protocol::SVector* location) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  if (location) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(location));
+    if (message_arena != submessage_arena) {
+      location = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, location, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.location_ = location;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_ReactionSkill.location)
+}
+
+// .Protocol.SRotator rotation = 5;
+inline bool S2C_ReactionSkill::_internal_has_rotation() const {
+  return this != internal_default_instance() && _impl_.rotation_ != nullptr;
+}
+inline bool S2C_ReactionSkill::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline const ::Protocol::SRotator& S2C_ReactionSkill::_internal_rotation() const {
+  const ::Protocol::SRotator* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SRotator&>(
+      ::Protocol::_SRotator_default_instance_);
+}
+inline const ::Protocol::SRotator& S2C_ReactionSkill::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.rotation)
+  return _internal_rotation();
+}
+inline void S2C_ReactionSkill::unsafe_arena_set_allocated_rotation(
+    ::Protocol::SRotator* rotation) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_ReactionSkill.rotation)
+}
+inline ::Protocol::SRotator* S2C_ReactionSkill::release_rotation() {
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_ReactionSkill::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_ReactionSkill.rotation)
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_ReactionSkill::_internal_mutable_rotation() {
+  
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SRotator>(GetArenaForAllocation());
+    _impl_.rotation_ = p;
+  }
+  return _impl_.rotation_;
+}
+inline ::Protocol::SRotator* S2C_ReactionSkill::mutable_rotation() {
+  ::Protocol::SRotator* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_ReactionSkill.rotation)
+  return _msg;
+}
+inline void S2C_ReactionSkill::set_allocated_rotation(::Protocol::SRotator* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rotation));
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_ReactionSkill.rotation)
+}
+
+// int64 duration = 6;
+inline void S2C_ReactionSkill::clear_duration() {
+  _impl_.duration_ = int64_t{0};
+}
+inline int64_t S2C_ReactionSkill::_internal_duration() const {
+  return _impl_.duration_;
+}
+inline int64_t S2C_ReactionSkill::duration() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ReactionSkill.duration)
+  return _internal_duration();
+}
+inline void S2C_ReactionSkill::_internal_set_duration(int64_t value) {
+  
+  _impl_.duration_ = value;
+}
+inline void S2C_ReactionSkill::set_duration(int64_t value) {
+  _internal_set_duration(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ReactionSkill.duration)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_DebugBox
 
 // .Protocol.SVector start_location = 1;
@@ -20709,7 +21208,92 @@ inline void S2C_DebugBox::set_allocated_extent(::Protocol::SVector* extent) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_DebugBox.extent)
 }
 
-// float duration = 4;
+// .Protocol.SRotator rotation = 4;
+inline bool S2C_DebugBox::_internal_has_rotation() const {
+  return this != internal_default_instance() && _impl_.rotation_ != nullptr;
+}
+inline bool S2C_DebugBox::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline const ::Protocol::SRotator& S2C_DebugBox::_internal_rotation() const {
+  const ::Protocol::SRotator* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SRotator&>(
+      ::Protocol::_SRotator_default_instance_);
+}
+inline const ::Protocol::SRotator& S2C_DebugBox::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DebugBox.rotation)
+  return _internal_rotation();
+}
+inline void S2C_DebugBox::unsafe_arena_set_allocated_rotation(
+    ::Protocol::SRotator* rotation) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_DebugBox.rotation)
+}
+inline ::Protocol::SRotator* S2C_DebugBox::release_rotation() {
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_DebugBox::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_DebugBox.rotation)
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_DebugBox::_internal_mutable_rotation() {
+  
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SRotator>(GetArenaForAllocation());
+    _impl_.rotation_ = p;
+  }
+  return _impl_.rotation_;
+}
+inline ::Protocol::SRotator* S2C_DebugBox::mutable_rotation() {
+  ::Protocol::SRotator* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_DebugBox.rotation)
+  return _msg;
+}
+inline void S2C_DebugBox::set_allocated_rotation(::Protocol::SRotator* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rotation));
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_DebugBox.rotation)
+}
+
+// float duration = 5;
 inline void S2C_DebugBox::clear_duration() {
   _impl_.duration_ = 0;
 }
@@ -20861,6 +21445,8 @@ inline void S2C_DebugCircle::set_duration(float value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

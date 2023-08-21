@@ -73,7 +73,7 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
 	FRotator	orientation = this->GetRotation();
 
-	BoxTrace boxTrace(boxLocation, boxLocation, true, inRange, orientation);
+	BoxTrace boxTrace(this->GetActorRef(), boxLocation, boxLocation, true, inRange, orientation);
 
 	auto playerIter = mPlayerViewers.begin();
 	for (playerIter; playerIter != mPlayerViewers.end(); ++playerIter)

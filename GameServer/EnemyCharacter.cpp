@@ -53,7 +53,6 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangeEnemy();
 	}
-
 }
 
 bool EnemyCharacter::IsValid()

@@ -154,17 +154,22 @@ public:
 		//mRootNode = nullptr;
 	}
 
-	//bool SearchNodes(const FVector& inLocation, const BoxCollision& inBoxCollision, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
+	//bool SearchNodes(const FVector& inLocation, const CollisionComponent& inBoxCollisionComponent, const uint8& inActorType, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
+	//{
+	//	if (inActorType == 0)
+	//	{
+	//		return false;
+	//	}
+
+	//	return outResultActor.size();
+	//}
+
+	//bool SearchNodes(const FVector& inLocation, const CapsuleCollision& inCapsuleCollisionComponent, const uint8& inActorType, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
 	//{
 	//	return outResultActor.size();
 	//}
 
-	//bool SearchNodes(const FVector& inLocation, const CapsuleCollision& inCapsuleCollision, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
-	//{
-	//	return outResultActor.size();
-	//}
-
-	//bool SearchNodes(const FVector& inLocation, const SphereCollision& inSphereCollision, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
+	//bool SearchNodes(const FVector& inLocation, const SphereCollision& inSphereCollisionComponent, const uint8& inActorType, std::vector<ActorPtr>& outResultActor, const uint32& inMaxResult = INFINITE)
 	//{
 	//	return outResultActor.size();
 	//}

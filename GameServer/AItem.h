@@ -56,6 +56,8 @@ public:
 	void Init(const int32 inItemCode, const float inWorldPositionX, const float inWorldPositionY, const float inWorldPositionZ, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation, const int32 inAmount = 0);
 	void Init(const int32 inItemCode, const int32 inInvenPositionX, const int32 inInvenPositionY, const int32 inRotation, const int32 inAmount = 0);
 
+	void PickUp(PlayerCharacterPtr inCharacter);
+
 public:
 	void SetItemCode(const int32 inItemCode);
 	void SetInventoryPosition(const Protocol::SVector2D& inInventoryPosition);

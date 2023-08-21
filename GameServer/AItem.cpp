@@ -192,6 +192,35 @@ void AItem::Init(const int32 inItemCode, const int32 inInvenPositionX, const int
 	mAmount				= inAmount;
 }
 
+void AItem::PickUp(PlayerCharacterPtr inCharacter)
+{
+	if (nullptr == inCharacter)
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inCharacter->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	Inventoryptr inventory = remotePlayer->GetInventory();
+	if (nullptr == inventory)
+	{
+		return;
+	}
+
+	float distance = FVector::Distance2D(inCharacter->GetLocation(), this->GetLocation());
+	if (distance >= 100.0f)
+	{
+		inCharacter->SetPlayerMode(EPlayerMode::PickUp_MODE);
+		return;
+	}
+
+	inventory->InsertItemToInventory(this->GetGameObjectID(), this->GetItemCode(), this->GetLocation(), this->GetInventoryPosition(), this->GetInventoryRoation(), this->GetAmount());
+}
+
 void AItem::SetItemCode(const int32 inItemCode)
 {
 	mItemCode = inItemCode;

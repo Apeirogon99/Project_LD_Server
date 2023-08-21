@@ -67,7 +67,30 @@ void WarriorParrying::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	printf("[OnParrying] ¸·À½\n");
+	printf("WarriorParrying Success\n");
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(this->GetSkillID());
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	reactionSkill.set_duration(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 
 	this->DeActive(1000);
 }
@@ -104,7 +127,7 @@ void WarriorParrying::Active()
 	Location boxStartLocation = location + (foward * collision);
 	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
 	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
@@ -113,7 +136,6 @@ void WarriorParrying::Active()
 
 void WarriorParrying::StartParrying()
 {
-	printf("[StartParrying]\n");
 	mIsParrying = true;
 
 	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
@@ -139,7 +161,7 @@ void WarriorParrying::StartParrying()
 	Location boxStartLocation = location + (foward * collision);
 	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, 1.0f);
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, 1.0f);
@@ -147,12 +169,10 @@ void WarriorParrying::StartParrying()
 
 void WarriorParrying::EndParrying()
 {
-	printf("[EndParrying]\n");
 	mIsParrying = false;
 
 	if (false == mIsHit)
 	{
-		printf("[EndParrying] DeActive\n");
 		this->DeActive(1000);
 	}
 

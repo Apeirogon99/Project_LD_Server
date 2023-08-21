@@ -71,7 +71,7 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 	Location boxStartLocation = location;
 	Location boxEndLocation = boxStartLocation + (foward * (inRange.GetX() * 2));
 	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(boxStartLocation, boxEndLocation, true, inRange, rotation);
+	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, inRange, rotation);
 
 	//DEBUG
 	const float debugDuration = 1.0f;

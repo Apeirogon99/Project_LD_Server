@@ -53,28 +53,29 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(vel, vel, vel);
 
-	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+	if (true== this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
 	{
-		ActorPtr target = mTargetActor.lock();
-		if (nullptr != target)
-		{
-			if (this->mPlayerMode == EPlayerMode::PickUp_MODE)
-			{
-				AItemPtr item = std::static_pointer_cast<AItem>(target);
-				std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetInventory()->InsertItemToInventory(item->GetGameObjectID(), item->GetItemCode(), item->GetLocation(), item->GetInventoryPosition(), item->GetInventoryRoation(), item->GetAmount());
-			}
-			else if (this->mPlayerMode == EPlayerMode::Attack_MODE)
-			{
-				this->AutoAttack(target->GetGameObjectID());
-			}
-			else if (this->mPlayerMode == EPlayerMode::Skill_MODE)
-			{
-			}
-
-			this->mTargetActor.reset();
-		}
 
 		this->SetPlayerMode(EPlayerMode::Move_MODE);
+
+		//ActorPtr target = mTargetActor.lock();
+		//if (nullptr != target)
+		//{
+		//	if (this->mPlayerMode == EPlayerMode::PickUp_MODE)
+		//	{
+		//		std::static_pointer_cast<AItem>(target)->PickUp(std::static_pointer_cast<PlayerCharacter>(this->shared_from_this()));
+		//	}
+		//	else if (this->mPlayerMode == EPlayerMode::Attack_MODE)
+		//	{
+		//		this->AutoAttack(target->GetGameObjectID());
+		//	}
+		//	else if (this->mPlayerMode == EPlayerMode::Skill_MODE)
+		//	{
+
+		//	}
+
+		//}
+
 	}
 	this->SyncLocation(inDeltaTime);
 
@@ -336,6 +337,10 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 		OnMovement();
 		return;
 	}
+	else
+	{
+		this->mTargetActor.reset();
+	}
 
 	if (false == this->mAutoAttackComponent.IsComboAutoAttacking(this->GetActorPtr()))
 	{
@@ -466,7 +471,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	Location		boxStartLocation	= location; // +(foward * collision); 앞에 두고 싶으면 추가해야함
 	Location		boxEndLocation		= boxStartLocation + (foward * (inRange.GetX() * 2));
 	Location		boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace		boxTrace(boxStartLocation, boxEndLocation, true, inRange, rotation);
+	BoxTrace		boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, inRange, rotation);
 
 	//DEBUG
 	const float debugDuration = 1.0f;
