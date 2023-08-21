@@ -85,8 +85,8 @@ void WarriorParrying::OnHit(ActorPtr inInstigated, const float inDamage)
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
 	reactionSkill.set_skill_id(this->GetSkillID());
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(inInstigated->GetLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inInstigated->GetRotation()));
 	reactionSkill.set_duration(worldTime);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
