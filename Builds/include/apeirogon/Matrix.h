@@ -42,6 +42,9 @@ public:
 	static Matrix Inverse(const Matrix& inMatrix);
 	static Matrix Transpose(const Matrix& inMatrix);
 
+	static void GetAxis(const FRotator& inRotation, FVector& outX, FVector& outY, FVector& outZ);
+public:
+
 public:
 	union
 	{
