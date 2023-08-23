@@ -159,7 +159,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
 
     warriorShieldBash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), world->GetWorldTime());
     warriorShieldBash->Active();
-    warriorShieldBash->DeActive(1500);
+    warriorShieldBash->DeActive(2690);
 
     return true;
 }
