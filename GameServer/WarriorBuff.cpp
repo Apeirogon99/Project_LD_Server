@@ -115,10 +115,6 @@ void WarriorBuff::Active()
 	const float radius		= this->mSphereCollisionComponent.GetSphereCollision().GetRadius();
 	const Stats& stat		= this->mStatsComponent.GetMaxStats();
 
-	//DEBUG
-	const float duration = (worldTime - this->mDeActiveTime) / 1000.0f;
-	PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, radius, duration);
-
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
 	bool result = world->FindActors(location, radius, findActorType, findActors);

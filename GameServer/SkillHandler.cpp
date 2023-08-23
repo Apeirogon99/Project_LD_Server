@@ -35,7 +35,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
     {
-        return false;
+        return true;
     }
     
     ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
@@ -87,7 +87,7 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying)))
     {
-        return false;
+        return true;
     }
 
     ActorPtr newActor = world->SpawnActor<WarriorParrying>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
@@ -138,7 +138,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash)))
     {
-        return false;
+        return true;
     }
 
     ActorPtr newActor = world->SpawnActor<WarriorShieldBash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
