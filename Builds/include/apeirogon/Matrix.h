@@ -38,6 +38,7 @@ public:
 	static Matrix RotateY(const float& inRY);
 	static Matrix RotateZ(const float& inRZ);
 	static Matrix RotateMatrix(const FVector& inLocation, const FRotator& inRotator);
+	static Matrix RotateMatrix(const FRotator& inRoator);
 	static Matrix Inverse(const Matrix& inMatrix);
 	static Matrix Transpose(const Matrix& inMatrix);
 
