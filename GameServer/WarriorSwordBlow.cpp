@@ -42,7 +42,7 @@ void WarriorSwordBlow::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	printf("CHARGE : %f\n", (world->GetWorldTime() - this->mActiveTime) / 1000.0f);
+	//printf("CHARGE : %f\n", (world->GetWorldTime() - this->mActiveTime) / 1000.0f);
 
 }
 
@@ -107,18 +107,19 @@ void WarriorSwordBlow::Active()
 		return;
 	}
 
-	FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
+	//FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
+	FVector boxExtent(300.0f,100.0f, 100.0f);
 
 	FVector		location = instigated->GetMovementComponent().GetCurrentLocation(instigated->GetActorPtr());
-	FRotator	rotation = this->GetRotation();
-	FVector		foward = rotation.GetForwardVector();
+	FRotator	rotation = instigated->GetRotation();
+	FVector		foward	= rotation.GetForwardVector();
 	const float collision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
 	Location boxStartLocation	= location + (foward * collision);
 	Location boxEndLocation		= boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	BoxTrace boxTrace(instigated->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	//DEBUG
 	const float debugDuration = 1.0f;
@@ -142,7 +143,7 @@ void WarriorSwordBlow::Active()
 			continue;
 		}
 
-		bool isOverlap = boxTrace.BoxCollisionTrace(enemy->GetCapsuleCollisionComponent());
+		bool isOverlap = boxTrace.BoxCollisionTraceOBB(enemy->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
 			enemy->PushTask(endChargeTime, &Actor::OnHit, instigated->GetActorPtr(), 100.0f);

@@ -47,7 +47,7 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 
 	this->OnSyncLocation(inDeltaTime);
 
-	this->mStateManager.UpdateState(inDeltaTime);
+	//this->mStateManager.UpdateState(inDeltaTime);
 
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{

@@ -146,6 +146,20 @@ const Location EnemySpawner::GetRandomLocation()
 	return newSpawnLocation;
 }
 
+const Rotation EnemySpawner::GetRandomRotation()
+{
+	Rotation newSpawnRotation;
+
+	std::random_device randDevice;
+	std::mt19937 gen(randDevice());
+	std::uniform_real_distribution<> distY(0.0f, 359.0f);
+
+	newSpawnRotation.SetPitch(0.0f);
+	newSpawnRotation.SetYaw(static_cast<float>(distY(gen)));
+	newSpawnRotation.SetRoll(0.0f);
+	return newSpawnRotation;
+}
+
 
 EnemySpawnerManager::EnemySpawnerManager() : Actor(L"EnemySpawnerManager")
 {

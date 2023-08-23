@@ -211,7 +211,7 @@ void Arrow::CheackCollision()
 			continue;
 		}
 
-		bool isOverlap = sphereTrace.BoxCollisionTrace(player->GetCapsuleCollisionComponent());
+		bool isOverlap = sphereTrace.BoxCollisionTraceAABB(player->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
 			player->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->mDamage);

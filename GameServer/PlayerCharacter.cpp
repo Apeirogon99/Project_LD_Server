@@ -53,29 +53,9 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(vel, vel, vel);
 
-	if (true== this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
 	{
-
-		this->SetPlayerMode(EPlayerMode::Move_MODE);
-
-		//ActorPtr target = mTargetActor.lock();
-		//if (nullptr != target)
-		//{
-		//	if (this->mPlayerMode == EPlayerMode::PickUp_MODE)
-		//	{
-		//		std::static_pointer_cast<AItem>(target)->PickUp(std::static_pointer_cast<PlayerCharacter>(this->shared_from_this()));
-		//	}
-		//	else if (this->mPlayerMode == EPlayerMode::Attack_MODE)
-		//	{
-		//		this->AutoAttack(target->GetGameObjectID());
-		//	}
-		//	else if (this->mPlayerMode == EPlayerMode::Skill_MODE)
-		//	{
-
-		//	}
-
-		//}
-
+		this->NextPlayerMode();
 	}
 	this->SyncLocation(inDeltaTime);
 
@@ -185,6 +165,34 @@ void PlayerCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disappearPacket);
 	anotherPlayerState->Send(sendBuffer);
+}
+
+void PlayerCharacter::NextPlayerMode()
+{
+	EPlayerMode mode = this->mPlayerMode;
+
+	if (mode == EPlayerMode::Move_MODE)
+	{
+		return;
+	}
+	this->SetPlayerMode(EPlayerMode::Move_MODE);
+
+	ActorPtr target = mTargetActor.lock();
+	if (nullptr != target)
+	{
+		if (mode == EPlayerMode::PickUp_MODE)
+		{
+			std::static_pointer_cast<AItem>(target)->PickUp(std::static_pointer_cast<PlayerCharacter>(this->shared_from_this()));
+		}
+		else if (mode == EPlayerMode::Attack_MODE)
+		{
+			this->AutoAttack(target->GetGameObjectID());
+		}
+		else if (mode == EPlayerMode::Skill_MODE)
+		{
+
+		}
+	}
 }
 
 void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
@@ -379,8 +387,6 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
 
-	printf("[OnHit]\n");
-
 	ActiveSkillPtr activeSKill = this->GetSkillComponent().GetActiveSkill().lock();
 	if (nullptr != activeSKill)
 	{
@@ -494,7 +500,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 			continue;
 		}
 
-		bool isOverlap = boxTrace.BoxCollisionTrace(enemy->GetCapsuleCollisionComponent());
+		bool isOverlap = boxTrace.BoxCollisionTraceOBB(enemy->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
 			enemy->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);

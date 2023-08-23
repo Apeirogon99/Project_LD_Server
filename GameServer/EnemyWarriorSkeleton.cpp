@@ -84,7 +84,7 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerIter->get()->GetRemotePlayer());
 		PlayerCharacterPtr character = remotePlayer->GetCharacter();
 
-		bool isOverlap = boxTrace.BoxCollisionTrace(character->GetCapsuleCollisionComponent());
+		bool isOverlap = boxTrace.BoxCollisionTraceAABB(character->GetCapsuleCollisionComponent());
 		if (isOverlap)
 		{
 			character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);

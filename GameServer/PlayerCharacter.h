@@ -28,6 +28,7 @@ public:
 	void OnMovement();
 
 public:
+	void NextPlayerMode();
 	void SyncLocation(const int64 inDeltaTime);
 	void DetectChangePlayer();
 

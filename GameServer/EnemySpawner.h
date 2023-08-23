@@ -33,6 +33,7 @@ public:
 	void			ReSpawnCount();
 	bool			IsLeftEnemy();
 	const Location	GetRandomLocation();
+	const Rotation	GetRandomRotation();
 
 public:
 	const int64 GetMaxEnemyCount()		const { return mMaxEnmeyCount; }
@@ -64,7 +65,7 @@ inline void EnemySpawner::SpawnEnemey()
 	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
 	{
 		const Location	newLocation = GetRandomLocation();
-		const Rotation	newRoation	= Rotation();
+		const Rotation	newRoation	= GetRandomRotation();
 		const Scale		newScale	= Scale(1.0f, 1.0f, 1.0f);
 
 		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyClass>(this->GetGameObjectRef(), newLocation, newRoation, newScale));

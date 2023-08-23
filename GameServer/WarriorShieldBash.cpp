@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorShieldBash.h"
 
-WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mSlowRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(0), mActiveSlowTime(0)
+WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mSlowRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(2000), mActiveSlowTime(2000)
 {
 }
 
