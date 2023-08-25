@@ -168,6 +168,7 @@
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="BuffComponent.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
+    <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
     <ClCompile Include="EnemyNomalSkeleton.cpp" />
@@ -345,6 +346,7 @@
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="BuffComponent.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
+    <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
     <ClInclude Include="EnemyNomalSkeleton.h" />

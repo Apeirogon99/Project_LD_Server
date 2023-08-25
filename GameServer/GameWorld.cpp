@@ -411,12 +411,10 @@ void GameWorld::RefreshWorldObserver()
 			continue;
 		}
 
-		const Location& actorLocation	= actor->GetLocation();
-		const int64		gameObjectID	= actor->GetGameObjectID();
-		const uint8		actorType		= actor->GetActorType();
-
-		mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
+		mWorldObserver.InsertNode(actor);
 	}
+
+	//mWorldObserver.DebugKDTree();
 
 	//for (auto& worldPlayer : mWorldPlayers)
 	//{

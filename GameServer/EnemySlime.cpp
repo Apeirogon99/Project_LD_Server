@@ -24,8 +24,9 @@ void EnemySlime::OnInitialization()
 
 	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
-	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
-	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(62.0f, 62.0f, 96.0f));
+	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
+	collision->SetOwner(this->GetActorRef());
+	collision->SetBoxCollision(FVector(62.0f, 62.0f, 96.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
@@ -68,24 +69,30 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
-	const float radius = this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
 	FRotator	orientation = this->GetRotation();
 
 	BoxTrace boxTrace(this->GetActorRef(), boxLocation, boxLocation, true, inRange, orientation);
 
-	auto playerIter = mPlayerViewers.begin();
-	for (playerIter; playerIter != mPlayerViewers.end(); ++playerIter)
+	uint8 findActorType = static_cast<uint8>(EActorType::Player);
+	std::vector<ActorPtr> findActors;
+	bool result = world->FindActors(boxTrace, findActorType, findActors);
+	if (!result)
 	{
-		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerIter->get()->GetRemotePlayer());
-		PlayerCharacterPtr character = remotePlayer->GetCharacter();
+		return;
+	}
 
-		bool isOverlap = boxTrace.BoxCollisionTraceAABB(character->GetCapsuleCollisionComponent());
-		if (isOverlap)
+	for (ActorPtr actor : findActors)
+	{
+		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(actor);
+		if (nullptr == character)
 		{
-			character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
+			continue;
 		}
+
+		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
 
 	}
 }
@@ -108,7 +115,7 @@ void EnemySlime::OnReward()
 		return;
 	}
 
-	float halfHeight = this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetZ() / 2.0f;
+	float halfHeight = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ() / 2.0f;
 	Location location = FVector(this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ() - halfHeight);
 
 	AItemPtr money = std::static_pointer_cast<AItem>(world->SpawnActor<AItem>(world->GetGameObjectRef(), Random::GetRandomVectorInRange2D(location, 100.0f), FRotator(), FVector()));

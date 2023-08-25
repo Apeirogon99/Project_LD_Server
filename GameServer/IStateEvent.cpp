@@ -71,7 +71,7 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 
 	Location currentLocation	= enemy->GetLocation();
 	Location nextLocation		= spawner->GetRandomLocation();
-	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, nextLocation, world->GetWorldTime(), collisionRadius);
 	enemy->SetRecoveryLocation(nextLocation);
@@ -136,7 +136,7 @@ void RecoveryState::Enter(EnemyCharacterRef inEnemy)
 
 	Location currentLocation	= enemy->GetLocation();
 	Location recoveryLocation	= enemy->GetRecoveryLocation();
-	const float collisionRadius = enemy->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 	this->mCurrentLocation		= enemy->GetLocation();
 	this->mMaxDistanceLength	= FVector::Distance2D(this->mCurrentLocation, recoveryLocation);
 

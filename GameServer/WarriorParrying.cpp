@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorParrying.h"
 
-WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mIsHit(false), mStartParryingTime(200), mEndParryingTime(2000)
+WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mStartParryingTime(200), mEndParryingTime(2000), mSturnDuration(2000)
 {
 }
 
@@ -11,6 +11,17 @@ WarriorParrying::~WarriorParrying()
 
 void WarriorParrying::OnInitialization()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	SetTick(true, SYSTEM_TICK);
+
+	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
+	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
 }
 
 void WarriorParrying::OnDestroy()
@@ -24,6 +35,12 @@ void WarriorParrying::OnDestroy()
 
 void WarriorParrying::OnTick(const int64 inDeltaTime)
 {
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	this->Active();
 }
 
 bool WarriorParrying::IsValid()
@@ -55,48 +72,33 @@ bool WarriorParrying::IsValid()
 
 void WarriorParrying::OnHit(ActorPtr inInstigated, const float inDamage)
 {
-	
-	if (true == mIsHit)
-	{
-		return;
-	}
-	mIsHit = true;
-
-	if (false == mIsParrying)
-	{
-		return;
-	}
-
-	printf("WarriorParrying Success\n");
-
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
+
 	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == owner)
 	{
 		return;
 	}
 
-	Protocol::S2C_ReactionSkill reactionSkill;
-	reactionSkill.set_remote_id(owner->GetGameObjectID());
-	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(this->GetSkillID());
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(inInstigated->GetLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inInstigated->GetRotation()));
-	reactionSkill.set_duration(worldTime);
+	PlayerCharacterPtr player = owner->GetCharacter();
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
-	this->BrodcastPlayerViewers(sendBuffer);
+	if (false == mIsParrying)
+	{
+		float currentHP = player->GetStatComponent().GetCurrentStats().GetHealth();
+		player->GetStatComponent().UpdateCurrentStat(EStatType::Stat_Health, currentHP - inDamage);
+		return;
+	}
 
-	this->DeActive(1000);
 }
 
 void WarriorParrying::Active()
 {
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -121,16 +123,92 @@ void WarriorParrying::Active()
 	FVector		location = instigated->GetMovementComponent().GetCurrentLocation(instigated->GetActorPtr());
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
-	const float collision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collision = instigated->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
 	Location boxStartLocation = location + (foward * collision);
 	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
-	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
 	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
-	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
-	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
+	uint8 findActorType = static_cast<uint8>(EActorType::EnemyAttack);
+	std::vector<ActorPtr> findActors;
+	bool result = world->FindActors(boxTrace, findActorType, findActors, 1);
+	if (false == result)
+	{
+		return;
+	}
+
+	const float parryingDamage = 1.5f;
+	for (ActorPtr actor : findActors)
+	{
+
+		EnemyAttackPtr enemyAttack = std::static_pointer_cast<EnemyAttack>(actor);
+		if (nullptr == enemyAttack)
+		{
+			continue;
+		}
+
+		EnemyCharacterPtr enemyOwner = std::static_pointer_cast<EnemyCharacter>(actor->GetOwner().lock());
+		if (nullptr == enemyOwner)
+		{
+			continue;
+		}
+
+		const EEnemyAttackType& attackType = enemyAttack->GetEnemyAttackType();
+
+		if (attackType == EEnemyAttackType::Enemy_Attack_Melee)
+		{
+			enemyOwner->GetStateManager().SetState(EStateType::State_Stun);
+
+			StunState* stunState = static_cast<StunState*>(enemyOwner->GetStateManager().GetCurrentStateEvent());
+			if (nullptr != stunState)
+			{
+				stunState->SetStunTime(mSturnDuration);
+			}
+
+		}
+		else if (attackType == EEnemyAttackType::Enemy_Attack_Projectile)
+		{
+			ActorPtr actor = world->SpawnActor<Arrow>(instigated, enemyAttack->GetLocation(), FRotator::TurnRotator(enemyAttack->GetRotation()), Scale());
+			ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
+			if (nullptr == arrow)
+			{
+				return;
+			}
+			arrow->SetDamage(enemyAttack->GetDamage() * parryingDamage);
+			arrow->ReserveDestroy(5000);
+			arrow->SetTargetActorType(EActorType::Enemy);
+
+			bool ret = world->DestroyActor(enemyAttack->GetGameObjectID());
+			if (false == ret)
+			{
+				this->GameObjectLog(L"Can't destroy arrow\n");
+			}
+
+			ret = world->DestroyActor(this->GetGameObjectID());
+			if (false == ret)
+			{
+				this->GameObjectLog(L"Can't destroy parrying\n");
+			}
+			break;
+		}
+		else
+		{
+			return;
+		}
+
+		Protocol::S2C_ReactionSkill reactionSkill;
+		reactionSkill.set_remote_id(owner->GetGameObjectID());
+		reactionSkill.set_object_id(this->GetGameObjectID());
+		reactionSkill.set_skill_id(this->GetSkillID());
+		reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(enemyAttack->GetLocation()));
+		reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(enemyAttack->GetRotation()));
+		reactionSkill.set_duration(worldTime);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+		this->BrodcastPlayerViewers(sendBuffer);
+
+	}
 
 }
 
@@ -155,7 +233,7 @@ void WarriorParrying::StartParrying()
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
-	const float collision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collision = instigated->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
 	Location boxStartLocation = location + (foward * collision);
@@ -170,12 +248,6 @@ void WarriorParrying::StartParrying()
 void WarriorParrying::EndParrying()
 {
 	mIsParrying = false;
-
-	if (false == mIsHit)
-	{
-		this->DeActive(1000);
-	}
-
 }
 
 void WarriorParrying::SetWarriorParrying(const float& inDamage)

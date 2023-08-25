@@ -1,5 +1,5 @@
 #pragma once
-class Arrow : public Actor
+class Arrow : public EnemyAttack
 {
 public:
 	Arrow();
@@ -26,21 +26,11 @@ public:
 	void CheackCollision();
 
 public:
-	void SetDamage(const float& inDamage);
-	void SetLifeTime(const int64& inLifeTime);
-
-public:
-	const float					GetDamage() const;
-	const int64					GetLifeTime() const;
 	ProjectileComponent&		GetProjectileComponent();
-	SphereCollisionComponent&	GetSphereCollisionComponent();
+	SphereCollisionComponent*	GetSphereCollisionComponent();
 	
 private:
 	bool mIsCollision;
-	float mDamage;
-	int64 mLifeTime;
-	
 	ProjectileComponent			mProjectileComponent;
-	SphereCollisionComponent	mCollisionComponent;
 };
 

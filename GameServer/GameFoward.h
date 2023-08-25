@@ -106,9 +106,13 @@ class EnemySpawner;
 class EnemySpawnerManager;
 class EnemySlime;
 class StateManager;
+class EnemyAttack;
 
 using EnemyCharacterPtr		= std::shared_ptr<EnemyCharacter>;
 using EnemyCharacterRef		= std::weak_ptr<EnemyCharacter>;
+
+using EnemyAttackPtr		= std::shared_ptr<EnemyAttack>;
+using EnemyAttackRef		= std::weak_ptr<EnemyAttack>;
 
 using EnemySpawnerPtr		= std::shared_ptr<EnemySpawner>;
 using EnemySpawnerRef		= std::weak_ptr<EnemySpawner>;

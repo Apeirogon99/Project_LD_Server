@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorShieldBash.h"
 
-WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadis(200.0f), mSlowRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(0), mSlowDuration(0), mActiveSturnTime(2000), mActiveSlowTime(2000)
+WarriorShieldBash::WarriorShieldBash() : ActiveSkill(L"WarriorShieldBash"), mSturnRadius(200.0f), mSlowRadius(300.0f), mDamage(0.0f), mDebuffMovement(0.0f), mSturnDuration(3000), mSlowDuration(5000), mActiveTime(2000)
 {
 }
 
@@ -53,14 +53,10 @@ bool WarriorShieldBash::IsValid()
     return true;
 }
 
-void WarriorShieldBash::SetWarriorShieldBash(const float inDamage, const float inDebuffMovement, const int64& inSturnDuration, const int64& inSlowDuration, const int64& inActiveSturnTime, const int64& inActiveSlowTime)
+void WarriorShieldBash::SetWarriorShieldBash(const float inDamage, const float inDebuffMovement)
 {
     this->mDamage           = inDamage;
     this->mDebuffMovement   = inDebuffMovement;
-    this->mSturnDuration    = inSturnDuration;
-    this->mSlowDuration     = inSlowDuration;
-    this->mActiveSturnTime  = inActiveSturnTime;
-    this->mActiveSlowTime   = inActiveSlowTime;
 }
 
 void WarriorShieldBash::Active()
@@ -73,12 +69,11 @@ void WarriorShieldBash::Active()
     }
     const int64 worldTime = world->GetWorldTime();
 
-    this->PushTask(worldTime + this->mActiveSturnTime, &WarriorShieldBash::SturnActive);
-    this->PushTask(worldTime + this->mActiveSlowTime, &WarriorShieldBash::SlowActive);
+    this->PushTask(worldTime + this->mActiveTime, &WarriorShieldBash::SkillActive);
 
 }
 
-void WarriorShieldBash::SturnActive()
+void WarriorShieldBash::SkillActive()
 {
     GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
     if (nullptr == owner)
@@ -100,14 +95,16 @@ void WarriorShieldBash::SturnActive()
     const int64 worldTime = world->GetWorldTime();
 
     FVector	location = this->GetLocation();
+    SphereTrace	sphereTrace(this->GetActorRef(), location, true, mSlowRadius);
 
     //DEBUG
     const float duration = 3.0f;
-    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSturnRadis, duration);
+    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSturnRadius, duration);
+    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSlowRadius, duration);
 
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;
-    bool result = world->FindActors(location, mSturnRadis, findActorType, findActors);
+    bool result = world->FindActors(sphereTrace, findActorType, findActors, 1);
     if (!result)
     {
         return;
@@ -123,7 +120,7 @@ void WarriorShieldBash::SturnActive()
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
         float distanceDamage = mDamage * (1.0f - (distance2D / mSlowRadius));
-        if (distance2D <= mSturnRadis)
+        if (distance2D <= mSturnRadius)
         {
             enemy->GetStateManager().SetState(EStateType::State_Stun);
 
@@ -132,66 +129,13 @@ void WarriorShieldBash::SturnActive()
             {
                 stunState->SetStunTime(mSturnDuration);
             }
-
-            enemy->PushTask(worldTime, &Actor::OnHit, instigated->GetActorPtr(), distanceDamage);
-
         }
-
-    }
-}
-
-void WarriorShieldBash::SlowActive()
-{
-    GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
-    if (nullptr == owner)
-    {
-        return;
-    }
-
-    PlayerCharacterPtr instigated = std::static_pointer_cast<PlayerCharacter>(owner->GetCharacter());
-    if (nullptr == instigated)
-    {
-        return;
-    }
-
-    GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
-    if (nullptr == world)
-    {
-        return;
-    }
-    const int64 worldTime = world->GetWorldTime();
-
-    FVector	location = this->GetLocation();
-
-    //DEBUG
-    const float duration = 3.0f;
-    PacketUtils::DebugDrawSphere(owner->GetRemoteClient().lock(), location, mSlowRadius, duration);
-
-    uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
-    std::vector<ActorPtr> findActors;
-    bool result = world->FindActors(location, mSlowRadius, findActorType, findActors);
-    if (!result)
-    {
-        return;
-    }
-
-    for (ActorPtr actor : findActors)
-    {
-        EnemyCharacterPtr enemy = std::static_pointer_cast<EnemyCharacter>(actor);
-        if (nullptr == enemy)
-        {
-            continue;
-        }
-
-        float distance2D = FVector::Distance2D(location, enemy->GetLocation());
-        float distanceDamage = mDamage * (1.0f - (distance2D / mSlowRadius));
-        if (mSturnRadis < distance2D && distance2D <= mSlowRadius)
+        else if (distance2D <= mSlowRadius)
         {
             enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
             enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, false);
-
-            enemy->PushTask(worldTime, &Actor::OnHit, instigated->GetActorPtr(), distanceDamage);
         }
 
+        enemy->PushTask(worldTime, &Actor::OnHit, instigated->GetActorPtr(), distanceDamage);
     }
 }

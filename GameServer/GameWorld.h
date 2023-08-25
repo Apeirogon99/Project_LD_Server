@@ -7,6 +7,7 @@ enum class EActorType
 	Player,
 	PickUp,
 	Enemy,
+	EnemyAttack,
 };
 
 class WorldPlayerInfo

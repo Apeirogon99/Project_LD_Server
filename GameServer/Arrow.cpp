@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Arrow.h"
 
-Arrow::Arrow() : Actor(L"Arrow"), mIsCollision(false), mDamage(0.0f), mLifeTime(0)
+Arrow::Arrow() : EnemyAttack(L"EnemyAttack::Arrow"), mIsCollision(false)
 {
+	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
 
 Arrow::~Arrow()
@@ -20,12 +21,15 @@ void Arrow::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
-	this->mCollisionComponent.SetOwner(this->GetActorRef());
-	this->mCollisionComponent.SetSphereCollisione(20.0f);
+	SphereCollisionComponent* collision = GetSphereCollisionComponent();
+	collision->SetOwner(this->GetActorRef());
+	collision->SetSphereCollisione(20.0f);
 
 	this->mProjectileComponent.InitProjectile(this->GetLocation(), this->GetRotation(), GAME_TICK, world->GetWorldTime());
 
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
+
+	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Projectile);
 }
 
 void Arrow::OnDestroy()
@@ -44,23 +48,6 @@ void Arrow::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	WorldPtr world = this->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	mLifeTime -= inDeltaTime;
-	if (mLifeTime <= 0)
-	{
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy arrow\n");
-		}
-		return;
-	}
-
 	this->mProjectileComponent.Update(this->GetActorPtr());
 	this->SyncLocation(inDeltaTime);
 	this->CheackCollision();
@@ -69,7 +56,7 @@ void Arrow::OnTick(const int64 inDeltaTime)
 
 bool Arrow::IsValid()
 {
-	return mLifeTime != 0 || mIsCollision == true;
+	return mIsCollision == false;
 }
 
 void Arrow::OnAppearActor(ActorPtr inAppearActor)
@@ -188,16 +175,23 @@ void Arrow::CheackCollision()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	FVector		location	= this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
-	const float radius		= this->mCollisionComponent.GetSphereCollision().GetRadius();
+	const float radius		= collision->GetSphereCollision().GetRadius();
 	SphereTrace	sphereTrace(this->GetActorRef(), location, true, radius);
 
-	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 20.0f, debugDuration);
+	const float debugDuration = 0.1f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, radius, debugDuration);
 
-	uint8 findActorType = static_cast<uint8>(EActorType::Player);
+	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(location, 50.0f, findActorType, findActors);
+	bool result = world->FindActors(sphereTrace, findActorType, findActors, 1);
 	if (!result)
 	{
 		return;
@@ -205,47 +199,18 @@ void Arrow::CheackCollision()
 
 	for (ActorPtr actor : findActors)
 	{
-		PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(actor);
-		if (nullptr == player)
+
+		actor->PushTask(worldTime, &Actor::OnHit, owner, this->GetDamage());
+
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
 		{
-			continue;
+			this->GameObjectLog(L"Can't destroy arrow\n");
 		}
-
-		bool isOverlap = sphereTrace.BoxCollisionTraceAABB(player->GetCapsuleCollisionComponent());
-		if (isOverlap)
-		{
-			player->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->mDamage);
-
-			bool ret = world->DestroyActor(this->GetGameObjectID());
-			if (false == ret)
-			{
-				this->GameObjectLog(L"Can't destroy arrow\n");
-			}
-			mIsCollision = true;
-			break;
-		}
-
+		mIsCollision = true;
+		break;
 	}
-}
 
-void Arrow::SetDamage(const float& inDamage)
-{
-	mDamage = inDamage;
-}
-
-void Arrow::SetLifeTime(const int64& inLifeTime)
-{
-	mLifeTime = inLifeTime;
-}
-
-const float Arrow::GetDamage() const
-{
-	return mDamage;
-}
-
-const int64 Arrow::GetLifeTime() const
-{
-	return mLifeTime;
 }
 
 ProjectileComponent& Arrow::GetProjectileComponent()
@@ -253,9 +218,9 @@ ProjectileComponent& Arrow::GetProjectileComponent()
 	return mProjectileComponent;
 }
 
-SphereCollisionComponent& Arrow::GetSphereCollisionComponent()
+SphereCollisionComponent* Arrow::GetSphereCollisionComponent()
 {
-	return mCollisionComponent;
+	return static_cast<SphereCollisionComponent*>(this->GetDefaultCollisionComponent());
 }
 
 

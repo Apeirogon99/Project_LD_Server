@@ -30,8 +30,9 @@ public:
 
 private:
 	bool mIsParrying;
-	bool mIsHit;
 
 	int64 mStartParryingTime;
 	int64 mEndParryingTime;
+
+	int64 mSturnDuration;
 };

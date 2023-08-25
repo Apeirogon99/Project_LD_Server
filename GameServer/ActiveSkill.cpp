@@ -112,6 +112,13 @@ void ActiveSkill::Active()
 
 void ActiveSkill::DeActive(const int64& inDuration)
 {
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
 	{

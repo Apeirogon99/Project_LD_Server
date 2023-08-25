@@ -106,6 +106,7 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
 
     warriorParrying->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), world->GetWorldTime());
     warriorParrying->Active();
+    warriorParrying->DeActive(2000);
 
     return true;
 }
@@ -155,7 +156,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 10000);
     skillComponent.SetActiveSkill(warriorShieldBash);
 
-    warriorShieldBash->SetWarriorShieldBash(10.0f, -50.0f, 2000, 3000, 2000, 2100);
+    warriorShieldBash->SetWarriorShieldBash(200.0f, -50.0f);
 
     warriorShieldBash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), world->GetWorldTime());
     warriorShieldBash->Active();

@@ -24,8 +24,9 @@ void EnemyArcherSkeleton::OnInitialization()
 
 	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
-	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
-	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
+	collision->SetOwner(this->GetActorRef());
+	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
@@ -93,7 +94,8 @@ void EnemyArcherSkeleton::OnAutoAttackTargeting(const float inDamage, const FVec
 
 
 	arrow->SetDamage(inDamage);
-	arrow->SetLifeTime(5000);
+	arrow->ReserveDestroy(5000);
+	arrow->SetTargetActorType(EActorType::Player);
 }
 
 void EnemyArcherSkeleton::OnAutoAttackOver()
@@ -114,7 +116,7 @@ void EnemyArcherSkeleton::OnReward()
 		return;
 	}
 
-	float halfHeight = this->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetZ() / 2.0f;
+	float halfHeight = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ() / 2.0f;
 	Location location = FVector(this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ() - halfHeight);
 
 	AItemPtr money = std::static_pointer_cast<AItem>(world->SpawnActor<AItem>(world->GetGameObjectRef(), Random::GetRandomVectorInRange2D(location, 100.0f), FRotator(), FVector()));

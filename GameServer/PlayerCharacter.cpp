@@ -14,8 +14,10 @@ PlayerCharacter::~PlayerCharacter()
 void PlayerCharacter::OnInitialization()
 {
 	SetTick(true, SYSTEM_TICK);
-	this->mCapsuleCollisionComponent.SetOwner(this->GetActorRef());
-	this->mCapsuleCollisionComponent.SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+
+	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
+	collision->SetOwner(this->GetActorRef());
+	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	this->mStatComponent.SetSyncTime(GAME_TICK);
 
@@ -275,7 +277,7 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	Location	clientLocation		= PacketUtils::ToFVector(pkt.cur_location());
 	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
 	int64		movementLastTime	= pkt.timestamp();
-	float		radius = this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
+	float		radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	if (false == this->mMovementComponent.GetRestrictMovement())
 	{
@@ -471,7 +473,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	FVector			location	= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
 	FRotator		rotation	= FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
 	FVector			foward		= rotation.GetForwardVector();
-	const float		collision	= this->mCapsuleCollisionComponent.GetBoxCollision().GetBoxExtent().GetX();
+	const float		collision	= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 	const float		radius		= std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2));	//외접원 반지름
 
 	Location		boxStartLocation	= location; // +(foward * collision); 앞에 두고 싶으면 추가해야함
@@ -486,7 +488,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(boxCenterLocation, radius, findActorType, findActors);
+	bool result = world->FindActors(boxTrace, findActorType, findActors);
 	if (!result)
 	{
 		return;
@@ -500,12 +502,8 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 			continue;
 		}
 
-		bool isOverlap = boxTrace.BoxCollisionTraceOBB(enemy->GetCapsuleCollisionComponent());
-		if (isOverlap)
-		{
-			enemy->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
-		}
-
+		enemy->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
+		
 	}
 }
 

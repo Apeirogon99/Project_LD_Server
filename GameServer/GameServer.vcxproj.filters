@@ -271,6 +271,9 @@
     <ClCompile Include="ActiveSkill.cpp">
       <Filter>Content\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>Content\Enemy\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -443,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="ActiveSkill.h">
       <Filter>Content\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>Content\Enemy\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

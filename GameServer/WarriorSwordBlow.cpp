@@ -107,13 +107,12 @@ void WarriorSwordBlow::Active()
 		return;
 	}
 
-	//FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
-	FVector boxExtent(500.0f,100.0f, 200.0f);
+	FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
 
 	FVector		location = instigated->GetMovementComponent().GetCurrentLocation(instigated->GetActorPtr());
 	FRotator	rotation = instigated->GetRotation();
 	FVector		foward	= rotation.GetForwardVector();
-	const float collision = instigated->GetCapsuleCollisionComponent().GetBoxCollision().GetBoxExtent().GetX();
+	const float collision = instigated->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
 	Location boxStartLocation	= location + (foward * collision);
@@ -129,7 +128,7 @@ void WarriorSwordBlow::Active()
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
-	bool result = world->FindActors(boxCenterLocation, radius, findActorType, findActors);
+	bool result = world->FindActors(boxTrace, findActorType, findActors);
 	if (!result)
 	{
 		return;
@@ -143,11 +142,7 @@ void WarriorSwordBlow::Active()
 			continue;
 		}
 
-		bool isOverlap = boxTrace.BoxCollisionTraceOBB(enemy->GetCapsuleCollisionComponent());
-		if (isOverlap)
-		{
-			enemy->PushTask(endChargeTime, &Actor::OnHit, instigated->GetActorPtr(), 100.0f);
-		}
+		enemy->PushTask(endChargeTime, &Actor::OnHit, instigated->GetActorPtr(), 100.0f);
 
 	}
 
