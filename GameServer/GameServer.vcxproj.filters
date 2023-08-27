@@ -103,6 +103,30 @@
     <Filter Include="Content\Skill\Handler">
       <UniqueIdentifier>{4c18ecaf-f627-4f3b-8564-349833e2c4b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Enemy\Private\Attack">
+      <UniqueIdentifier>{ec867720-f308-41df-ba68-3ee2dd023477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Private\Pawn">
+      <UniqueIdentifier>{937418a6-45d4-4837-8f2e-4f61a896b263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Private\Spawner">
+      <UniqueIdentifier>{b18ebd7f-b8b8-45a3-b3e6-4b7de52a6cff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Private\State">
+      <UniqueIdentifier>{dc37dc86-4f91-484a-97ec-785ff772af85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Public\Attack">
+      <UniqueIdentifier>{49f5373a-2dcc-4136-81a3-ee186478329f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Public\State">
+      <UniqueIdentifier>{ec3f2450-f0fd-4c39-beba-e46d3f9ce292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Public\Spawner">
+      <UniqueIdentifier>{5d3a9e93-62e9-4b69-8249-4659b2863df6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Enemy\Public\Pawn">
+      <UniqueIdentifier>{8c4060e8-2172-428b-9c50-584f39f44a9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -166,15 +190,6 @@
       <Filter>Database\Private</Filter>
     </ClCompile>
     <ClCompile Include="PacketUtils.cpp" />
-    <ClCompile Include="EnemySlime.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCharacter.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
     <ClCompile Include="GameWorld.cpp">
       <Filter>Content\World</Filter>
     </ClCompile>
@@ -186,9 +201,6 @@
     </ClCompile>
     <ClCompile Include="GameRemotePlayer.cpp">
       <Filter>Content\Player\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="IStateEvent.cpp">
-      <Filter>Content\Enemy\Private</Filter>
     </ClCompile>
     <ClCompile Include="EqipmentComponent.cpp">
       <Filter>Content\Component</Filter>
@@ -207,18 +219,6 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Content\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyNomalSkeleton.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyWarriorSkeleton.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyArcherSkeleton.cpp">
-      <Filter>Content\Enemy\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>Content\Enemy\Private</Filter>
     </ClCompile>
     <ClCompile Include="friendDatabase.cpp">
       <Filter>Database\Private</Filter>
@@ -271,8 +271,35 @@
     <ClCompile Include="ActiveSkill.cpp">
       <Filter>Content\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
     <ClCompile Include="EnemyAttack.cpp">
-      <Filter>Content\Enemy\Private</Filter>
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMeleeAttack.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyArcherSkeleton.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyCharacter.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyNomalSkeleton.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySlime.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWarriorSkeleton.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Content\Enemy\Private\Spawner</Filter>
+    </ClCompile>
+    <ClCompile Include="IStateEvent.cpp">
+      <Filter>Content\Enemy\Private\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,15 +369,6 @@
     <ClInclude Include="PacketUtils.h">
       <Filter>Packet\Handler</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySlime.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawner.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCharacter.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
     <ClInclude Include="GameWorld.h">
       <Filter>Content\World</Filter>
     </ClInclude>
@@ -362,9 +380,6 @@
     </ClInclude>
     <ClInclude Include="GameRemotePlayer.h">
       <Filter>Content\Player\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="IStateEvent.h">
-      <Filter>Content\Enemy\Public</Filter>
     </ClInclude>
     <ClInclude Include="EqipmentComponent.h">
       <Filter>Content\Component</Filter>
@@ -383,18 +398,6 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Content\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyNomalSkeleton.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyWarriorSkeleton.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyArcherSkeleton.h">
-      <Filter>Content\Enemy\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>Content\Enemy\Public</Filter>
     </ClInclude>
     <ClInclude Include="friendDatabase.h">
       <Filter>Database\Public</Filter>
@@ -447,8 +450,35 @@
     <ClInclude Include="ActiveSkill.h">
       <Filter>Content\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
     <ClInclude Include="EnemyAttack.h">
-      <Filter>Content\Enemy\Public</Filter>
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMeleeAttack.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="IStateEvent.h">
+      <Filter>Content\Enemy\Public\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Content\Enemy\Public\Spawner</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcherSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCharacter.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyNomalSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySlime.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWarriorSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -35,4 +35,6 @@ private:
 	int64 mEndParryingTime;
 
 	int64 mSturnDuration;
+
+	float mParryingDamage;
 };

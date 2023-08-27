@@ -10,7 +10,6 @@ bool Skill_INVALID(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
 
 bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
 {
-    printf("Use Skill_Warrior_Buff\n");
     if (false == inIsPressed)
     {
         return true;
@@ -35,8 +34,10 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
     {
+        printf("Can't Use Skill_Warrior_Buff\n");
         return true;
     }
+    printf("Use Skill_Warrior_Buff\n");
     
     ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
@@ -61,7 +62,6 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
 
 bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
 {
-    printf("Use Skill_Warrior_Parrying\n");
     if (false == inIsPressed)
     {
         return true;
@@ -87,8 +87,10 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying)))
     {
+        printf("Can't Use Skill_Warrior_Parrying\n");
         return true;
     }
+    printf("Use Skill_Warrior_Parrying\n");
 
     ActorPtr newActor = world->SpawnActor<WarriorParrying>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
@@ -113,7 +115,6 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
 
 bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
 {
-    printf("Use Skill_Warrior_ShieldBash\n");
     if (false == inIsPressed)
     {
         return true;
@@ -139,8 +140,10 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
 
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash)))
     {
+        printf("Can't Use Skill_Warrior_ShieldBash\n");
         return true;
     }
+    printf("Use Skill_Warrior_ShieldBash\n");
 
     ActorPtr newActor = world->SpawnActor<WarriorShieldBash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
@@ -189,8 +192,10 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
     {
         if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow)))
         {
+            printf("Can't Use pressed Skill_Warrior_SwordBlow\n");
             return true;
         }
+        printf("Use pressed Skill_Warrior_SwordBlow\n");
 
         ActorPtr newActor = world->SpawnActor<WarriorSwordBlow>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
         if (nullptr == newActor)
@@ -221,6 +226,13 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         {
             return true;
         }
+
+        if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow)))
+        {
+            printf("Can't Use release Skill_Warrior_SwordBlow\n");
+            return true;
+        }
+        printf("Use release Skill_Warrior_SwordBlow\n");
 
         std::shared_ptr<WarriorSwordBlow> warriorSwordBlow = std::static_pointer_cast<WarriorSwordBlow>(activeSkill);
         if (false == warriorSwordBlow->IsCharge())

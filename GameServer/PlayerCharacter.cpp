@@ -287,12 +287,14 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	float distance = FVector::Distance2D(serverLocation, clientLocation);
 	if (distance <= 50.0f)
 	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, radius);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, 0.0f);
 	}
 	else
 	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, radius);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
 	}
+
+	mTargetActor.reset();
 
 	OnMovement();
 }
@@ -333,6 +335,7 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	{
 		return;
 	}
+	EnemyCharacterPtr enemy = std::static_pointer_cast<EnemyCharacter>(victimActor);
 
 	const Stats& currentStat = mStatComponent.GetCurrentStats();
 	const float range = currentStat.GetRange();
@@ -340,10 +343,10 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	if (false == this->mAutoAttackComponent.IsAutoAttackRange(this->GetActorPtr(), victimActor, range))
 	{
 		FVector curLocation		= this->GetLocation();
-		FVector victimLocation	= victimActor->GetLocation();
+		FVector victimLocation	= enemy->GetMovementComponent().GetNextLocation(enemy);
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, range);
 		this->SetPlayerMode(EPlayerMode::Attack_MODE);
-		this->SetTargetActor(victimActor->GetActorRef());
+		this->SetTargetActor(enemy);
 		OnMovement();
 		return;
 	}

@@ -56,6 +56,7 @@
 //==========================//
 #include "IStateEvent.h"
 #include "EnemyAttack.h"
+#include "EnemyMeleeAttack.h"
 #include "Arrow.h"
 #include "EnemyCharacter.h"
 #include "EnemySpawner.h"

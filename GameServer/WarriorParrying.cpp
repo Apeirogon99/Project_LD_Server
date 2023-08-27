@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorParrying.h"
 
-WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mStartParryingTime(200), mEndParryingTime(2000), mSturnDuration(2000)
+WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mStartParryingTime(200), mEndParryingTime(300), mSturnDuration(3000), mParryingDamage(1.8f)
 {
 }
 
@@ -138,15 +138,15 @@ void WarriorParrying::Active()
 		return;
 	}
 
-	const float parryingDamage = 1.5f;
-	for (ActorPtr actor : findActors)
+	for (auto actor : findActors)
 	{
-
 		EnemyAttackPtr enemyAttack = std::static_pointer_cast<EnemyAttack>(actor);
 		if (nullptr == enemyAttack)
 		{
 			continue;
 		}
+		const EEnemyAttackType& attackType = enemyAttack->GetEnemyAttackType();
+		const float attackDamage = enemyAttack->GetDamage() * mParryingDamage;
 
 		EnemyCharacterPtr enemyOwner = std::static_pointer_cast<EnemyCharacter>(actor->GetOwner().lock());
 		if (nullptr == enemyOwner)
@@ -154,47 +154,27 @@ void WarriorParrying::Active()
 			continue;
 		}
 
-		const EEnemyAttackType& attackType = enemyAttack->GetEnemyAttackType();
-
-		if (attackType == EEnemyAttackType::Enemy_Attack_Melee)
+		if (attackType == EEnemyAttackType::Enemy_Attack_Nomal_Melee)
 		{
-			enemyOwner->GetStateManager().SetState(EStateType::State_Stun);
+			enemyAttack->OnParrying(instigated);
 
+			enemyOwner->GetStateManager().SetState(EStateType::State_Stun);
 			StunState* stunState = static_cast<StunState*>(enemyOwner->GetStateManager().GetCurrentStateEvent());
-			if (nullptr != stunState)
+			if (nullptr == stunState)
 			{
-				stunState->SetStunTime(mSturnDuration);
+				continue;
 			}
+
+			stunState->SetStunTime(mSturnDuration);
+			enemyOwner->OnHit(instigated, attackDamage);
 
 		}
 		else if (attackType == EEnemyAttackType::Enemy_Attack_Projectile)
 		{
-			ActorPtr actor = world->SpawnActor<Arrow>(instigated, enemyAttack->GetLocation(), FRotator::TurnRotator(enemyAttack->GetRotation()), Scale());
-			ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
-			if (nullptr == arrow)
-			{
-				return;
-			}
-			arrow->SetDamage(enemyAttack->GetDamage() * parryingDamage);
-			arrow->ReserveDestroy(5000);
-			arrow->SetTargetActorType(EActorType::Enemy);
+			enemyAttack->SetDamage(attackDamage);
+			enemyAttack->SetTargetActorType(EActorType::Enemy);
 
-			bool ret = world->DestroyActor(enemyAttack->GetGameObjectID());
-			if (false == ret)
-			{
-				this->GameObjectLog(L"Can't destroy arrow\n");
-			}
-
-			ret = world->DestroyActor(this->GetGameObjectID());
-			if (false == ret)
-			{
-				this->GameObjectLog(L"Can't destroy parrying\n");
-			}
-			break;
-		}
-		else
-		{
-			return;
+			enemyAttack->OnParrying(instigated);
 		}
 
 		Protocol::S2C_ReactionSkill reactionSkill;
@@ -208,6 +188,11 @@ void WarriorParrying::Active()
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 		this->BrodcastPlayerViewers(sendBuffer);
 
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
+		{
+			this->GameObjectLog(L"Can't destroy parrying\n");
+		}
 	}
 
 }
@@ -248,6 +233,24 @@ void WarriorParrying::StartParrying()
 void WarriorParrying::EndParrying()
 {
 	mIsParrying = false;
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	if(false == world->IsValidActor(this->GetGameObjectID()))
+	{
+		return;
+	}
+
+	bool ret = world->DestroyActor(this->GetGameObjectID());
+	if (false == ret)
+	{
+		this->GameObjectLog(L"Can't destroy parrying\n");
+	}
 }
 
 void WarriorParrying::SetWarriorParrying(const float& inDamage)
