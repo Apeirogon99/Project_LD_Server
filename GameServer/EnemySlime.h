@@ -15,4 +15,7 @@ public:
 
 public:
 	virtual void	OnReward() override;
+
+private:
+	std::shared_ptr<EnemyMeleeAttack> mMeleeAttack;
 };

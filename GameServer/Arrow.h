@@ -22,8 +22,12 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
+	virtual void CheackCollision() override;
+	virtual void OnParrying(ActorPtr inActor) override;
+	virtual void OnMovement() override;
+
+public:
 	void SyncLocation(const int64 inDeltaTime);
-	void CheackCollision();
 
 public:
 	ProjectileComponent&		GetProjectileComponent();

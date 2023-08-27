@@ -25,7 +25,7 @@ void Arrow::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetSphereCollisione(20.0f);
 
-	this->mProjectileComponent.InitProjectile(this->GetLocation(), this->GetRotation(), GAME_TICK, world->GetWorldTime());
+	this->mProjectileComponent.InitProjectile(GAME_TICK, world->GetWorldTime());
 
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 
@@ -48,6 +48,24 @@ void Arrow::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
+	mCurrentLifeTime += inDeltaTime;
+	if (mCurrentLifeTime >= mMaxLifeTime)
+	{
+		GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+		if (nullptr == world)
+		{
+			return;
+		}
+
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
+		{
+			this->GameObjectLog(L"Can't destroy arrow\n");
+		}
+
+		return;
+	}
+
 	this->mProjectileComponent.Update(this->GetActorPtr());
 	this->SyncLocation(inDeltaTime);
 	this->CheackCollision();
@@ -56,7 +74,13 @@ void Arrow::OnTick(const int64 inDeltaTime)
 
 bool Arrow::IsValid()
 {
-	return mIsCollision == false;
+
+	if (true == mIsCollision)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void Arrow::OnAppearActor(ActorPtr inAppearActor)
@@ -93,14 +117,13 @@ void Arrow::OnAppearActor(ActorPtr inAppearActor)
 
 	FVector		location = this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
 	FRotator	rotation = this->GetRotation();
-	const int64	worldTime = this->GetWorld().lock()->GetWorldTime();
-
+	const int64	lastMovement = this->GetWorld().lock()->GetWorldTime();
 
 	Protocol::S2C_AppearArrow appearPacket;
 	appearPacket.set_object_id(this->GetGameObjectID());
 	appearPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
 	appearPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
-	appearPacket.set_timestamp(this->mProjectileComponent.GetLastMovementTime());
+	appearPacket.set_timestamp(lastMovement);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
@@ -142,25 +165,34 @@ void Arrow::OnDisAppearActor(ActorPtr inDisappearActor)
 
 void Arrow::SyncLocation(const int64 inDeltaTime)
 {
-	WorldPtr world = GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
 
 	bool isSync = this->mProjectileComponent.SyncUpdate(this->GetActorPtr(), inDeltaTime);
 	if (false == isSync)
 	{
 		return;
 	}
-	Protocol::SVector	currentLocation = PacketUtils::ToSVector(this->GetLocation());
-	const int64			worldTime = this->mProjectileComponent.GetLastMovementTime();
 
+	this->OnMovement();
+
+}
+
+void Arrow::OnMovement()
+{
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	FVector		location = this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
+	FRotator	rotation = this->GetRotation();
+	const int64	lastMovement = this->GetWorld().lock()->GetWorldTime();
 
 	Protocol::S2C_MovementProjectile movementPacket;
 	movementPacket.set_object_id(this->GetGameObjectID());
-	movementPacket.mutable_location()->CopyFrom(currentLocation);
-	movementPacket.set_timestamp(worldTime);
+	movementPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	movementPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+	movementPacket.set_timestamp(lastMovement);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
@@ -211,6 +243,32 @@ void Arrow::CheackCollision()
 		break;
 	}
 
+}
+
+void Arrow::OnParrying(ActorPtr inActor)
+{
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	ActorPtr actor = world->SpawnActor<Arrow>(inActor->GetGameObjectRef(), this->GetLocation(), FRotator::TurnRotator(this->GetRotation()), Scale(1.0f, 1.0f, 1.0f));
+	ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
+	if (nullptr == arrow)
+	{
+		return;
+	}
+
+	arrow->SetDamage(this->GetDamage());
+	arrow->ReserveDestroy(this->GetMaxLifeTime());
+	arrow->SetTargetActorType(this->GetTargetActorType());
+
+	bool ret = world->DestroyActor(this->GetGameObjectID());
+	if (false == ret)
+	{
+		this->GameObjectLog(L"Can't destroy parrying\n");
+	}
 }
 
 ProjectileComponent& Arrow::GetProjectileComponent()

@@ -31,7 +31,7 @@ void EnemyWarriorSkeleton::OnInitialization()
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(0, 600, 1700, FVector(50.0f, 80.0f, 100.0f)));
+	infos.push_back(AttackInfo(0, 400, 1700, FVector(50.0f, 80.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
@@ -42,16 +42,17 @@ void EnemyWarriorSkeleton::OnAutoAttackShot(ActorPtr inVictim)
 	{
 		return;
 	}
+	const int64& worldTime = world->GetWorldTime();
 
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+	{
+		Protocol::S2C_EnemyAutoAttack autoAttackPacket;
+		autoAttackPacket.set_object_id(this->GetGameObjectID());
+		autoAttackPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+		autoAttackPacket.set_timestamp(worldTime);
 
-	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
-	autoAttackPacket.set_object_id(this->GetGameObjectID());
-	autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
-	autoAttackPacket.set_timestamp(world->GetWorldTime());
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
@@ -63,46 +64,26 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector		location = this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
-	FRotator	rotation = FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
-	FVector		foward = rotation.GetForwardVector();
-	const float collision = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
-	const float radius = std::sqrtf(std::powf(inRange.GetX(), 2) + std::powf(inRange.GetY(), 2));	//외접원 반지름
-
-	Location boxStartLocation = location;
-	Location boxEndLocation = boxStartLocation + (foward * (inRange.GetX() * 2));
-	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, inRange, rotation);
-
-	//DEBUG
-	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, inRange, debugDuration);
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
-
-	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(boxTrace, findActorType, findActors);
-	if (!result)
+	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), this->GetLocation(), this->GetRotation(), FVector(1.0f, 1.0f, 1.0f));
+	if (nullptr == actor)
 	{
 		return;
 	}
 
-	for (ActorPtr actor : findActors)
-	{
-		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(actor);
-		if (nullptr == character)
-		{
-			continue;
-		}
+	mMeleeAttack = std::static_pointer_cast<EnemyMeleeAttack>(actor);
+	mMeleeAttack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
+	mMeleeAttack->SetTargetActorType(EActorType::Player);
+	mMeleeAttack->SetAttackExtent(inRange);
+	mMeleeAttack->SetDamage(inDamage);
+	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
-		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
-
-	}
+	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
 }
 
 void EnemyWarriorSkeleton::OnAutoAttackOver()
 {
 	this->mAutoAttackComponent.OnOverAutoAttack();
+	mMeleeAttack.reset();
 
 	if (false == this->IsDeath())
 	{

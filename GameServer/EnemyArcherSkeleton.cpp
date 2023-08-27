@@ -81,7 +81,7 @@ void EnemyArcherSkeleton::OnAutoAttackTargeting(const float inDamage, const FVec
 	arrowLocation = Location(arrowLocation.GetX(), arrowLocation.GetY(), arrowLocation.GetZ() + 25.0f);
 
 	//Arrow
-	ActorPtr actor = world->SpawnActor<Arrow>(this->GetGameObjectRef(), arrowLocation, arrowRotation, Scale());
+	ActorPtr actor = world->SpawnActor<Arrow>(this->GetGameObjectRef(), arrowLocation, arrowRotation, Scale(1.0f, 1.0f, 1.0f));
 	ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
 	if (nullptr == arrow)
 	{

@@ -34,7 +34,7 @@ void EnemySlime::OnInitialization()
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), initLocation, initLocation, world->GetWorldTime(), 62.0f);
 
 	AttackInfos infos;
-	infos.push_back(AttackInfo(0, 460, 1000, FVector(110.0f, 100.0f, 100.0f)));
+	infos.push_back(AttackInfo(0, 260, 1000, FVector(110.0f, 100.0f, 100.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Melee, infos);
 }
 
@@ -45,16 +45,17 @@ void EnemySlime::OnAutoAttackShot(ActorPtr inVictim)
 	{
 		return;
 	}
+	const int64& worldTime = world->GetWorldTime();
 
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+	{
+		Protocol::S2C_EnemyAutoAttack autoAttackPacket;
+		autoAttackPacket.set_object_id(this->GetGameObjectID());
+		autoAttackPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+		autoAttackPacket.set_timestamp(world->GetWorldTime());
 
-	Protocol::S2C_EnemyAutoAttack autoAttackPacket;
-	autoAttackPacket.set_object_id(this->GetGameObjectID());
-	autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
-	autoAttackPacket.set_timestamp(world->GetWorldTime());
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
@@ -66,40 +67,27 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector		location = this->GetLocation();
-	FRotator	rotation = this->GetRotation();
-	FVector		foward = rotation.GetForwardVector();
-	const float radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
-
-	FVector		boxLocation = location + (foward * (radius + inRange.GetX()));
-	FRotator	orientation = this->GetRotation();
-
-	BoxTrace boxTrace(this->GetActorRef(), boxLocation, boxLocation, true, inRange, orientation);
-
-	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(boxTrace, findActorType, findActors);
-	if (!result)
+	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), this->GetLocation(), this->GetRotation(), FVector(1.0f, 1.0f, 1.0f));
+	if (nullptr == actor)
 	{
 		return;
 	}
 
-	for (ActorPtr actor : findActors)
-	{
-		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(actor);
-		if (nullptr == character)
-		{
-			continue;
-		}
+	mMeleeAttack = std::static_pointer_cast<EnemyMeleeAttack>(actor);
+	mMeleeAttack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
+	mMeleeAttack->SetTargetActorType(EActorType::Player);
+	mMeleeAttack->SetAttackExtent(inRange);
+	mMeleeAttack->SetDamage(inDamage);
+	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
-		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), inDamage);
+	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
 
-	}
 }
 
 void EnemySlime::OnAutoAttackOver()
 {
 	this->mAutoAttackComponent.OnOverAutoAttack();
+	mMeleeAttack.reset();
 
 	if (false == this->IsDeath())
 	{

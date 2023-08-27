@@ -3,7 +3,8 @@
 enum class EEnemyAttackType
 {
 	Enemy_Attack_Unspecified,
-	Enemy_Attack_Melee,
+	Enemy_Attack_Nomal_Melee,
+	Enemy_Attack_Hard_Melee,
 	Enemy_Attack_Projectile,
 };
 
@@ -30,20 +31,36 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) abstract;
 
 public:
+	virtual void CheackCollision() abstract;
+	virtual void OnParrying(ActorPtr inActor) abstract;
+	virtual void OnMovement() {}
+
+public:
 	void ReserveDestroy(const int64& inDelay);
 	void SetEnemyAttackType(const EEnemyAttackType& inEnemyAttackType);
 	void SetTargetActorType(const EActorType& inTargetActorType);
 	void SetDamage(const float& inDamage);
+	void SetCancel(const bool& inCancel);
+	void SetParryinglTime(const int64& inStart, const int64& inEnd);
 
 public:
 	const EEnemyAttackType&		GetEnemyAttackType() const;
 	const EActorType&			GetTargetActorType() const;
 	const float&				GetDamage() const;
+	const bool&					GetCancel() const;
+	const int64&				GetMaxLifeTime() const;
+	const bool					CanParrying() const;
 
 protected:
 	EEnemyAttackType	mEnemyAttackType;
 	EActorType			mTargetActorType;
 
 	float				mDamage;
+	bool				mCancel;
+
+	int64				mMaxLifeTime;
+	int64				mCurrentLifeTime;
+	int64				mParryingStart;
+	int64				mParryingEnd;
 };
 
