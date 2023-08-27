@@ -73,11 +73,9 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 	Location nextLocation		= spawner->GetRandomLocation();
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
-	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, nextLocation, world->GetWorldTime(), collisionRadius);
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, nextLocation, world->GetWorldTime(), 0.0f);
 	enemy->SetRecoveryLocation(nextLocation);
 	enemy->OnMovementEnemy();
-
-	//nextLocation.ToString();
 }
 
 void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
@@ -140,7 +138,7 @@ void RecoveryState::Enter(EnemyCharacterRef inEnemy)
 	this->mCurrentLocation		= enemy->GetLocation();
 	this->mMaxDistanceLength	= FVector::Distance2D(this->mCurrentLocation, recoveryLocation);
 
-	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, recoveryLocation, world->GetWorldTime(), collisionRadius);
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, recoveryLocation, world->GetWorldTime(), 0.0f);
 	enemy->OnMovementEnemy();
 }
 
@@ -175,8 +173,8 @@ void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
-	enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, fullHealth);
+	//const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
+	//enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, fullHealth);
 }
 
 
@@ -242,6 +240,10 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
+
+	//DEBUG
+	const float debugDuration = 0.05f;
+	PacketUtils::DebugDrawSphere(enemy->GetPlayerViewers(), enemy->GetLocation(), range, debugDuration);
 
 
 	if (true == enemy->GetAutoAttackComponent().IsAutoAttackRange(enemy->GetActorPtr(), aggroActor->GetActorPtr(), range))

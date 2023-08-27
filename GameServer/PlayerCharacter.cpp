@@ -284,15 +284,17 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 		return;
 	}
 
-	float distance = FVector::Distance2D(serverLocation, clientLocation);
-	if (distance <= 50.0f)
-	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, 0.0f);
-	}
-	else
-	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
-	}
+	//float distance = FVector::Distance2D(serverLocation, clientLocation);
+	//if (distance <= 50.0f)
+	//{
+	//	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, 0.0f);
+	//}
+	//else
+	//{
+	//	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
+	//}
+
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
 
 	mTargetActor.reset();
 
