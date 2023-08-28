@@ -519,8 +519,18 @@ class C2S_TravelLevel final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTimeStampFieldNumber = 2,
     kLevelFieldNumber = 1,
   };
+  // int64 time_stamp = 2;
+  void clear_time_stamp();
+  int64_t time_stamp() const;
+  void set_time_stamp(int64_t value);
+  private:
+  int64_t _internal_time_stamp() const;
+  void _internal_set_time_stamp(int64_t value);
+  public:
+
   // int32 level = 1;
   void clear_level();
   int32_t level() const;
@@ -538,6 +548,7 @@ class C2S_TravelLevel final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    int64_t time_stamp_;
     int32_t level_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -818,6 +829,7 @@ class C2S_TravelServer final :
     kTokenFieldNumber = 1,
     kGlobalIdFieldNumber = 2,
     kCharacterIdFieldNumber = 3,
+    kTimeStampFieldNumber = 4,
   };
   // bytes token = 1;
   void clear_token();
@@ -851,6 +863,15 @@ class C2S_TravelServer final :
   void _internal_set_character_id(int32_t value);
   public:
 
+  // int64 time_stamp = 4;
+  void clear_time_stamp();
+  int64_t time_stamp() const;
+  void set_time_stamp(int64_t value);
+  private:
+  int64_t _internal_time_stamp() const;
+  void _internal_set_time_stamp(int64_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C2S_TravelServer)
  private:
   class _Internal;
@@ -862,6 +883,7 @@ class C2S_TravelServer final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
     int32_t global_id_;
     int32_t character_id_;
+    int64_t time_stamp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1204,6 +1226,26 @@ inline void C2S_TravelLevel::set_level(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C2S_TravelLevel.level)
 }
 
+// int64 time_stamp = 2;
+inline void C2S_TravelLevel::clear_time_stamp() {
+  _impl_.time_stamp_ = int64_t{0};
+}
+inline int64_t C2S_TravelLevel::_internal_time_stamp() const {
+  return _impl_.time_stamp_;
+}
+inline int64_t C2S_TravelLevel::time_stamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_TravelLevel.time_stamp)
+  return _internal_time_stamp();
+}
+inline void C2S_TravelLevel::_internal_set_time_stamp(int64_t value) {
+  
+  _impl_.time_stamp_ = value;
+}
+inline void C2S_TravelLevel::set_time_stamp(int64_t value) {
+  _internal_set_time_stamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_TravelLevel.time_stamp)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_TravelLevel
@@ -1320,6 +1362,26 @@ inline void C2S_TravelServer::_internal_set_character_id(int32_t value) {
 inline void C2S_TravelServer::set_character_id(int32_t value) {
   _internal_set_character_id(value);
   // @@protoc_insertion_point(field_set:Protocol.C2S_TravelServer.character_id)
+}
+
+// int64 time_stamp = 4;
+inline void C2S_TravelServer::clear_time_stamp() {
+  _impl_.time_stamp_ = int64_t{0};
+}
+inline int64_t C2S_TravelServer::_internal_time_stamp() const {
+  return _impl_.time_stamp_;
+}
+inline int64_t C2S_TravelServer::time_stamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_TravelServer.time_stamp)
+  return _internal_time_stamp();
+}
+inline void C2S_TravelServer::_internal_set_time_stamp(int64_t value) {
+  
+  _impl_.time_stamp_ = value;
+}
+inline void C2S_TravelServer::set_time_stamp(int64_t value) {
+  _internal_set_time_stamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_TravelServer.time_stamp)
 }
 
 // -------------------------------------------------------------------

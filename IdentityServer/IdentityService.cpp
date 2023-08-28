@@ -50,7 +50,7 @@ void IdentityService::OnServiceOpen()
 	}
 
 	IdentityTaskPtr task = gameState->GetTask();
-	WorldPtr world = task->GetWorld();
+	LoginWorldPtr world = task->GetWorld();
 	world->SetServerInfo(gameServerInfo);
 }
 

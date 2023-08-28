@@ -37,14 +37,14 @@ void IdentityPlayerState::OnDisconnected()
 		return;
 	}
 
-	WorldPtr world = task->GetWorld();
+	LoginWorldPtr world = task->GetWorld();
 	if (world == nullptr)
 	{
 		return;
 	}
 
 	const int64 Priority = gameState->GetServiceTimeStamp();
-	bool ret = world->PushTask(Priority, &World::Leave, this->GetPlayerStatePtr());
+	bool ret = world->PushTask(Priority, &LoginWorld::LeaveWorld, std::static_pointer_cast<IdentityPlayerState>(this->GetRemoteClientRef().lock()));
 	if (false == ret)
 	{
 		return;
@@ -63,9 +63,4 @@ void IdentityPlayerState::OnRecvPacket(BYTE* buffer, const uint32 len)
 		this->SessionLog(L"IdentityPlayerState::OnRecvPacket() : Failed to handle packet\n");
 		return;
 	}
-}
-
-void IdentityPlayerState::SetRemotePlayer(RemotePlayerPtr& inRemotePlayer)
-{
-	mRemotePlayer = inRemotePlayer;
 }

@@ -3,13 +3,13 @@
 class LoginRoom : public GameObject
 {
 public:
-	LoginRoom(WorldRef inWorld);
+	LoginRoom();
 	virtual ~LoginRoom();
 
 protected:
-	virtual void Initialization()				override;
-	virtual void Destroy()						override;
-	virtual void Tick(const int64 inDeltaTime)	override;
+	virtual void OnInitialization()				override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
 	virtual bool IsValid()						override;
 
 public:

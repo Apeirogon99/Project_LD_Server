@@ -12,11 +12,18 @@
 #include "CommonPacket.pb.h"
 
 //==========================//
+//		   Manager			//
+//==========================//
+#include "CharacterManager.h"
+#include "RoomManager.h"
+#include "IdentityManager.h"
+
+//==========================//
 //		 GameContent		//
 //==========================//
-#include "Character.h"
-#include "RemotePlayer.h"
-#include "World.h"
+#include "LoginCharacter.h"
+#include "LoginRemotePlayer.h"
+#include "LoginWorld.h"
 #include "LoginRoom.h"
 #include "SelectRoom.h"
 #include "CustomRoom.h"

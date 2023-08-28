@@ -18,18 +18,39 @@ using IdentitiyDatabaseHandlerPtr	= std::shared_ptr<IdentitiyDatabaseHandler>;
 using IdentityDataManagerPtr		= std::shared_ptr<IdentityDataManager>;
 using IdentityTaskPtr				= std::shared_ptr<IdentityTask>;
 
-class World;
-class LoginRoom;
-class SelectRoom;
-class CustomRoom;
-class RemotePlayer;
-class Character;
+class IdentityManager;
+using IdentityManagerPtr		= std::shared_ptr<IdentityManager>;
+using IdentityManagerRef		= std::weak_ptr<IdentityManager>;
 
-using WorldPtr						= std::shared_ptr<World>;
-using WorldRef						= std::weak_ptr<World>;
-using LoginRoomPtr					= std::shared_ptr<LoginRoom>;
-using SelectRoomPtr					= std::shared_ptr<SelectRoom>;
-using CustomRoomPtr					= std::shared_ptr<CustomRoom>;
-using RemotePlayerPtr				= std::shared_ptr<RemotePlayer>;
-using CharacterPtr					= std::shared_ptr<Character>;
+class LoginWorld;
+using LoginWorldPtr				= std::shared_ptr<LoginWorld>;
+using LoginWorldRef				= std::weak_ptr<LoginWorld>;
+
+class RoomManager;
+using RoomManagerPtr			= std::shared_ptr<RoomManager>;
+using RoomManagerRef			= std::weak_ptr<RoomManager>;
+
+class LoginRoom;
+using LoginRoomPtr				= std::shared_ptr<LoginRoom>;
+using LoginRoomRef				= std::weak_ptr<LoginRoom>;
+
+class SelectRoom;
+using SelectRoomPtr				= std::shared_ptr<SelectRoom>;
+using SelectRoomRef				= std::weak_ptr<SelectRoom>;
+
+class CustomRoom;
+using CustomRoomPtr				= std::shared_ptr<CustomRoom>;
+using CustomRoomRef				= std::weak_ptr<CustomRoom>;
+
+class LoginRemotePlayer;
+using LoginRemotePlayerPtr		= std::shared_ptr<LoginRemotePlayer>;
+using LoginRemotePlayerRef		= std::weak_ptr<LoginRemotePlayer>;
+
+class CharacterManager;
+using CharacterManagerPtr		= std::shared_ptr<CharacterManager>;
+using CharacterManagerRef		= std::weak_ptr<CharacterManager>;
+
+class LoginCharacter;
+using LoginCharacterPtr			= std::shared_ptr<LoginCharacter>;
+using LoginCharacterRef			= std::weak_ptr<LoginCharacter>;
 

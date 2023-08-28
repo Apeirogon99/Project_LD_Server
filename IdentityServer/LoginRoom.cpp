@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "LoginRoom.h"
 
-LoginRoom::LoginRoom(WorldRef inWorld) : GameObject(L"LoginRoom"), mWorld(inWorld)
+LoginRoom::LoginRoom() : GameObject(L"LoginRoom")
 {
 	
 }
@@ -11,141 +11,148 @@ LoginRoom::~LoginRoom()
 	
 }
 
-void LoginRoom::Initialization()
+void LoginRoom::OnInitialization()
 {
 	
 }
 
-void LoginRoom::Destroy()
+void LoginRoom::OnDestroy()
 {
 	
 }
 
-void LoginRoom::Tick(const int64 inDeltaTime)
+void LoginRoom::OnTick(const int64 inDeltaTime)
 {
 }
 
 bool LoginRoom::IsValid()
 {
-	return true;
+	return (this->GetOwner().lock() != nullptr);
 }
 
 void LoginRoom::Signin(PlayerStatePtr inPlayerState, Protocol::C2S_Singin inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
-	{
-		return;
-	}
+	const std::string userName = inPacket.user_id();
+	const std::string userPassword = inPacket.user_password();
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_Singin_Requset(packetSession, inPacket);
-
+	Handle_Singin_Requset(packetSession, userName, userPassword);
 }
 
 void LoginRoom::Signup(PlayerStatePtr inPlayerState, Protocol::C2S_Singup inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
-	{
-		return;
-	}
+	std::string tempEmail = inPacket.user_email();
+	size_t find = tempEmail.find('@');
+
+	std::string userID = inPacket.user_id().c_str();
+	std::string userPS = inPacket.user_password().c_str();
+	std::string local = tempEmail.substr(0, find).c_str();
+	std::string domain = tempEmail.substr(find + 1, tempEmail.length()).c_str();
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_Singup_Requset(packetSession, inPacket);
+	Handle_Singup_Requset(packetSession, userID, userPS, local, domain);
 }
 
 void LoginRoom::EmailVerified(PlayerStatePtr inPlayerState, Protocol::C2S_EmailVerified inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return;
 	}
+
+	ADOVariant global_id	= identityManager->GetGlobalID();
+	ADOVariant verifyCode	= atoi(inPacket.verified_code().c_str());
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_EmailVerified_Requset(packetSession, inPacket);
+	Handle_EmailVerified_Requset(packetSession, global_id, verifyCode);
 }
 
 void LoginRoom::LoadServerRequest(PlayerStatePtr inPlayerState, Protocol::C2S_LoadServer inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return;
 	}
 
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_Select_Character_Request(packetSession, remotePlayer->GetGlobalID());
+	Handle_Select_Character_Request(packetSession, identityManager->GetGlobalID());
 }
 
 void LoginRoom::SelectServer(PlayerStatePtr inPlayerState, Protocol::C2S_SelectServer inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return;
 	}
 
 	const int32 serverID = inPacket.server_id();
-	remotePlayer->SetServerID(serverID);
 
-	remotePlayer->SetRoomType(ERoomType::SelectRoom);
+
+	identityManager->SetServerID(serverID);
+
 
 	Protocol::S2C_SelectServer selectServerPacket;
 	selectServerPacket.set_error(true);

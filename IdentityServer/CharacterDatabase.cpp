@@ -3,27 +3,14 @@
 
 using namespace std;
 
-bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_LoadCharacters& inPacket)
+bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, const int32& inGlobalID, const int32& inServerID)
 {
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
-	{
-		return false;
-	}
-
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
-	{
-		return false;
-	}
-
 	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant global_id = remotePlayer->GetGlobalID();
-	ADOVariant server_id = remotePlayer->GetServerID();
+	ADOVariant global_id = inGlobalID;
+	ADOVariant server_id = inServerID;
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.load_character_sp");
@@ -35,28 +22,24 @@ bool Handle_LoadCharacters_Requset(PacketSessionPtr& inSession, Protocol::C2S_Lo
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 
 	DatabaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_LoadCharacters_Response);
-
 	return true;
 }
 
 bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
-
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
 	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
 	Protocol::S2C_LoadCharacters loadCharacterPackets;
-	std::vector<CharacterPtr> newCharacters(MAX_CHARACTER);
 	int32 ret = inCommand.GetReturnParam();
 	if (ret == 0)
 	{
@@ -116,15 +99,11 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 			eqipments->set_weapon_l(weapon_l);
 			eqipments->set_weapon_r(weapon_r);
 
-			CharacterPtr newCharacter = std::make_shared<Character>();
-			newCharacter->LoadCharacter(characterID, *characterData);
-			newCharacters[seat] = newCharacter;
+			remotePlayer->GetCharacterManager()->PushCharacter(characterID, characterData);
 
 			inRecordset.MoveNext();
 		}
 	}
-
-	remotePlayer->SetCharacters(newCharacters);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, loadCharacterPackets);
 	inSession->Send(sendBuffer);
@@ -132,42 +111,26 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 	return true;
 }
 
-bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_CreateCharacter& inPacket)
+bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, const std::string& inName, const int32& inClass, const int32& inRace, const int32& inSeat, const int32& inGlobalID, const int32& inServerID, const int32& inSkinColor, const int32& inHairID, const int32& inHairColor, const int32& inEyeColor, const int32& inEyebrowColor)
 {
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
-	{
-		return false;
-	}
-
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
-	{
-		return false;
-	}
 
 	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	const Protocol::SCharacterData& characterData = inPacket.character_data();
-	const Protocol::SCharacterAppearance& characterAppearance = characterData.appearance();
-	const Protocol::SCharacterEqipment& characterEqipment = characterData.eqipment();
+	ADOVariant name				= inName.c_str();
+	ADOVariant characterClass	= inClass;
+	ADOVariant race				= inRace;
+	ADOVariant seat				= inSeat;
+	ADOVariant global_id		= inGlobalID;
+	ADOVariant server_id		= inServerID;
 
-	ADOVariant name = characterData.name().c_str();
-	ADOVariant characterClass = characterData.character_class();
-	ADOVariant race = characterAppearance.race();
-	ADOVariant seat = characterAppearance.seat();
-	ADOVariant global_id = remotePlayer->GetGlobalID();
-	ADOVariant server_id = remotePlayer->GetServerID();
+	ADOVariant skin_color		= inSkinColor;
+	ADOVariant hair_color		= inHairColor;
+	ADOVariant eye_color		= inEyeColor;
+	ADOVariant eyebrow_color	= inEyebrowColor;
 
-	ADOVariant skin_color = characterAppearance.skin_color();
-	ADOVariant hair_color = characterAppearance.hair_color();
-	ADOVariant eye_color = characterAppearance.eye_color();
-	ADOVariant eyebrow_color = characterAppearance.eyebrow_color();
-
-	ADOVariant hair = characterEqipment.hair();
+	ADOVariant hair				= inHairID;
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.create_character_sp");
@@ -197,22 +160,21 @@ bool Handle_CreateCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_C
 bool Handle_CreateCharacter_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
 	int32 ret = inCommand.GetReturnParam();
-	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::FAILURE))
 	{
-		remotePlayer->SetRoomType(ERoomType::SelectRoom);
+		//TODO:
 	}
 
 	Protocol::S2C_CreateCharacter createCharacterPacket;
@@ -224,34 +186,15 @@ bool Handle_CreateCharacter_Response(PacketSessionPtr& inSession, ADOConnection&
 	return true;
 }
 
-bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_DeleteCharacter& inPacket)
+bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, const int32& inGlobalID, const int32& inServerID, const int32& inCharacterID)
 {
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
-	{
-		return false;
-	}
-
 	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (nullptr == remotePlayer)
-	{
-		return false;
-	}
-
-	ADOVariant global_id = remotePlayer->GetGlobalID();
-	ADOVariant server_id = remotePlayer->GetServerID();
-	
-	CharacterPtr deleteCharacter = remotePlayer->GetCharacter(inPacket.name().c_str());
-	if (nullptr == deleteCharacter)
-	{
-		return false;
-	}
-	ADOVariant character_id = deleteCharacter->GetCharacterID();
+	ADOVariant global_id	= inGlobalID;
+	ADOVariant server_id	= inServerID;
+	ADOVariant character_id = inCharacterID;
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.delete_character_sp");
@@ -264,25 +207,33 @@ bool Handle_DeleteCharacter_Requset(PacketSessionPtr& inSession, Protocol::C2S_D
 	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
 
 	DatabaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_DeleteCharacter_Response);
-
 	return true;
 }
 
 bool Handle_DeleteCharacter_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	Protocol::S2C_DeleteCharacter deleteCharacterPacket;
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
 	int32 ret = inCommand.GetReturnParam();
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::FAILURE))
+	{
+		//TODO:
+	}
+
+	Protocol::S2C_DeleteCharacter deleteCharacterPacket;
 	deleteCharacterPacket.set_error(ret);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, deleteCharacterPacket);
 	inSession->Send(sendBuffer);
-
 	return true;
 }

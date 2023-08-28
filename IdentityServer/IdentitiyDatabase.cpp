@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "IdentitiyDatabase.h"
 
-bool Handle_Singin_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singin& inPacket)
+bool Handle_Singin_Requset(PacketSessionPtr& inSession, const std::string& inUserName, const std::string& inUserPassword)
 {
 	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant userName = inPacket.user_id().c_str();
-	ADOVariant userPassword = inPacket.user_password().c_str();
+	ADOVariant userName = inUserName.c_str();
+	ADOVariant userPassword = inUserPassword.c_str();
 
 	ADOCommand singinCommand;
 	singinCommand.SetStoredProcedure(connection, L"dbo.singin_sp");
@@ -29,56 +29,52 @@ bool Handle_Singin_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singin& in
 bool Handle_Singin_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return false;
 	}
 
 	Protocol::S2C_Singin singinPacket;
 	int32 ret = inCommand.GetReturnParam();
-	if (ret != GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
-	{
-		singinPacket.set_error(ret);
-		singinPacket.set_token("");
-	}
-	else
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		int32		globalID	= inCommand.GetOutputParam(L"@global_id");
 		std::string token		= inCommand.GetOutputParam(L"@token");
 
-		remotePlayer->SetGlobalID(globalID);
-		remotePlayer->SetToken(token);
+		identityManager->SetGlobalID(globalID);
+		identityManager->SetToken(token);
 	}
 
 	singinPacket.set_error(ret);
-	singinPacket.set_token(remotePlayer->GetToken());
-	singinPacket.set_remote_id(remotePlayer->GetGameObjectID());
+	singinPacket.set_token(identityManager->GetToken());
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, singinPacket);
 	inSession->Send(sendBuffer);
 	return true;
 }
 
-bool Handle_Singup_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singup& inPacket)
+bool Handle_Singup_Requset(PacketSessionPtr& inSession, const std::string& inUserName, const std::string& inUserPassword, const std::string& inLocal, const std::string& inDomain)
 {
 	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	std::string tempEmail = inPacket.user_email();
-	size_t find = tempEmail.find('@');
-
-	ADOVariant userID = inPacket.user_id().c_str();
-	ADOVariant userPS = inPacket.user_password().c_str();
-	ADOVariant local = tempEmail.substr(0, find).c_str();
-	ADOVariant domain = tempEmail.substr(find + 1, tempEmail.length()).c_str();
+	ADOVariant userID	= inUserName.c_str();
+	ADOVariant userPS	= inUserPassword.c_str();
+	ADOVariant local	= inLocal.c_str();
+	ADOVariant domain	= inDomain.c_str();
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.singup_sp");
@@ -100,58 +96,45 @@ bool Handle_Singup_Requset(PacketSessionPtr& inSession, Protocol::C2S_Singup& in
 bool Handle_Singup_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return false;
 	}
 
 	Protocol::S2C_Singup singupPacket;
 	int32 ret = inCommand.GetReturnParam();
-	if (ret != 0)
-	{
-		singupPacket.set_error(ret);
-	}
-	else
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		int32 globalID = inCommand.GetOutputParam(L"@global_id");
+		identityManager->SetGlobalID(globalID);
 	}
-
 	singupPacket.set_error(ret);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, singupPacket);
 	inSession->Send(sendBuffer);
-
 	return true;
 }
 
-bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, Protocol::C2S_EmailVerified& inPacket)
+bool Handle_EmailVerified_Requset(PacketSessionPtr& inSession, const int32& inGlobalID, const int32& inVeriftyCode)
 {
-	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
-	{
-		return false;
-	}
-
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
-	{
-		return false;
-	}
-
 	ADOConnectionInfo ConnectionInfo(CommonAccountDatabaseInfo);
 	ADOConnection connection;
 	connection.Open(ConnectionInfo);
 
-	ADOVariant global_id = remotePlayer->GetGlobalID();
-	ADOVariant verifyCode = atoi(inPacket.verified_code().c_str());
+	ADOVariant global_id	= inGlobalID;
+	ADOVariant verifyCode	= inVeriftyCode;
 
 	ADOCommand command;
 	command.SetStoredProcedure(connection, L"dbo.check_email_verify_sp");
@@ -189,28 +172,33 @@ bool Handle_Select_Character_Request(PacketSessionPtr& inSession, const int32 in
 bool Handle_EmailVerified_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
-	int32 ret		= inCommand.GetReturnParam();
-	int64 remoteID	= remotePlayer->GetGameObjectID();
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
+	{
+		return false;
+	}
 
 	Protocol::S2C_EmailVerified emailVerifiedPacket;
+	int32 ret = inCommand.GetReturnParam();
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
+	{
+		int64 remoteID = remotePlayer->GetGameObjectID();
+	}
 	emailVerifiedPacket.set_error(ret);
-	emailVerifiedPacket.set_remote_id(remoteID);
 
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(inSession, emailVerifiedPacket);
 	inSession->Send(sendBuffer);
-
 	return true;
 }
 
@@ -231,8 +219,7 @@ int32 GetLoadServer(std::vector<std::pair<int32, int32>>& inCharacterInfo, const
 bool Handle_Select_Character_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(inSession);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
@@ -249,25 +236,27 @@ bool Handle_Select_Character_Response(PacketSessionPtr& inSession, ADOConnection
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (remotePlayer == nullptr)
+	LoginWorldPtr world = task->GetWorld();
+	if (nullptr == world)
 	{
 		return false;
 	}
+
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
+	{
+		return false;
+	}
+
 	
 	int32 ret = inCommand.GetReturnParam();
-	if (ret != 0)
-	{
-		return false;
-	}
-
-	if (!inRecordset.IsOpen())
-	{
-		inRecordset.Open(inCommand, inConnection);
-	}
-
-	WorldPtr world = task->GetWorld();
-	if (nullptr == world)
+	if (ret != GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
 	{
 		return false;
 	}

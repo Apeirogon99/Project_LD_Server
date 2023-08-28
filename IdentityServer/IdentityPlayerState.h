@@ -1,6 +1,6 @@
 #pragma once
 
-class IdentityPlayerState : public PacketSession
+class IdentityPlayerState : public RemoteClient
 {
 public:
 	IdentityPlayerState();
@@ -17,15 +17,7 @@ protected:
 	virtual void OnRecvPacket(BYTE* buffer, const uint32 len) override;
 
 public:
-	void			SetRemotePlayer(RemotePlayerPtr& inRemotePlayer);
-
-public:
-	PlayerStatePtr		GetPlayerStatePtr() { return std::static_pointer_cast<IdentityPlayerState>(shared_from_this()); }
-	GameStatePtr		GetGameState() { return std::static_pointer_cast<IdentityGameState>(GetSessionManager()); }
-	RemotePlayerPtr		GetRemotePlayer() { return mRemotePlayer; }
-
-private:
-	RemotePlayerPtr mRemotePlayer;
+	GameStatePtr	GetGameState() { return std::static_pointer_cast<IdentityGameState>(GetSessionManager()); }
 
 protected:
 	template <typename... Types>

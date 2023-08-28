@@ -55,6 +55,30 @@
     <Filter Include="Packet\Handler">
       <UniqueIdentifier>{aaf7afb5-575a-43c5-b88f-4c0761efdb7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Private\Content\Room">
+      <UniqueIdentifier>{bc899aa8-9e69-4c9f-8cdb-66946ac0622f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Content\Player">
+      <UniqueIdentifier>{cb8f6f19-0c5b-4f66-b609-933ec8e5a775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Content\World">
+      <UniqueIdentifier>{e5af0aa6-243c-4f22-907e-2f43e975a54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Content\Player">
+      <UniqueIdentifier>{28e1a9da-4ecd-4bb2-986d-a1df6425188c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Content\Room">
+      <UniqueIdentifier>{d776f032-6abd-4f68-a877-a1ad5d55fe64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Content\World">
+      <UniqueIdentifier>{1d33d68e-c7f6-499b-96bf-92c3c8089585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Content\Manager">
+      <UniqueIdentifier>{d6f10bc8-543c-4f15-bc5c-57291824746e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Content\Manager">
+      <UniqueIdentifier>{bd4eb156-064a-46f4-ae41-3e2cb8a073d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -93,20 +117,11 @@
     <ClInclude Include="DatabaseHandler.h">
       <Filter>Database\Public</Filter>
     </ClInclude>
-    <ClInclude Include="LoginRoom.h">
-      <Filter>Source\Public\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="RemotePlayer.h">
-      <Filter>Source\Public\Content</Filter>
-    </ClInclude>
     <ClInclude Include="CommonPacket.pb.h">
       <Filter>Packet\Public</Filter>
     </ClInclude>
     <ClInclude Include="FowradEnum.h">
       <Filter>Pch\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Source\Public\Content</Filter>
     </ClInclude>
     <ClInclude Include="IdentityServerPacketHandler.h">
       <Filter>Packet\Handler</Filter>
@@ -129,17 +144,35 @@
     <ClInclude Include="IdentityTask.h">
       <Filter>Source\Public\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="SelectRoom.h">
-      <Filter>Source\Public\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomRoom.h">
-      <Filter>Source\Public\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Source\Public\Content</Filter>
-    </ClInclude>
     <ClInclude Include="SharedDatabase.h">
       <Filter>Database\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginCharacter.h">
+      <Filter>Source\Public\Content\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRemotePlayer.h">
+      <Filter>Source\Public\Content\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomRoom.h">
+      <Filter>Source\Public\Content\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRoom.h">
+      <Filter>Source\Public\Content\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectRoom.h">
+      <Filter>Source\Public\Content\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginWorld.h">
+      <Filter>Source\Public\Content\World</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterManager.h">
+      <Filter>Source\Public\Content\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Source\Public\Content\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentityManager.h">
+      <Filter>Source\Public\Content\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,17 +212,8 @@
     <ClCompile Include="DatabaseHandler.cpp">
       <Filter>Database\Private</Filter>
     </ClCompile>
-    <ClCompile Include="LoginRoom.cpp">
-      <Filter>Source\Private\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="RemotePlayer.cpp">
-      <Filter>Source\Private\Content</Filter>
-    </ClCompile>
     <ClCompile Include="CommonPacket.pb.cc">
       <Filter>Packet\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source\Private\Content</Filter>
     </ClCompile>
     <ClCompile Include="IdentityServerPacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
@@ -212,17 +236,35 @@
     <ClCompile Include="IdentityTask.cpp">
       <Filter>Source\Private\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="SelectRoom.cpp">
-      <Filter>Source\Private\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomRoom.cpp">
-      <Filter>Source\Private\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source\Private\Content</Filter>
-    </ClCompile>
     <ClCompile Include="SharedDatabase.cpp">
       <Filter>Database\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomRoom.cpp">
+      <Filter>Source\Private\Content\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRoom.cpp">
+      <Filter>Source\Private\Content\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectRoom.cpp">
+      <Filter>Source\Private\Content\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginCharacter.cpp">
+      <Filter>Source\Private\Content\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRemotePlayer.cpp">
+      <Filter>Source\Private\Content\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginWorld.cpp">
+      <Filter>Source\Private\Content\World</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterManager.cpp">
+      <Filter>Source\Private\Content\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>Source\Private\Content\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="IdentityManager.cpp">
+      <Filter>Source\Private\Content\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -70,7 +70,8 @@ struct S2C_ReplicatedServerTimeStampDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_ReplicatedServerTimeStampDefaultTypeInternal _S2C_ReplicatedServerTimeStamp_default_instance_;
 PROTOBUF_CONSTEXPR C2S_TravelLevel::C2S_TravelLevel(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.level_)*/0
+    /*decltype(_impl_.time_stamp_)*/int64_t{0}
+  , /*decltype(_impl_.level_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2S_TravelLevelDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_TravelLevelDefaultTypeInternal()
@@ -99,6 +100,7 @@ PROTOBUF_CONSTEXPR C2S_TravelServer::C2S_TravelServer(
     /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.global_id_)*/0
   , /*decltype(_impl_.character_id_)*/0
+  , /*decltype(_impl_.time_stamp_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2S_TravelServerDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2S_TravelServerDefaultTypeInternal()
@@ -156,6 +158,7 @@ const uint32_t TableStruct_CommonPacket_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelLevel, _impl_.level_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelLevel, _impl_.time_stamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelLevel, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -172,6 +175,7 @@ const uint32_t TableStruct_CommonPacket_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _impl_.token_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _impl_.global_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _impl_.character_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_TravelServer, _impl_.time_stamp_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_TravelServer, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -189,9 +193,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, -1, -1, sizeof(::Protocol::C2S_ReplicatedServerTimeStamp)},
   { 8, -1, -1, sizeof(::Protocol::S2C_ReplicatedServerTimeStamp)},
   { 16, -1, -1, sizeof(::Protocol::C2S_TravelLevel)},
-  { 23, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
-  { 30, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
-  { 39, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
+  { 24, -1, -1, sizeof(::Protocol::S2C_TravelLevel)},
+  { 31, -1, -1, sizeof(::Protocol::C2S_TravelServer)},
+  { 41, -1, -1, sizeof(::Protocol::S2C_TravelServer)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -208,17 +212,18 @@ const char descriptor_table_protodef_CommonPacket_2eproto[] PROTOBUF_SECTION_VAR
   "plicatedServerTimeStamp\022\020\n\010utc_time\030\001 \001("
   "\003\022\013\n\003rtt\030\002 \001(\003\"E\n\035S2C_ReplicatedServerTi"
   "meStamp\022\020\n\010utc_time\030\001 \001(\003\022\022\n\ntime_stamp\030"
-  "\002 \001(\003\" \n\017C2S_TravelLevel\022\r\n\005level\030\001 \001(\005\""
-  " \n\017S2C_TravelLevel\022\r\n\005error\030\001 \001(\005\"J\n\020C2S"
-  "_TravelServer\022\r\n\005token\030\001 \001(\014\022\021\n\tglobal_i"
-  "d\030\002 \001(\005\022\024\n\014character_id\030\003 \001(\005\"s\n\020S2C_Tra"
+  "\002 \001(\003\"4\n\017C2S_TravelLevel\022\r\n\005level\030\001 \001(\005\022"
+  "\022\n\ntime_stamp\030\002 \001(\003\" \n\017S2C_TravelLevel\022\r"
+  "\n\005error\030\001 \001(\005\"^\n\020C2S_TravelServer\022\r\n\005tok"
+  "en\030\001 \001(\014\022\021\n\tglobal_id\030\002 \001(\005\022\024\n\014character"
+  "_id\030\003 \001(\005\022\022\n\ntime_stamp\030\004 \001(\003\"s\n\020S2C_Tra"
   "velServer\022\r\n\005token\030\001 \001(\014\022\021\n\tserver_id\030\002 "
   "\001(\005\022\024\n\014travel_level\030\003 \001(\014\022\n\n\002ip\030\004 \001(\014\022\014\n"
   "\004port\030\005 \001(\005\022\r\n\005error\030\006 \001(\005b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_CommonPacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_CommonPacket_2eproto = {
-    false, false, 434, descriptor_table_protodef_CommonPacket_2eproto,
+    false, false, 474, descriptor_table_protodef_CommonPacket_2eproto,
     "CommonPacket.proto",
     &descriptor_table_CommonPacket_2eproto_once, nullptr, 0, 6,
     schemas, file_default_instances, TableStruct_CommonPacket_2eproto::offsets,
@@ -671,11 +676,14 @@ C2S_TravelLevel::C2S_TravelLevel(const C2S_TravelLevel& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   C2S_TravelLevel* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.level_){}
+      decltype(_impl_.time_stamp_){}
+    , decltype(_impl_.level_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.level_ = from._impl_.level_;
+  ::memcpy(&_impl_.time_stamp_, &from._impl_.time_stamp_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.level_) -
+    reinterpret_cast<char*>(&_impl_.time_stamp_)) + sizeof(_impl_.level_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_TravelLevel)
 }
 
@@ -684,7 +692,8 @@ inline void C2S_TravelLevel::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.level_){0}
+      decltype(_impl_.time_stamp_){int64_t{0}}
+    , decltype(_impl_.level_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -712,7 +721,9 @@ void C2S_TravelLevel::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.level_ = 0;
+  ::memset(&_impl_.time_stamp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.level_) -
+      reinterpret_cast<char*>(&_impl_.time_stamp_)) + sizeof(_impl_.level_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -726,6 +737,14 @@ const char* C2S_TravelLevel::_InternalParse(const char* ptr, ::_pbi::ParseContex
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 time_stamp = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.time_stamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -765,6 +784,12 @@ uint8_t* C2S_TravelLevel::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_level(), target);
   }
 
+  // int64 time_stamp = 2;
+  if (this->_internal_time_stamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_time_stamp(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -780,6 +805,11 @@ size_t C2S_TravelLevel::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // int64 time_stamp = 2;
+  if (this->_internal_time_stamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_time_stamp());
+  }
 
   // int32 level = 1;
   if (this->_internal_level() != 0) {
@@ -804,6 +834,9 @@ void C2S_TravelLevel::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_time_stamp() != 0) {
+    _this->_internal_set_time_stamp(from._internal_time_stamp());
+  }
   if (from._internal_level() != 0) {
     _this->_internal_set_level(from._internal_level());
   }
@@ -824,7 +857,12 @@ bool C2S_TravelLevel::IsInitialized() const {
 void C2S_TravelLevel::InternalSwap(C2S_TravelLevel* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.level_, other->_impl_.level_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(C2S_TravelLevel, _impl_.level_)
+      + sizeof(C2S_TravelLevel::_impl_.level_)
+      - PROTOBUF_FIELD_OFFSET(C2S_TravelLevel, _impl_.time_stamp_)>(
+          reinterpret_cast<char*>(&_impl_.time_stamp_),
+          reinterpret_cast<char*>(&other->_impl_.time_stamp_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_TravelLevel::GetMetadata() const {
@@ -1030,6 +1068,7 @@ C2S_TravelServer::C2S_TravelServer(const C2S_TravelServer& from)
       decltype(_impl_.token_){}
     , decltype(_impl_.global_id_){}
     , decltype(_impl_.character_id_){}
+    , decltype(_impl_.time_stamp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1042,8 +1081,8 @@ C2S_TravelServer::C2S_TravelServer(const C2S_TravelServer& from)
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.global_id_, &from._impl_.global_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.character_id_) -
-    reinterpret_cast<char*>(&_impl_.global_id_)) + sizeof(_impl_.character_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.time_stamp_) -
+    reinterpret_cast<char*>(&_impl_.global_id_)) + sizeof(_impl_.time_stamp_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C2S_TravelServer)
 }
 
@@ -1055,6 +1094,7 @@ inline void C2S_TravelServer::SharedCtor(
       decltype(_impl_.token_){}
     , decltype(_impl_.global_id_){0}
     , decltype(_impl_.character_id_){0}
+    , decltype(_impl_.time_stamp_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.token_.InitDefault();
@@ -1089,8 +1129,8 @@ void C2S_TravelServer::Clear() {
 
   _impl_.token_.ClearToEmpty();
   ::memset(&_impl_.global_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.character_id_) -
-      reinterpret_cast<char*>(&_impl_.global_id_)) + sizeof(_impl_.character_id_));
+      reinterpret_cast<char*>(&_impl_.time_stamp_) -
+      reinterpret_cast<char*>(&_impl_.global_id_)) + sizeof(_impl_.time_stamp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1121,6 +1161,14 @@ const char* C2S_TravelServer::_InternalParse(const char* ptr, ::_pbi::ParseConte
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 time_stamp = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.time_stamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1172,6 +1220,12 @@ uint8_t* C2S_TravelServer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_character_id(), target);
   }
 
+  // int64 time_stamp = 4;
+  if (this->_internal_time_stamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_time_stamp(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1205,6 +1259,11 @@ size_t C2S_TravelServer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_character_id());
   }
 
+  // int64 time_stamp = 4;
+  if (this->_internal_time_stamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_time_stamp());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1232,6 +1291,9 @@ void C2S_TravelServer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   if (from._internal_character_id() != 0) {
     _this->_internal_set_character_id(from._internal_character_id());
   }
+  if (from._internal_time_stamp() != 0) {
+    _this->_internal_set_time_stamp(from._internal_time_stamp());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1256,8 +1318,8 @@ void C2S_TravelServer::InternalSwap(C2S_TravelServer* other) {
       &other->_impl_.token_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C2S_TravelServer, _impl_.character_id_)
-      + sizeof(C2S_TravelServer::_impl_.character_id_)
+      PROTOBUF_FIELD_OFFSET(C2S_TravelServer, _impl_.time_stamp_)
+      + sizeof(C2S_TravelServer::_impl_.time_stamp_)
       - PROTOBUF_FIELD_OFFSET(C2S_TravelServer, _impl_.global_id_)>(
           reinterpret_cast<char*>(&_impl_.global_id_),
           reinterpret_cast<char*>(&other->_impl_.global_id_));

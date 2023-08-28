@@ -11,7 +11,8 @@ IdentityTask::~IdentityTask()
 
 void IdentityTask::Init()
 {
-	PushTask(std::make_shared<World>(GetTaskPtr())->GetGameObjectPtr());
+	LoginWorldPtr world = std::make_shared<LoginWorld>();
+	PushTask(world->GetGameObjectPtr());
 }
 
 IdentityTaskPtr IdentityTask::GetTaskPtr()
@@ -19,7 +20,7 @@ IdentityTaskPtr IdentityTask::GetTaskPtr()
 	return std::static_pointer_cast<IdentityTask>(shared_from_this());
 }
 
-WorldPtr IdentityTask::GetWorld()
+LoginWorldPtr IdentityTask::GetWorld()
 {
 	GameObjectPtr object;
 	FindTask(L"World", object);
@@ -28,7 +29,7 @@ WorldPtr IdentityTask::GetWorld()
 		return nullptr;
 	}
 
-	WorldPtr world = std::static_pointer_cast<World>(object);
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(object);
 	if (nullptr == world)
 	{
 		return nullptr;

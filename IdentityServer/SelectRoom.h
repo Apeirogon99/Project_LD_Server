@@ -2,25 +2,23 @@
 class SelectRoom : public GameObject
 {
 public:
-	SelectRoom(WorldRef inWorld);
+	SelectRoom();
 	virtual ~SelectRoom();
 
 protected:
-	virtual void Initialization()				override;
-	virtual void Destroy()						override;
-	virtual void Tick(const int64 inDeltaTime)	override;
-	virtual bool IsValid()						override;
+	virtual void OnInitialization()					override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()							override;
 
 public:
 	void LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_LoadCharacters inPacket);
+	void DeleteCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteCharacter inPacket);
+
 	void StartCharacterRequest(PlayerStatePtr inPlayerState, Protocol::C2S_StartGame inPacket);
 	void StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S2C_TravelServer inPacket);
-	void DeleteCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteCharacter inPacket);
 
 protected:
 	const ERoomType GetRoomType() { return ERoomType::SelectRoom; }
-
-private:
-	WorldRef mWorld;
 };
 

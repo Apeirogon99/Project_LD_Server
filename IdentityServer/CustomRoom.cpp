@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CustomRoom.h"
 
-CustomRoom::CustomRoom(WorldRef inWorld) : GameObject(L"CustomRoom"), mWorld(inWorld)
+CustomRoom::CustomRoom() : GameObject(L"CustomRoom")
 {
 }
 
@@ -9,42 +9,42 @@ CustomRoom::~CustomRoom()
 {
 }
 
-void CustomRoom::Initialization()
+void CustomRoom::OnInitialization()
 {
 }
 
-void CustomRoom::Destroy()
+void CustomRoom::OnDestroy()
 {
 }
 
-void CustomRoom::Tick(const int64 inDeltaTime)
+void CustomRoom::OnTick(const int64 inDeltaTime)
 {
 }
 
 bool CustomRoom::IsValid()
 {
-	return true;
+	return (this->GetOwner().lock() != nullptr);
 }
 
 void CustomRoom::CreateCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_CreateCharacter inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	//if(GetRoomType() != remotePlayer->GetRoomType())
-	//{
-	//	return;
-	//}
+	CharacterManagerPtr characterManager = remotePlayer->GetCharacterManager();
+	if (nullptr == characterManager)
+	{
+		return;
+	}
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_CreateCharacter_Requset(packetSession, inPacket);
+	characterManager->CreateCharacter(inPacket);
 }

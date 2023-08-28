@@ -1,19 +1,19 @@
 #pragma once
-class World : public GameObject
+class LoginWorld : public World
 {
 public:
-	World(IdentityTaskPtr inIdentityTask);
-	virtual ~World();
+	LoginWorld();
+	virtual ~LoginWorld();
 
 protected:
-	virtual void Initialization()				override;
-	virtual void Destroy()						override;
-	virtual void Tick(const int64 inDeltaTime)	override;
-	virtual bool IsValid()						override;
+	virtual void OnInitialization()					override;
+	virtual void OnDestroy()						override;
+	virtual void OnTick(const int64 inDeltaTime)	override;
+	virtual bool IsValid()							override;
 
 public:
-	void Enter(PlayerStatePtr inPlayerState);
-	void Leave(PlayerStatePtr inPlayerState);
+	void EnterWorld(PlayerStatePtr inPlayerState);
+	void LeaveWorld(PlayerStatePtr inPlayerState);
 
 	void SetServerInfo(const std::vector<Protocol::SServerInfo>& inServerInfo);
 
@@ -28,12 +28,11 @@ public:
 	bool			IsValidPlayer(RemotePlayerPtr inRemotePlayer);
 
 private:
-	IdentityTaskPtr mIdentityTask;
 	LoginRoomPtr	mLoginRoom;
 	SelectRoomPtr	mSelectRoom;
 	CustomRoomPtr	mCustomRoom;
 
 	std::vector<Protocol::SServerInfo> mServerInfo;
-	std::map<int64, RemotePlayerPtr> mRemotePlayers;
+	std::map<int64, LoginRemotePlayerPtr> mRemotePlayers;
 };
 

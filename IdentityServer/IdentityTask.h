@@ -17,6 +17,6 @@ public:
 
 public:
 	IdentityTaskPtr	GetTaskPtr();
-	WorldPtr		GetWorld();
+	LoginWorldPtr	GetWorld();
 };
 

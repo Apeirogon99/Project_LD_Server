@@ -26,7 +26,19 @@ bool IdentityGameState::FindWaitingTravelSession(const std::string& inToken, Pla
 			continue;
 		}
 
-		const std::string waitToken = playerState->GetRemotePlayer()->GetToken();
+		LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+		if (nullptr == remotePlayer)
+		{
+			continue;
+		}
+
+		IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+		if (nullptr == identityManager)
+		{
+			continue;
+		}
+
+		const std::string waitToken = identityManager->GetToken();
 		const std::string authToken = inToken;
 		if (waitToken.compare(authToken) == 0)
 		{

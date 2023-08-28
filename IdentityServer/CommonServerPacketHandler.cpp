@@ -31,25 +31,13 @@ bool Handle_C2S_TravelLevel(PacketSessionPtr& session, Protocol::C2S_TravelLevel
 		return false;
 	}
 
-	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
-	if (nullptr == remotePlayer || false == remotePlayer->IsValid())
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
-	const int32 prevLevel = static_cast<int32>(remotePlayer->GetRoomType());
-	const int32 nextLevel = pkt.level();
-	
-	const int32 diffLevel = abs(prevLevel - nextLevel);
-
-	if (diffLevel == 1)
-	{
-		remotePlayer->SetRoomType(static_cast<ERoomType>(nextLevel));
-	}
-
 	Protocol::S2C_TravelLevel packet;
-	packet.set_error(diffLevel == 1 ? true : false);
-
 	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
 	session->Send(sendBuffer);
 	return true;
@@ -68,8 +56,7 @@ bool Handle_C2S_TravelServer(PacketSessionPtr& session, Protocol::C2S_TravelServ
 bool Handle_S2C_TravelServer(PacketSessionPtr& session, Protocol::S2C_TravelServer& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
@@ -86,7 +73,7 @@ bool Handle_S2C_TravelServer(PacketSessionPtr& session, Protocol::S2C_TravelServ
 		return false;
 	}
 
-	WorldPtr world = task->GetWorld();
+	LoginWorldPtr world = task->GetWorld();
 	if (world == nullptr)
 	{
 		return false;

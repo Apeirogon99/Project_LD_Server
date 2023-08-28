@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SelectRoom.h"
 
-SelectRoom::SelectRoom(WorldRef inWorld) : GameObject(L"SelectRoom"), mWorld(inWorld)
+SelectRoom::SelectRoom() : GameObject(L"SelectRoom")
 {
 
 }
@@ -10,83 +10,110 @@ SelectRoom::~SelectRoom()
 {
 }
 
-void SelectRoom::Initialization()
+void SelectRoom::OnInitialization()
 {
 }
 
-void SelectRoom::Destroy()
+void SelectRoom::OnDestroy()
 {
 }
 
-void SelectRoom::Tick(const int64 inDeltaTime)
+void SelectRoom::OnTick(const int64 inDeltaTime)
 {
 }
 
 bool SelectRoom::IsValid()
 {
-	return false;
+	return (this->GetOwner().lock() != nullptr);
 }
 
 void SelectRoom::LoadCharacters(PlayerStatePtr inPlayerState, Protocol::C2S_LoadCharacters inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
+	CharacterManagerPtr characterManager = remotePlayer->GetCharacterManager();
+	if (nullptr == characterManager)
 	{
 		return;
 	}
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_LoadCharacters_Requset(packetSession, inPacket);
+	characterManager->LoadCharacter();
 }
+
+void SelectRoom::DeleteCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteCharacter inPacket)
+{
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	CharacterManagerPtr characterManager = remotePlayer->GetCharacterManager();
+	if (nullptr == characterManager)
+	{
+		return;
+	}
+
+	characterManager->DeleteCharacter(inPacket);
+}
+
 
 void SelectRoom::StartCharacterRequest(PlayerStatePtr inPlayerState, Protocol::C2S_StartGame inPacket)
 {
-	WorldPtr world = mWorld.lock();
+	LoginWorldPtr world = std::static_pointer_cast<LoginWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return;
 	}
 
-	if (GetRoomType() != remotePlayer->GetRoomType())
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
 	{
 		return;
 	}
 
-	const int32 seat = inPacket.seat();
-	CharacterPtr character = remotePlayer->GetCharacter(seat);
+	CharacterManagerPtr characterManager = remotePlayer->GetCharacterManager();
+	if (nullptr == characterManager)
+	{
+		return;
+	}
+
+	const int32& characterID = inPacket.character_id();
+	LoginCharacterPtr character = characterManager->GetLoginCharacter(characterID);
 	if (nullptr == character)
 	{
 		return;
 	}
 
-	SessionPtr gameServerSession;
-	inPlayerState->GetSessionManager()->FindServerSession(gameServerSession);
-
 	Protocol::C2S_TravelServer travelServerPacket;
-	travelServerPacket.set_token(remotePlayer->GetToken());
-	travelServerPacket.set_global_id(remotePlayer->GetGlobalID());
+	travelServerPacket.set_token(identityManager->GetToken());
+	travelServerPacket.set_global_id(identityManager->GetGlobalID());
 	travelServerPacket.set_character_id(character->GetCharacterID());
 
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(gameServerSession);
-	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(packetSession, travelServerPacket);
-	packetSession->Send(sendBuffer);
+	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(nullptr, travelServerPacket);
+	inPlayerState->Send(sendBuffer);
 }
 
 void SelectRoom::StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S2C_TravelServer inPacket)
@@ -121,27 +148,4 @@ void SelectRoom::StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(waitingTravelSession);
 	SendBufferPtr sendBuffer = IdentityServerPacketHandler::MakeSendBuffer(packetSession, startGamePacket);
 	packetSession->Send(sendBuffer);
-}
-
-void SelectRoom::DeleteCharacter(PlayerStatePtr inPlayerState, Protocol::C2S_DeleteCharacter inPacket)
-{
-	WorldPtr world = mWorld.lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	RemotePlayerPtr remotePlayer = inPlayerState->GetRemotePlayer();
-	if (false == world->IsValidPlayer(remotePlayer))
-	{
-		return;
-	}
-
-	if (GetRoomType() != remotePlayer->GetRoomType())
-	{
-		return;
-	}
-
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(inPlayerState);
-	Handle_DeleteCharacter_Requset(packetSession, inPacket);
 }
