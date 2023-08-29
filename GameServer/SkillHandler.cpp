@@ -50,7 +50,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     {
         return false;
     }
-    skillComponent.UseSkill(warriorBuff, static_cast<int32>(ESkillID::Skill_Warrior_Buff), 60000);
+    skillComponent.UseSkill(warriorBuff, static_cast<int32>(ESkillID::Skill_Warrior_Buff), 2000);
     skillComponent.SetActiveSkill(warriorBuff);
 
     warriorBuff->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff), world->GetWorldTime());
@@ -107,8 +107,8 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     skillComponent.SetActiveSkill(warriorParrying);
 
     warriorParrying->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), world->GetWorldTime());
-    warriorParrying->Active();
-    warriorParrying->DeActive(2000);
+    warriorParrying->PushTask(world->GetNextWorldTime(), &WarriorParrying::Active);
+    warriorParrying->DeActive(1200);
 
     return true;
 }
@@ -156,14 +156,14 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     {
         return false;
     }
-    skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 10000);
+    skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 2000);
     skillComponent.SetActiveSkill(warriorShieldBash);
 
     warriorShieldBash->SetWarriorShieldBash(200.0f, -50.0f);
 
     warriorShieldBash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), world->GetWorldTime());
     warriorShieldBash->Active();
-    warriorShieldBash->DeActive(2690);
+    warriorShieldBash->DeActive(7300);
 
     return true;
 }
@@ -239,10 +239,10 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         {
             return true;
         }
-        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 1000);
+        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 2000);
 
-        warriorSwordBlow->Active();
-        warriorSwordBlow->DeActive(2000);
+        warriorSwordBlow->PushTask(world->GetNextWorldTime(), &WarriorSwordBlow::Active);
+        warriorSwordBlow->DeActive(1100);
     }
 
     return true;

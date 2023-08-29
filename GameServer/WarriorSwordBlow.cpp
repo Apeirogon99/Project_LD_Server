@@ -125,6 +125,16 @@ void WarriorSwordBlow::Active()
 	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(this->GetSkillID());
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	reactionSkill.set_duration(endChargeTime - this->mActiveTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
@@ -145,17 +155,6 @@ void WarriorSwordBlow::Active()
 		enemy->PushTask(endChargeTime, &Actor::OnHit, instigated->GetActorPtr(), 100.0f);
 
 	}
-
-	Protocol::S2C_ReactionSkill reactionSkill;
-	reactionSkill.set_remote_id(owner->GetGameObjectID());
-	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(this->GetSkillID());
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	reactionSkill.set_duration(endChargeTime - this->mActiveTime);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
-	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 const bool& WarriorSwordBlow::IsCharge() const

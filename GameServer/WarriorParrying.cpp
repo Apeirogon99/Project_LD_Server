@@ -188,11 +188,8 @@ void WarriorParrying::Active()
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 		this->BrodcastPlayerViewers(sendBuffer);
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy parrying\n");
-		}
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
+		return;
 	}
 
 }

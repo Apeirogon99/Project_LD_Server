@@ -167,6 +167,7 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="BuffComponent.cpp" />
+    <ClCompile Include="DarkKnight.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="friendDatabase.cpp" />
     <ClCompile Include="ItemHandler.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="Necromancer.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
@@ -346,6 +348,7 @@
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="BuffComponent.h" />
+    <ClInclude Include="DarkKnight.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="EnemyCharacter.h" />
@@ -358,6 +361,7 @@
     <ClInclude Include="friendDatabase.h" />
     <ClInclude Include="ItemHandler.h" />
     <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="Necromancer.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />

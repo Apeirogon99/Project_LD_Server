@@ -301,6 +301,12 @@
     <ClCompile Include="IStateEvent.cpp">
       <Filter>Content\Enemy\Private\State</Filter>
     </ClCompile>
+    <ClCompile Include="Necromancer.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkKnight.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -478,6 +484,12 @@
       <Filter>Content\Enemy\Public\Pawn</Filter>
     </ClInclude>
     <ClInclude Include="EnemyWarriorSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="Necromancer.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkKnight.h">
       <Filter>Content\Enemy\Public\Pawn</Filter>
     </ClInclude>
   </ItemGroup>
