@@ -60,7 +60,7 @@ bool GameService::SettingService()
 	const uint32 maxBufferSize = 0x1000;
 
 	GameStatePtr gameState = std::make_shared<GameState>(sessionFactory, maxSessionCount, maxBufferSize);
-	gameState->SetServerID(1);
+	gameState->SetServerID(2);
 	gameState->SetServerName("Å¸·é");
 	gameState->SetServerIP("116.41.116.247");
 	gameState->SetServerPort(port);

@@ -35,6 +35,12 @@ void CharacterManager::LoadCharacter()
 		return;
 	}
 
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
+	{
+		return;
+	}
+
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
@@ -42,10 +48,10 @@ void CharacterManager::LoadCharacter()
 	}
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 
-	const int32& serverID = 0;
-	const int32& globalID = 0;
+	const int32& globalID = identityManager->GetGlobalID();
+	const int32& serverID = identityManager->GetServerID();
 
-	Handle_LoadCharacters_Requset(packetSession, serverID, globalID);
+	Handle_LoadCharacters_Requset(packetSession, globalID, serverID);
 }
 
 void CharacterManager::CreateCharacter(Protocol::C2S_CreateCharacter inPacket)
@@ -56,6 +62,12 @@ void CharacterManager::CreateCharacter(Protocol::C2S_CreateCharacter inPacket)
 		return;
 	}
 
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
+	{
+		return;
+	}
+
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
@@ -63,14 +75,14 @@ void CharacterManager::CreateCharacter(Protocol::C2S_CreateCharacter inPacket)
 	}
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 
-	const int32& serverID = 0;
-	const int32& globalID = 0;
+	const int32& globalID = identityManager->GetGlobalID();
+	const int32& serverID = identityManager->GetServerID();
 
 	const Protocol::SCharacterData&			characterData		= inPacket.character_data();
 	const Protocol::SCharacterAppearance&	characterAppearance = characterData.appearance();
 	const Protocol::SCharacterEqipment&		characterEqipment	= characterData.eqipment();
 
-	Handle_CreateCharacter_Requset(packetSession, characterData.name(), characterData.character_class(), characterAppearance.race(), characterAppearance.seat(), serverID, globalID, characterAppearance.skin_color(), characterEqipment.hair(), characterAppearance.hair_color(), characterAppearance.eye_color(), characterAppearance.eyebrow_color());
+	Handle_CreateCharacter_Requset(packetSession, characterData.name(), characterData.character_class(), characterAppearance.race(), characterAppearance.seat(), globalID, serverID, characterAppearance.skin_color(), characterEqipment.hair(), characterAppearance.hair_color(), characterAppearance.eye_color(), characterAppearance.eyebrow_color());
 }
 
 void CharacterManager::DeleteCharacter(Protocol::C2S_DeleteCharacter inPacket)
@@ -81,6 +93,19 @@ void CharacterManager::DeleteCharacter(Protocol::C2S_DeleteCharacter inPacket)
 		return;
 	}
 
+	IdentityManagerPtr identityManager = remotePlayer->GetIdentityManager();
+	if (nullptr == identityManager)
+	{
+		return;
+	}
+
+	CharacterManagerPtr characterManager = remotePlayer->GetCharacterManager();
+	if (nullptr == characterManager)
+	{
+		return;
+	}
+	LoginCharacterPtr character = characterManager->GetLoginCharacter(inPacket.name());
+
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(remotePlayer->GetRemoteClient().lock());
 	if (nullptr == playerState)
 	{
@@ -88,9 +113,9 @@ void CharacterManager::DeleteCharacter(Protocol::C2S_DeleteCharacter inPacket)
 	}
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 
-	const int32& serverID = 0;
-	const int32& globalID = 0;
-	const int32& characterID = 0;
+	const int32& globalID = identityManager->GetGlobalID();
+	const int32& serverID = identityManager->GetServerID();
+	const int32& characterID	= character->GetCharacterID();
 
 	Handle_DeleteCharacter_Requset(packetSession, globalID, serverID, characterID);
 }
@@ -134,4 +159,17 @@ LoginCharacterPtr CharacterManager::GetLoginCharacter(const int32 inCharacterID)
 	}
 
 	return findCharacter->second;
+}
+
+LoginCharacterPtr CharacterManager::GetLoginCharacter(const std::string& inCharacterName)
+{
+	for (auto character : mCharacters)
+	{
+		if (character.second->GetName().compare(inCharacterName) == 0)
+		{
+			return character.second;
+		}
+	}
+
+	return nullptr;
 }

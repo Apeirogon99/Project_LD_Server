@@ -115,7 +115,7 @@ bool Handle_Singup_Response(PacketSessionPtr& inSession, ADOConnection& inConnec
 
 	Protocol::S2C_Singup singupPacket;
 	int32 ret = inCommand.GetReturnParam();
-	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS))
+	if (ret == GetDatabaseErrorToInt(EDCommonErrorType::SUCCESS) && ret == GetDatabaseErrorToInt(EDCommonErrorType::TEMP_VERIFY))
 	{
 		int32 globalID = inCommand.GetOutputParam(L"@global_id");
 		identityManager->SetGlobalID(globalID);

@@ -107,13 +107,16 @@ void SelectRoom::StartCharacterRequest(PlayerStatePtr inPlayerState, Protocol::C
 		return;
 	}
 
+	SessionPtr gameServerSession;
+	inPlayerState->GetSessionManager()->FindServerSession(gameServerSession);
+
 	Protocol::C2S_TravelServer travelServerPacket;
 	travelServerPacket.set_token(identityManager->GetToken());
 	travelServerPacket.set_global_id(identityManager->GetGlobalID());
 	travelServerPacket.set_character_id(character->GetCharacterID());
 
 	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(nullptr, travelServerPacket);
-	inPlayerState->Send(sendBuffer);
+	gameServerSession->Send(sendBuffer);
 }
 
 void SelectRoom::StartCharacterRespone(PlayerStatePtr inPlayerState, Protocol::S2C_TravelServer inPacket)

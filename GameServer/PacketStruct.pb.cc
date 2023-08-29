@@ -101,6 +101,7 @@ PROTOBUF_CONSTEXPR SCharacterData::SCharacterData(
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.appearance_)*/nullptr
   , /*decltype(_impl_.eqipment_)*/nullptr
+  , /*decltype(_impl_.id_)*/0
   , /*decltype(_impl_.level_)*/0
   , /*decltype(_impl_.experience_)*/0
   , /*decltype(_impl_.character_class_)*/0
@@ -287,6 +288,7 @@ const uint32_t TableStruct_PacketStruct_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.level_),
   PROTOBUF_FIELD_OFFSET(::Protocol::SCharacterData, _impl_.experience_),
@@ -374,14 +376,14 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 10, -1, -1, sizeof(::Protocol::SCharacterAppearance)},
   { 22, -1, -1, sizeof(::Protocol::SCharacterEqipment)},
   { 38, -1, -1, sizeof(::Protocol::SCharacterData)},
-  { 50, -1, -1, sizeof(::Protocol::SVector)},
-  { 59, -1, -1, sizeof(::Protocol::SVector2D)},
-  { 67, -1, -1, sizeof(::Protocol::SVelocity)},
-  { 76, -1, -1, sizeof(::Protocol::SRotator)},
-  { 85, -1, -1, sizeof(::Protocol::STransform)},
-  { 94, -1, -1, sizeof(::Protocol::SItem)},
-  { 106, -1, -1, sizeof(::Protocol::SStat)},
-  { 114, -1, -1, sizeof(::Protocol::SFriend)},
+  { 51, -1, -1, sizeof(::Protocol::SVector)},
+  { 60, -1, -1, sizeof(::Protocol::SVector2D)},
+  { 68, -1, -1, sizeof(::Protocol::SVelocity)},
+  { 77, -1, -1, sizeof(::Protocol::SRotator)},
+  { 86, -1, -1, sizeof(::Protocol::STransform)},
+  { 95, -1, -1, sizeof(::Protocol::SItem)},
+  { 107, -1, -1, sizeof(::Protocol::SStat)},
+  { 115, -1, -1, sizeof(::Protocol::SFriend)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -411,36 +413,37 @@ const char descriptor_table_protodef_PacketStruct_2eproto[] PROTOBUF_SECTION_VAR
   "\022\021\n\tshoulders\030\003 \001(\005\022\r\n\005chest\030\004 \001(\005\022\017\n\007br"
   "acers\030\005 \001(\005\022\r\n\005hands\030\006 \001(\005\022\r\n\005pants\030\007 \001("
   "\005\022\r\n\005boots\030\010 \001(\005\022\020\n\010weapon_l\030\t \001(\005\022\020\n\010we"
-  "apon_r\030\n \001(\005\"\331\001\n\016SCharacterData\022\014\n\004name\030"
-  "\001 \001(\014\022\r\n\005level\030\002 \001(\005\022\022\n\nexperience\030\003 \001(\005"
-  "\0222\n\017character_class\030\004 \001(\0162\031.Protocol.ECh"
-  "aracterClass\0222\n\nappearance\030\005 \001(\0132\036.Proto"
-  "col.SCharacterAppearance\022.\n\010eqipment\030\006 \001"
-  "(\0132\034.Protocol.SCharacterEqipment\"*\n\007SVec"
-  "tor\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"!\n\t"
-  "SVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\",\n\tSVelo"
-  "city\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"4\n"
-  "\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005pitch\030\002 \001(\002\022\013"
-  "\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n\010location\030\001 "
-  "\001(\0132\021.Protocol.SVector\022$\n\010rotation\030\002 \001(\013"
-  "2\022.Protocol.SRotator\022 \n\005scale\030\003 \001(\0132\021.Pr"
-  "otocol.SVector\"\247\001\n\005SItem\022\021\n\tobject_id\030\001 "
-  "\001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016world_position"
-  "\030\003 \001(\0132\021.Protocol.SVector\022+\n\016inven_posit"
-  "ion\030\004 \001(\0132\023.Protocol.SVector2D\022\020\n\010rotati"
-  "on\030\005 \001(\005\022\016\n\006amount\030\006 \001(\005\"C\n\005SStat\022&\n\tsta"
-  "t_type\030\001 \001(\0162\023.Protocol.EStatType\022\022\n\nsta"
-  "t_value\030\002 \001(\002\"~\n\007SFriend\022\021\n\tnick_name\030\001 "
-  "\001(\014\022\r\n\005level\030\002 \001(\005\0222\n\017character_class\030\003 "
-  "\001(\0162\031.Protocol.ECharacterClass\022\016\n\006locale"
-  "\030\004 \001(\005\022\r\n\005state\030\005 \001(\005b\006proto3"
+  "apon_r\030\n \001(\005\"\345\001\n\016SCharacterData\022\n\n\002id\030\001 "
+  "\001(\005\022\014\n\004name\030\002 \001(\014\022\r\n\005level\030\003 \001(\005\022\022\n\nexpe"
+  "rience\030\004 \001(\005\0222\n\017character_class\030\005 \001(\0162\031."
+  "Protocol.ECharacterClass\0222\n\nappearance\030\006"
+  " \001(\0132\036.Protocol.SCharacterAppearance\022.\n\010"
+  "eqipment\030\007 \001(\0132\034.Protocol.SCharacterEqip"
+  "ment\"*\n\007SVector\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n"
+  "\001z\030\003 \001(\002\"!\n\tSVector2D\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 "
+  "\001(\005\",\n\tSVelocity\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t"
+  "\n\001z\030\003 \001(\002\"4\n\010SRotator\022\014\n\004roll\030\001 \001(\002\022\r\n\005p"
+  "itch\030\002 \001(\002\022\013\n\003yaw\030\003 \001(\002\"y\n\nSTransform\022#\n"
+  "\010location\030\001 \001(\0132\021.Protocol.SVector\022$\n\010ro"
+  "tation\030\002 \001(\0132\022.Protocol.SRotator\022 \n\005scal"
+  "e\030\003 \001(\0132\021.Protocol.SVector\"\247\001\n\005SItem\022\021\n\t"
+  "object_id\030\001 \001(\003\022\021\n\titem_code\030\002 \001(\005\022)\n\016wo"
+  "rld_position\030\003 \001(\0132\021.Protocol.SVector\022+\n"
+  "\016inven_position\030\004 \001(\0132\023.Protocol.SVector"
+  "2D\022\020\n\010rotation\030\005 \001(\005\022\016\n\006amount\030\006 \001(\005\"C\n\005"
+  "SStat\022&\n\tstat_type\030\001 \001(\0162\023.Protocol.ESta"
+  "tType\022\022\n\nstat_value\030\002 \001(\002\"~\n\007SFriend\022\021\n\t"
+  "nick_name\030\001 \001(\014\022\r\n\005level\030\002 \001(\005\0222\n\017charac"
+  "ter_class\030\003 \001(\0162\031.Protocol.ECharacterCla"
+  "ss\022\016\n\006locale\030\004 \001(\005\022\r\n\005state\030\005 \001(\005b\006proto"
+  "3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_PacketStruct_2eproto_deps[1] = {
   &::descriptor_table_PacketEnum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_PacketStruct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_PacketStruct_2eproto = {
-    false, false, 1349, descriptor_table_protodef_PacketStruct_2eproto,
+    false, false, 1361, descriptor_table_protodef_PacketStruct_2eproto,
     "PacketStruct.proto",
     &descriptor_table_PacketStruct_2eproto_once, descriptor_table_PacketStruct_2eproto_deps, 1, 12,
     schemas, file_default_instances, TableStruct_PacketStruct_2eproto::offsets,
@@ -1500,6 +1503,7 @@ SCharacterData::SCharacterData(const SCharacterData& from)
       decltype(_impl_.name_){}
     , decltype(_impl_.appearance_){nullptr}
     , decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.id_){}
     , decltype(_impl_.level_){}
     , decltype(_impl_.experience_){}
     , decltype(_impl_.character_class_){}
@@ -1520,9 +1524,9 @@ SCharacterData::SCharacterData(const SCharacterData& from)
   if (from._internal_has_eqipment()) {
     _this->_impl_.eqipment_ = new ::Protocol::SCharacterEqipment(*from._impl_.eqipment_);
   }
-  ::memcpy(&_impl_.level_, &from._impl_.level_,
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.character_class_) -
-    reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.character_class_));
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.character_class_));
   // @@protoc_insertion_point(copy_constructor:Protocol.SCharacterData)
 }
 
@@ -1534,6 +1538,7 @@ inline void SCharacterData::SharedCtor(
       decltype(_impl_.name_){}
     , decltype(_impl_.appearance_){nullptr}
     , decltype(_impl_.eqipment_){nullptr}
+    , decltype(_impl_.id_){0}
     , decltype(_impl_.level_){0}
     , decltype(_impl_.experience_){0}
     , decltype(_impl_.character_class_){0}
@@ -1580,9 +1585,9 @@ void SCharacterData::Clear() {
     delete _impl_.eqipment_;
   }
   _impl_.eqipment_ = nullptr;
-  ::memset(&_impl_.level_, 0, static_cast<size_t>(
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.character_class_) -
-      reinterpret_cast<char*>(&_impl_.level_)) + sizeof(_impl_.character_class_));
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.character_class_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1592,51 +1597,59 @@ const char* SCharacterData::_InternalParse(const char* ptr, ::_pbi::ParseContext
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // bytes name = 1;
+      // int32 id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 level = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+      // int32 level = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 experience = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+      // int32 experience = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.experience_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.ECharacterClass character_class = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+      // .Protocol.ECharacterClass character_class = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_character_class(static_cast<::Protocol::ECharacterClass>(val));
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SCharacterAppearance appearance = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+      // .Protocol.SCharacterAppearance appearance = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_appearance(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SCharacterEqipment eqipment = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+      // .Protocol.SCharacterEqipment eqipment = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
           ptr = ctx->ParseMessage(_internal_mutable_eqipment(), ptr);
           CHK_(ptr);
         } else
@@ -1671,42 +1684,48 @@ uint8_t* SCharacterData::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes name = 1;
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // bytes name = 2;
   if (!this->_internal_name().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        1, this->_internal_name(), target);
+        2, this->_internal_name(), target);
   }
 
-  // int32 level = 2;
+  // int32 level = 3;
   if (this->_internal_level() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_level(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_level(), target);
   }
 
-  // int32 experience = 3;
+  // int32 experience = 4;
   if (this->_internal_experience() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_experience(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_experience(), target);
   }
 
-  // .Protocol.ECharacterClass character_class = 4;
+  // .Protocol.ECharacterClass character_class = 5;
   if (this->_internal_character_class() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      4, this->_internal_character_class(), target);
+      5, this->_internal_character_class(), target);
   }
 
-  // .Protocol.SCharacterAppearance appearance = 5;
+  // .Protocol.SCharacterAppearance appearance = 6;
   if (this->_internal_has_appearance()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::appearance(this),
+      InternalWriteMessage(6, _Internal::appearance(this),
         _Internal::appearance(this).GetCachedSize(), target, stream);
   }
 
-  // .Protocol.SCharacterEqipment eqipment = 6;
+  // .Protocol.SCharacterEqipment eqipment = 7;
   if (this->_internal_has_eqipment()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(6, _Internal::eqipment(this),
+      InternalWriteMessage(7, _Internal::eqipment(this),
         _Internal::eqipment(this).GetCachedSize(), target, stream);
   }
 
@@ -1726,38 +1745,43 @@ size_t SCharacterData::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes name = 1;
+  // bytes name = 2;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_name());
   }
 
-  // .Protocol.SCharacterAppearance appearance = 5;
+  // .Protocol.SCharacterAppearance appearance = 6;
   if (this->_internal_has_appearance()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.appearance_);
   }
 
-  // .Protocol.SCharacterEqipment eqipment = 6;
+  // .Protocol.SCharacterEqipment eqipment = 7;
   if (this->_internal_has_eqipment()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.eqipment_);
   }
 
-  // int32 level = 2;
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 level = 3;
   if (this->_internal_level() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_level());
   }
 
-  // int32 experience = 3;
+  // int32 experience = 4;
   if (this->_internal_experience() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_experience());
   }
 
-  // .Protocol.ECharacterClass character_class = 4;
+  // .Protocol.ECharacterClass character_class = 5;
   if (this->_internal_character_class() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_character_class());
@@ -1791,6 +1815,9 @@ void SCharacterData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   if (from._internal_has_eqipment()) {
     _this->_internal_mutable_eqipment()->::Protocol::SCharacterEqipment::MergeFrom(
         from._internal_eqipment());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
   }
   if (from._internal_level() != 0) {
     _this->_internal_set_level(from._internal_level());

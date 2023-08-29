@@ -867,14 +867,15 @@ class SCharacterData final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 1,
-    kAppearanceFieldNumber = 5,
-    kEqipmentFieldNumber = 6,
-    kLevelFieldNumber = 2,
-    kExperienceFieldNumber = 3,
-    kCharacterClassFieldNumber = 4,
+    kNameFieldNumber = 2,
+    kAppearanceFieldNumber = 6,
+    kEqipmentFieldNumber = 7,
+    kIdFieldNumber = 1,
+    kLevelFieldNumber = 3,
+    kExperienceFieldNumber = 4,
+    kCharacterClassFieldNumber = 5,
   };
-  // bytes name = 1;
+  // bytes name = 2;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -888,7 +889,7 @@ class SCharacterData final :
   std::string* _internal_mutable_name();
   public:
 
-  // .Protocol.SCharacterAppearance appearance = 5;
+  // .Protocol.SCharacterAppearance appearance = 6;
   bool has_appearance() const;
   private:
   bool _internal_has_appearance() const;
@@ -906,7 +907,7 @@ class SCharacterData final :
       ::Protocol::SCharacterAppearance* appearance);
   ::Protocol::SCharacterAppearance* unsafe_arena_release_appearance();
 
-  // .Protocol.SCharacterEqipment eqipment = 6;
+  // .Protocol.SCharacterEqipment eqipment = 7;
   bool has_eqipment() const;
   private:
   bool _internal_has_eqipment() const;
@@ -924,7 +925,16 @@ class SCharacterData final :
       ::Protocol::SCharacterEqipment* eqipment);
   ::Protocol::SCharacterEqipment* unsafe_arena_release_eqipment();
 
-  // int32 level = 2;
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 level = 3;
   void clear_level();
   int32_t level() const;
   void set_level(int32_t value);
@@ -933,7 +943,7 @@ class SCharacterData final :
   void _internal_set_level(int32_t value);
   public:
 
-  // int32 experience = 3;
+  // int32 experience = 4;
   void clear_experience();
   int32_t experience() const;
   void set_experience(int32_t value);
@@ -942,7 +952,7 @@ class SCharacterData final :
   void _internal_set_experience(int32_t value);
   public:
 
-  // .Protocol.ECharacterClass character_class = 4;
+  // .Protocol.ECharacterClass character_class = 5;
   void clear_character_class();
   ::Protocol::ECharacterClass character_class() const;
   void set_character_class(::Protocol::ECharacterClass value);
@@ -962,6 +972,7 @@ class SCharacterData final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::Protocol::SCharacterAppearance* appearance_;
     ::Protocol::SCharacterEqipment* eqipment_;
+    int32_t id_;
     int32_t level_;
     int32_t experience_;
     int character_class_;
@@ -2896,7 +2907,27 @@ inline void SCharacterEqipment::set_weapon_r(int32_t value) {
 
 // SCharacterData
 
-// bytes name = 1;
+// int32 id = 1;
+inline void SCharacterData::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t SCharacterData::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t SCharacterData::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.SCharacterData.id)
+  return _internal_id();
+}
+inline void SCharacterData::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void SCharacterData::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.SCharacterData.id)
+}
+
+// bytes name = 2;
 inline void SCharacterData::clear_name() {
   _impl_.name_.ClearToEmpty();
 }
@@ -2946,7 +2977,7 @@ inline void SCharacterData::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.SCharacterData.name)
 }
 
-// int32 level = 2;
+// int32 level = 3;
 inline void SCharacterData::clear_level() {
   _impl_.level_ = 0;
 }
@@ -2966,7 +2997,7 @@ inline void SCharacterData::set_level(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterData.level)
 }
 
-// int32 experience = 3;
+// int32 experience = 4;
 inline void SCharacterData::clear_experience() {
   _impl_.experience_ = 0;
 }
@@ -2986,7 +3017,7 @@ inline void SCharacterData::set_experience(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.SCharacterData.experience)
 }
 
-// .Protocol.ECharacterClass character_class = 4;
+// .Protocol.ECharacterClass character_class = 5;
 inline void SCharacterData::clear_character_class() {
   _impl_.character_class_ = 0;
 }
@@ -3006,7 +3037,7 @@ inline void SCharacterData::set_character_class(::Protocol::ECharacterClass valu
   // @@protoc_insertion_point(field_set:Protocol.SCharacterData.character_class)
 }
 
-// .Protocol.SCharacterAppearance appearance = 5;
+// .Protocol.SCharacterAppearance appearance = 6;
 inline bool SCharacterData::_internal_has_appearance() const {
   return this != internal_default_instance() && _impl_.appearance_ != nullptr;
 }
@@ -3096,7 +3127,7 @@ inline void SCharacterData::set_allocated_appearance(::Protocol::SCharacterAppea
   // @@protoc_insertion_point(field_set_allocated:Protocol.SCharacterData.appearance)
 }
 
-// .Protocol.SCharacterEqipment eqipment = 6;
+// .Protocol.SCharacterEqipment eqipment = 7;
 inline bool SCharacterData::_internal_has_eqipment() const {
   return this != internal_default_instance() && _impl_.eqipment_ != nullptr;
 }

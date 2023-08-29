@@ -75,6 +75,7 @@ bool Handle_LoadCharacters_Response(PacketSessionPtr& inSession, ADOConnection& 
 			int32		level			= inRecordset.GetFieldItem(L"level");
 
 			Protocol::SCharacterData* characterData = loadCharacterPackets.add_character_data();
+			characterData->set_id(characterID);
 			characterData->set_name(name.c_str());
 			characterData->set_level(level);
 			characterData->set_character_class(static_cast<Protocol::ECharacterClass>(characterClass));

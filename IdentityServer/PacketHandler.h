@@ -65,7 +65,7 @@ private:
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(PacketHeader);
 
-		SessionManagerPtr manager = session->GetSessionManager();
+		//SessionManagerPtr manager = session->GetSessionManager();
 		//SendRingBuffer& sendRingBuffer = manager->GetSendRingBuffer();
 		//SendBufferPtr sendBuffer = sendRingBuffer.Writer(packetSize);
 		SendBufferPtr sendBuffer = std::make_shared<SendBuffer>(packetSize);

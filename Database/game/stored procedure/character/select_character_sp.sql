@@ -35,5 +35,6 @@ BEGIN CATCH
 END CATCH
 GO
 
+SELECT * FROM character_tb
 EXEC select_character_sp 1
 GO

@@ -84,6 +84,8 @@ BEGIN TRY
 
 		INSERT INTO trace_tb (character_id, locale, world_pos_x, world_pos_y, world_pos_z) VALUES (@temp_character_id, 1, 0, 0, 0)
 
+		INSERT INTO money_tb (character_id, amount) VALUES (@temp_character_id, 0)
+
 		COMMIT TRANSACTION
 		RETURN 0
 

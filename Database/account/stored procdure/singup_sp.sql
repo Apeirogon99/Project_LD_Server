@@ -33,12 +33,14 @@ BEGIN TRY
 		--아이디 중복
 		IF EXISTS (SELECT 1 FROM user_tb WHERE name=@name)
 			BEGIN
+				COMMIT TRANSACTION;
 				RETURN 1002
 			END
 
 		--이메일 중복
 		IF EXISTS (SELECT 1 FROM confirm_email_tb WHERE local=@local AND domain=@domain)
 			BEGIN
+				COMMIT TRANSACTION;
 				RETURN 1003
 			END
 
@@ -57,6 +59,7 @@ BEGIN TRY
 		ELSE
 			BEGIN
 				UPDATE user_tb SET enable=1 WHERE global_id=@global_id
+				COMMIT TRANSACTION;
 				return 1007;
 			END
 
@@ -78,7 +81,7 @@ BEGIN
 	DECLARE @global_id AS INT
 
 	--EXEC dbo.singup_sp 'TEST_ID', '1234', 'TEST_ID', 'example.com', @global_id OUTPUT
-	EXEC @ret=dbo.singup_sp 'JTest', '1234', 'gksdidxornjs', 'example.com', @global_id OUTPUT
+	EXEC @ret=dbo.singup_sp 'TEST', '1234', 'TEST', 'example.com', @global_id OUTPUT
 
 	print @global_id
 	print @ret

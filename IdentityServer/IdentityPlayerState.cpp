@@ -43,6 +43,17 @@ void IdentityPlayerState::OnDisconnected()
 		return;
 	}
 
+	LoginRemotePlayerPtr remotePlayer = std::static_pointer_cast<LoginRemotePlayer>(this->GetRemotePlayer());
+	if (remotePlayer == nullptr)
+	{
+		return;
+	}
+
+	if (false == world->IsValidPlayer(remotePlayer))
+	{
+		return;
+	}
+
 	const int64 Priority = gameState->GetServiceTimeStamp();
 	bool ret = world->PushTask(Priority, &LoginWorld::LeaveWorld, std::static_pointer_cast<IdentityPlayerState>(this->GetRemoteClientRef().lock()));
 	if (false == ret)

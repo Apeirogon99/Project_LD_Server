@@ -18,10 +18,11 @@ public:
 
 	void PushCharacter(const int32 inCharacterID, const Protocol::SCharacterData* inCharacterData);
 	void ReleaseCharacter(const int32 inCharacterID);
-	void ClearCharacter();	 
+	void ClearCharacter();
 
 public:
 	LoginCharacterPtr GetLoginCharacter(const int32 inCharacterID);
+	LoginCharacterPtr GetLoginCharacter(const std::string& inCharacterName);
 
 private:
 	std::map<int32, LoginCharacterPtr> mCharacters;

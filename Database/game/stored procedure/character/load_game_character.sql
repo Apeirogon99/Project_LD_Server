@@ -29,7 +29,7 @@ BEGIN TRY
 
 		--게임 캐릭터 로드
 		SELECT DISTINCT
-		c.name,
+		c.id, c.name,
 		a.race_id, a.character_calss_id, a.skin_color, a.hair_color, a.eye_color, a.eyebrow_color,
 		e.hair, e.helmet, e.shoulders, e.chest, e.bracers, e.hands, e.pants, e.boots, e.weapon_l, e.weapon_r,
 		l.level, l.experience,
@@ -54,7 +54,7 @@ GO
 --TEST
 BEGIN
 	USE game_database;
-	EXEC dbo.load_game_character_sp 1
+	EXEC dbo.load_game_character_sp 7
 
 END
 GO

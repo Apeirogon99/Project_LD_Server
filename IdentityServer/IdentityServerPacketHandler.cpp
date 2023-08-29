@@ -4,8 +4,7 @@
 bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_EnterIdentityServer& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
@@ -28,8 +27,8 @@ bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_Ent
 		return false;
 	}
 
-	const int64 Priority = pkt.time_stamp();
-	bool ret = world->PushTask(Priority, &LoginWorld::EnterWorld, playerState);
+	const int64 priority = world->GetWorldTime();
+	bool ret = world->PushTask(priority, &LoginWorld::EnterWorld, playerState);
 	if (false == ret)
 	{
 		return false;
@@ -41,13 +40,35 @@ bool Handle_C2S_EnterIdentityServer(PacketSessionPtr& session, Protocol::C2S_Ent
 bool Handle_C2S_LeaveIdentityServer(PacketSessionPtr& session, Protocol::C2S_LeaveIdentityServer& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<IdentityPlayerState>(session);
-	bool valid = playerState->IsValid();
-	if (false == valid)
+	if (nullptr == playerState)
 	{
 		return false;
 	}
 
-	playerState->Disconnect(L"Leave identity server packet");
+	GameStatePtr gameState = std::static_pointer_cast<IdentityGameState>(playerState->GetSessionManager());
+	if (gameState == nullptr)
+	{
+		return false;
+	}
+
+	IdentityTaskPtr task = gameState->GetTask();
+	if (task == nullptr)
+	{
+		return false;
+	}
+
+	WorldPtr world = task->GetWorld();
+	if (world == nullptr)
+	{
+		return false;
+	}
+
+	const int64 priority = world->GetWorldTime();
+	bool ret = world->PushTask(priority, &LoginWorld::LeaveWorld, playerState);
+	if (false == ret)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -85,7 +106,7 @@ bool Handle_C2S_Singin(PacketSessionPtr& session, Protocol::C2S_Singin& pkt)
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &LoginRoom::Signin, playerState, pkt);
 	if (false == ret)
 	{
@@ -128,7 +149,7 @@ bool Handle_C2S_Singup(PacketSessionPtr& session, Protocol::C2S_Singup& pkt)
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &LoginRoom::Signup, playerState, pkt);
 	if (false == ret)
 	{
@@ -171,7 +192,7 @@ bool Handle_C2S_EmailVerified(PacketSessionPtr& session, Protocol::C2S_EmailVeri
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &LoginRoom::EmailVerified, playerState, pkt);
 	if (false == ret)
 	{
@@ -214,7 +235,7 @@ bool Handle_C2S_LoadServer(PacketSessionPtr& session, Protocol::C2S_LoadServer& 
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &LoginRoom::LoadServerRequest, playerState, pkt);
 	if (false == ret)
 	{
@@ -257,7 +278,7 @@ bool Handle_C2S_SelectServer(PacketSessionPtr& session, Protocol::C2S_SelectServ
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &LoginRoom::SelectServer, playerState, pkt);
 	if (false == ret)
 	{
@@ -300,7 +321,7 @@ bool Handle_C2S_StartGame(PacketSessionPtr& session, Protocol::C2S_StartGame& pk
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	bool ret = room->PushTask(priority, &SelectRoom::StartCharacterRequest, playerState, pkt);
 	if (false == ret)
 	{
@@ -344,7 +365,7 @@ bool Handle_C2S_LoadCharacters(PacketSessionPtr& session, Protocol::C2S_LoadChar
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	room->PushTask(priority, &SelectRoom::LoadCharacters, playerState, pkt);
 	return true;
 }
@@ -382,7 +403,7 @@ bool Handle_C2S_CreateCharacter(PacketSessionPtr& session, Protocol::C2S_CreateC
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	room->PushTask(priority, &CustomRoom::CreateCharacter, playerState, pkt);
 	return true;
 }
@@ -420,7 +441,7 @@ bool Handle_C2S_DeleteCharacter(PacketSessionPtr& session, Protocol::C2S_DeleteC
 		return false;
 	}
 
-	const int64 priority = pkt.time_stamp();
+	const int64 priority = world->GetWorldTime();
 	room->PushTask(priority, &SelectRoom::DeleteCharacter, playerState, pkt);
 	return true;
 }

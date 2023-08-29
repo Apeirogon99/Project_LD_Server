@@ -70,9 +70,16 @@ void LoginWorld::EnterWorld(PlayerStatePtr inPlayerState)
 		return;
 	}
 
+	if (ESessionMode::Server == inPlayerState->GetSessionMode())
+	{
+		return;
+	}
+
 	LoginRemotePlayerPtr remotePlayer = std::make_shared<LoginRemotePlayer>();
-	inPlayerState->SetRemotePlayer(remotePlayer);
 	task->CreateGameObject(remotePlayer->GetGameObjectPtr());
+
+	inPlayerState->SetRemotePlayer(remotePlayer);
+	remotePlayer->SetRemoteClient(inPlayerState);
 
 	const int64 gameObjectID = remotePlayer->GetGameObjectID();
 	std::pair<int64, LoginRemotePlayerPtr> newRemotePlayer = std::make_pair(gameObjectID, remotePlayer);

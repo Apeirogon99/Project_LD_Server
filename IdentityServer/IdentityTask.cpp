@@ -23,7 +23,7 @@ IdentityTaskPtr IdentityTask::GetTaskPtr()
 LoginWorldPtr IdentityTask::GetWorld()
 {
 	GameObjectPtr object;
-	FindTask(L"World", object);
+	FindTask(L"LoginWorld", object);
 	if (nullptr == object)
 	{
 		return nullptr;
