@@ -169,7 +169,7 @@ void WarriorParrying::Active()
 			enemyOwner->OnHit(instigated, attackDamage);
 
 		}
-		else if (attackType == EEnemyAttackType::Enemy_Attack_Projectile)
+		else if (attackType == EEnemyAttackType::Enemy_Attack_Nomal_Projectile)
 		{
 			enemyAttack->SetDamage(attackDamage);
 			enemyAttack->SetTargetActorType(EActorType::Enemy);

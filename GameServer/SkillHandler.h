@@ -8,6 +8,20 @@ enum class ESkillID : uint16
 	Skill_Warrior_Parrying		= 2,
 	Skill_Warrior_ShieldBash	= 3,
 	Skill_Warrior_SwordBlow		= 4,
+
+
+	Skill_Rich_Rise_Skeleton,
+	Skill_Rich_Blink_Attack,
+	Skill_Rich_Explosion,
+	Skill_Rich_Multi_Castring,
+	Skill_Rich_Soul_Spear,
+	Skill_Rich_Rise_DarkKnight,
+	Skill_Rich_Blink_Sturn,
+	Skill_Rich_Blink_Spark,
+	Skill_Rich_Blink_Shackles,
+	Skill_Rich_Blink_Realm_Of_Death,
+	Skill_Rich_Blink_Onslaught_Of_Shadows,
+	Skill_Rich_Blink_Life_Vessel,
 };
 
 bool Skill_INVALID(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);

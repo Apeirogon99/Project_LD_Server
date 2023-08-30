@@ -18,7 +18,7 @@ public:
 
 public:
 	void SetRestrictMovement(bool inRestrict);
-	void SetNewDestination(ActorPtr inOwner, const Location& inCurrentLocation, Location& inDestinationLocation, const int64 inMovementLastTime, const float& inCollisionSize);
+	void SetNewDestination(ActorPtr inOwner, const Location& inCurrentLocation, const Location& inDestinationLocation, const int64 inMovementLastTime, const float& inCollisionSize);
 	const Location GetCurrentLocation(ActorPtr inOwner);
 	const Location GetNextLocation(ActorPtr inOwner);
 

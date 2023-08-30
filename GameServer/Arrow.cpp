@@ -29,7 +29,7 @@ void Arrow::OnInitialization()
 
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 
-	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Projectile);
+	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Projectile);
 }
 
 void Arrow::OnDestroy()

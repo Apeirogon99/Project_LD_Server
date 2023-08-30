@@ -24,10 +24,11 @@ public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 
 public:
-	void RiseSkeleton();
-	void BlinkAttack();
-	void Explosion();
-	void MultiCasting();
+	void Skill_RiseSkeleton();
+	void Skill_BlinkAttack();
+	void Skill_Explosion();
+	void Skill_MultiCasting();
+	void Skill_SourSpear(const Location inLocation, const Rotation inRotation);
 
 private:
 	PatternInfos<EnemyRichPhase1> mPatternInfos;

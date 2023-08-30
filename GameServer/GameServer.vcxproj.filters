@@ -307,6 +307,15 @@
     <ClCompile Include="EnemyDarkKnight.cpp">
       <Filter>Content\Enemy\Private\Pawn</Filter>
     </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Blink.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="SourSpear.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -491,6 +500,15 @@
     </ClInclude>
     <ClInclude Include="EnemyDarkKnight.h">
       <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Blink.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="SourSpear.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

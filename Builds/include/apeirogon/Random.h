@@ -10,6 +10,7 @@ public:
 	APEIROGON_API static const double	GetRealUniformDistribution(const double& inMin, const double& inMax);
 
 	APEIROGON_API static const FVector	GetRandomVectorInRange2D(const FVector& inVector, const float& inRange);
+	APEIROGON_API static const FVector	GetRandomVectorInRange2D(const FVector& inVector, const float& inMin, const float& inMax);
 
 	APEIROGON_API static const bool		GetRandomProbability(const double& inMin, const double& inMax, const double& inProbability);
 

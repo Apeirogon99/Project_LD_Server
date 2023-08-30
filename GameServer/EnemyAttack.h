@@ -5,7 +5,10 @@ enum class EEnemyAttackType
 	Enemy_Attack_Unspecified,
 	Enemy_Attack_Nomal_Melee,
 	Enemy_Attack_Hard_Melee,
-	Enemy_Attack_Projectile,
+	Enemy_Attack_Nomal_Projectile,
+	Enemy_Attack_Hard_Projectile,
+	Enemy_Attack_Nomal_Place,
+	Enemy_Attack_Hard_Place,
 };
 
 class EnemyAttack : public Actor
