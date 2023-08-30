@@ -88,7 +88,7 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Idle);
+		enemy->GetStateManager().SetState(EStateType::State_Search);
 	}
 
 }
@@ -177,6 +177,47 @@ void RecoveryState::Exit(EnemyCharacterRef inEnemy)
 	//enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, fullHealth);
 }
 
+//==========================//
+//		    SEARCH			//
+//==========================//
+
+void SearchState::Enter(EnemyCharacterRef inEnemy)
+{
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+}
+
+void SearchState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
+{
+	EnemyCharacterPtr enemy = inEnemy.lock();
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	std::vector<ActorPtr> targetActors;
+	bool result = world->FindActors(enemy->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
+	if (true == result)
+	{
+		enemy->SetAggroActor(targetActors.at(0));
+		enemy->GetStateManager().SetState(EStateType::State_Chase);
+	}
+
+}
+
+void SearchState::Exit(EnemyCharacterRef inEnemy)
+{
+}
 
 //==========================//
 //		     CHASE			//
@@ -203,7 +244,14 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	ActorPtr aggroActor = enemy->GetAggroActor().lock();
 	if (nullptr == aggroActor)
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		if (true == enemy->GetAggressive())
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Search);
+		}
+		else
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		}
 		return;
 	}
 
@@ -230,7 +278,14 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	ActorPtr aggroActor = enemy->GetAggroActor().lock();
 	if (nullptr == aggroActor)
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		if (true == enemy->GetAggressive())
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Search);
+		}
+		else
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		}
 		return;
 	}
 
@@ -259,13 +314,14 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	enemy->SetVelocity(velocity, velocity, velocity);
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, range);
 
+
 	mChaseToRecoveryTime += inDeltaTime;
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Recovery);
 		return;
 	}
-
+	
 }
 
 void ChaseState::Exit(EnemyCharacterRef inEnemy)
@@ -329,6 +385,9 @@ void AttackState::Enter(EnemyCharacterRef inEnemy)
 	case EAutoAttackType::Attack_Combo_Melee:
 		break;
 	case EAutoAttackType::Attack_Combo_Ranged:
+		break;
+	case EAutoAttackType::Attack_Pattern:
+		enemy->OnPatternShot(enemy->GetActorPtr());
 		break;
 	default:
 		break;
@@ -456,6 +515,7 @@ StateManager::StateManager() : mOldState(EStateType::State_Unspecified), mCurren
 	mStateTypes.insert(std::make_pair(EStateType::State_Idle, static_cast<IStateEvent*>(new IdleState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Round, static_cast<IStateEvent*>(new RoundState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Recovery, static_cast<IStateEvent*>(new RecoveryState())));
+	mStateTypes.insert(std::make_pair(EStateType::State_Search, static_cast<IStateEvent*>(new SearchState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Chase, static_cast<IStateEvent*>(new ChaseState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Attack, static_cast<IStateEvent*>(new AttackState())));
 	mStateTypes.insert(std::make_pair(EStateType::State_Hit, static_cast<IStateEvent*>(new HitState())));

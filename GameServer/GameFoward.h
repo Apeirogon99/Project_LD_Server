@@ -101,12 +101,20 @@ using ActiveSkillRef = std::weak_ptr<ActiveSkill>;
 //==========================//
 //   GameContent | Enemy	//
 //==========================//
-class EnemyCharacter;
 class EnemySpawner;
 class EnemySpawnerManager;
-class EnemySlime;
 class StateManager;
 class EnemyAttack;
+
+class EnemyCharacter;
+class EnemySlime;
+class EnemyNomalSkeleton;
+class EnemyArcherSkeleton;
+class EnemyWarriorSkeleton;
+class EnemyDarkKnight;
+class EnemyRichPhase1;
+class EnemyRichPhase2;
+class EnemyRichPhase3;
 
 using EnemyCharacterPtr		= std::shared_ptr<EnemyCharacter>;
 using EnemyCharacterRef		= std::weak_ptr<EnemyCharacter>;

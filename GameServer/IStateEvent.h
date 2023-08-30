@@ -6,6 +6,7 @@ enum class EStateType : uint8
 	State_Idle,				//가만히 있는 상태
 	State_Round,			//주변을 이동함
 	State_Recovery,			//복귀 상태
+	State_Search,			//서치 상태
 	State_Chase,			//추적 상태
 	State_Attack,			//공격 상태
 	State_Hit,				//맞은 상태
@@ -76,6 +77,20 @@ public:
 private:
 	float		mMaxDistanceLength;
 	Location	mCurrentLocation;
+};
+
+class SearchState : public IStateEvent
+{
+public:
+	SearchState() : IStateEvent(EStateType::State_Search) { }
+
+public:
+	virtual void Enter(EnemyCharacterRef inEnemy)							override;
+	virtual void Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)	override;
+	virtual void Exit(EnemyCharacterRef inEnemy)							override;
+
+private:
+	int64 mSearchToIdleTime;
 };
 
 class ChaseState : public IStateEvent

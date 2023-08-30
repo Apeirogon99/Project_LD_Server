@@ -7,6 +7,7 @@ enum class EAutoAttackType
 	Attack_Ranged,
 	Attack_Combo_Melee,
 	Attack_Combo_Ranged,
+	Attack_Pattern,
 };
 
 class AttackInfo
@@ -38,6 +39,9 @@ private:
 
 using AttackInfos = std::vector<AttackInfo>;
 
+template<typename T>
+using PatternInfos = std::vector<std::function<void(T&)>>;
+
 class AttackComponent
 {
 public:
@@ -62,6 +66,8 @@ public:
 	bool DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
 
 	bool DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
+
+	bool DoPatternAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
 
 public:
 	bool IsAutoAttacking(ActorPtr inInstigated);

@@ -64,6 +64,8 @@
 #include "EnemyNomalSkeleton.h"
 #include "EnemyArcherSkeleton.h"
 #include "EnemyWarriorSkeleton.h"
+#include "EnemyDarkKnight.h"
+#include "EnemyRich.h"
 
 //==========================//
 //   GameContent | Skill	//

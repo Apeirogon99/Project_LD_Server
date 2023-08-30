@@ -144,6 +144,11 @@ bool AttackComponent::DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim
 	return true;
 }
 
+bool AttackComponent::DoPatternAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage)
+{
+	return false;
+}
+
 bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
 {
 	WorldPtr world = inInstigated->GetWorld().lock();

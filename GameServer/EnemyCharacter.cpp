@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mStateManager()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false) ,mStateManager()
 {
 }
 
@@ -218,7 +218,10 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	this->SetAggroActor(inInstigated);
+	if (false == this->GetAggressive())
+	{
+		this->SetAggroActor(inInstigated);
+	}
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
 	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
@@ -276,6 +279,11 @@ void EnemyCharacter::OnMovementEnemy()
 	
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
+}
+
+void EnemyCharacter::SetAggressive(const bool& inIsAggressive)
+{
+	mAggressive = inIsAggressive;
 }
 
 void EnemyCharacter::SetEnemeyID(const int32 inEnemyID)

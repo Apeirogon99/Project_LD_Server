@@ -25,11 +25,15 @@ public:
 	virtual void OnReward() abstract;
 
 	virtual void OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush);
+
+public:
+	virtual void OnPatternShot(ActorPtr inVictim) {}
 	
 public:
 	void OnMovementEnemy();
 	
 public:
+	void SetAggressive(const bool& inIsAggressive);
 	void SetEnemeyID(const int32 inEnemyID);
 	void SetSpawnObjectID(const int64 inSpawnObjectID);
 	void SetRecoveryLocation(const Location& inRecoveryLocation);
@@ -40,6 +44,7 @@ public:
 
 public:
 	EnemyCharacterRef			GetEnemyCharacterRef()		{ return std::static_pointer_cast<EnemyCharacter>(shared_from_this()); }
+	const bool&					GetAggressive()				{ return mAggressive; }
 	const int32					GetEnemyID()				{ return mEnemyID; }
 	const int64					GetSpawnObjectID()			{ return mSpawnObjectID; }
 	StatsComponent&				GetEnemyStatsComponent()	{ return mStatsComponent; }
@@ -55,6 +60,8 @@ protected:
 	StatsComponent				mStatsComponent;
 	AttackComponent				mAutoAttackComponent;
 	BuffComponent				mBuffComponent;
+
+	bool						mAggressive;
 
 	StateManager				mStateManager;
 

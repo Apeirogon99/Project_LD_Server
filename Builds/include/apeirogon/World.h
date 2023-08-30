@@ -23,7 +23,7 @@ public:
 	APEIROGON_API bool				FindAllActors(std::vector<ActorPtr>& outActors);
 	APEIROGON_API bool				FindActor(const int64 inGameObjectID, ActorPtr& outActor);
 	APEIROGON_API bool				FindActors(std::vector<int64> inGameObjectIDs, std::vector<ActorPtr>& outActors);
-	APEIROGON_API bool				FindActors(const FVector& inFindLocation, const float& inRadius, const uint8& inActorType, std::vector<ActorPtr>& outActors);
+	APEIROGON_API bool				FindActors(const FVector& inFindLocation, const float& inRadius, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 	APEIROGON_API bool				FindActors(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 	APEIROGON_API bool				FindActors(SphereTrace& inSphereTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 
