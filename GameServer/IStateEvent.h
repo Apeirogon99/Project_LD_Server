@@ -89,8 +89,6 @@ public:
 	virtual void Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)	override;
 	virtual void Exit(EnemyCharacterRef inEnemy)							override;
 
-private:
-	int64 mSearchToIdleTime;
 };
 
 class ChaseState : public IStateEvent

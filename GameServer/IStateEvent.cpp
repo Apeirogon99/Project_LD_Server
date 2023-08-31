@@ -13,6 +13,12 @@ void IdleState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	if (true == enemy->GetAggressive())
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Search);
+		return;
+	}
+
 	WorldPtr world = enemy->GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -54,6 +60,12 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
+	if (true == enemy->GetAggressive())
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Search);
+		return;
+	}
+
 	WorldPtr world = enemy->GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -88,7 +100,7 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Search);
+		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
 
 }
@@ -120,6 +132,12 @@ void RecoveryState::Enter(EnemyCharacterRef inEnemy)
 	EnemyCharacterPtr enemy = inEnemy.lock();
 	if (nullptr == enemy)
 	{
+		return;
+	}
+
+	if (true == enemy->GetAggressive())
+	{
+		enemy->GetStateManager().SetState(EStateType::State_Search);
 		return;
 	}
 

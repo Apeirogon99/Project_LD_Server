@@ -22,6 +22,7 @@ public:
 
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
+	virtual void OnPatternOver() override;
 
 public:
 	void Skill_RiseSkeleton();

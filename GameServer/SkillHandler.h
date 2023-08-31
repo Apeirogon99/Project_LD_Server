@@ -22,6 +22,8 @@ enum class ESkillID : uint16
 	Skill_Rich_Blink_Realm_Of_Death,
 	Skill_Rich_Blink_Onslaught_Of_Shadows,
 	Skill_Rich_Blink_Life_Vessel,
+
+	Skill_DarkKnight_,
 };
 
 bool Skill_INVALID(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);

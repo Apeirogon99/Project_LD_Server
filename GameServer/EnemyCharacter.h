@@ -28,7 +28,9 @@ public:
 
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) {}
-	
+	//virtual void OnPatternShot(ActorPtr inVictim) {}
+	virtual void OnPatternOver() {}
+
 public:
 	void OnMovementEnemy();
 	

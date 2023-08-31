@@ -65,6 +65,14 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 	pattenFunc(*this);
 }
 
+void EnemyRichPhase1::OnPatternOver()
+{
+	if (false == this->IsDeath())
+	{
+		this->mStateManager.SetState(EStateType::State_Chase);
+	}
+}
+
 void EnemyRichPhase1::Skill_RiseSkeleton()
 {
 
@@ -73,6 +81,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	{
 		return;
 	}
+	const int64& worldTime = world->GetWorldTime();
 	FVector stage = FVector(10000.0f, 10000.0f, 150.0f);
 
 	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
@@ -105,6 +114,8 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 
 	}
 
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::Skill_BlinkAttack()
@@ -165,6 +176,8 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 
 	//공격후 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime + attackEnd, &BlinkAttack::TeleportSafeLocation, newLocation, FRotator::TurnRotator(playerRotation));
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::Skill_Explosion()
@@ -192,6 +205,7 @@ void EnemyRichPhase1::Skill_Explosion()
 
 	}
 
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::Skill_MultiCasting()
@@ -262,6 +276,7 @@ void EnemyRichPhase1::Skill_MultiCasting()
 
 	}
 
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::Skill_SourSpear(const Location inLocation, const Rotation inRotation)
