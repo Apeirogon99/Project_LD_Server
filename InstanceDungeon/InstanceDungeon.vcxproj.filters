@@ -1,8 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Main">
-      <UniqueIdentifier>{48b6e8bd-489a-421e-9a3f-2c1942d0a799}</UniqueIdentifier>
+    <Filter Include="Pch">
+      <UniqueIdentifier>{2ebeffad-b613-405d-a25a-86f16ca267cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d3f4548b-5157-46de-b389-6e0d3542e6c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public">
+      <UniqueIdentifier>{c209f442-ce62-43ac-a276-3d8d2fde9a31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private">
+      <UniqueIdentifier>{379abe96-082c-49f7-aaea-1527069a6dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Framework">
+      <UniqueIdentifier>{19e8743c-7ea4-40d9-be65-9c63a5c85207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Framework">
+      <UniqueIdentifier>{1eff888a-5116-4009-8dee-fa0513cad2b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\World">
+      <UniqueIdentifier>{5970cc09-ace4-44af-9942-6ea1830839ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\World">
+      <UniqueIdentifier>{60ef4ea9-10cd-4ad2-ad7d-23d202996d21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DungeonWorld.cpp">
+      <Filter>Source\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungeon.cpp">
+      <Filter>Source\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Pch</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DungeonWorld.h">
+      <Filter>Source\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon.h">
+      <Filter>Source\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonLibrary.h">
+      <Filter>Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonFoward.h">
+      <Filter>Pch</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
