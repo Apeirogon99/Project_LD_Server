@@ -27,9 +27,9 @@ void SourSpear::OnInitialization()
 
 	this->mProjectileComponent.InitProjectile(GAME_TICK, world->GetWorldTime());
 
-	this->SetVelocity(1500.0f, 1500.0f, 1500.0f);
+	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 	this->SetDamage(100.0f);
-	this->ReserveDestroy(1000);
+	this->ReserveDestroy(5000);
 
 	this->PushTask(mStartTime + 200, &SourSpear::Active);
 }

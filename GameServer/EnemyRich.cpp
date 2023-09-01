@@ -73,7 +73,7 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
 	pattenFunc(*this);
 }
 
@@ -102,7 +102,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	for (int32 count = 0; count < 5; ++count)
 	{
 
-		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 1200);
+		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 800);
 		const Rotation		newRoation = (stage - newLocation).Rotator();
 
 		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
@@ -138,7 +138,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
-	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 1000);
+	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 800);
 
 	std::vector<ActorPtr> targetActors;
 	bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
@@ -171,7 +171,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	newBlinkAttack->SetTargetActorType(EActorType::Player);
 	newBlinkAttack->SetDamage(150.0f);
 
-	static int64 blinkTime		= 500;
+	static int64 blinkTime		= 2000;
 	static int64 parryingStart	= 300;
 	static int64 parryingEnd	= 200;
 	static int64 attackEnd		= 1000;
@@ -207,7 +207,7 @@ void EnemyRichPhase1::Skill_Explosion()
 
 	for (int32 count = 0; count < 5; ++count)
 	{
-		const Location		newLocation	= Random::GetRandomVectorInRange2D(stage, 1000);
+		const Location		newLocation	= Random::GetRandomVectorInRange2D(stage, 800);
 		const Rotation		newRoation	= FRotator();
 		const Scale			newScale	= Scale(1.0f, 1.0f, 1.0f);
 
@@ -264,9 +264,6 @@ void EnemyRichPhase1::Skill_MultiCasting()
 			return;
 		}
 
-		const Location& playerLocation = player->GetLocation();
-		const Rotation& sourSpearRotation = (playerLocation - richLocation).Rotator();
-
 		float fCount = static_cast<float>(count);
 		Location sourSpearLocation = richLocation + (FVector((fCount * 75.0f) - 150.0f, (fCount * 75.0f) - 150.0f, 0.0f) * right);
 		float sourSpearZ = sourSpearLocation.GetZ();
@@ -292,15 +289,14 @@ void EnemyRichPhase1::Skill_MultiCasting()
 			break;
 		}
 		
-
-		this->PushTask(worldTime + (count * 100), &EnemyRichPhase1::Skill_SourSpear, sourSpearLocation, sourSpearRotation);
+		this->PushTask(worldTime + (count * 1000), &EnemyRichPhase1::Skill_SourSpear, aggroActor, sourSpearLocation);
 
 	}
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
-void EnemyRichPhase1::Skill_SourSpear(const Location inLocation, const Rotation inRotation)
+void EnemyRichPhase1::Skill_SourSpear(ActorPtr inPlayer, Location inLocation)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -308,7 +304,15 @@ void EnemyRichPhase1::Skill_SourSpear(const Location inLocation, const Rotation 
 		return;
 	}
 
-	ActorPtr actor = world->SpawnActor<SourSpear>(this->GetGameObjectRef(), inLocation, inRotation, Scale(1.0f, 1.0f, 1.0f));
+	if (nullptr == inPlayer)
+	{
+		return;
+	}
+
+	const Location& location = inPlayer->GetLocation();
+	const Rotation& rotation = (location - inLocation).Rotator();
+
+	ActorPtr actor = world->SpawnActor<SourSpear>(this->GetGameObjectRef(), inLocation, rotation, Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<SourSpear> newSourSpear = std::static_pointer_cast<SourSpear>(actor);
 	if (nullptr == newSourSpear)
 	{

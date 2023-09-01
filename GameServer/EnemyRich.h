@@ -30,7 +30,7 @@ public:
 	void Skill_BlinkAttack();
 	void Skill_Explosion();
 	void Skill_MultiCasting();
-	void Skill_SourSpear(const Location inLocation, const Rotation inRotation);
+	void Skill_SourSpear(ActorPtr inPlayer, Location inLocation);
 
 private:
 	PatternInfos<EnemyRichPhase1> mPatternInfos;
