@@ -113,17 +113,18 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		}
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 
-		Protocol::S2C_AppearSkill appearSkillPacket;
-		appearSkillPacket.set_remote_id(this->GetGameObjectID());
-		appearSkillPacket.set_object_id(this->GetGameObjectID());
-		appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
-		appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-		appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-		appearSkillPacket.set_duration(worldTime);
-		
-		SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
-		this->BrodcastPlayerViewers(appearSendBuffer);
 	}
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
