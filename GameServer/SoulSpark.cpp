@@ -183,7 +183,7 @@ void SoulSpark::CheackCollision()
 	FVector boxExtent(distance, 100.0f, 100.0f);
 
 	FVector		location = this->GetLocation();
-	FRotator	rotation = this->GetRotation();
+	FRotator	rotation = (mTarget->GetLocation() - location).Rotator();
 	FVector		foward = rotation.GetForwardVector();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 

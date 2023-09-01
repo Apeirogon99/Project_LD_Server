@@ -50,7 +50,7 @@ void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EStatTyp
 	const float value = inStatsComponent.GetCurrentStats().GetStat(static_cast<int32>(inStatType) - 1);
 	inStatsComponent.UpdateCurrentStat(inStatType, value - inValue);
 
-	if (findBuff->second == 0.0f)
+	if (findBuff->second <= 0.0f)
 	{
 		mBuffs.erase(inStatType);
 	}

@@ -19,6 +19,38 @@ EnemyRich::~EnemyRich()
 {
 }
 
+void EnemyRich::OnTick(const int64 inDeltaTime)
+{
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	this->OnSyncLocation(inDeltaTime);
+
+	this->mStateManager.UpdateState(inDeltaTime);
+
+	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
+	{
+		this->DetectChangeEnemy();
+	}
+
+	ActorPtr aggroActor = this->GetAggroActor().lock();
+	if (aggroActor)
+	{
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), aggroActor->GetLocation(), worldTime, 0);
+		this->OnMovementEnemy();
+	}
+
+}
+
 //==========================//
 //       Rich | Phase1		//
 //==========================//
@@ -73,7 +105,7 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 
@@ -335,26 +367,35 @@ EnemyRichPhase2::~EnemyRichPhase2()
 
 void EnemyRichPhase2::OnInitialization()
 {
-	WorldPtr world = this->GetWorld().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
-		assert(!world);
+		return;
 	}
 
 	SetTick(true, SYSTEM_TICK);
 
+	this->SetEnemeyID(5);
 	this->SetAggressive(true);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	this->mStatsComponent.SetSyncTime(GAME_TICK);
+	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
+	if (datas)
+	{
+		this->mStatsComponent.SetSyncTime(GAME_TICK);
+		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(5));
+	}
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
+
+	AttackInfos attackInfos;
+	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
 
 	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_BlinkSturn);
 	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_SoulSpark);
@@ -365,7 +406,7 @@ void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
 	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size()));
 
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[index];
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -387,6 +428,68 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 
 void EnemyRichPhase2::Skill_BlinkSturn()
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
+	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 800);
+
+	std::vector<ActorPtr> targetActors;
+	bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
+	if (false == result)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(targetActors[0]);
+	if (nullptr == player)
+	{
+		return;
+	}
+
+	const Location& playerLocation = player->GetLocation();
+	const Rotation& playerRotation = player->GetRotation();
+	const FVector& foward = playerRotation.GetForwardVector();
+	const float& radius = player->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+	const Location& playerBehindkLocation = playerLocation - (foward * radius);
+	const Scale		scale = Scale(1.0f, 1.0f, 1.0f);
+
+	ActorPtr actor = world->SpawnActor<BlinkSturn>(this->GetGameObjectRef(), playerBehindkLocation, playerRotation, scale);
+	std::shared_ptr<BlinkSturn> newBlinkSturn = std::static_pointer_cast<BlinkSturn>(actor);
+	if (nullptr == newBlinkSturn)
+	{
+		return;
+	}
+	newBlinkSturn->SetBlinkID(ESkillID::Skill_Rich_Blink_Sturn);
+	newBlinkSturn->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Hard_Melee);
+	newBlinkSturn->SetTargetActorType(EActorType::Player);
+	newBlinkSturn->SetDamage(150.0f);
+
+	static int64 blinkTime = 2000;
+	static int64 parryingStart = 300;
+	static int64 parryingEnd = 200;
+	static int64 attackEnd = 1000;
+
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), playerBehindkLocation, radius, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), newLocation, radius, debugDuration);
+
+	//패링 타이밍
+	//newBlinkSturn->SetParryinglTime(worldTime + blinkTime + parryingStart, worldTime + blinkTime + parryingStart + parryingEnd);
+
+	//공격전 이동
+	newBlinkSturn->PushTask(worldTime + blinkTime, &BlinkSturn::TeleportPlayerLocation, playerBehindkLocation, playerRotation);
+
+	//공격
+	newBlinkSturn->PushTask(worldTime + blinkTime + parryingStart + parryingEnd, &BlinkSturn::CheackCollision);
+
+	//공격후 이동
+	newBlinkSturn->PushTask(worldTime + blinkTime + attackEnd, &BlinkSturn::TeleportSafeLocation, newLocation, FRotator::TurnRotator(playerRotation));
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase2::OnPatternOver);
 }
 
 void EnemyRichPhase2::Skill_SoulSpark()
@@ -443,6 +546,8 @@ void EnemyRichPhase2::Skill_SoulShackles()
 	{
 		return;
 	}
+
+	world->PushTask(worldTime + 5000, &GameWorld::DestroyActor, newSoulShackles->GetGameObjectID());
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase2::OnPatternOver);
 }

@@ -33,7 +33,7 @@ void SoulShackles::OnInitialization()
 	buff.InitStats(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -100.0f, 0.0f);
 	mStatsComponent.InitMaxStats(buff);
 
-	world->PushTask(worldTime + 10000, &GameWorld::DestroyActor, this->GetGameObjectID());
+	//world->DestroyActor(this->GetGameObjectID());
 }
 
 void SoulShackles::OnDestroy()
@@ -227,11 +227,7 @@ void SoulShackles::CheackCollision()
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(sphereTrace, findActorType, findActors);
-	if (!result)
-	{
-		return;
-	}
+	world->FindActors(sphereTrace, findActorType, findActors);
 
 	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
 	{
@@ -255,16 +251,21 @@ void SoulShackles::CheackCollision()
 		auto findPlayer = mOverlapPlayer.find(remotePlayer->GetGameObjectID());
 		if (findPlayer == mOverlapPlayer.end())
 		{
+
 			mOverlapPlayer.insert(std::make_pair(remotePlayer->GetGameObjectID(), true));
 
 			StatsComponent& playerStats = player->GetStatComponent();
 			BuffComponent& playerbuff = player->GetBuffComponent();
 			playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
-		}
 
+		}
+		else
+		{
+			findPlayer->second = true;
+		}
 	}
 
-	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
+	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end();)
 	{
 		if (player->second == false)
 		{
@@ -281,6 +282,7 @@ void SoulShackles::CheackCollision()
 				StatsComponent& playerStats = playerCharacter->GetStatComponent();
 				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
 				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+
 			}
 
 			mOverlapPlayer.erase(player++);
