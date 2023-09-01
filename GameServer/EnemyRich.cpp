@@ -59,6 +59,9 @@ void EnemyRichPhase1::OnInitialization()
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
+	AttackInfos attackInfos;
+	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
+
 	this->mPatternInfos.push_back(&EnemyRichPhase1::Skill_RiseSkeleton);
 	this->mPatternInfos.push_back(&EnemyRichPhase1::Skill_BlinkAttack);
 	this->mPatternInfos.push_back(&EnemyRichPhase1::Skill_Explosion);
@@ -67,9 +70,9 @@ void EnemyRichPhase1::OnInitialization()
 
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
-	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size()));
+	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[index];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
 	pattenFunc(*this);
 }
 
@@ -77,7 +80,7 @@ void EnemyRichPhase1::OnPatternOver()
 {
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Chase);
+		this->mStateManager.SetState(EStateType::State_Search);
 	}
 }
 
@@ -94,7 +97,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = FVector(10000.0f, 10000.0f, 150.0f);
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
 
 	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
 	if (nullptr == datas)
@@ -123,7 +126,8 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		newEnemy->SetEnemyStats(stat);
 		newEnemy->SetAggressive(true);
 		newEnemy->SetRecoveryLocation(newLocation);
-
+		newEnemy->GetStateManager().SetState(EStateType::State_Search);
+		newEnemy->SetReward(false);
 	}
 
 
@@ -138,7 +142,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = FVector(10000.0f, 10000.0f, 150.0f);
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
 	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 650);
 
 	std::vector<ActorPtr> targetActors;
@@ -200,11 +204,11 @@ void EnemyRichPhase1::Skill_Explosion()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = FVector(10000.0f, 10000.0f, 150.0f);
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
 
 	for (int32 count = 0; count < 5; ++count)
 	{
-		const Location		newLocation	= Random::GetRandomVectorInRange2D(stage, 650);
+		const Location		newLocation	= Random::GetRandomVectorInRange2D(stage, 1000);
 		const Rotation		newRoation	= FRotator();
 		const Scale			newScale	= Scale(1.0f, 1.0f, 1.0f);
 

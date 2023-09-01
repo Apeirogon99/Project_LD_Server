@@ -17,7 +17,7 @@ void AttackComponent::InitAutoAttack(const EAutoAttackType inAutoAttackType, con
 	mIsAutoAttack		= false;
 	mLastAutoAttackTime = 0;
 
-	assert(mAttackInfos.size() != 0);
+	//assert(mAttackInfos.size() != 0);
 }
 
 bool AttackComponent::Update(ActorPtr inInstigated)

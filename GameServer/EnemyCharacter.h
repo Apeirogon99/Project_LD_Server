@@ -35,6 +35,7 @@ public:
 	void OnMovementEnemy();
 	
 public:
+	void SetReward(const bool& inIsReward);
 	void SetAggressive(const bool& inIsAggressive);
 	void SetEnemeyID(const int32 inEnemyID);
 	void SetSpawnObjectID(const int64 inSpawnObjectID);
@@ -46,6 +47,7 @@ public:
 
 public:
 	EnemyCharacterRef			GetEnemyCharacterRef()		{ return std::static_pointer_cast<EnemyCharacter>(shared_from_this()); }
+	const bool&					GetReward()					{ return mIsReward; }
 	const bool&					GetAggressive()				{ return mAggressive; }
 	const int32					GetEnemyID()				{ return mEnemyID; }
 	const int64					GetSpawnObjectID()			{ return mSpawnObjectID; }
@@ -63,6 +65,7 @@ protected:
 	AttackComponent				mAutoAttackComponent;
 	BuffComponent				mBuffComponent;
 
+	bool						mIsReward;
 	bool						mAggressive;
 
 	StateManager				mStateManager;

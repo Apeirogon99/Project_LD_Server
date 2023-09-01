@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false) ,mStateManager()
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false), mStateManager(), mIsReward(true)
 {
 }
 
@@ -18,14 +18,17 @@ void EnemyCharacter::OnDestroy()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
-	if (nullptr == spawner)
+	if (mIsReward)
 	{
-		return;
-	}
-	spawner->OnDestroyEnemy(GetGameObjectID());
+		EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
+		if (nullptr == spawner)
+		{
+			return;
+		}
+		spawner->OnDestroyEnemy(GetGameObjectID());
 
-	OnReward();
+		OnReward();
+	}
 
 	{
 		Protocol::S2C_DeathEnemy deathPacket;
@@ -279,6 +282,11 @@ void EnemyCharacter::OnMovementEnemy()
 	
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
+}
+
+void EnemyCharacter::SetReward(const bool& inIsReward)
+{
+	mIsReward = inIsReward;
 }
 
 void EnemyCharacter::SetAggressive(const bool& inIsAggressive)
