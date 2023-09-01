@@ -193,7 +193,7 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	remotePlayer->LeaveRemotePlayer();
 	if (true == remotePlayer->LeaveComplete())
 	{
-		mTaskManagerRef.lock()->DestroyGameObject(remotePlayer->GetGameObjectPtr());
+		mTaskManagerRef.lock()->ReleaseTask(remotePlayer->GetGameObjectPtr());
 
 		Protocol::S2C_LeaveGameServer leavePacket;
 		leavePacket.set_error(true);

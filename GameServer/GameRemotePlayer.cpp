@@ -216,6 +216,20 @@ bool GameRemotePlayer::LeaveComplete()
 		return false;
 	}
 
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(this->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	mTaskManagerRef.lock()->ReleaseTask(this->GetGameObjectPtr());
+
+	Protocol::S2C_LeaveGameServer leavePacket;
+	leavePacket.set_error(true);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leavePacket);
+	playerState->Send(sendBuffer);
+
 	return true;
 }
 

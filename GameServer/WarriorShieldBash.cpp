@@ -104,7 +104,7 @@ void WarriorShieldBash::SkillActive()
 
     uint8 findActorType = static_cast<uint8>(EActorType::Enemy);
     std::vector<ActorPtr> findActors;
-    bool result = world->FindActors(sphereTrace, findActorType, findActors, 1);
+    bool result = world->FindActors(sphereTrace, findActorType, findActors);
     if (!result)
     {
         return;

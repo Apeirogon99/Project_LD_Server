@@ -8,7 +8,7 @@ PlayerCharacter::PlayerCharacter() : Character(L"PlayerCharacter"), mCharacterID
 
 PlayerCharacter::~PlayerCharacter()
 {
-
+	printf("~PlayerCharacter\n");
 }
 
 void PlayerCharacter::OnInitialization()
