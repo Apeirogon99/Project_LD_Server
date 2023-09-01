@@ -328,6 +328,9 @@
     <ClCompile Include="SoulSpark.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Rise.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -529,6 +532,9 @@
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
     <ClInclude Include="SoulSpark.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Rise.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,7 +90,6 @@ void EnemyRichPhase1::OnReward()
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
 {
-
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -98,6 +97,38 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
+
+	for (int32 count = 0; count < 5; ++count)
+	{
+
+		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 1200);
+		const Rotation		newRoation = (stage - newLocation).Rotator();
+
+		Spawn_Skeleton(newLocation, newRoation);
+
+		//Protocol::S2C_AppearSkill appearSkillPacket;
+		//appearSkillPacket.set_remote_id(this->GetGameObjectID());
+		//appearSkillPacket.set_object_id(objectID);
+		//appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
+		//appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+		//appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+		//appearSkillPacket.set_duration(worldTime);
+		//
+		//SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+		//this->BrodcastPlayerViewers(appearSendBuffer);
+	}
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
+}
+
+void EnemyRichPhase1::Spawn_Skeleton(const Location inLocation, const Rotation inRotation)
+{
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
 
 	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
 	if (nullptr == datas)
@@ -107,31 +138,22 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	static int32 warriorSkeletalID = 3;
 	const Stats& stat = datas->GetEnemyStat(warriorSkeletalID);
 
-	for (int32 count = 0; count < 5; ++count)
+	EnemyCharacterPtr	newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), inLocation, inRotation, Scale(1.0f, 1.0f, 1.0f)));
+
+	if (nullptr == newEnemy)
 	{
-
-		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 650);
-		const Rotation		newRoation = (stage - newLocation).Rotator();
-		const Scale			newScale = Scale(1.0f, 1.0f, 1.0f);
-		EnemyCharacterPtr	newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), newLocation, newRoation, newScale));
-
-		if (nullptr == newEnemy)
-		{
-			return;
-		}
-
-		newEnemy->SetEnemeyID(warriorSkeletalID);
-		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-		newEnemy->SetEnemyStats(stat);
-		newEnemy->SetAggressive(true);
-		newEnemy->SetRecoveryLocation(newLocation);
-		newEnemy->GetStateManager().SetState(EStateType::State_Search);
-		newEnemy->SetReward(false);
+		return;
 	}
 
-
-	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
+	newEnemy->SetEnemeyID(warriorSkeletalID);
+	newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
+	newEnemy->SetSpawnObjectID(this->GetGameObjectID());
+	newEnemy->SetEnemyStats(stat);
+	newEnemy->SetAggressive(true);
+	newEnemy->SetRecoveryLocation(inLocation);
+	newEnemy->GetStateManager().SetState(EStateType::State_Search);
+	newEnemy->SetReward(false);
+	
 }
 
 void EnemyRichPhase1::Skill_BlinkAttack()

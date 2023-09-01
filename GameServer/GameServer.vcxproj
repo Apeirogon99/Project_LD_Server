@@ -334,6 +334,7 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="Rise.cpp" />
     <ClCompile Include="SkillTree.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="SkillComponent.cpp" />
@@ -403,6 +404,7 @@
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />
+    <ClInclude Include="Rise.h" />
     <ClInclude Include="SkillTree.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="SkillComponent.h" />
