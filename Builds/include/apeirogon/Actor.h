@@ -16,6 +16,8 @@ public:
 	APEIROGON_API virtual void	OnAppearActor(ActorPtr inAppearActor) {};
 	APEIROGON_API virtual void	OnDisAppearActor(ActorPtr inDisAppearActor) {};
 
+	APEIROGON_API virtual void	OnInteractive(ActorPtr inActor) {};
+
 	APEIROGON_API virtual void	OnHit(ActorPtr inInstigated, const float inDamage) {};
 	APEIROGON_API virtual void	OnDeath() {};
 

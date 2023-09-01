@@ -23,6 +23,7 @@ public:
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 	virtual void OnPatternOver() override;
+	virtual void OnReward() override;
 
 public:
 	void Skill_RiseSkeleton();
@@ -46,12 +47,14 @@ public:
 
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
+	virtual void OnPatternOver() override;
+	virtual void OnReward() override;
 
 public:
-	void RiseDarkKnight();
-	void BlinkSturn();
-	void SoulSpark();
-	void SoulShackles();
+	void Skill_RiseDarkKnight();
+	void Skill_BlinkSturn();
+	void Skill_SoulSpark();
+	void Skill_SoulShackles();
 
 private:
 	PatternInfos<EnemyRichPhase2> mPatternInfos;
@@ -68,6 +71,8 @@ public:
 
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
+	virtual void OnPatternOver() override;
+	virtual void OnReward() override;
 
 public:
 	void RiseSkeleton();

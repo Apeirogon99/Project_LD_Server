@@ -38,6 +38,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
         return true;
     }
     printf("Use Skill_Warrior_Buff\n");
+    //character->GetMovementComponent().SetRestrictMovement(true);
     
     ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)

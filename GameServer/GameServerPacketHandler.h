@@ -47,36 +47,39 @@ enum class EPakcetID: uint16
 	S2C_LeavePartyPlayer = 2041,
 	S2C_AppearItem = 2042,
 	S2C_AppearArrow = 2043,
-	S2C_MovementProjectile = 2044,
-	S2C_AppearEnemy = 2045,
-	S2C_DetectChangeEnemy = 2046,
-	S2C_MovementEnemy = 2047,
-	S2C_EnemyAutoAttack = 2048,
-	S2C_HitEnemy = 2049,
-	S2C_DeathEnemy = 2050,
-	S2C_DisAppearGameObject = 2051,
-	C2S_LoadInventory = 2052,
-	S2C_LoadInventory = 2053,
-	C2S_InsertInventory = 2054,
-	S2C_InsertInventory = 2055,
-	C2S_UpdateInventory = 2056,
-	S2C_UpdateInventory = 2057,
-	C2S_DeleteInventory = 2058,
-	S2C_DeleteInventory = 2059,
-	S2C_RollbackInventory = 2060,
-	C2S_ReplaceEqipment = 2061,
-	S2C_ReplaceEqipment = 2062,
-	S2C_LoadSkillTree = 2063,
-	C2S_UpdateSkillTree = 2064,
-	S2C_UpdateSkillTree = 2065,
-	C2S_SetUseKeyAction = 2066,
-	S2C_SetUseKeyAction = 2067,
-	C2S_PressedUseKeyAction = 2068,
-	C2S_ReleaseUseKeyAction = 2069,
-	S2C_AppearSkill = 2070,
-	S2C_ReactionSkill = 2071,
-	S2C_DebugBox = 2072,
-	S2C_DebugCircle = 2073,
+	S2C_AppearProtal = 2044,
+	C2S_InteractiveObject = 2045,
+	S2C_MovementProjectile = 2046,
+	S2C_Teleport = 2047,
+	S2C_AppearEnemy = 2048,
+	S2C_DetectChangeEnemy = 2049,
+	S2C_MovementEnemy = 2050,
+	S2C_EnemyAutoAttack = 2051,
+	S2C_HitEnemy = 2052,
+	S2C_DeathEnemy = 2053,
+	S2C_DisAppearGameObject = 2054,
+	C2S_LoadInventory = 2055,
+	S2C_LoadInventory = 2056,
+	C2S_InsertInventory = 2057,
+	S2C_InsertInventory = 2058,
+	C2S_UpdateInventory = 2059,
+	S2C_UpdateInventory = 2060,
+	C2S_DeleteInventory = 2061,
+	S2C_DeleteInventory = 2062,
+	S2C_RollbackInventory = 2063,
+	C2S_ReplaceEqipment = 2064,
+	S2C_ReplaceEqipment = 2065,
+	S2C_LoadSkillTree = 2066,
+	C2S_UpdateSkillTree = 2067,
+	S2C_UpdateSkillTree = 2068,
+	C2S_SetUseKeyAction = 2069,
+	S2C_SetUseKeyAction = 2070,
+	C2S_PressedUseKeyAction = 2071,
+	C2S_ReleaseUseKeyAction = 2072,
+	S2C_AppearSkill = 2073,
+	S2C_ReactionSkill = 2074,
+	S2C_DebugBox = 2075,
+	S2C_DebugCircle = 2076,
 };
 */
 
@@ -96,6 +99,7 @@ bool Handle_C2S_RequestEnterParty(PacketSessionPtr& session, Protocol::C2S_Reque
 bool Handle_C2S_RequestLeaveParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaveParty& pkt);
 bool Handle_C2S_RequestLeaderParty(PacketSessionPtr& session, Protocol::C2S_RequestLeaderParty& pkt);
 bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponeParty& pkt);
+bool Handle_C2S_InteractiveObject(PacketSessionPtr& session, Protocol::C2S_InteractiveObject& pkt);
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt);
 bool Handle_C2S_InsertInventory(PacketSessionPtr& session, Protocol::C2S_InsertInventory& pkt);
 bool Handle_C2S_UpdateInventory(PacketSessionPtr& session, Protocol::C2S_UpdateInventory& pkt);
@@ -126,6 +130,7 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestLeaveParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestLeaveParty>(Handle_C2S_RequestLeaveParty, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestLeaderParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestLeaderParty>(Handle_C2S_RequestLeaderParty, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ResponeParty)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ResponeParty>(Handle_C2S_ResponeParty, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_InteractiveObject)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_InteractiveObject>(Handle_C2S_InteractiveObject, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_LoadInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_LoadInventory>(Handle_C2S_LoadInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_InsertInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_InsertInventory>(Handle_C2S_InsertInventory, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_UpdateInventory)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_UpdateInventory>(Handle_C2S_UpdateInventory, session, buffer, len); };
@@ -165,7 +170,9 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LeavePartyPlayer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeavePartyPlayer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearItem)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearArrow& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearArrow)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearProtal& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearProtal)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementProjectile& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementProjectile)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_Teleport& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_Teleport)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearEnemy)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DetectChangeEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DetectChangeEnemy)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementEnemy)); }

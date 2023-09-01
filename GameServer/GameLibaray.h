@@ -50,6 +50,7 @@
 #include "SkillTree.h"
 #include "Party.h"
 #include "Quest.h"
+#include "Portal.h"
 
 //==========================//
 //   GameContent | Enemy	//

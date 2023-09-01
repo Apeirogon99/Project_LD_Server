@@ -127,6 +127,9 @@
     <Filter Include="Content\Enemy\Public\Pawn">
       <UniqueIdentifier>{8c4060e8-2172-428b-9c50-584f39f44a9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Portal">
+      <UniqueIdentifier>{cb73b95b-cb75-47e1-b5ce-0f3cfb1646a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -314,6 +317,15 @@
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
     <ClCompile Include="SourSpear.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Content\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulShackles.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulSpark.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
   </ItemGroup>
@@ -508,6 +520,15 @@
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
     <ClInclude Include="SourSpear.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Content\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulShackles.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulSpark.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>

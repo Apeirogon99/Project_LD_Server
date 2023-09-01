@@ -349,6 +349,11 @@ bool Handle_C2S_ResponeParty(PacketSessionPtr& session, Protocol::C2S_ResponePar
 	return true;
 }
 
+bool Handle_C2S_InteractiveObject(PacketSessionPtr& session, Protocol::C2S_InteractiveObject& pkt)
+{
+	return true;
+}
+
 bool Handle_C2S_LoadInventory(PacketSessionPtr& session, Protocol::C2S_LoadInventory& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);

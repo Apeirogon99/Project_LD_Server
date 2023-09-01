@@ -332,12 +332,15 @@
     </ClCompile>
     <ClCompile Include="GameRemotePlayer.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="SkillTree.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="SkillComponent.cpp" />
     <ClCompile Include="SkillDatabase.cpp" />
     <ClCompile Include="SkillHandler.cpp" />
+    <ClCompile Include="SoulShackles.cpp" />
+    <ClCompile Include="SoulSpark.cpp" />
     <ClCompile Include="SourSpear.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
     <ClCompile Include="WarriorBuff.cpp" />
@@ -398,12 +401,15 @@
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameRemotePlayer.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="SkillTree.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="SkillComponent.h" />
     <ClInclude Include="SkillDatabase.h" />
     <ClInclude Include="SkillHandler.h" />
+    <ClInclude Include="SoulShackles.h" />
+    <ClInclude Include="SoulSpark.h" />
     <ClInclude Include="SourSpear.h" />
     <ClInclude Include="StatsComponent.h" />
     <ClInclude Include="WarriorBuff.h" />

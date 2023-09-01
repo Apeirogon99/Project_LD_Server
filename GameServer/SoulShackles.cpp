@@ -1,37 +1,68 @@
 #include "pch.h"
-#include "Explosion.h"
+#include "SoulShackles.h"
 
-Explosion::Explosion() : EnemyAttack(L"Explosion"), mStartTime(0), mEndTime(10000)
+SoulShackles::SoulShackles() : EnemyAttack(L"SoulShackles"), mStartTime(0), mEndTime(10000)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
 
-Explosion::~Explosion()
+SoulShackles::~SoulShackles()
 {
 }
 
-void Explosion::OnInitialization()
+void SoulShackles::OnInitialization()
 {
-	WorldPtr world = this->GetWorld().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
 	{
-		assert(!world);
+		return;
 	}
-	mStartTime = world->GetWorldTime();
+	const int64& worldTime = world->GetWorldTime();
+
+	this->SetTick(true, SYSTEM_TICK);
 
 	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetSphereCollisione(300.0f);
+	collision->SetSphereCollisione(400.0f);
 
-	this->SetDamage(300.0f);
+	this->SetDamage(1.0f);
 	this->SetTargetActorType(EActorType::Player);
-	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Hard_Place);
+	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Place);
 
-	this->PushTask(mStartTime + mEndTime, &Explosion::CheackCollision);
+	Stats buff;
+	buff.InitStats(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -100.0f, 0.0f);
+	mStatsComponent.InitMaxStats(buff);
+
+	world->PushTask(worldTime + 10000, &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
-void Explosion::OnDestroy()
+void SoulShackles::OnDestroy()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const Stats& stat = this->mStatsComponent.GetMaxStats();
+
+	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
+	{
+		GameRemotePlayerPtr overlapRemotePlayer = nullptr;
+		if (true == world->IsValidPlayer(player->first, overlapRemotePlayer))
+		{
+			PlayerCharacterPtr playerCharacter = std::static_pointer_cast<PlayerCharacter>(overlapRemotePlayer->GetCharacter());
+			if (nullptr == playerCharacter)
+			{
+				continue;
+			}
+			const int64& playerGameObjectID = playerCharacter->GetGameObjectID();
+
+			StatsComponent& playerStats = playerCharacter->GetStatComponent();
+			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
+			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+		}
+	}
+
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
 
@@ -39,11 +70,18 @@ void Explosion::OnDestroy()
 	this->BrodcastPlayerViewers(sendBuffer);
 }
 
-void Explosion::OnTick(const int64 inDeltaTime)
+void SoulShackles::OnTick(const int64 inDeltaTime)
 {
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	this->CheackCollision();
+
 }
 
-bool Explosion::IsValid()
+bool SoulShackles::IsValid()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -71,7 +109,7 @@ bool Explosion::IsValid()
 	return true;
 }
 
-void Explosion::OnAppearActor(ActorPtr inAppearActor)
+void SoulShackles::OnAppearActor(ActorPtr inAppearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -102,7 +140,7 @@ void Explosion::OnAppearActor(ActorPtr inAppearActor)
 	}
 	this->InsertPlayerViewer(anotherPlayerState);
 	anotherPlayerState->InsertActorMonitor(this->GetActorPtr());
-	
+
 	WorldPtr world = this->GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -119,7 +157,7 @@ void Explosion::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Explosion));
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Shackles));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
 	appearSkillPacket.set_duration(worldTime - this->mStartTime);
@@ -128,7 +166,7 @@ void Explosion::OnAppearActor(ActorPtr inAppearActor)
 	anotherPlayerState->Send(appearSendBuffer);
 }
 
-void Explosion::OnDisAppearActor(ActorPtr inDisappearActor)
+void SoulShackles::OnDisAppearActor(ActorPtr inDisappearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -162,7 +200,7 @@ void Explosion::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void Explosion::CheackCollision()
+void SoulShackles::CheackCollision()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -177,10 +215,12 @@ void Explosion::CheackCollision()
 		return;
 	}
 
-	SphereCollisionComponent*	collision	= GetSphereCollisionComponent();
-	FVector						location	= this->GetLocation();
-	const float					radius		= collision->GetSphereCollision().GetRadius();
+	SphereCollisionComponent*	collision = GetSphereCollisionComponent();
+	FVector						location = this->GetLocation();
+	const float					radius = collision->GetSphereCollision().GetRadius();
 	SphereTrace					sphereTrace(this->GetActorRef(), location, true, radius);
+
+	const Stats&				stat = this->mStatsComponent.GetMaxStats();
 
 	const float debugDuration = 0.1f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, radius, debugDuration);
@@ -193,26 +233,71 @@ void Explosion::CheackCollision()
 		return;
 	}
 
+	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
+	{
+		player->second = false;
+	}
+
 	for (ActorPtr actor : findActors)
 	{
-		if (actor)
+		PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(actor);
+		if (nullptr == player)
 		{
-			actor->PushTask(worldTime, &Actor::OnHit, owner, this->GetDamage());
+			return;
+		}
+
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(player->GetOwner().lock());
+		if (nullptr == remotePlayer)
+		{
+			return;
+		}
+
+		auto findPlayer = mOverlapPlayer.find(remotePlayer->GetGameObjectID());
+		if (findPlayer == mOverlapPlayer.end())
+		{
+			mOverlapPlayer.insert(std::make_pair(remotePlayer->GetGameObjectID(), true));
+
+			StatsComponent& playerStats = player->GetStatComponent();
+			BuffComponent& playerbuff = player->GetBuffComponent();
+			playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+		}
+
+	}
+
+	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
+	{
+		if (player->second == false)
+		{
+
+			GameRemotePlayerPtr overlapRemotePlayer = nullptr;
+			if (true == world->IsValidPlayer(player->first, overlapRemotePlayer))
+			{
+				PlayerCharacterPtr playerCharacter = std::static_pointer_cast<PlayerCharacter>(overlapRemotePlayer->GetCharacter());
+				if (nullptr == playerCharacter)
+				{
+					continue;
+				}
+
+				StatsComponent& playerStats = playerCharacter->GetStatComponent();
+				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
+				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+			}
+
+			mOverlapPlayer.erase(player++);
+		}
+		else
+		{
+			++player;
 		}
 	}
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy arrow\n");
-	}
 }
 
-void Explosion::OnParrying(ActorPtr inActor)
+void SoulShackles::OnParrying(ActorPtr inActor)
 {
 }
 
-SphereCollisionComponent* Explosion::GetSphereCollisionComponent()
+SphereCollisionComponent* SoulShackles::GetSphereCollisionComponent()
 {
 	return static_cast<SphereCollisionComponent*>(this->GetDefaultCollisionComponent());
 }

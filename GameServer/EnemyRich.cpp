@@ -3,6 +3,8 @@
 #include "Explosion.h"
 #include "Blink.h"
 #include "SourSpear.h"
+#include "SoulShackles.h"
+#include "SoulSpark.h"
 
 //==========================//
 //       Rich | Rich		//
@@ -38,12 +40,18 @@ void EnemyRichPhase1::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
+	this->SetEnemeyID(5);
 	this->SetAggressive(true);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	this->mStatsComponent.SetSyncTime(GAME_TICK);
+	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
+	if (datas)
+	{
+		this->mStatsComponent.SetSyncTime(GAME_TICK);
+		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(5));
+	}
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
@@ -71,6 +79,10 @@ void EnemyRichPhase1::OnPatternOver()
 	{
 		this->mStateManager.SetState(EStateType::State_Chase);
 	}
+}
+
+void EnemyRichPhase1::OnReward()
+{
 }
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
@@ -217,14 +229,20 @@ void EnemyRichPhase1::Skill_MultiCasting()
 	}
 	const int64& worldTime = world->GetWorldTime();
 
-	std::vector<ActorPtr> targetActors;
-	bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
-	if (false == result)
+	ActorPtr aggroActor = this->GetAggroActor().lock();
+	if (nullptr == aggroActor)
 	{
-		return;
-	}
+		std::vector<ActorPtr> targetActors;
+		bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
+		if (false == result)
+		{
+			return;
+		}
 
-	PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(targetActors[0]);
+		aggroActor = targetActors.at(0);
+	}
+	
+	PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(aggroActor);
 	if (nullptr == player)
 	{
 		return;
@@ -331,9 +349,9 @@ void EnemyRichPhase2::OnInitialization()
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
-	this->mPatternInfos.push_back(&EnemyRichPhase2::BlinkSturn);
-	this->mPatternInfos.push_back(&EnemyRichPhase2::SoulSpark);
-	this->mPatternInfos.push_back(&EnemyRichPhase2::SoulShackles);
+	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_BlinkSturn);
+	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_SoulSpark);
+	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_SoulShackles);
 }
 
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
@@ -344,20 +362,82 @@ void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 	pattenFunc(*this);
 }
 
-void EnemyRichPhase2::RiseDarkKnight()
+void EnemyRichPhase2::OnPatternOver()
+{
+	if (false == this->IsDeath())
+	{
+		this->mStateManager.SetState(EStateType::State_Chase);
+	}
+}
+
+void EnemyRichPhase2::OnReward()
 {
 }
 
-void EnemyRichPhase2::BlinkSturn()
+void EnemyRichPhase2::Skill_RiseDarkKnight()
 {
 }
 
-void EnemyRichPhase2::SoulSpark()
+void EnemyRichPhase2::Skill_BlinkSturn()
 {
 }
 
-void EnemyRichPhase2::SoulShackles()
+void EnemyRichPhase2::Skill_SoulSpark()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	ActorPtr aggroActor = this->GetAggroActor().lock();
+	if (nullptr == aggroActor)
+	{
+		return;
+	}
+
+	FVector		location	= this->GetLocation();
+	FRotator	rotation	= this->GetRotation();
+	FVector		foward		= rotation.GetForwardVector();
+	const float collision	= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+
+	ActorPtr actor = world->SpawnActor<SoulSpark>(this->GetGameObjectRef(), location + (foward * collision), rotation, Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<SoulSpark> newSoulSpark = std::static_pointer_cast<SoulSpark>(actor);
+	if (nullptr == newSoulSpark)
+	{
+		return;
+	}
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase2::OnPatternOver);
+}
+
+void EnemyRichPhase2::Skill_SoulShackles()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	ActorPtr aggroActor = this->GetAggroActor().lock();
+	if (nullptr == aggroActor)
+	{
+		return;
+	}
+
+	Location location = aggroActor->GetLocation();
+	Rotation rotation = aggroActor->GetRotation();
+
+	ActorPtr actor = world->SpawnActor<SoulShackles>(this->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<SoulShackles> newSoulShackles = std::static_pointer_cast<SoulShackles>(actor);
+	if (nullptr == newSoulShackles)
+	{
+		return;
+	}
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase2::OnPatternOver);
 }
 
 //==========================//
@@ -407,6 +487,14 @@ void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
 
 	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[index];
 	pattenFunc(*this);
+}
+
+void EnemyRichPhase3::OnPatternOver()
+{
+}
+
+void EnemyRichPhase3::OnReward()
+{
 }
 
 void EnemyRichPhase3::RiseSkeleton()
