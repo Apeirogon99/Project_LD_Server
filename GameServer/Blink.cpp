@@ -184,6 +184,14 @@ void Blink::TeleportPlayerLocation(const FVector inLocation, const FRotator inRo
 
 	const Location& destination = inLocation + (inRotation.GetForwardVector() * 1);
 	rich->GetMovementComponent().SetNewDestination(owner, inLocation, destination, worldTime, 0.0f);
+
+	Protocol::S2C_Teleport teleportPacket;
+	teleportPacket.set_object_id(owner->GetGameObjectID());
+	teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+
 }
 
 void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRotation)
@@ -204,6 +212,13 @@ void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRota
 
 	const Location& destination = inLocation + (inRotation.GetForwardVector() * 1);
 	rich->GetMovementComponent().SetNewDestination(owner, inLocation, destination, worldTime, 0.0f);
+
+	Protocol::S2C_Teleport teleportPacket;
+	teleportPacket.set_object_id(owner->GetGameObjectID());
+	teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 
 	bool ret = world->DestroyActor(this->GetGameObjectID());
 	if (false == ret)

@@ -138,7 +138,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
-	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 650);
+	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 1000);
 
 	std::vector<ActorPtr> targetActors;
 	bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
@@ -175,6 +175,10 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	static int64 parryingStart	= 300;
 	static int64 parryingEnd	= 200;
 	static int64 attackEnd		= 1000;
+
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), playerBehindkLocation, radius, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), newLocation, radius, debugDuration);
 
 	//패링 타이밍
 	newBlinkAttack->SetParryinglTime(worldTime + blinkTime + parryingStart, worldTime + blinkTime + parryingStart + parryingEnd);

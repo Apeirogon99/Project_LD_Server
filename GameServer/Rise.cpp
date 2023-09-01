@@ -173,7 +173,7 @@ void Rise::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
 	appearSkillPacket.set_duration(worldTime - this->mStartTime);
