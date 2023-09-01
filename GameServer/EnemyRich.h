@@ -27,7 +27,6 @@ public:
 
 public:
 	void Skill_RiseSkeleton();
-	void Spawn_Skeleton(const Location inLocation, const Rotation inRotation);
 	void Skill_BlinkAttack();
 	void Skill_Explosion();
 	void Skill_MultiCasting();

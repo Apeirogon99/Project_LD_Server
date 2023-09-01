@@ -5,6 +5,7 @@
 #include "SourSpear.h"
 #include "SoulShackles.h"
 #include "SoulSpark.h"
+#include "Rise.h"
 
 //==========================//
 //       Rich | Rich		//
@@ -72,7 +73,7 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -104,56 +105,27 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 1200);
 		const Rotation		newRoation = (stage - newLocation).Rotator();
 
-		Spawn_Skeleton(newLocation, newRoation);
+		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
+		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+		if (nullptr == newRise)
+		{
+			return;
+		}
+		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 
-		//Protocol::S2C_AppearSkill appearSkillPacket;
-		//appearSkillPacket.set_remote_id(this->GetGameObjectID());
-		//appearSkillPacket.set_object_id(objectID);
-		//appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
-		//appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-		//appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-		//appearSkillPacket.set_duration(worldTime);
-		//
-		//SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
-		//this->BrodcastPlayerViewers(appearSendBuffer);
+		Protocol::S2C_AppearSkill appearSkillPacket;
+		appearSkillPacket.set_remote_id(this->GetGameObjectID());
+		appearSkillPacket.set_object_id(this->GetGameObjectID());
+		appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
+		appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+		appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+		appearSkillPacket.set_duration(worldTime);
+		
+		SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+		this->BrodcastPlayerViewers(appearSendBuffer);
 	}
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
-}
-
-void EnemyRichPhase1::Spawn_Skeleton(const Location inLocation, const Rotation inRotation)
-{
-	WorldPtr world = GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-	const int64& worldTime = world->GetWorldTime();
-
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (nullptr == datas)
-	{
-		return;
-	}
-	static int32 warriorSkeletalID = 3;
-	const Stats& stat = datas->GetEnemyStat(warriorSkeletalID);
-
-	EnemyCharacterPtr	newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), inLocation, inRotation, Scale(1.0f, 1.0f, 1.0f)));
-
-	if (nullptr == newEnemy)
-	{
-		return;
-	}
-
-	newEnemy->SetEnemeyID(warriorSkeletalID);
-	newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-	newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-	newEnemy->SetEnemyStats(stat);
-	newEnemy->SetAggressive(true);
-	newEnemy->SetRecoveryLocation(inLocation);
-	newEnemy->GetStateManager().SetState(EStateType::State_Search);
-	newEnemy->SetReward(false);
-	
 }
 
 void EnemyRichPhase1::Skill_BlinkAttack()
