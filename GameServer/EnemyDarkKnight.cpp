@@ -53,7 +53,7 @@ void EnemyDarkKnight::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), SYSTEM_TICK, world->GetWorldTime());
 
 	AttackInfos attackInfos;
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
@@ -80,7 +80,21 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
 	this->OnSyncLocation(inDeltaTime);
+
+	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
+	{
+		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
+
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), this->GetAggroActor().lock()->GetLocation(), worldTime, 0.0f);
+	}
 
 	this->mStateManager.UpdateState(inDeltaTime);
 
@@ -96,6 +110,9 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 
 void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
+
+	this->SetVelocity(30.0f, 30.0f, 30.0f);
+
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
@@ -125,6 +142,7 @@ void EnemyDarkKnight::OnHit(ActorPtr inInstigated, const float inDamage)
 	{
 		return;
 	}
+	const int64 worldTime = world->GetWorldTime();
 
 	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
 	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
@@ -191,7 +209,8 @@ void EnemyDarkKnight::RunningAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 1870, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 1870, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Running));
 	this->PushTask(worldTime + 6270, &EnemyDarkKnight::OnPatternOver);
 
 
@@ -217,10 +236,11 @@ void EnemyDarkKnight::ChargedComboAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 7500,	&EnemyDarkKnight::DoMeleeAttack,	mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
-	this->PushTask(worldTime + 8550,	&EnemyDarkKnight::DoMeleeAttack,	mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
-	this->PushTask(worldTime + 9920,	&EnemyDarkKnight::DoMeleeAttack,	mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
-	this->PushTask(worldTime + 11750,	&EnemyDarkKnight::DoMeleeAttack,	mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 7500,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(worldTime + 8550,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
+	this->PushTask(worldTime + 9920,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
+	this->PushTask(worldTime + 11750,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
 	this->PushTask(worldTime + 17100,	&EnemyDarkKnight::OnPatternOver);
 }
 
@@ -244,7 +264,8 @@ void EnemyDarkKnight::UppercutAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 3050, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 3050, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
 	this->PushTask(worldTime + 6400, &EnemyDarkKnight::OnPatternOver);
 }
 
@@ -268,7 +289,8 @@ void EnemyDarkKnight::SwingAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
 	this->PushTask(worldTime + 5870, &EnemyDarkKnight::OnPatternOver);
 }
 
@@ -292,8 +314,9 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 1790, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
-	this->PushTask(worldTime + 3980, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 1790, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(worldTime + 3980, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
 	this->PushTask(worldTime + 6730, &EnemyDarkKnight::OnPatternOver);
 }
 
@@ -317,8 +340,9 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
-	this->PushTask(worldTime + 2500, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Hand));
-	this->PushTask(worldTime + 3900, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 2500, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Hand));
+	this->PushTask(worldTime + 3900, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
 	this->PushTask(worldTime + 6570, &EnemyDarkKnight::OnPatternOver);
 }
 
@@ -328,7 +352,7 @@ void EnemyDarkKnight::Berserk()
 	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_Armor, -30.0f);
 }
 
-void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo attackInfo)
+void EnemyDarkKnight::DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo inAttackInfo)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -337,15 +361,29 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo attackInfo)
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	Location location;
+	Rotation rotation;
+	if (inTargetActor)
+	{
+		location = this->GetLocation();
+		rotation = (inTargetActor->GetLocation() - this->GetLocation()).Rotator();
+	}
+	else
+	{
+		location = this->GetLocation();
+		rotation = this->GetRotation();
+	}
+
 	if (false == this->IsValid())
 	{
 		return;
 	}
 	StatsComponent& stat = this->GetEnemyStatsComponent();
 	
-	float randomDamage = StatUtils::RandomDamage(stat.GetCurrentStats().GetAttackDamage()) * attackInfo.mMulDamage;
 
-	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), this->GetLocation(), this->GetRotation(), FVector(1.0f, 1.0f, 1.0f));
+	float randomDamage = StatUtils::RandomDamage(stat.GetCurrentStats().GetAttackDamage()) * inAttackInfo.mMulDamage;
+
+	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), location, rotation, FVector(1.0f, 1.0f, 1.0f));
 	if (nullptr == actor)
 	{
 		return;
@@ -357,7 +395,7 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo attackInfo)
 		return;
 	}
 
-	if (attackInfo.mParryingTime > 0)
+	if (inAttackInfo.mParryingTime > 0)
 	{
 		attack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
 	}
@@ -367,9 +405,9 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo attackInfo)
 	}
 
 	attack->SetTargetActorType(EActorType::Player);
-	attack->SetAttackExtent(attackInfo.mExtent);
+	attack->SetAttackExtent(inAttackInfo.mExtent);
 	attack->SetDamage(randomDamage);
-	attack->SetParryinglTime(worldTime, worldTime + attackInfo.mParryingTime);
+	attack->SetParryinglTime(worldTime, worldTime + inAttackInfo.mParryingTime);
 
-	attack->PushTask(worldTime + attackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
+	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
 }

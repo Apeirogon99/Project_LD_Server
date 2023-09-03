@@ -54,7 +54,7 @@ public:
 	void Berserk();
 
 public:
-	void DoMeleeAttack(DarkKnightAttackInfo attackInfo);
+	void DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo inAttackInfo);
 
 private:
 	PatternInfos<EnemyDarkKnight> mPatternInfos;
