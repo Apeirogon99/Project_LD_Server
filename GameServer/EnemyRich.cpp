@@ -6,6 +6,8 @@
 #include "SoulShackles.h"
 #include "SoulSpark.h"
 #include "Rise.h"
+#include "EnemyDarkKnight.h"
+#include "LichLifeVessel.h"
 
 //==========================//
 //       Rich | Rich		//
@@ -40,13 +42,6 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
 		this->DetectChangeEnemy();
-	}
-
-	ActorPtr aggroActor = this->GetAggroActor().lock();
-	if (aggroActor)
-	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), aggroActor->GetLocation(), worldTime, 0);
-		this->OnMovementEnemy();
 	}
 
 }
@@ -103,9 +98,8 @@ void EnemyRichPhase1::OnInitialization()
 
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
-	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[1];
+	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
 }
 
@@ -375,7 +369,7 @@ void EnemyRichPhase2::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
-	this->SetEnemeyID(5);
+	this->SetEnemeyID(6);
 	this->SetAggressive(true);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
@@ -385,7 +379,7 @@ void EnemyRichPhase2::OnInitialization()
 	if (datas)
 	{
 		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(5));
+		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(6));
 	}
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
@@ -404,9 +398,8 @@ void EnemyRichPhase2::OnInitialization()
 
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
-	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size()));
-
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[0];
+	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
 }
 
@@ -424,6 +417,22 @@ void EnemyRichPhase2::OnReward()
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	FVector		location = this->GetLocation();
+	FRotator	rotation = this->GetRotation();
+	FVector		foward = rotation.GetForwardVector() * 200.0f;
+
+	ActorPtr actor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), location + foward, rotation, Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<EnemyDarkKnight> darkKnight = std::static_pointer_cast<EnemyDarkKnight>(actor);
+	if (nullptr == darkKnight)
+	{
+		return;
+	}
 }
 
 void EnemyRichPhase2::Skill_BlinkSturn()
@@ -574,12 +583,18 @@ void EnemyRichPhase3::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
+	this->SetEnemeyID(7);
 	this->SetAggressive(true);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	this->mStatsComponent.SetSyncTime(GAME_TICK);
+	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
+	if (datas)
+	{
+		this->mStatsComponent.SetSyncTime(GAME_TICK);
+		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(7));
+	}
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
@@ -588,21 +603,29 @@ void EnemyRichPhase3::OnInitialization()
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 
+	AttackInfos attackInfos;
+	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
+
 	this->mPatternInfos.push_back(&EnemyRichPhase3::RiseSkeleton);
 	this->mPatternInfos.push_back(&EnemyRichPhase3::OnslaughtOfShadows);
 
+	this->RealmOfDeath();
+	this->LifeVessel();
 }
 
 void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
 {
-	int32 index = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size()));
-
-	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[index];
+	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
 }
 
 void EnemyRichPhase3::OnPatternOver()
 {
+	if (false == this->IsDeath())
+	{
+		this->mStateManager.SetState(EStateType::State_Search);
+	}
 }
 
 void EnemyRichPhase3::OnReward()
@@ -611,10 +634,64 @@ void EnemyRichPhase3::OnReward()
 
 void EnemyRichPhase3::RiseSkeleton()
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
+
+	for (int32 count = 0; count < 5; ++count)
+	{
+
+		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, 800);
+		const Rotation		newRoation = (stage - newLocation).Rotator();
+
+		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
+		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+		if (nullptr == newRise)
+		{
+			return;
+		}
+		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+
+	}
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase3::RealmOfDeath()
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetNextWorldTime();
+	FVector stage = FVector(10000.0f, 10000.0f, 0.0f);
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Realm_Of_Death));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(stage));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(FRotator()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
 }
 
 void EnemyRichPhase3::OnslaughtOfShadows()
@@ -623,4 +700,31 @@ void EnemyRichPhase3::OnslaughtOfShadows()
 
 void EnemyRichPhase3::LifeVessel()
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetNextWorldTime();
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
+
+	const Location newLocation = Random::GetRandomVectorInRange2D(stage, 800);
+
+	ActorPtr actor = world->SpawnActor<LichLifeVessel>(this->GetGameObjectRef(), newLocation, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<LichLifeVessel> newLifeVessel = std::static_pointer_cast<LichLifeVessel>(actor);
+	if (nullptr == newLifeVessel)
+	{
+		return;
+	}
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(newLocation));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(FRotator()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
 }

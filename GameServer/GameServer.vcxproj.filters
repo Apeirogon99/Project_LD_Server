@@ -331,6 +331,9 @@
     <ClCompile Include="Rise.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="LichLifeVessel.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -535,6 +538,9 @@
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
     <ClInclude Include="Rise.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="LichLifeVessel.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>

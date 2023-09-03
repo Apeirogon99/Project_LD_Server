@@ -183,6 +183,7 @@
     <ClCompile Include="ItemHandler.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="EnemyRich.cpp" />
+    <ClCompile Include="LichLifeVessel.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="CharacterDatabase.cpp" />
@@ -371,6 +372,7 @@
     <ClInclude Include="ItemHandler.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="EnemyRich.h" />
+    <ClInclude Include="LichLifeVessel.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="CharacterDatabase.h" />
