@@ -1,13 +1,18 @@
 #include "pch.h"
 #include "SoulSpark.h"
 
-SoulSpark::SoulSpark() : EnemyAttack(L"SoulSpark"), mStartTime(0), mEndTime(10000)
+SoulSpark::SoulSpark() : EnemyAttack(L"SoulSpark"), mStartTime(0), mEndTime(10000), mTargetTrace(nullptr)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
 
 SoulSpark::~SoulSpark()
 {
+	if (this->mTargetTrace)
+	{
+		delete this->mTargetTrace;
+	}
+	this->mTargetTrace = nullptr;
 }
 
 void SoulSpark::OnInitialization()
@@ -19,7 +24,8 @@ void SoulSpark::OnInitialization()
 	}
 	mStartTime = world->GetWorldTime();
 
-	this->PushTask(mStartTime + 3000, &SoulSpark::CheackCollision);
+	this->PushTask(mStartTime + 500, &SoulSpark::CheackTargeting);
+	this->PushTask(mStartTime + 1100, &SoulSpark::CheackCollision);
 }
 
 void SoulSpark::OnDestroy()
@@ -154,7 +160,7 @@ void SoulSpark::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void SoulSpark::CheackCollision()
+void SoulSpark::CheackTargeting()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -190,12 +196,36 @@ void SoulSpark::CheackCollision()
 	Location boxStartLocation = location;
 	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	mTargetTrace = new BoxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+}
+
+void SoulSpark::CheackCollision()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+	const int64& duration = mStartTime + 3000 - worldTime;
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	if (nullptr == mTarget)
+	{
+		if (false == this->SearchTarget())
+		{
+			return;
+		}
+	}
 
 	//DEBUG
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
+	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), mTargetTrace->GetStartLocation(), mTargetTrace->GetEndLocation(), mTargetTrace->GetBoxCollision().GetBoxExtent(), debugDuration);
 
 	Protocol::S2C_ReactionSkill reactionSkill;
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
@@ -210,7 +240,7 @@ void SoulSpark::CheackCollision()
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	bool result = world->FindActors(boxTrace, findActorType, findActors);
+	bool result = world->FindActors(*mTargetTrace, findActorType, findActors);
 	if (!result)
 	{
 		return;

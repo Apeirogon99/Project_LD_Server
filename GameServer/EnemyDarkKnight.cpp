@@ -53,7 +53,7 @@ void EnemyDarkKnight::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), SYSTEM_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	AttackInfos attackInfos;
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);

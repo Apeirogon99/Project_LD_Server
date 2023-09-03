@@ -32,6 +32,10 @@ public:
 	APEIROGON_API virtual bool CapsuleCollisionTrace(CapsuleCollisionComponent* inCapsuleCollisionComponent)	abstract;
 	APEIROGON_API virtual bool SphereCollisionTrace(SphereCollisionComponent* inSphereCollisionComponent)		abstract;
 
+public:
+	APEIROGON_API FVector GetStartLocation() const;
+	APEIROGON_API FVector GetEndLocation() const;
+
 protected:
 	ActorRef	mOwner;
 	FVector		mStart;
@@ -53,6 +57,7 @@ public:
 	BoxTrace& operator=(BoxTrace&&) noexcept = delete;
 
 public:
+	APEIROGON_API virtual bool InitBoxTrace(ActorRef inOwner, FVector inStart, FVector inEnd, bool inIsIgnore, FVector inBoxExtent, FRotator inOrientation);
 	APEIROGON_API virtual bool CollisionTrace(CollisionComponent* inCollision)									override;
 	APEIROGON_API virtual bool BoxCollisionTraceAABB(BoxCollisionComponent* inBoxCollisionComponent)			override;
 	APEIROGON_API virtual bool BoxCollisionTraceOBB(BoxCollisionComponent* inBoxCollisionComponent)				override;

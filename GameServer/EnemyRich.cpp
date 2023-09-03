@@ -35,7 +35,14 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->OnSyncLocation(inDeltaTime);
+	this->OnMovementEnemy();
+
+	if (this->GetAggroActor().lock())
+	{
+		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
+
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), this->GetAggroActor().lock()->GetLocation(), worldTime, 0.0f);
+	}
 
 	this->mStateManager.UpdateState(inDeltaTime);
 
@@ -99,7 +106,7 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[pattern];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
 	pattenFunc(*this);
 }
 
@@ -399,7 +406,7 @@ void EnemyRichPhase2::OnInitialization()
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 

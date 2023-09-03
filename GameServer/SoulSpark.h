@@ -22,6 +22,7 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
+	void CheackTargeting();
 	virtual void CheackCollision() override;
 	virtual void OnParrying(ActorPtr inActor) override;
 
@@ -35,5 +36,6 @@ private:
 	int64 mStartTime;
 	int64 mEndTime;
 
+	BoxTrace* mTargetTrace;
 	ActorPtr mTarget;
 };

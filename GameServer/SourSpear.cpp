@@ -31,7 +31,8 @@ void SourSpear::OnInitialization()
 	this->SetDamage(100.0f);
 	this->ReserveDestroy(5000);
 
-	this->PushTask(mStartTime + 200, &SourSpear::Active);
+	mIsActive = true;
+	//this->PushTask(mStartTime + 200, &SourSpear::Active);
 }
 
 void SourSpear::OnDestroy()
