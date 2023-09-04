@@ -27,12 +27,11 @@ void SourSpear::OnInitialization()
 
 	this->mProjectileComponent.InitProjectile(GAME_TICK, world->GetWorldTime());
 
-	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
+	this->SetVelocity(500.0f, 500.0f, 500.0f);
 	this->SetDamage(100.0f);
 	this->ReserveDestroy(5000);
 
-	mIsActive = true;
-	//this->PushTask(mStartTime + 200, &SourSpear::Active);
+	this->PushTask(mStartTime + 1500, &SourSpear::Active);
 }
 
 void SourSpear::OnDestroy()
@@ -73,9 +72,8 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 	{
 		this->mProjectileComponent.Update(this->GetActorPtr());
 		this->CheackCollision();
+		this->SyncLocation(inDeltaTime);
 	}
-
-	this->SyncLocation(inDeltaTime);
 }
 
 bool SourSpear::IsValid()
@@ -139,7 +137,7 @@ void SourSpear::OnAppearActor(ActorPtr inAppearActor)
 	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Spear));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	appearSkillPacket.set_duration(worldTime - this->mStartTime);
+	appearSkillPacket.set_duration(worldTime);
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	anotherPlayerState->Send(appearSendBuffer);
@@ -198,9 +196,6 @@ void SourSpear::CheackCollision()
 	FVector		location = this->mProjectileComponent.GetCurrentLocation(this->GetActorPtr());
 	const float radius = collision->GetSphereCollision().GetRadius();
 	SphereTrace	sphereTrace(this->GetActorRef(), location, true, radius);
-
-	const float debugDuration = 0.1f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, radius, debugDuration);
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;
@@ -300,9 +295,6 @@ void SourSpear::Active()
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 	this->BrodcastPlayerViewers(sendBuffer);
-
-	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
-	return;
 }
 
 void SourSpear::SyncLocation(const int64 inDeltaTime)
@@ -314,7 +306,6 @@ void SourSpear::SyncLocation(const int64 inDeltaTime)
 	}
 
 	this->OnMovement();
-
 }
 
 ProjectileComponent& SourSpear::GetProjectileComponent()

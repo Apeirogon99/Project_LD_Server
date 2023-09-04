@@ -55,6 +55,9 @@ public:
 
 public:
 	void DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo inAttackInfo);
+	
+	void MovePlane(FVector inStartLocation, std::vector<std::pair<float, int64>> inMovePlanes);
+	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration);
 
 private:
 	PatternInfos<EnemyDarkKnight> mPatternInfos;

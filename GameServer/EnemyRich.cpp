@@ -253,6 +253,17 @@ void EnemyRichPhase1::Skill_Explosion()
 
 	}
 
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Multi_Castring));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
@@ -303,26 +314,26 @@ void EnemyRichPhase1::Skill_MultiCasting()
 
 		switch (count)
 		{
-		case 1:
+		case 0:
 			sourSpearLocation.SetZ(sourSpearZ + 100.0f);
 			break;
-		case 2:
+		case 1:
 			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
 			break;
-		case 3:
+		case 2:
 			sourSpearLocation.SetZ(sourSpearZ + 200.0f);
 			break;
-		case 4:
+		case 3:
 			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
 			break;
-		case 5:
+		case 4:
 			sourSpearLocation.SetZ(sourSpearZ + 100.0f);
 			break;
 		default:
 			break;
 		}
 		
-		this->PushTask(worldTime + (count * 1000), &EnemyRichPhase1::Skill_SourSpear, aggroActor, sourSpearLocation);
+		this->PushTask(worldTime + (count * 100), &EnemyRichPhase1::Skill_SourSpear, aggroActor, sourSpearLocation);
 
 	}
 

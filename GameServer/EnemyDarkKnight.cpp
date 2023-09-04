@@ -87,13 +87,13 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	this->OnSyncLocation(inDeltaTime);
-
 	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
 	{
 		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
-
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), this->GetAggroActor().lock()->GetLocation(), worldTime, 0.0f);
+	}
+	else
+	{
+		this->OnSyncLocation(inDeltaTime);
 	}
 
 	this->mStateManager.UpdateState(inDeltaTime);
@@ -114,7 +114,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 	this->SetVelocity(30.0f, 30.0f, 30.0f);
 
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[pattern];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[3];
 	pattenFunc(*this);
 }
 
@@ -289,8 +289,25 @@ void EnemyDarkKnight::SwingAttack()
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
 
+	Location	A = this->GetLocation();
+	Location	B = (A + this->GetRotation().GetForwardVector() * -12.0f);
+	int64		A2B = 1150;
+	this->PushTask(worldTime + 0,				&EnemyDarkKnight::DoMoveLocation, A, B, A2B);
+
+	Location	C = (B + this->GetRotation().GetForwardVector() * 114.0f);
+	int64		B2C = 2800 - A2B;
+	this->PushTask(worldTime + A2B,				&EnemyDarkKnight::DoMoveLocation, B, C, B2C);
+
+	Location	D = (C + this->GetRotation().GetForwardVector() * -22.0f);
+	int64		C2D = 3470 - B2C;
+	this->PushTask(worldTime + A2B + B2C,		&EnemyDarkKnight::DoMoveLocation, C, D, C2D);
+
+	Location	E = (D + this->GetRotation().GetForwardVector() * 64.0f);
+	int64		D2E = 5870 - C2D;
+	this->PushTask(worldTime + A2B + B2C + C2D, &EnemyDarkKnight::DoMoveLocation, D, E, D2E);
+
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	//this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
 	this->PushTask(worldTime + 5870, &EnemyDarkKnight::OnPatternOver);
 }
 
@@ -410,4 +427,34 @@ void EnemyDarkKnight::DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo
 	attack->SetParryinglTime(worldTime, worldTime + inAttackInfo.mParryingTime);
 
 	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
+}
+
+void EnemyDarkKnight::DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	FRotator	direction = (inEndLocation - inStartLocation).Rotator();
+	FVector		foward = direction.GetForwardVector();
+
+	float		duration = inDuration / 1000.0f;
+
+	float		speed = (FVector::Distance(inStartLocation, inEndLocation)) / duration;
+	this->SetVelocity(speed, speed, speed);
+
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), inStartLocation, inEndLocation, worldTime, 0.0f);
+
+	Protocol::S2C_AnimationMovementEnemy animationMovementPacket;
+	animationMovementPacket.set_object_id(this->GetGameObjectID());
+	animationMovementPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(inStartLocation));
+	animationMovementPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(inEndLocation));
+	animationMovementPacket.set_duration(inDuration);
+	animationMovementPacket.set_timestamp(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, animationMovementPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
 }
