@@ -11,6 +11,7 @@ enum class ESkillID : uint16
 
 	Skill_Rich_Rise,
 	Skill_Rich_Rise_Skeleton,
+	Skill_Rich_Rise_DarkSkeleton,
 	Skill_Rich_Rise_DarkKnight,
 	Skill_Rich_Blink_Attack,
 	Skill_Rich_Blink_Sturn,

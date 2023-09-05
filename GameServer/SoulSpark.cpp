@@ -186,7 +186,7 @@ void SoulSpark::CheackTargeting()
 
 	float distance = FVector::Distance(mTarget->GetLocation(), this->GetLocation()) + 100.0f;
 
-	FVector boxExtent(distance, 100.0f, 100.0f);
+	FVector boxExtent(850.0f, 100.0f, 100.0f);
 
 	FVector		location = this->GetLocation();
 	FRotator	rotation = (mTarget->GetLocation() - location).Rotator();
@@ -231,8 +231,8 @@ void SoulSpark::CheackCollision()
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
 	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Spark));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTargetTrace->GetStartLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(mTargetTrace->GetBoxCollision().GetOrientation()));
 	reactionSkill.set_duration(duration);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
