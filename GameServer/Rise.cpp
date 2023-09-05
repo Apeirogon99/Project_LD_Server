@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Rise.h"
+#include "LichLifeVessel.h"
 
-Rise::Rise() : EnemyAttack(L"Rise")
+Rise::Rise() : EnemyAttack(L"Rise"), mSkillID(0)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
@@ -19,8 +20,15 @@ void Rise::OnParrying(ActorPtr inActor)
 {
 }
 
+void Rise::SetSpawnInfo(int32 inEnemyID, int32 inSKillID)
+{
+	mEnemyID = inEnemyID;
+	mSkillID = inSKillID;
+}
+
 void Rise::SpawnEnemy()
 {
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -33,19 +41,50 @@ void Rise::SpawnEnemy()
 	{
 		return;
 	}
-	static int32 warriorSkeletalID = 3;
-	const Stats& stat = datas->GetEnemyStat(warriorSkeletalID);
+	const Stats& stat = datas->GetEnemyStat(this->mEnemyID);
 
 	const Location		newLocation = this->GetLocation();
 	const Rotation		newRoation = this->GetRotation();
 
-	EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	EnemyCharacterPtr newEnemy = nullptr;
+	switch (static_cast<EnemyID>(mEnemyID))
+	{
+	case EnemyID::Enemy_Slime:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemySlime>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Nomal_Skeleton:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyNomalSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Warrior_Skeleton:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Archer_Skeleton:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyArcherSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Dark_Skeleton:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyNomalSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Dark_Knight:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyDarkKnight>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	case EnemyID::Enemy_Lich_Life_Vessle:
+		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<LichLifeVessel>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
+		break;
+	default:
+		break;
+	}
 	if (nullptr == newEnemy)
 	{
 		return;
 	}
 
-	newEnemy->SetEnemeyID(warriorSkeletalID);
+	newEnemy->SetEnemeyID(this->mEnemyID);
 	newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
 	newEnemy->SetSpawnObjectID(this->GetGameObjectID());
 	newEnemy->SetEnemyStats(stat);
@@ -57,7 +96,7 @@ void Rise::SpawnEnemy()
 	bool ret = world->DestroyActor(this->GetGameObjectID());
 	if (false == ret)
 	{
-		this->GameObjectLog(L"Can't destroy arrow\n");
+		this->GameObjectLog(L"Can't destroy Skill\n");
 	}
 }
 
@@ -122,6 +161,11 @@ bool Rise::IsValid()
 		return ret;
 	}
 
+	if (this->mSkillID == 0)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -173,7 +217,7 @@ void Rise::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
+	appearSkillPacket.set_skill_id(this->mSkillID);
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
 	appearSkillPacket.set_duration(worldTime - this->mStartTime);

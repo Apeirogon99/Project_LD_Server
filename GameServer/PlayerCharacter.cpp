@@ -67,6 +67,9 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
+
+	const float debugDuration = 0.1f;
+	PacketUtils::DebugDrawSphere(std::static_pointer_cast<RemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 }
 
 bool PlayerCharacter::IsValid()

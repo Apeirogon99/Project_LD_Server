@@ -48,8 +48,7 @@ void Arrow::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	mCurrentLifeTime += inDeltaTime;
-	if (mCurrentLifeTime >= mMaxLifeTime)
+	if (this->IsLife(inDeltaTime))
 	{
 		GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 		if (nullptr == world)
@@ -57,12 +56,7 @@ void Arrow::OnTick(const int64 inDeltaTime)
 			return;
 		}
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy arrow\n");
-		}
-
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 		return;
 	}
 

@@ -36,14 +36,14 @@ void EnemyDarkKnight::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
-	this->SetEnemeyID(8);
+	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Dark_Knight));
 	this->SetAggressive(true);
 
 	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
 	if (datas)
 	{
 		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(8));
+		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Dark_Knight)));
 	}
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
@@ -307,7 +307,7 @@ void EnemyDarkKnight::SwingAttack()
 	this->PushTask(worldTime + A2B + B2C + C2D, &EnemyDarkKnight::DoMoveLocation, D, E, D2E);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	//this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
 	this->PushTask(worldTime + 5870, &EnemyDarkKnight::OnPatternOver);
 }
 

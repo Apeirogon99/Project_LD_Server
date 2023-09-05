@@ -21,4 +21,5 @@ enum class EPlayerMode : int32
 	PickUp_MODE,
 	Attack_MODE,
 	Skill_MODE,
+	Interative_Mode,
 };

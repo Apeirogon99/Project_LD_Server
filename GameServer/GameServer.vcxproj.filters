@@ -334,6 +334,9 @@
     <ClCompile Include="LichLifeVessel.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="OnslaughtOfShadows.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -541,6 +544,9 @@
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
     <ClInclude Include="LichLifeVessel.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="OnslaughtOfShadows.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>

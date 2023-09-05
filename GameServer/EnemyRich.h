@@ -76,10 +76,10 @@ public:
 	virtual void OnReward() override;
 
 public:
-	void RiseSkeleton();
-	void RealmOfDeath();
-	void OnslaughtOfShadows();
-	void LifeVessel();
+	void Skill_RiseDarkSkeleton();
+	void Skill_RealmOfDeath();
+	void Skill_OnslaughtOfShadows();
+	void Skill_LifeVessel();
 
 private:
 	PatternInfos<EnemyRichPhase3> mPatternInfos;

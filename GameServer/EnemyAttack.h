@@ -53,6 +53,7 @@ public:
 	const bool&					GetCancel() const;
 	const int64&				GetMaxLifeTime() const;
 	const bool					CanParrying() const;
+	const bool					IsLife(const int64& inDeltaTime);
 
 protected:
 	EEnemyAttackType	mEnemyAttackType;
@@ -61,8 +62,10 @@ protected:
 	float				mDamage;
 	bool				mCancel;
 
+	bool				mIsLife;
 	int64				mMaxLifeTime;
 	int64				mCurrentLifeTime;
+
 	int64				mParryingStart;
 	int64				mParryingEnd;
 };

@@ -1,5 +1,19 @@
 #pragma once
 
+enum class EnemyID
+{
+	Enemy_Slime = 1,
+	Enemy_Nomal_Skeleton,
+	Enemy_Warrior_Skeleton,
+	Enemy_Archer_Skeleton,
+	Enemy_Dark_Skeleton,
+	Enemy_Dark_Knight,
+	Enemy_Lich_Phase1,
+	Enemy_Lich_Phase2,
+	Enemy_Lich_Phase3,
+	Enemy_Lich_Life_Vessle,
+};
+
 class EnemySpawner : public Actor
 {
 public:

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SoulShackles.h"
 
-SoulShackles::SoulShackles() : EnemyAttack(L"SoulShackles"), mStartTime(0), mEndTime(10000)
+SoulShackles::SoulShackles() : EnemyAttack(L"SoulShackles"), mStartTime(0), mEndTime(10000), mActive(false)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
@@ -33,7 +33,7 @@ void SoulShackles::OnInitialization()
 	buff.InitStats(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -100.0f, 0.0f);
 	mStatsComponent.InitMaxStats(buff);
 
-	//world->DestroyActor(this->GetGameObjectID());
+	this->PushTask(worldTime + 2000, &SoulShackles::CheackTargeting);
 }
 
 void SoulShackles::OnDestroy()
@@ -77,7 +77,27 @@ void SoulShackles::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->CheackCollision();
+	if (this->mActive)
+	{
+		if (this->IsLife(inDeltaTime))
+		{
+			GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+			if (nullptr == world)
+			{
+				return;
+			}
+
+			bool ret = world->DestroyActor(this->GetGameObjectID());
+			if (false == ret)
+			{
+				this->GameObjectLog(L"Can't destroy arrow\n");
+			}
+			return;
+		}
+
+		this->CheackCollision();
+
+	}
 
 }
 
@@ -200,6 +220,41 @@ void SoulShackles::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
+void SoulShackles::CheackTargeting()
+{
+	this->mActive = true;
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+	const int64& duration = mStartTime + 2000 - worldTime;
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	Location location = this->GetLocation();
+	Rotation rotation = this->GetRotation();
+
+	const float debugDuration = 1.0f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 400.0f, debugDuration);
+
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Shackles));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+	reactionSkill.set_duration(duration);
+
+	this->ReserveDestroy(5000);
+}
+
 void SoulShackles::CheackCollision()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -221,9 +276,6 @@ void SoulShackles::CheackCollision()
 	SphereTrace					sphereTrace(this->GetActorRef(), location, true, radius);
 
 	const Stats&				stat = this->mStatsComponent.GetMaxStats();
-
-	const float debugDuration = 0.1f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, radius, debugDuration);
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;

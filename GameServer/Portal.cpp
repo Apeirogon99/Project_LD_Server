@@ -176,8 +176,8 @@ void Portal::OnInteractive(ActorPtr inActor)
 		//std::shared_ptr<EnemyDarkKnight> rich = std::static_pointer_cast<EnemyDarkKnight>(world->SpawnActor<EnemyDarkKnight>(world, mTeleportLocation, Rotation(), Scale()));
 	
 		//std::shared_ptr<EnemyRichPhase1> rich = std::static_pointer_cast<EnemyRichPhase1>(world->SpawnActor<EnemyRichPhase1>(world, mTeleportLocation, Rotation(), Scale()));
-		std::shared_ptr<EnemyRichPhase2> rich = std::static_pointer_cast<EnemyRichPhase2>(world->SpawnActor<EnemyRichPhase2>(world, mTeleportLocation, Rotation(), Scale()));
-		//std::shared_ptr<EnemyRichPhase3> rich = std::static_pointer_cast<EnemyRichPhase3>(world->SpawnActor<EnemyRichPhase3>(world, mTeleportLocation, Rotation(), Scale()));
+		//std::shared_ptr<EnemyRichPhase2> rich = std::static_pointer_cast<EnemyRichPhase2>(world->SpawnActor<EnemyRichPhase2>(world, mTeleportLocation, Rotation(), Scale()));
+		std::shared_ptr<EnemyRichPhase3> rich = std::static_pointer_cast<EnemyRichPhase3>(world->SpawnActor<EnemyRichPhase3>(world, mTeleportLocation, Rotation(), Scale()));
 
 	}
 

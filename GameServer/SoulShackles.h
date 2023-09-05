@@ -22,6 +22,7 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
+	void CheackTargeting();
 	virtual void CheackCollision() override;
 	virtual void OnParrying(ActorPtr inActor) override;
 
@@ -32,6 +33,10 @@ private:
 	StatsComponent	mStatsComponent;
 	int64			mStartTime;
 	int64			mEndTime;
+
+	bool			mActive;
+	ActorPtr		mTarget;
+	Location		mTargetLocation;
 
 	std::map<int64, bool> mOverlapPlayer;
 };

@@ -25,6 +25,7 @@ void SourSpear::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetSphereCollisione(20.0f);
 
+	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Projectile);
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 	this->SetDamage(100.0f);
 	this->ReserveDestroy(5000);
@@ -50,8 +51,7 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	mCurrentLifeTime += inDeltaTime;
-	if (mCurrentLifeTime >= mMaxLifeTime)
+	if (this->IsLife(inDeltaTime))
 	{
 		GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 		if (nullptr == world)
@@ -59,11 +59,7 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 			return;
 		}
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy arrow\n");
-		}
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 		return;
 	}
 
@@ -78,9 +74,27 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 
 bool SourSpear::IsValid()
 {
-	if (true == mIsCollision)
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
 	{
 		return false;
+	}
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+
+		if (false == world->IsValidActor(this->GetGameObjectID()))
+		{
+			return false;
+		}
+
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
+		{
+			this->GameObjectLog(L"Can't destroy skill\n");
+		}
+		return ret;
 	}
 
 	return true;
@@ -185,6 +199,11 @@ void SourSpear::CheackCollision()
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
+
+	if (nullptr == this->GetActorPtr())
+	{
+		return;
+	}
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)

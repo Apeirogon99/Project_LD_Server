@@ -19,6 +19,7 @@ public:
 public:
 	void SetRestrictMovement(bool inRestrict);
 	void SetNewDestination(ActorPtr inOwner, const Location& inCurrentLocation, const Location& inDestinationLocation, const int64 inMovementLastTime, const float& inCollisionSize);
+	void SetTeleportDestination(ActorPtr inOwner, const Location& inDestinationLocation, const int64 inMovementLastTime);
 	const Location GetCurrentLocation(ActorPtr inOwner);
 	const Location GetNextLocation(ActorPtr inOwner);
 
@@ -36,5 +37,6 @@ private:
 	int64		mCurrentMovementSyncTime;
 	int64		mMaxMovementSyncTime;
 	bool		mIsRestrict;
+	bool		mTeleport;
 };
 

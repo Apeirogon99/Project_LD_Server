@@ -79,3 +79,19 @@ const bool EnemyAttack::CanParrying() const
 
 	return mParryingStart <= worldTime && worldTime <= mParryingEnd;
 }
+
+const bool EnemyAttack::IsLife(const int64& inDeltaTime)
+{
+	if (false == mIsLife)
+	{
+		return false;
+	}
+
+	mCurrentLifeTime += inDeltaTime;
+	if (mCurrentLifeTime <= mMaxLifeTime)
+	{
+		return false;
+	}
+
+	return true;
+}

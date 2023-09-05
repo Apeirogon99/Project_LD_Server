@@ -1,34 +1,28 @@
 #include "pch.h"
-#include "SoulSpark.h"
+#include "OnslaughtOfShadows.h"
 
-SoulSpark::SoulSpark() : EnemyAttack(L"SoulSpark"), mStartTime(0), mEndTime(10000), mTargetTrace(nullptr)
+OnslaughtOfShadows::OnslaughtOfShadows() : EnemyAttack(L"OnslaughtOfShadows")
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
 
-SoulSpark::~SoulSpark()
+OnslaughtOfShadows::~OnslaughtOfShadows()
 {
-	if (this->mTargetTrace)
-	{
-		delete this->mTargetTrace;
-	}
-	this->mTargetTrace = nullptr;
 }
 
-void SoulSpark::OnInitialization()
+void OnslaughtOfShadows::OnInitialization()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	mStartTime = world->GetWorldTime();
+	const int64& worldTime = world->GetWorldTime();
 
-	this->PushTask(mStartTime + 500, &SoulSpark::CheackTargeting);
-	this->PushTask(mStartTime + 1100, &SoulSpark::CheackCollision);
+	this->PushTask(worldTime + 3000, &OnslaughtOfShadows::CheackCollision);
 }
 
-void SoulSpark::OnDestroy()
+void OnslaughtOfShadows::OnDestroy()
 {
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
@@ -37,11 +31,11 @@ void SoulSpark::OnDestroy()
 	this->BrodcastPlayerViewers(sendBuffer);
 }
 
-void SoulSpark::OnTick(const int64 inDeltaTime)
+void OnslaughtOfShadows::OnTick(const int64 inDeltaTime)
 {
 }
 
-bool SoulSpark::IsValid()
+bool OnslaughtOfShadows::IsValid()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -69,7 +63,7 @@ bool SoulSpark::IsValid()
 	return true;
 }
 
-void SoulSpark::OnAppearActor(ActorPtr inAppearActor)
+void OnslaughtOfShadows::OnAppearActor(ActorPtr inAppearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -117,16 +111,16 @@ void SoulSpark::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Spark));
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Onslaught_Of_Shadows));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	appearSkillPacket.set_duration(worldTime - this->mStartTime);
+	appearSkillPacket.set_duration(worldTime);
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	anotherPlayerState->Send(appearSendBuffer);
 }
 
-void SoulSpark::OnDisAppearActor(ActorPtr inDisappearActor)
+void OnslaughtOfShadows::OnDisAppearActor(ActorPtr inDisappearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -160,7 +154,7 @@ void SoulSpark::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void SoulSpark::CheackTargeting()
+void OnslaughtOfShadows::CheackCollision()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -168,7 +162,6 @@ void SoulSpark::CheackTargeting()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	const int64& duration = mStartTime + 3000 - worldTime;
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
@@ -176,71 +169,34 @@ void SoulSpark::CheackTargeting()
 		return;
 	}
 
-	if (nullptr == mTarget)
-	{
-		if (false == this->SearchTarget())
-		{
-			return;
-		}
-	}
-
-	float distance = FVector::Distance(mTarget->GetLocation(), this->GetLocation()) + 100.0f;
-
-	FVector boxExtent(850.0f, 100.0f, 100.0f);
+	FVector boxExtent(2000.0f, 100.0f, 100.0f);
 
 	FVector		location = this->GetLocation();
-	FRotator	rotation = (mTarget->GetLocation() - location).Rotator();
+	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
-	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
 	Location boxStartLocation = location;
 	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
 	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	mTargetTrace = new BoxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
-}
+	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
-void SoulSpark::CheackCollision()
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-	const int64& worldTime = world->GetWorldTime();
-	const int64& duration = mStartTime + 3000 - worldTime;
-
-	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
-	if (nullptr == owner)
-	{
-		return;
-	}
-
-	if (nullptr == mTarget)
-	{
-		if (false == this->SearchTarget())
-		{
-			return;
-		}
-	}
-
-	//DEBUG
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), mTargetTrace->GetStartLocation(), mTargetTrace->GetEndLocation(), mTargetTrace->GetBoxCollision().GetBoxExtent(), debugDuration);
+	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
 
 	Protocol::S2C_ReactionSkill reactionSkill;
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Spark));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTargetTrace->GetStartLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(mTargetTrace->GetBoxCollision().GetOrientation()));
-	reactionSkill.set_duration(duration);
+	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Onslaught_Of_Shadows));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+	reactionSkill.set_duration(worldTime);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 	this->BrodcastPlayerViewers(sendBuffer);
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	bool result = world->FindActors(*mTargetTrace, findActorType, findActors);
+	bool result = world->FindActors(boxTrace, findActorType, findActors);
 	for (ActorPtr actor : findActors)
 	{
 		if (actor)
@@ -256,30 +212,11 @@ void SoulSpark::CheackCollision()
 	}
 }
 
-void SoulSpark::OnParrying(ActorPtr inActor)
+void OnslaughtOfShadows::OnParrying(ActorPtr inActor)
 {
 }
 
-bool SoulSpark::SearchTarget()
-{
-	WorldPtr world = this->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return false;
-	}
-	const int64 worldTime = world->GetWorldTime();
-
-	std::vector<ActorPtr> targetActors;
-	bool result = world->FindActors(this->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
-	if (true == result)
-	{
-		mTarget = targetActors.at(0);
-	}
-
-	return result;
-}
-
-BoxCollisionComponent* SoulSpark::GetBoxCollisionComponent()
+BoxCollisionComponent* OnslaughtOfShadows::GetBoxCollisionComponent()
 {
 	return static_cast<BoxCollisionComponent*>(this->GetDefaultCollisionComponent());
 }

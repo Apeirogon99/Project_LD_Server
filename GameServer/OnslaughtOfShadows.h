@@ -1,15 +1,15 @@
 #pragma once
-class Rise : public EnemyAttack
+class OnslaughtOfShadows : public EnemyAttack
 {
 public:
-	Rise();
-	virtual ~Rise();
+	OnslaughtOfShadows();
+	virtual ~OnslaughtOfShadows();
 
-	Rise(const Rise&) = delete;
-	Rise(Rise&&) noexcept = delete;
+	OnslaughtOfShadows(const OnslaughtOfShadows&) = delete;
+	OnslaughtOfShadows(OnslaughtOfShadows&&) noexcept = delete;
 
-	Rise& operator=(const Rise&) = delete;
-	Rise& operator=(Rise&&) noexcept = delete;
+	OnslaughtOfShadows& operator=(const OnslaughtOfShadows&) = delete;
+	OnslaughtOfShadows& operator=(OnslaughtOfShadows&&) noexcept = delete;
 
 public:
 	virtual void OnInitialization()					override;
@@ -26,17 +26,7 @@ public:
 	virtual void OnParrying(ActorPtr inActor) override;
 
 public:
-	void SetSpawnInfo(int32 inEnemyID, int32 inSKillID);
-	void SpawnEnemy();
+	BoxCollisionComponent* GetBoxCollisionComponent();
 
-public:
-	SphereCollisionComponent* GetSphereCollisionComponent();
-
-private:
-	int64			mStartTime;
-	int64			mEndTime;
-
-	int32			mEnemyID;
-	int32			mSkillID;
 };
 
