@@ -25,9 +25,7 @@ void SourSpear::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetSphereCollisione(20.0f);
 
-	this->mProjectileComponent.InitProjectile(GAME_TICK, world->GetWorldTime());
-
-	this->SetVelocity(500.0f, 500.0f, 500.0f);
+	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 	this->SetDamage(100.0f);
 	this->ReserveDestroy(5000);
 
@@ -36,6 +34,8 @@ void SourSpear::OnInitialization()
 
 void SourSpear::OnDestroy()
 {
+	mOverlapGameObjectID.clear();
+
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
 
@@ -64,7 +64,6 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 		{
 			this->GameObjectLog(L"Can't destroy arrow\n");
 		}
-
 		return;
 	}
 
@@ -74,6 +73,7 @@ void SourSpear::OnTick(const int64 inDeltaTime)
 		this->CheackCollision();
 		this->SyncLocation(inDeltaTime);
 	}
+
 }
 
 bool SourSpear::IsValid()
@@ -199,7 +199,7 @@ void SourSpear::CheackCollision()
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(sphereTrace, findActorType, findActors, 1);
+	bool result = world->FindActors(sphereTrace, findActorType, findActors);
 	if (!result)
 	{
 		return;
@@ -208,15 +208,26 @@ void SourSpear::CheackCollision()
 	for (ActorPtr actor : findActors)
 	{
 
+		if (nullptr == actor)
+		{
+			continue;
+		}
+
+		if (false == actor->IsValid())
+		{
+			continue;
+		}
+
+		const int64& gameObjectID = actor->GetGameObjectID();
+		auto find = mOverlapGameObjectID.find(gameObjectID);
+		if (find != mOverlapGameObjectID.end())
+		{
+			continue;
+		}
+
+		mOverlapGameObjectID.insert(gameObjectID);
 		actor->PushTask(worldTime, &Actor::OnHit, owner, this->GetDamage());
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy arrow\n");
-		}
-		mIsCollision = true;
-		break;
 	}
 }
 
@@ -270,8 +281,6 @@ void SourSpear::OnMovement()
 
 void SourSpear::Active()
 {
-	mIsActive = true;
-
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -295,6 +304,11 @@ void SourSpear::Active()
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 	this->BrodcastPlayerViewers(sendBuffer);
+
+
+	this->mProjectileComponent.InitProjectile(GAME_TICK, world->GetWorldTime());
+
+	mIsActive = true;
 }
 
 void SourSpear::SyncLocation(const int64 inDeltaTime)

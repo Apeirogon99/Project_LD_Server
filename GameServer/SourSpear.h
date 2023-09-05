@@ -39,5 +39,7 @@ private:
 	bool mIsActive;
 	int64 mStartTime;
 	ProjectileComponent			mProjectileComponent;
+
+	std::set<int64>				mOverlapGameObjectID;
 };
 
