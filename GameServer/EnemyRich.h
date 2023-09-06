@@ -10,6 +10,8 @@ public:
 	virtual void OnInitialization() abstract;
 	virtual void OnTick(const int64 inDeltaTime) override;
 
+	FVector mTempStage;
+	float mTempStageLenght;
 };
 
 class EnemyRichPhase1 : public EnemyRich

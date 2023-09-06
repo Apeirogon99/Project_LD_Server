@@ -93,11 +93,7 @@ void Rise::SpawnEnemy()
 	newEnemy->GetStateManager().SetState(EStateType::State_Search);
 	newEnemy->SetReward(false);
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy Skill\n");
-	}
+	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 SphereCollisionComponent* Rise::GetSphereCollisionComponent()

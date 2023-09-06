@@ -22,11 +22,15 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
+	void SetOnslaughtOfShadows(float inMax, float inMin);
 	virtual void CheackCollision() override;
 	virtual void OnParrying(ActorPtr inActor) override;
 
 public:
 	BoxCollisionComponent* GetBoxCollisionComponent();
 
+private:
+	float mMax;
+	float mMin;
 };
 

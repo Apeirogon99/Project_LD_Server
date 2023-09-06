@@ -296,6 +296,17 @@ void BlinkAttack::CheackCollision()
 		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
 
 	}
+
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Blink_Attack));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+	reactionSkill.set_duration(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void BlinkAttack::OnParrying(ActorPtr inActor)
@@ -387,6 +398,17 @@ void BlinkSturn::CheackCollision()
 		//this->PushTask(worldTime, &BlinkSturn::SturnBeign, player, movement);
 		//this->PushTask(worldTime + 3000, &BlinkSturn::SturnEnd, player, movement);
 	}
+
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Blink_Sturn));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+	reactionSkill.set_duration(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void BlinkSturn::OnParrying(ActorPtr inActor)

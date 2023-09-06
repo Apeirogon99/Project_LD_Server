@@ -224,7 +224,7 @@ void RealmOfDeath::CheackTargeting()
 	Protocol::S2C_ReactionSkill reactionSkill;
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Shackles));
+	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Realm_Of_Death));
 	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
 	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
 	reactionSkill.set_duration(duration);
@@ -278,7 +278,6 @@ void RealmOfDeath::CheackCollision()
 		else
 		{
 			float buff = findPlayer->second;
-			printf("%f\n", buff);
 			findPlayer->second = buff + stat.GetMovementSpeed();
 		}
 

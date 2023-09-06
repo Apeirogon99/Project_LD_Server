@@ -154,6 +154,12 @@ void OnslaughtOfShadows::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
+void OnslaughtOfShadows::SetOnslaughtOfShadows(float inMax, float inMin)
+{
+	mMax = inMax;
+	mMin = inMin;
+}
+
 void OnslaughtOfShadows::CheackCollision()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -169,15 +175,16 @@ void OnslaughtOfShadows::CheackCollision()
 		return;
 	}
 
-	FVector boxExtent(2000.0f, 100.0f, 100.0f);
-
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
 
-	Location boxStartLocation = location;
-	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
-	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
+	FVector		newlocation = this->GetLocation();
+	FVector		boxExtent(1000.0f, 100.0f, 100.0f);
+
+	Location boxStartLocation	= newlocation + (foward * (boxExtent.GetX()));
+	Location boxEndLocation		= newlocation - (foward * (boxExtent.GetX()));
+	Location boxCenterLocation	= newlocation;
 	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	const float debugDuration = 1.0f;
@@ -205,11 +212,7 @@ void OnslaughtOfShadows::CheackCollision()
 		}
 	}
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy skill\n");
-	}
+	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 void OnslaughtOfShadows::OnParrying(ActorPtr inActor)
