@@ -1,49 +1,48 @@
 #include "pch.h"
-#include "SoulShackles.h"
+#include "RealmOfDeath.h"
 
-SoulShackles::SoulShackles() : EnemyAttack(L"SoulShackles"), mStartTime(0), mEndTime(10000), mActive(false)
+RealmOfDeath::RealmOfDeath() : EnemyAttack(L"RealmOfDeath"), mStartTime(0), mEndTime(10000), mActive(false)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
 
-SoulShackles::~SoulShackles()
+RealmOfDeath::~RealmOfDeath()
 {
 }
 
-void SoulShackles::OnInitialization()
+void RealmOfDeath::OnInitialization()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
+	const int64& worldTime = world->GetNextWorldTime();
 
-	this->SetTick(true, SYSTEM_TICK);
+	this->SetTick(true, SECOND);
 
 	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetSphereCollisione(400.0f);
+	collision->SetSphereCollisione(2000.0f);
 
 	this->SetDamage(1.0f);
 	this->SetTargetActorType(EActorType::Player);
 	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Place);
 
 	Stats buff;
-	buff.InitStats(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -100.0f, 0.0f);
+	buff.InitStats(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f);
 	mStatsComponent.InitMaxStats(buff);
 
-	this->PushTask(worldTime + 2000, &SoulShackles::CheackTargeting);
+	this->PushTask(worldTime, &RealmOfDeath::CheackTargeting);
 }
 
-void SoulShackles::OnDestroy()
+void RealmOfDeath::OnDestroy()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	const Stats& stat = this->mStatsComponent.GetMaxStats();
 
 	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
 	{
@@ -59,7 +58,7 @@ void SoulShackles::OnDestroy()
 
 			StatsComponent& playerStats = playerCharacter->GetStatComponent();
 			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, player->second);
 		}
 	}
 
@@ -70,7 +69,7 @@ void SoulShackles::OnDestroy()
 	this->BrodcastPlayerViewers(sendBuffer);
 }
 
-void SoulShackles::OnTick(const int64 inDeltaTime)
+void RealmOfDeath::OnTick(const int64 inDeltaTime)
 {
 	if (false == IsValid())
 	{
@@ -79,25 +78,11 @@ void SoulShackles::OnTick(const int64 inDeltaTime)
 
 	if (this->mActive)
 	{
-		if (this->IsLife(inDeltaTime))
-		{
-			GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-			if (nullptr == world)
-			{
-				return;
-			}
-
-			world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
-			return;
-		}
-
 		this->CheackCollision();
-
 	}
-
 }
 
-bool SoulShackles::IsValid()
+bool RealmOfDeath::IsValid()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -114,18 +99,14 @@ bool SoulShackles::IsValid()
 			return false;
 		}
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy skill\n");
-		}
-		return ret;
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
+		return false;
 	}
 
 	return true;
 }
 
-void SoulShackles::OnAppearActor(ActorPtr inAppearActor)
+void RealmOfDeath::OnAppearActor(ActorPtr inAppearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inAppearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -173,7 +154,7 @@ void SoulShackles::OnAppearActor(ActorPtr inAppearActor)
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Shackles));
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Realm_Of_Death));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
 	appearSkillPacket.set_duration(worldTime - this->mStartTime);
@@ -182,7 +163,7 @@ void SoulShackles::OnAppearActor(ActorPtr inAppearActor)
 	anotherPlayerState->Send(appearSendBuffer);
 }
 
-void SoulShackles::OnDisAppearActor(ActorPtr inDisappearActor)
+void RealmOfDeath::OnDisAppearActor(ActorPtr inDisappearActor)
 {
 	PlayerCharacterPtr anotherPlayerCharacter = std::static_pointer_cast<PlayerCharacter>(inDisappearActor);
 	if (nullptr == anotherPlayerCharacter)
@@ -216,7 +197,7 @@ void SoulShackles::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void SoulShackles::CheackTargeting()
+void RealmOfDeath::CheackTargeting()
 {
 	this->mActive = true;
 
@@ -226,7 +207,7 @@ void SoulShackles::CheackTargeting()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	const int64& duration = mStartTime + 2000 - worldTime;
+	const int64& duration = mStartTime + 1000 - worldTime;
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
@@ -238,7 +219,7 @@ void SoulShackles::CheackTargeting()
 	Rotation rotation = this->GetRotation();
 
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 400.0f, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, 2000.0f, debugDuration);
 
 	Protocol::S2C_ReactionSkill reactionSkill;
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
@@ -247,11 +228,9 @@ void SoulShackles::CheackTargeting()
 	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
 	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
 	reactionSkill.set_duration(duration);
-
-	this->ReserveDestroy(5000);
 }
 
-void SoulShackles::CheackCollision()
+void RealmOfDeath::CheackCollision()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -271,16 +250,11 @@ void SoulShackles::CheackCollision()
 	const float					radius = collision->GetSphereCollision().GetRadius();
 	SphereTrace					sphereTrace(this->GetActorRef(), location, true, radius);
 
-	const Stats&				stat = this->mStatsComponent.GetMaxStats();
+	const Stats& stat = this->mStatsComponent.GetMaxStats();
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;
 	world->FindActors(sphereTrace, findActorType, findActors);
-
-	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end(); player++)
-	{
-		player->second = false;
-	}
 
 	for (ActorPtr actor : findActors)
 	{
@@ -299,55 +273,26 @@ void SoulShackles::CheackCollision()
 		auto findPlayer = mOverlapPlayer.find(remotePlayer->GetGameObjectID());
 		if (findPlayer == mOverlapPlayer.end())
 		{
-
-			mOverlapPlayer.insert(std::make_pair(remotePlayer->GetGameObjectID(), true));
-
-			StatsComponent& playerStats = player->GetStatComponent();
-			BuffComponent& playerbuff = player->GetBuffComponent();
-			playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
-
+			mOverlapPlayer.insert(std::make_pair(remotePlayer->GetGameObjectID(), stat.GetMovementSpeed()));
 		}
 		else
 		{
-			findPlayer->second = true;
+			float buff = findPlayer->second;
+			printf("%f\n", buff);
+			findPlayer->second = buff + stat.GetMovementSpeed();
 		}
+
+		StatsComponent& playerStats = player->GetStatComponent();
+		BuffComponent& playerbuff = player->GetBuffComponent();
+		playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 	}
-
-	for (auto player = mOverlapPlayer.begin(); player != mOverlapPlayer.end();)
-	{
-		if (player->second == false)
-		{
-
-			GameRemotePlayerPtr overlapRemotePlayer = nullptr;
-			if (true == world->IsValidPlayer(player->first, overlapRemotePlayer))
-			{
-				PlayerCharacterPtr playerCharacter = std::static_pointer_cast<PlayerCharacter>(overlapRemotePlayer->GetCharacter());
-				if (nullptr == playerCharacter)
-				{
-					continue;
-				}
-
-				StatsComponent& playerStats = playerCharacter->GetStatComponent();
-				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
-
-			}
-
-			mOverlapPlayer.erase(player++);
-		}
-		else
-		{
-			++player;
-		}
-	}
-
 }
 
-void SoulShackles::OnParrying(ActorPtr inActor)
+void RealmOfDeath::OnParrying(ActorPtr inActor)
 {
 }
 
-SphereCollisionComponent* SoulShackles::GetSphereCollisionComponent()
+SphereCollisionComponent* RealmOfDeath::GetSphereCollisionComponent()
 {
 	return static_cast<SphereCollisionComponent*>(this->GetDefaultCollisionComponent());
 }

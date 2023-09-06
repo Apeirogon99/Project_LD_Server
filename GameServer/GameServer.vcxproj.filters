@@ -337,6 +337,9 @@
     <ClCompile Include="OnslaughtOfShadows.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="RealmOfDeath.cpp">
+      <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -547,6 +550,9 @@
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
     <ClInclude Include="OnslaughtOfShadows.h">
+      <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="RealmOfDeath.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
     </ClInclude>
   </ItemGroup>

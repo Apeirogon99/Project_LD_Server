@@ -3,6 +3,8 @@
 #define SYSTEM_TICK 33
 #define GAME_TICK 250
 
+#define SECOND 1000
+
 #define MAX_POSSIBLE_AREA		3000.0f
 #define MAX_LOCATION_DISTANCE	50.0f
 

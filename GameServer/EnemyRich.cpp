@@ -9,6 +9,7 @@
 #include "EnemyDarkKnight.h"
 #include "LichLifeVessel.h"
 #include "OnslaughtOfShadows.h"
+#include "RealmOfDeath.h"
 
 //==========================//
 //       Rich | Rich		//
@@ -635,8 +636,8 @@ void EnemyRichPhase3::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyRichPhase3::Skill_RiseDarkSkeleton);
 	this->mPatternInfos.push_back(&EnemyRichPhase3::Skill_OnslaughtOfShadows);
 
-	this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_LifeVessel);
-	//this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_RealmOfDeath);
+	//this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_LifeVessel);
+	this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_RealmOfDeath);
 }
 
 void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
@@ -706,19 +707,16 @@ void EnemyRichPhase3::Skill_RealmOfDeath()
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
-	FVector stage = FVector(10000.0f, 10000.0f, 0.0f);
+	const int64& worldTime = world->GetNextWorldTime();
 
-	Protocol::S2C_AppearSkill appearSkillPacket;
-	appearSkillPacket.set_remote_id(this->GetGameObjectID());
-	appearSkillPacket.set_object_id(this->GetGameObjectID());
-	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Realm_Of_Death));
-	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(stage));
-	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(FRotator()));
-	appearSkillPacket.set_duration(worldTime);
+	FVector stage = FVector(10000.0f, 10000.0f, 100.0f);
 
-	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
-	this->BrodcastPlayerViewers(appearSendBuffer);
+	ActorPtr actor = world->SpawnActor<RealmOfDeath>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<RealmOfDeath> newRealOfDeath = std::static_pointer_cast<RealmOfDeath>(actor);
+	if (nullptr == newRealOfDeath)
+	{
+		return;
+	}
 }
 
 void EnemyRichPhase3::Skill_OnslaughtOfShadows()
@@ -770,7 +768,7 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	{
 		return;
 	}
-	newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Lich_Life_Vessle), static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
+	newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Lich_Life_Vessle), static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
 	newRise->PushTask(worldTime, &Rise::SpawnEnemy);
 
 	
