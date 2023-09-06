@@ -17,7 +17,7 @@
 
 EnemyRich::EnemyRich(const WCHAR* inName) : EnemyCharacter(inName)
 {
-	mTempStage = FVector(10050.0f, 10050.0f, 10050.0f);
+	mTempStage = FVector(10050.0f, 10050.0f, 0.0f);
 	mTempStageLenght = 800;
 }
 
@@ -94,7 +94,7 @@ void EnemyRichPhase1::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
@@ -110,7 +110,7 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[3];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 
@@ -150,6 +150,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		}
 		newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Warrior_Skeleton), static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	}
 
@@ -176,6 +177,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = mTempStage;
+	stage.SetZ(200.0f);
 	const Location newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
 
 	std::vector<ActorPtr> targetActors;
@@ -229,6 +231,8 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 
 	//공격후 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime + attackEnd, &BlinkAttack::TeleportSafeLocation, newLocation, FRotator::TurnRotator(playerRotation));
+
+	world->PushTask(world->GetNextWorldTime() + blinkTime + attackEnd, &GameWorld::DestroyActor, newBlinkAttack->GetGameObjectID());
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
@@ -418,7 +422,7 @@ void EnemyRichPhase2::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
@@ -486,6 +490,7 @@ void EnemyRichPhase2::Skill_BlinkSturn()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = mTempStage;
+	stage.SetZ(200.0f);
 	const Location newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
 
 	std::vector<ActorPtr> targetActors;
@@ -649,7 +654,7 @@ void EnemyRichPhase3::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 

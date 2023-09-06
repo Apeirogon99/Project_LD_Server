@@ -10,6 +10,17 @@ enum class EDarkKnightAttackType
 	Hand,
 };
 
+class MovePlane
+{
+public:
+	MovePlane(const float& inDistance, const int64& inTime) : mDistance(inDistance), mTime(inTime) {}
+	~MovePlane() {}
+
+public:
+	float mDistance;
+	int64 mTime;
+};
+
 class DarkKnightAttackInfo
 {
 public:
@@ -54,9 +65,9 @@ public:
 	void Berserk();
 
 public:
-	void DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo inAttackInfo);
+	void DoMeleeAttack(DarkKnightAttackInfo inAttackInfo);
 	
-	void MovePlane(FVector inStartLocation, std::vector<std::pair<float, int64>> inMovePlanes);
+	void MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes);
 	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration);
 
 private:

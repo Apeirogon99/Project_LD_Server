@@ -81,13 +81,6 @@ void EnemyMeleeAttack::CheackCollision()
 		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
 
 	}
-
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy arrow\n");
-	}
-
 }
 
 void EnemyMeleeAttack::OnParrying(ActorPtr inActor)

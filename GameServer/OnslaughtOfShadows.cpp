@@ -179,6 +179,7 @@ void OnslaughtOfShadows::CheackCollision()
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
 
+	FVector maxLocation;
 	FVector		newlocation = this->GetLocation();
 	FVector		boxExtent(1000.0f, 100.0f, 100.0f);
 

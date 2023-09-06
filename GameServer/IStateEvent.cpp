@@ -330,13 +330,20 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	Location aggroLocation = aggroActor->GetLocation();
 
 	enemy->SetVelocity(velocity, velocity, velocity);
-	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, range);
+	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
 
 
 	mChaseToRecoveryTime += inDeltaTime;
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		if (true == enemy->GetAggressive())
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Search);
+		}
+		else
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		}
 		return;
 	}
 	
@@ -580,6 +587,8 @@ void StateManager::SetState(const EStateType& inStateType)
 	IStateEvent* newState = mStateTypes.at(mCurrentState);
 	newState->Enter(mEnemy);
 
+	StateChangeDebugPrint();
+
 	enemy->DetectChangeEnemy();
 }
 
@@ -609,6 +618,9 @@ const std::wstring StateManager::ToStringState(const EStateType& type)
 		break;
 	case EStateType::State_Recovery:
 		stateStr = L"Recovery";
+		break;
+	case EStateType::State_Search:
+		stateStr = L"Search";
 		break;
 	case EStateType::State_Chase:
 		stateStr = L"Chase";

@@ -93,7 +93,6 @@ void Rise::SpawnEnemy()
 	newEnemy->GetStateManager().SetState(EStateType::State_Search);
 	newEnemy->SetReward(false);
 
-	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 SphereCollisionComponent* Rise::GetSphereCollisionComponent()

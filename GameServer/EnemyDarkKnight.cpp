@@ -51,7 +51,7 @@ void EnemyDarkKnight::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
+	collision->SetBoxCollision(FVector(63.0f, 63.0f, 173.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
@@ -65,6 +65,7 @@ void EnemyDarkKnight::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyDarkKnight::SwingAndSlamAttack);
 	this->mPatternInfos.push_back(&EnemyDarkKnight::HandAndSwordSwipeAttack);
 
+	//																														범위	 - 대미지 증가량 - 패링 - 타겟 타이밍
 	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f, 100, 200)));
 	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
 	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing,	DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
@@ -87,6 +88,8 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	this->mStateManager.UpdateState(inDeltaTime);
+
 	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
 	{
 		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
@@ -96,23 +99,17 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 		this->OnSyncLocation(inDeltaTime);
 	}
 
-	this->mStateManager.UpdateState(inDeltaTime);
-
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
 		this->DetectChangeEnemy();
 	}
 
 	const float debugDuration = 0.5f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 42.0f, debugDuration);
-
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 63.0f, debugDuration);
 }
 
 void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
-
-	this->SetVelocity(30.0f, 30.0f, 30.0f);
-
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
 	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[3];
 	pattenFunc(*this);
@@ -120,10 +117,13 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 
 void EnemyDarkKnight::OnPatternOver()
 {
-	if (false == this->IsDeath())
+	if (this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Search);
+		return;
 	}
+
+	this->mStateManager.SetState(EStateType::State_Search);
+
 }
 
 void EnemyDarkKnight::OnReward()
@@ -198,6 +198,14 @@ void EnemyDarkKnight::RunningAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	//TODO : 이동 채우기
+	std::vector<MovePlane> planes;
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 1870, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running));
+	this->PushTask(worldTime + 6270, &EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -208,12 +216,6 @@ void EnemyDarkKnight::RunningAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1870, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Running));
-	this->PushTask(worldTime + 6270, &EnemyDarkKnight::OnPatternOver);
-
-
 }
 
 void EnemyDarkKnight::ChargedComboAttack()
@@ -225,6 +227,17 @@ void EnemyDarkKnight::ChargedComboAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	//TODO : 이동 채우기
+	std::vector<MovePlane> planes;
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 7500,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(worldTime + 8550,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
+	this->PushTask(worldTime + 9920,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
+	this->PushTask(worldTime + 11750,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
+	this->PushTask(worldTime + 17100,	&EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -235,13 +248,6 @@ void EnemyDarkKnight::ChargedComboAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 7500,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
-	this->PushTask(worldTime + 8550,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
-	this->PushTask(worldTime + 9920,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
-	this->PushTask(worldTime + 11750,	&EnemyDarkKnight::DoMeleeAttack,	targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
-	this->PushTask(worldTime + 17100,	&EnemyDarkKnight::OnPatternOver);
 }
 
 void EnemyDarkKnight::UppercutAttack()
@@ -253,6 +259,14 @@ void EnemyDarkKnight::UppercutAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	//TODO : 이동 채우기
+	std::vector<MovePlane> planes;
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 3050, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
+	this->PushTask(worldTime + 6400, &EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -263,10 +277,6 @@ void EnemyDarkKnight::UppercutAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 3050, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
-	this->PushTask(worldTime + 6400, &EnemyDarkKnight::OnPatternOver);
 }
 
 void EnemyDarkKnight::SwingAttack()
@@ -278,6 +288,17 @@ void EnemyDarkKnight::SwingAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(-12.0f,	1150));
+	planes.push_back(MovePlane(+114.0f, 2800));
+	planes.push_back(MovePlane(-22.0f,	3470));
+	planes.push_back(MovePlane(+64.0f,	5870));
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(world->GetNextWorldTime() + 5870, &EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -288,27 +309,6 @@ void EnemyDarkKnight::SwingAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	Location	A = this->GetLocation();
-	Location	B = (A + this->GetRotation().GetForwardVector() * -12.0f);
-	int64		A2B = 1150;
-	this->PushTask(worldTime + 0,				&EnemyDarkKnight::DoMoveLocation, A, B, A2B);
-
-	Location	C = (B + this->GetRotation().GetForwardVector() * 114.0f);
-	int64		B2C = 2800 - A2B;
-	this->PushTask(worldTime + A2B,				&EnemyDarkKnight::DoMoveLocation, B, C, B2C);
-
-	Location	D = (C + this->GetRotation().GetForwardVector() * -22.0f);
-	int64		C2D = 3470 - B2C;
-	this->PushTask(worldTime + A2B + B2C,		&EnemyDarkKnight::DoMoveLocation, C, D, C2D);
-
-	Location	E = (D + this->GetRotation().GetForwardVector() * 64.0f);
-	int64		D2E = 5870 - C2D;
-	this->PushTask(worldTime + A2B + B2C + C2D, &EnemyDarkKnight::DoMoveLocation, D, E, D2E);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 2190, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
-	this->PushTask(worldTime + 5870, &EnemyDarkKnight::OnPatternOver);
 }
 
 void EnemyDarkKnight::SwingAndSlamAttack()
@@ -320,6 +320,15 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	//TODO : 이동 채우기
+	std::vector<MovePlane> planes;
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 1790, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
+	this->PushTask(worldTime + 3980, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
+	this->PushTask(worldTime + 6730, &EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -330,11 +339,6 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1790, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
-	this->PushTask(worldTime + 3980, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
-	this->PushTask(worldTime + 6730, &EnemyDarkKnight::OnPatternOver);
 }
 
 void EnemyDarkKnight::HandAndSwordSwipeAttack()
@@ -346,6 +350,15 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
+	//TODO : 이동 채우기
+	std::vector<MovePlane> planes;
+	this->MakeMovePlane(worldTime, planes);
+
+	ActorPtr targetActor = this->GetAggroActor().lock();
+	this->PushTask(worldTime + 2500, &EnemyDarkKnight::DoMeleeAttack,mDarkKnightAttacks.at(EDarkKnightAttackType::Hand));
+	this->PushTask(worldTime + 3900, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
+	this->PushTask(worldTime + 6570, &EnemyDarkKnight::OnPatternOver);
+
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
 	appearSkillPacket.set_object_id(this->GetGameObjectID());
@@ -356,20 +369,9 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
-
-	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 2500, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::Hand));
-	this->PushTask(worldTime + 3900, &EnemyDarkKnight::DoMeleeAttack, targetActor, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
-	this->PushTask(worldTime + 6570, &EnemyDarkKnight::OnPatternOver);
 }
 
 void EnemyDarkKnight::Berserk()
-{
-	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_AttackDamage, 100.0f);
-	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_Armor, -30.0f);
-}
-
-void EnemyDarkKnight::DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo inAttackInfo)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -378,26 +380,40 @@ void EnemyDarkKnight::DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	Location location;
-	Rotation rotation;
-	if (inTargetActor)
+	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_AttackDamage, 100.0f);
+	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_Armor, -30.0f);
+	this->DetectChangeEnemy();
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_DarkKnight_Hand_And_Sword_Swipe_Attack));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+}
+
+void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo inAttackInfo)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
 	{
-		location = this->GetLocation();
-		rotation = (inTargetActor->GetLocation() - this->GetLocation()).Rotator();
+		return;
 	}
-	else
-	{
-		location = this->GetLocation();
-		rotation = this->GetRotation();
-	}
+	const int64 worldTime = world->GetWorldTime();
 
 	if (false == this->IsValid())
 	{
 		return;
 	}
-	StatsComponent& stat = this->GetEnemyStatsComponent();
-	
 
+	Location location = this->GetLocation();
+	Rotation rotation = this->GetRotation();
+
+	StatsComponent& stat = this->GetEnemyStatsComponent();
 	float randomDamage = StatUtils::RandomDamage(stat.GetCurrentStats().GetAttackDamage()) * inAttackInfo.mMulDamage;
 
 	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), location, rotation, FVector(1.0f, 1.0f, 1.0f));
@@ -427,6 +443,31 @@ void EnemyDarkKnight::DoMeleeAttack(ActorPtr inTargetActor, DarkKnightAttackInfo
 	attack->SetParryinglTime(worldTime, worldTime + inAttackInfo.mParryingTime);
 
 	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
+	world->PushTask(world->GetNextWorldTime() + inAttackInfo.mCheckCollisionTime, &GameWorld::DestroyActor, attack->GetGameObjectID());
+}
+
+void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes)
+{
+	FVector		foward = this->GetRotation().GetForwardVector();
+
+	Location	originLocation	= this->GetLocation();
+	Location	destinationLocation = Location();
+	int64		originTime = inWorldTime;
+	int64		destinationTime = 0;
+
+	for(const MovePlane& plane : inMovePlanes)
+	{
+
+		destinationLocation = originLocation + (foward * plane.mDistance);
+		destinationTime = plane.mTime;
+
+		this->PushTask(originTime, &EnemyDarkKnight::DoMoveLocation, originLocation, destinationLocation, destinationTime);
+
+		originTime += destinationTime;
+		destinationTime = -destinationTime;
+
+		originLocation = destinationLocation;
+	}
 }
 
 void EnemyDarkKnight::DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration)
@@ -443,7 +484,7 @@ void EnemyDarkKnight::DoMoveLocation(FVector inStartLocation, FVector inEndLocat
 
 	float		duration = inDuration / 1000.0f;
 
-	float		speed = (FVector::Distance(inStartLocation, inEndLocation)) / duration;
+	float speed = (FVector::Distance(inStartLocation, inEndLocation)) / duration;
 	this->SetVelocity(speed, speed, speed);
 
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), inStartLocation, inEndLocation, worldTime, 0.0f);

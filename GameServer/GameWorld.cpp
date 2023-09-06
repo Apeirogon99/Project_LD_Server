@@ -14,7 +14,7 @@ GameWorld::~GameWorld()
 void GameWorld::OnInitialization()
 {
 	this->SetTick(true, SYSTEM_TICK);
-	mSpawnerManager = std::static_pointer_cast<EnemySpawnerManager>(SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
+	//mSpawnerManager = std::static_pointer_cast<EnemySpawnerManager>(SpawnActor<EnemySpawnerManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 
 	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(500.0f, 1100.0f, 500.0f), FRotator(), Scale()));
 	portal->SetTeleportLocation(FVector(10000.0f, 10000.0f, 100.0f));

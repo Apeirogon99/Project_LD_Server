@@ -219,12 +219,6 @@ void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRota
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
-
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy arrow\n");
-	}
 }
 
 BoxCollisionComponent* Blink::GetBoxCollisionComponent() const
