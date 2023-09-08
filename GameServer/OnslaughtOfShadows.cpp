@@ -175,17 +175,21 @@ void OnslaughtOfShadows::CheackCollision()
 		return;
 	}
 
+	FVector a(11100.0f, 11100.0f, 0.0f);
+	FVector b(9000.0f, 9000.0f, 0.0f);
+
 	FVector		location = this->GetLocation();
 	FRotator	rotation = this->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
 
-	FVector maxLocation;
-	FVector		newlocation = this->GetLocation();
-	FVector		boxExtent(1000.0f, 100.0f, 100.0f);
+	float distance = FVector::Distance(a, b);
+	FVector	boxExtent(distance / 2.0f, 100.0f, 100.0f);
 
-	Location boxStartLocation	= newlocation + (foward * (boxExtent.GetX()));
-	Location boxEndLocation		= newlocation - (foward * (boxExtent.GetX()));
-	Location boxCenterLocation	= newlocation;
+	printf("Distance %f\n", distance);
+
+	Location boxStartLocation	= a - location;
+	Location boxEndLocation		= b + location;
+	Location boxCenterLocation	= (boxStartLocation + boxEndLocation) / 2.0f;
 	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
 	const float debugDuration = 1.0f;
@@ -195,7 +199,7 @@ void OnslaughtOfShadows::CheackCollision()
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
 	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Onslaught_Of_Shadows));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(boxCenterLocation));
 	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
 	reactionSkill.set_duration(worldTime);
 

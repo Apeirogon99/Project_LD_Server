@@ -205,7 +205,7 @@ void EnemyDarkKnight::RunningAttack()
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
 	this->PushTask(worldTime + 1870, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running));
-	this->PushTask(worldTime + 6270, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(world->GetNextWorldTime() + 6270, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -237,7 +237,7 @@ void EnemyDarkKnight::ChargedComboAttack()
 	this->PushTask(worldTime + 8550,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
 	this->PushTask(worldTime + 9920,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
 	this->PushTask(worldTime + 11750,	&EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
-	this->PushTask(worldTime + 17100,	&EnemyDarkKnight::OnPatternOver);
+	this->PushTask(world->GetNextWorldTime() + 17100, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -266,7 +266,7 @@ void EnemyDarkKnight::UppercutAttack()
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
 	this->PushTask(worldTime + 3050, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut));
-	this->PushTask(worldTime + 6400, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(world->GetNextWorldTime() + 6400, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -328,7 +328,7 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 	ActorPtr targetActor = this->GetAggroActor().lock();
 	this->PushTask(worldTime + 1790, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing));
 	this->PushTask(worldTime + 3980, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam));
-	this->PushTask(worldTime + 6730, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(world->GetNextWorldTime() + 6730, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -358,7 +358,7 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	ActorPtr targetActor = this->GetAggroActor().lock();
 	this->PushTask(worldTime + 2500, &EnemyDarkKnight::DoMeleeAttack,mDarkKnightAttacks.at(EDarkKnightAttackType::Hand));
 	this->PushTask(worldTime + 3900, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing));
-	this->PushTask(worldTime + 6570, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(world->GetNextWorldTime() + 6570, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());

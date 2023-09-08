@@ -182,7 +182,7 @@ void Blink::TeleportPlayerLocation(const FVector inLocation, const FRotator inRo
 		return;
 	}
 
-	const Location& destination = inLocation + (inRotation.GetForwardVector() * 1);
+	const Location& destination = inLocation + (inRotation.GetForwardVector() * 100);
 	rich->GetMovementComponent().SetNewDestination(owner, inLocation, destination, worldTime, 0.0f);
 
 	Protocol::S2C_Teleport teleportPacket;
@@ -210,7 +210,7 @@ void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRota
 		return;
 	}
 
-	const Location& destination = inLocation + (inRotation.GetForwardVector() * 1);
+	const Location& destination = inLocation + (inRotation.GetForwardVector() * 100);
 	rich->GetMovementComponent().SetNewDestination(owner, inLocation, destination, worldTime, 0.0f);
 
 	Protocol::S2C_Teleport teleportPacket;
@@ -254,8 +254,8 @@ void BlinkAttack::CheackCollision()
 	}
 	BoxCollisionComponent* collision = this->GetBoxCollisionComponent();
 
-	FVector		location = this->GetLocation();
-	FRotator	rotation = this->GetRotation();
+	FVector		location = owner->GetLocation();
+	FRotator	rotation = owner->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
 	FVector		boxExtent = collision->GetBoxCollision().GetBoxExtent();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
