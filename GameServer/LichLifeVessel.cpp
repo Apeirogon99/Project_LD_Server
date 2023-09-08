@@ -33,7 +33,7 @@ void LichLifeVessel::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(50.0f, 50.0f, 50.0f));
+	collision->SetBoxCollision(FVector(30.0f, 30.0f, 48.0f));
 
 	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 

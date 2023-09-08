@@ -81,6 +81,8 @@ void SoulShackles::OnTick(const int64 inDeltaTime)
 	{
 		if (this->IsLife(inDeltaTime))
 		{
+			this->mActive = false;
+
 			GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 			if (nullptr == world)
 			{
@@ -247,6 +249,9 @@ void SoulShackles::CheackTargeting()
 	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
 	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
 	reactionSkill.set_duration(duration);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
 
 	this->ReserveDestroy(5000);
 }

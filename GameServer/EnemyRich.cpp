@@ -458,7 +458,7 @@ void EnemyRichPhase2::OnInitialization()
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[2];
 	pattenFunc(*this);
 }
 
@@ -826,7 +826,7 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = mTempStage;
-
+	stage.SetZ(48.0f);
 
 	const Location	newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
 	const Rotation	newRoation = (stage - newLocation).Rotator();
