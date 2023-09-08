@@ -184,12 +184,12 @@ void SoulSpark::CheackTargeting()
 		}
 	}
 
-	float distance = FVector::Distance(mTarget->GetLocation(), this->GetLocation()) + 100.0f;
-
 	FVector boxExtent(850.0f, 100.0f, 100.0f);
 
 	FVector		location = this->GetLocation();
-	FRotator	rotation = (mTarget->GetLocation() - location).Rotator();
+	FVector		targetLocation = FVector(mTarget->GetLocation().GetX(), mTarget->GetLocation().GetY(), location.GetZ());
+
+	FRotator	rotation = (targetLocation - location).Rotator();
 	FVector		foward = rotation.GetForwardVector();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 

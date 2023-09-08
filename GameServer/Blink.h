@@ -23,6 +23,7 @@ public:
 
 public:
 	void SetBlinkID(const ESkillID& inSkillID);
+	void ReActionSkill(const FVector inLocation, const FRotator inRotator);
 	void TeleportPlayerLocation(const FVector inLocation, const FRotator inRotation);
 	void TeleportSafeLocation(const FVector inLocation, const FRotator inRotation);
 

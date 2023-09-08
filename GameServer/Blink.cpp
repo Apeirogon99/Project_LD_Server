@@ -166,6 +166,33 @@ void Blink::SetBlinkID(const ESkillID& inSkillID)
 	mBlinkID = static_cast<int32>(inSkillID);
 }
 
+void Blink::ReActionSkill(const FVector inLocation, const FRotator inRotator)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetNextWorldTime();
+
+	EnemyCharacterPtr owner = std::static_pointer_cast<EnemyCharacter>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	Protocol::S2C_ReactionSkill reactionSkill;
+	reactionSkill.set_remote_id(owner->GetGameObjectID());
+	reactionSkill.set_object_id(this->GetGameObjectID());
+	reactionSkill.set_skill_id(this->mBlinkID);
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(inRotator));
+	reactionSkill.set_duration(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+	this->BrodcastPlayerViewers(sendBuffer);
+}
+
 void Blink::TeleportPlayerLocation(const FVector inLocation, const FRotator inRotation)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -290,17 +317,6 @@ void BlinkAttack::CheackCollision()
 		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
 
 	}
-
-	Protocol::S2C_ReactionSkill reactionSkill;
-	reactionSkill.set_remote_id(owner->GetGameObjectID());
-	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Blink_Attack));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
-	reactionSkill.set_duration(worldTime);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
-	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void BlinkAttack::OnParrying(ActorPtr inActor)
@@ -351,8 +367,8 @@ void BlinkSturn::CheackCollision()
 	}
 	BoxCollisionComponent* collision = this->GetBoxCollisionComponent();
 
-	FVector		location = this->GetLocation();
-	FRotator	rotation = this->GetRotation();
+	FVector		location = owner->GetLocation();
+	FRotator	rotation = owner->GetRotation();
 	FVector		foward = rotation.GetForwardVector();
 	FVector		boxExtent = collision->GetBoxCollision().GetBoxExtent();
 	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
@@ -389,20 +405,8 @@ void BlinkSturn::CheackCollision()
 
 		float movement = playerStats.GetCurrentStats().GetMovementSpeed();
 
-		//this->PushTask(worldTime, &BlinkSturn::SturnBeign, player, movement);
-		//this->PushTask(worldTime + 3000, &BlinkSturn::SturnEnd, player, movement);
+		this->PushTask(worldTime, &BlinkSturn::SturnBeign, player, movement);
 	}
-
-	Protocol::S2C_ReactionSkill reactionSkill;
-	reactionSkill.set_remote_id(owner->GetGameObjectID());
-	reactionSkill.set_object_id(this->GetGameObjectID());
-	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Blink_Sturn));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
-	reactionSkill.set_duration(worldTime);
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
-	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void BlinkSturn::OnParrying(ActorPtr inActor)
@@ -411,11 +415,20 @@ void BlinkSturn::OnParrying(ActorPtr inActor)
 
 void BlinkSturn::SturnBeign(PlayerCharacterPtr inPlayer, float inMovementSpeed)
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetNextWorldTime();
+
 	if (inPlayer)
 	{
 		StatsComponent& playerStats = inPlayer->GetStatComponent();
 		BuffComponent& playerbuff = inPlayer->GetBuffComponent();
 		playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, -inMovementSpeed);
+
+		this->PushTask(worldTime + 2000, &BlinkSturn::SturnEnd, inPlayer, inMovementSpeed);
 	}
 }
 

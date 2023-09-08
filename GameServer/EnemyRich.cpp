@@ -210,10 +210,9 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	const Location& playerLocation	= player->GetLocation();
 	const Rotation& playerRotation	= player->GetRotation();
 	const FVector&	foward			= playerRotation.GetForwardVector();
-	const float&	radius			= player->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	const Location spawnLocation	= this->GetLocation();
-	const Location blinkLocation	= FVector(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ() + diffHalf) - (foward * radius);
+	const Location blinkLocation	= FVector(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ() + diffHalf) - (foward * 80.0f);
 	const Location safeLocation		= Random::GetRandomVectorInRange2D(FVector(mTempStage.GetX(), mTempStage.GetY(), enemyHalf), mTempStageLenght);
 
 	ActorPtr actor = world->SpawnActor<BlinkAttack>(this->GetGameObjectRef(), spawnLocation, this->GetRotation(), Scale(1.0f, 1.0f, 1.0f));
@@ -233,15 +232,18 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	static int64 attackEnd		= 1830;
 
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), spawnLocation, radius, debugDuration);
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), blinkLocation, radius, debugDuration);
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), safeLocation, radius, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), spawnLocation, 90.0f, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), blinkLocation, 90.0f, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), safeLocation, 90.0f, debugDuration);
 
 	//패링 타이밍
 	newBlinkAttack->SetParryinglTime(worldTime + blinkTime + parryingStart, worldTime + blinkTime + parryingStart + parryingEnd);
 
 	//공격전 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime, &BlinkAttack::TeleportPlayerLocation, blinkLocation, playerRotation);
+
+	//리액션
+	newBlinkAttack->PushTask(worldTime + blinkTime, &BlinkAttack::ReActionSkill, blinkLocation, playerRotation);
 
 	//공격
 	newBlinkAttack->PushTask(worldTime + blinkTime + parryingEnd, &BlinkAttack::CheackCollision);
@@ -456,7 +458,7 @@ void EnemyRichPhase2::OnInitialization()
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[2];
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 
@@ -525,14 +527,19 @@ void EnemyRichPhase2::Skill_BlinkSturn()
 		return;
 	}
 
+	const float enemyHalf = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+	const float aggroCharacterHalf = player->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+	float diffHalf = enemyHalf - aggroCharacterHalf;
+
 	const Location& playerLocation = player->GetLocation();
 	const Rotation& playerRotation = player->GetRotation();
 	const FVector& foward = playerRotation.GetForwardVector();
-	const float& radius = player->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
-	const Location& playerBehindkLocation = playerLocation - (foward * radius);
-	const Scale		scale = Scale(1.0f, 1.0f, 1.0f);
 
-	ActorPtr actor = world->SpawnActor<BlinkSturn>(this->GetGameObjectRef(), playerLocation, playerRotation, scale);
+	const Location spawnLocation = this->GetLocation();
+	const Location blinkLocation = FVector(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ() + diffHalf) - (foward * 80.0f);
+	const Location safeLocation = Random::GetRandomVectorInRange2D(FVector(mTempStage.GetX(), mTempStage.GetY(), enemyHalf), mTempStageLenght);
+
+	ActorPtr actor = world->SpawnActor<BlinkSturn>(this->GetGameObjectRef(), spawnLocation, playerRotation, Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<BlinkSturn> newBlinkSturn = std::static_pointer_cast<BlinkSturn>(actor);
 	if (nullptr == newBlinkSturn)
 	{
@@ -544,25 +551,32 @@ void EnemyRichPhase2::Skill_BlinkSturn()
 	newBlinkSturn->SetDamage(150.0f);
 
 	static int64 blinkTime = 2000;
-	static int64 parryingStart = 300;
-	static int64 parryingEnd = 200;
-	static int64 attackEnd = 1000;
+	static int64 parryingStart = 430;
+	static int64 parryingEnd = 530;
+	static int64 attackEnd = 1670;
+	static int64 sturnEnd = 2000;
 
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), playerBehindkLocation, radius, debugDuration);
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), newLocation, radius, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), spawnLocation, 90.0f, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), blinkLocation, 90.0f, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), safeLocation, 90.0f, debugDuration);
 
 	//패링 타이밍
-	//newBlinkSturn->SetParryinglTime(worldTime + blinkTime + parryingStart, worldTime + blinkTime + parryingStart + parryingEnd);
+	newBlinkSturn->SetParryinglTime(worldTime + blinkTime + parryingStart, worldTime + blinkTime + parryingStart + parryingEnd);
 
 	//공격전 이동
-	newBlinkSturn->PushTask(worldTime + blinkTime, &BlinkSturn::TeleportPlayerLocation, playerBehindkLocation, playerRotation);
+	newBlinkSturn->PushTask(worldTime + blinkTime, &BlinkSturn::TeleportPlayerLocation, blinkLocation, playerRotation);
+
+	//리액션
+	newBlinkSturn->PushTask(worldTime + blinkTime, &BlinkSturn::ReActionSkill, blinkLocation, playerRotation);
 
 	//공격
-	newBlinkSturn->PushTask(worldTime + blinkTime + parryingStart + parryingEnd, &BlinkSturn::CheackCollision);
+	newBlinkSturn->PushTask(worldTime + blinkTime + parryingEnd, &BlinkSturn::CheackCollision);
 
 	//공격후 이동
-	newBlinkSturn->PushTask(worldTime + blinkTime + attackEnd, &BlinkSturn::TeleportSafeLocation, newLocation, FRotator::TurnRotator(playerRotation));
+	newBlinkSturn->PushTask(worldTime + blinkTime + attackEnd, &BlinkSturn::TeleportSafeLocation, safeLocation, FRotator::TurnRotator(playerRotation));
+
+	world->PushTask(world->GetNextWorldTime() + blinkTime + attackEnd + sturnEnd, &GameWorld::DestroyActor, newBlinkSturn->GetGameObjectID());
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase2::OnPatternOver);
 }
