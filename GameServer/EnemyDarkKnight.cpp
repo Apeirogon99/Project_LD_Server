@@ -106,6 +106,8 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 
 	const float debugDuration = 0.5f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 63.0f, debugDuration);
+
+	this->GetLocation().ToString();
 }
 
 void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
@@ -448,7 +450,7 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo inAttackInfo)
 
 void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes)
 {
-	FVector		foward = this->GetRotation().GetForwardVector();
+	FVector	foward = this->GetRotation().GetForwardVector();
 
 	Location	originLocation	= this->GetLocation();
 	Location	destinationLocation = Location();
@@ -459,6 +461,8 @@ void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePl
 	{
 
 		destinationLocation = originLocation + (foward * plane.mDistance);
+		destinationLocation.SetZ(originLocation.GetZ());
+
 		destinationTime = plane.mTime;
 
 		this->PushTask(originTime, &EnemyDarkKnight::DoMoveLocation, originLocation, destinationLocation, destinationTime);
@@ -485,7 +489,7 @@ void EnemyDarkKnight::DoMoveLocation(FVector inStartLocation, FVector inEndLocat
 	float		duration = inDuration / 1000.0f;
 
 	float speed = (FVector::Distance(inStartLocation, inEndLocation)) / duration;
-	this->SetVelocity(speed, speed, speed);
+	this->SetVelocity(speed, speed, 0.0f);
 
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), inStartLocation, inEndLocation, worldTime, 0.0f);
 

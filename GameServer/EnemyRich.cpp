@@ -39,14 +39,26 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->OnMovementEnemy();
-
-	if (this->GetAggroActor().lock())
+	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
 	{
-		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
+		CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
+		if (aggroCharacter)
+		{
+			Location currentLocation		= this->GetLocation();
+			Location aggroLocation			= aggroCharacter->GetLocation();
 
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), this->GetAggroActor().lock()->GetLocation(), worldTime, 0.0f);
+			const float enemyHalf			= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+			const float aggroCharacterHalf	= aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+			float diffHalf = enemyHalf - aggroCharacterHalf;
+			aggroLocation.SetZ(aggroLocation.GetZ() + diffHalf);
+
+			this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
+
+			this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
+		}
 	}
+
+	this->OnMovementEnemy();
 
 	this->mStateManager.UpdateState(inDeltaTime);
 
@@ -135,6 +147,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = mTempStage;
+	stage.SetZ(90);
 
 	for (int32 count = 0; count < 5; ++count)
 	{
@@ -463,8 +476,10 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
+	FVector stage = mTempStage;
+	stage.SetZ(173);
 
-	FVector		location = this->GetLocation();
+	FVector		location = stage;
 	FRotator	rotation = this->GetRotation();
 	FVector		right = rotation.GetRightVector() * 200.0f;
 
@@ -697,6 +712,7 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 	}
 	const int64& worldTime = world->GetWorldTime();
 	FVector stage = mTempStage;
+	stage.SetZ(90);
 
 	for (int32 count = 0; count < 3; ++count)
 	{

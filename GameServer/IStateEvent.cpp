@@ -107,20 +107,6 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 void RoundState::Exit(EnemyCharacterRef inEnemy)
 {
-	EnemyCharacterPtr enemy = inEnemy.lock();
-	if (nullptr == enemy)
-	{
-		return;
-	}
-
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
-
 }
 
 //==========================//
@@ -251,6 +237,7 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	const Stats& currentStats	= enemy->GetEnemyStatsComponent().GetCurrentStats();
 	const float range			= currentStats.GetRange();
 	const float velocity		= currentStats.GetMovementSpeed();
+	const float enemyHalf		= enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
 	WorldPtr world = enemy->GetWorld().lock();
 	if (nullptr == world)
@@ -259,8 +246,8 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	ActorPtr aggroActor = enemy->GetAggroActor().lock();
-	if (nullptr == aggroActor)
+	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(enemy->GetAggroActor().lock());
+	if (nullptr == aggroCharacter)
 	{
 		if (true == enemy->GetAggressive())
 		{
@@ -272,9 +259,13 @@ void ChaseState::Enter(EnemyCharacterRef inEnemy)
 		}
 		return;
 	}
+	const float aggroCharacterHalf = aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
-	Location currentLocation = enemy->GetLocation();
-	Location aggroLocation = aggroActor->GetLocation();
+	Location currentLocation	= enemy->GetLocation();
+	Location aggroLocation		= aggroCharacter->GetLocation();
+	float diffHalf				= enemyHalf - aggroCharacterHalf;
+	
+	aggroLocation.SetZ(aggroLocation.GetZ() + diffHalf);
 
 	enemy->SetVelocity(velocity, velocity, velocity);
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, range);
@@ -289,12 +280,13 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	{
 		return;
 	}
-	const Stats& currentStats = enemy->GetEnemyStatsComponent().GetCurrentStats();
-	const float range = currentStats.GetRange();
-	const float velocity = currentStats.GetMovementSpeed();
+	const Stats& currentStats	= enemy->GetEnemyStatsComponent().GetCurrentStats();
+	const float range			= currentStats.GetRange();
+	const float velocity		= currentStats.GetMovementSpeed();
+	const float enemyHalf		= enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
-	ActorPtr aggroActor = enemy->GetAggroActor().lock();
-	if (nullptr == aggroActor)
+	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(enemy->GetAggroActor().lock());
+	if (nullptr == aggroCharacter)
 	{
 		if (true == enemy->GetAggressive())
 		{
@@ -306,6 +298,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		}
 		return;
 	}
+	const float aggroCharacterHalf = aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
 	WorldPtr world = enemy->GetWorld().lock();
 	if (nullptr == world)
@@ -319,7 +312,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	PacketUtils::DebugDrawSphere(enemy->GetPlayerViewers(), enemy->GetLocation(), range, debugDuration);
 
 
-	if (true == enemy->GetAutoAttackComponent().IsAutoAttackRange(enemy->GetActorPtr(), aggroActor->GetActorPtr(), range))
+	if (true == enemy->GetAutoAttackComponent().IsAutoAttackRange(enemy->GetActorPtr(), aggroCharacter->GetActorPtr(), range))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Attack);
 		return;
@@ -327,7 +320,10 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f);
 
 	Location currentLocation = enemy->GetLocation();
-	Location aggroLocation = aggroActor->GetLocation();
+	Location aggroLocation = aggroCharacter->GetLocation();
+	float diffHalf = enemyHalf - aggroCharacterHalf;
+
+	aggroLocation.SetZ(aggroLocation.GetZ() + diffHalf);
 
 	enemy->SetVelocity(velocity, velocity, velocity);
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
