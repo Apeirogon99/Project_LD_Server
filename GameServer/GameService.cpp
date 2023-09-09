@@ -6,7 +6,7 @@ using namespace std;
 GameService::GameService()
 {
 	SocketUtils::Init();
-	PacketHandler::Init();
+	PacketManager::Init();
 
 std::wstring dumpPath = L"";
 #if NETWORK_LOCAL

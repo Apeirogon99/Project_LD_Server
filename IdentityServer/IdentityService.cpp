@@ -6,7 +6,7 @@ using namespace std;
 IdentityService::IdentityService()
 {
 	SocketUtils::Init();
-	PacketHandler::Init();
+	PacketManager::Init();
 
 	std::wstring dumpPath = L"";
 #if NETWORK_LOCAL

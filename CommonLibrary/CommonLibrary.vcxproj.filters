@@ -48,6 +48,9 @@
     <ClInclude Include="Status.h">
       <Filter>Common\Struct</Filter>
     </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Common\Enum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="Token.cpp">
       <Filter>Common\Token</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Common\Enum</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

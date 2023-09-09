@@ -144,7 +144,7 @@
     <ClCompile Include="PacketEnum.pb.cc">
       <Filter>Packet\Private</Filter>
     </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
+    <ClCompile Include="PacketManager.cpp">
       <Filter>Packet\Handler</Filter>
     </ClCompile>
     <ClCompile Include="GameDataBaseHandler.cpp">
@@ -357,7 +357,7 @@
     <ClInclude Include="CommonServerPacketHandler.h">
       <Filter>Packet\Handler</Filter>
     </ClInclude>
-    <ClInclude Include="PacketHandler.h">
+    <ClInclude Include="PacketManager.h">
       <Filter>Packet\Handler</Filter>
     </ClInclude>
     <ClInclude Include="GameDataBaseHandler.h">

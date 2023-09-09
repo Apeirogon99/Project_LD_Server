@@ -80,9 +80,7 @@
 //==========================//
 //		    Packet			//
 //==========================//
-#include "PacketHandler.h"
 #include "GameServerPacketHandler.h"
-#include "CommonServerPacketHandler.h"
 
 //==========================//
 //		   DataBase			//

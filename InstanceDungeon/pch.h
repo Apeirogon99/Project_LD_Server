@@ -26,4 +26,8 @@
 
 #include "ApeirogonLibrary.h"
 #include "CommonLibaray.h"
+
+#include "PacketManager.h"
 #include "GameLibaray.h"
+#include "DungeonLibrary.h"
+#include "CommonServerPacketHandler.h"

@@ -1,17 +1,10 @@
 #include "pch.h"
-#include "PacketHandler.h"
+#include "PacketManager.h"
 
 #include "GameServerPacketHandler.h"
 #include "CommonServerPacketHandler.h"
 
-PacketHandlerFunc PacketHandler::PacketHandlers[UINT16_MAX];
-
-bool Handle_INVALID(PacketSessionPtr& session, BYTE* buffer, int32 len)
-{
-	return false;
-}
-
-void PacketHandler::Init()
+void PacketManager::Init()
 {
 	for (int32 i = 0; i < UINT16_MAX; ++i)
 	{
@@ -21,5 +14,5 @@ void PacketHandler::Init()
 	GameServerPacketHandler::Init(PacketHandlers);
 	CommonServerPacketHandler::Init(PacketHandlers);
 
-	wprintf(L"[PacketHandler::Init] : Successful init packet handls\n");
+	wprintf(L"[PacketManager::Init] : Successful init packet handls\n");
 }

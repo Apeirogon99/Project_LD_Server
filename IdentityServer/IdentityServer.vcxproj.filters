@@ -129,7 +129,7 @@
     <ClInclude Include="CommonServerPacketHandler.h">
       <Filter>Packet\Handler</Filter>
     </ClInclude>
-    <ClInclude Include="PacketHandler.h">
+    <ClInclude Include="PacketManager.h">
       <Filter>Packet\Handler</Filter>
     </ClInclude>
     <ClInclude Include="IdentitiyDatabase.h">
@@ -218,7 +218,7 @@
     <ClCompile Include="IdentityServerPacketHandler.cpp">
       <Filter>Packet\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
+    <ClCompile Include="PacketManager.cpp">
       <Filter>Packet\Handler</Filter>
     </ClCompile>
     <ClCompile Include="IdentitiyDatabase.cpp">

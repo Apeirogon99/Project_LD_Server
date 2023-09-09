@@ -175,9 +175,9 @@ void Portal::OnInteractive(ActorPtr inActor)
 		
 		//std::shared_ptr<EnemyDarkKnight> enemyDarkKnight = std::static_pointer_cast<EnemyDarkKnight>(world->SpawnActor<EnemyDarkKnight>(world, FVector(10050.0f, 10050.0f, 173.0f), Rotation(), Scale()));
 	
-		std::shared_ptr<EnemyRichPhase1> enemyRichPhase1 = std::static_pointer_cast<EnemyRichPhase1>(world->SpawnActor<EnemyRichPhase1>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));			
+		//std::shared_ptr<EnemyRichPhase1> enemyRichPhase1 = std::static_pointer_cast<EnemyRichPhase1>(world->SpawnActor<EnemyRichPhase1>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));			
 		//std::shared_ptr<EnemyRichPhase2> enemyRichPhase2 = std::static_pointer_cast<EnemyRichPhase2>(world->SpawnActor<EnemyRichPhase2>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));			
-		//std::shared_ptr<EnemyRichPhase3> enemyRichPhase3 = std::static_pointer_cast<EnemyRichPhase3>(world->SpawnActor<EnemyRichPhase3>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));
+		std::shared_ptr<EnemyRichPhase3> enemyRichPhase3 = std::static_pointer_cast<EnemyRichPhase3>(world->SpawnActor<EnemyRichPhase3>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));
 
 	}
 

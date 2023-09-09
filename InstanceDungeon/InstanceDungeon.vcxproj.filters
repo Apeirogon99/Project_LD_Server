@@ -25,6 +25,27 @@
     <Filter Include="Source\Public\World">
       <UniqueIdentifier>{60ef4ea9-10cd-4ad2-ad7d-23d202996d21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{0248ea23-1261-4ba4-8948-7c8b71e1a065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Public">
+      <UniqueIdentifier>{e68a23b6-513b-4154-bbd2-545f0bf38dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Private">
+      <UniqueIdentifier>{72d3bc3b-e6ba-45b5-a531-2b29e8413ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Private\Handler">
+      <UniqueIdentifier>{7bb982e7-2dcd-48b9-a3fa-297a28568f65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Public\Handler">
+      <UniqueIdentifier>{3c7129ee-e220-4a2d-a41b-0e94160fe041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Private\Protobuf">
+      <UniqueIdentifier>{c5fbddc0-d1aa-46f1-8698-9f624d870bc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Public\Protobuf">
+      <UniqueIdentifier>{e884bf13-275b-4ef6-a549-2a394ee91c29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DungeonWorld.cpp">
@@ -38,6 +59,27 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonPacket.pb.cc">
+      <Filter>Packet\Private\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonPacket.pb.cc">
+      <Filter>Packet\Private\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketStruct.pb.cc">
+      <Filter>Packet\Private\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketEnum.pb.cc">
+      <Filter>Packet\Private\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketManager.cpp">
+      <Filter>Packet\Private\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonServerPacketHandler.cpp">
+      <Filter>Packet\Private\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonServerPacketHandler.cpp">
+      <Filter>Packet\Private\Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +97,27 @@
     </ClInclude>
     <ClInclude Include="DungeonFoward.h">
       <Filter>Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonPacket.pb.h">
+      <Filter>Packet\Public\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonPacket.pb.h">
+      <Filter>Packet\Public\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonServerPacketHandler.h">
+      <Filter>Packet\Public\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonServerPacketHandler.h">
+      <Filter>Packet\Public\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStruct.pb.h">
+      <Filter>Packet\Public\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketEnum.pb.h">
+      <Filter>Packet\Public\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketManager.h">
+      <Filter>Packet\Public\Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

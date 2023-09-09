@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonEnum.h"
+#include "PacketHandler.h"
 
 #include "Status.h"
 

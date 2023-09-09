@@ -26,4 +26,7 @@
 
 #include "ApeirogonLibrary.h"
 #include "CommonLibaray.h"
+
+#include "PacketManager.h"
 #include "IdentityLibaray.h"
+#include "CommonServerPacketHandler.h"

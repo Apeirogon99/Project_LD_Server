@@ -42,9 +42,7 @@
 //==========================//
 //		    Packet			//
 //==========================//
-#include "PacketHandler.h"
 #include "IdentityServerPacketHandler.h"
-#include "CommonServerPacketHandler.h"
 
 //==========================//
 //		     DB				//
