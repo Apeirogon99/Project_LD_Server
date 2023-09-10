@@ -283,16 +283,16 @@ void OnslaughtOfShadows::SetOnslaughtOfShadows(FVector inLU, FVector inRU, FVect
 	}
 
 	{
-		//Protocol::S2C_ReactionSkill reactionSkill;
-		//reactionSkill.set_remote_id(owner->GetGameObjectID());
-		//reactionSkill.set_object_id(this->GetGameObjectID());
-		//reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Onslaught_Of_Shadows));
-		//reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(startLocation));
-		//reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
-		//reactionSkill.set_duration(worldTime);
-		//
-		//SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
-		//this->BrodcastPlayerViewers(sendBuffer);
+		Protocol::S2C_ReactionSkill reactionSkill;
+		reactionSkill.set_remote_id(owner->GetGameObjectID());
+		reactionSkill.set_object_id(this->GetGameObjectID());
+		reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Onslaught_Of_Shadows));
+		reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(startLocation));
+		reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(rotation));
+		reactionSkill.set_duration(worldTime);
+		
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+		this->BrodcastPlayerViewers(sendBuffer);
 	}
 
 	mActive = true;
