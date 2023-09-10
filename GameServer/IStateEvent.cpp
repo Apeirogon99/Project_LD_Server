@@ -583,7 +583,7 @@ void StateManager::SetState(const EStateType& inStateType)
 	IStateEvent* newState = mStateTypes.at(mCurrentState);
 	newState->Enter(mEnemy);
 
-	StateChangeDebugPrint();
+	//StateChangeDebugPrint();
 
 	enemy->DetectChangeEnemy();
 }

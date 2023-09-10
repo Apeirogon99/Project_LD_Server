@@ -82,10 +82,6 @@ const bool EnemyAttack::CanParrying() const
 
 const bool EnemyAttack::IsLife(const int64& inDeltaTime)
 {
-	if (false == mIsLife)
-	{
-		return false;
-	}
 
 	mCurrentLifeTime += inDeltaTime;
 	if (mCurrentLifeTime <= mMaxLifeTime)

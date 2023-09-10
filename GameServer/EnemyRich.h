@@ -9,7 +9,12 @@ public:
 public:
 	virtual void OnInitialization() abstract;
 	virtual void OnTick(const int64 inDeltaTime) override;
+	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration, float inSpeed);
+	void DoTeleportLocation(FVector inLocation);
+	void MoveDone();
 
+protected:
+	bool mMove;
 	FVector mTempStage;
 	float mTempStageLenght;
 };

@@ -15,7 +15,7 @@
 //       Rich | Rich		//
 //==========================//
 
-EnemyRich::EnemyRich(const WCHAR* inName) : EnemyCharacter(inName)
+EnemyRich::EnemyRich(const WCHAR* inName) : EnemyCharacter(inName), mMove(false)
 {
 	mTempStage = FVector(10050.0f, 10050.0f, 0.0f);
 	mTempStageLenght = 800;
@@ -39,6 +39,8 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
+	this->mStateManager.UpdateState(inDeltaTime);
+
 	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
 	{
 		CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
@@ -54,19 +56,117 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 
 			this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
 
-			this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
+			if (false == mMove)
+			{
+				this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
+				this->OnMovementEnemy();
+			}
 		}
 	}
-
-	this->OnMovementEnemy();
-
-	this->mStateManager.UpdateState(inDeltaTime);
+	else
+	{
+		this->OnSyncLocation(inDeltaTime);
+	}
+	
 
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
 		this->DetectChangeEnemy();
 	}
 
+	const float debugDuration = 0.1f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 100.0f, debugDuration);
+
+}
+
+void EnemyRich::DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration, float inSpeed)
+{
+	mMove = true;
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	FRotator	direction = (inEndLocation - inStartLocation).Rotator();
+	FVector		foward = direction.GetForwardVector();
+
+	this->SetVelocity(inSpeed, inSpeed, 0.0f);
+
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), inStartLocation, inEndLocation, worldTime, 0.0f);
+	this->OnMovementEnemy();
+
+	Protocol::S2C_AnimationMovementEnemy animationMovementPacket;
+	animationMovementPacket.set_object_id(this->GetGameObjectID());
+	animationMovementPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(inStartLocation));
+	animationMovementPacket.mutable_end_location()->CopyFrom(PacketUtils::ToSVector(inEndLocation));
+	animationMovementPacket.set_duration(inDuration);
+	animationMovementPacket.set_timestamp(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, animationMovementPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+
+	this->PushTask(world->GetNextWorldTime() + inDuration, &EnemyRich::MoveDone);
+}
+
+void EnemyRich::DoTeleportLocation(FVector inLocation)
+{
+	mMove = true;
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	ActorPtr lich = this->GetActorPtr();
+	if (nullptr == lich)
+	{
+		return;
+	}
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
+	const Location& originLocation	= inLocation;
+	const Rotation& rotation		= lich->GetRotation();
+	const FVector& foward			= rotation.GetForwardVector();
+
+	const Location& destination = originLocation + (foward * 100.0f);
+	this->mMovementComponent.SetNewDestination(lich, originLocation, destination, worldTime, 0.0f);
+
+	Protocol::S2C_Teleport teleportPacket;
+	teleportPacket.set_object_id(this->GetGameObjectID());
+	teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(FVector(inLocation)));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+
+	this->PushTask(world->GetWorldTime() + 100, &EnemyRich::MoveDone);
+}
+
+void EnemyRich::MoveDone()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	ActorPtr lich = this->GetActorPtr();
+	if (nullptr == lich)
+	{
+		return;
+	}
+
+	this->SetVelocity(0.0f, 0.0f, 0.0f);
+	mMove = false;
 }
 
 //==========================//
@@ -698,7 +798,7 @@ void EnemyRichPhase3::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyRichPhase3::Skill_RiseDarkSkeleton);
 	this->mPatternInfos.push_back(&EnemyRichPhase3::Skill_OnslaughtOfShadows);
 
-	//this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_LifeVessel);
+	this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_LifeVessel);
 	this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase3::Skill_RealmOfDeath);
 }
 
@@ -792,6 +892,8 @@ void EnemyRichPhase3::Skill_OnslaughtOfShadows()
 	const int64& worldTime = world->GetNextWorldTime();
 
 	FVector stage = mTempStage;
+	stage.SetZ(200.0f);
+
 	const Location	randomLocation	= Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
 	FRotator		randomRotation	= FRotator(0.0f, static_cast<float>(Random::GetRealUniformDistribution(-180, 180)), 0.0f);
 
@@ -801,7 +903,11 @@ void EnemyRichPhase3::Skill_OnslaughtOfShadows()
 	{
 		return;
 	}
-	newOnslaughtOfShadows->SetOnslaughtOfShadows(10550, 9550);
+	FVector LU = FVector(11100.0f	, 9000.0f	, 200.0f);
+	FVector RU = FVector(11100.0f	, 11100.0f	, 200.0f);
+	FVector RD = FVector(9000.0f	, 11100.0f	, 200.0f);
+	FVector LD = FVector(9000.0f	, 9000.0f	, 200.0f);
+	newOnslaughtOfShadows->PushTask(world->GetNextWorldTime(), &OnslaughtOfShadows::SetOnslaughtOfShadows, LU, RU, RD, LD, stage);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
