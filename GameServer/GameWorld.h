@@ -3,6 +3,7 @@
 enum class EActorType
 {
 	Unspecified,
+	Obstruction,
 	Visible,
 	Player,
 	PickUp,
@@ -62,6 +63,7 @@ public:
 
 protected:
 	void RefreshWorldObserver();
+	void MakeWorldObstruction();
 
 public:
 	const EnemySpawnerManagerPtr& GetEnemySpawnerManager();

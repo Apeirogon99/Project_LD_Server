@@ -347,6 +347,7 @@
     <ClCompile Include="SoulSpark.cpp" />
     <ClCompile Include="SourSpear.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WarriorBuff.cpp" />
     <ClCompile Include="WarriorDash.cpp" />
     <ClCompile Include="WarriorSwordBlow.cpp" />
@@ -421,6 +422,7 @@
     <ClInclude Include="SoulSpark.h" />
     <ClInclude Include="SourSpear.h" />
     <ClInclude Include="StatsComponent.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="WarriorBuff.h" />
     <ClInclude Include="WarriorDash.h" />
     <ClInclude Include="WarriorSwordBlow.h" />

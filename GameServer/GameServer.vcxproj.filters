@@ -130,6 +130,9 @@
     <Filter Include="Content\Portal">
       <UniqueIdentifier>{cb73b95b-cb75-47e1-b5ce-0f3cfb1646a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Obstruction">
+      <UniqueIdentifier>{05ee641f-b94b-4b25-8b4b-6d6bb1d3df31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -342,6 +345,9 @@
     </ClCompile>
     <ClCompile Include="WarriorDash.cpp">
       <Filter>Content\Skill\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Content\Obstruction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -560,6 +566,9 @@
     </ClInclude>
     <ClInclude Include="WarriorDash.h">
       <Filter>Content\Skill\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Content\Obstruction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

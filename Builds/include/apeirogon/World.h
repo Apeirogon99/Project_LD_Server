@@ -25,8 +25,10 @@ public:
 	APEIROGON_API bool				FindActors(std::vector<int64> inGameObjectIDs, std::vector<ActorPtr>& outActors);
 	APEIROGON_API bool				FindActors(const FVector& inFindLocation, const float& inRadius, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 	APEIROGON_API bool				FindActors(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
+	APEIROGON_API bool				FindActors(LineTrace& inLineTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 	APEIROGON_API bool				FindActors(SphereTrace& inSphereTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 
+	APEIROGON_API bool				FindObstructions(LineTrace& inLineTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 
 	APEIROGON_API bool				DestroyAllActor();
 	APEIROGON_API bool				DestroyActor(const int64 inGameObjectID);
@@ -46,6 +48,7 @@ protected:
 	std::map<int64, RemoteClientPtr>	mWorldPlayers;
 	std::map<int64, ActorPtr>			mWorldActors;
 	KDTree								mWorldObserver;
+	KDTree								mWorldObstruction;
 };
 
 template<typename T>

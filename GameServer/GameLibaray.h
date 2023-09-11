@@ -27,6 +27,11 @@
 #include "GameTask.h"
 
 //==========================//
+//   GameContent | obj		//
+//==========================//
+#include "Wall.h"
+
+//==========================//
 //   GameContent | Componet	//
 //==========================//
 #include "StatsComponent.h"

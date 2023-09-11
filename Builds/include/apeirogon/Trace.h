@@ -3,6 +3,7 @@
 enum class ETraceType
 {
 	Trace_None,
+	Trace_Line,
 	Trace_Box,
 	Trace_Capsule,
 	Trace_Sphere,
@@ -42,6 +43,31 @@ protected:
 	FVector		mEnd;
 	bool		mIsIgnore;
 	ETraceType	mTraceType;
+};
+
+class LineTrace : public Trace
+{
+public:
+	APEIROGON_API LineTrace(ActorRef inOwner, FVector inStart, FVector inEnd, bool inIsIgnore);
+	APEIROGON_API virtual ~LineTrace() {}
+
+	LineTrace(const LineTrace&) = delete;
+	LineTrace(LineTrace&&) noexcept = delete;
+
+	LineTrace& operator=(const LineTrace&) = delete;
+	LineTrace& operator=(LineTrace&&) noexcept = delete;
+
+public:
+	APEIROGON_API virtual bool CollisionTrace(CollisionComponent* inCollision)									override;
+	APEIROGON_API virtual bool BoxCollisionTraceAABB(BoxCollisionComponent* inBoxCollisionComponent)			override;
+	APEIROGON_API virtual bool BoxCollisionTraceOBB(BoxCollisionComponent* inBoxCollisionComponent)				override;
+	APEIROGON_API virtual bool CapsuleCollisionTrace(CapsuleCollisionComponent* inCapsuleCollisionComponent)	override;
+	APEIROGON_API virtual bool SphereCollisionTrace(SphereCollisionComponent* inSphereCollisionComponent)		override;
+
+public:
+	APEIROGON_API FVector GetCenterLocation() const;
+	APEIROGON_API float GetDistance() const;
+
 };
 
 class BoxTrace : public Trace

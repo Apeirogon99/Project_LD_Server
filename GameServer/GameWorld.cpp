@@ -19,6 +19,8 @@ void GameWorld::OnInitialization()
 	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(500.0f, 1100.0f, 500.0f), FRotator(), Scale()));
 	portal->SetTeleportLocation(FVector(10000.0f, 10000.0f, 100.0f));
 
+	this->MakeWorldObstruction();
+
 }
 
 void GameWorld::OnDestroy()
@@ -440,6 +442,44 @@ void GameWorld::RefreshWorldObserver()
 
 	//	mWorldObserver.InsertNode(actorLocation, gameObjectID, actorType);
 	//}
+}
+
+void GameWorld::MakeWorldObstruction()
+{
+	mWorldObstruction.DeleteTree();
+
+	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(this->GetDatas());
+	if (nullptr == datas)
+	{
+		return;
+	}
+
+	CSVDatas obstructionDatas;
+	datas->GetData(obstructionDatas, static_cast<uint8>(EGameDataType::Obstruction));
+
+	const size_t datasSize = obstructionDatas.size() - 1;
+	for (size_t index = 1; index < datasSize; ++index)
+	{
+		CSVRow row = obstructionDatas.at(index);
+
+		FVector		location = FVector(std::stof(row.at(1)), std::stof(row.at(2)), std::stof(row.at(3)));
+		FRotator	rotation = FRotator(std::stof(row.at(4)), std::stof(row.at(5)), std::stof(row.at(6)));
+		FVector		scale = FVector(1.0f, 1.0f, 1.0f);
+
+		FVector extent = FVector(std::stof(row.at(7)), std::stof(row.at(8)), std::stof(row.at(9)));
+
+		ActorPtr newActor = this->SpawnActor<Wall>(this->GetGameObjectRef(), location, rotation, scale);
+		std::shared_ptr<Wall> newWall = std::static_pointer_cast<Wall>(newActor);
+		if (nullptr == newWall)
+		{
+			this->GameObjectLog(L"Unable to complete a obstruction\n");
+			return;
+		}
+		newWall->SetBoxCollisionExtent(extent);
+
+		mWorldObstruction.InsertNode(newWall);
+	}
+	this->GameObjectLog(L"[GameWorld::MakeWorldObstruction] Complete a obstruction (%lld)\n", datasSize - 1);
 }
 
 const EnemySpawnerManagerPtr& GameWorld::GetEnemySpawnerManager()

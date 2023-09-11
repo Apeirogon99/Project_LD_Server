@@ -9,6 +9,7 @@ enum class EGameDataType : uint8
 	GrowStat,
 	EnemyStat,
 	EnemySpawner,
+	Obstruction,
 	Level,
 	Skill,
 	MAX_GAME_DATA,

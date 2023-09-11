@@ -161,6 +161,51 @@ public:
 		mUseNode.clear();
 	}
 
+	bool SearchNodes(LineTrace& inLineTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
+	{
+		if (inActorType == 0)
+		{
+			return false;
+		}
+
+		const Location& location = inLineTrace.GetCenterLocation();
+		const float radius = inLineTrace.GetDistance();
+
+		std::vector<int64> findNodeIDs;
+		SearchNodePreOrder(location, radius, inActorType, mUseNode[0], findNodeIDs);
+
+		for (size_t index = 0; index < findNodeIDs.size(); ++index)
+		{
+			const int64& gameObjectID = findNodeIDs[index];
+			ActorPtr actor = mNodesPool[gameObjectID]->GetActorRef().lock();
+			if (nullptr == actor)
+			{
+				continue;
+			}
+
+			CollisionComponent* collisionComponent = actor->GetDefaultCollisionComponent();
+			if (nullptr == collisionComponent)
+			{
+				continue;
+			}
+
+			if (false == inLineTrace.CollisionTrace(collisionComponent))
+			{
+				continue;
+			}
+
+			outGameObjectIDs.emplace_back(actor->GetGameObjectID());
+
+			if (outGameObjectIDs.size() == inMaxResult)
+			{
+				break;
+			}
+
+		}
+
+		return outGameObjectIDs.size();
+	}
+
 	bool SearchNodes(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
 	{
 		if (inActorType == 0)
