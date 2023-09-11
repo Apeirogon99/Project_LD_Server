@@ -27,8 +27,6 @@ void PlayerCharacter::OnInitialization()
 	infos.push_back(AttackInfo(0,		310,	1000, FVector(180.0f, 100.0f, 150.0f)));
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Combo_Melee, infos);
 
-	this->mMovementComponent.SetRestrictMovement(true);
-
 	this->SetPlayerMode(EPlayerMode::Move_MODE);
 
 	this->SetActorType(static_cast<uint8>(EActorType::Player));
@@ -55,9 +53,12 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(vel, vel, vel);
 
-	if (false == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+	if (false == this->mMovementComponent.GetRestrictMovement())
 	{
-		this->NextPlayerMode();
+		if (true == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+		{
+			this->NextPlayerMode();
+		}
 	}
 	this->SyncLocation(inDeltaTime);
 
@@ -67,6 +68,9 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
+
+	const float debugDuration = 0.1f;
+	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 }
 
 bool PlayerCharacter::IsValid()
@@ -279,25 +283,15 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	int64		movementLastTime	= pkt.timestamp();
 	float		radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
-	if (false == this->mMovementComponent.GetRestrictMovement())
+	bool isRestrict = this->mMovementComponent.GetRestrictMovement();
+	if (true == isRestrict)
 	{
 		return;
 	}
 
-	//float distance = FVector::Distance2D(serverLocation, clientLocation);
-	//if (distance <= 50.0f)
-	//{
-	//	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), clientLocation, movementDestination, movementLastTime, 0.0f);
-	//}
-	//else
-	//{
-	//	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
-	//}
-
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
 
 	mTargetActor.reset();
-
 	OnMovement();
 }
 
@@ -337,7 +331,12 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	{
 		return;
 	}
+
 	EnemyCharacterPtr enemy = std::static_pointer_cast<EnemyCharacter>(victimActor);
+	if (nullptr == enemy)
+	{
+		return;
+	}
 
 	const Stats& currentStat = mStatComponent.GetCurrentStats();
 	const float range = currentStat.GetRange();
@@ -346,37 +345,55 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	{
 		FVector curLocation		= this->GetLocation();
 		FVector victimLocation	= enemy->GetMovementComponent().GetNextLocation(enemy);
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, range);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, 0.0f);
 		this->SetPlayerMode(EPlayerMode::Attack_MODE);
 		this->SetTargetActor(enemy);
 		OnMovement();
 		return;
 	}
-	else
+	this->mTargetActor.reset();
+
+	printf("AutoAttack\n");
+	if (true == this->mAutoAttackComponent.CanAutoAttack(this->GetActorPtr()))
 	{
-		this->mTargetActor.reset();
+		this->DoAutoAttack(victimActor);
 	}
 
-	if (false == this->mAutoAttackComponent.IsComboAutoAttacking(this->GetActorPtr()))
+}
+
+void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
+{
+	this->mMovementComponent.SetRestrictMovement(true);
+
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
 	{
 		return;
 	}
-
-	this->mMovementComponent.SetRestrictMovement(false);
+	const int64 worldTime = world->GetWorldTime();
 
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
-	const int64	remoteID = remotePlayer->GetGameObjectID();
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64		remoteID	= remotePlayer->GetGameObjectID();
 
-	const float damage = currentStat.GetAttackDamage();
-	const int64 overTime = StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
+	const Stats&	currentStat = mStatComponent.GetCurrentStats();
+	const float		damage		= currentStat.GetAttackDamage();
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
-	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), victimActor, damage);
+	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictimActor, damage);
 
-	Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
-	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
+	FVector destinationLocation = this->GetLocation() + this->GetRotation().GetForwardVector() * 1.0f;
+	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), destinationLocation, worldTime, 0.0f);
+
+	printf("DoAutoAttack Send[%lld] To [%d]\n", worldTime, autoAttackCount);
 
 	{
+		Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
+		Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
+
 		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
 		autoAttackPacket.set_remote_id(remoteID);
 		autoAttackPacket.set_combo(autoAttackCount);
@@ -387,8 +404,6 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
 		remotePlayer->BrodcastPlayerViewers(sendBuffer);
 	}
-	
-
 }
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
@@ -407,6 +422,8 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 {
+	printf("OnAutoAttackShot\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -420,42 +437,20 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 		return;
 	}
 
-	if (false == this->mAutoAttackComponent.CheckComboShotAutoAttack(this->GetActorPtr()))
+	if (false == this->mAutoAttackComponent.IsComboAutoAttack())
 	{
-		return;
+		this->mAutoAttackComponent.DoComboMeleeAutoAttackOVer(this->GetActorPtr());
 	}
-
-	this->mMovementComponent.SetRestrictMovement(false);
-	
-	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
-	const int64	remoteID = remotePlayer->GetGameObjectID();
-
-	const Stats& currentStat	= mStatComponent.GetCurrentStats();
-	const float damage			= StatUtils::RandomDamage(currentStat.GetAttackDamage());
-	const int64 overTime		= StatUtils::CoolTime(currentStat.GetAttackSpeed(), 0.0f, 0.0f, 0.0f);
-
-	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
-	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictim, damage);
-
-	Protocol::SRotator rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
-	Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
-
+	else
 	{
-		Protocol::S2C_PlayerAutoAttack autoAttackPacket;
-		autoAttackPacket.set_remote_id(remoteID);
-		autoAttackPacket.set_combo(autoAttackCount);
-		autoAttackPacket.mutable_location()->CopyFrom(location);
-		autoAttackPacket.mutable_rotation()->CopyFrom(rotation);
-		autoAttackPacket.set_timestamp(worldTime);
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, autoAttackPacket);
-		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		this->DoAutoAttack(inVictim);
 	}
-
 }
 
 void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
 {
+	printf("OnAutoAttackTargeting\n");
+
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{
@@ -514,8 +509,10 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 
 void PlayerCharacter::OnAutoAttackOver()
 {
+	printf("OnAutoAttackOver\n");
 	this->mAutoAttackComponent.OnOverAutoComboAttack();
-	this->mMovementComponent.SetRestrictMovement(true);
+	this->SetPlayerMode(EPlayerMode::Move_MODE);
+	this->mMovementComponent.SetRestrictMovement(false);
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

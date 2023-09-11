@@ -69,7 +69,11 @@ public:
 
 	bool DoPatternAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage);
 
+	void DoComboMeleeAutoAttackOVer(ActorPtr inInstigated);
+
 public:
+	bool CanAutoAttack(ActorPtr inInstigated);
+
 	bool IsAutoAttacking(ActorPtr inInstigated);
 	bool IsComboAutoAttacking(ActorPtr inInstigated);
 	bool CheckComboShotAutoAttack(ActorPtr inInstigated);

@@ -18,6 +18,7 @@ public:
 
 public:
 	void			AutoAttack(const int64 inAttackingObjectID);
+	void			DoAutoAttack(ActorPtr inVictimActor);
 	virtual void	OnHit(ActorPtr inInstigated, const float inDamage) override;
 	virtual void	OnAutoAttackShot(ActorPtr inVictim) override;
 	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;

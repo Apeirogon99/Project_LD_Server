@@ -8,6 +8,7 @@ enum class ESkillID : uint16
 	Skill_Warrior_Parrying		= 2,
 	Skill_Warrior_ShieldBash	= 3,
 	Skill_Warrior_SwordBlow		= 4,
+	//Skill_Warrior_Dash			= 5,
 
 	Skill_Rich_Rise,
 	Skill_Rich_Rise_Skeleton,

@@ -193,9 +193,6 @@
       <Filter>Database\Private</Filter>
     </ClCompile>
     <ClCompile Include="PacketUtils.cpp" />
-    <ClCompile Include="GameWorld.cpp">
-      <Filter>Content\World</Filter>
-    </ClCompile>
     <ClCompile Include="AItem.cpp">
       <Filter>Content\Item</Filter>
     </ClCompile>
@@ -339,6 +336,9 @@
     </ClCompile>
     <ClCompile Include="RealmOfDeath.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>Content\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

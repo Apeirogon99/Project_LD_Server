@@ -43,6 +43,7 @@ void AttackComponent::OnOverAutoComboAttack()
 	mIsAutoAttack = false;
 	mIsComboAutoAttack = false;
 	mCurrentAutoAttackCount = 0;
+	//mLastAutoAttackTime = 0;
 }
 
 bool AttackComponent::DoMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage)
@@ -109,8 +110,11 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 	mCurrentAutoAttackCount += 1;
 	mCurrentAutoAttackCount %= mAttackInfos.size();
 
+	printf("DoComboMeleeAutoAttack[%d]\n", mCurrentAutoAttackCount);
+
 	mVictimActor = inVictim;
 	mIsAutoAttack = true;
+	mIsComboAutoAttack = false;
 	return true;
 }
 
@@ -147,6 +151,79 @@ bool AttackComponent::DoRangeAutoAttack(ActorPtr inInstigated, ActorPtr inVictim
 bool AttackComponent::DoPatternAttack(ActorPtr inInstigated, ActorPtr inVictim, const float& inDamage)
 {
 	return false;
+}
+
+void AttackComponent::DoComboMeleeAutoAttackOVer(ActorPtr inInstigated)
+{
+	WorldPtr world = inInstigated->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(world);
+	}
+
+	const int64 worldTime = world->GetWorldTime();
+	const int64 afterAttackTime = worldTime - mLastAutoAttackTime;
+	const int64 attackOverTime = mAttackInfos.at(mCurrentAutoAttackCount).GetOverTime();
+
+	inInstigated->PushTask(worldTime + attackOverTime - afterAttackTime, &Actor::OnAutoAttackOver);
+}
+
+bool AttackComponent::CanAutoAttack(ActorPtr inInstigated)
+{
+	WorldPtr world = inInstigated->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(world);
+	}
+	const int64 worldTime = world->GetWorldTime();
+	const int64 afterAttackTime = mLastAutoAttackTime;
+	const int64 OverTime = worldTime - mAttackInfos.at(mCurrentAutoAttackCount).GetOverTime();
+
+	if (mCurrentAutoAttackCount == 0)
+	{
+		if (true == this->mIsAutoAttack)
+		{
+			return false;
+		}
+
+		if (afterAttackTime > OverTime)
+		{
+			return false;
+		}
+
+		printf("FIRST ATTACk\n");
+	}
+	else
+	{
+		if (false == this->mIsAutoAttack)
+		{
+			return false;
+		}
+
+		const int64 ShotTime = worldTime - mAttackInfos.at(mCurrentAutoAttackCount - 1).GetShotTime();
+		if (afterAttackTime < ShotTime)
+		{
+			return false;
+		}
+
+		if (true == mIsComboAutoAttack)
+		{
+			return false;
+		}
+		mIsComboAutoAttack = true;
+
+		if (mCurrentAutoAttackCount == mAttackInfos.size() - 1)
+		{
+			printf("LAST ATTACk\n");
+		}
+		else
+		{
+			printf("COMBO ATTACk\n");
+		}
+		return false;
+	}
+
+	return true;
 }
 
 bool AttackComponent::IsAutoAttacking(ActorPtr inInstigated)
