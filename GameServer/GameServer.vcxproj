@@ -348,6 +348,7 @@
     <ClCompile Include="SourSpear.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
     <ClCompile Include="WarriorBuff.cpp" />
+    <ClCompile Include="WarriorDash.cpp" />
     <ClCompile Include="WarriorSwordBlow.cpp" />
     <ClCompile Include="WarriorCharacter.cpp" />
     <ClCompile Include="WarriorParrying.cpp" />
@@ -421,6 +422,7 @@
     <ClInclude Include="SourSpear.h" />
     <ClInclude Include="StatsComponent.h" />
     <ClInclude Include="WarriorBuff.h" />
+    <ClInclude Include="WarriorDash.h" />
     <ClInclude Include="WarriorSwordBlow.h" />
     <ClInclude Include="WarriorCharacter.h" />
     <ClInclude Include="WarriorParrying.h" />

@@ -20,6 +20,10 @@ public:
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
 public:
+	void BeginCastingSkill();
+	void EndCastingSkill();
+
+public:
 	void SetActiveSkill(const int32& inSkillID, const int64& inActiveTime);
 
 	virtual void Active();

@@ -340,6 +340,9 @@
     <ClCompile Include="GameWorld.cpp">
       <Filter>Content\World</Filter>
     </ClCompile>
+    <ClCompile Include="WarriorDash.cpp">
+      <Filter>Content\Skill\Warrior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -554,6 +557,9 @@
     </ClInclude>
     <ClInclude Include="RealmOfDeath.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="WarriorDash.h">
+      <Filter>Content\Skill\Warrior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

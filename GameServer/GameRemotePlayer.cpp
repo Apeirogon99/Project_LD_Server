@@ -126,7 +126,7 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	keyActions.insert(std::make_pair(static_cast<int32>('W'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash))));			 
 	keyActions.insert(std::make_pair(static_cast<int32>('E'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Buff))));					 
 	keyActions.insert(std::make_pair(static_cast<int32>('R'), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow))));
-	//keyActions.insert(std::make_pair(static_cast<int32>(VK_LCONTROL), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Dash))));
+	keyActions.insert(std::make_pair(static_cast<int32>(VK_LCONTROL), BindAction(EBindActionType::Action_Skill, static_cast<int32>(ESkillID::Skill_Warrior_Dash))));
 	this->mKeyboardComponet.LoadBindKeyAndAction(std::static_pointer_cast<GameRemotePlayer>(shared_from_this()), keyActions);
 
 	return true;

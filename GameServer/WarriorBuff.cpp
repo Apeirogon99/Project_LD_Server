@@ -11,6 +11,12 @@ WarriorBuff::~WarriorBuff()
 
 void WarriorBuff::OnInitialization()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+
+	}
 	this->SetTick(true, SYSTEM_TICK);
 
 	mSphereCollisionComponent.SetSphereCollisione(400.0f);
@@ -19,6 +25,9 @@ void WarriorBuff::OnInitialization()
 	Stats buff;
 	buff.InitStats(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f);
 	mStatsComponent.InitMaxStats(buff);
+
+	this->BeginCastingSkill();
+	this->PushTask(world->GetWorldTime() + 3000, &ActiveSkill::EndCastingSkill);
 }
 
 void WarriorBuff::OnDestroy()

@@ -8,7 +8,7 @@ enum class ESkillID : uint16
 	Skill_Warrior_Parrying		= 2,
 	Skill_Warrior_ShieldBash	= 3,
 	Skill_Warrior_SwordBlow		= 4,
-	//Skill_Warrior_Dash			= 5,
+	Skill_Warrior_Dash			= 5,
 
 	Skill_Rich_Rise,
 	Skill_Rich_Rise_Skeleton,
@@ -39,6 +39,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
 bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);
 bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);
 bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);
+bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);
 
 class SkillHandler
 {
@@ -54,6 +55,7 @@ public:
 		mSkillPacketHandlers[static_cast<uint16>(ESkillID::Skill_Warrior_Parrying)] = [](GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed) { return SkillHandler::HandlePacket(Skill_Warrior_Parrying, inGameRemotePlayer, inIsPressed); };
 		mSkillPacketHandlers[static_cast<uint16>(ESkillID::Skill_Warrior_ShieldBash)] = [](GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed) { return SkillHandler::HandlePacket(Skill_Warrior_ShieldBash, inGameRemotePlayer, inIsPressed); };
 		mSkillPacketHandlers[static_cast<uint16>(ESkillID::Skill_Warrior_SwordBlow)] = [](GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed) { return SkillHandler::HandlePacket(Skill_Warrior_SwordBlow, inGameRemotePlayer, inIsPressed); };
+		mSkillPacketHandlers[static_cast<uint16>(ESkillID::Skill_Warrior_Dash)] = [](GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed) { return SkillHandler::HandlePacket(Skill_Warrior_Dash, inGameRemotePlayer, inIsPressed); };
 	}
 
 	static bool HandlePacket(GameRemotePlayerRef& inGameRemotePlayer, int64 inSkillID, bool inIsPressed)

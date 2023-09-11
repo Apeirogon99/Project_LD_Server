@@ -11,10 +11,14 @@ WarriorShieldBash::~WarriorShieldBash()
 
 void WarriorShieldBash::OnInitialization()
 {
+    this->BeginCastingSkill();
 }
 
 void WarriorShieldBash::OnDestroy()
 {
+
+    this->EndCastingSkill();
+
     Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
     disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
 

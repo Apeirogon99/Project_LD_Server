@@ -248,3 +248,55 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
 
     return true;
 }
+
+bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
+{
+    if (false == inIsPressed)
+    {
+        return true;
+    }
+
+    GameRemotePlayerPtr remotePlayer = inGameRemotePlayer.lock();
+
+    GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+    if (nullptr == world)
+    {
+        return false;
+    }
+    const int64 worldTime = world->GetWorldTime();
+
+    PlayerCharacterPtr character = remotePlayer->GetCharacter();
+    if (nullptr == character)
+    {
+        return false;
+    }
+    SkillComponent& skillComponent = character->GetSkillComponent();
+    FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
+    FRotator rotation = character->GetRotation();
+
+    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash)))
+    {
+        printf("Can't Use Skill_Warrior_Dash\n");
+        return true;
+    }
+    printf("Use Skill_Warrior_Dash\n");
+
+    ActorPtr newActor = world->SpawnActor<WarriorDash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
+    if (nullptr == newActor)
+    {
+        return false;
+    }
+
+    std::shared_ptr<WarriorDash> warriorDash = std::static_pointer_cast<WarriorDash>(newActor);
+    if (nullptr == warriorDash)
+    {
+        return false;
+    }
+    skillComponent.UseSkill(warriorDash, static_cast<int32>(ESkillID::Skill_Warrior_Dash), 2000);
+    skillComponent.SetActiveSkill(warriorDash);
+
+    warriorDash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash), world->GetWorldTime());
+    warriorDash->SetWarriorDash(300.0f, 600.0f);
+    warriorDash->PushTask(worldTime + 100, &WarriorDash::Active);
+    return true;
+}

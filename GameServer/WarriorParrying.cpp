@@ -225,6 +225,8 @@ void WarriorParrying::StartParrying()
 
 	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, 1.0f);
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, 1.0f);
+
+	this->BeginCastingSkill();
 }
 
 void WarriorParrying::EndParrying()
@@ -237,6 +239,8 @@ void WarriorParrying::EndParrying()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
+
+	this->EndCastingSkill();
 
 	if(false == world->IsValidActor(this->GetGameObjectID()))
 	{

@@ -78,11 +78,13 @@ void WarriorSwordBlow::Active()
 {
     if (false == mIsCharge)
     {
+		this->BeginCastingSkill();
         mIsCharge = true;
 		return;
 	}
 	else
 	{
+		this->EndCastingSkill();
 		mIsCharge = false;
 	}
 

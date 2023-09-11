@@ -76,6 +76,7 @@
 #include "WarriorShieldBash.h"
 #include "WarriorSwordBlow.h"
 #include "WarriorParrying.h"
+#include "WarriorDash.h"
 
 //==========================//
 //		    Packet			//

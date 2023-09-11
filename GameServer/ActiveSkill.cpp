@@ -100,6 +100,57 @@ void ActiveSkill::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(disappearSendBuffer);
 }
 
+void ActiveSkill::BeginCastingSkill()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+
+	character->GetMovementComponent().SetRestrictMovement(true);
+
+	FVector destinationLocation = this->GetLocation() + this->GetRotation().GetForwardVector() * 1.0f;
+	character->GetMovementComponent().SetNewDestination(this->GetActorPtr(), character->GetLocation(), destinationLocation, worldTime, 0.0f);
+}
+
+void ActiveSkill::EndCastingSkill()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+
+	character->GetMovementComponent().SetRestrictMovement(false);
+}
+
 void ActiveSkill::SetActiveSkill(const int32& inSkillID, const int64& inActiveTime)
 {
 	mSKillID = inSkillID;
@@ -124,7 +175,7 @@ void ActiveSkill::DeActive(const int64& inDuration)
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
+	const int64& worldTime = world->GetNextWorldTime();
 
 	mDeActiveTime = worldTime + inDuration;
 	world->PushTask(worldTime + inDuration, &GameWorld::DestroyActor, this->GetGameObjectID());

@@ -36,6 +36,7 @@ void PlayerCharacter::OnInitialization()
 	this->mSkillComponent.PushSkill(2);
 	this->mSkillComponent.PushSkill(3);
 	this->mSkillComponent.PushSkill(4);
+	this->mSkillComponent.PushSkill(5);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -55,7 +56,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	if (false == this->mMovementComponent.GetRestrictMovement())
 	{
-		if (true == this->mMovementComponent.Update(this->GetActorPtr(), 10.0f))
+		if (true == this->mMovementComponent.Update(this->GetActorPtr(), 42.0f))
 		{
 			this->NextPlayerMode();
 		}
