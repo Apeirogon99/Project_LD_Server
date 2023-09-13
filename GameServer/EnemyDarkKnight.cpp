@@ -112,7 +112,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
 	this->OnMovementEnemy();
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[3];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -201,6 +201,7 @@ void EnemyDarkKnight::RunningAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(200.0f, 1000));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -449,7 +450,38 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo inAttackInfo)
 
 void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes)
 {
-	FVector	foward = this->GetRotation().GetForwardVector();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	float maxEstimatedDistnace = 0.0f;
+	for (const MovePlane& plane : inMovePlanes)
+	{
+		maxEstimatedDistnace += plane.mDistance;
+	}
+
+	const FVector foward = this->GetRotation().GetForwardVector();
+	const float radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+	const float ranage = this->GetEnemyStatsComponent().GetCurrentStats().GetRange();
+
+	const Location characterFoward = this->GetLocation() + (foward * ranage);
+	Location estimatedDistnace = characterFoward + (foward * maxEstimatedDistnace);
+	float ratio = 1.0f;
+
+	LineTrace lineTrace(this->GetActorPtr(), characterFoward, estimatedDistnace, true);
+
+	std::vector<FVector> impactLocation;
+	bool result = world->FindObstructionIntersection(lineTrace, static_cast<uint8>(EActorType::Obstruction), impactLocation, 1);
+	if (true == result)
+	{
+		printf("DARK KNIGHT DISTANCE\n");
+		printf("%f\n", FVector::Distance2D(impactLocation.at(0), estimatedDistnace));
+		printf("%f\n", FVector::Distance2D(impactLocation.at(0), estimatedDistnace) / maxEstimatedDistnace);
+
+		ratio -= FVector::Distance2D(impactLocation.at(0), estimatedDistnace) / maxEstimatedDistnace;
+	}
 
 	Location	originLocation	= this->GetLocation();
 	Location	destinationLocation = Location();
@@ -459,7 +491,7 @@ void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePl
 	for(const MovePlane& plane : inMovePlanes)
 	{
 
-		destinationLocation = originLocation + (foward * plane.mDistance);
+		destinationLocation = originLocation + (foward * (plane.mDistance * ratio));
 		destinationLocation.SetZ(originLocation.GetZ());
 
 		destinationTime += plane.mTime;

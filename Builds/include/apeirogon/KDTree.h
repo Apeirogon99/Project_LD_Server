@@ -161,7 +161,7 @@ public:
 		mUseNode.clear();
 	}
 
-	bool SearchNodes(LineTrace& inLineTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
+	bool SearchNodes(LineTrace& inLineTrace, const uint8& inActorType, std::vector<FVector>& outIntersection, const size_t& inMaxResult = INFINITE)
 	{
 		if (inActorType == 0)
 		{
@@ -194,16 +194,16 @@ public:
 				continue;
 			}
 
-			outGameObjectIDs.emplace_back(actor->GetGameObjectID());
+			outIntersection.emplace_back(inLineTrace.GetImpactPoint());
 
-			if (outGameObjectIDs.size() == inMaxResult)
+			if (outIntersection.size() == inMaxResult)
 			{
 				break;
 			}
 
 		}
 
-		return outGameObjectIDs.size();
+		return outIntersection.size();
 	}
 
 	bool SearchNodes(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)

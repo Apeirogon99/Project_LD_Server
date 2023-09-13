@@ -67,7 +67,10 @@ public:
 public:
 	APEIROGON_API FVector GetCenterLocation() const;
 	APEIROGON_API float GetDistance() const;
+	APEIROGON_API FVector GetImpactPoint() const;
 
+public:
+	FVector mImpactPoint;
 };
 
 class BoxTrace : public Trace

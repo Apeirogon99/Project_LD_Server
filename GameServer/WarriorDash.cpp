@@ -11,7 +11,7 @@ WarriorDash::~WarriorDash()
 
 void WarriorDash::OnInitialization()
 {
-    this->BeginCastingSkill();
+    //this->BeginCastingSkill();
 }
 
 void WarriorDash::OnDestroy()
@@ -38,6 +38,8 @@ void WarriorDash::OnDestroy()
     StatsComponent& playerStats = instigated->GetStatComponent();
     BuffComponent& playerbuff = instigated->GetBuffComponent();
     playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
+
+    //this->EndCastingSkill();
 
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
@@ -99,10 +101,32 @@ void WarriorDash::Active()
         return;
     }
 
-    const Location destinationLocation = instigated->GetLocation() + (instigated->GetRotation().GetForwardVector() * mDashDistance);
-    instigated->GetMovementComponent().SetNewDestination(instigated->GetActorPtr(), instigated->GetLocation(), destinationLocation, worldTime, 0.0f);
+    const FVector foward = instigated->GetRotation().GetForwardVector();
+    const float radius = instigated->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
-    this->EndCastingSkill();
+    const Location characterFoward = instigated->GetLocation() + (foward * radius);
+    Location destinationLocation = characterFoward + (foward * mDashDistance);
+
+    LineTrace lineTrace(instigated->GetActorPtr(), characterFoward, destinationLocation, true);
+
+    std::vector<FVector> impactLocation;
+    bool result = world->FindObstructionIntersection(lineTrace, static_cast<uint8>(EActorType::Obstruction), impactLocation, 1);
+    if (true == result)
+    {
+        printf("ImpatLocation : "); impactLocation.at(0).ToString();
+        destinationLocation = impactLocation.at(0);
+    }
+    destinationLocation = destinationLocation - (foward * radius);
+
+    printf("DESTINATION : "); destinationLocation.ToString();
+
+    const float debugDuration = 1.0f;
+    float distance = FVector::Distance2D(instigated->GetLocation(), destinationLocation) / 2.0f;
+    PacketUtils::DebugDrawBox(this->GetPlayerViewers(), instigated->GetLocation(), destinationLocation, FVector(distance, 1.0f, 1.0f), debugDuration);
+    PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), (instigated->GetLocation() + destinationLocation) / 2.0f, distance, debugDuration);
+
+
+    instigated->GetMovementComponent().SetNewDestination(instigated->GetActorPtr(), instigated->GetLocation(), destinationLocation, worldTime, 0.0f);
 
     float time = (mDashDistance / mInitDashSpeed) * 1000.0f;
     this->DeActive(static_cast<int64>(time));
