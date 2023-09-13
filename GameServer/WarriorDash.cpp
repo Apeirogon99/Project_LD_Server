@@ -11,7 +11,7 @@ WarriorDash::~WarriorDash()
 
 void WarriorDash::OnInitialization()
 {
-    //this->BeginCastingSkill();
+    this->BeginCastingSkill();
 }
 
 void WarriorDash::OnDestroy()
@@ -38,8 +38,6 @@ void WarriorDash::OnDestroy()
     StatsComponent& playerStats = instigated->GetStatComponent();
     BuffComponent& playerbuff = instigated->GetBuffComponent();
     playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
-
-    //this->EndCastingSkill();
 
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
@@ -138,6 +136,8 @@ void WarriorDash::Active()
     reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
     reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
     reactionSkill.set_duration(worldTime);
+
+    this->EndCastingSkill();
 }
 
 void WarriorDash::SetWarriorDash(float inDistance, float inSpeed)

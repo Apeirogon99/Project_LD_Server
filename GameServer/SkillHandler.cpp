@@ -296,7 +296,7 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     skillComponent.SetActiveSkill(warriorDash);
 
     warriorDash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash), world->GetWorldTime());
-    warriorDash->SetWarriorDash(300.0f, 600.0f);
+    warriorDash->SetWarriorDash(300.0f, 1000.0f);
     warriorDash->PushTask(worldTime + 100, &WarriorDash::Active);
     return true;
 }
