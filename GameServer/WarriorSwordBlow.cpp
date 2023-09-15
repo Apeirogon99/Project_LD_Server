@@ -111,7 +111,7 @@ void WarriorSwordBlow::Active()
 
 	FVector boxExtent(chargeDuration * this->mChargeVelocity,100.0f, 100.0f);
 
-	FVector		location = instigated->GetMovementComponent().GetCurrentLocation(instigated->GetActorPtr());
+	FVector		location = this->GetLocation();
 	FRotator	rotation = instigated->GetRotation();
 	FVector		foward	= rotation.GetForwardVector();
 	const float collision = instigated->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();

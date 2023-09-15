@@ -70,7 +70,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
-	const float debugDuration = 0.1f;
+	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 }
 
@@ -222,23 +222,7 @@ void PlayerCharacter::SyncLocation(const int64 inDeltaTime)
 		return;
 	}
 
-	const int64			remoteID			= remotePlayer->GetGameObjectID();
-	Protocol::SVector	currentLocation		= PacketUtils::ToSVector(this->GetLocation());
-	Protocol::SVector	destinationLocation	= PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation());
-	const int64			worldTime			= this->mMovementComponent.GetLastMovementTime();
-
-
-	Protocol::S2C_MovementCharacter movementPacket;
-	movementPacket.set_remote_id(remoteID);
-	movementPacket.mutable_cur_location()->CopyFrom(currentLocation);
-	movementPacket.mutable_move_location()->CopyFrom(destinationLocation);
-	movementPacket.set_timestamp(worldTime);
-
-	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(remotePlayer->GetRemoteClient().lock());
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, movementPacket);
-	remotePlayer->BrodcastPlayerViewers(sendBuffer);
-
-	//wprintf(L"[SEND] (%5.6f:%5.6f:%5.6f)\n", this->GetLocation().GetX(), this->GetLocation().GetY(), this->GetLocation().GetZ());
+	OnMovement();
 }
 
 void PlayerCharacter::DetectChangePlayer()
@@ -278,10 +262,20 @@ void PlayerCharacter::DetectChangePlayer()
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 {
-	Location	serverLocation		= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
-	Location	clientLocation		= PacketUtils::ToFVector(pkt.cur_location());
-	Location	movementDestination = PacketUtils::ToFVector(pkt.move_location());
-	int64		movementLastTime	= pkt.timestamp();
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	Location	serverLocation = this->GetLocation();
+	int64		servertMovementLastTime	= this->mMovementComponent.GetLastMovementTime();
+
+	Location	clientLocation = PacketUtils::ToFVector(pkt.cur_location());
+	int64		clientMovementLastTime	= pkt.timestamp();
+
+	Location	movementDestination		= PacketUtils::ToFVector(pkt.move_location());
 	float		radius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	bool isRestrict = this->mMovementComponent.GetRestrictMovement();
@@ -290,7 +284,32 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 		return;
 	}
 
-	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, movementLastTime, 0.0f);
+	//클라에서 넘어온 이후 차이를 구한 현재 클라이언트의 위치값
+	int64		clientDuration = worldTime - clientMovementLastTime;
+	Location	currentClientLocation = this->mMovementComponent.GetNextLocation(this->GetActorPtr(), clientLocation, movementDestination, clientDuration, 0.0f);
+
+	int64		serverDuration = mMovementComponent.GetLastMovementTime() - clientMovementLastTime;
+	Location	currentServerLocation = this->mMovementComponent.GetNextLocation(this->GetActorPtr(), serverLocation, this->mMovementComponent.GetServerDestinationLocation(), serverDuration, 0.0f);
+	float		currentDistance = FVector::Distance2D(currentClientLocation, currentServerLocation);
+
+	float distance = FVector::Distance2D(serverLocation, clientLocation);
+
+	if (distance <= 1.0f)
+	{
+		printf("STOP AND START\n");
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 42.0f);
+	}
+	else if(currentDistance <= 20.0f)
+	{
+		printf("SERVER\n");
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 42.0f);
+	}
+	else
+	{
+		printf("CLIENT\n");
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentClientLocation, movementDestination, clientMovementLastTime, 42.0f);
+	}
+	
 
 	mTargetActor.reset();
 	OnMovement();
@@ -471,7 +490,7 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	FVector			location	= this->mMovementComponent.GetCurrentLocation(this->GetActorPtr());
+	FVector			location	= this->GetLocation();
 	FRotator		rotation	= FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f);
 	FVector			foward		= rotation.GetForwardVector();
 	const float		collision	= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();

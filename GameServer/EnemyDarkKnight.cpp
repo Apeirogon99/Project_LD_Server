@@ -201,7 +201,11 @@ void EnemyDarkKnight::RunningAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
-	planes.push_back(MovePlane(200.0f, 1000));
+	planes.push_back(MovePlane(426.0f, 2400));
+	planes.push_back(MovePlane(-11.0f, 3000));
+	planes.push_back(MovePlane(1.7f, 4030));
+	planes.push_back(MovePlane(-73.7f, 5500));
+	planes.push_back(MovePlane(5.0f, 6270));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -231,6 +235,22 @@ void EnemyDarkKnight::ChargedComboAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(-9.0f, 480));
+	planes.push_back(MovePlane(37.0f, 1540));
+	planes.push_back(MovePlane(-23.77f, 2200));
+	planes.push_back(MovePlane(8.37f, 2970));
+	planes.push_back(MovePlane(-7.93f, 4380));
+	planes.push_back(MovePlane(3.33f, 5020));
+	planes.push_back(MovePlane(-12.1f, 6330));
+	planes.push_back(MovePlane(37.1f, 7230));
+	planes.push_back(MovePlane(82.0f, 8400));
+	planes.push_back(MovePlane(252.0f, 11460));
+	planes.push_back(MovePlane(-8.0f, 12510));
+	planes.push_back(MovePlane(-10.0f, 13240));
+	planes.push_back(MovePlane(2.0f, 14100));
+	planes.push_back(MovePlane(11.0f, 15100));
+	planes.push_back(MovePlane(-21.0f, 16070));
+	planes.push_back(MovePlane(11.0f, 17100));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -263,6 +283,10 @@ void EnemyDarkKnight::UppercutAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(4.64f, 700));
+	planes.push_back(MovePlane(-28.04f, 1970));
+	planes.push_back(MovePlane(131.5f, 3900));
+	planes.push_back(MovePlane(53.6f, 6400));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -291,10 +315,10 @@ void EnemyDarkKnight::SwingAttack()
 	const int64 worldTime = world->GetWorldTime();
 
 	std::vector<MovePlane> planes;
-	planes.push_back(MovePlane(-12.0f,	1150));
+	planes.push_back(MovePlane(-12.0f, 1150));
 	planes.push_back(MovePlane(+114.0f, 2800));
-	planes.push_back(MovePlane(-22.0f,	3470));
-	planes.push_back(MovePlane(+64.0f,	5870));
+	planes.push_back(MovePlane(-22.0f, 3470));
+	planes.push_back(MovePlane(+64.0f, 5870));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -324,6 +348,13 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(-10.5f, 700));
+	planes.push_back(MovePlane(116.4f, 2300));
+	planes.push_back(MovePlane(-15.6f, 2940));
+	planes.push_back(MovePlane(49.5f, 3720));
+	planes.push_back(MovePlane(18.4f, 5100));
+	planes.push_back(MovePlane(-9.2f, 5750));
+	planes.push_back(MovePlane(12.5f, 6730));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
@@ -354,6 +385,13 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 
 	//TODO : 이동 채우기
 	std::vector<MovePlane> planes;
+	planes.push_back(MovePlane(-12.1f, 1000));
+	planes.push_back(MovePlane(35.7f, 2270));
+	planes.push_back(MovePlane(-6.4f, 2460));
+	planes.push_back(MovePlane(73.5f, 3570));
+	planes.push_back(MovePlane(99.8f, 4930));
+	planes.push_back(MovePlane(-35.2f, 5730));
+	planes.push_back(MovePlane(-1.8f, 6570));
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();

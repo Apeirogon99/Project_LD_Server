@@ -195,8 +195,6 @@ bool AttackComponent::CanAutoAttack(ActorPtr inInstigated)
 	}
 	else
 	{
-		return false;
-
 		if (false == this->mIsAutoAttack)
 		{
 			return false;

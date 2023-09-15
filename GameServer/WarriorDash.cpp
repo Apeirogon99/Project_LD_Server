@@ -38,6 +38,7 @@ void WarriorDash::OnDestroy()
     StatsComponent& playerStats = instigated->GetStatComponent();
     BuffComponent& playerbuff = instigated->GetBuffComponent();
     playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
+    instigated->DetectChangePlayer();
 
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
@@ -111,12 +112,9 @@ void WarriorDash::Active()
     bool result = world->FindObstructionIntersection(lineTrace, static_cast<uint8>(EActorType::Obstruction), impactLocation, 1);
     if (true == result)
     {
-        printf("ImpatLocation : "); impactLocation.at(0).ToString();
         destinationLocation = impactLocation.at(0);
     }
     destinationLocation = destinationLocation - (foward * radius);
-
-    printf("DESTINATION : "); destinationLocation.ToString();
 
     const float debugDuration = 1.0f;
     float distance = FVector::Distance2D(instigated->GetLocation(), destinationLocation) / 2.0f;
@@ -125,6 +123,7 @@ void WarriorDash::Active()
 
 
     instigated->GetMovementComponent().SetNewDestination(instigated->GetActorPtr(), instigated->GetLocation(), destinationLocation, worldTime, 0.0f);
+    instigated->OnMovement();
 
     float time = (mDashDistance / mInitDashSpeed) * 1000.0f;
     this->DeActive(static_cast<int64>(time));
@@ -133,7 +132,7 @@ void WarriorDash::Active()
     reactionSkill.set_remote_id(owner->GetGameObjectID());
     reactionSkill.set_object_id(this->GetGameObjectID());
     reactionSkill.set_skill_id(this->GetSkillID());
-    reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+    reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(destinationLocation));
     reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
     reactionSkill.set_duration(worldTime);
 
@@ -170,5 +169,5 @@ void WarriorDash::SetWarriorDash(float inDistance, float inSpeed)
     mDashSpeed = inSpeed - playerStats.GetCurrentStats().GetMovementSpeed();
 
     playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
-
+    instigated->DetectChangePlayer();
 }

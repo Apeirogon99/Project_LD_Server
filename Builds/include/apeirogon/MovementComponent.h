@@ -22,6 +22,7 @@ public:
 	void SetTeleportDestination(ActorPtr inOwner, const Location& inDestinationLocation, const int64 inMovementLastTime);
 	const Location GetCurrentLocation(ActorPtr inOwner);
 	const Location GetNextLocation(ActorPtr inOwner);
+	const Location GetNextLocation(ActorPtr inOwner, const Location& inCurrentLocation, const Location& inDestinationLocation, const int64& inMovementLastTime, float inRadius);
 
 public:
 	const Location& GetServerDestinationLocation() const;
