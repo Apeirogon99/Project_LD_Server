@@ -407,6 +407,7 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 
 	FVector destinationLocation = this->GetLocation() + this->GetRotation().GetForwardVector() * 1.0f;
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), destinationLocation, worldTime, 0.0f);
+	this->OnMovement();
 
 	printf("DoAutoAttack Send[%lld] To [%d]\n", worldTime, autoAttackCount);
 
