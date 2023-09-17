@@ -517,3 +517,46 @@ bool Handle_C2S_ReleaseUseKeyAction(PacketSessionPtr& session, Protocol::C2S_Rel
 
 	return true;
 }
+
+bool Handle_C2S_RequestEnterDungeon(PacketSessionPtr& session, Protocol::C2S_RequestEnterDungeon& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
+	if (nullptr == gameState)
+	{
+		return false;
+	}
+
+	GameTaskPtr task = gameState->GetGameTask();
+	if (nullptr == task)
+	{
+		return false;
+	}
+
+	GameWorldPtr world = task->GetWorld();
+	if (nullptr == world)
+	{
+		return false;
+	}
+
+	DungeonManagerPtr dungeonManager = world->GetDungeonManager();
+	if (nullptr == dungeonManager)
+	{
+		return false;
+	}
+
+	const int64 serviceTimeStamp = gameState->GetServiceTimeStamp();
+	dungeonManager->PushTask(serviceTimeStamp, &DungeonManager::RequestEnterDungeon, remotePlayer);
+	return true;
+}

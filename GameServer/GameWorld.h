@@ -66,10 +66,13 @@ protected:
 	void MakeWorldObstruction();
 
 public:
-	const EnemySpawnerManagerPtr& GetEnemySpawnerManager();
+	const EnemySpawnerManagerPtr&	GetEnemySpawnerManager();
+	const DungeonManagerPtr&		GetDungeonManager();
 
 private:
 	std::vector<class Token>			mTokens;
 	std::map<int64, WorldPlayerInfo>	mPlayerIDs;
+
 	EnemySpawnerManagerPtr				mSpawnerManager;
+	DungeonManagerPtr					mDungeonManager;
 };

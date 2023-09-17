@@ -36,15 +36,15 @@ void Dungeon::OnDestroy()
 
 void Dungeon::OnTick(const int64 inDeltaTime)
 {
-	if(false == this->IsValid())
+	if (false == this->IsValid())
 	{
 		return;
 	}
 
 	if (false == mIsCreateStage)
 	{
-		bool result = this->IsCreateStage(mStageCount))
-		if(result)
+		bool result = this->IsCreateStage(mStageCount);
+		if (result)
 		{
 			mIsCreateStage = true;
 		}
@@ -64,7 +64,7 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 bool Dungeon::IsValid()
 {
 	bool player = mPlayers.size() > 0;
-	bool state	= mState == EDungeonState::State_Play;
+	bool state = mState == EDungeonState::State_Play;
 	return player && state;
 }
 
@@ -87,17 +87,17 @@ bool Dungeon::IsCreateStage(int32 inStageCount)
 
 bool Dungeon::ConditionStageA()
 {
-
+	return false;
 }
 
 bool Dungeon::ConditionStageB()
 {
-
+	return false;
 }
 
 bool Dungeon::ConditionBossStage()
 {
-
+	return false;
 }
 
 void Dungeon::CreateStageA()
@@ -115,7 +115,7 @@ void Dungeon::CreateStageA()
 	{
 		return;
 	}
-	Stats stats = datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Nomal_Skeleton));
+	const Stats& stats = datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Nomal_Skeleton));
 
 	std::vector<Location> locations;
 	locations.push_back(Location());

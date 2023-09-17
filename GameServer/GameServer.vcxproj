@@ -168,6 +168,8 @@
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="Blink.cpp" />
     <ClCompile Include="BuffComponent.cpp" />
+    <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="DungeonManager.cpp" />
     <ClCompile Include="EnemyDarkKnight.cpp" />
     <ClCompile Include="EnemyArcherSkeleton.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
@@ -361,6 +363,8 @@
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="Blink.h" />
     <ClInclude Include="BuffComponent.h" />
+    <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="DungeonManager.h" />
     <ClInclude Include="EnemyDarkKnight.h" />
     <ClInclude Include="EnemyArcherSkeleton.h" />
     <ClInclude Include="EnemyAttack.h" />

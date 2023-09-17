@@ -64,7 +64,7 @@ bool GameService::SettingService()
 	gameState->SetServerName("Å¸·é");
 	gameState->SetServerIP("116.41.116.247");
 	gameState->SetServerPort(port);
-	gameState->SetServerLevel("L_NecromancerDungeon");
+	gameState->SetServerLevel("L_Kingdom");
 
 	SessionManagerPtr sessionManager = ::static_pointer_cast<SessionManager>(move(gameState));
 	if (false == SetSessionManager(sessionManager))

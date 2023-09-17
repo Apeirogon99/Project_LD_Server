@@ -48,12 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DungeonWorld.cpp">
-      <Filter>Source\Private\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Dungeon.cpp">
-      <Filter>Source\Private\World</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Pch</Filter>
     </ClCompile>
@@ -81,17 +75,8 @@
     <ClCompile Include="DungeonServerPacketHandler.cpp">
       <Filter>Packet\Private\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="DungeonManager.cpp">
-      <Filter>Source\Private\World</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DungeonWorld.h">
-      <Filter>Source\Public\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Dungeon.h">
-      <Filter>Source\Public\World</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Pch</Filter>
     </ClInclude>
@@ -121,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="PacketManager.h">
       <Filter>Packet\Public\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="DungeonManager.h">
-      <Filter>Source\Public\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

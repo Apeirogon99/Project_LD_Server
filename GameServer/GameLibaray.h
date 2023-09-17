@@ -56,6 +56,8 @@
 #include "Party.h"
 #include "Quest.h"
 #include "Portal.h"
+#include "Dungeon.h"
+#include "DungeonManager.h"
 
 //==========================//
 //   GameContent | Enemy	//

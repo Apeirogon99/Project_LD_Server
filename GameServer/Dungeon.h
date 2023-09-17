@@ -27,6 +27,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
+	void BroadCastDungeon(SendBufferPtr inSendBuffer);
 	void ResetDungeon();
 
 public:
@@ -60,6 +61,6 @@ private:
 	std::vector<std::function<void(Dungeon&)>> mClearStateFunc;
 
 	std::vector<ActorPtr> mEnemys;
-	std::vector<PlayerCharacterPtr> mPlayers;
+	std::vector<GameRemotePlayerPtr> mPlayers;
 };
 

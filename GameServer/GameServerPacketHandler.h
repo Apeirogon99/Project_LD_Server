@@ -48,39 +48,43 @@ enum class EPakcetID: uint16
 	S2C_AppearItem = 2042,
 	S2C_AppearArrow = 2043,
 	S2C_AppearProtal = 2044,
-	C2S_InteractiveObject = 2045,
-	S2C_MovementProjectile = 2046,
-	S2C_Teleport = 2047,
-	S2C_AppearEnemy = 2048,
-	S2C_DetectChangeEnemy = 2049,
-	S2C_MovementEnemy = 2050,
-	S2C_AnimationMovementEnemy = 2051,
-	S2C_EnemyAutoAttack = 2052,
-	S2C_HitEnemy = 2053,
-	S2C_DeathEnemy = 2054,
-	S2C_DisAppearGameObject = 2055,
-	C2S_LoadInventory = 2056,
-	S2C_LoadInventory = 2057,
-	C2S_InsertInventory = 2058,
-	S2C_InsertInventory = 2059,
-	C2S_UpdateInventory = 2060,
-	S2C_UpdateInventory = 2061,
-	C2S_DeleteInventory = 2062,
-	S2C_DeleteInventory = 2063,
-	S2C_RollbackInventory = 2064,
-	C2S_ReplaceEqipment = 2065,
-	S2C_ReplaceEqipment = 2066,
-	S2C_LoadSkillTree = 2067,
-	C2S_UpdateSkillTree = 2068,
-	S2C_UpdateSkillTree = 2069,
-	C2S_SetUseKeyAction = 2070,
-	S2C_SetUseKeyAction = 2071,
-	C2S_PressedUseKeyAction = 2072,
-	C2S_ReleaseUseKeyAction = 2073,
-	S2C_AppearSkill = 2074,
-	S2C_ReactionSkill = 2075,
-	S2C_DebugBox = 2076,
-	S2C_DebugCircle = 2077,
+	S2C_AppearObstruction = 2045,
+	C2S_InteractiveObject = 2046,
+	S2C_MovementProjectile = 2047,
+	S2C_Teleport = 2048,
+	S2C_AppearEnemy = 2049,
+	S2C_DetectChangeEnemy = 2050,
+	S2C_MovementEnemy = 2051,
+	S2C_AnimationMovementEnemy = 2052,
+	S2C_EnemyAutoAttack = 2053,
+	S2C_HitEnemy = 2054,
+	S2C_DeathEnemy = 2055,
+	S2C_DisAppearGameObject = 2056,
+	C2S_LoadInventory = 2057,
+	S2C_LoadInventory = 2058,
+	C2S_InsertInventory = 2059,
+	S2C_InsertInventory = 2060,
+	C2S_UpdateInventory = 2061,
+	S2C_UpdateInventory = 2062,
+	C2S_DeleteInventory = 2063,
+	S2C_DeleteInventory = 2064,
+	S2C_RollbackInventory = 2065,
+	C2S_ReplaceEqipment = 2066,
+	S2C_ReplaceEqipment = 2067,
+	S2C_LoadSkillTree = 2068,
+	C2S_UpdateSkillTree = 2069,
+	S2C_UpdateSkillTree = 2070,
+	C2S_SetUseKeyAction = 2071,
+	S2C_SetUseKeyAction = 2072,
+	C2S_PressedUseKeyAction = 2073,
+	C2S_ReleaseUseKeyAction = 2074,
+	S2C_AppearSkill = 2075,
+	S2C_ReactionSkill = 2076,
+	S2C_DebugBox = 2077,
+	S2C_DebugCircle = 2078,
+	C2S_RequestEnterDungeon = 2079,
+	S2C_RequestEnterDungeon = 2080,
+	S2C_ResponseEnterDungeon = 2081,
 };
 */
 
@@ -110,6 +114,7 @@ bool Handle_C2S_UpdateSkillTree(PacketSessionPtr& session, Protocol::C2S_UpdateS
 bool Handle_C2S_SetUseKeyAction(PacketSessionPtr& session, Protocol::C2S_SetUseKeyAction& pkt);
 bool Handle_C2S_PressedUseKeyAction(PacketSessionPtr& session, Protocol::C2S_PressedUseKeyAction& pkt);
 bool Handle_C2S_ReleaseUseKeyAction(PacketSessionPtr& session, Protocol::C2S_ReleaseUseKeyAction& pkt);
+bool Handle_C2S_RequestEnterDungeon(PacketSessionPtr& session, Protocol::C2S_RequestEnterDungeon& pkt);
 
 class GameServerPacketHandler
 {
@@ -141,6 +146,7 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_SetUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_SetUseKeyAction>(Handle_C2S_SetUseKeyAction, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_PressedUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_PressedUseKeyAction>(Handle_C2S_PressedUseKeyAction, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_ReleaseUseKeyAction)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_ReleaseUseKeyAction>(Handle_C2S_ReleaseUseKeyAction, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestEnterDungeon)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestEnterDungeon>(Handle_C2S_RequestEnterDungeon, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EnterGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterGameServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LeaveGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveGameServer)); }
@@ -172,6 +178,7 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearItem& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearItem)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearArrow& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearArrow)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearProtal& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearProtal)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearObstruction& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearObstruction)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementProjectile& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementProjectile)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_Teleport& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_Teleport)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearEnemy& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearEnemy)); }
@@ -195,5 +202,7 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReactionSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReactionSkill)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugBox& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugBox)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugCircle& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugCircle)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestEnterDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestEnterDungeon)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ResponseEnterDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ResponseEnterDungeon)); }
 
 };

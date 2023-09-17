@@ -23,11 +23,3 @@
 #pragma comment(lib, "Builds\\release\\ApeirogonLibrary.lib")
 #pragma comment(lib, "Builds\\release\\CommonLibrary.lib")
 #endif
-
-#include "ApeirogonLibrary.h"
-#include "CommonLibaray.h"
-
-#include "PacketManager.h"
-#include "GameLibaray.h"
-#include "DungeonLibrary.h"
-#include "CommonServerPacketHandler.h"

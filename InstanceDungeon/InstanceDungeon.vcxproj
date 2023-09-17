@@ -165,13 +165,10 @@
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h" />
     <ClInclude Include="CommonServerPacketHandler.h" />
-    <ClInclude Include="Dungeon.h" />
     <ClInclude Include="DungeonFoward.h" />
     <ClInclude Include="DungeonLibrary.h" />
-    <ClInclude Include="DungeonManager.h" />
     <ClInclude Include="DungeonPacket.pb.h" />
     <ClInclude Include="DungeonServerPacketHandler.h" />
-    <ClInclude Include="DungeonWorld.h" />
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="PacketStruct.pb.h" />
@@ -185,8 +182,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CommonServerPacketHandler.cpp" />
-    <ClCompile Include="Dungeon.cpp" />
-    <ClCompile Include="DungeonManager.cpp" />
     <ClCompile Include="DungeonPacket.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -194,7 +189,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DungeonServerPacketHandler.cpp" />
-    <ClCompile Include="DungeonWorld.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PacketEnum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

@@ -133,6 +133,9 @@
     <Filter Include="Content\Obstruction">
       <UniqueIdentifier>{05ee641f-b94b-4b25-8b4b-6d6bb1d3df31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Dungeon">
+      <UniqueIdentifier>{bc0a0c01-3c98-497d-a6ad-5cf1c9b76c66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -348,6 +351,12 @@
     </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Content\Obstruction</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungeon.cpp">
+      <Filter>Content\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonManager.cpp">
+      <Filter>Content\Dungeon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,6 +578,12 @@
     </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Content\Obstruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon.h">
+      <Filter>Content\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonManager.h">
+      <Filter>Content\Dungeon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
