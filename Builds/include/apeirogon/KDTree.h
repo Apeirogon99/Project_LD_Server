@@ -168,6 +168,11 @@ public:
 			return false;
 		}
 
+		if (mUseNode.size() == 0)
+		{
+			return false;
+		}
+
 		const Location& location = inLineTrace.GetCenterLocation();
 		const float radius = inLineTrace.GetDistance();
 
@@ -209,6 +214,11 @@ public:
 	bool SearchNodes(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
 	{
 		if (inActorType == 0)
+		{
+			return false;
+		}
+
+		if (mUseNode.size() == 0)
 		{
 			return false;
 		}
@@ -254,6 +264,11 @@ public:
 	bool SearchNodes(SphereTrace& inSphereTrace, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
 	{
 		if (inActorType == 0)
+		{
+			return false;
+		}
+
+		if (mUseNode.size() == 0)
 		{
 			return false;
 		}
@@ -304,6 +319,11 @@ public:
 	bool SearchNodes(const FVector& inFindLocation, const float& inRadius, const uint8& inActorType, std::vector<int64>& outGameObjectIDs, const size_t& inMaxResult = INFINITE)
 	{
 		if (inActorType == 0)
+		{
+			return false;
+		}
+
+		if (mUseNode.size() == 0)
 		{
 			return false;
 		}

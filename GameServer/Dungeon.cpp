@@ -26,7 +26,12 @@ Dungeon::~Dungeon()
 
 void Dungeon::OnInitialization()
 {
+	SetTick(true, SYSTEM_TICK);
+
 	mState = EDungeonState::State_Stop;
+
+	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
+	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
 
 	this->ResetDungeon();
 }
@@ -41,32 +46,36 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 	{
 		return;
 	}
+	const int64 nextWorldTime = this->GetNextWorldTime();
 
-	if (false == mIsCreateStage)
-	{
-		bool result = this->IsCreateStage(mStageCount);
-		if (result)
-		{
-			mIsCreateStage = true;
-		}
-	}
+	VisibleAreaSync(inDeltaTime);
 
-	if (true == mIsCreateStage)
-	{
-		bool result = this->IsCheckStage(mStageCount);
-		if (result)
-		{
-			mIsCreateStage = false;
-		}
-	}
+	this->PushTask(nextWorldTime, &GameWorld::RefreshWorldObserver);
+
+	//if (false == mIsCreateStage)
+	//{
+	//	bool result = this->IsCreateStage(mStageCount);
+	//	if (result)
+	//	{
+	//		mIsCreateStage = true;
+	//	}
+	//}
+
+	//if (true == mIsCreateStage)
+	//{
+	//	bool result = this->IsCheckStage(mStageCount);
+	//	if (result)
+	//	{
+	//		mIsCreateStage = false;
+	//	}
+	//}
 
 }
 
 bool Dungeon::IsValid()
 {
-	bool player = mWorldPlayers.size() > 0;
 	bool state = mState == EDungeonState::State_Play;
-	return player && state;
+	return state;
 }
 
 void Dungeon::SetDungeonID(int32 inDungeonID)
@@ -130,12 +139,6 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	}
 	const int64& remoteID = remotePlayer->GetGameObjectID();
 
-	PartyPtr party = remotePlayer->GetParty();
-	if (nullptr == party)
-	{
-		return;
-	}
-
 	GameWorldPtr previousWorld = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	if (nullptr == previousWorld)
 	{
@@ -148,10 +151,18 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	{
 		return;
 	}
+	mWorldActors.insert(std::make_pair(character->GetGameObjectID(), character));
 
 	Location randomLocation = Random::GetRandomVectorInRange2D(mPlayerStart, 300.0f);
 	character->GetMovementComponent().SetNewDestination(character->GetActorPtr(), randomLocation, randomLocation, previousWorld->GetWorldTime(), 0.0f);
 	remotePlayer->OnLoadComplete();
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return;
+	}
+	party->BroadCastLoadParty();
 	
 	int32 max = static_cast<int32>(party->GetPartyPlayers().size());
 	int32 cur = static_cast<int32>(mWorldPlayers.size());

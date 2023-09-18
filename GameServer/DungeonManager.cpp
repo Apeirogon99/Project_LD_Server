@@ -11,8 +11,6 @@ DungeonManager::~DungeonManager()
 
 void DungeonManager::OnInitialization()
 {
-	SetTick(true, SYSTEM_TICK);
-
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
@@ -43,13 +41,6 @@ void DungeonManager::OnDestroy()
 
 void DungeonManager::OnTick(const int64 inDeltaTime)
 {
-	for (auto& dungeon : mDungeons)
-	{
-		if (dungeon.second->IsPlay())
-		{
-			break;
-		}
-	}
 }
 
 bool DungeonManager::IsValid()

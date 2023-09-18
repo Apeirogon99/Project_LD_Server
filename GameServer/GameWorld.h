@@ -62,7 +62,7 @@ public:
 
 	bool IsValidPlayer(const int64& inRemoteID, GameRemotePlayerPtr& outRemotePlayerPtr);
 
-protected:
+public:
 	void RefreshWorldObserver();
 	void MakeWorldObstruction();
 

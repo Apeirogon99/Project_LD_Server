@@ -159,6 +159,11 @@ void GameRemotePlayer::OnLoadComplete()
 		return;
 	}
 
+	if (false == GetParty()->IsValid())
+	{
+		return;
+	}
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
 	{

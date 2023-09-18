@@ -37,6 +37,7 @@ public:
 	void BroadCastLeavePartyWithKick(const int64& inRemoteID);
 	void BroadCastLeavePartyWithLeader(const int64& inRemoteID, const int64& inLeaderRemoteID);
 	void BroadCastLeaderParty(const int64& inRemoteID);
+	void BroadCastLoadParty();
 	void PartyBroadCast(SendBufferPtr inSendBuffer);
 
 	bool PushPartyPlayer(const int64& inRemoteID, PlayerCharacterPtr inPlayerCharacter);

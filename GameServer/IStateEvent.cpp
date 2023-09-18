@@ -311,18 +311,18 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(enemy->GetPlayerViewers(), enemy->GetLocation(), range, debugDuration);
 
-	if (1000.0f <= FVector::Distance2D(enemy->GetRecoveryLocation(), enemy->GetLocation()))
-	{
-		if (true == enemy->GetAggressive())
-		{
-			enemy->GetStateManager().SetState(EStateType::State_Search);
-		}
-		else
-		{
-			enemy->GetStateManager().SetState(EStateType::State_Recovery);
-		}
-		return;
-	}
+	//if (1000.0f >= FVector::Distance2D(enemy->GetRecoveryLocation(), enemy->GetLocation()))
+	//{
+	//	if (true == enemy->GetAggressive())
+	//	{
+	//		enemy->GetStateManager().SetState(EStateType::State_Search);
+	//	}
+	//	else
+	//	{
+	//		enemy->GetStateManager().SetState(EStateType::State_Recovery);
+	//	}
+	//	return;
+	//}
 
 	if (true == enemy->GetAutoAttackComponent().IsAutoAttackRange(enemy->GetActorPtr(), aggroCharacter->GetActorPtr(), range))
 	{

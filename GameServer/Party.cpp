@@ -731,6 +731,38 @@ void Party::BroadCastLeaderParty(const int64& inRemoteID)
 	}
 }
 
+void Party::BroadCastLoadParty()
+{
+	auto oldPlayer = mPartyPlayers.begin();
+	for (oldPlayer; oldPlayer != mPartyPlayers.end(); oldPlayer++)
+	{
+		GameRemotePlayerPtr oldRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(oldPlayer->second.lock()->GetOwner().lock());
+		if (nullptr == oldRemotePlayer)
+		{
+			return;
+		}
+
+		RemoteClientPtr oldRemoteClient = oldRemotePlayer->GetRemoteClient().lock();
+		if (nullptr == oldRemoteClient)
+		{
+			return;
+		}
+
+		PartyPtr party = oldRemotePlayer->GetParty();
+		if (nullptr == party)
+		{
+			return;
+		}
+
+		Protocol::S2C_LoadParty loadPartyPacket;
+		loadPartyPacket.set_error(0);
+		party->LoadParty(loadPartyPacket);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadPartyPacket);
+		oldRemoteClient->Send(sendBuffer);
+	}
+}
+
 bool Party::PushPartyPlayer(const int64& inRemoteID, PlayerCharacterPtr inPlayerCharacter)
 {
 	auto find = mPartyPlayers.find(inRemoteID);

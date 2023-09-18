@@ -49,11 +49,14 @@ void Portal::OnTick(const int64 inDeltaTime)
 	}
 
 	std::vector<ActorPtr> actors;
-	bool result = world->FindActors(this->GetLocation(), 100.0f, static_cast<uint8>(EActorType::Player), actors, 1);
+	bool result = world->FindActors(this->GetLocation(), 500.0f, static_cast<uint8>(EActorType::Player), actors, 1);
 	if (result)
 	{
 		this->OnInteractive(actors.at(0));
 	}
+
+	const float debugDuration = 0.05f;
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 100.0f, debugDuration);
 }
 
 bool Portal::IsValid()

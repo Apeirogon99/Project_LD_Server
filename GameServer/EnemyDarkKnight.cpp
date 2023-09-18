@@ -104,7 +104,7 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 		this->DetectChangeEnemy();
 	}
 
-	const float debugDuration = 0.5f;
+	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 63.0f, debugDuration);
 }
 
