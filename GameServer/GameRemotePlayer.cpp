@@ -85,10 +85,8 @@ bool GameRemotePlayer::IsValid()
 	return true;
 }
 
-bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWorld)
+bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken)
 {
-
-	mWorld = inWorld;
 	mToken = inToken;
 
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(this->GetRemoteClient().lock());
@@ -130,6 +128,12 @@ bool GameRemotePlayer::LoadRemotePlayer(const Token& inToken, GameWorldRef inWor
 	this->mKeyboardComponet.LoadBindKeyAndAction(std::static_pointer_cast<GameRemotePlayer>(shared_from_this()), keyActions);
 
 	return true;
+}
+
+void GameRemotePlayer::SetWorld(GameWorldRef inWorld)
+{
+	mWorld = inWorld;
+	mPlayerCharacter->SetWorld(inWorld);
 }
 
 void GameRemotePlayer::OnLoadComplete()

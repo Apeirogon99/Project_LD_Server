@@ -19,9 +19,12 @@ protected:
 	virtual bool IsValid()							override;
 
 public:
-	void RequestEnterDungeon(GameRemotePlayerPtr inGameRemotePlayer);
+	void RequestEnterDungeon(int32 inDungeonType, PlayerStatePtr inPlayerState);
+
+public:
+	DungeonPtr GetDungeon(int32 inDungeonID);
 
 private:
-	std::vector<Dungeon> mDungeons;
+	std::map<int32, DungeonPtr> mDungeons;
 };
 

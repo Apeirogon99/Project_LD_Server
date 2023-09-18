@@ -136,6 +136,9 @@ void WarriorDash::Active()
     reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
     reactionSkill.set_duration(worldTime);
 
+    SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
+    this->BrodcastPlayerViewers(sendBuffer);
+
     this->EndCastingSkill();
 }
 

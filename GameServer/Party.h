@@ -50,6 +50,7 @@ public:
 	void SetPartyPlayers(const std::map<int64, PlayerCharacterRef>& inPartyPlayers);
 
 public:
+	bool IsLeader(const int64& inLeaderID);
 	bool IsParty() const;
 	bool IsFull() const;
 

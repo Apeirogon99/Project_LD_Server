@@ -151,7 +151,8 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	inPlayerState->SetRemotePlayer(remotePlayer);
 	mTaskManagerRef.lock()->PushTask(remotePlayer->GetGameObjectPtr());
 
-	remotePlayer->LoadRemotePlayer(token, std::static_pointer_cast<GameWorld>(GetWorldRef().lock()));
+	remotePlayer->SetWorld(std::static_pointer_cast<GameWorld>(GetWorldRef().lock()));
+	remotePlayer->LoadRemotePlayer(token);
 
 }
 
@@ -206,6 +207,53 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 		packetSession->Send(sendBuffer);
 	}
 
+}
+
+void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
+{
+
+	RemoteClientPtr remoteClinet = nullptr;
+	if (false == this->FindPlayer(inLeaveRemoteID, remoteClinet))
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remoteClinet);
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+
+	Protocol::S2C_DisAppearCharacter disappearCharacterPacket;
+	disappearCharacterPacket.set_remote_id(remotePlayer->GetGameObjectID());
+
+	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, disappearCharacterPacket);
+	playerState->BroadcastPlayerMonitors(disappearSendBuffer);
+
+	const PlayerMonitors& playerMonitors = playerState->GetPlayerMonitors();
+	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
+	{
+		playerMonitor->get()->ReleasePlayerViewer(playerState);
+		playerState->ReleasePlayerMonitor(*playerMonitor++);
+	}
+
+	const ActorMonitors& actorMonitors = playerState->GetActorMonitors();
+	for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end();)
+	{
+		actorMonitor->get()->ReleasePlayerViewer(playerState);
+		playerState->ReleaseActorMonitor(*actorMonitor++);
+	}
+
+	this->DeletePlayer(inLeaveRemoteID);
+	inTravelWorld->InsertPlayer(inLeaveRemoteID, remoteClinet);
+	remotePlayer->SetWorld(std::static_pointer_cast<GameWorld>(inTravelWorld));
 }
 
 void GameWorld::WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)

@@ -8,7 +8,7 @@ enum class EDungeonState
 	State_Stop
 };
 
-class Dungeon : public GameObject
+class Dungeon : public GameWorld
 {
 public:
 	Dungeon();
@@ -27,10 +27,14 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void BroadCastDungeon(SendBufferPtr inSendBuffer);
+	void SetDungeonID(int32 inDungeonID);
+	void CreateDungeon(PlayerStatePtr inPlayerState);
+
+	void CompleteLoadDungeon(PlayerStatePtr inPlayerState);
+
 	void ResetDungeon();
 
-public:
+protected:
 	bool IsCreateStage(int32 inStageCount);
 	bool ConditionStageA();
 	bool ConditionStageB();
@@ -49,8 +53,14 @@ public:
 	void ClearStageB();
 	void ClearBossStage();
 
+public:
+	bool IsReady() const;
+	bool IsPlay() const;
+
 private:
+	int32 mDungeonID;
 	EDungeonState mState;
+	Location mPlayerStart;
 
 	bool mIsCreateStage;
 	int32 mStageCount;
@@ -59,8 +69,5 @@ private:
 	std::vector<std::function<void(Dungeon&)>> mCreateStageFunc;
 	std::vector<std::function<bool(Dungeon&)>> mCheckStateFunc;
 	std::vector<std::function<void(Dungeon&)>> mClearStateFunc;
-
-	std::vector<ActorPtr> mEnemys;
-	std::vector<GameRemotePlayerPtr> mPlayers;
 };
 

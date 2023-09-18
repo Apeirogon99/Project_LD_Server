@@ -27,6 +27,10 @@ public:
 	APEIROGON_API bool				FindActors(BoxTrace& inBoxTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 	APEIROGON_API bool				FindActors(SphereTrace& inSphereTrace, const uint8& inActorType, std::vector<ActorPtr>& outActors, const uint32& inMaxSize = INFINITE);
 
+	APEIROGON_API bool				FindPlayer(const int64 inRemoteID, RemoteClientPtr& outRemoteClinet);
+	APEIROGON_API bool				InsertPlayer(const int64 inRemoteID, RemoteClientPtr& inRemoteClinet);
+	APEIROGON_API bool				DeletePlayer(const int64 inRemoteID);
+
 	APEIROGON_API bool				FindObstructionIntersection(LineTrace& inLineTrace, const uint8& inActorType, std::vector<FVector>& outIntersection, const uint32& inMaxSize = INFINITE);
 
 	APEIROGON_API bool				DestroyAllActor();

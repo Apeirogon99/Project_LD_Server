@@ -19,7 +19,8 @@ public:
 	virtual bool	IsValid()						override;
 
 public:
-	bool LoadRemotePlayer(const Token& inToken, GameWorldRef inWorld);
+	void SetWorld(GameWorldRef inWorld);
+	bool LoadRemotePlayer(const Token& inToken);
 	void OnLoadComplete();
 
 	void LeaveRemotePlayer();

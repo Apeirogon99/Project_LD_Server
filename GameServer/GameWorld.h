@@ -46,6 +46,7 @@ public:
 	void ServerTravel(PlayerStatePtr inPlayerState, Protocol::C2S_TravelServer inPacket);
 	void Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServer inPacket);
 	void Leave(PlayerStatePtr inPlayerState);
+	void LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID);
 
 	void WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage);
 

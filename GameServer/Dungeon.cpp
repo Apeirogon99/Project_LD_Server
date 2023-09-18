@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Dungeon.h"
 
-Dungeon::Dungeon() : GameObject(L"Dungeon"), mState(EDungeonState::State_Stop), mIsCreateStage(false), mStageCount(0)
+Dungeon::Dungeon() : GameWorld(L"Dungeon"), mDungeonID(0), mState(EDungeonState::State_Stop), mIsCreateStage(false), mStageCount(0), mPlayerStart(2000.0f, 2000.0f, 486.0f)
 {
 	mConditionStageFunc.push_back(&Dungeon::ConditionStageA);
 	mConditionStageFunc.push_back(&Dungeon::ConditionStageB);
@@ -26,8 +26,9 @@ Dungeon::~Dungeon()
 
 void Dungeon::OnInitialization()
 {
+	mState = EDungeonState::State_Stop;
 
-
+	this->ResetDungeon();
 }
 
 void Dungeon::OnDestroy()
@@ -63,9 +64,120 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 
 bool Dungeon::IsValid()
 {
-	bool player = mPlayers.size() > 0;
+	bool player = mWorldPlayers.size() > 0;
 	bool state = mState == EDungeonState::State_Play;
 	return player && state;
+}
+
+void Dungeon::SetDungeonID(int32 inDungeonID)
+{
+	mDungeonID = inDungeonID;
+}
+
+void Dungeon::CreateDungeon(PlayerStatePtr inPlayerState)
+{
+	if (nullptr == inPlayerState)
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64& inRemoteID = remotePlayer->GetGameObjectID();
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return;
+	}
+
+	if (false == party->IsParty())
+	{
+		party->CreateParty();
+	}
+
+	EDCommonErrorType error = EDCommonErrorType::FAILURE;
+	if (true == party->IsLeader(inRemoteID))
+	{
+		error = EDCommonErrorType::SUCCESS;
+	}
+
+	Protocol::S2C_ResponseEnterDungeon enterPacket;
+	std::string level = "L_NecromancerDungeon";
+	enterPacket.set_level(level);
+	enterPacket.set_dungeon_id(this->mDungeonID);
+	enterPacket.set_error(static_cast<int32>(error));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPacket);
+	party->PartyBroadCast(sendBuffer);
+}
+
+void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
+{
+
+	if (nullptr == inPlayerState)
+	{
+		return;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
+
+	PartyPtr party = remotePlayer->GetParty();
+	if (nullptr == party)
+	{
+		return;
+	}
+
+	GameWorldPtr previousWorld = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+	if (nullptr == previousWorld)
+	{
+		return;
+	}
+	previousWorld->LevelTravel(std::static_pointer_cast<GameWorld>(this->GetWorldPtr()), remoteID);
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+
+	Location randomLocation = Random::GetRandomVectorInRange2D(mPlayerStart, 300.0f);
+	character->GetMovementComponent().SetNewDestination(character->GetActorPtr(), randomLocation, randomLocation, previousWorld->GetWorldTime(), 0.0f);
+	remotePlayer->OnLoadComplete();
+	
+	int32 max = static_cast<int32>(party->GetPartyPlayers().size());
+	int32 cur = static_cast<int32>(mWorldPlayers.size());
+	if (max == cur)
+	{
+		Protocol::S2C_CompleteLoadDungeon completePacket;
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, completePacket);
+		this->SendWorldPlayers(sendBuffer);
+
+		this->mState = EDungeonState::State_Play;
+	}
+	else
+	{
+		Protocol::S2C_WaitingLoadDungeon waitingPacket;
+		waitingPacket.set_max_number(static_cast<int32>(max));
+		waitingPacket.set_least_number(cur);
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, waitingPacket);
+		this->SendWorldPlayers(sendBuffer);
+	}
+}
+
+void Dungeon::ResetDungeon()
+{
+	mState = EDungeonState::State_Ready;
 }
 
 bool Dungeon::IsCreateStage(int32 inStageCount)
@@ -102,8 +214,6 @@ bool Dungeon::ConditionBossStage()
 
 void Dungeon::CreateStageA()
 {
-	mEnemys.clear();
-
 	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
@@ -140,8 +250,6 @@ void Dungeon::CreateStageA()
 		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
 		newEnemy->GetStateManager().SetState(EStateType::State_Search);
 		newEnemy->SetReward(false);
-
-		mEnemys.push_back(newEnemy);
 	}
 
 }
@@ -199,4 +307,14 @@ void Dungeon::ClearStageB()
 void Dungeon::ClearBossStage()
 {
 
+}
+
+bool Dungeon::IsReady() const
+{
+	return mState == EDungeonState::State_Ready;
+}
+
+bool Dungeon::IsPlay() const
+{
+	return mState == EDungeonState::State_Play;
 }

@@ -128,6 +128,10 @@ using EnemySpawnerRef		= std::weak_ptr<EnemySpawner>;
 using EnemySpawnerManagerPtr = std::shared_ptr<EnemySpawnerManager>;
 using EnemySpawnerManagerRef = std::weak_ptr<EnemySpawnerManager>;
 
+class Dungeon;
+using DungeonPtr = std::shared_ptr<Dungeon>;
+using DungeonRef = std::weak_ptr<Dungeon>;
+
 class DungeonManager;
 using DungeonManagerPtr = std::shared_ptr<DungeonManager>;
 using DungeonManagerRef = std::weak_ptr<DungeonManager>;

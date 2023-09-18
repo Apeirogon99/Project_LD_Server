@@ -811,6 +811,11 @@ void Party::SetPartyPlayers(const std::map<int64, PlayerCharacterRef>& inPartyPl
 	mPartyPlayers = inPartyPlayers;
 }
 
+bool Party::IsLeader(const int64& inLeaderID)
+{
+	return mLeaderPlayer == inLeaderID;
+}
+
 bool Party::IsParty() const
 {
 	return mPartyPlayers.size();

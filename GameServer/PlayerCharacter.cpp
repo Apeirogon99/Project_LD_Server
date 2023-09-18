@@ -296,17 +296,17 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 
 	if (distance <= 1.0f)
 	{
-		printf("STOP AND START\n");
+		//printf("STOP AND START\n");
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 42.0f);
 	}
 	else if(currentDistance <= 20.0f)
 	{
-		printf("SERVER\n");
+		//printf("SERVER\n");
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 42.0f);
 	}
 	else
 	{
-		printf("CLIENT\n");
+		//printf("CLIENT\n");
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentClientLocation, movementDestination, clientMovementLastTime, 42.0f);
 	}
 	

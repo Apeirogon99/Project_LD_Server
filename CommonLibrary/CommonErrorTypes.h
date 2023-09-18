@@ -43,6 +43,9 @@ enum class EDCommonErrorType
 	ALREADY_RESERVATION_PARTY				= 5005, //파티에 예약이 되어있음
 	NOT_LEADER_PARTY						= 5006, //파티에 리더가 아님
 	NOT_INVALITE_SELF						= 5007, //자기 자신은 초대할 수 없음
+
+	//Dungeon
+
 };
 
 static std::string GetNetworkError(int32 error)
