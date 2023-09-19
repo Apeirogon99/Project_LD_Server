@@ -24,6 +24,16 @@ using GameTaskPtr		= std::shared_ptr<GameTask>;
 //		    Packet			//
 //==========================//
 
+enum class EActorType
+{
+	Unspecified,
+	Obstruction,
+	Visible,
+	Player,
+	PickUp,
+	Enemy,
+	EnemyAttack,
+};
 
 //==========================//
 //	   Content Framework	//

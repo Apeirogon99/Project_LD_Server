@@ -32,6 +32,9 @@
 #include "Obstruction.h"
 #include "Wall.h"
 
+#include "Trigger.h"
+#include "Portal.h"
+
 //==========================//
 //   GameContent | Componet	//
 //==========================//
@@ -56,7 +59,6 @@
 #include "SkillTree.h"
 #include "Party.h"
 #include "Quest.h"
-#include "Portal.h"
 #include "Dungeon.h"
 #include "DungeonManager.h"
 

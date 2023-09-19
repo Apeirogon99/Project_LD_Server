@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "Portal.h"
 
-Portal::Portal() : Actor(L"Portal"), mCoolTime(0), mUse(false)
+Portal::Portal() : SphereTrigger(), mMaxNumber(0), mTeleportLocation(), mMaxTeleportTime(10000), mCurTeleportTime(0), mIsTeleport(false)
 {
-	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
 
 Portal::~Portal()
@@ -18,50 +17,11 @@ void Portal::OnInitialization()
 		return;
 	}
 
-	this->SetTick(true, GAME_TICK);
+	this->SetTick(true, SYSTEM_TICK);
 
-	BoxCollisionComponent* collision = this->GetBoxCollisionComponent();
+	SphereCollisionComponent* collision = this->GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(100.0f, 100.0f, 100.0f));
-}
-
-void Portal::OnDestroy()
-{
-}
-
-void Portal::OnTick(const int64 inDeltaTime)
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	if (true == mUse)
-	{
-		mCoolTime += inDeltaTime;
-		if (mCoolTime < 1000)
-		{
-			return;
-		}
-		mCoolTime = 0;
-		mUse = false;
-	}
-
-	std::vector<ActorPtr> actors;
-	bool result = world->FindActors(this->GetLocation(), 500.0f, static_cast<uint8>(EActorType::Player), actors, 1);
-	if (result)
-	{
-		this->OnInteractive(actors.at(0));
-	}
-
-	const float debugDuration = 0.05f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 100.0f, debugDuration);
-}
-
-bool Portal::IsValid()
-{
-	return true;
+	collision->SetSphereCollisione(300.0f);
 }
 
 void Portal::OnAppearActor(ActorPtr inAppearActor)
@@ -140,7 +100,46 @@ void Portal::OnDisAppearActor(ActorPtr inDisappearActor)
 	anotherPlayerState->Send(appearItemSendBuffer);
 }
 
-void Portal::OnInteractive(ActorPtr inActor)
+void Portal::OnBeginOverlap(ActorPtr inBeginOverlapActor)
+{
+	if (mMaxNumber == mOverlapActor.size() && false == mIsTeleport)
+	{
+		EnterTeleport();
+	}
+}
+
+void Portal::OnEndOverlap(ActorPtr inEndOverlapActor)
+{
+	if (true == mIsTeleport)
+	{
+		EndTeleport();
+	}
+}
+
+void Portal::OnOverlapTick(const int64 inDeltaTime)
+{
+	if (true == mIsTeleport)
+	{
+		mCurTeleportTime += inDeltaTime;
+		if (mCurTeleportTime >= mMaxTeleportTime)
+		{
+			this->Teleport();
+		}
+	}
+}
+
+void Portal::EnterTeleport()
+{
+	mIsTeleport = true;
+}
+
+void Portal::EndTeleport()
+{
+	mIsTeleport = false;
+	mCurTeleportTime = 0;
+}
+
+void Portal::Teleport()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -149,50 +148,35 @@ void Portal::OnInteractive(ActorPtr inActor)
 	}
 	const int64& worldTime = world->GetWorldTime();
 
-	const float distance = FVector::Distance(this->GetLocation(), inActor->GetLocation());
-	if (100.0f < distance)
+	for (auto overlap : mOverlapActor)
 	{
-		return;
+		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(overlap.first);
+		if (nullptr == character)
+		{
+			return;
+		}
+
+		character->GetMovementComponent().SetNewDestination(character, mTeleportLocation, mTeleportLocation, worldTime, 0.0f);
+
+		Protocol::S2C_Teleport teleportPacket;
+		teleportPacket.set_object_id(character->GetGameObjectID());
+		teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTeleportLocation));
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
 	}
 
-	PlayerCharacterPtr player = std::static_pointer_cast<PlayerCharacter>(inActor);
-	if (nullptr == player)
-	{
-		return;
-	}
+	mIsTeleport	= false;
+	mCurTeleportTime = 0;
+	mOverlapActor.clear();
+}
 
-	//player->SetLocation(mTeleportLocation);
-	player->GetMovementComponent().SetNewDestination(player, mTeleportLocation, mTeleportLocation, worldTime, 0.0f);
-
-	Protocol::S2C_Teleport teleportPacket;
-	teleportPacket.set_object_id(player->GetGameObjectID());
-	teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTeleportLocation));
-
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
-
-	static bool spawn = false;
-	if (false == spawn)
-	{
-		spawn = true;
-		
-		std::shared_ptr<EnemyDarkKnight> enemyDarkKnight = std::static_pointer_cast<EnemyDarkKnight>(world->SpawnActor<EnemyDarkKnight>(world, FVector(10050.0f, 10050.0f, 173.0f), Rotation(), Scale()));
-	
-		//std::shared_ptr<EnemyRichPhase1> enemyRichPhase1 = std::static_pointer_cast<EnemyRichPhase1>(world->SpawnActor<EnemyRichPhase1>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));			
-		//std::shared_ptr<EnemyRichPhase2> enemyRichPhase2 = std::static_pointer_cast<EnemyRichPhase2>(world->SpawnActor<EnemyRichPhase2>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));			
-		//std::shared_ptr<EnemyRichPhase3> enemyRichPhase3 = std::static_pointer_cast<EnemyRichPhase3>(world->SpawnActor<EnemyRichPhase3>(world, FVector(10050.0f, 10050.0f, 200.0f), Rotation(), Scale()));
-
-	}
-
-	mUse = true;
+void Portal::SetMaxNumber(int32 inMaxNumber)
+{
+	mMaxNumber = inMaxNumber;
 }
 
 void Portal::SetTeleportLocation(const FVector& inLocation)
 {
 	mTeleportLocation = inLocation;
-}
-
-BoxCollisionComponent* Portal::GetBoxCollisionComponent() const
-{
-	return static_cast<BoxCollisionComponent*>(this->mDefaultCollisionComponent);
 }

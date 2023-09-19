@@ -35,11 +35,6 @@ public:
 	void ResetDungeon();
 
 protected:
-	bool IsCreateStage(int32 inStageCount);
-	bool ConditionStageA();
-	bool ConditionStageB();
-	bool ConditionBossStage();
-
 	void CreateStageA();
 	void CreateStageB();
 	void CreateBossStage();
@@ -53,21 +48,25 @@ protected:
 	void ClearStageB();
 	void ClearBossStage();
 
+	bool IsEmptyEnemy();
+
 public:
 	bool IsReady() const;
 	bool IsPlay() const;
+	bool IsDeathPlayers();
 
 private:
 	int32 mDungeonID;
 	EDungeonState mState;
 	Location mPlayerStart;
 
-	bool mIsCreateStage;
 	int32 mStageCount;
 
 	std::vector<std::function<bool(Dungeon&)>> mConditionStageFunc;
 	std::vector<std::function<void(Dungeon&)>> mCreateStageFunc;
 	std::vector<std::function<bool(Dungeon&)>> mCheckStateFunc;
 	std::vector<std::function<void(Dungeon&)>> mClearStateFunc;
+
+	EnemySpawnerManagerPtr mEnemySpawnerManger;
 };
 

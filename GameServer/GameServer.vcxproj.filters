@@ -361,6 +361,9 @@
     <ClCompile Include="Obstruction.cpp">
       <Filter>Content\Obstruction</Filter>
     </ClCompile>
+    <ClCompile Include="Trigger.cpp">
+      <Filter>Content\Portal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -590,6 +593,9 @@
     </ClInclude>
     <ClInclude Include="Obstruction.h">
       <Filter>Content\Obstruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>Content\Portal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

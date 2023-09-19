@@ -82,7 +82,7 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 	enemy->SetVelocity(velocity, velocity, velocity);
 
 	Location currentLocation	= enemy->GetLocation();
-	Location nextLocation		= spawner->GetRandomLocation();
+	Location nextLocation		= Random::GetRandomVectorInRange2D(spawner->GetLocation(), spawner->GetSpawnRange());
 	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, nextLocation, world->GetWorldTime(), 0.0f);
@@ -210,7 +210,7 @@ void SearchState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const int64 worldTime = world->GetWorldTime();
 
 	std::vector<ActorPtr> targetActors;
-	bool result = world->FindActors(enemy->GetLocation(), 2000.0f, static_cast<uint8>(EActorType::Player), targetActors, 1);
+	bool result = world->FindActors(enemy->GetLocation(), enemy->GetMaxSearchRange(), static_cast<uint8>(EActorType::Player), targetActors, 1);
 	if (true == result)
 	{
 		enemy->SetAggroActor(targetActors.at(0));
@@ -311,18 +311,18 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(enemy->GetPlayerViewers(), enemy->GetLocation(), range, debugDuration);
 
-	//if (1000.0f >= FVector::Distance2D(enemy->GetRecoveryLocation(), enemy->GetLocation()))
-	//{
-	//	if (true == enemy->GetAggressive())
-	//	{
-	//		enemy->GetStateManager().SetState(EStateType::State_Search);
-	//	}
-	//	else
-	//	{
-	//		enemy->GetStateManager().SetState(EStateType::State_Recovery);
-	//	}
-	//	return;
-	//}
+	if (enemy->GetMaxChaseRange() <= 1.0f && enemy->GetMaxChaseRange() >= FVector::Distance2D(enemy->GetRecoveryLocation(), enemy->GetLocation()))
+	{
+		if (true == enemy->GetAggressive())
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Search);
+		}
+		else
+		{
+			enemy->GetStateManager().SetState(EStateType::State_Recovery);
+		}
+		return;
+	}
 
 	if (true == enemy->GetAutoAttackComponent().IsAutoAttackRange(enemy->GetActorPtr(), aggroCharacter->GetActorPtr(), range))
 	{

@@ -1,5 +1,5 @@
 #pragma once
-class Portal : public Actor
+class Portal : public SphereTrigger
 {
 public:
 	Portal();
@@ -10,26 +10,31 @@ private:
 	Portal& operator=(Portal&&) = delete;
 
 public:
-	virtual void OnInitialization()				 override;
-	virtual void OnDestroy()					 override;
-	virtual void OnTick(const int64 inDeltaTime) override;
-	virtual bool IsValid()						 override;
+	virtual void OnInitialization() override;
 
 public:
 	virtual void OnAppearActor(ActorPtr inAppearActor) override;
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
-	virtual void OnInteractive(ActorPtr inActor) override;
+public:
+	virtual void OnBeginOverlap(ActorPtr inBeginOverlapActor) override;
+	virtual void OnEndOverlap(ActorPtr inEndOverlapActor) override;
+	virtual void OnOverlapTick(const int64 inDeltaTime) override;
 
 public:
+	void EnterTeleport();
+	void EndTeleport();
+	void Teleport();
+
+public:
+	void SetMaxNumber(int32 inMaxNumber);
 	void SetTeleportLocation(const FVector& inLocation);
 
-public:
-	BoxCollisionComponent* GetBoxCollisionComponent() const;
-
 private:
+	int32	mMaxNumber;
 	FVector mTeleportLocation;
-	int64	mCoolTime;
-	bool	mUse;
-};
 
+	int64	mMaxTeleportTime;
+	int64	mCurTeleportTime;
+	bool	mIsTeleport;
+};

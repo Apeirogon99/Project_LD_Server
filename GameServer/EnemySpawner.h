@@ -14,7 +14,7 @@ enum class EnemyID
 	Enemy_Lich_Life_Vessle,
 };
 
-class EnemySpawner : public Actor
+class EnemySpawner : public GameObject
 {
 public:
 	EnemySpawner();
@@ -33,77 +33,47 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	virtual void OnAppearActor(ActorPtr inAppearActor)			override;
-	virtual void OnDisAppearActor(ActorPtr inDisappearActor)	override;
-	void OnDestroyEnemy(const int64 inGameObjectID);
+	void SetEnemySpawner(const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
+	void SpawnEnemy();
+
+	void NotifyDestroyEnemy(const int64& inGameObjectID);
+
+	void ClearEnemy();
 
 public:
-	void SetEnemySpawner(const int32 inEnemyID, const Stats& inStats, const int64 inMaxEnemyCount, const float inSpawnRange);
+	bool IsRespawn();
+	const int32 GetMaxEnemyCount()		const { return mMaxEnmeyCount; }
+	const int32 GetCurrentEnemyCount()	const { return mCurEnemyCount; }
+	const int32 GetEnemyID()			const { return mEnemyID; }
+	const float GetSpawnRange()			const { return mSpawnRange; }
+	const FVector GetLocation()			const { return mLocation; }
+	const int32 GetSpawnLoop()			const { return mSpawnLoop; }
 
-	template<typename T>
-	void SpawnEnemey();
-
-public:
-	void			ReSpawnCount();
-	bool			IsLeftEnemy();
-	const Location	GetRandomLocation();
-	const Rotation	GetRandomRotation();
-
-public:
-	const int64 GetMaxEnemyCount()		const { return mMaxEnmeyCount; }
-	const int64 GetCurrentEnemyCount()	const { return mCurEnemyCount; }
-	const int64 GetEnemyID()			const { return mEnemyID; }
+protected:
+	ActorPtr SpawnTemplate();
 
 private:
 	bool  mIsLoad;
-	int64 mMaxEnmeyCount;
-	int64 mCurEnemyCount;
+	int64 mRespawnTime;
+
+	int32 mMaxEnmeyCount;
+	int32 mCurEnemyCount;
 
 	int32 mEnemyID;
 	Stats mEnemyStats;
 	float mSpawnRange;
-	int64 mLastSpawnCount;
+	float mMaxChaseRange;
+	float mMaxSearchRange;
+	int32 mSpawnLoop;
+	bool mIsAggresive;
+	bool mIsReward;
+
+	FVector mLocation;
 
 	std::vector<EnemyCharacterPtr> mEnemyCharacters;
 };
 
-template<typename EnemyClass>
-inline void EnemySpawner::SpawnEnemey()
-{
-	WorldPtr world = GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
-	{
-		const Location	newLocation = GetRandomLocation();
-		const Rotation	newRoation	= GetRandomRotation();
-		const Scale		newScale	= Scale(1.0f, 1.0f, 1.0f);
-
-		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyClass>(this->GetGameObjectRef(), newLocation, newRoation, newScale));
-		if (nullptr == newEnemy)
-		{
-			return;
-		}
-
-		newEnemy->SetEnemeyID(this->mEnemyID);
-		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-		newEnemy->SetEnemyStats(this->mEnemyStats);
-		newEnemy->SetRecoveryLocation(newLocation);
-
-		const int64 enemyGameObjectID = newEnemy->GetGameObjectID();
-		//GameObjectLog(L"[SpawnEnemey] spawn enemy(%lld)\n", enemyGameObjectID);
-		mEnemyCharacters[index] = newEnemy;
-	}
-
-	mLastSpawnCount = 0;
-	mCurEnemyCount = mMaxEnmeyCount;
-}
-
-class EnemySpawnerManager : public Actor
+class EnemySpawnerManager : public GameObject
 {
 public:
 	EnemySpawnerManager();
@@ -122,11 +92,12 @@ public:
 	virtual bool IsValid()							override;
 
 public:
+	void CreateEnemySpawner(const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
+	void ClearEnemySpawner();
 
-protected:
-	void SpawnEnemys(EnemySpawnerPtr inSpanwer);
+public:
+	std::vector<EnemySpawnerPtr>& GetEnemySpawners();
 
 private:
 	std::vector<EnemySpawnerPtr> mSpawners;
-	//KD-Tree
 };

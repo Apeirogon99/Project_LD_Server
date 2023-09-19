@@ -1,12 +1,8 @@
 #include "pch.h"
 #include "Dungeon.h"
 
-Dungeon::Dungeon() : GameWorld(L"Dungeon"), mDungeonID(0), mState(EDungeonState::State_Stop), mIsCreateStage(false), mStageCount(0), mPlayerStart(2000.0f, 2000.0f, 486.0f)
+Dungeon::Dungeon() : GameWorld(L"Dungeon"), mDungeonID(0), mState(EDungeonState::State_Stop), mStageCount(0), mPlayerStart(2000.0f, 2000.0f, 486.0f)
 {
-	mConditionStageFunc.push_back(&Dungeon::ConditionStageA);
-	mConditionStageFunc.push_back(&Dungeon::ConditionStageB);
-	mConditionStageFunc.push_back(&Dungeon::ConditionBossStage);
-
 	mCreateStageFunc.push_back(&Dungeon::CreateStageA);
 	mCreateStageFunc.push_back(&Dungeon::CreateStageB);
 	mCreateStageFunc.push_back(&Dungeon::CreateBossStage);
@@ -30,16 +26,26 @@ void Dungeon::OnInitialization()
 
 	mState = EDungeonState::State_Stop;
 
-	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
-	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
-
-	this->MakeWorldObstruction(EGameDataType::DungeonObstruction);
+	GameTaskPtr task = std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
+	if (nullptr == task)
+	{
+		return;
+	}
+	mEnemySpawnerManger = std::make_shared<EnemySpawnerManager>();
+	mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
+	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
 
 	this->ResetDungeon();
 }
 
 void Dungeon::OnDestroy()
 {
+	GameTaskPtr task = std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
+	if (nullptr == task)
+	{
+		return;
+	}
+	task->ReleaseTask(mEnemySpawnerManger->GetGameObjectPtr());
 }
 
 void Dungeon::OnTick(const int64 inDeltaTime)
@@ -54,24 +60,9 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 
 	this->PushTask(nextWorldTime, &GameWorld::RefreshWorldObserver);
 
-	//if (false == mIsCreateStage)
-	//{
-	//	bool result = this->IsCreateStage(mStageCount);
-	//	if (result)
-	//	{
-	//		mIsCreateStage = true;
-	//	}
-	//}
+	this->IsCheckStage(mStageCount);
 
-	//if (true == mIsCreateStage)
-	//{
-	//	bool result = this->IsCheckStage(mStageCount);
-	//	if (result)
-	//	{
-	//		mIsCreateStage = false;
-	//	}
-	//}
-
+	this->IsDeathPlayers();
 }
 
 bool Dungeon::IsValid()
@@ -170,12 +161,21 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	int32 cur = static_cast<int32>(mWorldPlayers.size());
 	if (max == cur)
 	{
+		//this->CreateStageA();
+		CreateBossStage();
+
+		std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
+		portal->SetTrigger(true);
+		portal->SetMaxOverlap(max);
+		portal->SetOverlapType(EActorType::Player);
+		portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
+
+		this->mState = EDungeonState::State_Play;
+
 		Protocol::S2C_CompleteLoadDungeon completePacket;
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, completePacket);
 		this->SendWorldPlayers(sendBuffer);
-
-		this->mState = EDungeonState::State_Play;
 	}
 	else
 	{
@@ -191,38 +191,9 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 void Dungeon::ResetDungeon()
 {
 	mState = EDungeonState::State_Ready;
-}
-
-bool Dungeon::IsCreateStage(int32 inStageCount)
-{
-	//스테이지 조건
-	auto conditionFunc = mConditionStageFunc[inStageCount];
-	bool result = conditionFunc(*this);
-	if (false == result)
-	{
-		return false;
-	}
-
-	//스테이지 생성
-	auto createFunc = mCreateStageFunc[inStageCount];
-	createFunc(*this);
-
-	return result;
-}
-
-bool Dungeon::ConditionStageA()
-{
-	return false;
-}
-
-bool Dungeon::ConditionStageB()
-{
-	return false;
-}
-
-bool Dungeon::ConditionBossStage()
-{
-	return false;
+	mEnemySpawnerManger->ClearEnemySpawner();
+	mStageCount = 0;
+	this->DestroyAllActor();
 }
 
 void Dungeon::CreateStageA()
@@ -233,46 +204,28 @@ void Dungeon::CreateStageA()
 		return;
 	}
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (nullptr == datas)
-	{
-		return;
-	}
-	const Stats& stats = datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Nomal_Skeleton));
-
-	std::vector<Location> locations;
-	locations.push_back(Location());
-	locations.push_back(Location());
-	locations.push_back(Location());
-	locations.push_back(Location());
-	locations.push_back(Location());
-
-	for (const Location& location : locations)
-	{
-		ActorPtr newActor = world->SpawnActor<EnemyNomalSkeleton>(this->GetGameObjectRef(), location, Rotation(), Scale(1.0f, 1.0f, 1.0f));
-		std::shared_ptr<EnemyNomalSkeleton> newEnemy = std::static_pointer_cast<EnemyNomalSkeleton>(newActor);
-		if (nullptr == newEnemy)
-		{
-			return;
-		}
-		newEnemy->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Nomal_Skeleton));
-		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-		newEnemy->SetEnemyStats(stats);
-		newEnemy->SetRecoveryLocation(location);
-		newEnemy->SetAggressive(true);
-		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-		newEnemy->GetStateManager().SetState(EStateType::State_Search);
-		newEnemy->SetReward(false);
-	}
+	mEnemySpawnerManger->CreateEnemySpawner(Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 4, 1, true, true, 0.0f, 2000.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Nomal_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
 
 }
 
 void Dungeon::CreateStageB()
 {
+	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 1, true, true, 0.0f, 5000.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
 }
 
 void Dungeon::CreateBossStage()
 {
+	mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 5000.0f, 5000.0f);
 }
 
 bool Dungeon::IsCheckStage(int32 inStageCount)
@@ -294,12 +247,12 @@ bool Dungeon::IsCheckStage(int32 inStageCount)
 
 bool Dungeon::CheackStageA()
 {
-	return false;
+	return IsEmptyEnemy();
 }
 
 bool Dungeon::CheackStageB()
 {
-	return false;
+	return IsEmptyEnemy();
 }
 
 bool Dungeon::CheackBossStage()
@@ -309,17 +262,51 @@ bool Dungeon::CheackBossStage()
 
 void Dungeon::ClearStageA()
 {
+	//TODO 장애물 제거
 
+	mEnemySpawnerManger->ClearEnemySpawner();
+
+	this->CreateStageB();
 }
 
 void Dungeon::ClearStageB()
 {
 
+	mEnemySpawnerManger->ClearEnemySpawner();
+
+	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
+	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
+
+	this->CreateBossStage();
 }
 
 void Dungeon::ClearBossStage()
 {
+	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 100.0f), FRotator(), Scale()));
+}
 
+bool Dungeon::IsEmptyEnemy()
+{
+	std::vector<EnemySpawnerPtr> enemySpawners = mEnemySpawnerManger->GetEnemySpawners();
+	if (enemySpawners.size() == 0)
+	{
+		return false;
+	}
+
+	int32 loop = 0;
+	int32 least = 0;
+	for (auto spawner : enemySpawners)
+	{
+		loop  += spawner->GetSpawnLoop();
+		least += spawner->GetCurrentEnemyCount();
+	}
+
+	if (loop == 0 && least == 0)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool Dungeon::IsReady() const
@@ -330,4 +317,34 @@ bool Dungeon::IsReady() const
 bool Dungeon::IsPlay() const
 {
 	return mState == EDungeonState::State_Play;
+}
+
+bool Dungeon::IsDeathPlayers()
+{
+	if (this->mWorldPlayers.size() == 0)
+	{
+		ResetDungeon();
+	}
+
+	for (auto players : this->mWorldPlayers)
+	{
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(players.second->GetRemotePlayer());
+		if (nullptr == remotePlayer)
+		{
+			return false;
+		}
+
+		PlayerCharacterPtr character = remotePlayer->GetCharacter();
+		if (nullptr == character)
+		{
+			return false;
+		}
+
+		if (true == character->IsValid())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

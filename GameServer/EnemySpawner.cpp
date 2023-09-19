@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemySpawner.h"
 
-EnemySpawner::EnemySpawner() : Actor(L"EnemySpawner"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnRange(0.0f), mLastSpawnCount(0)
+EnemySpawner::EnemySpawner() : GameObject(L"EnemySpawner"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnRange(0.0f), mRespawnTime(0), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f)
 {
 
 }
@@ -13,30 +13,26 @@ EnemySpawner::~EnemySpawner()
 
 void EnemySpawner::OnInitialization()
 {
-	SetTick(false, INFINITE);
+	SetTick(true, GAME_TICK);
 }
 
 void EnemySpawner::OnDestroy()
 {
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	for (EnemyCharacterPtr enemy : mEnemyCharacters)
-	{
-		if (enemy)
-		{
-			world->DestroyActor(enemy->GetGameObjectID());
-			enemy.reset();
-		}
-	}
+	this->ClearEnemy();
 }
 
 void EnemySpawner::OnTick(const int64 inDeltaTime)
 {
+	if (false == IsValid())
+	{
+		return;
+	}
 
+	if (true == this->IsRespawn())
+	{
+		this->SpawnEnemy();
+		mRespawnTime = 0;
+	}
 }
 
 bool EnemySpawner::IsValid()
@@ -44,124 +40,256 @@ bool EnemySpawner::IsValid()
 	return mIsLoad == true;
 }
 
-void EnemySpawner::SetEnemySpawner(const int32 inEnemyID, const Stats& inStats, const int64 inMaxEnemyCount, const float inSpawnRange)
+void EnemySpawner::SetEnemySpawner(const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
 {
-	mMaxEnmeyCount		= inMaxEnemyCount;
-	mCurEnemyCount		= 0;
-
-	mEnemyID			= inEnemyID;
-	mEnemyStats			= inStats;
-	mSpawnRange			= static_cast<float>((PI * ::pow(inSpawnRange, 2)));
-	mLastSpawnCount		= 0;
-
-	mEnemyCharacters.resize(inMaxEnemyCount);
-	mIsLoad = true;
-}
-
-void EnemySpawner::OnAppearActor(ActorPtr inAppearActor)
-{
-}
-
-void EnemySpawner::OnDisAppearActor(ActorPtr inDisappearActor)
-{
-}
-
-void EnemySpawner::OnDestroyEnemy(const int64 inGameObjectID)
-{
-	for (int32 index = 0; index < mMaxEnmeyCount; ++index)
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
 	{
-		if (mEnemyCharacters[index]->GetGameObjectID() == inGameObjectID)
-		{
-			if (mEnemyCharacters[index])
-			{
-				mEnemyCharacters[index].reset();
-				mCurEnemyCount--;
-			}
-			return;
-		}
+		return;
 	}
 
-	GameObjectLog(L"[OnDestroyEnemy] Invalid enemy id(%lld) in this spawner\n", inGameObjectID);
-}
-
-void EnemySpawner::ReSpawnCount()
-{
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	if (mMaxEnmeyCount - mCurEnemyCount == 0)
+	GameDatasPtr data = std::static_pointer_cast<GameDatas>(world->GetDatas());
+	if (nullptr == data)
 	{
 		return;
 	}
 
-	if (mLastSpawnCount == 0)
-	{
-		mLastSpawnCount = world->GetWorldTime();
-	}
-	else
-	{
-		if (world->GetWorldTime() - mLastSpawnCount > MAX_RESPAWN_ENEMY_TIME)
-		{
-			for (int32 index = 0; index < mMaxEnmeyCount; ++index)
-			{
-				if (mEnemyCharacters[index])
-				{
-					world->DestroyActor(mEnemyCharacters[index]->GetGameObjectID());
-					mEnemyCharacters[index].reset();
-				}
-			}
+	mMaxEnmeyCount	= inSpawnCount;
+	mCurEnemyCount	= 0;
 
-			mCurEnemyCount = 0;
+	mEnemyID		= inEnemyID;
+	mEnemyStats		= data->GetEnemyStat(inEnemyID);
+	mSpawnRange		= inSpawnRange;
+	mMaxChaseRange	= inMaxChaseRange;
+	mMaxSearchRange = inSearchRange;
+	mSpawnLoop		= inSpawnLoop;
+	mIsAggresive	= inIsAggresive;
+	mIsReward		= inIsReward;
+
+	mLocation		= inLocation;
+
+	mIsLoad			= true;
+
+	this->SpawnEnemy();
+}
+
+void EnemySpawner::SpawnEnemy()
+{
+	if (mSpawnLoop == 0)
+	{
+		return;
+	}
+
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
+	{
+		return;
+	}
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	for (int32 count = 0; count < mMaxEnmeyCount; ++count)
+	{
+		ActorPtr newActor = this->SpawnTemplate();
+		if (nullptr == newActor)
+		{
+			return;
+		}
+
+		EnemyCharacterPtr newEnemy = std::static_pointer_cast<EnemyCharacter>(newActor);
+		if (nullptr == newEnemy)
+		{
+			return;
+		}
+		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
+		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
+		newEnemy->SetEnemeyID(this->mEnemyID);
+		newEnemy->SetEnemyStats(this->mEnemyStats);
+		newEnemy->SetRecoveryLocation(this->mLocation);
+		newEnemy->SetReward(this->mIsReward);
+		newEnemy->SetAggressive(this->mIsAggresive);
+		newEnemy->SetMaxChaseRange(this->mMaxChaseRange);
+		newEnemy->SetMaxSearchRange(this->mMaxSearchRange);
+
+		if (this->mIsAggresive)
+		{
+			newEnemy->GetStateManager().SetState(EStateType::State_Search);
+		}
+		else
+		{
+			newEnemy->GetStateManager().SetState(EStateType::State_Idle);
+		}
+
+		mEnemyCharacters.emplace_back(newEnemy);
+
+		mCurEnemyCount++;
+	}
+
+	if (mSpawnLoop != -1)
+	{
+		mSpawnLoop--;
+	}
+}
+
+void EnemySpawner::NotifyDestroyEnemy(const int64& inGameObjectID)
+{
+	auto iter = mEnemyCharacters.begin();
+	for (iter; iter != mEnemyCharacters.end(); iter++)
+	{
+		EnemyCharacterPtr enemy = *iter;
+		if (enemy->GetGameObjectID() == inGameObjectID)
+		{
+			mEnemyCharacters.erase(iter);
+			mCurEnemyCount--;
+			break;
 		}
 	}
 }
 
-bool EnemySpawner::IsLeftEnemy()
+void EnemySpawner::ClearEnemy()
 {
-	return mCurEnemyCount == 0;
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
+	{
+		return;
+	}
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	for (auto enemy : mEnemyCharacters)
+	{
+		if (enemy)
+		{
+			enemy->SetReward(false);
+			world->PushTask(world->GetNextWorldTime(), &World::DestroyActor, enemy->GetGameObjectID());
+		}
+	}
+
+	mCurEnemyCount = 0;
 }
 
-const Location EnemySpawner::GetRandomLocation()
+bool EnemySpawner::IsRespawn()
 {
-	const Location& spawnerlocation = this->GetLocation();
-	Location newSpawnLocation;
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
+	{
+		return false;
+	}
 
-	float minX = spawnerlocation.GetX() - mSpawnRange;
-	float maxX = spawnerlocation.GetX() + mSpawnRange;
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return false;
+	}
+	const int64& worldTime = world->GetWorldTime();
 
-	float minY = spawnerlocation.GetY() - mSpawnRange;
-	float maxY = spawnerlocation.GetY() + mSpawnRange;
+	if (mMaxEnmeyCount - mCurEnemyCount == 0)
+	{
+		return false;
+	}
 
-	std::random_device randDevice;
-	std::mt19937 gen(randDevice());
-	std::uniform_real_distribution<> distX(minX, maxX);
-	std::uniform_real_distribution<> distY(minY, maxY);
+	if (mRespawnTime == 0)
+	{
+		mRespawnTime = worldTime;
+	}
 
-	newSpawnLocation.SetX(static_cast<float>(distX(gen)));
-	newSpawnLocation.SetY(static_cast<float>(distY(gen)));
-	newSpawnLocation.SetZ(spawnerlocation.GetZ());
-	return newSpawnLocation;
+	if (worldTime - mRespawnTime <= MAX_RESPAWN_ENEMY_TIME)
+	{
+		return false;
+	}
+
+	for (auto enemy : mEnemyCharacters)
+	{
+		if (enemy)
+		{
+			EStateType state = enemy->GetStateManager().GetCurrentStateType();
+			if (state != EStateType::State_Idle && state != EStateType::State_Round)
+			{
+				mRespawnTime = 0;
+				return false;
+			}
+		}
+	}
+	this->ClearEnemy();
+	
+	return true;
 }
 
-const Rotation EnemySpawner::GetRandomRotation()
+ActorPtr EnemySpawner::SpawnTemplate()
 {
-	Rotation newSpawnRotation;
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
+	{
+		return nullptr;
+	}
 
-	std::random_device randDevice;
-	std::mt19937 gen(randDevice());
-	std::uniform_real_distribution<> distY(0.0f, 359.0f);
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return nullptr;
+	}
 
-	newSpawnRotation.SetPitch(0.0f);
-	newSpawnRotation.SetYaw(static_cast<float>(distY(gen)));
-	newSpawnRotation.SetRoll(0.0f);
-	return newSpawnRotation;
+	ActorPtr newActor = nullptr;
+	switch (static_cast<EnemyID>(this->mEnemyID))
+	{
+	case EnemyID::Enemy_Slime:
+		newActor = world->SpawnActor<EnemySlime>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Nomal_Skeleton:
+		newActor = world->SpawnActor<EnemyNomalSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Warrior_Skeleton:
+		newActor = world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Archer_Skeleton:
+		world->SpawnActor<EnemyArcherSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Dark_Skeleton:
+		newActor = world->SpawnActor<EnemyNomalSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Dark_Knight:
+		newActor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Lich_Phase1:
+		newActor = world->SpawnActor<EnemyRichPhase1>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Lich_Phase2:
+		newActor = world->SpawnActor<EnemyRichPhase2>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Lich_Phase3:
+		newActor = world->SpawnActor<EnemyRichPhase3>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	case EnemyID::Enemy_Lich_Life_Vessle:
+		newActor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		break;
+	default:
+		break;
+	}
+
+	return newActor;
 }
 
+///////////////////////////////////
+//
+//	EnemySpawnerManager
+//
+///////////////////////////////////
 
-EnemySpawnerManager::EnemySpawnerManager() : Actor(L"EnemySpawnerManager")
+EnemySpawnerManager::EnemySpawnerManager() : GameObject(L"EnemySpawnerManager")
 {
 }
 
@@ -172,45 +300,56 @@ EnemySpawnerManager::~EnemySpawnerManager()
 
 void EnemySpawnerManager::OnInitialization()
 {
-	SetTick(true, MAX_CHECK_ENEMY_TIME);
+}
 
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+void EnemySpawnerManager::OnDestroy()
+{
+	this->ClearEnemySpawner();
+}
+
+void EnemySpawnerManager::OnTick(const int64 inDeltaTime)
+{
+	if (false == IsValid())
+	{
+		return;
+	}
+}
+
+bool EnemySpawnerManager::IsValid()
+{
+	return mSpawners.size();
+}
+
+void EnemySpawnerManager::CreateEnemySpawner(const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (nullptr == datas)
+	GameTaskPtr task = std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
+	if (nullptr == task)
 	{
 		return;
 	}
 
-	CSVDatas spawnerDatas;
-	datas->GetData(spawnerDatas, static_cast<uint8>(EGameDataType::EnemySpawner));
-
-	const size_t datasSize = spawnerDatas.size() - 1;
-	for (size_t index = 1; index < datasSize; ++index)
+	EnemySpawnerPtr newSpawner = std::make_shared<EnemySpawner>();
+	if (nullptr == newSpawner)
 	{
-		CSVRow row = spawnerDatas.at(index);
-
-		int32 id	= std::stoi(row.at(0));
-		float x		= std::stof(row.at(1));
-		float y		= std::stof(row.at(2));
-		float z		= std::stof(row.at(3));
-		int32 count = std::stoi(row.at(4));
-
-		ActorPtr		actor = world->SpawnActor<EnemySpawner>(this->GetGameObjectRef(), Location(x, y, z), Rotation(), Scale());
-		EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(actor);
-		spawner->SetEnemySpawner(id, datas->GetEnemyStat(id), count, 10.0f);
-
-		mSpawners.push_back(spawner);
+		return;
 	}
+	newSpawner->SetOwner(this->GetGameObjectRef());
+	task->PushTask(newSpawner->GetGameObjectPtr());
+
+	newSpawner->SetEnemySpawner(inLocation, static_cast<int32>(inSpawnEnemyID), inSpawnRange, inSpawnCount, inLoop, inIsAggresive , inIsReward, inMaxChaseRange, inSearchRange);
+
+	mSpawners.push_back(newSpawner);
 }
 
-void EnemySpawnerManager::OnDestroy()
+void EnemySpawnerManager::ClearEnemySpawner()
 {
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetOwner().lock());
 	if (nullptr == world)
 	{
 		return;
@@ -222,56 +361,7 @@ void EnemySpawnerManager::OnDestroy()
 	}
 }
 
-void EnemySpawnerManager::OnTick(const int64 inDeltaTime)
+std::vector<EnemySpawnerPtr>& EnemySpawnerManager::GetEnemySpawners()
 {
-	if (false == IsValid())
-	{
-		return;
-	}
-
-
-	for (auto& spawner : mSpawners)
-	{
-		if (false == spawner->IsValid())
-		{
-			continue;
-		}
-
-		if (spawner->IsLeftEnemy())
-		{
-			this->SpawnEnemys(spawner);
-		}
-		else
-		{
-			spawner->ReSpawnCount();
-		}
-
-	}
-}
-
-bool EnemySpawnerManager::IsValid()
-{
-	return mSpawners.size();
-}
-
-void EnemySpawnerManager::SpawnEnemys(EnemySpawnerPtr inSpanwer)
-{
-	switch (inSpanwer->GetEnemyID())
-	{
-	case 1:
-		inSpanwer->SpawnEnemey<EnemySlime>();
-		break;
-	case 2:
-		inSpanwer->SpawnEnemey<EnemyNomalSkeleton>();
-		break;
-	case 3:
-		inSpanwer->SpawnEnemey<EnemyWarriorSkeleton>();
-		break;
-	case 4:
-		inSpanwer->SpawnEnemey<EnemyArcherSkeleton>();
-		break;
-
-	default:
-		break;
-	}
+	return mSpawners;
 }

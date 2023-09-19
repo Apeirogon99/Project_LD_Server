@@ -1,6 +1,6 @@
 #pragma once
 
-#define SYSTEM_TICK 33
+#define SYSTEM_TICK 30
 #define GAME_TICK 250
 
 #define SECOND 1000
@@ -13,7 +13,7 @@
 
 
 #define MAX_CHECK_ENEMY_TIME		2000
-#define MAX_RESPAWN_ENEMY_TIME		5000
+#define MAX_RESPAWN_ENEMY_TIME		10000
 
 #define ENEMY_STATE_TICK			100
 #define IDLE_TO_ROUND_TIME			10000

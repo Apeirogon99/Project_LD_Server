@@ -1,16 +1,5 @@
 #pragma once
 
-enum class EActorType
-{
-	Unspecified,
-	Obstruction,
-	Visible,
-	Player,
-	PickUp,
-	Enemy,
-	EnemyAttack,
-};
-
 class WorldPlayerInfo
 {
 public:
@@ -78,6 +67,6 @@ private:
 	std::vector<class Token>			mTokens;
 	std::map<int64, WorldPlayerInfo>	mPlayerIDs;
 
-	EnemySpawnerManagerPtr				mSpawnerManager;
+	EnemySpawnerManagerPtr				mEnemySpawnerManger;
 	DungeonManagerPtr					mDungeonManager;
 };

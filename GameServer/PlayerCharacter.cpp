@@ -373,7 +373,6 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 	}
 	this->mTargetActor.reset();
 
-	printf("AutoAttack\n");
 	if (true == this->mAutoAttackComponent.CanAutoAttack(this->GetActorPtr()))
 	{
 		this->DoAutoAttack(victimActor);
@@ -409,8 +408,6 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), destinationLocation, worldTime, 0.0f);
 	this->OnMovement();
 
-	printf("DoAutoAttack Send[%lld] To [%d]\n", worldTime, autoAttackCount);
-
 	{
 		Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
 		Protocol::SVector	location = PacketUtils::ToSVector(this->GetLocation());
@@ -443,8 +440,6 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 {
-	printf("OnAutoAttackShot\n");
-
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -470,8 +465,6 @@ void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)
 
 void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector inRange)
 {
-	printf("OnAutoAttackTargeting\n");
-
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == remotePlayer)
 	{

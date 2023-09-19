@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false), mStateManager(), mIsReward(true)
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false), mStateManager(), mIsReward(true), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f)
 {
 }
 
@@ -20,13 +20,6 @@ void EnemyCharacter::OnDestroy()
 
 	if (mIsReward)
 	{
-		EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(GetOwner().lock());
-		if (nullptr == spawner)
-		{
-			return;
-		}
-		spawner->OnDestroyEnemy(GetGameObjectID());
-
 		OnReward();
 	}
 
@@ -44,6 +37,11 @@ void EnemyCharacter::OnDestroy()
 void EnemyCharacter::OnTick(const int64 inDeltaTime)
 {
 	if (false == IsValid())
+	{
+		return;
+	}
+
+	if (this->GetPlayerViewers().size() == 0)
 	{
 		return;
 	}
@@ -247,16 +245,24 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 
 void EnemyCharacter::OnDeath()
 {
+	const int64 gameObjectID = this->GetGameObjectID();
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
-	const int64 deathTime = worldTime + 2000;
-	const int64 gameObjectID = this->GetGameObjectID();
 
-	world->PushTask(deathTime, &World::DestroyActor, gameObjectID);
+	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(this->GetOwner().lock());
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	spawner->NotifyDestroyEnemy(gameObjectID);
+
+
+	world->PushTask(worldTime + 2000, &World::DestroyActor, gameObjectID);
 }
 
 void EnemyCharacter::OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush)
@@ -317,6 +323,16 @@ void EnemyCharacter::SetEnemyStats(const Stats& inEnemyStats)
 void EnemyCharacter::SetAggroActor(ActorRef inAggroActor)
 {
 	mAggroActor = inAggroActor;
+}
+
+void EnemyCharacter::SetMaxSearchRange(const float& inMaxSearchRange)
+{
+	mMaxSearchRange = inMaxSearchRange;
+}
+
+void EnemyCharacter::SetMaxChaseRange(const float& inMaxChaseRange)
+{
+	mMaxChaseRange = inMaxChaseRange;
 }
 
 bool EnemyCharacter::IsDeath() const

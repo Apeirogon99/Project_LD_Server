@@ -42,6 +42,8 @@ public:
 	void SetRecoveryLocation(const Location& inRecoveryLocation);
 	void SetEnemyStats(const Stats& inEnemyStats);
 	void SetAggroActor(ActorRef inCharacter);
+	void SetMaxChaseRange(const float& inMaxChaseRange);
+	void SetMaxSearchRange(const float& inMaxSearchRange);
 
 	bool IsDeath() const;
 
@@ -57,6 +59,8 @@ public:
 	StateManager&				GetStateManager()			{ return mStateManager; }
 	const Location&				GetRecoveryLocation()		{ return mRecoveryLocation; }
 	ActorRef					GetAggroActor()				{ return mAggroActor; }
+	float						GetMaxChaseRange()			{ return mMaxChaseRange; }
+	float						GetMaxSearchRange()			{ return mMaxSearchRange; }
 
 protected:
 	int32						mEnemyID;
@@ -67,6 +71,8 @@ protected:
 
 	bool						mIsReward;
 	bool						mAggressive;
+	float						mMaxChaseRange;
+	float						mMaxSearchRange;
 
 	StateManager				mStateManager;
 
