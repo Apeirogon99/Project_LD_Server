@@ -88,6 +88,8 @@ enum class EPakcetID: uint16
 	C2S_CompleteLoadDungeon = 2082,
 	S2C_WaitingLoadDungeon = 2083,
 	S2C_CompleteLoadDungeon = 2084,
+	S2C_EnterPortal = 2085,
+	S2C_LeavePortal = 2086,
 };
 */
 
@@ -211,5 +213,7 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ResponseEnterDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ResponseEnterDungeon)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_WaitingLoadDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_WaitingLoadDungeon)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_CompleteLoadDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_CompleteLoadDungeon)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EnterPortal& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterPortal)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LeavePortal& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeavePortal)); }
 
 };

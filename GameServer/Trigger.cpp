@@ -89,8 +89,8 @@ void BoxTrigger::OnTick(const int64 inDeltaTime)
                 continue;
             }
 
-            this->OnBeginOverlap(actor);
             mOverlapActor.insert(std::pair(actor, true));
+            this->OnBeginOverlap(actor);
         }
         else
         {
@@ -172,8 +172,8 @@ void SphereTrigger::OnTick(const int64 inDeltaTime)
                 continue;
             }
 
-            this->OnBeginOverlap(actor);
             mOverlapActor.insert(std::pair(actor, true));
+            this->OnBeginOverlap(actor);
         }
         else
         {

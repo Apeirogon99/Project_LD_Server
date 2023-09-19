@@ -112,6 +112,8 @@ enum class EPakcetID : uint16
 	C2S_CompleteLoadDungeon = 2082,
 	S2C_WaitingLoadDungeon = 2083,
 	S2C_CompleteLoadDungeon = 2084,
+	S2C_EnterPortal = 2085,
+	S2C_LeavePortal = 2086,
 
 	C2S_EnterDungeon = 5000,
 	S2C_EnterDungeon = 5001,

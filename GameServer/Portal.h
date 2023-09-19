@@ -27,11 +27,10 @@ public:
 	void Teleport();
 
 public:
-	void SetMaxNumber(int32 inMaxNumber);
 	void SetTeleportLocation(const FVector& inLocation);
+	void BroadCastOverlap(SendBufferPtr inSendBuffer);
 
 private:
-	int32	mMaxNumber;
 	FVector mTeleportLocation;
 
 	int64	mMaxTeleportTime;

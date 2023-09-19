@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Portal.h"
 
-Portal::Portal() : SphereTrigger(), mMaxNumber(0), mTeleportLocation(), mMaxTeleportTime(10000), mCurTeleportTime(0), mIsTeleport(false)
+Portal::Portal() : SphereTrigger(), mTeleportLocation(), mMaxTeleportTime(10000), mCurTeleportTime(0), mIsTeleport(false)
 {
 }
 
@@ -102,7 +102,7 @@ void Portal::OnDisAppearActor(ActorPtr inDisappearActor)
 
 void Portal::OnBeginOverlap(ActorPtr inBeginOverlapActor)
 {
-	if (mMaxNumber == mOverlapActor.size() && false == mIsTeleport)
+	if (mMaxOverlap == mOverlapActor.size() && false == mIsTeleport)
 	{
 		EnterTeleport();
 	}
@@ -125,18 +125,38 @@ void Portal::OnOverlapTick(const int64 inDeltaTime)
 		{
 			this->Teleport();
 		}
+		else
+		{
+			this->EnterTeleport();
+		}
 	}
 }
 
 void Portal::EnterTeleport()
 {
 	mIsTeleport = true;
+
+	float time = (mMaxTeleportTime - mCurTeleportTime) / 1000.0f;
+	std::string title = "잠시후 다음 지점으로 이동됩니다.";
+
+	Protocol::S2C_EnterPortal enterPortalPacket;
+	enterPortalPacket.set_title(title);
+	enterPortalPacket.set_time(static_cast<int64>(time));
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPortalPacket);
+	this->BroadCastOverlap(sendBuffer);
+
 }
 
 void Portal::EndTeleport()
 {
 	mIsTeleport = false;
 	mCurTeleportTime = 0;
+
+	Protocol::S2C_LeavePortal leavePortalPacket;
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leavePortalPacket);
+	this->BroadCastOverlap(sendBuffer);
 }
 
 void Portal::Teleport()
@@ -163,20 +183,40 @@ void Portal::Teleport()
 		teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTeleportLocation));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
-		this->BrodcastPlayerViewers(sendBuffer);
+		this->BroadCastOverlap(sendBuffer);
 	}
 
-	mIsTeleport	= false;
-	mCurTeleportTime = 0;
+	EndTeleport();
 	mOverlapActor.clear();
-}
-
-void Portal::SetMaxNumber(int32 inMaxNumber)
-{
-	mMaxNumber = inMaxNumber;
 }
 
 void Portal::SetTeleportLocation(const FVector& inLocation)
 {
 	mTeleportLocation = inLocation;
+}
+
+void Portal::BroadCastOverlap(SendBufferPtr inSendBuffer)
+{
+	for (auto overlap : mOverlapActor)
+	{
+		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(overlap.first);
+		if (nullptr == character)
+		{
+			return;
+		}
+
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(character->GetOwner().lock());
+		if (nullptr == remotePlayer)
+		{
+			return;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+		if (nullptr == playerState)
+		{
+			return;
+		}
+
+		playerState->Send(inSendBuffer);
+	}
 }
