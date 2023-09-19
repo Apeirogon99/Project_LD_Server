@@ -714,8 +714,9 @@ PROTOBUF_CONSTEXPR S2C_AppearObstruction::S2C_AppearObstruction(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.location_)*/nullptr
   , /*decltype(_impl_.rotation_)*/nullptr
+  , /*decltype(_impl_.extent_)*/nullptr
   , /*decltype(_impl_.object_id_)*/int64_t{0}
-  , /*decltype(_impl_.duration_)*/int64_t{0}
+  , /*decltype(_impl_.type_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S2C_AppearObstructionDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2C_AppearObstructionDefaultTypeInternal()
@@ -1717,9 +1718,10 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.object_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.type_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.rotation_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.duration_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearObstruction, _impl_.extent_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C2S_InteractiveObject, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2112,45 +2114,45 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 379, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
   { 389, -1, -1, sizeof(::Protocol::S2C_AppearProtal)},
   { 399, -1, -1, sizeof(::Protocol::S2C_AppearObstruction)},
-  { 409, -1, -1, sizeof(::Protocol::C2S_InteractiveObject)},
-  { 416, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
-  { 426, -1, -1, sizeof(::Protocol::S2C_Teleport)},
-  { 434, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
-  { 447, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
-  { 457, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
-  { 467, -1, -1, sizeof(::Protocol::S2C_AnimationMovementEnemy)},
-  { 478, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
-  { 487, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
-  { 495, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 503, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 510, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 517, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 527, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 535, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 544, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 552, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 559, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 568, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 577, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 585, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 595, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
-  { 604, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
-  { 613, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
-  { 622, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
-  { 632, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
-  { 642, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
-  { 649, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
-  { 657, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
-  { 665, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
-  { 677, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
-  { 689, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
-  { 700, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
-  { 709, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
-  { 716, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
-  { 723, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
-  { 732, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
-  { 739, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
-  { 747, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
+  { 410, -1, -1, sizeof(::Protocol::C2S_InteractiveObject)},
+  { 417, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
+  { 427, -1, -1, sizeof(::Protocol::S2C_Teleport)},
+  { 435, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
+  { 448, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
+  { 458, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
+  { 468, -1, -1, sizeof(::Protocol::S2C_AnimationMovementEnemy)},
+  { 479, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
+  { 488, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
+  { 496, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
+  { 504, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 511, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 518, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 528, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 536, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 545, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 553, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 560, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 569, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 578, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 586, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 596, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 605, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
+  { 614, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
+  { 623, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
+  { 633, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
+  { 643, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
+  { 650, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
+  { 658, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
+  { 666, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
+  { 678, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
+  { 690, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
+  { 701, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
+  { 710, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
+  { 717, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
+  { 724, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
+  { 733, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
+  { 740, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
+  { 748, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2341,101 +2343,102 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "Protal\022\021\n\tobject_id\030\001 \001(\003\022#\n\010location\030\002 "
   "\001(\0132\021.Protocol.SVector\022$\n\010rotation\030\003 \001(\013"
   "2\022.Protocol.SRotator\022\021\n\ttimestamp\030\004 \001(\003\""
-  "\207\001\n\025S2C_AppearObstruction\022\021\n\tobject_id\030\001"
-  " \001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol.SVecto"
-  "r\022$\n\010rotation\030\003 \001(\0132\022.Protocol.SRotator\022"
-  "\020\n\010duration\030\004 \001(\003\"*\n\025C2S_InteractiveObje"
-  "ct\022\021\n\tobject_id\030\001 \001(\003\"\211\001\n\026S2C_MovementPr"
-  "ojectile\022\021\n\tobject_id\030\001 \001(\003\022#\n\010location\030"
-  "\002 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\003 \001"
-  "(\0132\022.Protocol.SRotator\022\021\n\ttimestamp\030\004 \001("
-  "\003\"F\n\014S2C_Teleport\022\021\n\tobject_id\030\001 \001(\003\022#\n\010"
-  "location\030\002 \001(\0132\021.Protocol.SVector\"\342\001\n\017S2"
-  "C_AppearEnemy\022\021\n\tobject_id\030\001 \001(\003\022\020\n\010enem"
-  "y_id\030\002 \001(\005\022$\n\005state\030\003 \001(\0162\025.Protocol.EEn"
-  "emyState\022\036\n\005stats\030\004 \003(\0132\017.Protocol.SStat"
-  "\022\'\n\014cur_location\030\005 \001(\0132\021.Protocol.SVecto"
-  "r\022(\n\rmove_location\030\006 \001(\0132\021.Protocol.SVec"
-  "tor\022\021\n\ttimestamp\030\007 \001(\003\"\203\001\n\025S2C_DetectCha"
-  "ngeEnemy\022\021\n\tobject_id\030\001 \001(\003\022\036\n\005stats\030\002 \003"
-  "(\0132\017.Protocol.SStat\022$\n\005state\030\003 \001(\0162\025.Pro"
-  "tocol.EEnemyState\022\021\n\ttimestamp\030\004 \001(\003\"\214\001\n"
-  "\021S2C_MovementEnemy\022\021\n\tobject_id\030\001 \001(\003\022\'\n"
-  "\014cur_location\030\002 \001(\0132\021.Protocol.SVector\022("
-  "\n\rmove_location\030\003 \001(\0132\021.Protocol.SVector"
-  "\022\021\n\ttimestamp\030\004 \001(\003\"\250\001\n\032S2C_AnimationMov"
-  "ementEnemy\022\021\n\tobject_id\030\001 \001(\003\022)\n\016start_l"
-  "ocation\030\002 \001(\0132\021.Protocol.SVector\022\'\n\014end_"
-  "location\030\003 \001(\0132\021.Protocol.SVector\022\020\n\010dur"
-  "ation\030\004 \001(\003\022\021\n\ttimestamp\030\005 \001(\003\"a\n\023S2C_En"
-  "emyAutoAttack\022\021\n\tobject_id\030\001 \001(\003\022$\n\010rota"
-  "tion\030\002 \001(\0132\022.Protocol.SRotator\022\021\n\ttimest"
-  "amp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject_id\030\001"
-  " \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_DeathEnem"
-  "y\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\""
-  ",\n\027S2C_DisAppearGameObject\022\021\n\tobject_id\030"
-  "\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestamp\030"
-  "\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003(\013"
-  "2\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.Pr"
-  "otocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005error\030\004 \001"
-  "(\005\"G\n\023C2S_InsertInventory\022\021\n\ttimestamp\030\001"
-  " \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"J\n\023S"
-  "2C_InsertInventory\022\021\n\tremote_id\030\001 \001(\003\022\021\n"
-  "\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_U"
-  "pdateInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004ite"
-  "m\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_UpdateIn"
-  "ventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_DeleteInve"
+  "\246\001\n\025S2C_AppearObstruction\022\021\n\tobject_id\030\001"
+  " \001(\003\022\014\n\004type\030\002 \001(\005\022#\n\010location\030\003 \001(\0132\021.P"
+  "rotocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.Prot"
+  "ocol.SRotator\022!\n\006extent\030\005 \001(\0132\021.Protocol"
+  ".SVector\"*\n\025C2S_InteractiveObject\022\021\n\tobj"
+  "ect_id\030\001 \001(\003\"\211\001\n\026S2C_MovementProjectile\022"
+  "\021\n\tobject_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.P"
+  "rotocol.SVector\022$\n\010rotation\030\003 \001(\0132\022.Prot"
+  "ocol.SRotator\022\021\n\ttimestamp\030\004 \001(\003\"F\n\014S2C_"
+  "Teleport\022\021\n\tobject_id\030\001 \001(\003\022#\n\010location\030"
+  "\002 \001(\0132\021.Protocol.SVector\"\342\001\n\017S2C_AppearE"
+  "nemy\022\021\n\tobject_id\030\001 \001(\003\022\020\n\010enemy_id\030\002 \001("
+  "\005\022$\n\005state\030\003 \001(\0162\025.Protocol.EEnemyState\022"
+  "\036\n\005stats\030\004 \003(\0132\017.Protocol.SStat\022\'\n\014cur_l"
+  "ocation\030\005 \001(\0132\021.Protocol.SVector\022(\n\rmove"
+  "_location\030\006 \001(\0132\021.Protocol.SVector\022\021\n\tti"
+  "mestamp\030\007 \001(\003\"\203\001\n\025S2C_DetectChangeEnemy\022"
+  "\021\n\tobject_id\030\001 \001(\003\022\036\n\005stats\030\002 \003(\0132\017.Prot"
+  "ocol.SStat\022$\n\005state\030\003 \001(\0162\025.Protocol.EEn"
+  "emyState\022\021\n\ttimestamp\030\004 \001(\003\"\214\001\n\021S2C_Move"
+  "mentEnemy\022\021\n\tobject_id\030\001 \001(\003\022\'\n\014cur_loca"
+  "tion\030\002 \001(\0132\021.Protocol.SVector\022(\n\rmove_lo"
+  "cation\030\003 \001(\0132\021.Protocol.SVector\022\021\n\ttimes"
+  "tamp\030\004 \001(\003\"\250\001\n\032S2C_AnimationMovementEnem"
+  "y\022\021\n\tobject_id\030\001 \001(\003\022)\n\016start_location\030\002"
+  " \001(\0132\021.Protocol.SVector\022\'\n\014end_location\030"
+  "\003 \001(\0132\021.Protocol.SVector\022\020\n\010duration\030\004 \001"
+  "(\003\022\021\n\ttimestamp\030\005 \001(\003\"a\n\023S2C_EnemyAutoAt"
+  "tack\022\021\n\tobject_id\030\001 \001(\003\022$\n\010rotation\030\002 \001("
+  "\0132\022.Protocol.SRotator\022\021\n\ttimestamp\030\003 \001(\003"
+  "\"4\n\014S2C_HitEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\tt"
+  "imestamp\030\003 \001(\003\"6\n\016S2C_DeathEnemy\022\021\n\tobje"
+  "ct_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\",\n\027S2C_Di"
+  "sAppearGameObject\022\021\n\tobject_id\030\001 \001(\003\"&\n\021"
+  "C2S_LoadInventory\022\021\n\ttimestamp\030\001 \001(\003\"s\n\021"
+  "S2C_LoadInventory\022\035\n\004item\030\001 \003(\0132\017.Protoc"
+  "ol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.Protocol.SI"
+  "tem\022\r\n\005money\030\003 \001(\005\022\r\n\005error\030\004 \001(\005\"G\n\023C2S"
+  "_InsertInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004i"
+  "tem\030\002 \001(\0132\017.Protocol.SItem\"J\n\023S2C_Insert"
+  "Inventory\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_i"
+  "d\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_UpdateInve"
   "ntory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017"
-  ".Protocol.SItem\022#\n\010location\030\003 \001(\0132\021.Prot"
-  "ocol.SVector\"V\n\023S2C_DeleteInventory\022\021\n\tr"
-  "emote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol."
-  "SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_RollbackInve"
-  "ntory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017"
-  ".Protocol.SItem\"\247\001\n\023C2S_ReplaceEqipment\022"
-  "\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_item\030"
-  "\002 \001(\0132\017.Protocol.SItem\022)\n\020insert_eqip_it"
-  "em\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 \001(\0162"
-  "\030.Protocol.ECharacterPart\"g\n\023S2C_Replace"
-  "Eqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eqipment\030"
-  "\002 \001(\0132\034.Protocol.SCharacterEqipment\022\r\n\005e"
-  "rror\030\003 \001(\005\"M\n\021S2C_LoadSkillTree\022\020\n\010skill"
-  "_id\030\001 \003(\005\022\023\n\013skill_count\030\002 \003(\005\022\021\n\ttimest"
-  "amp\030\003 \001(\003\"O\n\023C2S_UpdateSkillTree\022\020\n\010skil"
-  "l_id\030\001 \001(\005\022\023\n\013skill_count\030\002 \001(\005\022\021\n\ttimes"
-  "tamp\030\003 \001(\003\"^\n\023S2C_UpdateSkillTree\022\r\n\005err"
-  "or\030\001 \001(\005\022\020\n\010skill_id\030\002 \001(\005\022\023\n\013skill_coun"
-  "t\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001(\003\"w\n\023C2S_SetUse"
-  "KeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\taction_id\030\002"
-  " \001(\005\022*\n\013action_type\030\003 \001(\0162\025.Protocol.EAc"
-  "tionType\022\021\n\ttimestamp\030\004 \001(\003\"$\n\023S2C_SetUs"
-  "eKeyAction\022\r\n\005error\030\001 \001(\005\"<\n\027C2S_Pressed"
-  "UseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttimestam"
-  "p\030\002 \001(\003\"<\n\027C2S_ReleaseUseKeyAction\022\016\n\006ke"
-  "y_id\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"\246\001\n\017S2C_Ap"
-  "pearSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_i"
-  "d\030\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030\004 "
-  "\001(\0132\021.Protocol.SVector\022$\n\010rotation\030\005 \001(\013"
-  "2\022.Protocol.SRotator\022\020\n\010duration\030\006 \001(\003\"\250"
-  "\001\n\021S2C_ReactionSkill\022\021\n\tremote_id\030\001 \001(\003\022"
-  "\021\n\tobject_id\030\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010"
-  "location\030\004 \001(\0132\021.Protocol.SVector\022$\n\010rot"
-  "ation\030\005 \001(\0132\022.Protocol.SRotator\022\020\n\010durat"
-  "ion\030\006 \001(\003\"\275\001\n\014S2C_DebugBox\022)\n\016start_loca"
-  "tion\030\001 \001(\0132\021.Protocol.SVector\022\'\n\014end_loc"
-  "ation\030\002 \001(\0132\021.Protocol.SVector\022!\n\006extent"
-  "\030\003 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\004 "
-  "\001(\0132\022.Protocol.SRotator\022\020\n\010duration\030\005 \001("
-  "\002\"X\n\017S2C_DebugCircle\022#\n\010location\030\001 \001(\0132\021"
-  ".Protocol.SVector\022\016\n\006radius\030\002 \001(\002\022\020\n\010dur"
-  "ation\030\003 \001(\002\"/\n\027C2S_RequestEnterDungeon\022\024"
-  "\n\014dungeon_type\030\001 \001(\005\"(\n\027S2C_RequestEnter"
-  "Dungeon\022\r\n\005error\030\001 \001(\005\"L\n\030S2C_ResponseEn"
-  "terDungeon\022\r\n\005error\030\001 \001(\005\022\022\n\ndungeon_id\030"
-  "\002 \001(\005\022\r\n\005level\030\003 \001(\014\"-\n\027C2S_CompleteLoad"
-  "Dungeon\022\022\n\ndungeon_id\030\001 \001(\005\"B\n\026S2C_Waiti"
-  "ngLoadDungeon\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014lea"
-  "st_number\030\002 \001(\005\"\031\n\027S2C_CompleteLoadDunge"
-  "onb\006proto3"
+  ".Protocol.SItem\"$\n\023S2C_UpdateInventory\022\r"
+  "\n\005error\030\001 \001(\005\"l\n\023C2S_DeleteInventory\022\021\n\t"
+  "timestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol"
+  ".SItem\022#\n\010location\030\003 \001(\0132\021.Protocol.SVec"
+  "tor\"V\n\023S2C_DeleteInventory\022\021\n\tremote_id\030"
+  "\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\022\r\n\005"
+  "error\030\003 \001(\005\"I\n\025S2C_RollbackInventory\022\021\n\t"
+  "remote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol"
+  ".SItem\"\247\001\n\023C2S_ReplaceEqipment\022\021\n\ttimest"
+  "amp\030\001 \001(\003\022*\n\021insert_inven_item\030\002 \001(\0132\017.P"
+  "rotocol.SItem\022)\n\020insert_eqip_item\030\003 \001(\0132"
+  "\017.Protocol.SItem\022&\n\004part\030\004 \001(\0162\030.Protoco"
+  "l.ECharacterPart\"g\n\023S2C_ReplaceEqipment\022"
+  "\021\n\tremote_id\030\001 \001(\003\022.\n\010eqipment\030\002 \001(\0132\034.P"
+  "rotocol.SCharacterEqipment\022\r\n\005error\030\003 \001("
+  "\005\"M\n\021S2C_LoadSkillTree\022\020\n\010skill_id\030\001 \003(\005"
+  "\022\023\n\013skill_count\030\002 \003(\005\022\021\n\ttimestamp\030\003 \001(\003"
+  "\"O\n\023C2S_UpdateSkillTree\022\020\n\010skill_id\030\001 \001("
+  "\005\022\023\n\013skill_count\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001("
+  "\003\"^\n\023S2C_UpdateSkillTree\022\r\n\005error\030\001 \001(\005\022"
+  "\020\n\010skill_id\030\002 \001(\005\022\023\n\013skill_count\030\003 \001(\005\022\021"
+  "\n\ttimestamp\030\004 \001(\003\"w\n\023C2S_SetUseKeyAction"
+  "\022\016\n\006key_id\030\001 \001(\005\022\021\n\taction_id\030\002 \001(\005\022*\n\013a"
+  "ction_type\030\003 \001(\0162\025.Protocol.EActionType\022"
+  "\021\n\ttimestamp\030\004 \001(\003\"$\n\023S2C_SetUseKeyActio"
+  "n\022\r\n\005error\030\001 \001(\005\"<\n\027C2S_PressedUseKeyAct"
+  "ion\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"<"
+  "\n\027C2S_ReleaseUseKeyAction\022\016\n\006key_id\030\001 \001("
+  "\005\022\021\n\ttimestamp\030\002 \001(\003\"\246\001\n\017S2C_AppearSkill"
+  "\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\020"
+  "\n\010skill_id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021.Pro"
+  "tocol.SVector\022$\n\010rotation\030\005 \001(\0132\022.Protoc"
+  "ol.SRotator\022\020\n\010duration\030\006 \001(\003\"\250\001\n\021S2C_Re"
+  "actionSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject"
+  "_id\030\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030"
+  "\004 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\005 \001"
+  "(\0132\022.Protocol.SRotator\022\020\n\010duration\030\006 \001(\003"
+  "\"\275\001\n\014S2C_DebugBox\022)\n\016start_location\030\001 \001("
+  "\0132\021.Protocol.SVector\022\'\n\014end_location\030\002 \001"
+  "(\0132\021.Protocol.SVector\022!\n\006extent\030\003 \001(\0132\021."
+  "Protocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.Pro"
+  "tocol.SRotator\022\020\n\010duration\030\005 \001(\002\"X\n\017S2C_"
+  "DebugCircle\022#\n\010location\030\001 \001(\0132\021.Protocol"
+  ".SVector\022\016\n\006radius\030\002 \001(\002\022\020\n\010duration\030\003 \001"
+  "(\002\"/\n\027C2S_RequestEnterDungeon\022\024\n\014dungeon"
+  "_type\030\001 \001(\005\"(\n\027S2C_RequestEnterDungeon\022\r"
+  "\n\005error\030\001 \001(\005\"L\n\030S2C_ResponseEnterDungeo"
+  "n\022\r\n\005error\030\001 \001(\005\022\022\n\ndungeon_id\030\002 \001(\005\022\r\n\005"
+  "level\030\003 \001(\014\"-\n\027C2S_CompleteLoadDungeon\022\022"
+  "\n\ndungeon_id\030\001 \001(\005\"B\n\026S2C_WaitingLoadDun"
+  "geon\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014least_number"
+  "\030\002 \001(\005\"\031\n\027S2C_CompleteLoadDungeonb\006proto"
+  "3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -2443,7 +2446,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 7730, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 7761, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 85,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -13388,6 +13391,7 @@ class S2C_AppearObstruction::_Internal {
  public:
   static const ::Protocol::SVector& location(const S2C_AppearObstruction* msg);
   static const ::Protocol::SRotator& rotation(const S2C_AppearObstruction* msg);
+  static const ::Protocol::SVector& extent(const S2C_AppearObstruction* msg);
 };
 
 const ::Protocol::SVector&
@@ -13397,6 +13401,10 @@ S2C_AppearObstruction::_Internal::location(const S2C_AppearObstruction* msg) {
 const ::Protocol::SRotator&
 S2C_AppearObstruction::_Internal::rotation(const S2C_AppearObstruction* msg) {
   return *msg->_impl_.rotation_;
+}
+const ::Protocol::SVector&
+S2C_AppearObstruction::_Internal::extent(const S2C_AppearObstruction* msg) {
+  return *msg->_impl_.extent_;
 }
 void S2C_AppearObstruction::clear_location() {
   if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
@@ -13410,6 +13418,12 @@ void S2C_AppearObstruction::clear_rotation() {
   }
   _impl_.rotation_ = nullptr;
 }
+void S2C_AppearObstruction::clear_extent() {
+  if (GetArenaForAllocation() == nullptr && _impl_.extent_ != nullptr) {
+    delete _impl_.extent_;
+  }
+  _impl_.extent_ = nullptr;
+}
 S2C_AppearObstruction::S2C_AppearObstruction(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -13422,8 +13436,9 @@ S2C_AppearObstruction::S2C_AppearObstruction(const S2C_AppearObstruction& from)
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.extent_){nullptr}
     , decltype(_impl_.object_id_){}
-    , decltype(_impl_.duration_){}
+    , decltype(_impl_.type_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -13433,9 +13448,12 @@ S2C_AppearObstruction::S2C_AppearObstruction(const S2C_AppearObstruction& from)
   if (from._internal_has_rotation()) {
     _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
   }
+  if (from._internal_has_extent()) {
+    _this->_impl_.extent_ = new ::Protocol::SVector(*from._impl_.extent_);
+  }
   ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.duration_) -
-    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.duration_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.type_) -
+    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.type_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S2C_AppearObstruction)
 }
 
@@ -13446,8 +13464,9 @@ inline void S2C_AppearObstruction::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.location_){nullptr}
     , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.extent_){nullptr}
     , decltype(_impl_.object_id_){int64_t{0}}
-    , decltype(_impl_.duration_){int64_t{0}}
+    , decltype(_impl_.type_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -13465,6 +13484,7 @@ inline void S2C_AppearObstruction::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.location_;
   if (this != internal_default_instance()) delete _impl_.rotation_;
+  if (this != internal_default_instance()) delete _impl_.extent_;
 }
 
 void S2C_AppearObstruction::SetCachedSize(int size) const {
@@ -13485,9 +13505,13 @@ void S2C_AppearObstruction::Clear() {
     delete _impl_.rotation_;
   }
   _impl_.rotation_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.extent_ != nullptr) {
+    delete _impl_.extent_;
+  }
+  _impl_.extent_ = nullptr;
   ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.duration_) -
-      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.duration_));
+      reinterpret_cast<char*>(&_impl_.type_) -
+      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.type_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -13505,26 +13529,34 @@ const char* S2C_AppearObstruction::_InternalParse(const char* ptr, ::_pbi::Parse
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SVector location = 2;
+      // int32 type = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SVector location = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_location(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.SRotator rotation = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+      // .Protocol.SRotator rotation = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int64 duration = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.duration_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+      // .Protocol.SVector extent = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_extent(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -13564,24 +13596,31 @@ uint8_t* S2C_AppearObstruction::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // .Protocol.SVector location = 2;
+  // int32 type = 2;
+  if (this->_internal_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_type(), target);
+  }
+
+  // .Protocol.SVector location = 3;
   if (this->_internal_has_location()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::location(this),
+      InternalWriteMessage(3, _Internal::location(this),
         _Internal::location(this).GetCachedSize(), target, stream);
   }
 
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 4;
   if (this->_internal_has_rotation()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::rotation(this),
+      InternalWriteMessage(4, _Internal::rotation(this),
         _Internal::rotation(this).GetCachedSize(), target, stream);
   }
 
-  // int64 duration = 4;
-  if (this->_internal_duration() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_duration(), target);
+  // .Protocol.SVector extent = 5;
+  if (this->_internal_has_extent()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::extent(this),
+        _Internal::extent(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -13600,18 +13639,25 @@ size_t S2C_AppearObstruction::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.SVector location = 2;
+  // .Protocol.SVector location = 3;
   if (this->_internal_has_location()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.location_);
   }
 
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 4;
   if (this->_internal_has_rotation()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.rotation_);
+  }
+
+  // .Protocol.SVector extent = 5;
+  if (this->_internal_has_extent()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.extent_);
   }
 
   // int64 object_id = 1;
@@ -13619,9 +13665,9 @@ size_t S2C_AppearObstruction::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_object_id());
   }
 
-  // int64 duration = 4;
-  if (this->_internal_duration() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_duration());
+  // int32 type = 2;
+  if (this->_internal_type() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_type());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -13650,11 +13696,15 @@ void S2C_AppearObstruction::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
     _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
         from._internal_rotation());
   }
+  if (from._internal_has_extent()) {
+    _this->_internal_mutable_extent()->::Protocol::SVector::MergeFrom(
+        from._internal_extent());
+  }
   if (from._internal_object_id() != 0) {
     _this->_internal_set_object_id(from._internal_object_id());
   }
-  if (from._internal_duration() != 0) {
-    _this->_internal_set_duration(from._internal_duration());
+  if (from._internal_type() != 0) {
+    _this->_internal_set_type(from._internal_type());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -13674,8 +13724,8 @@ void S2C_AppearObstruction::InternalSwap(S2C_AppearObstruction* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_AppearObstruction, _impl_.duration_)
-      + sizeof(S2C_AppearObstruction::_impl_.duration_)
+      PROTOBUF_FIELD_OFFSET(S2C_AppearObstruction, _impl_.type_)
+      + sizeof(S2C_AppearObstruction::_impl_.type_)
       - PROTOBUF_FIELD_OFFSET(S2C_AppearObstruction, _impl_.location_)>(
           reinterpret_cast<char*>(&_impl_.location_),
           reinterpret_cast<char*>(&other->_impl_.location_));

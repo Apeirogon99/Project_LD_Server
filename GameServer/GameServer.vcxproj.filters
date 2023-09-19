@@ -358,6 +358,9 @@
     <ClCompile Include="DungeonManager.cpp">
       <Filter>Content\Dungeon</Filter>
     </ClCompile>
+    <ClCompile Include="Obstruction.cpp">
+      <Filter>Content\Obstruction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -584,6 +587,9 @@
     </ClInclude>
     <ClInclude Include="DungeonManager.h">
       <Filter>Content\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstruction.h">
+      <Filter>Content\Obstruction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

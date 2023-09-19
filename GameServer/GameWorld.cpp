@@ -21,7 +21,7 @@ void GameWorld::OnInitialization()
 	//std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(-8300.0f, 30000.0f, -68.0f), FRotator(), Scale()));
 	//portal->SetTeleportLocation(FVector(-8300.0f, 30000.0f, -68.0f));
 
-	this->MakeWorldObstruction();
+	this->MakeWorldObstruction(EGameDataType::Obstruction);
 
 }
 
@@ -494,7 +494,7 @@ void GameWorld::RefreshWorldObserver()
 	//}
 }
 
-void GameWorld::MakeWorldObstruction()
+void GameWorld::MakeWorldObstruction(const EGameDataType inGameData)
 {
 	mWorldObstruction.DeleteTree();
 
@@ -505,31 +505,59 @@ void GameWorld::MakeWorldObstruction()
 	}
 
 	CSVDatas obstructionDatas;
-	datas->GetData(obstructionDatas, static_cast<uint8>(EGameDataType::Obstruction));
+	datas->GetData(obstructionDatas, static_cast<uint8>(inGameData));
 
 	const size_t datasSize = obstructionDatas.size() - 1;
 	for (size_t index = 1; index < datasSize; ++index)
 	{
 		CSVRow row = obstructionDatas.at(index);
-
-		FVector		location = FVector(std::stof(row.at(1)), std::stof(row.at(2)), std::stof(row.at(3)));
-		FRotator	rotation = FRotator(std::stof(row.at(4)), std::stof(row.at(5)), std::stof(row.at(6)));
-		FVector		scale = FVector(1.0f, 1.0f, 1.0f);
-
-		FVector extent = FVector(std::stof(row.at(7)), std::stof(row.at(8)), std::stof(row.at(9)));
-
-		ActorPtr newActor = this->SpawnActor<Wall>(this->GetGameObjectRef(), location, rotation, scale);
-		std::shared_ptr<Wall> newWall = std::static_pointer_cast<Wall>(newActor);
-		if (nullptr == newWall)
-		{
-			this->GameObjectLog(L"Unable to complete a obstruction\n");
-			return;
-		}
-		newWall->SetBoxCollisionExtent(extent);
-
-		mWorldObstruction.InsertNode(newWall);
+		DoMakeWorldObstruction(row);
 	}
 	this->GameObjectLog(L"[GameWorld::MakeWorldObstruction] Complete a obstruction (%lld)\n", datasSize - 1);
+}
+
+void GameWorld::MakeWorldObstruction(const EGameDataType inGameData, const int32 inIndex)
+{
+	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(this->GetDatas());
+	if (nullptr == datas)
+	{
+		return;
+	}
+
+	if (inIndex <= 0)
+	{
+		return;
+	}
+
+	CSVDatas obstructionDatas;
+	datas->GetData(obstructionDatas, static_cast<uint8>(inGameData));
+
+	CSVRow row = obstructionDatas.at(inIndex);
+	DoMakeWorldObstruction(row);
+
+}
+
+void GameWorld::DoMakeWorldObstruction(const CSVRow& inRow)
+{
+	std::wstring	name = L"Obstruction";
+	int32			type = std::stoi(inRow.at(1));
+	FVector			location = FVector(std::stof(inRow.at(2)), std::stof(inRow.at(3)), std::stof(inRow.at(4)));
+	FRotator		rotation = FRotator(std::stof(inRow.at(5)), std::stof(inRow.at(6)), std::stof(inRow.at(7)));
+	FVector			scale = FVector(1.0f, 1.0f, 1.0f);
+	FVector			extent = FVector(std::stof(inRow.at(8)), std::stof(inRow.at(9)), std::stof(inRow.at(10)));
+
+	ActorPtr newActor = this->SpawnActor<Obstruction>(this->GetGameObjectRef(), location, rotation, scale);
+	std::shared_ptr<Obstruction> newObstruction = std::static_pointer_cast<Obstruction>(newActor);
+	if (nullptr == newObstruction)
+	{
+		this->GameObjectLog(L"Unable to complete a obstruction\n");
+		return;
+	}
+	newObstruction->SetObstructionName(name.c_str());
+	newObstruction->SetObstructionType(type);
+	newObstruction->SetBoxCollisionExtent(extent);
+
+	mWorldObstruction.InsertNode(newObstruction);
 }
 
 const EnemySpawnerManagerPtr& GameWorld::GetEnemySpawnerManager()

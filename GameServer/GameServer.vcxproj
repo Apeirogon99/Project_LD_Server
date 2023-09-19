@@ -186,6 +186,7 @@
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="EnemyRich.cpp" />
     <ClCompile Include="LichLifeVessel.cpp" />
+    <ClCompile Include="Obstruction.cpp" />
     <ClCompile Include="OnslaughtOfShadows.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
@@ -381,6 +382,7 @@
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="EnemyRich.h" />
     <ClInclude Include="LichLifeVessel.h" />
+    <ClInclude Include="Obstruction.h" />
     <ClInclude Include="OnslaughtOfShadows.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PlayerCharacter.h" />

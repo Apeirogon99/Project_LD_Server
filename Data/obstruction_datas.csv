@@ -1,6 +1,6 @@
-obstruction_id,location_x,location_y,location_z,rotation_pitch,rotation_yaw,rotation_roll,extent_x,extent_y,extent_z
-1,0,0,500,0,0,0,100,2100,500
-2,10050,9000,100,0,0,0,2100,100,500
-3,11100,10050,100,0,0,0,100,2100,500
-4,10050,11100,100,0,0,0,2100,100,500
-5,9000,10050,100,0,0,0,100,2100,500
+obstruction_id,type,location_x,location_y,location_z,rotation_pitch,rotation_yaw,rotation_roll,extent_x,extent_y,extent_z
+1,1,0,0,500,0,0,0,100,2100,500
+2,1,10050,9000,100,0,0,0,2100,100,500
+3,1,11100,10050,100,0,0,0,100,2100,500
+4,1,10050,11100,100,0,0,0,2100,100,500
+5,1,9000,10050,100,0,0,0,100,2100,500

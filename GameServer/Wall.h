@@ -1,5 +1,5 @@
 #pragma once
-class Wall : public Actor
+class Wall : public Obstruction
 {
 public:
 	Wall();
@@ -15,9 +15,4 @@ public:
 	virtual void OnTick(const int64 inDeltaTime) override;
 	virtual bool IsValid()						 override;
 
-public:
-	void SetBoxCollisionExtent(FVector inExtent);
-
-public:
-	BoxCollisionComponent* GetBoxCollisionComponent() const;
 };

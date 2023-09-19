@@ -64,7 +64,11 @@ public:
 
 public:
 	void RefreshWorldObserver();
-	void MakeWorldObstruction();
+	void MakeWorldObstruction(const EGameDataType inGameData);
+	void MakeWorldObstruction(const EGameDataType inGameData, const int32 inIndex);
+
+protected:
+	void DoMakeWorldObstruction(const CSVRow& inRow);
 
 public:
 	const EnemySpawnerManagerPtr&	GetEnemySpawnerManager();

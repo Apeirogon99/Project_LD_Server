@@ -10,6 +10,7 @@ enum class EGameDataType : uint8
 	EnemyStat,
 	EnemySpawner,
 	Obstruction,
+	DungeonObstruction,
 	Level,
 	Skill,
 	MAX_GAME_DATA,

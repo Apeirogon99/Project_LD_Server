@@ -48,6 +48,11 @@ bool GameDatas::InitDatas()
         return false;
     }
 
+    if (false == PushData((dataPath + L"dungeon_obstruction_datas.csv").c_str(), static_cast<int32>(EGameDataType::DungeonObstruction)))
+    {
+        return false;
+    }
+
     if (false == PushData((dataPath + L"enemy_spawner_datas.csv").c_str(), static_cast<int32>(EGameDataType::EnemySpawner)))
     {
         return false;

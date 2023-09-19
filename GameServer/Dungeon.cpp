@@ -33,6 +33,8 @@ void Dungeon::OnInitialization()
 	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
 	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
 
+	this->MakeWorldObstruction(EGameDataType::DungeonObstruction);
+
 	this->ResetDungeon();
 }
 

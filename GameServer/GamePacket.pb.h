@@ -8385,12 +8385,13 @@ class S2C_AppearObstruction final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kLocationFieldNumber = 2,
-    kRotationFieldNumber = 3,
+    kLocationFieldNumber = 3,
+    kRotationFieldNumber = 4,
+    kExtentFieldNumber = 5,
     kObjectIdFieldNumber = 1,
-    kDurationFieldNumber = 4,
+    kTypeFieldNumber = 2,
   };
-  // .Protocol.SVector location = 2;
+  // .Protocol.SVector location = 3;
   bool has_location() const;
   private:
   bool _internal_has_location() const;
@@ -8408,7 +8409,7 @@ class S2C_AppearObstruction final :
       ::Protocol::SVector* location);
   ::Protocol::SVector* unsafe_arena_release_location();
 
-  // .Protocol.SRotator rotation = 3;
+  // .Protocol.SRotator rotation = 4;
   bool has_rotation() const;
   private:
   bool _internal_has_rotation() const;
@@ -8426,6 +8427,24 @@ class S2C_AppearObstruction final :
       ::Protocol::SRotator* rotation);
   ::Protocol::SRotator* unsafe_arena_release_rotation();
 
+  // .Protocol.SVector extent = 5;
+  bool has_extent() const;
+  private:
+  bool _internal_has_extent() const;
+  public:
+  void clear_extent();
+  const ::Protocol::SVector& extent() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_extent();
+  ::Protocol::SVector* mutable_extent();
+  void set_allocated_extent(::Protocol::SVector* extent);
+  private:
+  const ::Protocol::SVector& _internal_extent() const;
+  ::Protocol::SVector* _internal_mutable_extent();
+  public:
+  void unsafe_arena_set_allocated_extent(
+      ::Protocol::SVector* extent);
+  ::Protocol::SVector* unsafe_arena_release_extent();
+
   // int64 object_id = 1;
   void clear_object_id();
   int64_t object_id() const;
@@ -8435,13 +8454,13 @@ class S2C_AppearObstruction final :
   void _internal_set_object_id(int64_t value);
   public:
 
-  // int64 duration = 4;
-  void clear_duration();
-  int64_t duration() const;
-  void set_duration(int64_t value);
+  // int32 type = 2;
+  void clear_type();
+  int32_t type() const;
+  void set_type(int32_t value);
   private:
-  int64_t _internal_duration() const;
-  void _internal_set_duration(int64_t value);
+  int32_t _internal_type() const;
+  void _internal_set_type(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S2C_AppearObstruction)
@@ -8454,8 +8473,9 @@ class S2C_AppearObstruction final :
   struct Impl_ {
     ::Protocol::SVector* location_;
     ::Protocol::SRotator* rotation_;
+    ::Protocol::SVector* extent_;
     int64_t object_id_;
-    int64_t duration_;
+    int32_t type_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -19902,7 +19922,27 @@ inline void S2C_AppearObstruction::set_object_id(int64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S2C_AppearObstruction.object_id)
 }
 
-// .Protocol.SVector location = 2;
+// int32 type = 2;
+inline void S2C_AppearObstruction::clear_type() {
+  _impl_.type_ = 0;
+}
+inline int32_t S2C_AppearObstruction::_internal_type() const {
+  return _impl_.type_;
+}
+inline int32_t S2C_AppearObstruction::type() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearObstruction.type)
+  return _internal_type();
+}
+inline void S2C_AppearObstruction::_internal_set_type(int32_t value) {
+  
+  _impl_.type_ = value;
+}
+inline void S2C_AppearObstruction::set_type(int32_t value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_AppearObstruction.type)
+}
+
+// .Protocol.SVector location = 3;
 inline bool S2C_AppearObstruction::_internal_has_location() const {
   return this != internal_default_instance() && _impl_.location_ != nullptr;
 }
@@ -19987,7 +20027,7 @@ inline void S2C_AppearObstruction::set_allocated_location(::Protocol::SVector* l
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearObstruction.location)
 }
 
-// .Protocol.SRotator rotation = 3;
+// .Protocol.SRotator rotation = 4;
 inline bool S2C_AppearObstruction::_internal_has_rotation() const {
   return this != internal_default_instance() && _impl_.rotation_ != nullptr;
 }
@@ -20072,24 +20112,89 @@ inline void S2C_AppearObstruction::set_allocated_rotation(::Protocol::SRotator* 
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearObstruction.rotation)
 }
 
-// int64 duration = 4;
-inline void S2C_AppearObstruction::clear_duration() {
-  _impl_.duration_ = int64_t{0};
+// .Protocol.SVector extent = 5;
+inline bool S2C_AppearObstruction::_internal_has_extent() const {
+  return this != internal_default_instance() && _impl_.extent_ != nullptr;
 }
-inline int64_t S2C_AppearObstruction::_internal_duration() const {
-  return _impl_.duration_;
+inline bool S2C_AppearObstruction::has_extent() const {
+  return _internal_has_extent();
 }
-inline int64_t S2C_AppearObstruction::duration() const {
-  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearObstruction.duration)
-  return _internal_duration();
+inline const ::Protocol::SVector& S2C_AppearObstruction::_internal_extent() const {
+  const ::Protocol::SVector* p = _impl_.extent_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
 }
-inline void S2C_AppearObstruction::_internal_set_duration(int64_t value) {
+inline const ::Protocol::SVector& S2C_AppearObstruction::extent() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearObstruction.extent)
+  return _internal_extent();
+}
+inline void S2C_AppearObstruction::unsafe_arena_set_allocated_extent(
+    ::Protocol::SVector* extent) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.extent_);
+  }
+  _impl_.extent_ = extent;
+  if (extent) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_AppearObstruction.extent)
+}
+inline ::Protocol::SVector* S2C_AppearObstruction::release_extent() {
   
-  _impl_.duration_ = value;
+  ::Protocol::SVector* temp = _impl_.extent_;
+  _impl_.extent_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-inline void S2C_AppearObstruction::set_duration(int64_t value) {
-  _internal_set_duration(value);
-  // @@protoc_insertion_point(field_set:Protocol.S2C_AppearObstruction.duration)
+inline ::Protocol::SVector* S2C_AppearObstruction::unsafe_arena_release_extent() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_AppearObstruction.extent)
+  
+  ::Protocol::SVector* temp = _impl_.extent_;
+  _impl_.extent_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* S2C_AppearObstruction::_internal_mutable_extent() {
+  
+  if (_impl_.extent_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.extent_ = p;
+  }
+  return _impl_.extent_;
+}
+inline ::Protocol::SVector* S2C_AppearObstruction::mutable_extent() {
+  ::Protocol::SVector* _msg = _internal_mutable_extent();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearObstruction.extent)
+  return _msg;
+}
+inline void S2C_AppearObstruction::set_allocated_extent(::Protocol::SVector* extent) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.extent_);
+  }
+  if (extent) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(extent));
+    if (message_arena != submessage_arena) {
+      extent = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, extent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.extent_ = extent;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearObstruction.extent)
 }
 
 // -------------------------------------------------------------------
