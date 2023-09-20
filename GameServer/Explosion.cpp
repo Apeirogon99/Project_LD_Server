@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Explosion.h"
 
-Explosion::Explosion() : EnemyAttack(L"Explosion"), mStartTime(0), mEndTime(10000)
+Explosion::Explosion() : EnemyAttack(L"Explosion"), mStartTime(0), mEndTime(8000)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
@@ -60,12 +60,7 @@ bool Explosion::IsValid()
 			return false;
 		}
 
-		bool ret = world->DestroyActor(this->GetGameObjectID());
-		if (false == ret)
-		{
-			this->GameObjectLog(L"Can't destroy skill\n");
-		}
-		return ret;
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 	}
 
 	return true;
@@ -201,11 +196,7 @@ void Explosion::CheackCollision()
 		}
 	}
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy arrow\n");
-	}
+	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 void Explosion::OnParrying(ActorPtr inActor)

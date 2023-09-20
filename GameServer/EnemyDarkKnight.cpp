@@ -66,12 +66,12 @@ void EnemyDarkKnight::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyDarkKnight::HandAndSwordSwipeAttack);
 
 	//																														범위	 - 대미지 증가량 - 패링 - 타겟 타이밍
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f, 100, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing,	DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing,	DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(FVector(100.0f, 100.0f, 100.0f), 1.0f,   0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(120.0f, 70.0f, 100.0f), 1.0f, 100, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(120.0f, 100.0f, 100.0f), 1.0f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing, DarkKnightAttackInfo(FVector(120.0f, 170.0f, 100.0f), 1.0f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing, DarkKnightAttackInfo(FVector(120.0f, 170.0f, 100.0f), 1.0f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(FVector(140.0f, 80.0f, 100.0f), 1.0f, 100, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(FVector(50.0f, 100.0f, 100.0f), 1.0f, 0, 200)));
 }
 
 void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
