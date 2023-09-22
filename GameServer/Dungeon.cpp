@@ -267,7 +267,7 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
-	mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
 }
 
 bool Dungeon::IsCheckStage(int32 inStageCount)

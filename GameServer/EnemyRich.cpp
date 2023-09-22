@@ -54,11 +54,14 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 
 		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
 		
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
-		this->OnMovementEnemy();
+		if (false == mMove)
+		{
+			this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
+			this->OnMovementEnemy();
+		}
 		
 	}
-	this->OnMovementEnemy();
+	this->OnSyncLocation(inDeltaTime);
 
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
