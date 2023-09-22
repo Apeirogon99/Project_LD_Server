@@ -34,6 +34,7 @@ public:
 	APEIROGON_API bool				FindObstructionIntersection(LineTrace& inLineTrace, const uint8& inActorType, std::vector<FVector>& outIntersection, const uint32& inMaxSize = INFINITE);
 
 	APEIROGON_API bool				DestroyAllActor();
+	APEIROGON_API bool				DestroyActors(const uint8 inActorType);
 	APEIROGON_API bool				DestroyActor(const int64 inGameObjectID);
 
 	APEIROGON_API bool				IsValidActor(const int64 inGameObjectID);

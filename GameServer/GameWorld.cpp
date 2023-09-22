@@ -118,6 +118,7 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
 	if (remotePlayer)
 	{
+		remotePlayer->OnLoadComplete();
 		return;
 	}
 
@@ -143,7 +144,7 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 		if (curToken->CompareToken(inPacket.token()))
 		{
 			token = *curToken;
-			mTokens.erase(curToken);
+			//mTokens.erase(curToken);
 			isToken = true;
 			break;
 		}
@@ -210,17 +211,10 @@ void GameWorld::Leave(PlayerStatePtr inPlayerState)
 	mWorldPlayers.erase(gameObjectID);
 
 	remotePlayer->LeaveRemotePlayer();
-	if (true == remotePlayer->LeaveComplete())
+	if (false == remotePlayer->LeaveComplete())
 	{
-		mTaskManagerRef.lock()->ReleaseTask(remotePlayer->GetGameObjectPtr());
-
-		Protocol::S2C_LeaveGameServer leavePacket;
-		leavePacket.set_error(true);
-
-		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, leavePacket);
-		packetSession->Send(sendBuffer);
+		this->GameObjectLog(L"Can't Leave remote player");
 	}
-
 }
 
 void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
@@ -245,6 +239,13 @@ void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
 	}
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+	const int64& characterID = character->GetGameObjectID();
+
 	Protocol::S2C_DisAppearCharacter disappearCharacterPacket;
 	disappearCharacterPacket.set_remote_id(remotePlayer->GetGameObjectID());
 
@@ -268,6 +269,9 @@ void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
 	this->DeletePlayer(inLeaveRemoteID);
 	inTravelWorld->InsertPlayer(inLeaveRemoteID, remoteClinet);
 	remotePlayer->SetWorld(std::static_pointer_cast<GameWorld>(inTravelWorld));
+
+	mWorldActors.erase(characterID);
+	inTravelWorld->mWorldActors.insert(std::make_pair(characterID, character));
 }
 
 void GameWorld::WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)
@@ -567,7 +571,7 @@ void GameWorld::DoMakeWorldObstruction(const CSVRow& inRow)
 		this->GameObjectLog(L"Unable to complete a obstruction\n");
 		return;
 	}
-	newObstruction->SetObstructionName(name.c_str());
+	//newObstruction->SetObstructionName(name.c_str());
 	newObstruction->SetObstructionType(type);
 	newObstruction->SetBoxCollisionExtent(extent);
 

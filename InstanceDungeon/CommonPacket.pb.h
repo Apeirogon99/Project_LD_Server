@@ -686,9 +686,34 @@ class S2C_TravelLevel final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kErrorFieldNumber = 1,
+    kLevelFieldNumber = 1,
+    kTimeStampFieldNumber = 2,
+    kErrorFieldNumber = 3,
   };
-  // int32 error = 1;
+  // bytes level = 1;
+  void clear_level();
+  const std::string& level() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_level(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_level();
+  PROTOBUF_NODISCARD std::string* release_level();
+  void set_allocated_level(std::string* level);
+  private:
+  const std::string& _internal_level() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_level(const std::string& value);
+  std::string* _internal_mutable_level();
+  public:
+
+  // int64 time_stamp = 2;
+  void clear_time_stamp();
+  int64_t time_stamp() const;
+  void set_time_stamp(int64_t value);
+  private:
+  int64_t _internal_time_stamp() const;
+  void _internal_set_time_stamp(int64_t value);
+  public:
+
+  // int32 error = 3;
   void clear_error();
   int32_t error() const;
   void set_error(int32_t value);
@@ -705,6 +730,8 @@ class S2C_TravelLevel final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr level_;
+    int64_t time_stamp_;
     int32_t error_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1662,7 +1689,77 @@ inline void C2S_TravelLevel::set_time_stamp(int64_t value) {
 
 // S2C_TravelLevel
 
-// int32 error = 1;
+// bytes level = 1;
+inline void S2C_TravelLevel::clear_level() {
+  _impl_.level_.ClearToEmpty();
+}
+inline const std::string& S2C_TravelLevel::level() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelLevel.level)
+  return _internal_level();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2C_TravelLevel::set_level(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.level_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelLevel.level)
+}
+inline std::string* S2C_TravelLevel::mutable_level() {
+  std::string* _s = _internal_mutable_level();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_TravelLevel.level)
+  return _s;
+}
+inline const std::string& S2C_TravelLevel::_internal_level() const {
+  return _impl_.level_.Get();
+}
+inline void S2C_TravelLevel::_internal_set_level(const std::string& value) {
+  
+  _impl_.level_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S2C_TravelLevel::_internal_mutable_level() {
+  
+  return _impl_.level_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2C_TravelLevel::release_level() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_TravelLevel.level)
+  return _impl_.level_.Release();
+}
+inline void S2C_TravelLevel::set_allocated_level(std::string* level) {
+  if (level != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.level_.SetAllocated(level, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.level_.IsDefault()) {
+    _impl_.level_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_TravelLevel.level)
+}
+
+// int64 time_stamp = 2;
+inline void S2C_TravelLevel::clear_time_stamp() {
+  _impl_.time_stamp_ = int64_t{0};
+}
+inline int64_t S2C_TravelLevel::_internal_time_stamp() const {
+  return _impl_.time_stamp_;
+}
+inline int64_t S2C_TravelLevel::time_stamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_TravelLevel.time_stamp)
+  return _internal_time_stamp();
+}
+inline void S2C_TravelLevel::_internal_set_time_stamp(int64_t value) {
+  
+  _impl_.time_stamp_ = value;
+}
+inline void S2C_TravelLevel::set_time_stamp(int64_t value) {
+  _internal_set_time_stamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_TravelLevel.time_stamp)
+}
+
+// int32 error = 3;
 inline void S2C_TravelLevel::clear_error() {
   _impl_.error_ = 0;
 }

@@ -17,6 +17,19 @@ void Obstruction::OnInitialization()
 
 void Obstruction::OnDestroy()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
+	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disappearGameObjectPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+
+	this->ClearPlayerViewers();
 }
 
 void Obstruction::OnTick(const int64 inDeltaTime)

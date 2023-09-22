@@ -36,6 +36,8 @@ private:
 	int64 mStartTime;
 	int64 mEndTime;
 
-	BoxTrace* mTargetTrace;
+	FVector mTargetLocation;
+	FRotator mTargetRotation;
+
 	ActorPtr mTarget;
 };

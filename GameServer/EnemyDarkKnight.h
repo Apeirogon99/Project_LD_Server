@@ -53,7 +53,7 @@ public:
 	virtual void OnDeath() override;
 
 public:
-	void BerserkPhase();
+	bool BerserkPhase();
 
 public:
 	void RunningAttack();
@@ -62,7 +62,6 @@ public:
 	void SwingAttack();
 	void SwingAndSlamAttack();
 	void HandAndSwordSwipeAttack();
-	void Berserk();
 
 public:
 	void DoMeleeAttack(DarkKnightAttackInfo inAttackInfo);

@@ -30,6 +30,12 @@ void PlayerState::OnDisconnected()
 		return;
 	}
 
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
 	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
 	if (nullptr == gameState)
 	{
@@ -42,7 +48,7 @@ void PlayerState::OnDisconnected()
 		return;
 	}
 
-	GameWorldPtr world = task->GetWorld();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;

@@ -70,7 +70,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
-	const float debugDuration = 0.05f;
+	const float debugDuration = 0.02f;
 	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 }
 
@@ -299,16 +299,16 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 		//printf("STOP AND START\n");
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 42.0f);
 	}
-	else if(currentDistance <= 20.0f)
+	else
 	{
 		//printf("SERVER\n");
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 42.0f);
 	}
-	else
-	{
-		//printf("CLIENT\n");
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentClientLocation, movementDestination, clientMovementLastTime, 42.0f);
-	}
+	//else
+	//{
+	//	printf("CLIENT\n");
+	//	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentClientLocation, movementDestination, clientMovementLastTime, 42.0f);
+	//}
 	
 
 	mTargetActor.reset();
@@ -363,8 +363,14 @@ void PlayerCharacter::AutoAttack(const int64 inAttackingObjectID)
 
 	if (false == this->mAutoAttackComponent.IsAutoAttackRange(this->GetActorPtr(), victimActor, range))
 	{
+
+		const float half = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+		const float victimHalf = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+
 		FVector curLocation		= this->GetLocation();
 		FVector victimLocation	= enemy->GetMovementComponent().GetNextLocation(enemy);
+		victimLocation.SetZ(curLocation.GetZ());
+
 		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), curLocation, victimLocation, worldTime, 0.0f);
 		this->SetPlayerMode(EPlayerMode::Attack_MODE);
 		this->SetTargetActor(enemy);
@@ -400,6 +406,8 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 
 	const Stats&	currentStat = mStatComponent.GetCurrentStats();
 	const float		damage		= currentStat.GetAttackDamage();
+
+	this->GetLocation().ToString();
 
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictimActor, damage);

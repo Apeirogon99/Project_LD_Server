@@ -1,18 +1,14 @@
 #include "pch.h"
 #include "SoulSpark.h"
 
-SoulSpark::SoulSpark() : EnemyAttack(L"SoulSpark"), mStartTime(0), mEndTime(10000), mTargetTrace(nullptr)
+SoulSpark::SoulSpark() : EnemyAttack(L"SoulSpark"), mStartTime(0), mEndTime(10000)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
 
 SoulSpark::~SoulSpark()
 {
-	if (this->mTargetTrace)
-	{
-		delete this->mTargetTrace;
-	}
-	this->mTargetTrace = nullptr;
+
 }
 
 void SoulSpark::OnInitialization()
@@ -184,19 +180,10 @@ void SoulSpark::CheackTargeting()
 		}
 	}
 
-	FVector boxExtent(850.0f, 100.0f, 100.0f);
+	mTargetLocation = this->GetLocation();
+	FVector targetLocation(mTarget->GetLocation().GetX(), mTarget->GetLocation().GetY(), mTargetLocation.GetZ());
 
-	FVector		location = this->GetLocation();
-	FVector		targetLocation = FVector(mTarget->GetLocation().GetX(), mTarget->GetLocation().GetY(), location.GetZ());
-
-	FRotator	rotation = (targetLocation - location).Rotator();
-	FVector		foward = rotation.GetForwardVector();
-	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
-
-	Location boxStartLocation = location;
-	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
-	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	mTargetTrace = new BoxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+	mTargetRotation = (targetLocation - mTargetLocation).Rotator();
 }
 
 void SoulSpark::CheackCollision()
@@ -215,24 +202,25 @@ void SoulSpark::CheackCollision()
 		return;
 	}
 
-	if (nullptr == mTarget)
-	{
-		if (false == this->SearchTarget())
-		{
-			return;
-		}
-	}
+	FVector		boxExtent(850.0f, 100.0f, 100.0f);
+	FVector		foward = mTargetRotation.GetForwardVector();
+	const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
+
+	Location boxStartLocation = mTargetLocation;
+	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
+	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
+	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, mTargetRotation);
 
 	//DEBUG
 	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), mTargetTrace->GetStartLocation(), mTargetTrace->GetEndLocation(), mTargetTrace->GetBoxCollision().GetBoxExtent(), debugDuration);
+	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxTrace.GetStartLocation(), boxTrace.GetEndLocation(), boxTrace.GetBoxCollision().GetBoxExtent(), debugDuration);
 
 	Protocol::S2C_ReactionSkill reactionSkill;
 	reactionSkill.set_remote_id(owner->GetGameObjectID());
 	reactionSkill.set_object_id(this->GetGameObjectID());
 	reactionSkill.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Soul_Spark));
-	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTargetTrace->GetStartLocation()));
-	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(mTargetTrace->GetBoxCollision().GetOrientation()));
+	reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(boxTrace.GetStartLocation()));
+	reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(boxTrace.GetBoxCollision().GetOrientation()));
 	reactionSkill.set_duration(duration);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
@@ -240,7 +228,7 @@ void SoulSpark::CheackCollision()
 
 	std::vector<ActorPtr> findActors;
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	bool result = world->FindActors(*mTargetTrace, findActorType, findActors);
+	bool result = world->FindActors(boxTrace, findActorType, findActors);
 	for (ActorPtr actor : findActors)
 	{
 		if (actor)
@@ -249,11 +237,8 @@ void SoulSpark::CheackCollision()
 		}
 	}
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy skill\n");
-	}
+	world->PushTask(worldTime, &World::DestroyActor, this->GetGameObjectID());
+
 }
 
 void SoulSpark::OnParrying(ActorPtr inActor)

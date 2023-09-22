@@ -118,6 +118,16 @@ void BoxTrigger::OnTick(const int64 inDeltaTime)
 
 }
 
+void BoxTrigger::SetBoxTriggerExtent(FVector inExtent)
+{
+    BoxCollisionComponent* component = this->GetBoxCollisionComponent();
+    if (nullptr == component)
+    {
+        return;
+    }
+    component->SetBoxCollision(inExtent);
+}
+
 BoxCollisionComponent* BoxTrigger::GetBoxCollisionComponent() const
 {
     return static_cast<BoxCollisionComponent*>(this->mDefaultCollisionComponent);
@@ -199,6 +209,16 @@ void SphereTrigger::OnTick(const int64 inDeltaTime)
 
     this->OnOverlapTick(inDeltaTime);
 
+}
+
+void SphereTrigger::SetSphereTriggerRadius(float inRadius)
+{
+    SphereCollisionComponent* component = this->GetSphereCollisionComponent();
+    if (nullptr == component)
+    {
+        return;
+    }
+    component->SetSphereCollisione(inRadius);
 }
 
 SphereCollisionComponent* SphereTrigger::GetSphereCollisionComponent() const

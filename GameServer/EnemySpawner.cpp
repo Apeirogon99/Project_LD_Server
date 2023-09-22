@@ -359,6 +359,9 @@ void EnemySpawnerManager::ClearEnemySpawner()
 	{
 		world->DestroyActor(spawner->GetGameObjectID());
 	}
+
+
+	mSpawners.clear();
 }
 
 std::vector<EnemySpawnerPtr>& EnemySpawnerManager::GetEnemySpawners()

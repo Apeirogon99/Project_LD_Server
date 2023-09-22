@@ -2,7 +2,7 @@
 #include "Rise.h"
 #include "LichLifeVessel.h"
 
-Rise::Rise() : EnemyAttack(L"Rise"), mSkillID(0)
+Rise::Rise() : EnemyAttack(L"Rise"), mEnemyID(EnemyID::Enemy_Slime), mSpawnCount(0), mSpawnLoop(0), mSpawnRadius(0.0f), mMaxRange(0.0f), mSkillID(0)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }
@@ -20,31 +20,26 @@ void Rise::OnParrying(ActorPtr inActor)
 {
 }
 
-void Rise::SetSpawnInfo(int32 inEnemyID, int32 inSKillID)
+void Rise::SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, float inSpawnRadius, float inMaxRange, int32 inSKillID)
 {
 	mEnemyID = inEnemyID;
+	mSpawnCount = inSpawnCount;
+	mSpawnLoop = inSpawnLoop;
+	mSpawnRadius = inSpawnRadius;
+	mMaxRange = inMaxRange;
 	mSkillID = inSKillID;
 }
 
 void Rise::SpawnEnemy()
 {
 
-	WorldPtr world = GetWorld().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (nullptr == datas)
-	{
-		return;
-	}
-	const Stats& stat = datas->GetEnemyStat(this->mEnemyID);
-
-	const Location		newLocation = this->GetLocation();
-	const Rotation		newRoation = this->GetRotation();
+	const EnemySpawnerManagerPtr& enemySpawer = world->GetEnemySpawnerManager();
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
@@ -52,46 +47,7 @@ void Rise::SpawnEnemy()
 		return;
 	}
 
-	EnemyCharacterPtr newEnemy = nullptr;
-	switch (static_cast<EnemyID>(mEnemyID))
-	{
-	case EnemyID::Enemy_Slime:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemySlime>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Nomal_Skeleton:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyNomalSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Warrior_Skeleton:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyWarriorSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Archer_Skeleton:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyArcherSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Dark_Skeleton:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyNomalSkeleton>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Dark_Knight:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<EnemyDarkKnight>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	case EnemyID::Enemy_Lich_Life_Vessle:
-		newEnemy = std::static_pointer_cast<EnemyCharacter>(world->SpawnActor<LichLifeVessel>(owner->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f)));
-		break;
-	default:
-		break;
-	}
-	if (nullptr == newEnemy)
-	{
-		return;
-	}
-
-	newEnemy->SetEnemeyID(this->mEnemyID);
-	newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-	newEnemy->SetSpawnObjectID(this->GetGameObjectID());
-	newEnemy->SetEnemyStats(stat);
-	newEnemy->SetAggressive(true);
-	newEnemy->SetRecoveryLocation(newLocation);
-	newEnemy->GetStateManager().SetState(EStateType::State_Search);
-	newEnemy->SetReward(false);
+	enemySpawer->CreateEnemySpawner(this->GetLocation(), this->mSpawnRadius, this->mEnemyID, this->mSpawnCount, this->mSpawnLoop, true, false, this->mMaxRange, this->mMaxRange);
 
 }
 

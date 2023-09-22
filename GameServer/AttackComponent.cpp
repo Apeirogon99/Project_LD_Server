@@ -99,6 +99,11 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 
 	FVector		instigatedLocation	= inInstigated->GetLocation();
 	FVector		victimLocation		= inVictim->GetLocation();
+
+	victimLocation.SetZ(instigatedLocation.GetZ());
+
+	instigatedLocation.ToString();
+
 	FVector		direction			= victimLocation - instigatedLocation;
 	FRotator	rotation			= direction.Rotator();
 	inInstigated->SetRotation(rotation);
@@ -109,8 +114,6 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 
 	mCurrentAutoAttackCount += 1;
 	mCurrentAutoAttackCount %= mAttackInfos.size();
-
-	printf("DoComboMeleeAutoAttack[%d]\n", mCurrentAutoAttackCount);
 
 	mVictimActor = inVictim;
 	mIsAutoAttack = true;

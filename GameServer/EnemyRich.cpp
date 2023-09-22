@@ -41,33 +41,24 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 
 	this->mStateManager.UpdateState(inDeltaTime);
 
-	if (this->mStateManager.GetCurrentStateType() == EStateType::State_Attack)
+	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
+	if (aggroCharacter)
 	{
-		CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
-		if (aggroCharacter)
-		{
-			Location currentLocation		= this->GetLocation();
-			Location aggroLocation			= aggroCharacter->GetLocation();
+		Location currentLocation		= this->GetLocation();
+		Location aggroLocation			= aggroCharacter->GetLocation();
 
-			const float enemyHalf			= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
-			const float aggroCharacterHalf	= aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
-			float diffHalf = enemyHalf - aggroCharacterHalf;
-			aggroLocation.SetZ(aggroLocation.GetZ() + diffHalf);
+		const float enemyHalf			= this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+		const float aggroCharacterHalf	= aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+		float diffHalf = enemyHalf - aggroCharacterHalf;
+		aggroLocation.SetZ(aggroLocation.GetZ() + diffHalf);
 
-			this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
-
-			if (false == mMove)
-			{
-				this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
-				this->OnMovementEnemy();
-			}
-		}
+		this->mMovementComponent.Update(this->GetActorPtr(), 0.0f);
+		
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
+		this->OnMovementEnemy();
+		
 	}
-	else
-	{
-		this->OnSyncLocation(inDeltaTime);
-	}
-	
+	this->OnMovementEnemy();
 
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
@@ -208,7 +199,7 @@ void EnemyRichPhase1::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), SYSTEM_TICK, world->GetWorldTime());
 
 	AttackInfos attackInfos;
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
@@ -236,6 +227,20 @@ void EnemyRichPhase1::OnPatternOver()
 
 void EnemyRichPhase1::OnReward()
 {
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldNextTime = world->GetNextWorldTime();
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+
+	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
 }
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
@@ -249,23 +254,15 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 	FVector stage = mTempStage;
 	stage.SetZ(90);
 
-	for (int32 count = 0; count < 5; ++count)
+	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+	if (nullptr == newRise)
 	{
-
-		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
-		const Rotation		newRoation = (stage - newLocation).Rotator();
-
-		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
-		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
-		if (nullptr == newRise)
-		{
-			return;
-		}
-		newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Warrior_Skeleton), static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
-		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
-
+		return;
 	}
+	newRise->SetSpawnInfo(EnemyID::Enemy_Warrior_Skeleton, 5, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
+	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -443,19 +440,19 @@ void EnemyRichPhase1::Skill_MultiCasting()
 		switch (count)
 		{
 		case 0:
-			sourSpearLocation.SetZ(sourSpearZ + 100.0f);
+			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
 			break;
 		case 1:
-			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
-			break;
-		case 2:
 			sourSpearLocation.SetZ(sourSpearZ + 200.0f);
 			break;
+		case 2:
+			sourSpearLocation.SetZ(sourSpearZ + 250.0f);
+			break;
 		case 3:
-			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
+			sourSpearLocation.SetZ(sourSpearZ + 200.0f);
 			break;
 		case 4:
-			sourSpearLocation.SetZ(sourSpearZ + 100.0f);
+			sourSpearLocation.SetZ(sourSpearZ + 150.0f);
 			break;
 		default:
 			break;
@@ -543,7 +540,7 @@ void EnemyRichPhase2::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), SYSTEM_TICK, world->GetWorldTime());
 
 	AttackInfos attackInfos;
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
@@ -558,7 +555,7 @@ void EnemyRichPhase2::OnInitialization()
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[2];
+	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
 }
 
@@ -566,12 +563,18 @@ void EnemyRichPhase2::OnPatternOver()
 {
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Chase);
+		this->mStateManager.SetState(EStateType::State_Search);
 	}
 }
 
 void EnemyRichPhase2::OnReward()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	world->GetEnemySpawnerManager()->ClearEnemySpawner();
 }
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
@@ -591,14 +594,15 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 
 	FVector spawnLocation = location + right;
 
-	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), spawnLocation, rotation, Scale(1.0f, 1.0f, 1.0f));
+	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
 	if (nullptr == newRise)
 	{
 		return;
 	}
-	newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Dark_Knight), static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
+	newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Knight, 1, 1, 300.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
 	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 }
 
@@ -805,7 +809,7 @@ void EnemyRichPhase3::OnInitialization()
 void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -819,6 +823,12 @@ void EnemyRichPhase3::OnPatternOver()
 
 void EnemyRichPhase3::OnReward()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	world->GetEnemySpawnerManager()->ClearEnemySpawner();
 }
 
 void EnemyRichPhase3::Skill_RiseDarkSkeleton()
@@ -832,22 +842,15 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 	FVector stage = mTempStage;
 	stage.SetZ(90);
 
-	for (int32 count = 0; count < 3; ++count)
+	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+	if (nullptr == newRise)
 	{
-
-		const Location		newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
-		const Rotation		newRoation = (stage - newLocation).Rotator();
-
-		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
-		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
-		if (nullptr == newRise)
-		{
-			return;
-		}
-		newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Dark_Skeleton), static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
-		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-
+		return;
 	}
+	newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
+	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -934,17 +937,15 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	FVector stage = mTempStage;
 	stage.SetZ(48.0f);
 
-	const Location	newLocation = Random::GetRandomVectorInRange2D(stage, mTempStageLenght);
-	const Rotation	newRoation = (stage - newLocation).Rotator();
-
-	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), newLocation, newRoation, Scale(1.0f, 1.0f, 1.0f));
+	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
 	if (nullptr == newRise)
 	{
 		return;
 	}
-	newRise->SetSpawnInfo(static_cast<int32>(EnemyID::Enemy_Lich_Life_Vessle), static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
-	newRise->PushTask(worldTime, &Rise::SpawnEnemy);
+	newRise->SetSpawnInfo(EnemyID::Enemy_Lich_Life_Vessle, 1, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
+	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	
 

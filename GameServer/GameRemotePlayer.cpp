@@ -144,34 +144,32 @@ void GameRemotePlayer::OnLoadComplete()
 		return;
 	}
 
-	if (false == GetCharacter()->IsValid())
+	PlayerCharacterPtr character = GetCharacter();
+	if (false == character->IsValid())
 	{
 		return;
 	}
 
-	if (false == GetInventory()->IsValid())
+	Inventoryptr inventory = GetInventory();
+	if (false == inventory->IsValid())
 	{
 		return;
 	}
 
-	if (false == GetFriend()->IsValid())
+	FriendPtr ifriend = this->GetFriend();
+	if (false == ifriend->IsValid())
 	{
 		return;
 	}
 
-	if (false == GetParty()->IsValid())
+	PartyPtr party = this->GetParty();
+	if (false == party->IsValid())
 	{
 		return;
 	}
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
 	if (nullptr == world)
-	{
-		return;
-	}
-
-	PlayerCharacterPtr character = GetCharacter();
-	if (nullptr == character)
 	{
 		return;
 	}
@@ -190,6 +188,8 @@ void GameRemotePlayer::OnLoadComplete()
 
 	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), character->GetCharacterData().name(), this->GetGameObjectID());
 	world->VisibleAreaInit(playerState);
+
+	party->BroadCastLoadParty();
 }
 
 void GameRemotePlayer::LeaveRemotePlayer()
@@ -197,6 +197,7 @@ void GameRemotePlayer::LeaveRemotePlayer()
 	this->GetFriend()->NotifyDisConnectToFriend();
 
 	this->GetParty()->RequestLeaveParty(this->GetGameObjectID());
+
 	this->GetParty()->SetPartyLoad(false);
 
 	this->GetCharacter()->SetLoadCharacter(false);
@@ -206,25 +207,27 @@ void GameRemotePlayer::LeaveRemotePlayer()
 
 bool GameRemotePlayer::LeaveComplete()
 {
-	if (true == GetCharacter()->IsValid())
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetWorld().lock());
+	if (nullptr == world)
 	{
 		return false;
 	}
 
-	if (true == GetInventory()->IsValid())
+	PlayerCharacterPtr character = GetCharacter();
+	if (true == character->IsValid())
+	{
+		return false;
+	}
+	world->DestroyActor(character->GetGameObjectID());
+
+	Inventoryptr inventory = GetInventory();
+	if (true == inventory->IsValid())
 	{
 		return false;
 	}
 
-	if (true == GetFriend()->IsValid())
-	{
-		return false;
-	}
-
-	if (true == GetParty()->IsValid())
-	{
-		return false;
-	}
+	FriendPtr ifriend = this->GetFriend();
+	PartyPtr party = this->GetParty();
 
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(this->GetRemoteClient().lock());
 	if (nullptr == playerState)

@@ -30,9 +30,8 @@ public:
 	void SetDungeonID(int32 inDungeonID);
 	void CreateDungeon(PlayerStatePtr inPlayerState);
 
+	void InitDungeon();
 	void CompleteLoadDungeon(PlayerStatePtr inPlayerState);
-
-	void ResetDungeon();
 
 protected:
 	void CreateStageA();
@@ -51,6 +50,11 @@ protected:
 	bool IsEmptyEnemy();
 
 public:
+	void PlaySequence(int32 inSequenceNumber);
+	void SkipSequence();
+	void EndSequence();
+
+public:
 	bool IsReady() const;
 	bool IsPlay() const;
 	bool IsDeathPlayers();
@@ -58,15 +62,18 @@ public:
 private:
 	int32 mDungeonID;
 	EDungeonState mState;
+
+	GameWorldRef mOriginWorld;
+	int32 mMaxPlayers;
 	Location mPlayerStart;
 
 	int32 mStageCount;
+
+	bool mIsPlaySequence;
 
 	std::vector<std::function<bool(Dungeon&)>> mConditionStageFunc;
 	std::vector<std::function<void(Dungeon&)>> mCreateStageFunc;
 	std::vector<std::function<bool(Dungeon&)>> mCheckStateFunc;
 	std::vector<std::function<void(Dungeon&)>> mClearStateFunc;
-
-	EnemySpawnerManagerPtr mEnemySpawnerManger;
 };
 

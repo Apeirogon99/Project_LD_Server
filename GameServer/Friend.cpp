@@ -158,6 +158,8 @@ void Friend::NotifyDisConnectToFriend()
 
 	const int64 characterID = remotePlayer->GetToken().GetCharacterID();
 	Handle_DisConnectLoadFriendList_Request(remoteClient, characterID);
+
+	this->SetLoadFriend(false);
 }
 
 void Friend::DelegateOfflineFriend(const int64& inFriendCharacterID, const std::string& inFriendName)

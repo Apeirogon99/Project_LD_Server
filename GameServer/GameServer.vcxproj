@@ -350,6 +350,7 @@
     <ClCompile Include="SoulSpark.cpp" />
     <ClCompile Include="SourSpear.cpp" />
     <ClCompile Include="StatsComponent.cpp" />
+    <ClCompile Include="Trap.cpp" />
     <ClCompile Include="Trigger.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WarriorBuff.cpp" />
@@ -358,6 +359,7 @@
     <ClCompile Include="WarriorCharacter.cpp" />
     <ClCompile Include="WarriorParrying.cpp" />
     <ClCompile Include="WarriorShieldBash.cpp" />
+    <ClCompile Include="WorldPortal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActiveSkill.h" />
@@ -429,6 +431,7 @@
     <ClInclude Include="SoulSpark.h" />
     <ClInclude Include="SourSpear.h" />
     <ClInclude Include="StatsComponent.h" />
+    <ClInclude Include="Trap.h" />
     <ClInclude Include="Trigger.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WarriorBuff.h" />
@@ -437,6 +440,7 @@
     <ClInclude Include="WarriorCharacter.h" />
     <ClInclude Include="WarriorParrying.h" />
     <ClInclude Include="WarriorShieldBash.h" />
+    <ClInclude Include="WorldPortal.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

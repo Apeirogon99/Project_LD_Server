@@ -1,13 +1,13 @@
 #pragma once
-class Portal : public SphereTrigger
+class WorldPortal : public SphereTrigger
 {
 public:
-	Portal();
-	virtual ~Portal();
+	WorldPortal();
+	virtual ~WorldPortal();
 
 private:
-	Portal(Portal&&) = delete;
-	Portal& operator=(Portal&&) = delete;
+	WorldPortal(WorldPortal&&) = delete;
+	WorldPortal& operator=(WorldPortal&&) = delete;
 
 public:
 	virtual void OnInitialization() override;
@@ -22,19 +22,24 @@ public:
 	virtual void OnOverlapTick(const int64 inDeltaTime) override;
 
 public:
-	void EnterTeleport();
-	void EndTeleport();
-	void Teleport();
+	void EnterWorldTeleport();
+	void EndWorldTeleport();
+	void WorldTeleport();
 
 public:
-	void SetWaitTeleprotTime(int64 inMaxTeleportTime);
+	void SetWaitWorldTeleprotTime(int64 inMaxTeleportTime);
+	void SetTeleportWorld(GameWorldRef inGameWorldRef);
+	void SetTeleportLevel(const std::string& inLevel);
 	void SetTeleportLocation(const FVector& inLocation);
 	void BroadCastOverlap(SendBufferPtr inSendBuffer);
 
 private:
-	FVector mTeleportLocation;
+	GameWorldRef mTeleportWorld;
+	FVector		mTeleportLocation;
+	std::string mTeleportLevel;
 
 	int64	mMaxTeleportTime;
 	int64	mCurTeleportTime;
 	bool	mIsTeleport;
 };
+

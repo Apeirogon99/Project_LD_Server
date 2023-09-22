@@ -63,7 +63,7 @@ public:
 	const EnemySpawnerManagerPtr&	GetEnemySpawnerManager();
 	const DungeonManagerPtr&		GetDungeonManager();
 
-private:
+protected:
 	std::vector<class Token>			mTokens;
 	std::map<int64, WorldPlayerInfo>	mPlayerIDs;
 

@@ -51,6 +51,7 @@ public:
 	APEIROGON_API bool			InsertPlayerViewer(RemoteClientPtr inRemoteClient);
 	APEIROGON_API bool			ReleasePlayerViewer(RemoteClientPtr inRemoteClient);
 	APEIROGON_API void			BrodcastPlayerViewers(SendBufferPtr inSendBuffer);
+	APEIROGON_API void			ClearPlayerViewers();
 
 public:
 	APEIROGON_API ActorPtr				GetActorPtr()			{ return std::static_pointer_cast<Actor>(shared_from_this()); }

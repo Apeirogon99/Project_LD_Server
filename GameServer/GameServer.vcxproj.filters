@@ -364,6 +364,12 @@
     <ClCompile Include="Trigger.cpp">
       <Filter>Content\Portal</Filter>
     </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>Content\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldPortal.cpp">
+      <Filter>Content\Portal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -595,6 +601,12 @@
       <Filter>Content\Obstruction</Filter>
     </ClInclude>
     <ClInclude Include="Trigger.h">
+      <Filter>Content\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>Content\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldPortal.h">
       <Filter>Content\Portal</Filter>
     </ClInclude>
   </ItemGroup>

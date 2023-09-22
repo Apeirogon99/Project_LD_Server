@@ -34,6 +34,8 @@
 
 #include "Trigger.h"
 #include "Portal.h"
+#include "WorldPortal.h"
+#include "Trap.h"
 
 //==========================//
 //   GameContent | Componet	//

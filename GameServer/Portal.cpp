@@ -141,7 +141,7 @@ void Portal::EnterTeleport()
 
 	Protocol::S2C_EnterPortal enterPortalPacket;
 	enterPortalPacket.set_title(title);
-	enterPortalPacket.set_time(static_cast<int64>(time));
+	enterPortalPacket.set_time(static_cast<int64>(time + 1));
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPortalPacket);
 	this->BroadCastOverlap(sendBuffer);
@@ -188,6 +188,11 @@ void Portal::Teleport()
 
 	EndTeleport();
 	mOverlapActor.clear();
+}
+
+void Portal::SetWaitTeleprotTime(int64 inMaxTeleportTime)
+{
+	mMaxTeleportTime = inMaxTeleportTime;
 }
 
 void Portal::SetTeleportLocation(const FVector& inLocation)

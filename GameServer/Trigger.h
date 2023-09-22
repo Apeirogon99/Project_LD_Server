@@ -41,6 +41,9 @@ public:
 	virtual void OnTick(const int64 inDeltaTime) override;
 
 public:
+	void SetBoxTriggerExtent(FVector inExtent);
+
+public:
 	BoxCollisionComponent* GetBoxCollisionComponent() const;
 
 private:
@@ -57,6 +60,9 @@ public:
 
 public:
 	virtual void OnTick(const int64 inDeltaTime) override;
+
+public:
+	void SetSphereTriggerRadius(float inRadius);
 
 public:
 	SphereCollisionComponent* GetSphereCollisionComponent() const;
