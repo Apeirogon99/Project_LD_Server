@@ -50,8 +50,8 @@ protected:
 	bool IsEmptyEnemy();
 
 public:
-	void PlaySequence(int32 inSequenceNumber);
-	void SkipSequence();
+	void PlaySequence(int32 inSequenceID, int64 inSequencePlayTime);
+	void SkipSequence(PlayerStatePtr inPlayerState);
 	void EndSequence();
 
 public:
@@ -69,7 +69,7 @@ private:
 
 	int32 mStageCount;
 
-	bool mIsPlaySequence;
+	SequenceComponent<Dungeon> mSequenceComponent;
 
 	std::vector<std::function<bool(Dungeon&)>> mConditionStageFunc;
 	std::vector<std::function<void(Dungeon&)>> mCreateStageFunc;

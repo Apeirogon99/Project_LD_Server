@@ -50,7 +50,6 @@ public:
 	virtual void OnReward() override;
 
 	virtual void OnHit(ActorPtr inInstigated, const float inDamage) override;
-	virtual void OnDeath() override;
 
 public:
 	bool BerserkPhase();

@@ -47,6 +47,7 @@
 #include "KeyboardComponent.h"
 #include "SkillComponent.h"
 #include "BuffComponent.h"
+#include "SequenceComponent.h"
 
 //==========================//
 //		 GameContent		//

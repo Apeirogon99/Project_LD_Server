@@ -131,6 +131,20 @@ void EnemyDarkKnight::OnPatternOver()
 
 void EnemyDarkKnight::OnReward()
 {
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldNextTime = world->GetNextWorldTime();
+
+	GameObjectPtr owner = this->GetOwner().lock();
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	world->PushTask(worldNextTime, &GameWorld::DestroyActor, owner->GetGameObjectID());
 }
 
 void EnemyDarkKnight::OnHit(ActorPtr inInstigated, const float inDamage)
@@ -164,10 +178,6 @@ void EnemyDarkKnight::OnHit(ActorPtr inInstigated, const float inDamage)
 	{
 		this->DetectChangeEnemy();
 	}
-}
-
-void EnemyDarkKnight::OnDeath()
-{
 }
 
 bool EnemyDarkKnight::BerserkPhase()

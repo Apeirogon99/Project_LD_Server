@@ -370,6 +370,9 @@
     <ClCompile Include="WorldPortal.cpp">
       <Filter>Content\Portal</Filter>
     </ClCompile>
+    <ClCompile Include="SequenceComponent.cpp">
+      <Filter>Content\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -608,6 +611,9 @@
     </ClInclude>
     <ClInclude Include="WorldPortal.h">
       <Filter>Content\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceComponent.h">
+      <Filter>Content\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

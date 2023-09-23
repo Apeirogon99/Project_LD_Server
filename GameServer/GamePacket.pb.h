@@ -124,6 +124,9 @@ extern C2S_ResponePartyDefaultTypeInternal _C2S_ResponeParty_default_instance_;
 class C2S_SetUseKeyAction;
 struct C2S_SetUseKeyActionDefaultTypeInternal;
 extern C2S_SetUseKeyActionDefaultTypeInternal _C2S_SetUseKeyAction_default_instance_;
+class C2S_SkipSequence;
+struct C2S_SkipSequenceDefaultTypeInternal;
+extern C2S_SkipSequenceDefaultTypeInternal _C2S_SkipSequence_default_instance_;
 class C2S_Tick;
 struct C2S_TickDefaultTypeInternal;
 extern C2S_TickDefaultTypeInternal _C2S_Tick_default_instance_;
@@ -199,6 +202,9 @@ extern S2C_DisAppearGameObjectDefaultTypeInternal _S2C_DisAppearGameObject_defau
 class S2C_DisConnectFriend;
 struct S2C_DisConnectFriendDefaultTypeInternal;
 extern S2C_DisConnectFriendDefaultTypeInternal _S2C_DisConnectFriend_default_instance_;
+class S2C_EndSequence;
+struct S2C_EndSequenceDefaultTypeInternal;
+extern S2C_EndSequenceDefaultTypeInternal _S2C_EndSequence_default_instance_;
 class S2C_EnemyAutoAttack;
 struct S2C_EnemyAutoAttackDefaultTypeInternal;
 extern S2C_EnemyAutoAttackDefaultTypeInternal _S2C_EnemyAutoAttack_default_instance_;
@@ -256,6 +262,9 @@ extern S2C_NotifyPartyDefaultTypeInternal _S2C_NotifyParty_default_instance_;
 class S2C_PlayAnimation;
 struct S2C_PlayAnimationDefaultTypeInternal;
 extern S2C_PlayAnimationDefaultTypeInternal _S2C_PlayAnimation_default_instance_;
+class S2C_PlaySequence;
+struct S2C_PlaySequenceDefaultTypeInternal;
+extern S2C_PlaySequenceDefaultTypeInternal _S2C_PlaySequence_default_instance_;
 class S2C_PlayerAutoAttack;
 struct S2C_PlayerAutoAttackDefaultTypeInternal;
 extern S2C_PlayerAutoAttackDefaultTypeInternal _S2C_PlayerAutoAttack_default_instance_;
@@ -295,6 +304,9 @@ extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_i
 class S2C_SetUseKeyAction;
 struct S2C_SetUseKeyActionDefaultTypeInternal;
 extern S2C_SetUseKeyActionDefaultTypeInternal _S2C_SetUseKeyAction_default_instance_;
+class S2C_SkipSequence;
+struct S2C_SkipSequenceDefaultTypeInternal;
+extern S2C_SkipSequenceDefaultTypeInternal _S2C_SkipSequence_default_instance_;
 class S2C_Teleport;
 struct S2C_TeleportDefaultTypeInternal;
 extern S2C_TeleportDefaultTypeInternal _S2C_Teleport_default_instance_;
@@ -339,6 +351,7 @@ template<> ::Protocol::C2S_RequestLeaderParty* Arena::CreateMaybeMessage<::Proto
 template<> ::Protocol::C2S_RequestLeaveParty* Arena::CreateMaybeMessage<::Protocol::C2S_RequestLeaveParty>(Arena*);
 template<> ::Protocol::C2S_ResponeParty* Arena::CreateMaybeMessage<::Protocol::C2S_ResponeParty>(Arena*);
 template<> ::Protocol::C2S_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::C2S_SetUseKeyAction>(Arena*);
+template<> ::Protocol::C2S_SkipSequence* Arena::CreateMaybeMessage<::Protocol::C2S_SkipSequence>(Arena*);
 template<> ::Protocol::C2S_Tick* Arena::CreateMaybeMessage<::Protocol::C2S_Tick>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
 template<> ::Protocol::C2S_UpdateSkillTree* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateSkillTree>(Arena*);
@@ -364,6 +377,7 @@ template<> ::Protocol::S2C_DetectChangePlayer* Arena::CreateMaybeMessage<::Proto
 template<> ::Protocol::S2C_DisAppearCharacter* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearCharacter>(Arena*);
 template<> ::Protocol::S2C_DisAppearGameObject* Arena::CreateMaybeMessage<::Protocol::S2C_DisAppearGameObject>(Arena*);
 template<> ::Protocol::S2C_DisConnectFriend* Arena::CreateMaybeMessage<::Protocol::S2C_DisConnectFriend>(Arena*);
+template<> ::Protocol::S2C_EndSequence* Arena::CreateMaybeMessage<::Protocol::S2C_EndSequence>(Arena*);
 template<> ::Protocol::S2C_EnemyAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_EnemyAutoAttack>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
 template<> ::Protocol::S2C_EnterPartyPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterPartyPlayer>(Arena*);
@@ -383,6 +397,7 @@ template<> ::Protocol::S2C_MovementEnemy* Arena::CreateMaybeMessage<::Protocol::
 template<> ::Protocol::S2C_MovementProjectile* Arena::CreateMaybeMessage<::Protocol::S2C_MovementProjectile>(Arena*);
 template<> ::Protocol::S2C_NotifyParty* Arena::CreateMaybeMessage<::Protocol::S2C_NotifyParty>(Arena*);
 template<> ::Protocol::S2C_PlayAnimation* Arena::CreateMaybeMessage<::Protocol::S2C_PlayAnimation>(Arena*);
+template<> ::Protocol::S2C_PlaySequence* Arena::CreateMaybeMessage<::Protocol::S2C_PlaySequence>(Arena*);
 template<> ::Protocol::S2C_PlayerAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_PlayerAutoAttack>(Arena*);
 template<> ::Protocol::S2C_ReactionSkill* Arena::CreateMaybeMessage<::Protocol::S2C_ReactionSkill>(Arena*);
 template<> ::Protocol::S2C_ReplaceEqipment* Arena::CreateMaybeMessage<::Protocol::S2C_ReplaceEqipment>(Arena*);
@@ -396,6 +411,7 @@ template<> ::Protocol::S2C_ResponeParty* Arena::CreateMaybeMessage<::Protocol::S
 template<> ::Protocol::S2C_ResponseEnterDungeon* Arena::CreateMaybeMessage<::Protocol::S2C_ResponseEnterDungeon>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
 template<> ::Protocol::S2C_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_SetUseKeyAction>(Arena*);
+template<> ::Protocol::S2C_SkipSequence* Arena::CreateMaybeMessage<::Protocol::S2C_SkipSequence>(Arena*);
 template<> ::Protocol::S2C_Teleport* Arena::CreateMaybeMessage<::Protocol::S2C_Teleport>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_UpdateExperience* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateExperience>(Arena*);
@@ -15626,6 +15642,590 @@ class S2C_LeavePortal final :
   };
   friend struct ::TableStruct_GamePacket_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S2C_PlaySequence final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_PlaySequence) */ {
+ public:
+  inline S2C_PlaySequence() : S2C_PlaySequence(nullptr) {}
+  ~S2C_PlaySequence() override;
+  explicit PROTOBUF_CONSTEXPR S2C_PlaySequence(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_PlaySequence(const S2C_PlaySequence& from);
+  S2C_PlaySequence(S2C_PlaySequence&& from) noexcept
+    : S2C_PlaySequence() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_PlaySequence& operator=(const S2C_PlaySequence& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_PlaySequence& operator=(S2C_PlaySequence&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_PlaySequence& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_PlaySequence* internal_default_instance() {
+    return reinterpret_cast<const S2C_PlaySequence*>(
+               &_S2C_PlaySequence_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    87;
+
+  friend void swap(S2C_PlaySequence& a, S2C_PlaySequence& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_PlaySequence* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_PlaySequence* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_PlaySequence* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_PlaySequence>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_PlaySequence& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_PlaySequence& from) {
+    S2C_PlaySequence::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_PlaySequence* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_PlaySequence";
+  }
+  protected:
+  explicit S2C_PlaySequence(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSequenceFieldNumber = 1,
+    kMaxNumberFieldNumber = 2,
+  };
+  // int32 sequence = 1;
+  void clear_sequence();
+  int32_t sequence() const;
+  void set_sequence(int32_t value);
+  private:
+  int32_t _internal_sequence() const;
+  void _internal_set_sequence(int32_t value);
+  public:
+
+  // int32 max_number = 2;
+  void clear_max_number();
+  int32_t max_number() const;
+  void set_max_number(int32_t value);
+  private:
+  int32_t _internal_max_number() const;
+  void _internal_set_max_number(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_PlaySequence)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t sequence_;
+    int32_t max_number_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_SkipSequence final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_SkipSequence) */ {
+ public:
+  inline C2S_SkipSequence() : C2S_SkipSequence(nullptr) {}
+  ~C2S_SkipSequence() override;
+  explicit PROTOBUF_CONSTEXPR C2S_SkipSequence(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_SkipSequence(const C2S_SkipSequence& from);
+  C2S_SkipSequence(C2S_SkipSequence&& from) noexcept
+    : C2S_SkipSequence() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_SkipSequence& operator=(const C2S_SkipSequence& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_SkipSequence& operator=(C2S_SkipSequence&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_SkipSequence& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_SkipSequence* internal_default_instance() {
+    return reinterpret_cast<const C2S_SkipSequence*>(
+               &_C2S_SkipSequence_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    88;
+
+  friend void swap(C2S_SkipSequence& a, C2S_SkipSequence& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_SkipSequence* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_SkipSequence* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_SkipSequence* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_SkipSequence>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_SkipSequence& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_SkipSequence& from) {
+    C2S_SkipSequence::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_SkipSequence* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_SkipSequence";
+  }
+  protected:
+  explicit C2S_SkipSequence(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDungeonIdFieldNumber = 1,
+  };
+  // int32 dungeon_id = 1;
+  void clear_dungeon_id();
+  int32_t dungeon_id() const;
+  void set_dungeon_id(int32_t value);
+  private:
+  int32_t _internal_dungeon_id() const;
+  void _internal_set_dungeon_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_SkipSequence)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t dungeon_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_SkipSequence final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_SkipSequence) */ {
+ public:
+  inline S2C_SkipSequence() : S2C_SkipSequence(nullptr) {}
+  ~S2C_SkipSequence() override;
+  explicit PROTOBUF_CONSTEXPR S2C_SkipSequence(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_SkipSequence(const S2C_SkipSequence& from);
+  S2C_SkipSequence(S2C_SkipSequence&& from) noexcept
+    : S2C_SkipSequence() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_SkipSequence& operator=(const S2C_SkipSequence& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_SkipSequence& operator=(S2C_SkipSequence&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_SkipSequence& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_SkipSequence* internal_default_instance() {
+    return reinterpret_cast<const S2C_SkipSequence*>(
+               &_S2C_SkipSequence_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    89;
+
+  friend void swap(S2C_SkipSequence& a, S2C_SkipSequence& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_SkipSequence* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_SkipSequence* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_SkipSequence* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_SkipSequence>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_SkipSequence& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_SkipSequence& from) {
+    S2C_SkipSequence::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_SkipSequence* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_SkipSequence";
+  }
+  protected:
+  explicit S2C_SkipSequence(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMaxNumberFieldNumber = 1,
+    kLeastNumberFieldNumber = 2,
+  };
+  // int32 max_number = 1;
+  void clear_max_number();
+  int32_t max_number() const;
+  void set_max_number(int32_t value);
+  private:
+  int32_t _internal_max_number() const;
+  void _internal_set_max_number(int32_t value);
+  public:
+
+  // int32 least_number = 2;
+  void clear_least_number();
+  int32_t least_number() const;
+  void set_least_number(int32_t value);
+  private:
+  int32_t _internal_least_number() const;
+  void _internal_set_least_number(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_SkipSequence)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t max_number_;
+    int32_t least_number_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_EndSequence final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protocol.S2C_EndSequence) */ {
+ public:
+  inline S2C_EndSequence() : S2C_EndSequence(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR S2C_EndSequence(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_EndSequence(const S2C_EndSequence& from);
+  S2C_EndSequence(S2C_EndSequence&& from) noexcept
+    : S2C_EndSequence() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_EndSequence& operator=(const S2C_EndSequence& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_EndSequence& operator=(S2C_EndSequence&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_EndSequence& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_EndSequence* internal_default_instance() {
+    return reinterpret_cast<const S2C_EndSequence*>(
+               &_S2C_EndSequence_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    90;
+
+  friend void swap(S2C_EndSequence& a, S2C_EndSequence& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_EndSequence* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_EndSequence* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_EndSequence* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_EndSequence>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const S2C_EndSequence& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const S2C_EndSequence& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_EndSequence";
+  }
+  protected:
+  explicit S2C_EndSequence(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_EndSequence)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
 // ===================================================================
 
 
@@ -24893,9 +25493,133 @@ inline void S2C_EnterPortal::set_time(int64_t value) {
 
 // S2C_LeavePortal
 
+// -------------------------------------------------------------------
+
+// S2C_PlaySequence
+
+// int32 sequence = 1;
+inline void S2C_PlaySequence::clear_sequence() {
+  _impl_.sequence_ = 0;
+}
+inline int32_t S2C_PlaySequence::_internal_sequence() const {
+  return _impl_.sequence_;
+}
+inline int32_t S2C_PlaySequence::sequence() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlaySequence.sequence)
+  return _internal_sequence();
+}
+inline void S2C_PlaySequence::_internal_set_sequence(int32_t value) {
+  
+  _impl_.sequence_ = value;
+}
+inline void S2C_PlaySequence::set_sequence(int32_t value) {
+  _internal_set_sequence(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_PlaySequence.sequence)
+}
+
+// int32 max_number = 2;
+inline void S2C_PlaySequence::clear_max_number() {
+  _impl_.max_number_ = 0;
+}
+inline int32_t S2C_PlaySequence::_internal_max_number() const {
+  return _impl_.max_number_;
+}
+inline int32_t S2C_PlaySequence::max_number() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_PlaySequence.max_number)
+  return _internal_max_number();
+}
+inline void S2C_PlaySequence::_internal_set_max_number(int32_t value) {
+  
+  _impl_.max_number_ = value;
+}
+inline void S2C_PlaySequence::set_max_number(int32_t value) {
+  _internal_set_max_number(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_PlaySequence.max_number)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_SkipSequence
+
+// int32 dungeon_id = 1;
+inline void C2S_SkipSequence::clear_dungeon_id() {
+  _impl_.dungeon_id_ = 0;
+}
+inline int32_t C2S_SkipSequence::_internal_dungeon_id() const {
+  return _impl_.dungeon_id_;
+}
+inline int32_t C2S_SkipSequence::dungeon_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_SkipSequence.dungeon_id)
+  return _internal_dungeon_id();
+}
+inline void C2S_SkipSequence::_internal_set_dungeon_id(int32_t value) {
+  
+  _impl_.dungeon_id_ = value;
+}
+inline void C2S_SkipSequence::set_dungeon_id(int32_t value) {
+  _internal_set_dungeon_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_SkipSequence.dungeon_id)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_SkipSequence
+
+// int32 max_number = 1;
+inline void S2C_SkipSequence::clear_max_number() {
+  _impl_.max_number_ = 0;
+}
+inline int32_t S2C_SkipSequence::_internal_max_number() const {
+  return _impl_.max_number_;
+}
+inline int32_t S2C_SkipSequence::max_number() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_SkipSequence.max_number)
+  return _internal_max_number();
+}
+inline void S2C_SkipSequence::_internal_set_max_number(int32_t value) {
+  
+  _impl_.max_number_ = value;
+}
+inline void S2C_SkipSequence::set_max_number(int32_t value) {
+  _internal_set_max_number(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_SkipSequence.max_number)
+}
+
+// int32 least_number = 2;
+inline void S2C_SkipSequence::clear_least_number() {
+  _impl_.least_number_ = 0;
+}
+inline int32_t S2C_SkipSequence::_internal_least_number() const {
+  return _impl_.least_number_;
+}
+inline int32_t S2C_SkipSequence::least_number() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_SkipSequence.least_number)
+  return _internal_least_number();
+}
+inline void S2C_SkipSequence::_internal_set_least_number(int32_t value) {
+  
+  _impl_.least_number_ = value;
+}
+inline void S2C_SkipSequence::set_least_number(int32_t value) {
+  _internal_set_least_number(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_SkipSequence.least_number)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_EndSequence
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

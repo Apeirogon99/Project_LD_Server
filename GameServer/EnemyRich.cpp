@@ -244,6 +244,9 @@ void EnemyRichPhase1::OnReward()
 		return;
 	}
 	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+
+
+	world->PlaySequence(2, 10000);
 }
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
@@ -572,12 +575,23 @@ void EnemyRichPhase2::OnPatternOver()
 
 void EnemyRichPhase2::OnReward()
 {
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	world->GetEnemySpawnerManager()->ClearEnemySpawner();
+	const int64& worldNextTime = world->GetNextWorldTime();
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+
+	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+
+
+	world->PlaySequence(3, 10000);
 }
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
@@ -826,12 +840,23 @@ void EnemyRichPhase3::OnPatternOver()
 
 void EnemyRichPhase3::OnReward()
 {
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	world->GetEnemySpawnerManager()->ClearEnemySpawner();
+	const int64& worldNextTime = world->GetNextWorldTime();
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+
+	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+
+
+	world->PlaySequence(4, 10000);
 }
 
 void EnemyRichPhase3::Skill_RiseDarkSkeleton()

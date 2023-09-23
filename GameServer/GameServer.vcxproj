@@ -341,6 +341,7 @@
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="RealmOfDeath.cpp" />
     <ClCompile Include="Rise.cpp" />
+    <ClCompile Include="SequenceComponent.cpp" />
     <ClCompile Include="SkillTree.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="SkillComponent.cpp" />
@@ -422,6 +423,7 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="RealmOfDeath.h" />
     <ClInclude Include="Rise.h" />
+    <ClInclude Include="SequenceComponent.h" />
     <ClInclude Include="SkillTree.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="SkillComponent.h" />

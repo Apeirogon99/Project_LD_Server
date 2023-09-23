@@ -7,8 +7,6 @@ public:
 
 public:
 	virtual void OnInitialization()					override;
-	virtual void OnDestroy()						override;
-	virtual void OnTick(const int64 inDeltaTime)	override;
 
 	virtual void OnReward() override;
 };

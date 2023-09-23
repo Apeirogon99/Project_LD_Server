@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Dungeon.h"
 
-Dungeon::Dungeon() : GameWorld(L"Dungeon"), mDungeonID(0), mState(EDungeonState::State_Stop), mStageCount(0), mPlayerStart(2000.0f, 2000.0f, 486.0f), mMaxPlayers(0), mIsPlaySequence(false)
+Dungeon::Dungeon() : GameWorld(L"Dungeon"), mDungeonID(0), mState(EDungeonState::State_Stop), mStageCount(0), mPlayerStart(2000.0f, 2000.0f, 486.0f), mMaxPlayers(0)
 {
 	mCreateStageFunc.push_back(&Dungeon::CreateStageA);
 	mCreateStageFunc.push_back(&Dungeon::CreateStageB);
@@ -35,6 +35,8 @@ void Dungeon::OnInitialization()
 	mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
 	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
 
+	this->mSequenceComponent.Init(std::static_pointer_cast<Dungeon>(this->shared_from_this()), &Dungeon::EndSequence);
+
 	this->InitDungeon();
 }
 
@@ -56,8 +58,9 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 	}
 	const int64 nextWorldTime = this->GetNextWorldTime();
 
-	if (true == mIsPlaySequence)
+	if (true == mSequenceComponent.IsPlay())
 	{
+		mSequenceComponent.Update(inDeltaTime);
 		return;
 	}
 
@@ -68,6 +71,13 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 	this->IsCheckStage(mStageCount);
 
 	this->IsDeathPlayers();
+
+	static bool temp = false;
+	if (temp == false)
+	{
+		this->CreateBossStage();
+		temp = true;
+	}
 }
 
 bool Dungeon::IsValid()
@@ -167,7 +177,7 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	if (max == cur)
 	{
 		mMaxPlayers = max;
-		this->CreateBossStage();
+		this->mSequenceComponent.SetMaxPlayers(mMaxPlayers);
 
 		mState = EDungeonState::State_Play;
 
@@ -238,9 +248,9 @@ void Dungeon::CreateStageA()
 		return;
 	}
 
-	//mEnemySpawnerManger->CreateEnemySpawner(Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 4, 1, true, true, 0.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Nomal_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 0.0f, 2000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 5);
@@ -256,9 +266,9 @@ void Dungeon::CreateStageB()
 		return;
 	}
 
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 1, true, true, 0.0f, 5000.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 0.0f, 5000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 7);
@@ -267,7 +277,7 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
-	mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
+	this->PlaySequence(1, 10000);
 }
 
 bool Dungeon::IsCheckStage(int32 inStageCount)
@@ -326,9 +336,6 @@ void Dungeon::ClearStageA()
 	newTrap->SetOverlapType(EActorType::Player);
 	newTrap->SetBoxTriggerExtent(FVector(2500.0f, 2400.0f, 500.0f));
 	newTrap->SetEnterTrapCallBackFunction(&Dungeon::CreateStageB);
-
-
-
 }
 
 void Dungeon::ClearStageB()
@@ -346,12 +353,14 @@ void Dungeon::ClearStageB()
 	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
 
 	this->CreateBossStage();
-
-
 }
 
 void Dungeon::ClearBossStage()
 {
+	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
+
+	mEnemySpawnerManger->ClearEnemySpawner();
+
 	std::shared_ptr<WorldPortal> worldPortal = std::static_pointer_cast<WorldPortal>(SpawnActor<WorldPortal>(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 0.0f), FRotator(), Scale()));
 	worldPortal->SetTrigger(true);
 	worldPortal->SetMaxOverlap(this->mMaxPlayers);
@@ -385,6 +394,67 @@ bool Dungeon::IsEmptyEnemy()
 	}
 
 	return false;
+}
+
+void Dungeon::PlaySequence(int32 inSequenceID, int64 inSequencePlayTime)
+{
+	this->mSequenceComponent.SetSequenceID(inSequenceID);
+	this->mSequenceComponent.SetPlayTime(inSequencePlayTime);
+	this->mSequenceComponent.Play();
+
+	Protocol::S2C_PlaySequence playSequencePacket;
+	playSequencePacket.set_sequence(inSequenceID);
+	playSequencePacket.set_max_number(this->mMaxPlayers);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, playSequencePacket);
+	this->SendWorldPlayers(sendBuffer);
+}
+
+void Dungeon::SkipSequence(PlayerStatePtr inPlayerState)
+{
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(inPlayerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
+
+	if (false == this->mSequenceComponent.Skip(remoteID))
+	{
+		Protocol::S2C_SkipSequence skipSequence;
+		skipSequence.set_max_number(this->mMaxPlayers);
+		skipSequence.set_least_number(this->mSequenceComponent.GetSkipPlayers());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, skipSequence);
+		this->SendWorldPlayers(sendBuffer);
+	}
+}
+
+void Dungeon::EndSequence()
+{
+	int32 sequence = this->mSequenceComponent.GetSequenceID();
+	switch (sequence)
+	{
+	case 1:
+		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
+		break;
+	case 2:
+		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
+		break;
+	case 3:
+		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase3, 1, 1, true, true, 1500.0f, 1500.0f);
+		break;
+	case 4:
+		this->ClearBossStage();
+		break;
+	default:
+		break;
+	}
+
+	Protocol::S2C_EndSequence endSequencePacket;
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, endSequencePacket);
+	this->SendWorldPlayers(sendBuffer);
 }
 
 bool Dungeon::IsReady() const

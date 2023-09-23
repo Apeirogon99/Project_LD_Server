@@ -39,29 +39,20 @@ void LichLifeVessel::OnInitialization()
 
 }
 
-void LichLifeVessel::OnDestroy()
+void LichLifeVessel::OnReward()
 {
-	OnReward();
-}
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldNextTime = world->GetNextWorldTime();
 
-void LichLifeVessel::OnTick(const int64 inDeltaTime)
-{
-	if (false == IsValid())
+	GameObjectPtr owner = this->GetOwner().lock();
+	if (nullptr == owner)
 	{
 		return;
 	}
 
-	this->OnSyncLocation(inDeltaTime);
-
-	this->mStateManager.SetState(EStateType::State_Idle);
-	this->mStateManager.UpdateState(inDeltaTime);
-
-	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
-	{
-		this->DetectChangeEnemy();
-	}
-}
-
-void LichLifeVessel::OnReward()
-{
+	world->PushTask(worldNextTime, &GameWorld::DestroyActor, owner->GetGameObjectID());
 }
