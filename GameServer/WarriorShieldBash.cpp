@@ -11,7 +11,14 @@ WarriorShieldBash::~WarriorShieldBash()
 
 void WarriorShieldBash::OnInitialization()
 {
+    GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+    if (nullptr == world)
+    {
+        return;
+    }
+
     this->BeginCastingSkill();
+    this->PushTask(world->GetWorldTime() + 2800, &ActiveSkill::EndCastingSkill);
 }
 
 void WarriorShieldBash::OnDestroy()
@@ -74,7 +81,6 @@ void WarriorShieldBash::Active()
     const int64 worldTime = world->GetWorldTime();
 
     this->PushTask(worldTime + this->mActiveTime, &WarriorShieldBash::SkillActive);
-
 }
 
 void WarriorShieldBash::SkillActive()

@@ -25,6 +25,7 @@ void OnslaughtOfShadows::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(200.0f, 100.0f, 100.0f));
 
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
 	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Place);
 	this->SetDamage(100.0f);
 }
@@ -326,7 +327,7 @@ void OnslaughtOfShadows::CheackCollision()
 	Location boxCenterLocation	= location;
 	BoxTrace boxTrace(owner, boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 
-	const float debugDuration = 0.2f;
+	const float debugDuration = 0.01f;
 	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
 
 	std::vector<ActorPtr> findActors;

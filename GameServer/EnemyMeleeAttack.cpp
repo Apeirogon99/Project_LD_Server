@@ -12,6 +12,8 @@ EnemyMeleeAttack::~EnemyMeleeAttack()
 
 void EnemyMeleeAttack::OnInitialization()
 {
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
+
 	BoxCollisionComponent* collision = this->GetBoxCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
 }

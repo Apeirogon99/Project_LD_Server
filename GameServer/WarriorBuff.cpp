@@ -27,7 +27,7 @@ void WarriorBuff::OnInitialization()
 	mStatsComponent.InitMaxStats(buff);
 
 	this->BeginCastingSkill();
-	this->PushTask(world->GetWorldTime() + 3000, &ActiveSkill::EndCastingSkill);
+	this->PushTask(world->GetWorldTime() + 1500, &ActiveSkill::EndCastingSkill);
 }
 
 void WarriorBuff::OnDestroy()

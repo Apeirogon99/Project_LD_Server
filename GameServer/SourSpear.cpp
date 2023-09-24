@@ -25,6 +25,8 @@ void SourSpear::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetSphereCollisione(20.0f);
 
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
+
 	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Projectile);
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 	this->SetDamage(100.0f);

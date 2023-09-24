@@ -20,6 +20,8 @@ void SoulSpark::OnInitialization()
 	}
 	mStartTime = world->GetWorldTime();
 
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
+
 	this->PushTask(mStartTime + 500, &SoulSpark::CheackTargeting);
 	this->PushTask(mStartTime + 1100, &SoulSpark::CheackCollision);
 }

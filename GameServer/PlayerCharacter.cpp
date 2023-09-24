@@ -533,10 +533,30 @@ void PlayerCharacter::OnAutoAttackTargeting(const float inDamage, const FVector 
 
 void PlayerCharacter::OnAutoAttackOver()
 {
-	printf("OnAutoAttackOver\n");
-	this->mAutoAttackComponent.OnOverAutoComboAttack();
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
+
 	this->SetPlayerMode(EPlayerMode::Move_MODE);
+	this->mAutoAttackComponent.OnOverAutoComboAttack();
 	this->mMovementComponent.SetRestrictMovement(false);
+
+	Protocol::S2C_PlayerEndAutoAttack endAutoAttackPacket;
+	endAutoAttackPacket.set_remote_id(remoteID);
+	endAutoAttackPacket.set_timestamp(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, endAutoAttackPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

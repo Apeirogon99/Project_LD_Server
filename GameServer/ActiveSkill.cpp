@@ -141,14 +141,21 @@ void ActiveSkill::EndCastingSkill()
 	{
 		return;
 	}
+	const int64& remoteID = remotePlayer->GetGameObjectID();
 
 	PlayerCharacterPtr character = remotePlayer->GetCharacter();
 	if (nullptr == character)
 	{
 		return;
 	}
-
 	character->GetMovementComponent().SetRestrictMovement(false);
+
+	Protocol::S2C_EndReactionSkill endSkillPacket;
+	endSkillPacket.set_remote_id(remoteID);
+	endSkillPacket.set_timestamp(worldTime);
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, endSkillPacket);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
 void ActiveSkill::SetActiveSkill(const int32& inSkillID, const int64& inActiveTime)

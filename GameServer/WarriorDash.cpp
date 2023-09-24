@@ -126,7 +126,9 @@ void WarriorDash::Active()
     instigated->OnMovement();
 
     float time = (mDashDistance / mInitDashSpeed) * 1000.0f;
-    this->DeActive(static_cast<int64>(time));
+    const int64 iTime = static_cast<int64>(time);
+    this->PushTask(world->GetWorldTime() + iTime, &ActiveSkill::EndCastingSkill);
+    this->DeActive(iTime);
 
     Protocol::S2C_ReactionSkill reactionSkill;
     reactionSkill.set_remote_id(owner->GetGameObjectID());

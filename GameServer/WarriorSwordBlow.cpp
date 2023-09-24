@@ -76,6 +76,12 @@ bool WarriorSwordBlow::IsValid()
 
 void WarriorSwordBlow::Active()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
     if (false == mIsCharge)
     {
 		this->BeginCastingSkill();
@@ -84,15 +90,10 @@ void WarriorSwordBlow::Active()
 	}
 	else
 	{
-		this->EndCastingSkill();
+		this->PushTask(world->GetWorldTime() + 1200, &ActiveSkill::EndCastingSkill);
 		mIsCharge = false;
 	}
 
-	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
 	const int64& endChargeTime = world->GetWorldTime();
 	float chargeDuration = (endChargeTime - this->mActiveTime) / 1000.0f;
 	chargeDuration = (chargeDuration >= mMaxChargeDuration) ? mMaxChargeDuration : (chargeDuration >= mDefaultChargeDuration) ? chargeDuration : mDefaultChargeDuration;

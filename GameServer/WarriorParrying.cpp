@@ -22,6 +22,9 @@ void WarriorParrying::OnInitialization()
 
 	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
 	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
+
+	this->BeginCastingSkill();
+	this->PushTask(world->GetWorldTime() + 1000, &ActiveSkill::EndCastingSkill);
 }
 
 void WarriorParrying::OnDestroy()
@@ -198,6 +201,13 @@ void WarriorParrying::StartParrying()
 {
 	mIsParrying = true;
 
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
 	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
 	if (nullptr == owner)
 	{
@@ -226,7 +236,6 @@ void WarriorParrying::StartParrying()
 	PacketUtils::DebugDrawBox(this->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, 1.0f);
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), boxCenterLocation, radius, 1.0f);
 
-	this->BeginCastingSkill();
 }
 
 void WarriorParrying::EndParrying()
@@ -239,8 +248,6 @@ void WarriorParrying::EndParrying()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-
-	this->EndCastingSkill();
 
 	if(false == world->IsValidActor(this->GetGameObjectID()))
 	{

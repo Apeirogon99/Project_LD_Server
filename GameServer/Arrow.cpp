@@ -21,6 +21,7 @@ void Arrow::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
+
 	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
 	collision->SetSphereCollisione(20.0f);
@@ -29,6 +30,7 @@ void Arrow::OnInitialization()
 
 	this->SetVelocity(1000.0f, 1000.0f, 1000.0f);
 
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
 	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Projectile);
 }
 

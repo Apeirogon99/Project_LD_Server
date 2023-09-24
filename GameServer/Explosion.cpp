@@ -24,6 +24,7 @@ void Explosion::OnInitialization()
 	collision->SetSphereCollisione(300.0f);
 
 	this->SetDamage(300.0f);
+	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
 	this->SetTargetActorType(EActorType::Player);
 	this->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Hard_Place);
 

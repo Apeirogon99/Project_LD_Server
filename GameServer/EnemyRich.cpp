@@ -61,7 +61,10 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 		}
 		
 	}
-	this->OnSyncLocation(inDeltaTime);
+	else
+	{
+		this->OnSyncLocation(inDeltaTime);
+	}
 
 	if (this->mStatsComponent.IsChanageStats(inDeltaTime))
 	{
