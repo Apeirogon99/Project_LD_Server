@@ -837,7 +837,7 @@ void EnemyRichPhase3::OnInitialization()
 void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[0];
+	std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 
