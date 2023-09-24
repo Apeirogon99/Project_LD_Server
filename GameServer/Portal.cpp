@@ -166,7 +166,7 @@ void Portal::Teleport()
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
+	const int64& nextWorldTime = world->GetNextWorldTime();
 
 	for (auto overlap : mOverlapActor)
 	{
@@ -176,14 +176,14 @@ void Portal::Teleport()
 			return;
 		}
 
-		character->GetMovementComponent().SetNewDestination(character, mTeleportLocation, mTeleportLocation, worldTime, 0.0f);
-
 		Protocol::S2C_Teleport teleportPacket;
 		teleportPacket.set_object_id(character->GetGameObjectID());
 		teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTeleportLocation));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 		this->BroadCastOverlap(sendBuffer);
+
+		character->PushTask(nextWorldTime, &PlayerCharacter::Teleport, mTeleportLocation);
 	}
 
 	EndTeleport();

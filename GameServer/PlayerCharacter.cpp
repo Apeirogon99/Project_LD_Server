@@ -63,6 +63,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 	this->SyncLocation(inDeltaTime);
 
+	this->GetLocation().ToString();
+
 	if (this->mStatComponent.IsChanageStats(inDeltaTime))
 	{
 		this->DetectChangePlayer();
@@ -258,6 +260,18 @@ void PlayerCharacter::DetectChangePlayer()
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, detectChanagePacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
+}
+
+void PlayerCharacter::Teleport(FVector inDestinationLocation)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	this->GetMovementComponent().SetNewDestination(this->GetActorPtr(), inDestinationLocation, inDestinationLocation, worldTime, 0.0f);
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)

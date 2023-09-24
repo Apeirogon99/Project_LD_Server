@@ -72,12 +72,6 @@ void Dungeon::OnTick(const int64 inDeltaTime)
 
 	this->IsDeathPlayers();
 
-	static bool temp = false;
-	if (temp == false)
-	{
-		this->CreateBossStage();
-		temp = true;
-	}
 }
 
 bool Dungeon::IsValid()
@@ -181,14 +175,7 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 
 		mState = EDungeonState::State_Play;
 
-		//TEMP
-		std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
-		portal->SetTrigger(true);
-		portal->SetMaxOverlap(max);
-		portal->SetSphereTriggerRadius(300.0f);
-		portal->SetWaitTeleprotTime(10000);
-		portal->SetOverlapType(EActorType::Player);
-		portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
+		this->CreateBossStage();
 
 		Protocol::S2C_CompleteLoadDungeon completePacket;
 
@@ -208,13 +195,14 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 
 void Dungeon::InitDungeon()
 {
-	mWorldPlayers.clear();
-	mEnemySpawnerManger->ClearEnemySpawner();
 	mStageCount = 0;
-	this->DestroyAllActor();
+
+	mEnemySpawnerManger->ClearEnemySpawner();
 
 	this->mWorldObstruction.DeleteTree();
 	this->mWorldObserver.DeleteTree();
+	this->DestroyAllActor();
+	this->mWorldPlayers.clear();
 
 	ActorPtr newActor = this->SpawnActor<Trap<Dungeon>>(this->GetGameObjectRef(), Location(500.0f, -200.0f, 400.0f), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 	if (nullptr == newActor)
@@ -277,7 +265,38 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
-	this->PlaySequence(3, 10000);
+	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	//TEMP
+	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
+	portal->SetTrigger(true);
+	portal->SetMaxOverlap(this->mMaxPlayers);
+	portal->SetSphereTriggerRadius(300.0f);
+	portal->SetWaitTeleprotTime(10000);
+	portal->SetOverlapType(EActorType::Player);
+	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
+
+	ActorPtr newActor = this->SpawnActor<Trap<Dungeon, int32, int64>>(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 100.0f), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+	if (nullptr == newActor)
+	{
+		return;
+	}
+
+	std::shared_ptr<Trap<Dungeon, int32, int64>> newTrap = std::static_pointer_cast<Trap<Dungeon, int32, int64>>(newActor);
+	if (nullptr == newTrap)
+	{
+		return;
+	}
+	newTrap->SetTrigger(true);
+	newTrap->SetMaxOverlap(this->mMaxPlayers);
+	newTrap->SetOverlapType(EActorType::Player);
+	newTrap->SetBoxTriggerExtent(FVector(1000.0f, 1000.0f, 500.0f));
+	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 3, 10000);
+
 }
 
 bool Dungeon::IsCheckStage(int32 inStageCount)
@@ -317,6 +336,7 @@ void Dungeon::ClearStageA()
 {
 	
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
+	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 		
 	mEnemySpawnerManger->ClearEnemySpawner();
 
@@ -342,6 +362,7 @@ void Dungeon::ClearStageB()
 {
 
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
+	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 
 	mEnemySpawnerManger->ClearEnemySpawner();
 
@@ -358,6 +379,7 @@ void Dungeon::ClearStageB()
 void Dungeon::ClearBossStage()
 {
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
+	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 
 	mEnemySpawnerManger->ClearEnemySpawner();
 

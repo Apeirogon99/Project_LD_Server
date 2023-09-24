@@ -25,6 +25,7 @@ public:
 	virtual void	OnAutoAttackOver() override;
 
 public:
+	void Teleport(FVector inDestinationLocation);
 	void MovementCharacter(Protocol::C2S_MovementCharacter pkt);
 	void OnMovement();
 
