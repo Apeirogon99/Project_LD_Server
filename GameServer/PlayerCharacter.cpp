@@ -63,8 +63,6 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 	this->SyncLocation(inDeltaTime);
 
-	this->GetLocation().ToString();
-
 	if (this->mStatComponent.IsChanageStats(inDeltaTime))
 	{
 		this->DetectChangePlayer();

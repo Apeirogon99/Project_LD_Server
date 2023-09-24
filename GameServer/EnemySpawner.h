@@ -33,7 +33,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void SetEnemySpawner(const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
+	void SetEnemySpawner(const GameObjectRef& inOwner, const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
 	void SpawnEnemy();
 
 	void NotifyDestroyEnemy(const int64& inGameObjectID);
@@ -53,6 +53,8 @@ protected:
 	ActorPtr SpawnTemplate();
 
 private:
+	GameObjectRef mOwner;
+
 	bool  mIsLoad;
 	int64 mRespawnTime;
 
@@ -92,7 +94,7 @@ public:
 	virtual bool IsValid()							override;
 
 public:
-	void CreateEnemySpawner(const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
+	void CreateEnemySpawner(const GameObjectRef& inOwner, const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange);
 	void ClearEnemySpawner();
 
 public:

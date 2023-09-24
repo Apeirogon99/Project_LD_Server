@@ -40,7 +40,7 @@ bool EnemySpawner::IsValid()
 	return mIsLoad == true;
 }
 
-void EnemySpawner::SetEnemySpawner(const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
+void EnemySpawner::SetEnemySpawner(const GameObjectRef& inOwner, const FVector& inLocation, const int32& inEnemyID, const float& inSpawnRange, const int32& inSpawnCount, const int32& inSpawnLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
 {
 	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
 	if (nullptr == manager)
@@ -59,6 +59,8 @@ void EnemySpawner::SetEnemySpawner(const FVector& inLocation, const int32& inEne
 	{
 		return;
 	}
+
+	mOwner = inOwner;
 
 	mMaxEnmeyCount	= inSpawnCount;
 	mCurEnemyCount	= 0;
@@ -113,7 +115,7 @@ void EnemySpawner::SpawnEnemy()
 			return;
 		}
 		newEnemy->SetActorType(static_cast<uint8>(EActorType::Enemy));
-		newEnemy->SetSpawnObjectID(this->GetGameObjectID());
+		newEnemy->SetSpawner(std::static_pointer_cast<EnemySpawner>(this->shared_from_this()));
 		newEnemy->SetEnemeyID(this->mEnemyID);
 		newEnemy->SetEnemyStats(this->mEnemyStats);
 		newEnemy->SetRecoveryLocation(this->mLocation);
@@ -146,14 +148,18 @@ void EnemySpawner::SpawnEnemy()
 void EnemySpawner::NotifyDestroyEnemy(const int64& inGameObjectID)
 {
 	auto iter = mEnemyCharacters.begin();
-	for (iter; iter != mEnemyCharacters.end(); iter++)
+	for (iter; iter != mEnemyCharacters.end();)
 	{
 		EnemyCharacterPtr enemy = *iter;
 		if (enemy->GetGameObjectID() == inGameObjectID)
 		{
-			mEnemyCharacters.erase(iter);
+			mEnemyCharacters.erase(iter++);
 			mCurEnemyCount--;
 			break;
+		}
+		else
+		{
+			++iter;
 		}
 	}
 }
@@ -249,34 +255,34 @@ ActorPtr EnemySpawner::SpawnTemplate()
 	switch (static_cast<EnemyID>(this->mEnemyID))
 	{
 	case EnemyID::Enemy_Slime:
-		newActor = world->SpawnActor<EnemySlime>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemySlime>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Nomal_Skeleton:
-		newActor = world->SpawnActor<EnemyNomalSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyNomalSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Warrior_Skeleton:
-		newActor = world->SpawnActor<EnemyWarriorSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyWarriorSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Archer_Skeleton:
-		world->SpawnActor<EnemyArcherSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		world->SpawnActor<EnemyArcherSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Dark_Skeleton:
-		newActor = world->SpawnActor<EnemyDarkSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyDarkSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Dark_Knight:
-		newActor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyDarkKnight>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Lich_Phase1:
-		newActor = world->SpawnActor<EnemyRichPhase1>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyRichPhase1>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Lich_Phase2:
-		newActor = world->SpawnActor<EnemyRichPhase2>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyRichPhase2>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Lich_Phase3:
-		newActor = world->SpawnActor<EnemyRichPhase3>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyRichPhase3>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Lich_Life_Vessle:
-		newActor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyDarkKnight>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	default:
 		break;
@@ -322,7 +328,7 @@ bool EnemySpawnerManager::IsValid()
 	return mSpawners.size();
 }
 
-void EnemySpawnerManager::CreateEnemySpawner(const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
+void EnemySpawnerManager::CreateEnemySpawner(const GameObjectRef& inOwner, const FVector& inLocation, const float& inSpawnRange, const EnemyID& inSpawnEnemyID, const int32& inSpawnCount, const int32& inLoop, const bool& inIsAggresive, const bool& inIsReward, const float& inMaxChaseRange, const float& inSearchRange)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(this->GetOwner().lock());
 	if (nullptr == world)
@@ -344,7 +350,7 @@ void EnemySpawnerManager::CreateEnemySpawner(const FVector& inLocation, const fl
 	newSpawner->SetOwner(this->GetGameObjectRef());
 	task->PushTask(newSpawner->GetGameObjectPtr());
 
-	newSpawner->SetEnemySpawner(inLocation, static_cast<int32>(inSpawnEnemyID), inSpawnRange, inSpawnCount, inLoop, inIsAggresive , inIsReward, inMaxChaseRange, inSearchRange);
+	newSpawner->SetEnemySpawner(inOwner, inLocation, static_cast<int32>(inSpawnEnemyID), inSpawnRange, inSpawnCount, inLoop, inIsAggresive , inIsReward, inMaxChaseRange, inSearchRange);
 
 	mSpawners.push_back(newSpawner);
 }

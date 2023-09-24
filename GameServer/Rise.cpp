@@ -20,7 +20,7 @@ void Rise::OnParrying(ActorPtr inActor)
 {
 }
 
-void Rise::SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, float inSpawnRadius, float inMaxRange, int32 inSKillID)
+void Rise::SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, bool inIsReward, float inSpawnRadius, float inMaxRange, int32 inSKillID)
 {
 	mEnemyID = inEnemyID;
 	mSpawnCount = inSpawnCount;
@@ -28,6 +28,7 @@ void Rise::SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop
 	mSpawnRadius = inSpawnRadius;
 	mMaxRange = inMaxRange;
 	mSkillID = inSKillID;
+	mIsReward = inIsReward;
 }
 
 void Rise::SpawnEnemy()
@@ -47,7 +48,7 @@ void Rise::SpawnEnemy()
 		return;
 	}
 
-	enemySpawer->CreateEnemySpawner(this->GetLocation(), this->mSpawnRadius, this->mEnemyID, this->mSpawnCount, this->mSpawnLoop, true, false, this->mMaxRange, this->mMaxRange);
+	enemySpawer->CreateEnemySpawner(this->GetOwner(), this->GetLocation(), this->mSpawnRadius, this->mEnemyID, this->mSpawnCount, this->mSpawnLoop, true, this->mIsReward, this->mMaxRange, this->mMaxRange);
 
 }
 

@@ -41,7 +41,7 @@ public:
 	void SetReward(const bool& inIsReward);
 	void SetAggressive(const bool& inIsAggressive);
 	void SetEnemeyID(const int32 inEnemyID);
-	void SetSpawnObjectID(const int64 inSpawnObjectID);
+	void SetSpawner(EnemySpawnerRef inSpawner);
 	void SetRecoveryLocation(const Location& inRecoveryLocation);
 	void SetEnemyStats(const Stats& inEnemyStats);
 	void SetAggroActor(ActorRef inCharacter);
@@ -55,7 +55,7 @@ public:
 	const bool&					GetReward()					{ return mIsReward; }
 	const bool&					GetAggressive()				{ return mAggressive; }
 	const int32					GetEnemyID()				{ return mEnemyID; }
-	const int64					GetSpawnObjectID()			{ return mSpawnObjectID; }
+	EnemySpawnerRef&			GetSpawnObjectID()			{ return mSpawner; }
 	StatsComponent&				GetEnemyStatsComponent()	{ return mStatsComponent; }
 	AttackComponent&			GetAutoAttackComponent()	{ return mAutoAttackComponent; }
 	BuffComponent&				GetBuffComponent()			{ return mBuffComponent; }
@@ -67,7 +67,7 @@ public:
 
 protected:
 	int32						mEnemyID;
-	int64						mSpawnObjectID;
+	EnemySpawnerRef				mSpawner;
 	int32						mSpawnParticle;
 	int64						mSpawnParticleDelay;
 	StatsComponent				mStatsComponent;

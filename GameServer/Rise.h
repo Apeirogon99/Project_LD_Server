@@ -26,7 +26,7 @@ public:
 	virtual void OnParrying(ActorPtr inActor) override;
 
 public:
-	void SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, float inSpawnRadius, float inMaxRange, int32 inSKillID);
+	void SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, bool inIsReward, float inSpawnRadius, float inMaxRange, int32 inSKillID);
 	void SpawnEnemy();
 
 public:
@@ -42,5 +42,7 @@ private:
 	float			mSpawnRadius;
 	float			mMaxRange;
 	int32			mSkillID;
+
+	bool			mIsReward;
 };
 

@@ -230,15 +230,10 @@ void Dungeon::InitDungeon()
 
 void Dungeon::CreateStageA()
 {
-	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
 
-	mEnemySpawnerManger->CreateEnemySpawner(Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 0.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 0.0f, 2000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 5);
@@ -248,15 +243,9 @@ void Dungeon::CreateStageA()
 
 void Dungeon::CreateStageB()
 {
-	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
-
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 0.0f, 5000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 7);
@@ -265,11 +254,6 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
-	WorldPtr world = std::static_pointer_cast<World>(this->GetOwner().lock());
-	if (nullptr == world)
-	{
-		return;
-	}
 
 	//TEMP
 	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
@@ -458,13 +442,13 @@ void Dungeon::EndSequence()
 	switch (sequence)
 	{
 	case 1:
-		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 2:
-		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 3:
-		mEnemySpawnerManger->CreateEnemySpawner(Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase3, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase3, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 4:
 		this->ClearBossStage();

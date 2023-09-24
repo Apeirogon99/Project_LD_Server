@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSpawnParticle(0), mSpawnParticleDelay(0), mAggressive(false), mStateManager(), mIsReward(true), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f), mIsSpawn(false)
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnParticle(0), mSpawnParticleDelay(0), mAggressive(false), mStateManager(), mIsReward(true), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f), mIsSpawn(false)
 {
 }
 
@@ -299,7 +299,7 @@ void EnemyCharacter::OnDeath()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(this->GetOwner().lock());
+	EnemySpawnerPtr spawner = this->mSpawner.lock();
 	if (nullptr == spawner)
 	{
 		return;
@@ -350,9 +350,9 @@ void EnemyCharacter::SetEnemeyID(const int32 inEnemyID)
 	mEnemyID = inEnemyID;
 }
 
-void EnemyCharacter::SetSpawnObjectID(const int64 inSpawnObjectID)
+void EnemyCharacter::SetSpawner(EnemySpawnerRef inSpawner)
 {
-	mSpawnObjectID = inSpawnObjectID;
+	mSpawner = inSpawner;
 }
 
 void EnemyCharacter::SetRecoveryLocation(const Location& inRecoveryLocation)

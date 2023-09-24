@@ -240,6 +240,7 @@ void EnemyRichPhase1::OnReward()
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
 	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
@@ -270,7 +271,7 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 		{
 			return;
 		}
-		newRise->SetSpawnInfo(EnemyID::Enemy_Warrior_Skeleton, 1, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
+		newRise->SetSpawnInfo(EnemyID::Enemy_Warrior_Skeleton, 1, 1, false, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
@@ -601,6 +602,7 @@ void EnemyRichPhase2::OnReward()
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
 	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
@@ -631,7 +633,7 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 		{
 			return;
 		}
-		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Knight, 1, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
+		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Knight, 1, 1, true, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
@@ -861,6 +863,7 @@ void EnemyRichPhase3::OnReward()
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
 	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
@@ -891,7 +894,7 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 		{
 			return;
 		}
-		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
+		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, true, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
@@ -977,7 +980,7 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
+	const int64& nextWorldTime = world->GetNextWorldTime();
 	FVector stage = mTempStage;
 	stage.SetZ(48.0f);
 
@@ -987,9 +990,9 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	{
 		return;
 	}
-	newRise->SetSpawnInfo(EnemyID::Enemy_Lich_Life_Vessle, 1, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
-	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
+	newRise->SetSpawnInfo(EnemyID::Enemy_Lich_Life_Vessle, 1, 1, true, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Life_Vessel));
+	newRise->PushTask(nextWorldTime, &Rise::SpawnEnemy);
+	world->PushTask(nextWorldTime + 1000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	
 
@@ -999,7 +1002,7 @@ void EnemyRichPhase3::Skill_LifeVessel()
 	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_Rich_Rise));
 	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
 	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-	appearSkillPacket.set_duration(worldTime);
+	appearSkillPacket.set_duration(world->GetWorldTime());
 
 	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
 	this->BrodcastPlayerViewers(appearSendBuffer);
