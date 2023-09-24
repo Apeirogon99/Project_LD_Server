@@ -97,6 +97,7 @@ void EnemySpawner::SpawnEnemy()
 	{
 		return;
 	}
+	const int64& nextWorldTime = world->GetNextWorldTime();
 
 	for (int32 count = 0; count < mMaxEnmeyCount; ++count)
 	{
@@ -129,6 +130,7 @@ void EnemySpawner::SpawnEnemy()
 		{
 			newEnemy->GetStateManager().SetState(EStateType::State_Idle);
 		}
+		//newEnemy->PushTask(nextWorldTime, &EnemyCharacter::OnBeginSpawn);
 
 		mEnemyCharacters.emplace_back(newEnemy);
 
@@ -259,7 +261,7 @@ ActorPtr EnemySpawner::SpawnTemplate()
 		world->SpawnActor<EnemyArcherSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Dark_Skeleton:
-		newActor = world->SpawnActor<EnemyNomalSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyDarkSkeleton>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Dark_Knight:
 		newActor = world->SpawnActor<EnemyDarkKnight>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));

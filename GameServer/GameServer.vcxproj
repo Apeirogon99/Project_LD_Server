@@ -175,6 +175,7 @@
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemyCharacter.cpp" />
     <ClCompile Include="AItem.cpp" />
+    <ClCompile Include="EnemyDarkSkeleton.cpp" />
     <ClCompile Include="EnemyMeleeAttack.cpp" />
     <ClCompile Include="EnemyNomalSkeleton.cpp" />
     <ClCompile Include="EnemyWarriorSkeleton.cpp" />
@@ -375,6 +376,7 @@
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="EnemyCharacter.h" />
     <ClInclude Include="AItem.h" />
+    <ClInclude Include="EnemyDarkSkeleton.h" />
     <ClInclude Include="EnemyMeleeAttack.h" />
     <ClInclude Include="EnemyNomalSkeleton.h" />
     <ClInclude Include="EnemyWarriorSkeleton.h" />

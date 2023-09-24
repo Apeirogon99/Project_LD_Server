@@ -52,7 +52,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	}
 
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
-	this->SetVelocity(vel, vel, vel);
+	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
 	if (false == this->mMovementComponent.GetRestrictMovement())
 	{
@@ -294,15 +294,17 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 
 	float distance = FVector::Distance2D(serverLocation, clientLocation);
 
+	this->SetVelocity(340.0f, 340.0f, 340.0f);
+
+	//this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 0.0f);
+
 	if (distance <= 1.0f)
 	{
-		//printf("STOP AND START\n");
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 42.0f);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 0.0f);
 	}
 	else
 	{
-		//printf("SERVER\n");
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 42.0f);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 0.0f);
 	}
 	//else
 	//{

@@ -65,6 +65,7 @@ public:
 	void Skill_SoulShackles();
 
 private:
+	bool mSpawnDarkKnight;
 	PatternInfos<EnemyRichPhase2> mPatternInfos;
 };
 

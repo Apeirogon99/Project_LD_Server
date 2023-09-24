@@ -277,7 +277,7 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
-	this->PlaySequence(1, 10000);
+	this->PlaySequence(3, 10000);
 }
 
 bool Dungeon::IsCheckStage(int32 inStageCount)

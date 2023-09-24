@@ -15,7 +15,7 @@ bool Handle_C2S_ReplicatedServerTimeStamp(PacketSessionPtr& session, Protocol::C
 	packet.set_utc_time(clientUtcTimeStamp);
 	packet.set_time_stamp(serviceTimeStamp);
 
-	//wprintf(L"[RTT:%lld] [SERVER::%lld] [CLIENT::%lld] [DIFF::%lld]\n", session->GetRoundTripTime().GetRoundTripTime(), serverUtcTimeStmap, clientUtcTimeStamp, serverUtcTimeStmap - clientUtcTimeStamp);
+	//wprintf(L"[RTT:%lld] [SERVER::%lld] [CLIENT::%lld] [DIFF::%f]\n", session->GetRoundTripTime().GetRoundTripTime(), serverUtcTimeStmap, clientUtcTimeStamp, static_cast<float>(serverUtcTimeStmap - clientUtcTimeStamp) / 1000.0f);
 
 	SendBufferPtr sendBuffer = CommonServerPacketHandler::MakeSendBuffer(session, packet);
 	session->DirectSend(sendBuffer);

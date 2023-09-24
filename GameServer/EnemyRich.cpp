@@ -216,7 +216,7 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -251,24 +251,26 @@ void EnemyRichPhase1::OnReward()
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
 {
-	WorldPtr world = GetWorld().lock();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = mTempStage;
-	stage.SetZ(90);
 
-	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
-	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
-	if (nullptr == newRise)
+	FVector stage = FVector(mTempStage.GetX(), mTempStage.GetY(), mTempStage.GetZ() + 90);
+	for (int32 count = 0; count < 5; count++)
 	{
-		return;
+		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(stage, 1000.0f), FRotator(), Scale(1.0f, 1.0f, 1.0f));
+		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+		if (nullptr == newRise)
+		{
+			return;
+		}
+		newRise->SetSpawnInfo(EnemyID::Enemy_Warrior_Skeleton, 1, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
+		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
-	newRise->SetSpawnInfo(EnemyID::Enemy_Warrior_Skeleton, 5, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton));
-	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -511,7 +513,7 @@ void EnemyRichPhase1::Skill_SourSpear(ActorPtr inPlayer, Location inLocation)
 //       Rich | Phase2		//
 //==========================//
 
-EnemyRichPhase2::EnemyRichPhase2() : EnemyRich(L"EnemyRichPhase2")
+EnemyRichPhase2::EnemyRichPhase2() : EnemyRich(L"EnemyRichPhase2"), mSpawnDarkKnight(false)
 {
 }
 
@@ -554,15 +556,29 @@ void EnemyRichPhase2::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_BlinkSturn);
 	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_SoulSpark);
 	this->mPatternInfos.push_back(&EnemyRichPhase2::Skill_SoulShackles);
-
-	this->PushTask(world->GetNextWorldTime(), &EnemyRichPhase2::Skill_RiseDarkKnight);
 }
 
 void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 {
-	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
-	pattenFunc(*this);
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& nextWorldTime = world->GetNextWorldTime();
+
+	if (false == mSpawnDarkKnight)
+	{
+		mSpawnDarkKnight = true;
+		this->PushTask(nextWorldTime, &EnemyRichPhase2::Skill_RiseDarkKnight);
+		this->PushTask(nextWorldTime + 5000, &EnemyRichPhase2::OnPatternOver);
+	}
+	else
+	{
+		int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+		std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
+		pattenFunc(*this);
+	}
 }
 
 void EnemyRichPhase2::OnPatternOver()
@@ -602,25 +618,20 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = mTempStage;
-	stage.SetZ(173);
 
-	FVector		location = stage;
-	FRotator	rotation = this->GetRotation();
-	FVector		right = rotation.GetRightVector() * 200.0f;
-
-	FVector spawnLocation = location + right;
-
-	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
-	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
-	if (nullptr == newRise)
+	FVector stage = FVector(mTempStage.GetX(), mTempStage.GetY(), mTempStage.GetZ() + 173);
+	for (int32 count = 0; count < 1; count++)
 	{
-		return;
+		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(stage, 300.0f), FRotator(), Scale(1.0f, 1.0f, 1.0f));
+		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+		if (nullptr == newRise)
+		{
+			return;
+		}
+		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Knight, 1, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
+		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
-	newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Knight, 1, 1, 300.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight));
-	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
-
 }
 
 void EnemyRichPhase2::Skill_BlinkSturn()
@@ -867,18 +878,20 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
-	FVector stage = mTempStage;
-	stage.SetZ(90);
 
-	ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), stage, FRotator(), Scale(1.0f, 1.0f, 1.0f));
-	std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
-	if (nullptr == newRise)
+	FVector stage = FVector(mTempStage.GetX(), mTempStage.GetY(), mTempStage.GetZ() + 90);
+	for (int32 count = 0; count < 5; count++)
 	{
-		return;
+		ActorPtr actor = world->SpawnActor<Rise>(this->GetGameObjectRef(), Random::GetRandomVectorInRange2D(stage, 1000.0f), FRotator(), Scale(1.0f, 1.0f, 1.0f));
+		std::shared_ptr<Rise> newRise = std::static_pointer_cast<Rise>(actor);
+		if (nullptr == newRise)
+		{
+			return;
+		}
+		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
+		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
+		world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 	}
-	newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, 1000.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
-	newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
-	world->PushTask(world->GetNextWorldTime() + 3000, &GameWorld::DestroyActor, newRise->GetGameObjectID());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());

@@ -373,6 +373,9 @@
     <ClCompile Include="SequenceComponent.cpp">
       <Filter>Content\Component</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyDarkSkeleton.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -614,6 +617,9 @@
     </ClInclude>
     <ClInclude Include="SequenceComponent.h">
       <Filter>Content\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDarkSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,7 @@
 #include "EnemySpawner.h"
 #include "EnemySlime.h"
 #include "EnemyNomalSkeleton.h"
+#include "EnemyDarkSkeleton.h"
 #include "EnemyArcherSkeleton.h"
 #include "EnemyWarriorSkeleton.h"
 #include "EnemyDarkKnight.h"

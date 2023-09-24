@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyCharacter.h"
 
-EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mAggressive(false), mStateManager(), mIsReward(true), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f)
+EnemyCharacter::EnemyCharacter(const WCHAR* inName) : Character(inName), mEnemyID(0), mSpawnObjectID(0), mSpawnParticle(0), mSpawnParticleDelay(0), mAggressive(false), mStateManager(), mIsReward(true), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f), mIsSpawn(false)
 {
 }
 
@@ -45,6 +45,11 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 	{
 		return;
 	}
+
+	//if (false == this->mIsSpawn)
+	//{
+	//	return;
+	//}
 
 	this->OnSyncLocation(inDeltaTime);
 
@@ -155,6 +160,46 @@ void EnemyCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disAppearItemPacket);
 	anotherPlayerState->Send(sendBuffer);
+}
+
+void EnemyCharacter::OnBeginSpawn()
+{
+	if (0 == mSpawnParticle || 0 == mSpawnParticleDelay)
+	{
+		mIsSpawn = true;
+		return;
+	}
+
+	WorldPtr world = this->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(!world);
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(owner->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(this->mSpawnParticle);
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+
+	this->PushTask(worldTime + mSpawnParticleDelay, &EnemyCharacter::OnEndSpawn);
+}
+
+void EnemyCharacter::OnEndSpawn()
+{
+	mIsSpawn = true;
 }
 
 void EnemyCharacter::OnSyncLocation(const int64 inDeltaTime)

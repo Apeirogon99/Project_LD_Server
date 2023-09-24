@@ -16,6 +16,9 @@ public:
 	virtual void OnAppearActor(ActorPtr inAppearActor) override;
 	virtual void OnDisAppearActor(ActorPtr inDisappearActor) override;
 
+	void OnBeginSpawn();
+	void OnEndSpawn();
+
 	virtual void OnSyncLocation(const int64 inDeltaTime);
 	virtual void DetectChangeEnemy();
 
@@ -65,10 +68,13 @@ public:
 protected:
 	int32						mEnemyID;
 	int64						mSpawnObjectID;
+	int32						mSpawnParticle;
+	int64						mSpawnParticleDelay;
 	StatsComponent				mStatsComponent;
 	AttackComponent				mAutoAttackComponent;
 	BuffComponent				mBuffComponent;
 
+	bool						mIsSpawn;
 	bool						mIsReward;
 	bool						mAggressive;
 	float						mMaxChaseRange;

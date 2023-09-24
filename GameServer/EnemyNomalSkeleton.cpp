@@ -18,6 +18,8 @@ void EnemyNomalSkeleton::OnInitialization()
 	}
 
 	SetTick(true, SYSTEM_TICK);
+	this->mSpawnParticle = static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton);
+	this->mSpawnParticleDelay = 3000;
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);
