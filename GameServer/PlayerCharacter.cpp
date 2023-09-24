@@ -54,6 +54,9 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
 	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
+	const float debugDuration = 0.02f;
+	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
+
 	if (false == this->mMovementComponent.GetRestrictMovement())
 	{
 		if (true == this->mMovementComponent.Update(this->GetActorPtr(), 42.0f))
@@ -70,8 +73,6 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
-	const float debugDuration = 0.02f;
-	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 }
 
 bool PlayerCharacter::IsValid()
@@ -296,27 +297,13 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 		return;
 	}
 
-	//클라에서 넘어온 이후 차이를 구한 현재 클라이언트의 위치값
-	int64		clientDuration = worldTime - clientMovementLastTime;
-	Location	currentClientLocation = this->mMovementComponent.GetNextLocation(this->GetActorPtr(), clientLocation, movementDestination, clientDuration, 0.0f);
-
-	int64		serverDuration = mMovementComponent.GetLastMovementTime() - clientMovementLastTime;
-	Location	currentServerLocation = this->mMovementComponent.GetNextLocation(this->GetActorPtr(), serverLocation, this->mMovementComponent.GetServerDestinationLocation(), serverDuration, 0.0f);
-	float		currentDistance = FVector::Distance2D(currentClientLocation, currentServerLocation);
-
-	float distance = FVector::Distance2D(serverLocation, clientLocation);
-
 	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
-	//this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 0.0f);
+	int64		serverDuration			= mMovementComponent.GetLastMovementTime() - clientMovementLastTime;
+	Location	currentServerLocation	= this->mMovementComponent.GetNextLocation(this->GetActorPtr(), serverLocation, this->mMovementComponent.GetServerDestinationLocation(), serverDuration, 0.0f);
 
-	if (distance <= 1.0f)
 	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), serverLocation, movementDestination, worldTime, 0.0f);
-	}
-	else
-	{
-		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, servertMovementLastTime, 0.0f);
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), currentServerLocation, movementDestination, clientMovementLastTime, 0.0f);
 	}
 	//else
 	//{

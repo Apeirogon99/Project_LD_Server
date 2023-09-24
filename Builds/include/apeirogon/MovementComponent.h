@@ -25,6 +25,7 @@ public:
 	const Location GetNextLocation(ActorPtr inOwner, const Location& inCurrentLocation, const Location& inDestinationLocation, const int64& inMovementLastTime, float inRadius);
 
 public:
+	const Location& GetOldLocation() const;
 	const Location& GetServerDestinationLocation() const;
 	const Location& GetDestinationLocation() const;
 	const int64		GetLastMovementTime() const;
