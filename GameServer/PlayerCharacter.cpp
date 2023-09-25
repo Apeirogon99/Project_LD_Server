@@ -57,12 +57,9 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	const float debugDuration = 0.02f;
 	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);
 
-	if (false == this->mMovementComponent.GetRestrictMovement())
+	if (true == this->mMovementComponent.Update(this->GetActorPtr(), 42.0f))
 	{
-		if (true == this->mMovementComponent.Update(this->GetActorPtr(), 42.0f))
-		{
-			this->NextPlayerMode();
-		}
+		this->NextPlayerMode();
 	}
 	this->SyncLocation(inDeltaTime);
 
@@ -308,7 +305,7 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 
 	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
-	int64		serverDuration			= mMovementComponent.GetLastMovementTime() - clientMovementLastTime;
+	int64		serverDuration			= clientMovementLastTime - servertMovementLastTime;
 	Location	currentServerLocation	= this->mMovementComponent.GetNextLocation(this->GetActorPtr(), serverLocation, this->mMovementComponent.GetServerDestinationLocation(), serverDuration, 0.0f);
 
 	{

@@ -193,8 +193,6 @@ bool AttackComponent::CanAutoAttack(ActorPtr inInstigated)
 		{
 			return false;
 		}
-
-		printf("FIRST ATTACk\n");
 	}
 	else
 	{
@@ -215,14 +213,6 @@ bool AttackComponent::CanAutoAttack(ActorPtr inInstigated)
 		}
 		mIsComboAutoAttack = true;
 
-		if (mCurrentAutoAttackCount == mAttackInfos.size() - 1)
-		{
-			printf("LAST ATTACk\n");
-		}
-		else
-		{
-			printf("COMBO ATTACk\n");
-		}
 		return false;
 	}
 
