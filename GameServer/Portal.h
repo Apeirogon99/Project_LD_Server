@@ -23,8 +23,10 @@ public:
 
 public:
 	void EnterTeleport();
+	void LeaveTeleport();
+	
+	void BeginTeleport();
 	void EndTeleport();
-	void Teleport();
 
 public:
 	void SetWaitTeleprotTime(int64 inMaxTeleportTime);

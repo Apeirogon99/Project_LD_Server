@@ -123,7 +123,7 @@ void Portal::OnOverlapTick(const int64 inDeltaTime)
 		mCurTeleportTime += inDeltaTime;
 		if (mCurTeleportTime >= mMaxTeleportTime)
 		{
-			this->Teleport();
+			this->BeginTeleport();
 		}
 		else
 		{
@@ -148,7 +148,7 @@ void Portal::EnterTeleport()
 
 }
 
-void Portal::EndTeleport()
+void Portal::LeaveTeleport()
 {
 	mIsTeleport = false;
 	mCurTeleportTime = 0;
@@ -159,14 +159,14 @@ void Portal::EndTeleport()
 	this->BroadCastOverlap(sendBuffer);
 }
 
-void Portal::Teleport()
+void Portal::BeginTeleport()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
-	const int64& nextWorldTime = world->GetNextWorldTime();
+	const int64& worldTime = world->GetWorldTime();
 
 	for (auto overlap : mOverlapActor)
 	{
@@ -182,12 +182,35 @@ void Portal::Teleport()
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 		this->BroadCastOverlap(sendBuffer);
-
-		character->PushTask(nextWorldTime, &PlayerCharacter::Teleport, mTeleportLocation);
 	}
 
-	EndTeleport();
+	this->PushTask(worldTime + 1000, &Portal::EndTeleport);
+}
+
+void Portal::EndTeleport()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	for (auto overlap : mOverlapActor)
+	{
+
+		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(overlap.first);
+		if (nullptr == character)
+		{
+			return;
+		}
+		character->PushTask(worldTime, &PlayerCharacter::Teleport, mTeleportLocation);
+
+	}
+
+	LeaveTeleport();
 	mOverlapActor.clear();
+
 }
 
 void Portal::SetWaitTeleprotTime(int64 inMaxTeleportTime)

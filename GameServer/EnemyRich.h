@@ -90,6 +90,7 @@ public:
 	void Skill_LifeVessel();
 
 private:
+	bool mSpawnLifeVessel;
 	PatternInfos<EnemyRichPhase3> mPatternInfos;
 };
 

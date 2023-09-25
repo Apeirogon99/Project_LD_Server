@@ -39,7 +39,7 @@ void Rise::SpawnEnemy()
 	{
 		return;
 	}
-	const int64& worldTime = world->GetWorldTime();
+	const int64& nextWorldTime = world->GetNextWorldTime();
 	const EnemySpawnerManagerPtr& enemySpawer = world->GetEnemySpawnerManager();
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
@@ -50,6 +50,7 @@ void Rise::SpawnEnemy()
 
 	enemySpawer->CreateEnemySpawner(this->GetOwner(), this->GetLocation(), this->mSpawnRadius, this->mEnemyID, this->mSpawnCount, this->mSpawnLoop, true, this->mIsReward, this->mMaxRange, this->mMaxRange);
 
+	world->PushTask(nextWorldTime + 1000, &World::DestroyActor, this->GetGameObjectID());
 }
 
 SphereCollisionComponent* Rise::GetSphereCollisionComponent()

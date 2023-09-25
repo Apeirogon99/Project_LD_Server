@@ -270,7 +270,16 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 	}
 	const int64& worldTime = world->GetWorldTime();
 
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
 	this->GetMovementComponent().SetNewDestination(this->GetActorPtr(), inDestinationLocation, inDestinationLocation, worldTime, 0.0f);
+
+	remotePlayer->OnLoadComplete();
+	
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
@@ -555,7 +564,7 @@ void PlayerCharacter::OnAutoAttackOver()
 	endAutoAttackPacket.set_timestamp(worldTime);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, endAutoAttackPacket);
-	this->BrodcastPlayerViewers(sendBuffer);
+	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)

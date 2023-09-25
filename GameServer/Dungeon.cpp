@@ -279,7 +279,7 @@ void Dungeon::CreateBossStage()
 	newTrap->SetMaxOverlap(this->mMaxPlayers);
 	newTrap->SetOverlapType(EActorType::Player);
 	newTrap->SetBoxTriggerExtent(FVector(1000.0f, 1000.0f, 500.0f));
-	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 3, 10000);
+	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 2, 10000);
 
 }
 
@@ -374,7 +374,7 @@ void Dungeon::ClearBossStage()
 	worldPortal->SetWaitWorldTeleprotTime(15000);
 	worldPortal->SetOverlapType(EActorType::Player);
 	worldPortal->SetTeleportWorld(this->mOriginWorld);
-	worldPortal->SetTeleportLocation(FVector(-37755.0f, 37755.0f, 196.0f));
+	worldPortal->SetTeleportLocation(FVector(-36900.0f, 38000.0f, 188.0f));
 	worldPortal->SetTeleportLevel(std::string("L_Kingdom"));
 }
 
