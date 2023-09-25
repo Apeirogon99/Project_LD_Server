@@ -55,7 +55,7 @@ public:
 	const bool&					GetReward()					{ return mIsReward; }
 	const bool&					GetAggressive()				{ return mAggressive; }
 	const int32					GetEnemyID()				{ return mEnemyID; }
-	EnemySpawnerRef&			GetSpawnObjectID()			{ return mSpawner; }
+	EnemySpawnerRef&			GetSpawner()				{ return mSpawner; }
 	StatsComponent&				GetEnemyStatsComponent()	{ return mStatsComponent; }
 	AttackComponent&			GetAutoAttackComponent()	{ return mAutoAttackComponent; }
 	BuffComponent&				GetBuffComponent()			{ return mBuffComponent; }

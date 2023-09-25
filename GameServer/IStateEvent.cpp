@@ -72,7 +72,7 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 		return;
 	}
 
-	EnemySpawnerPtr spawner = std::static_pointer_cast<EnemySpawner>(enemy->GetOwner().lock());
+	EnemySpawnerPtr spawner = enemy->GetSpawner().lock();
 	if (nullptr == spawner)
 	{
 		return;
@@ -157,6 +157,9 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
+		const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
+		enemy->GetEnemyStatsComponent().UpdateCurrentStat(EStatType::Stat_Health, fullHealth);
+		return;
 	}
 
 	const float curHealth = enemy->GetEnemyStatsComponent().GetCurrentStats().GetHealth();
@@ -285,6 +288,20 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const float velocity		= currentStats.GetMovementSpeed();
 	const float enemyHalf		= enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
+	EnemySpawnerPtr spawner = enemy->GetSpawner().lock();
+	if (nullptr == spawner)
+	{
+		return;
+	}
+	const Location& spawnerLocation = spawner->GetLocation();
+
+	WorldPtr world = enemy->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
 	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(enemy->GetAggroActor().lock());
 	if (nullptr == aggroCharacter)
 	{
@@ -300,18 +317,13 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	}
 	const float aggroCharacterHalf = aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
 
-	WorldPtr world = enemy->GetWorld().lock();
-	if (nullptr == world)
-	{
-		return;
-	}
-	const int64 worldTime = world->GetWorldTime();
-
 	//DEBUG
 	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(enemy->GetPlayerViewers(), enemy->GetLocation(), range, debugDuration);
 
-	if (enemy->GetMaxChaseRange() <= 1.0f && enemy->GetMaxChaseRange() >= FVector::Distance2D(enemy->GetRecoveryLocation(), enemy->GetLocation()))
+	float maxChaseRange = enemy->GetMaxChaseRange();
+	float chaseDistance = FVector::Distance2D(spawnerLocation, enemy->GetLocation());
+	if (maxChaseRange <= chaseDistance)
 	{
 		if (true == enemy->GetAggressive())
 		{

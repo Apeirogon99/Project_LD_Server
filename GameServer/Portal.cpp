@@ -176,15 +176,22 @@ void Portal::BeginTeleport()
 			return;
 		}
 
+		FVector newTeleportLocation = Random::GetRandomVectorInRange2D(mTeleportLocation, 300.0f);
+
 		Protocol::S2C_Teleport teleportPacket;
 		teleportPacket.set_object_id(character->GetGameObjectID());
-		teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(mTeleportLocation));
+		teleportPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(newTeleportLocation));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 		this->BroadCastOverlap(sendBuffer);
+
+		character->PushTask(worldTime, &PlayerCharacter::Teleport, newTeleportLocation);
 	}
 
-	this->PushTask(worldTime + 1000, &Portal::EndTeleport);
+	//this->PushTask(worldTime + 1000, &Portal::EndTeleport);
+
+	LeaveTeleport();
+	mOverlapActor.clear();
 }
 
 void Portal::EndTeleport()

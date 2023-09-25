@@ -24,11 +24,10 @@ void GameWorld::OnInitialization()
 	mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
 	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
 
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-8000.0, 26000.0, -104.0), 2000.0f, EnemyID::Enemy_Slime, 5, -1, false, true, 1000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(9600.0, 9600.0, 0.0f), 2000.0f, EnemyID::Enemy_Slime, 5, -1, false, true, 1000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-4600.0, 10000.0f, 0.0f), 0.0f, EnemyID::Enemy_Slime, 5, -1, false, true, 1000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-38000.0, 32000.0, 0.0f), 0.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true, 1000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-31000.0, 40000.0, 0.0f), 0.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true, 1000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-15000.0f, 27000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-17500.0f, 31000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-27870.0f, 36810.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-30500.0f, 31350.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
 
 	mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 

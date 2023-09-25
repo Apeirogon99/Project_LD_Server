@@ -41,7 +41,7 @@ public:
 	void ClearEnemy();
 
 public:
-	bool IsRespawn();
+	bool IsRespawn(const int64 inDeltaTime);
 	const int32 GetMaxEnemyCount()		const { return mMaxEnmeyCount; }
 	const int32 GetCurrentEnemyCount()	const { return mCurEnemyCount; }
 	const int32 GetEnemyID()			const { return mEnemyID; }

@@ -305,9 +305,6 @@ void EnemyCharacter::OnDeath()
 		return;
 	}
 	spawner->NotifyDestroyEnemy(gameObjectID);
-
-
-	world->PushTask(worldTime + 2000, &World::DestroyActor, gameObjectID);
 }
 
 void EnemyCharacter::OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush)

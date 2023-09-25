@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemySpawner.h"
 
-EnemySpawner::EnemySpawner() : GameObject(L"EnemySpawner"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnRange(0.0f), mRespawnTime(0), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f)
+EnemySpawner::EnemySpawner() : GameObject(L"EnemySpawner"), mIsLoad(false), mMaxEnmeyCount(0), mCurEnemyCount(0), mEnemyID(0), mSpawnRange(0.0f), mRespawnTime(0), mMaxChaseRange(0.0f), mMaxSearchRange(0.0f), mIsAggresive(false), mIsReward(false), mSpawnLoop(0)
 {
 
 }
@@ -28,10 +28,9 @@ void EnemySpawner::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	if (true == this->IsRespawn())
+	if (true == this->IsRespawn(inDeltaTime))
 	{
 		this->SpawnEnemy();
-		mRespawnTime = 0;
 	}
 }
 
@@ -118,7 +117,7 @@ void EnemySpawner::SpawnEnemy()
 		newEnemy->SetSpawner(std::static_pointer_cast<EnemySpawner>(this->shared_from_this()));
 		newEnemy->SetEnemeyID(this->mEnemyID);
 		newEnemy->SetEnemyStats(this->mEnemyStats);
-		newEnemy->SetRecoveryLocation(this->mLocation);
+		newEnemy->SetRecoveryLocation(newEnemy->GetLocation());
 		newEnemy->SetReward(this->mIsReward);
 		newEnemy->SetAggressive(this->mIsAggresive);
 		newEnemy->SetMaxChaseRange(this->mMaxChaseRange);
@@ -147,6 +146,19 @@ void EnemySpawner::SpawnEnemy()
 
 void EnemySpawner::NotifyDestroyEnemy(const int64& inGameObjectID)
 {
+	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
+	if (nullptr == manager)
+	{
+		return;
+	}
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(manager->GetOwner().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& nextWorldTime = world->GetNextWorldTime();
+
 	auto iter = mEnemyCharacters.begin();
 	for (iter; iter != mEnemyCharacters.end();)
 	{
@@ -155,6 +167,9 @@ void EnemySpawner::NotifyDestroyEnemy(const int64& inGameObjectID)
 		{
 			mEnemyCharacters.erase(iter++);
 			mCurEnemyCount--;
+
+			world->PushTask(nextWorldTime + 2000, &World::DestroyActor, enemy->GetGameObjectID());
+
 			break;
 		}
 		else
@@ -190,7 +205,7 @@ void EnemySpawner::ClearEnemy()
 	mCurEnemyCount = 0;
 }
 
-bool EnemySpawner::IsRespawn()
+bool EnemySpawner::IsRespawn(const int64 inDeltaTime)
 {
 	EnemySpawnerManagerPtr manager = std::static_pointer_cast<EnemySpawnerManager>(this->GetOwner().lock());
 	if (nullptr == manager)
@@ -209,13 +224,9 @@ bool EnemySpawner::IsRespawn()
 	{
 		return false;
 	}
+	mRespawnTime += inDeltaTime;
 
-	if (mRespawnTime == 0)
-	{
-		mRespawnTime = worldTime;
-	}
-
-	if (worldTime - mRespawnTime <= MAX_RESPAWN_ENEMY_TIME)
+	if (mRespawnTime <= MAX_RESPAWN_ENEMY_TIME)
 	{
 		return false;
 	}
@@ -232,8 +243,10 @@ bool EnemySpawner::IsRespawn()
 			}
 		}
 	}
+
 	this->ClearEnemy();
-	
+	mRespawnTime = 0;
+
 	return true;
 }
 
