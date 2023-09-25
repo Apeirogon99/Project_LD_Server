@@ -787,7 +787,7 @@ void EnemyRichPhase2::Skill_SoulShackles()
 //       Rich | Phase3		//
 //==========================//
 
-EnemyRichPhase3::EnemyRichPhase3() : EnemyRich(L"EnemyRichPhase3")
+EnemyRichPhase3::EnemyRichPhase3() : EnemyRich(L"EnemyRichPhase3"), mSpawnLifeVessel(false)
 {
 }
 
