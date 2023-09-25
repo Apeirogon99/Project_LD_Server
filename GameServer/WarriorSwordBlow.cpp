@@ -91,6 +91,7 @@ void WarriorSwordBlow::Active()
 	else
 	{
 		this->PushTask(world->GetWorldTime() + 1200, &ActiveSkill::EndCastingSkill);
+		world->PushTask(world->GetNextWorldTime() + 1200, &GameWorld::DestroyActor, this->GetGameObjectID());
 		mIsCharge = false;
 	}
 

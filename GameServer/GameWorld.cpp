@@ -31,11 +31,7 @@ void GameWorld::OnInitialization()
 
 	mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 
-	//std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(-8300.0f, 30000.0f, -68.0f), FRotator(), Scale()));
-	//portal->SetTeleportLocation(FVector(-8300.0f, 30000.0f, -68.0f));
-
 	this->MakeWorldObstruction(EGameDataType::Obstruction);
-
 }
 
 void GameWorld::OnDestroy()

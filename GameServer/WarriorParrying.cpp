@@ -22,9 +22,6 @@ void WarriorParrying::OnInitialization()
 
 	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
 	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
-
-	this->BeginCastingSkill();
-	this->PushTask(world->GetWorldTime() + 1000, &ActiveSkill::EndCastingSkill);
 }
 
 void WarriorParrying::OnDestroy()
@@ -219,6 +216,7 @@ void WarriorParrying::StartParrying()
 	{
 		return;
 	}
+	this->BeginCastingSkill();
 
 	FVector boxExtent(30.0f, 80.0f, 100.0f);
 
@@ -248,17 +246,15 @@ void WarriorParrying::EndParrying()
 		return;
 	}
 	const int64& worldTime = world->GetWorldTime();
+	const int64& nextWorldTime = world->GetNextWorldTime();
 
 	if(false == world->IsValidActor(this->GetGameObjectID()))
 	{
 		return;
 	}
 
-	bool ret = world->DestroyActor(this->GetGameObjectID());
-	if (false == ret)
-	{
-		this->GameObjectLog(L"Can't destroy parrying\n");
-	}
+	this->PushTask(worldTime + 700, &ActiveSkill::EndCastingSkill);
+	world->PushTask(nextWorldTime + 700, &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 void WarriorParrying::SetWarriorParrying(const float& inDamage)
