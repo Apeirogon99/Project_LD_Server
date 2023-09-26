@@ -12,6 +12,7 @@ public:
 	SkillComponent& operator=(SkillComponent&&) noexcept = delete;
 
 public:
+	void Init(GameRemotePlayerRef inOwner, int64 inUpdateTime);
 	void PushSkill(const int32& inSkillID);
 	void ReleaseSkill(const int32& inSkillID);
 
@@ -27,6 +28,11 @@ public:
 	ActiveSkillRef GetActiveSkill();
 
 private:
+	GameRemotePlayerRef		mOwner;
+
+	int64					mMaxSyncTime;
+	int64					mCurSyncTime;
+
 	ActiveSkillRef			mActiveSkill;
 	std::map<int32, int64>	mSkills;
 	std::set<int32>			mUseSkills;

@@ -45,6 +45,12 @@ void KeyboardComponent::PressedKey(int32 inKey)
         return;
     }
 
+    PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+    if (nullptr == playerState)
+    {
+        return;
+    }
+
     bool result = false;
     switch (action.GetActionType())
     {
@@ -58,7 +64,18 @@ void KeyboardComponent::PressedKey(int32 inKey)
         break;
     default:
         break;
-    }   
+    }
+
+    //static_cast<int32>(EDCommonErrorType::SUCCESS)
+    if (false == result)
+    {
+        Protocol::S2C_ResponseUseKeyAction responseUseKeyActionPacekt;
+        responseUseKeyActionPacekt.set_key_id(inKey);
+        responseUseKeyActionPacekt.set_error(static_cast<int32>(EDCommonErrorType::FAILURE));
+
+        SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, responseUseKeyActionPacekt);
+        playerState->Send(sendBuffer);
+    }
 }
 
 void KeyboardComponent::ReleaseKey(int32 inKey)
@@ -76,18 +93,35 @@ void KeyboardComponent::ReleaseKey(int32 inKey)
         return;
     }
 
+    PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+    if (nullptr == playerState)
+    {
+        return;
+    }
+
+    bool result = false;
     switch (action.GetActionType())
     {
     case EBindActionType::Action_Unspecified:
         break;
     case EBindActionType::Action_Item:
-        ItemHandler::HandlePacket(mOwner, action.GetActionID(), false);
+        result = ItemHandler::HandlePacket(mOwner, action.GetActionID(), false);
         break;
     case EBindActionType::Action_Skill:
-        SkillHandler::HandlePacket(mOwner, action.GetActionID(), false);
+        result = SkillHandler::HandlePacket(mOwner, action.GetActionID(), false);
         break;
     default:
         break;
+    }
+
+    if (false == result)
+    {
+        Protocol::S2C_ResponseUseKeyAction responseUseKeyActionPacekt;
+        responseUseKeyActionPacekt.set_key_id(inKey);
+        responseUseKeyActionPacekt.set_error(static_cast<int32>(EDCommonErrorType::FAILURE));
+
+        SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, responseUseKeyActionPacekt);
+        playerState->Send(sendBuffer);
     }
 
 }

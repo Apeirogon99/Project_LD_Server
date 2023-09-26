@@ -304,12 +304,18 @@ extern S2C_ResponePartyDefaultTypeInternal _S2C_ResponeParty_default_instance_;
 class S2C_ResponseEnterDungeon;
 struct S2C_ResponseEnterDungeonDefaultTypeInternal;
 extern S2C_ResponseEnterDungeonDefaultTypeInternal _S2C_ResponseEnterDungeon_default_instance_;
+class S2C_ResponseUseKeyAction;
+struct S2C_ResponseUseKeyActionDefaultTypeInternal;
+extern S2C_ResponseUseKeyActionDefaultTypeInternal _S2C_ResponseUseKeyAction_default_instance_;
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
 class S2C_SetUseKeyAction;
 struct S2C_SetUseKeyActionDefaultTypeInternal;
 extern S2C_SetUseKeyActionDefaultTypeInternal _S2C_SetUseKeyAction_default_instance_;
+class S2C_SkillCoolTime;
+struct S2C_SkillCoolTimeDefaultTypeInternal;
+extern S2C_SkillCoolTimeDefaultTypeInternal _S2C_SkillCoolTime_default_instance_;
 class S2C_SkipSequence;
 struct S2C_SkipSequenceDefaultTypeInternal;
 extern S2C_SkipSequenceDefaultTypeInternal _S2C_SkipSequence_default_instance_;
@@ -417,8 +423,10 @@ template<> ::Protocol::S2C_RequestLeaveParty* Arena::CreateMaybeMessage<::Protoc
 template<> ::Protocol::S2C_RequestParty* Arena::CreateMaybeMessage<::Protocol::S2C_RequestParty>(Arena*);
 template<> ::Protocol::S2C_ResponeParty* Arena::CreateMaybeMessage<::Protocol::S2C_ResponeParty>(Arena*);
 template<> ::Protocol::S2C_ResponseEnterDungeon* Arena::CreateMaybeMessage<::Protocol::S2C_ResponseEnterDungeon>(Arena*);
+template<> ::Protocol::S2C_ResponseUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_ResponseUseKeyAction>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
 template<> ::Protocol::S2C_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_SetUseKeyAction>(Arena*);
+template<> ::Protocol::S2C_SkillCoolTime* Arena::CreateMaybeMessage<::Protocol::S2C_SkillCoolTime>(Arena*);
 template<> ::Protocol::S2C_SkipSequence* Arena::CreateMaybeMessage<::Protocol::S2C_SkipSequence>(Arena*);
 template<> ::Protocol::S2C_Teleport* Arena::CreateMaybeMessage<::Protocol::S2C_Teleport>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
@@ -13784,6 +13792,165 @@ class C2S_ReleaseUseKeyAction final :
 };
 // -------------------------------------------------------------------
 
+class S2C_ResponseUseKeyAction final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_ResponseUseKeyAction) */ {
+ public:
+  inline S2C_ResponseUseKeyAction() : S2C_ResponseUseKeyAction(nullptr) {}
+  ~S2C_ResponseUseKeyAction() override;
+  explicit PROTOBUF_CONSTEXPR S2C_ResponseUseKeyAction(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_ResponseUseKeyAction(const S2C_ResponseUseKeyAction& from);
+  S2C_ResponseUseKeyAction(S2C_ResponseUseKeyAction&& from) noexcept
+    : S2C_ResponseUseKeyAction() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_ResponseUseKeyAction& operator=(const S2C_ResponseUseKeyAction& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_ResponseUseKeyAction& operator=(S2C_ResponseUseKeyAction&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_ResponseUseKeyAction& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_ResponseUseKeyAction* internal_default_instance() {
+    return reinterpret_cast<const S2C_ResponseUseKeyAction*>(
+               &_S2C_ResponseUseKeyAction_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    76;
+
+  friend void swap(S2C_ResponseUseKeyAction& a, S2C_ResponseUseKeyAction& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_ResponseUseKeyAction* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_ResponseUseKeyAction* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_ResponseUseKeyAction* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_ResponseUseKeyAction>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_ResponseUseKeyAction& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_ResponseUseKeyAction& from) {
+    S2C_ResponseUseKeyAction::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_ResponseUseKeyAction* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_ResponseUseKeyAction";
+  }
+  protected:
+  explicit S2C_ResponseUseKeyAction(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kKeyIdFieldNumber = 1,
+    kErrorFieldNumber = 2,
+  };
+  // int32 key_id = 1;
+  void clear_key_id();
+  int32_t key_id() const;
+  void set_key_id(int32_t value);
+  private:
+  int32_t _internal_key_id() const;
+  void _internal_set_key_id(int32_t value);
+  public:
+
+  // int32 error = 2;
+  void clear_error();
+  int32_t error() const;
+  void set_error(int32_t value);
+  private:
+  int32_t _internal_error() const;
+  void _internal_set_error(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_ResponseUseKeyAction)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t key_id_;
+    int32_t error_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_AppearSkill final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_AppearSkill) */ {
  public:
@@ -13832,7 +13999,7 @@ class S2C_AppearSkill final :
                &_S2C_AppearSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    77;
 
   friend void swap(S2C_AppearSkill& a, S2C_AppearSkill& b) {
     a.Swap(&b);
@@ -14053,7 +14220,7 @@ class S2C_ReactionSkill final :
                &_S2C_ReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    78;
 
   friend void swap(S2C_ReactionSkill& a, S2C_ReactionSkill& b) {
     a.Swap(&b);
@@ -14274,7 +14441,7 @@ class S2C_EndReactionSkill final :
                &_S2C_EndReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    79;
 
   friend void swap(S2C_EndReactionSkill& a, S2C_EndReactionSkill& b) {
     a.Swap(&b);
@@ -14385,6 +14552,193 @@ class S2C_EndReactionSkill final :
 };
 // -------------------------------------------------------------------
 
+class S2C_SkillCoolTime final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_SkillCoolTime) */ {
+ public:
+  inline S2C_SkillCoolTime() : S2C_SkillCoolTime(nullptr) {}
+  ~S2C_SkillCoolTime() override;
+  explicit PROTOBUF_CONSTEXPR S2C_SkillCoolTime(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_SkillCoolTime(const S2C_SkillCoolTime& from);
+  S2C_SkillCoolTime(S2C_SkillCoolTime&& from) noexcept
+    : S2C_SkillCoolTime() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_SkillCoolTime& operator=(const S2C_SkillCoolTime& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_SkillCoolTime& operator=(S2C_SkillCoolTime&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_SkillCoolTime& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_SkillCoolTime* internal_default_instance() {
+    return reinterpret_cast<const S2C_SkillCoolTime*>(
+               &_S2C_SkillCoolTime_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    80;
+
+  friend void swap(S2C_SkillCoolTime& a, S2C_SkillCoolTime& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_SkillCoolTime* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_SkillCoolTime* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_SkillCoolTime* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_SkillCoolTime>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_SkillCoolTime& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_SkillCoolTime& from) {
+    S2C_SkillCoolTime::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_SkillCoolTime* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_SkillCoolTime";
+  }
+  protected:
+  explicit S2C_SkillCoolTime(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSkillIdFieldNumber = 1,
+    kSkillTimeFieldNumber = 2,
+  };
+  // repeated int32 skill_id = 1;
+  int skill_id_size() const;
+  private:
+  int _internal_skill_id_size() const;
+  public:
+  void clear_skill_id();
+  private:
+  int32_t _internal_skill_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_skill_id() const;
+  void _internal_add_skill_id(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_skill_id();
+  public:
+  int32_t skill_id(int index) const;
+  void set_skill_id(int index, int32_t value);
+  void add_skill_id(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      skill_id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_skill_id();
+
+  // repeated int64 skill_time = 2;
+  int skill_time_size() const;
+  private:
+  int _internal_skill_time_size() const;
+  public:
+  void clear_skill_time();
+  private:
+  int64_t _internal_skill_time(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+      _internal_skill_time() const;
+  void _internal_add_skill_time(int64_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+      _internal_mutable_skill_time();
+  public:
+  int64_t skill_time(int index) const;
+  void set_skill_time(int index, int64_t value);
+  void add_skill_time(int64_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+      skill_time() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+      mutable_skill_time();
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_SkillCoolTime)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > skill_id_;
+    mutable std::atomic<int> _skill_id_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > skill_time_;
+    mutable std::atomic<int> _skill_time_cached_byte_size_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_DebugBox final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DebugBox) */ {
  public:
@@ -14433,7 +14787,7 @@ class S2C_DebugBox final :
                &_S2C_DebugBox_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    81;
 
   friend void swap(S2C_DebugBox& a, S2C_DebugBox& b) {
     a.Swap(&b);
@@ -14661,7 +15015,7 @@ class S2C_DebugCircle final :
                &_S2C_DebugCircle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    82;
 
   friend void swap(S2C_DebugCircle& a, S2C_DebugCircle& b) {
     a.Swap(&b);
@@ -14840,7 +15194,7 @@ class C2S_RequestEnterDungeon final :
                &_C2S_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    83;
 
   friend void swap(C2S_RequestEnterDungeon& a, C2S_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -14988,7 +15342,7 @@ class S2C_RequestEnterDungeon final :
                &_S2C_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    84;
 
   friend void swap(S2C_RequestEnterDungeon& a, S2C_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -15136,7 +15490,7 @@ class S2C_ResponseEnterDungeon final :
                &_S2C_ResponseEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    85;
 
   friend void swap(S2C_ResponseEnterDungeon& a, S2C_ResponseEnterDungeon& b) {
     a.Swap(&b);
@@ -15311,7 +15665,7 @@ class C2S_CompleteLoadDungeon final :
                &_C2S_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    86;
 
   friend void swap(C2S_CompleteLoadDungeon& a, C2S_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -15459,7 +15813,7 @@ class S2C_WaitingLoadDungeon final :
                &_S2C_WaitingLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    87;
 
   friend void swap(S2C_WaitingLoadDungeon& a, S2C_WaitingLoadDungeon& b) {
     a.Swap(&b);
@@ -15617,7 +15971,7 @@ class S2C_CompleteLoadDungeon final :
                &_S2C_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    88;
 
   friend void swap(S2C_CompleteLoadDungeon& a, S2C_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -15736,7 +16090,7 @@ class S2C_EnterPortal final :
                &_S2C_EnterPortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    89;
 
   friend void swap(S2C_EnterPortal& a, S2C_EnterPortal& b) {
     a.Swap(&b);
@@ -15899,7 +16253,7 @@ class S2C_LeavePortal final :
                &_S2C_LeavePortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    90;
 
   friend void swap(S2C_LeavePortal& a, S2C_LeavePortal& b) {
     a.Swap(&b);
@@ -16018,7 +16372,7 @@ class S2C_PlaySequence final :
                &_S2C_PlaySequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    91;
 
   friend void swap(S2C_PlaySequence& a, S2C_PlaySequence& b) {
     a.Swap(&b);
@@ -16177,7 +16531,7 @@ class C2S_SkipSequence final :
                &_C2S_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    92;
 
   friend void swap(C2S_SkipSequence& a, C2S_SkipSequence& b) {
     a.Swap(&b);
@@ -16325,7 +16679,7 @@ class S2C_SkipSequence final :
                &_S2C_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    93;
 
   friend void swap(S2C_SkipSequence& a, S2C_SkipSequence& b) {
     a.Swap(&b);
@@ -16483,7 +16837,7 @@ class S2C_EndSequence final :
                &_S2C_EndSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    94;
 
   friend void swap(S2C_EndSequence& a, S2C_EndSequence& b) {
     a.Swap(&b);
@@ -24572,6 +24926,50 @@ inline void C2S_ReleaseUseKeyAction::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// S2C_ResponseUseKeyAction
+
+// int32 key_id = 1;
+inline void S2C_ResponseUseKeyAction::clear_key_id() {
+  _impl_.key_id_ = 0;
+}
+inline int32_t S2C_ResponseUseKeyAction::_internal_key_id() const {
+  return _impl_.key_id_;
+}
+inline int32_t S2C_ResponseUseKeyAction::key_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ResponseUseKeyAction.key_id)
+  return _internal_key_id();
+}
+inline void S2C_ResponseUseKeyAction::_internal_set_key_id(int32_t value) {
+  
+  _impl_.key_id_ = value;
+}
+inline void S2C_ResponseUseKeyAction::set_key_id(int32_t value) {
+  _internal_set_key_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ResponseUseKeyAction.key_id)
+}
+
+// int32 error = 2;
+inline void S2C_ResponseUseKeyAction::clear_error() {
+  _impl_.error_ = 0;
+}
+inline int32_t S2C_ResponseUseKeyAction::_internal_error() const {
+  return _impl_.error_;
+}
+inline int32_t S2C_ResponseUseKeyAction::error() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_ResponseUseKeyAction.error)
+  return _internal_error();
+}
+inline void S2C_ResponseUseKeyAction::_internal_set_error(int32_t value) {
+  
+  _impl_.error_ = value;
+}
+inline void S2C_ResponseUseKeyAction::set_error(int32_t value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_ResponseUseKeyAction.error)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_AppearSkill
 
 // int64 remote_id = 1;
@@ -25120,6 +25518,104 @@ inline void S2C_EndReactionSkill::_internal_set_timestamp(int64_t value) {
 inline void S2C_EndReactionSkill::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_EndReactionSkill.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_SkillCoolTime
+
+// repeated int32 skill_id = 1;
+inline int S2C_SkillCoolTime::_internal_skill_id_size() const {
+  return _impl_.skill_id_.size();
+}
+inline int S2C_SkillCoolTime::skill_id_size() const {
+  return _internal_skill_id_size();
+}
+inline void S2C_SkillCoolTime::clear_skill_id() {
+  _impl_.skill_id_.Clear();
+}
+inline int32_t S2C_SkillCoolTime::_internal_skill_id(int index) const {
+  return _impl_.skill_id_.Get(index);
+}
+inline int32_t S2C_SkillCoolTime::skill_id(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_SkillCoolTime.skill_id)
+  return _internal_skill_id(index);
+}
+inline void S2C_SkillCoolTime::set_skill_id(int index, int32_t value) {
+  _impl_.skill_id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_SkillCoolTime.skill_id)
+}
+inline void S2C_SkillCoolTime::_internal_add_skill_id(int32_t value) {
+  _impl_.skill_id_.Add(value);
+}
+inline void S2C_SkillCoolTime::add_skill_id(int32_t value) {
+  _internal_add_skill_id(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_SkillCoolTime.skill_id)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_SkillCoolTime::_internal_skill_id() const {
+  return _impl_.skill_id_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S2C_SkillCoolTime::skill_id() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_SkillCoolTime.skill_id)
+  return _internal_skill_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_SkillCoolTime::_internal_mutable_skill_id() {
+  return &_impl_.skill_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S2C_SkillCoolTime::mutable_skill_id() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_SkillCoolTime.skill_id)
+  return _internal_mutable_skill_id();
+}
+
+// repeated int64 skill_time = 2;
+inline int S2C_SkillCoolTime::_internal_skill_time_size() const {
+  return _impl_.skill_time_.size();
+}
+inline int S2C_SkillCoolTime::skill_time_size() const {
+  return _internal_skill_time_size();
+}
+inline void S2C_SkillCoolTime::clear_skill_time() {
+  _impl_.skill_time_.Clear();
+}
+inline int64_t S2C_SkillCoolTime::_internal_skill_time(int index) const {
+  return _impl_.skill_time_.Get(index);
+}
+inline int64_t S2C_SkillCoolTime::skill_time(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_SkillCoolTime.skill_time)
+  return _internal_skill_time(index);
+}
+inline void S2C_SkillCoolTime::set_skill_time(int index, int64_t value) {
+  _impl_.skill_time_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_SkillCoolTime.skill_time)
+}
+inline void S2C_SkillCoolTime::_internal_add_skill_time(int64_t value) {
+  _impl_.skill_time_.Add(value);
+}
+inline void S2C_SkillCoolTime::add_skill_time(int64_t value) {
+  _internal_add_skill_time(value);
+  // @@protoc_insertion_point(field_add:Protocol.S2C_SkillCoolTime.skill_time)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+S2C_SkillCoolTime::_internal_skill_time() const {
+  return _impl_.skill_time_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
+S2C_SkillCoolTime::skill_time() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_SkillCoolTime.skill_time)
+  return _internal_skill_time();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+S2C_SkillCoolTime::_internal_mutable_skill_time() {
+  return &_impl_.skill_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
+S2C_SkillCoolTime::mutable_skill_time() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_SkillCoolTime.skill_time)
+  return _internal_mutable_skill_time();
 }
 
 // -------------------------------------------------------------------
@@ -26026,6 +26522,10 @@ inline void S2C_SkipSequence::set_least_number(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

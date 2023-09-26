@@ -79,23 +79,25 @@ enum class EPakcetID: uint16
 	S2C_SetUseKeyAction = 2073,
 	C2S_PressedUseKeyAction = 2074,
 	C2S_ReleaseUseKeyAction = 2075,
-	S2C_AppearSkill = 2076,
-	S2C_ReactionSkill = 2077,
-	S2C_EndReactionSkill = 2078,
-	S2C_DebugBox = 2079,
-	S2C_DebugCircle = 2080,
-	C2S_RequestEnterDungeon = 2081,
-	S2C_RequestEnterDungeon = 2082,
-	S2C_ResponseEnterDungeon = 2083,
-	C2S_CompleteLoadDungeon = 2084,
-	S2C_WaitingLoadDungeon = 2085,
-	S2C_CompleteLoadDungeon = 2086,
-	S2C_EnterPortal = 2087,
-	S2C_LeavePortal = 2088,
-	S2C_PlaySequence = 2089,
-	C2S_SkipSequence = 2090,
-	S2C_SkipSequence = 2091,
-	S2C_EndSequence = 2092,
+	S2C_ResponseUseKeyAction = 2076,
+	S2C_AppearSkill = 2077,
+	S2C_ReactionSkill = 2078,
+	S2C_EndReactionSkill = 2079,
+	S2C_SkillCoolTime = 2080,
+	S2C_DebugBox = 2081,
+	S2C_DebugCircle = 2082,
+	C2S_RequestEnterDungeon = 2083,
+	S2C_RequestEnterDungeon = 2084,
+	S2C_ResponseEnterDungeon = 2085,
+	C2S_CompleteLoadDungeon = 2086,
+	S2C_WaitingLoadDungeon = 2087,
+	S2C_CompleteLoadDungeon = 2088,
+	S2C_EnterPortal = 2089,
+	S2C_LeavePortal = 2090,
+	S2C_PlaySequence = 2091,
+	C2S_SkipSequence = 2092,
+	S2C_SkipSequence = 2093,
+	S2C_EndSequence = 2094,
 };
 */
 
@@ -214,9 +216,11 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LoadSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LoadSkillTree)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_UpdateSkillTree& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_UpdateSkillTree)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SetUseKeyAction& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SetUseKeyAction)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ResponseUseKeyAction& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ResponseUseKeyAction)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_AppearSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_AppearSkill)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReactionSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReactionSkill)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EndReactionSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EndReactionSkill)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SkillCoolTime& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SkillCoolTime)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugBox& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugBox)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugCircle& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugCircle)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestEnterDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestEnterDungeon)); }

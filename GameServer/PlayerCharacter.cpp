@@ -13,6 +13,12 @@ PlayerCharacter::~PlayerCharacter()
 
 void PlayerCharacter::OnInitialization()
 {
+	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
 	SetTick(true, SYSTEM_TICK);
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
@@ -20,6 +26,7 @@ void PlayerCharacter::OnInitialization()
 	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	this->mStatComponent.SetSyncTime(GAME_TICK);
+	this->mSkillComponent.Init(owner, SECOND_TICK);
 
 	AttackInfos infos;
 	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 150.0f, 100.0f)));
@@ -37,6 +44,9 @@ void PlayerCharacter::OnInitialization()
 	this->mSkillComponent.PushSkill(3);
 	this->mSkillComponent.PushSkill(4);
 	this->mSkillComponent.PushSkill(5);
+
+	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
+	this->SetVelocity(340.0f, 340.0f, 340.0f);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -50,9 +60,6 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	{
 		return;
 	}
-
-	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
-	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
 	const float debugDuration = 0.02f;
 	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), 42.0f, debugDuration);

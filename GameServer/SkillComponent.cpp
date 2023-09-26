@@ -1,12 +1,19 @@
 #include "pch.h"
 #include "SkillComponent.h"
 
-SkillComponent::SkillComponent()
+SkillComponent::SkillComponent() : mMaxSyncTime(0), mCurSyncTime(0)
 {
 }
 
 SkillComponent::~SkillComponent()
 {
+}
+
+void SkillComponent::Init(GameRemotePlayerRef inOwner, int64 inUpdateTime)
+{
+	mOwner = inOwner;
+	mMaxSyncTime = inUpdateTime;
+	mCurSyncTime = 0;
 }
 
 void SkillComponent::PushSkill(const int32& inSkillID)
@@ -21,12 +28,20 @@ void SkillComponent::ReleaseSkill(const int32& inSkillID)
 
 void SkillComponent::UpdateSkillCoolTime(const int64& inDeltaTime)
 {
+	Protocol::S2C_SkillCoolTime skillCoolTimePacket;
+
+	mCurSyncTime += inDeltaTime;
+	if (mMaxSyncTime >= mCurSyncTime)
+	{
+		return;
+	}
+
 	for (auto useSkill = mUseSkills.begin(); useSkill != mUseSkills.end();)
 	{
 		auto findSkill = mSkills.find(*useSkill);
 		if (findSkill != mSkills.end())
 		{
-			findSkill->second -= inDeltaTime;
+			findSkill->second -= mCurSyncTime;
 			if (findSkill->second <= 0)
 			{
 				mUseSkills.erase(useSkill++);
@@ -35,7 +50,34 @@ void SkillComponent::UpdateSkillCoolTime(const int64& inDeltaTime)
 			{
 				++useSkill;
 			}
+
+			skillCoolTimePacket.add_skill_id(findSkill->first);
+			skillCoolTimePacket.add_skill_time(findSkill->second);
 		}
+		else
+		{
+			++useSkill;
+		}
+	}
+
+	mCurSyncTime = 0;
+
+	if (skillCoolTimePacket.skill_id_size())
+	{
+		GameRemotePlayerPtr owner = mOwner.lock();
+		if (nullptr == owner)
+		{
+			return;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+		if (nullptr == playerState)
+		{
+			return;
+		}
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, skillCoolTimePacket);
+		playerState->Send(sendBuffer);
 	}
 }
 

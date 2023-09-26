@@ -65,7 +65,7 @@ void EnemySpawner::SetEnemySpawner(const GameObjectRef& inOwner, const FVector& 
 	mCurEnemyCount	= 0;
 
 	mEnemyID		= inEnemyID;
-	mEnemyStats		= data->GetEnemyStat(inEnemyID);
+	mEnemyStats		= data->GetEnemyStat(inEnemyID - 1);
 	mSpawnRange		= inSpawnRange;
 	mMaxChaseRange	= inMaxChaseRange;
 	mMaxSearchRange = inSearchRange;

@@ -194,12 +194,9 @@ void EnemyRichPhase1::OnInitialization()
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (datas)
-	{
-		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Lich_Phase1)));
-	}
+
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
+	
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
@@ -540,12 +537,9 @@ void EnemyRichPhase2::OnInitialization()
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (datas)
-	{
-		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Lich_Phase2)));
-	}
+
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
+	
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
@@ -811,12 +805,7 @@ void EnemyRichPhase3::OnInitialization()
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (datas)
-	{
-		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Lich_Phase3)));
-	}
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
 	BoxCollisionComponent* collision = this->GetCapsuleCollisionComponent();
 	collision->SetOwner(this->GetActorRef());

@@ -41,12 +41,7 @@ void EnemyDarkKnight::OnInitialization()
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Dark_Knight));
 	this->SetAggressive(true);
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (datas)
-	{
-		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Dark_Knight)));
-	}
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Search);

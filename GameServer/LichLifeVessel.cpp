@@ -21,12 +21,7 @@ void LichLifeVessel::OnInitialization()
 
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Lich_Life_Vessle));
 
-	GameDatasPtr datas = std::static_pointer_cast<GameDatas>(world->GetDatas());
-	if (datas)
-	{
-		this->mStatsComponent.SetSyncTime(GAME_TICK);
-		this->mStatsComponent.InitMaxStats(datas->GetEnemyStat(static_cast<int32>(EnemyID::Enemy_Lich_Life_Vessle)));
-	}
+	this->mStatsComponent.SetSyncTime(GAME_TICK);
 
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);

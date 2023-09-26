@@ -269,9 +269,11 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		this->SetAggroActor(inInstigated);
 	}
 
-	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage;
+	const float curArmor	= this->mStatsComponent.GetCurrentStats().GetArmor();
+	const float era = curArmor / (curArmor + 100.0f);
+
+	const float curHealth	= this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage * (1.0f - era);
 	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
-	
 	if (curHealth <= 0.0f)
 	{
 		this->mStateManager.SetState(EStateType::State_Death);

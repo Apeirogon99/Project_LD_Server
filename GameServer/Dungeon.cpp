@@ -279,7 +279,7 @@ void Dungeon::CreateBossStage()
 	newTrap->SetMaxOverlap(this->mMaxPlayers);
 	newTrap->SetOverlapType(EActorType::Player);
 	newTrap->SetBoxTriggerExtent(FVector(1000.0f, 1000.0f, 500.0f));
-	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 2, 10000);
+	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 3, 10000);
 
 }
 

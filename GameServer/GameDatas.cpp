@@ -92,22 +92,21 @@ void GameDatas::LoadStatsDatas(std::vector<Stats>& outDatas, EGameDataType inDat
     CSVDatas datas;
     GetData(datas, static_cast<uint8>(inDataType));
 
-    const size_t datasSize = datas.size() - 1;
+    const size_t datasSize = datas.size() - 2;
 
     outDatas.resize(datasSize);
-    for (int32 dataIndex = 0; dataIndex < datasSize; ++dataIndex)
+    for (int32 dataIndex = 1; dataIndex < datasSize; ++dataIndex)
     {
-
         Stats tempStat;
 
         CSVRow row = datas.at(dataIndex);
-        for (int32 rowIndex = 0; rowIndex < row.size(); ++rowIndex)
+        for (int32 rowIndex = 2; rowIndex < row.size(); ++rowIndex)
         {
             float rowFValue = stof(row.at(rowIndex));
-            tempStat.SetStats(rowIndex, rowFValue);
+            tempStat.SetStats(rowIndex - 2, rowFValue);
         }
 
-        outDatas[dataIndex] = tempStat;
+        outDatas[dataIndex - 1] = tempStat;
     }
 }
 

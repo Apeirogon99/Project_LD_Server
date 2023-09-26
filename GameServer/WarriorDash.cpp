@@ -119,7 +119,6 @@ void WarriorDash::Active()
     const float debugDuration = 1.0f;
     float distance = FVector::Distance2D(instigated->GetLocation(), destinationLocation) / 2.0f;
     PacketUtils::DebugDrawBox(this->GetPlayerViewers(), instigated->GetLocation(), destinationLocation, FVector(distance, 1.0f, 1.0f), debugDuration);
-    PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), (instigated->GetLocation() + destinationLocation) / 2.0f, distance, debugDuration);
 
 
     instigated->GetMovementComponent().SetNewDestination(instigated->GetActorPtr(), instigated->GetLocation(), destinationLocation, worldTime, 0.0f);
@@ -136,12 +135,10 @@ void WarriorDash::Active()
     reactionSkill.set_skill_id(this->GetSkillID());
     reactionSkill.mutable_location()->CopyFrom(PacketUtils::ToSVector(destinationLocation));
     reactionSkill.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
-    reactionSkill.set_duration(worldTime);
+    reactionSkill.set_duration(iTime);
 
     SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
     this->BrodcastPlayerViewers(sendBuffer);
-
-    this->EndCastingSkill();
 }
 
 void WarriorDash::SetWarriorDash(float inDistance, float inSpeed)
@@ -174,5 +171,7 @@ void WarriorDash::SetWarriorDash(float inDistance, float inSpeed)
     mDashSpeed = inSpeed - playerStats.GetCurrentStats().GetMovementSpeed();
 
     playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
+    instigated->SetVelocity(mInitDashSpeed, mInitDashSpeed, mInitDashSpeed);
+
     instigated->DetectChangePlayer();
 }

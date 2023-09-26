@@ -19,7 +19,7 @@ void RealmOfDeath::OnInitialization()
 	}
 	const int64& worldTime = world->GetNextWorldTime();
 
-	this->SetTick(true, SECOND);
+	this->SetTick(true, SECOND_TICK);
 
 	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());

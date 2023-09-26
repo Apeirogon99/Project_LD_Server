@@ -35,10 +35,9 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
     {
         printf("Can't Use Skill_Warrior_Buff\n");
-        return true;
+        return false;
     }
-    //character->GetMovementComponent().SetRestrictMovement(true);
-    
+
     ActorPtr newActor = world->SpawnActor<WarriorBuff>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
     {
@@ -88,7 +87,7 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying)))
     {
         printf("Can't Use Skill_Warrior_Parrying\n");
-        return true;
+        return false;
     }
     printf("Use Skill_Warrior_Parrying\n");
 
@@ -141,7 +140,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash)))
     {
         printf("Can't Use Skill_Warrior_ShieldBash\n");
-        return true;
+        return false;
     }
     printf("Use Skill_Warrior_ShieldBash\n");
 
@@ -193,7 +192,7 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow)))
         {
             printf("Can't Use pressed Skill_Warrior_SwordBlow\n");
-            return true;
+            return false;
         }
         printf("Use pressed Skill_Warrior_SwordBlow\n");
 
@@ -230,7 +229,7 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow)))
         {
             printf("Can't Use release Skill_Warrior_SwordBlow\n");
-            return true;
+            return false;
         }
         printf("Use release Skill_Warrior_SwordBlow\n");
 
@@ -249,6 +248,7 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
 
 bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed)
 {
+
     if (false == inIsPressed)
     {
         return true;
@@ -275,7 +275,7 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash)))
     {
         printf("Can't Use Skill_Warrior_Dash\n");
-        return true;
+        return false;
     }
     printf("Use Skill_Warrior_Dash\n");
 
