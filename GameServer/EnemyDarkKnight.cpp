@@ -201,8 +201,8 @@ bool EnemyDarkKnight::BerserkPhase()
 	}
 	const int64 worldTime = world->GetWorldTime();
 
-	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_AttackDamage, 100.0f);
-	this->mBuffComponent.PushBuff(this->mStatsComponent, EStatType::Stat_Armor, -30.0f);
+	this->mBuffComponent.PushBuff(this->mStatsComponent, EBuffType::Buff_Berserk_AttackDamage, EStatType::Stat_AttackDamage, 100.0f);
+	this->mBuffComponent.PushBuff(this->mStatsComponent, EBuffType::DeBuff_Berserk_Armor, EStatType::Stat_Armor, -30.0f);
 	this->DetectChangeEnemy();
 
 	Protocol::S2C_AppearSkill appearSkillPacket;

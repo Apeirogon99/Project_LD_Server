@@ -60,7 +60,7 @@ void SoulShackles::OnDestroy()
 
 			StatsComponent& playerStats = playerCharacter->GetStatComponent();
 			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+			playerbuff.ReleaseBuff(playerStats, EBuffType::DeBuff_ShoulShackles, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 		}
 	}
 
@@ -310,7 +310,7 @@ void SoulShackles::CheackCollision()
 
 			StatsComponent& playerStats = player->GetStatComponent();
 			BuffComponent& playerbuff = player->GetBuffComponent();
-			playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+			playerbuff.PushBuff(playerStats, EBuffType::DeBuff_ShoulShackles, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 
 		}
 		else
@@ -335,7 +335,7 @@ void SoulShackles::CheackCollision()
 
 				StatsComponent& playerStats = playerCharacter->GetStatComponent();
 				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+				playerbuff.ReleaseBuff(playerStats, EBuffType::DeBuff_ShoulShackles, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 
 			}
 

@@ -12,15 +12,19 @@ public:
 	BuffComponent& operator=(BuffComponent&&) noexcept = delete;
 
 public:
+	void Init(GameRemotePlayerRef inOwner);
+
+public:
 	void ReapplyBuff(StatsComponent& inStatsComponent);
-	void PushBuff(StatsComponent& inStatsComponent, const EStatType& inStatType, const float& inValue);
-	void ReleaseBuff(StatsComponent& inStatsComponent, const EStatType& inStatType, const float& inValue);
+	void PushBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue);
+	void ReleaseBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue);
 
 public:
 
 
 private:
-	bool mIsChanage;
-	std::map<EStatType, float> mBuffs;
+	bool						mIsChanage;
+	GameRemotePlayerRef			mOwner;
+	std::map<EStatType, float>	mBuffs;
 };
 

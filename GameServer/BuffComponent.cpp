@@ -9,6 +9,11 @@ BuffComponent::~BuffComponent()
 {
 }
 
+void BuffComponent::Init(GameRemotePlayerRef inOwner)
+{
+	mOwner = inOwner;
+}
+
 void BuffComponent::ReapplyBuff(StatsComponent& inStatsComponent)
 {
 	for (auto buff : mBuffs)
@@ -18,7 +23,7 @@ void BuffComponent::ReapplyBuff(StatsComponent& inStatsComponent)
 	}
 }
 
-void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EStatType& inStatType, const float& inValue)
+void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue)
 {
 	auto findBuff = mBuffs.find(inStatType);
 	if (findBuff == mBuffs.end())
@@ -35,9 +40,29 @@ void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EStatType& 
 	inStatsComponent.UpdateCurrentStat(inStatType, value + inValue);
 
 	mIsChanage = true;
+
+	{
+		GameRemotePlayerPtr owner = mOwner.lock();
+		if (nullptr == owner)
+		{
+			return;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+		if (nullptr == playerState)
+		{
+			return;
+		}
+
+		Protocol::S2C_PushBuff pushBuffPacket;
+		pushBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, pushBuffPacket);
+		playerState->Send(sendBuffer);
+	}
 }
 
-void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EStatType& inStatType, const float& inValue)
+void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue)
 {
 	auto findBuff = mBuffs.find(inStatType);
 	if (findBuff == mBuffs.end())
@@ -56,4 +81,24 @@ void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EStatTyp
 	}
 
 	mIsChanage = true;
+
+	{
+		GameRemotePlayerPtr owner = mOwner.lock();
+		if (nullptr == owner)
+		{
+			return;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+		if (nullptr == playerState)
+		{
+			return;
+		}
+
+		Protocol::S2C_ReleaseBuff releaseBuffPacket;
+		releaseBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, releaseBuffPacket);
+		playerState->Send(sendBuffer);
+	}
 }

@@ -27,7 +27,7 @@ public:
 
 	virtual void OnReward() abstract;
 
-	virtual void OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush);
+	virtual void OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush);
 
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) {}

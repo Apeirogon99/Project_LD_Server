@@ -571,6 +571,18 @@ void PlayerCharacter::OnAutoAttackOver()
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
+void PlayerCharacter::OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush)
+{
+	if (inIsPush)
+	{
+		this->mBuffComponent.PushBuff(this->mStatComponent, inBuffType, inStatType, inValue);
+	}
+	else
+	{
+		this->mBuffComponent.ReleaseBuff(this->mStatComponent, inBuffType, inStatType, inValue);
+	}
+}
+
 void PlayerCharacter::SetCharacterID(const int32& inCharacterID)
 {
 	mCharacterID = inCharacterID;

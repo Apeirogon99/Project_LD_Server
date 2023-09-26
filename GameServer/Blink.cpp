@@ -427,7 +427,7 @@ void BlinkSturn::SturnBeign(PlayerCharacterPtr inPlayer, float inMovementSpeed)
 	{
 		StatsComponent& playerStats = inPlayer->GetStatComponent();
 		BuffComponent& playerbuff = inPlayer->GetBuffComponent();
-		playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, -inMovementSpeed);
+		playerbuff.PushBuff(playerStats, EBuffType::DeBuff_BlinkSturn, EStatType::Stat_MovementSpeed, -inMovementSpeed);
 
 		this->PushTask(worldTime + 2000, &BlinkSturn::SturnEnd, inPlayer, inMovementSpeed);
 	}
@@ -439,6 +439,6 @@ void BlinkSturn::SturnEnd(PlayerCharacterPtr inPlayer, float inMovementSpeed)
 	{
 		StatsComponent& playerStats = inPlayer->GetStatComponent();
 		BuffComponent& playerbuff = inPlayer->GetBuffComponent();
-		playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, -inMovementSpeed);
+		playerbuff.ReleaseBuff(playerStats, EBuffType::DeBuff_BlinkSturn, EStatType::Stat_MovementSpeed, -inMovementSpeed);
 	}
 }

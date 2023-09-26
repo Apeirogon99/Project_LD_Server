@@ -37,7 +37,7 @@ void WarriorDash::OnDestroy()
 
     StatsComponent& playerStats = instigated->GetStatComponent();
     BuffComponent& playerbuff = instigated->GetBuffComponent();
-    playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
+    playerbuff.ReleaseBuff(playerStats, EBuffType::Buff_Dash, EStatType::Stat_MovementSpeed, mDashSpeed);
     instigated->DetectChangePlayer();
 
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
@@ -170,7 +170,7 @@ void WarriorDash::SetWarriorDash(float inDistance, float inSpeed)
 
     mDashSpeed = inSpeed - playerStats.GetCurrentStats().GetMovementSpeed();
 
-    playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, mDashSpeed);
+    playerbuff.PushBuff(playerStats, EBuffType::Buff_Dash, EStatType::Stat_MovementSpeed, mDashSpeed);
     instigated->SetVelocity(mInitDashSpeed, mInitDashSpeed, mInitDashSpeed);
 
     instigated->DetectChangePlayer();

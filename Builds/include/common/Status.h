@@ -29,6 +29,22 @@ enum class EStatType
 	Stat_Range,					//공격 범위
 };
 
+enum class EBuffType
+{
+	Buff_Unspecified,			//존재하지 않음
+	DeBuff_BlinkSturn,
+	Buff_Berserk_AttackDamage,
+	DeBuff_Berserk_Armor,
+	DeBuff_ShoulShackles,
+	DeBuff_RealmOfDeath,
+	Buff_Warrior_AttackDamage,
+	Buff_Warrior_Armor,
+	Buff_Warrior_MovementSpeed,
+	Buff_Dash,
+	DeBuff_WarriorShiedBash,
+	DeBuff_OnslaughtOfShadows,
+};
+
 class Stats
 {
 public:

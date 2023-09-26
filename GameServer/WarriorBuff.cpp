@@ -53,9 +53,9 @@ void WarriorBuff::OnDestroy()
 
 			StatsComponent& playerStats = playerCharacter->GetStatComponent();
 			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+			playerbuff.ReleaseBuff(playerStats,  EBuffType::Buff_Warrior_AttackDamage,	EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+			playerbuff.ReleaseBuff(playerStats,  EBuffType::Buff_Warrior_Armor,			EStatType::Stat_Armor, stat.GetArmor());
+			playerbuff.ReleaseBuff(playerStats,  EBuffType::Buff_Warrior_MovementSpeed,	EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 		}
 	}
 
@@ -159,9 +159,9 @@ void WarriorBuff::Active()
 
 					StatsComponent& playerStats = overlapPlayer->GetStatComponent();
 					BuffComponent& playerbuff = overlapPlayer->GetBuffComponent();
-					playerbuff.PushBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
-					playerbuff.PushBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
-					playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+					playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_AttackDamage,	EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+					playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_Armor,			EStatType::Stat_Armor, stat.GetArmor());
+					playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_MovementSpeed,	EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 				}
 			}
 			else
@@ -187,9 +187,9 @@ void WarriorBuff::Active()
 
 				StatsComponent& playerStats = overlapPlayer->GetStatComponent();
 				BuffComponent& playerbuff = overlapPlayer->GetBuffComponent();
-				playerbuff.PushBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
-				playerbuff.PushBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
-				playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+				playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_AttackDamage,	EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+				playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_Armor,			EStatType::Stat_Armor, stat.GetArmor());
+				playerbuff.PushBuff(playerStats, EBuffType::Buff_Warrior_MovementSpeed,	EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 			}
 			else
 			{
@@ -214,9 +214,9 @@ void WarriorBuff::Active()
 
 				StatsComponent& playerStats = playerCharacter->GetStatComponent();
 				BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_AttackDamage, stat.GetAttackDamage());
-				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_Armor, stat.GetArmor());
-				playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+				playerbuff.ReleaseBuff(playerStats, EBuffType::Buff_Warrior_AttackDamage,	EStatType::Stat_AttackDamage, stat.GetAttackDamage());
+				playerbuff.ReleaseBuff(playerStats, EBuffType::Buff_Warrior_Armor,			EStatType::Stat_Armor, stat.GetArmor());
+				playerbuff.ReleaseBuff(playerStats, EBuffType::Buff_Warrior_MovementSpeed,	EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 			}
 
 			mOverlapPlayer.erase(player++);

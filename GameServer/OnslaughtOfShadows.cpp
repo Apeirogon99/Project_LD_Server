@@ -354,6 +354,18 @@ void OnslaughtOfShadows::CheackCollision()
 
 		mOverlapGameObjectID.insert(gameObjectID);
 		actor->PushTask(worldTime, &Actor::OnHit, owner, this->GetDamage());
+
+		PlayerCharacterPtr overlapCharacter = std::static_pointer_cast<PlayerCharacter>(actor);
+		if (nullptr == overlapCharacter)
+		{
+			return;
+		}
+
+		StatsComponent& playerStats = overlapCharacter->GetStatComponent();
+		BuffComponent& playerbuff = overlapCharacter->GetBuffComponent();
+
+		overlapCharacter->PushTask(worldTime + 0, &PlayerCharacter::OnBuffChanage, EBuffType::DeBuff_OnslaughtOfShadows, EStatType::Stat_Range, 0.0f, true);
+		overlapCharacter->PushTask(worldTime + 2000, &PlayerCharacter::OnBuffChanage, EBuffType::DeBuff_OnslaughtOfShadows, EStatType::Stat_Range, 0.0f, false);
 	}
 
 }

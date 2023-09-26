@@ -84,20 +84,22 @@ enum class EPakcetID: uint16
 	S2C_ReactionSkill = 2078,
 	S2C_EndReactionSkill = 2079,
 	S2C_SkillCoolTime = 2080,
-	S2C_DebugBox = 2081,
-	S2C_DebugCircle = 2082,
-	C2S_RequestEnterDungeon = 2083,
-	S2C_RequestEnterDungeon = 2084,
-	S2C_ResponseEnterDungeon = 2085,
-	C2S_CompleteLoadDungeon = 2086,
-	S2C_WaitingLoadDungeon = 2087,
-	S2C_CompleteLoadDungeon = 2088,
-	S2C_EnterPortal = 2089,
-	S2C_LeavePortal = 2090,
-	S2C_PlaySequence = 2091,
-	C2S_SkipSequence = 2092,
-	S2C_SkipSequence = 2093,
-	S2C_EndSequence = 2094,
+	S2C_PushBuff = 2081,
+	S2C_ReleaseBuff = 2082,
+	S2C_DebugBox = 2083,
+	S2C_DebugCircle = 2084,
+	C2S_RequestEnterDungeon = 2085,
+	S2C_RequestEnterDungeon = 2086,
+	S2C_ResponseEnterDungeon = 2087,
+	C2S_CompleteLoadDungeon = 2088,
+	S2C_WaitingLoadDungeon = 2089,
+	S2C_CompleteLoadDungeon = 2090,
+	S2C_EnterPortal = 2091,
+	S2C_LeavePortal = 2092,
+	S2C_PlaySequence = 2093,
+	C2S_SkipSequence = 2094,
+	S2C_SkipSequence = 2095,
+	S2C_EndSequence = 2096,
 };
 */
 
@@ -221,6 +223,8 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReactionSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReactionSkill)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EndReactionSkill& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EndReactionSkill)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SkillCoolTime& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SkillCoolTime)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_PushBuff& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_PushBuff)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ReleaseBuff& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ReleaseBuff)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugBox& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugBox)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_DebugCircle& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_DebugCircle)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_RequestEnterDungeon& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_RequestEnterDungeon)); }

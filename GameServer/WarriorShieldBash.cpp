@@ -142,8 +142,8 @@ void WarriorShieldBash::SkillActive()
         }
         else if (distance2D <= mSlowRadius)
         {
-            enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
-            enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EStatType::Stat_MovementSpeed, mDebuffMovement, false);
+            enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
+            enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, false);
         }
 
         enemy->PushTask(worldTime, &Actor::OnHit, instigated->GetActorPtr(), distanceDamage);

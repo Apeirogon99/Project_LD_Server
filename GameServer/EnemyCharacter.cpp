@@ -309,15 +309,15 @@ void EnemyCharacter::OnDeath()
 	spawner->NotifyDestroyEnemy(gameObjectID);
 }
 
-void EnemyCharacter::OnBuffChanage(const EStatType inStatType, const float inValue, bool inIsPush)
+void EnemyCharacter::OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush)
 {
 	if (inIsPush)
 	{
-		this->mBuffComponent.PushBuff(this->mStatsComponent, inStatType, inValue);
+		this->mBuffComponent.PushBuff(this->mStatsComponent, inBuffType, inStatType, inValue);
 	}
 	else
 	{
-		this->mBuffComponent.ReleaseBuff(this->mStatsComponent, inStatType, inValue);
+		this->mBuffComponent.ReleaseBuff(this->mStatsComponent, inBuffType, inStatType, inValue);
 	}
 
 }

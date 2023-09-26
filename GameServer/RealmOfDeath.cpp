@@ -59,7 +59,7 @@ void RealmOfDeath::OnDestroy()
 
 			StatsComponent& playerStats = playerCharacter->GetStatComponent();
 			BuffComponent& playerbuff = playerCharacter->GetBuffComponent();
-			playerbuff.ReleaseBuff(playerStats, EStatType::Stat_MovementSpeed, player->second);
+			playerbuff.ReleaseBuff(playerStats, EBuffType::DeBuff_RealmOfDeath, EStatType::Stat_MovementSpeed, player->second);
 		}
 	}
 
@@ -284,7 +284,7 @@ void RealmOfDeath::CheackCollision()
 
 		StatsComponent& playerStats = player->GetStatComponent();
 		BuffComponent& playerbuff = player->GetBuffComponent();
-		playerbuff.PushBuff(playerStats, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
+		playerbuff.PushBuff(playerStats, EBuffType::DeBuff_RealmOfDeath, EStatType::Stat_MovementSpeed, stat.GetMovementSpeed());
 	}
 }
 

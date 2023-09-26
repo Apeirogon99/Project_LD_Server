@@ -24,6 +24,8 @@ public:
 	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
 	virtual void	OnAutoAttackOver() override;
 
+	void OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush);
+
 public:
 	void Teleport(FVector inDestinationLocation);
 	void MovementCharacter(Protocol::C2S_MovementCharacter pkt);
