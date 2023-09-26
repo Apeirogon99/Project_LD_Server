@@ -18,6 +18,19 @@ void EqipmentComponent::UpdateEqipmentStats(ActorPtr inActor, Inventoryptr inInv
 		return;
 	}
 
+	PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(inActor);
+	if (nullptr == character)
+	{
+		return;
+	}
+
+	StatsComponent& statsComponent = character->GetStatComponent();
+	Stats maxStat = statsComponent.LoadMaxStats(character);
+	const Stats& curStat = statsComponent.GetCurrentStats();
+	const float speed = curStat.GetMovementSpeed();
+
+	FVector velocity = FVector(speed, speed, speed);
+
 	GameDatasPtr dataManager = std::static_pointer_cast<GameDatas>(world->GetDatas());
 	if (nullptr == dataManager)
 	{
@@ -29,8 +42,14 @@ void EqipmentComponent::UpdateEqipmentStats(ActorPtr inActor, Inventoryptr inInv
 	for (AItemPtr eqipment : mEqipments)
 	{
 		const Stats& eqipmentStats = dataManager->GetEqipmentStat(eqipment->GetItemCode());
-		mEqipmentStats += eqipmentStats;
+		mEqipmentStats = eqipmentStats;
+
+		maxStat += eqipmentStats;
+
+		velocity = velocity + eqipmentStats.GetMovementSpeed();
 	}
+
+	character->SetVelocity(velocity);
 }
 
 void EqipmentComponent::UpdateEqipment(Protocol::SCharacterData& inCharacterData, const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)

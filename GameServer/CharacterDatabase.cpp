@@ -107,6 +107,19 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 		return false;
 	}
 
+	StatsComponent& statsComponent = character->GetStatComponent();
+	LevelComponent& levelComponent = character->GetLevelComponent();
+	EqipmentComponent& eqipmentComponent = character->GetEqipmentComponent();
+	Inventoryptr& inventory = remotePlayer->GetInventory();
+
+	statsComponent.InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass - 1, level);
+	const Stats& maxStats = statsComponent.GetMaxStats();
+	const float speed = maxStats.GetMovementSpeed();
+
+	levelComponent.Init(character, level, experience);
+
+	inventory->UpdateMoney(amount);
+
 	character->SetCharacterID(id);
 	character->SetCharacterData(loadCharacterData);
 
@@ -114,8 +127,7 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->GetMovementComponent().InitMovement(character->GetLocation(), GAME_TICK, world->GetWorldTime());
 	character->SetRotation(0.0f, 0.0f, 0.0f);
 	character->SetScale(1.0f, 1.0f, 1.0f);
-
-	remotePlayer->GetInventory()->UpdateMoney(amount);
+	character->SetVelocity(speed, speed, speed);
 
 	{
 		TaskManagerPtr taskManager = character->GetTaskManagerRef().lock();
@@ -129,12 +141,9 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 		eqipment.CreateEqipment(taskManager, boots,		7);
 		eqipment.CreateEqipment(taskManager, weapon_l,	8);
 		eqipment.CreateEqipment(taskManager, weapon_r,	9);
-	}
-	
-	//TODO : 캐릭터와 장비스텟 나눠야 할 수도..?
-	character->GetStatComponent().InitMaxStats(character->GetActorPtr(), EGameDataType::BaseStat, EGameDataType::GrowStat, characterClass - 1, level);
-	character->GetLevelComponent().Init(character, level, experience);
-	
+
+		eqipmentComponent.UpdateEqipmentStats(character, inventory);
+	}	
 
 	character->SetLoadCharacter(true);
 

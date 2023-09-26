@@ -18,6 +18,8 @@ public:
 	void InitMaxStats(ActorPtr inActor, const EGameDataType inBaseData, int32 inClass);
 	void InitMaxStats(ActorPtr inActor, const EGameDataType inBaseData, const EGameDataType inGrowData, const int32 inClass, const int32 inLevel);
 
+	Stats LoadMaxStats(ActorPtr inActor) const;
+
 public:
 	bool ExtractDifferentMaxStats(std::map<EStatType, float>& outUpdateStats);
 	bool ExtractChanageMaxStats(std::map<EStatType, float>& outUpdateStats);
@@ -29,6 +31,7 @@ public:
 public:
 	const Stats&	GetMaxStats() const;
 	const Stats&	GetCurrentStats() const;
+	void			UpdateStats(const int64 inDeletaTime);
 	bool			IsChanageStats(const int64 inDeletaTime);
 
 private:
@@ -40,6 +43,7 @@ private:
 	EGameDataType	mBaseType;
 	EGameDataType	mGrowType;
 
+	int64			mUpdateStatTime;
 	int64			mStatSyncTime;
 	int64			mMaxStatSyncTime;
 

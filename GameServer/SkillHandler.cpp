@@ -31,10 +31,10 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     SkillComponent& skillComponent = character->GetSkillComponent();
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
     FRotator rotation = character->GetRotation();
-
-    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff)))
+   
+    int32 result = character->UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff), 250.0f);
+    if (static_cast<int32>(EDCommonErrorType::SUCCESS) != result)
     {
-        printf("Can't Use Skill_Warrior_Buff\n");
         return false;
     }
 
@@ -84,12 +84,11 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
     FRotator rotation = character->GetRotation();
 
-    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying)))
+    int32 result = character->UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 75.0f);
+    if (static_cast<int32>(EDCommonErrorType::SUCCESS) != result)
     {
-        printf("Can't Use Skill_Warrior_Parrying\n");
         return false;
     }
-    printf("Use Skill_Warrior_Parrying\n");
 
     ActorPtr newActor = world->SpawnActor<WarriorParrying>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
@@ -137,12 +136,11 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
     FRotator rotation = character->GetRotation();
 
-    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash)))
+    int32 result = character->UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 175.0f);
+    if (static_cast<int32>(EDCommonErrorType::SUCCESS) != result)
     {
-        printf("Can't Use Skill_Warrior_ShieldBash\n");
         return false;
     }
-    printf("Use Skill_Warrior_ShieldBash\n");
 
     ActorPtr newActor = world->SpawnActor<WarriorShieldBash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)
@@ -189,12 +187,11 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
 
     if (true == inIsPressed)
     {
-        if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow)))
+        int32 result = character->UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 200.0f);
+        if (static_cast<int32>(EDCommonErrorType::SUCCESS) != result)
         {
-            printf("Can't Use pressed Skill_Warrior_SwordBlow\n");
             return false;
         }
-        printf("Use pressed Skill_Warrior_SwordBlow\n");
 
         ActorPtr newActor = world->SpawnActor<WarriorSwordBlow>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
         if (nullptr == newActor)
@@ -272,12 +269,11 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     FVector	location = character->GetMovementComponent().GetCurrentLocation(character->GetActorPtr());
     FRotator rotation = character->GetRotation();
 
-    if (false == skillComponent.CanUseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash)))
+    int32 result = character->UseSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash), 75.0f);
+    if (static_cast<int32>(EDCommonErrorType::SUCCESS) != result)
     {
-        printf("Can't Use Skill_Warrior_Dash\n");
         return false;
     }
-    printf("Use Skill_Warrior_Dash\n");
 
     ActorPtr newActor = world->SpawnActor<WarriorDash>(remotePlayer->GetGameObjectRef(), location, rotation, Scale(1.0f, 1.0f, 1.0f));
     if (nullptr == newActor)

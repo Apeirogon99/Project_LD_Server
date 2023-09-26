@@ -46,6 +46,10 @@ enum class EDCommonErrorType
 
 	//Dungeon
 
+
+	//Skill
+	COOL_TIME_IS_NOT_ENOUGH					= 7001,
+	MANA_IS_NOT_ENOUGH						= 7002,
 };
 
 static std::string GetNetworkError(int32 error)

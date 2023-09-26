@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "StatsComponent.h"
 
-StatsComponent::StatsComponent() : mIsChanageStats(false), mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA), mStatSyncTime(0), mMaxStatSyncTime(0)
+StatsComponent::StatsComponent() : mIsChanageStats(false), mMaxStats(), mCurrentStats(), mClass(0), mBaseType(EGameDataType::MAX_GAME_DATA), mGrowType(EGameDataType::MAX_GAME_DATA), mStatSyncTime(0), mMaxStatSyncTime(0), mUpdateStatTime(0)
 {
 }
 
@@ -72,6 +72,38 @@ void StatsComponent::InitMaxStats(ActorPtr inActor, const EGameDataType inBaseDa
 	mBaseType		= inBaseData;
 	mGrowType		= inGrowData;
 	mClass			= inClass;
+}
+
+Stats StatsComponent::LoadMaxStats(ActorPtr inActor) const
+{
+	WorldPtr world = inActor->GetWorld().lock();
+	if (nullptr == world)
+	{
+		return Stats();
+	}
+
+	PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(inActor);
+	if (nullptr == character)
+	{
+		return Stats();
+	}
+
+	LevelComponent& levelComponent = character->GetLevelComponent();
+	const int32& level = levelComponent.GetLevel();
+
+	GameDatasPtr dataManager = std::static_pointer_cast<GameDatas>(world->GetDatas());
+	if (nullptr == dataManager)
+	{
+		return Stats();
+	}
+
+	Stats baseStats;
+	dataManager->GetStats(mBaseType, mClass, baseStats);
+
+	Stats growStats;
+	dataManager->GetStats(mGrowType, mClass, growStats);
+
+	return baseStats + (growStats * level);;
 }
 
 bool StatsComponent::ExtractDifferentMaxStats(std::map<EStatType, float>& outDifferentStats)
@@ -292,6 +324,25 @@ const Stats& StatsComponent::GetMaxStats() const
 const Stats& StatsComponent::GetCurrentStats() const
 {
     return mCurrentStats;
+}
+
+void StatsComponent::UpdateStats(const int64 inDeletaTime)
+{
+	mUpdateStatTime += inDeletaTime;
+	if (mUpdateStatTime < SECOND_TICK)
+	{
+		return;
+	}
+	mUpdateStatTime = 0;
+
+	float curHealth = mCurrentStats.GetHealth();
+	float curMana	= mCurrentStats.GetMana();
+
+	float healthRegenration = mCurrentStats.GetHealthRegeneration();
+	float manaRegenration	= mCurrentStats.GetManaRegeneration();
+
+	UpdateCurrentStat(EStatType::Stat_Health, std::clamp(curHealth + healthRegenration, 0.0f, mMaxStats.GetHealth()));
+	UpdateCurrentStat(EStatType::Stat_Mana, std::clamp(curMana + manaRegenration, 0.0f, mMaxStats.GetMana()));
 }
 
 bool StatsComponent::IsChanageStats(const int64 inDeletaTime)

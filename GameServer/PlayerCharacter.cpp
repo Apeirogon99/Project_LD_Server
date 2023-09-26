@@ -45,8 +45,6 @@ void PlayerCharacter::OnInitialization()
 	this->mSkillComponent.PushSkill(4);
 	this->mSkillComponent.PushSkill(5);
 
-	float vel = this->mStatComponent.GetCurrentStats().GetMovementSpeed();
-	this->SetVelocity(340.0f, 340.0f, 340.0f);
 }
 
 void PlayerCharacter::OnDestroy()
@@ -74,9 +72,11 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangePlayer();
 	}
+	this->mStatComponent.UpdateStats(inDeltaTime);
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
+	this->GetVelocity().ToString();
 }
 
 bool PlayerCharacter::IsValid()
@@ -309,8 +309,6 @@ void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 	{
 		return;
 	}
-
-	this->SetVelocity(340.0f, 340.0f, 340.0f);
 
 	int64		serverDuration			= clientMovementLastTime - servertMovementLastTime;
 	Location	currentServerLocation	= this->mMovementComponent.GetNextLocation(this->GetActorPtr(), serverLocation, this->mMovementComponent.GetServerDestinationLocation(), serverDuration, 0.0f);
@@ -569,6 +567,23 @@ void PlayerCharacter::OnAutoAttackOver()
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, endAutoAttackPacket);
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
+}
+
+int32 PlayerCharacter::UseSkill(const int32 inSkillID, float inUseMana)
+{
+	if (false == mSkillComponent.CanUseSkill(inSkillID))
+	{
+		return static_cast<int32>(EDCommonErrorType::COOL_TIME_IS_NOT_ENOUGH);
+	}
+
+	float mana = mStatComponent.GetCurrentStats().GetMana();
+	if (mana - inUseMana < 0.0f)
+	{
+		return static_cast<int32>(EDCommonErrorType::MANA_IS_NOT_ENOUGH);
+	}
+	mStatComponent.UpdateCurrentStat(EStatType::Stat_Mana, mana - inUseMana);
+
+	return static_cast<int32>(EDCommonErrorType::SUCCESS);
 }
 
 void PlayerCharacter::OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush)

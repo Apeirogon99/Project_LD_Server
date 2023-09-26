@@ -24,6 +24,7 @@ public:
 	virtual void	OnAutoAttackTargeting(const float inDamage, const FVector inRange) override;
 	virtual void	OnAutoAttackOver() override;
 
+	int32 UseSkill(const int32 inSkillID, float inUseMana);
 	void OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush);
 
 public:
