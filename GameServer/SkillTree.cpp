@@ -23,7 +23,7 @@ void SkillTree::OnTick(const int64 inDeltaTime)
 
 bool SkillTree::IsValid()
 {
-	return false;
+	return mIsLoad;
 }
 
 void SkillTree::SetLoadSkillTree(const bool& inLoad)

@@ -376,6 +376,9 @@
     <ClCompile Include="EnemyDarkSkeleton.cpp">
       <Filter>Content\Enemy\Private\Pawn</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyChest.cpp">
+      <Filter>Content\Enemy\Private\Pawn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonPacket.pb.h">
@@ -619,6 +622,9 @@
       <Filter>Content\Component</Filter>
     </ClInclude>
     <ClInclude Include="EnemyDarkSkeleton.h">
+      <Filter>Content\Enemy\Public\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyChest.h">
       <Filter>Content\Enemy\Public\Pawn</Filter>
     </ClInclude>
   </ItemGroup>

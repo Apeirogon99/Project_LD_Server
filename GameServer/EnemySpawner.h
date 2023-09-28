@@ -12,6 +12,7 @@ enum class EnemyID
 	Enemy_Lich_Phase2,
 	Enemy_Lich_Phase3,
 	Enemy_Lich_Life_Vessle,
+	Enemy_Chest,
 };
 
 class EnemySpawner : public GameObject

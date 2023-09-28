@@ -81,6 +81,7 @@
 #include "EnemyWarriorSkeleton.h"
 #include "EnemyDarkKnight.h"
 #include "EnemyRich.h"
+#include "EnemyChest.h"
 
 //==========================//
 //   GameContent | Skill	//

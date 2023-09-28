@@ -376,6 +376,8 @@ void Dungeon::ClearBossStage()
 	worldPortal->SetTeleportWorld(this->mOriginWorld);
 	worldPortal->SetTeleportLocation(FVector(-36900.0f, 38000.0f, 188.0f));
 	worldPortal->SetTeleportLevel(std::string("L_Kingdom"));
+
+	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 0.0f), 0.0f, EnemyID::Enemy_Chest, 1, 1, true, true, 1500.0f, 1500.0f);
 }
 
 bool Dungeon::IsEmptyEnemy()
