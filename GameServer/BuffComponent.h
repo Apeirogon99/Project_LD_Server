@@ -19,6 +19,8 @@ public:
 	void PushBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue);
 	void ReleaseBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue);
 
+	void ApplyBuff(PlayerCharacterPtr inPlayerCharacter, const EStatType& inStatType, const float& inValue);
+
 public:
 
 

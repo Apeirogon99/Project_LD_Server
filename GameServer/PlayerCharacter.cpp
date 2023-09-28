@@ -27,6 +27,7 @@ void PlayerCharacter::OnInitialization()
 
 	this->mStatComponent.SetSyncTime(GAME_TICK);
 	this->mSkillComponent.Init(owner, SECOND_TICK);
+	this->mBuffComponent.Init(owner);
 
 	AttackInfos infos;
 	infos.push_back(AttackInfo(500,		170,	1100, FVector(100.0f, 150.0f, 100.0f)));
@@ -75,8 +76,6 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	this->mStatComponent.UpdateStats(inDeltaTime);
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
-
-	this->GetVelocity().ToString();
 }
 
 bool PlayerCharacter::IsValid()

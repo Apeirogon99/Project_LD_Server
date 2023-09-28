@@ -114,6 +114,11 @@ void WarriorBuff::Active()
 	const int64 worldTime	= world->GetWorldTime();
 
 	GameRemotePlayerPtr owner = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
 	PartyPtr party = owner->GetParty();
 	if (nullptr == party)
 	{

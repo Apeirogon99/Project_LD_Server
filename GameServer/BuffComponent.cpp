@@ -25,6 +25,24 @@ void BuffComponent::ReapplyBuff(StatsComponent& inStatsComponent)
 
 void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue)
 {
+	GameRemotePlayerPtr owner = mOwner.lock();
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr& character = owner->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+
 	auto findBuff = mBuffs.find(inStatType);
 	if (findBuff == mBuffs.end())
 	{
@@ -41,19 +59,9 @@ void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& 
 
 	mIsChanage = true;
 
+	ApplyBuff(character, inStatType, value + inValue);
+
 	{
-		GameRemotePlayerPtr owner = mOwner.lock();
-		if (nullptr == owner)
-		{
-			return;
-		}
-
-		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
-		if (nullptr == playerState)
-		{
-			return;
-		}
-
 		Protocol::S2C_PushBuff pushBuffPacket;
 		pushBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
@@ -64,6 +72,24 @@ void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& 
 
 void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EBuffType& inBuffID, const EStatType& inStatType, const float& inValue)
 {
+	GameRemotePlayerPtr owner = mOwner.lock();
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	PlayerCharacterPtr& character = owner->GetCharacter();
+	if (nullptr == character)
+	{
+		return;
+	}
+
 	auto findBuff = mBuffs.find(inStatType);
 	if (findBuff == mBuffs.end())
 	{
@@ -82,23 +108,70 @@ void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EBuffTyp
 
 	mIsChanage = true;
 
+	ApplyBuff(character, inStatType, value - inValue);
+
 	{
-		GameRemotePlayerPtr owner = mOwner.lock();
-		if (nullptr == owner)
-		{
-			return;
-		}
-
-		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(owner->GetRemoteClient().lock());
-		if (nullptr == playerState)
-		{
-			return;
-		}
-
 		Protocol::S2C_ReleaseBuff releaseBuffPacket;
 		releaseBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, releaseBuffPacket);
 		playerState->Send(sendBuffer);
+	}
+}
+
+void BuffComponent::ApplyBuff(PlayerCharacterPtr inPlayerCharacter, const EStatType& inStatType, const float& inValue)
+{
+
+	switch (inStatType)
+	{
+	case EStatType::Stat_Unspecified:
+		break;
+	case EStatType::Stat_ArmorPenetration:
+		break;
+	case EStatType::Stat_AttackDamage:
+		break;
+	case EStatType::Stat_AttackSpeed:
+		break;
+	case EStatType::Stat_CriticalStrikeChance:
+		break;
+	case EStatType::Stat_CirticalStrikeDamage:
+		break;
+	case EStatType::Stat_LifeSteal:
+		break;
+	case EStatType::Stat_AbilityPower:
+		break;
+	case EStatType::Stat_MagePenetration:
+		break;
+	case EStatType::Stat_Omnivamp:
+		break;
+	case EStatType::Stat_PhysicalVamp:
+		break;
+	case EStatType::Stat_Armor:
+		break;
+	case EStatType::Stat_HealAndShieldPower:
+		break;
+	case EStatType::Stat_Health:
+		break;
+	case EStatType::Stat_HealthRegeneration:
+		break;
+	case EStatType::Stat_MagicResistance:
+		break;
+	case EStatType::Stat_Tenacity:
+		break;
+	case EStatType::Stat_SlowResist:
+		break;
+	case EStatType::Stat_AbilityHaste:
+		break;
+	case EStatType::Stat_Mana:
+		break;
+	case EStatType::Stat_ManaRegeneration:
+		break;
+	case EStatType::Stat_MovementSpeed:
+		inPlayerCharacter->SetVelocity(FVector(inValue, inValue, inValue));
+		break;
+	case EStatType::Stat_Range:
+		break;
+	default:
+		break;
 	}
 }
