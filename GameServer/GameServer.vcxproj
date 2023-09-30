@@ -283,7 +283,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryDatabase.cpp" />
     <ClCompile Include="IStateEvent.cpp" />
-    <ClCompile Include="NPCCharacter.cpp" />
+    <ClCompile Include="NPCharacter.cpp" />
     <ClCompile Include="PacketEnum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -413,7 +413,7 @@
     <ClInclude Include="InventoryDatabase.h" />
     <ClInclude Include="IStateEvent.h" />
     <ClInclude Include="Mecro.h" />
-    <ClInclude Include="NPCCharacter.h" />
+    <ClInclude Include="NPCharacter.h" />
     <ClInclude Include="PacketEnum.pb.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="PacketStruct.pb.h" />

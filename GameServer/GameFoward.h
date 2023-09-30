@@ -72,6 +72,10 @@ class PlayerCharacter;
 using PlayerCharacterPtr			= std::shared_ptr<PlayerCharacter>;
 using PlayerCharacterRef			= std::weak_ptr<PlayerCharacter>;
 
+class NPCharacter;
+using NPCharacterPtr				= std::shared_ptr<NPCharacter>;
+using NPCharacterRef				= std::weak_ptr<NPCharacter>;
+
 class Inventory;
 using Inventoryptr					= std::shared_ptr<Inventory>;
 using InventoryRef					= std::weak_ptr<Inventory>;

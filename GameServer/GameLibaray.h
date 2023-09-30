@@ -55,7 +55,7 @@
 #include "GameWorld.h"
 #include "GameRemotePlayer.h"
 #include "PlayerCharacter.h"
-#include "NPCCharacter.h"
+#include "NPCharacter.h"
 #include "AItem.h"
 #include "Inventory.h"
 #include "Friend.h"

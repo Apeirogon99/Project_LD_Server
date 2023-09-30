@@ -202,7 +202,7 @@
     <ClCompile Include="AItem.cpp">
       <Filter>Content\Item</Filter>
     </ClCompile>
-    <ClCompile Include="NPCCharacter.cpp">
+    <ClCompile Include="NPCharacter.cpp">
       <Filter>Content\NPC\Private</Filter>
     </ClCompile>
     <ClCompile Include="GameRemotePlayer.cpp">
@@ -453,7 +453,7 @@
     <ClInclude Include="AItem.h">
       <Filter>Content\Item</Filter>
     </ClInclude>
-    <ClInclude Include="NPCCharacter.h">
+    <ClInclude Include="NPCharacter.h">
       <Filter>Content\NPC\Public</Filter>
     </ClInclude>
     <ClInclude Include="GameRemotePlayer.h">

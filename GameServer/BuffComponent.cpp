@@ -63,6 +63,7 @@ void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& 
 
 	{
 		Protocol::S2C_PushBuff pushBuffPacket;
+		pushBuffPacket.set_remote_id(owner->GetGameObjectID());
 		pushBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, pushBuffPacket);
@@ -112,6 +113,7 @@ void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EBuffTyp
 
 	{
 		Protocol::S2C_ReleaseBuff releaseBuffPacket;
+		releaseBuffPacket.set_remote_id(owner->GetGameObjectID());
 		releaseBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, releaseBuffPacket);
