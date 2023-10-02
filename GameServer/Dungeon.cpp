@@ -24,7 +24,7 @@ void Dungeon::OnInitialization()
 {
 	SetTick(true, SYSTEM_TICK);
 
-	mState = EDungeonState::State_Stop;
+	mState = EDungeonState::State_Ready;
 
 	GameTaskPtr task = std::static_pointer_cast<GameTask>(this->GetTaskManagerRef().lock());
 	if (nullptr == task)
@@ -36,8 +36,6 @@ void Dungeon::OnInitialization()
 	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
 
 	this->mSequenceComponent.Init(std::static_pointer_cast<Dungeon>(this->shared_from_this()), &Dungeon::EndSequence);
-
-	this->InitDungeon();
 }
 
 void Dungeon::OnDestroy()
@@ -109,6 +107,8 @@ void Dungeon::CreateDungeon(PlayerStatePtr inPlayerState)
 	{
 		party->CreateParty();
 	}
+	this->mMaxPlayers = static_cast<int32>(party->GetPartyPlayers().size());
+	this->InitDungeon();
 
 	EDCommonErrorType error = EDCommonErrorType::FAILURE;
 	if (true == party->IsLeader(inRemoteID))
@@ -164,7 +164,6 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	{
 		return;
 	}
-	//party->BroadCastLoadParty();
 	
 	int32 max = static_cast<int32>(party->GetPartyPlayers().size());
 	int32 cur = static_cast<int32>(mWorldPlayers.size());
@@ -176,6 +175,8 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 		mState = EDungeonState::State_Play;
 
 		this->CreateBossStage();
+		
+		party->BroadCastLoadParty();
 
 		Protocol::S2C_CompleteLoadDungeon completePacket;
 
@@ -231,9 +232,9 @@ void Dungeon::InitDungeon()
 void Dungeon::CreateStageA()
 {
 
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 0.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 0.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 0.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 2000.0f, 2000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 5);
@@ -243,9 +244,9 @@ void Dungeon::CreateStageA()
 
 void Dungeon::CreateStageB()
 {
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 0.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 0.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 0.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 5000.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 5000.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 5000.0f, 5000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 7);
@@ -279,7 +280,7 @@ void Dungeon::CreateBossStage()
 	newTrap->SetMaxOverlap(this->mMaxPlayers);
 	newTrap->SetOverlapType(EActorType::Player);
 	newTrap->SetBoxTriggerExtent(FVector(1000.0f, 1000.0f, 500.0f));
-	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 3, 10000);
+	newTrap->SetEnterTrapCallBackFunction(&Dungeon::PlaySequence, 1, 10000);
 
 }
 

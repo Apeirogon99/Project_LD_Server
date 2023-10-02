@@ -277,7 +277,7 @@ ActorPtr EnemySpawner::SpawnTemplate()
 		newActor = world->SpawnActor<EnemyWarriorSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Archer_Skeleton:
-		world->SpawnActor<EnemyArcherSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
+		newActor = world->SpawnActor<EnemyArcherSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 		break;
 	case EnemyID::Enemy_Dark_Skeleton:
 		newActor = world->SpawnActor<EnemyDarkSkeleton>(this->mOwner, Random::GetRandomVectorInRange2D(mLocation, mSpawnRange), Rotation(), Scale(1.0f, 1.0f, 1.0f));
