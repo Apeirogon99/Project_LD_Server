@@ -1523,12 +1523,31 @@ class S2C_AppearCharacter final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kStatsFieldNumber = 6,
     kCurLocationFieldNumber = 3,
     kMoveLocationFieldNumber = 4,
     kCharacterDataFieldNumber = 5,
     kRemoteIdFieldNumber = 1,
     kTimestampFieldNumber = 2,
   };
+  // repeated .Protocol.SStat stats = 6;
+  int stats_size() const;
+  private:
+  int _internal_stats_size() const;
+  public:
+  void clear_stats();
+  ::Protocol::SStat* mutable_stats(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+      mutable_stats();
+  private:
+  const ::Protocol::SStat& _internal_stats(int index) const;
+  ::Protocol::SStat* _internal_add_stats();
+  public:
+  const ::Protocol::SStat& stats(int index) const;
+  ::Protocol::SStat* add_stats();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+      stats() const;
+
   // .Protocol.SVector cur_location = 3;
   bool has_cur_location() const;
   private:
@@ -1609,6 +1628,7 @@ class S2C_AppearCharacter final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat > stats_;
     ::Protocol::SVector* cur_location_;
     ::Protocol::SVector* move_location_;
     ::Protocol::SCharacterData* character_data_;
@@ -18050,6 +18070,43 @@ inline void S2C_AppearCharacter::set_allocated_character_data(::Protocol::SChara
   }
   _impl_.character_data_ = character_data;
   // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_AppearCharacter.character_data)
+}
+
+// repeated .Protocol.SStat stats = 6;
+inline int S2C_AppearCharacter::_internal_stats_size() const {
+  return _impl_.stats_.size();
+}
+inline int S2C_AppearCharacter::stats_size() const {
+  return _internal_stats_size();
+}
+inline ::Protocol::SStat* S2C_AppearCharacter::mutable_stats(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_AppearCharacter.stats)
+  return _impl_.stats_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >*
+S2C_AppearCharacter::mutable_stats() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S2C_AppearCharacter.stats)
+  return &_impl_.stats_;
+}
+inline const ::Protocol::SStat& S2C_AppearCharacter::_internal_stats(int index) const {
+  return _impl_.stats_.Get(index);
+}
+inline const ::Protocol::SStat& S2C_AppearCharacter::stats(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_AppearCharacter.stats)
+  return _internal_stats(index);
+}
+inline ::Protocol::SStat* S2C_AppearCharacter::_internal_add_stats() {
+  return _impl_.stats_.Add();
+}
+inline ::Protocol::SStat* S2C_AppearCharacter::add_stats() {
+  ::Protocol::SStat* _add = _internal_add_stats();
+  // @@protoc_insertion_point(field_add:Protocol.S2C_AppearCharacter.stats)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::SStat >&
+S2C_AppearCharacter::stats() const {
+  // @@protoc_insertion_point(field_list:Protocol.S2C_AppearCharacter.stats)
+  return _impl_.stats_;
 }
 
 // -------------------------------------------------------------------

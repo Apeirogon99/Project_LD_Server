@@ -129,6 +129,7 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 	targetRemotePlayer->InsertPlayerViewer(anotherPlayerState);
 	anotherPlayerState->InsertPlayerMonitor(targetRemotePlayer);
 
+	
 	Protocol::S2C_AppearCharacter appearPacket;
 	appearPacket.set_remote_id(targetRemotePlayer->GetGameObjectID());
 	appearPacket.set_timestamp(this->mMovementComponent.GetLastMovementTime());
@@ -136,8 +137,23 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 	appearPacket.mutable_move_location()->CopyFrom(PacketUtils::ToSVector(this->mMovementComponent.GetDestinationLocation()));
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
 
+
+	std::map<EStatType, float> chanageStats;
+	if (true == this->mStatComponent.ExtractChanageMaxStats(chanageStats))
+	{
+		auto stat = chanageStats.begin();
+		for (stat; stat != chanageStats.end(); ++stat)
+		{
+			Protocol::SStat* addStat = appearPacket.add_stats();
+			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
+			addStat->set_stat_value(stat->second);
+		}
+
+	}
+
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);
+	
 }
 
 void PlayerCharacter::OnDisAppearActor(ActorPtr inDisappearActor)

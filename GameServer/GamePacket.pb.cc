@@ -123,7 +123,8 @@ struct S2C_TickDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_TickDefaultTypeInternal _S2C_Tick_default_instance_;
 PROTOBUF_CONSTEXPR S2C_AppearCharacter::S2C_AppearCharacter(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.cur_location_)*/nullptr
+    /*decltype(_impl_.stats_)*/{}
+  , /*decltype(_impl_.cur_location_)*/nullptr
   , /*decltype(_impl_.move_location_)*/nullptr
   , /*decltype(_impl_.character_data_)*/nullptr
   , /*decltype(_impl_.remote_id_)*/int64_t{0}
@@ -1534,6 +1535,7 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearCharacter, _impl_.cur_location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearCharacter, _impl_.move_location_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearCharacter, _impl_.character_data_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_AppearCharacter, _impl_.stats_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DisAppearCharacter, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2331,96 +2333,96 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 34, -1, -1, sizeof(::Protocol::C2S_Tick)},
   { 41, -1, -1, sizeof(::Protocol::S2C_Tick)},
   { 47, -1, -1, sizeof(::Protocol::S2C_AppearCharacter)},
-  { 58, -1, -1, sizeof(::Protocol::S2C_DisAppearCharacter)},
-  { 65, -1, -1, sizeof(::Protocol::C2S_MovementCharacter)},
-  { 75, -1, -1, sizeof(::Protocol::S2C_MovementCharacter)},
-  { 86, -1, -1, sizeof(::Protocol::C2S_PlayAnimation)},
-  { 93, -1, -1, sizeof(::Protocol::S2C_PlayAnimation)},
-  { 102, -1, -1, sizeof(::Protocol::S2C_DetectChangePlayer)},
-  { 111, -1, -1, sizeof(::Protocol::C2S_PlayerAutoAttack)},
-  { 119, -1, -1, sizeof(::Protocol::S2C_PlayerAutoAttack)},
-  { 130, -1, -1, sizeof(::Protocol::S2C_PlayerEndAutoAttack)},
-  { 138, -1, -1, sizeof(::Protocol::S2C_UpdateExperience)},
-  { 147, -1, -1, sizeof(::Protocol::S2C_LevelUp)},
-  { 157, -1, -1, sizeof(::Protocol::C2S_Chat)},
-  { 165, -1, -1, sizeof(::Protocol::S2C_Chat)},
-  { 176, -1, -1, sizeof(::Protocol::C2S_LoadFriendList)},
-  { 184, -1, -1, sizeof(::Protocol::S2C_LoadFriendList)},
-  { 193, -1, -1, sizeof(::Protocol::C2S_RequestFriend)},
-  { 202, -1, -1, sizeof(::Protocol::S2C_RequestFriend)},
-  { 211, -1, -1, sizeof(::Protocol::C2S_BlockFriend)},
-  { 220, -1, -1, sizeof(::Protocol::S2C_BlockFriend)},
-  { 229, -1, -1, sizeof(::Protocol::S2C_ConnectFriend)},
-  { 237, -1, -1, sizeof(::Protocol::S2C_DisConnectFriend)},
-  { 245, -1, -1, sizeof(::Protocol::C2S_CreateParty)},
-  { 252, -1, -1, sizeof(::Protocol::S2C_CreateParty)},
-  { 260, -1, -1, sizeof(::Protocol::C2S_RequestEnterParty)},
-  { 268, -1, -1, sizeof(::Protocol::S2C_RequestEnterParty)},
-  { 276, -1, -1, sizeof(::Protocol::S2C_RequestParty)},
-  { 286, -1, -1, sizeof(::Protocol::C2S_RequestLeaveParty)},
-  { 294, -1, -1, sizeof(::Protocol::S2C_RequestLeaveParty)},
-  { 303, -1, -1, sizeof(::Protocol::C2S_RequestLeaderParty)},
-  { 311, -1, -1, sizeof(::Protocol::S2C_RequestLeaderParty)},
-  { 319, -1, -1, sizeof(::Protocol::C2S_ResponeParty)},
-  { 328, -1, -1, sizeof(::Protocol::S2C_ResponeParty)},
-  { 338, -1, -1, sizeof(::Protocol::S2C_LoadParty)},
-  { 351, -1, -1, sizeof(::Protocol::S2C_NotifyParty)},
-  { 360, -1, -1, sizeof(::Protocol::S2C_EnterPartyPlayer)},
-  { 372, -1, -1, sizeof(::Protocol::S2C_LeavePartyPlayer)},
-  { 380, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
-  { 387, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
-  { 397, -1, -1, sizeof(::Protocol::S2C_AppearProtal)},
-  { 407, -1, -1, sizeof(::Protocol::S2C_AppearObstruction)},
-  { 418, -1, -1, sizeof(::Protocol::C2S_InteractiveObject)},
-  { 425, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
-  { 435, -1, -1, sizeof(::Protocol::S2C_Teleport)},
-  { 443, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
-  { 456, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
-  { 466, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
-  { 476, -1, -1, sizeof(::Protocol::S2C_AnimationMovementEnemy)},
-  { 487, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
-  { 496, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
-  { 504, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 512, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 519, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 526, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 536, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 544, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 553, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 561, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 568, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 577, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 586, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 594, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 604, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
-  { 613, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
-  { 622, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
-  { 631, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
-  { 641, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
-  { 651, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
-  { 658, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
-  { 666, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
-  { 674, -1, -1, sizeof(::Protocol::S2C_ResponseUseKeyAction)},
-  { 682, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
-  { 694, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
-  { 706, -1, -1, sizeof(::Protocol::S2C_EndReactionSkill)},
-  { 714, -1, -1, sizeof(::Protocol::S2C_SkillCoolTime)},
-  { 722, -1, -1, sizeof(::Protocol::S2C_PushBuff)},
-  { 731, -1, -1, sizeof(::Protocol::S2C_ReleaseBuff)},
-  { 739, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
-  { 750, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
-  { 759, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
-  { 766, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
-  { 773, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
-  { 782, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
-  { 789, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
-  { 797, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
-  { 803, -1, -1, sizeof(::Protocol::S2C_EnterPortal)},
-  { 811, -1, -1, sizeof(::Protocol::S2C_LeavePortal)},
-  { 817, -1, -1, sizeof(::Protocol::S2C_PlaySequence)},
-  { 825, -1, -1, sizeof(::Protocol::C2S_SkipSequence)},
-  { 832, -1, -1, sizeof(::Protocol::S2C_SkipSequence)},
-  { 840, -1, -1, sizeof(::Protocol::S2C_EndSequence)},
+  { 59, -1, -1, sizeof(::Protocol::S2C_DisAppearCharacter)},
+  { 66, -1, -1, sizeof(::Protocol::C2S_MovementCharacter)},
+  { 76, -1, -1, sizeof(::Protocol::S2C_MovementCharacter)},
+  { 87, -1, -1, sizeof(::Protocol::C2S_PlayAnimation)},
+  { 94, -1, -1, sizeof(::Protocol::S2C_PlayAnimation)},
+  { 103, -1, -1, sizeof(::Protocol::S2C_DetectChangePlayer)},
+  { 112, -1, -1, sizeof(::Protocol::C2S_PlayerAutoAttack)},
+  { 120, -1, -1, sizeof(::Protocol::S2C_PlayerAutoAttack)},
+  { 131, -1, -1, sizeof(::Protocol::S2C_PlayerEndAutoAttack)},
+  { 139, -1, -1, sizeof(::Protocol::S2C_UpdateExperience)},
+  { 148, -1, -1, sizeof(::Protocol::S2C_LevelUp)},
+  { 158, -1, -1, sizeof(::Protocol::C2S_Chat)},
+  { 166, -1, -1, sizeof(::Protocol::S2C_Chat)},
+  { 177, -1, -1, sizeof(::Protocol::C2S_LoadFriendList)},
+  { 185, -1, -1, sizeof(::Protocol::S2C_LoadFriendList)},
+  { 194, -1, -1, sizeof(::Protocol::C2S_RequestFriend)},
+  { 203, -1, -1, sizeof(::Protocol::S2C_RequestFriend)},
+  { 212, -1, -1, sizeof(::Protocol::C2S_BlockFriend)},
+  { 221, -1, -1, sizeof(::Protocol::S2C_BlockFriend)},
+  { 230, -1, -1, sizeof(::Protocol::S2C_ConnectFriend)},
+  { 238, -1, -1, sizeof(::Protocol::S2C_DisConnectFriend)},
+  { 246, -1, -1, sizeof(::Protocol::C2S_CreateParty)},
+  { 253, -1, -1, sizeof(::Protocol::S2C_CreateParty)},
+  { 261, -1, -1, sizeof(::Protocol::C2S_RequestEnterParty)},
+  { 269, -1, -1, sizeof(::Protocol::S2C_RequestEnterParty)},
+  { 277, -1, -1, sizeof(::Protocol::S2C_RequestParty)},
+  { 287, -1, -1, sizeof(::Protocol::C2S_RequestLeaveParty)},
+  { 295, -1, -1, sizeof(::Protocol::S2C_RequestLeaveParty)},
+  { 304, -1, -1, sizeof(::Protocol::C2S_RequestLeaderParty)},
+  { 312, -1, -1, sizeof(::Protocol::S2C_RequestLeaderParty)},
+  { 320, -1, -1, sizeof(::Protocol::C2S_ResponeParty)},
+  { 329, -1, -1, sizeof(::Protocol::S2C_ResponeParty)},
+  { 339, -1, -1, sizeof(::Protocol::S2C_LoadParty)},
+  { 352, -1, -1, sizeof(::Protocol::S2C_NotifyParty)},
+  { 361, -1, -1, sizeof(::Protocol::S2C_EnterPartyPlayer)},
+  { 373, -1, -1, sizeof(::Protocol::S2C_LeavePartyPlayer)},
+  { 381, -1, -1, sizeof(::Protocol::S2C_AppearItem)},
+  { 388, -1, -1, sizeof(::Protocol::S2C_AppearArrow)},
+  { 398, -1, -1, sizeof(::Protocol::S2C_AppearProtal)},
+  { 408, -1, -1, sizeof(::Protocol::S2C_AppearObstruction)},
+  { 419, -1, -1, sizeof(::Protocol::C2S_InteractiveObject)},
+  { 426, -1, -1, sizeof(::Protocol::S2C_MovementProjectile)},
+  { 436, -1, -1, sizeof(::Protocol::S2C_Teleport)},
+  { 444, -1, -1, sizeof(::Protocol::S2C_AppearEnemy)},
+  { 457, -1, -1, sizeof(::Protocol::S2C_DetectChangeEnemy)},
+  { 467, -1, -1, sizeof(::Protocol::S2C_MovementEnemy)},
+  { 477, -1, -1, sizeof(::Protocol::S2C_AnimationMovementEnemy)},
+  { 488, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
+  { 497, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
+  { 505, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
+  { 513, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 520, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 527, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 537, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 545, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 554, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 562, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 569, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 578, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 587, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 595, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 605, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 614, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
+  { 623, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
+  { 632, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
+  { 642, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
+  { 652, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
+  { 659, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
+  { 667, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
+  { 675, -1, -1, sizeof(::Protocol::S2C_ResponseUseKeyAction)},
+  { 683, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
+  { 695, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
+  { 707, -1, -1, sizeof(::Protocol::S2C_EndReactionSkill)},
+  { 715, -1, -1, sizeof(::Protocol::S2C_SkillCoolTime)},
+  { 723, -1, -1, sizeof(::Protocol::S2C_PushBuff)},
+  { 732, -1, -1, sizeof(::Protocol::S2C_ReleaseBuff)},
+  { 740, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
+  { 751, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
+  { 760, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
+  { 767, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
+  { 774, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
+  { 783, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
+  { 790, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
+  { 798, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
+  { 804, -1, -1, sizeof(::Protocol::S2C_EnterPortal)},
+  { 812, -1, -1, sizeof(::Protocol::S2C_LeavePortal)},
+  { 818, -1, -1, sizeof(::Protocol::S2C_PlaySequence)},
+  { 826, -1, -1, sizeof(::Protocol::C2S_SkipSequence)},
+  { 833, -1, -1, sizeof(::Protocol::S2C_SkipSequence)},
+  { 841, -1, -1, sizeof(::Protocol::S2C_EndSequence)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2536,204 +2538,205 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "\023S2C_LeaveGameServer\022\021\n\tremote_id\030\001 \001(\003\022"
   "\r\n\005error\030\002 \001(\005\"3\n\010C2S_Tick\022\'\n\014cur_locati"
   "on\030\002 \001(\0132\021.Protocol.SVector\"\n\n\010S2C_Tick\""
-  "\300\001\n\023S2C_AppearCharacter\022\021\n\tremote_id\030\001 \001"
+  "\340\001\n\023S2C_AppearCharacter\022\021\n\tremote_id\030\001 \001"
   "(\003\022\021\n\ttimestamp\030\002 \001(\003\022\'\n\014cur_location\030\003 "
   "\001(\0132\021.Protocol.SVector\022(\n\rmove_location\030"
   "\004 \001(\0132\021.Protocol.SVector\0220\n\016character_da"
-  "ta\030\005 \001(\0132\030.Protocol.SCharacterData\"+\n\026S2"
-  "C_DisAppearCharacter\022\021\n\tremote_id\030\001 \001(\003\""
-  "\247\001\n\025C2S_MovementCharacter\022\021\n\ttimestamp\030\001"
-  " \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Protocol.SV"
-  "ector\022(\n\rmove_location\030\003 \001(\0132\021.Protocol."
-  "SVector\022(\n\rmove_velocity\030\004 \001(\0132\021.Protoco"
-  "l.SVector\"\272\001\n\025S2C_MovementCharacter\022\021\n\tr"
-  "emote_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\022\'\n\014cur"
-  "_location\030\003 \001(\0132\021.Protocol.SVector\022(\n\rmo"
-  "ve_location\030\004 \001(\0132\021.Protocol.SVector\022(\n\r"
-  "move_velocity\030\005 \001(\0132\021.Protocol.SVector\"&"
-  "\n\021C2S_PlayAnimation\022\021\n\ttimestamp\030\001 \001(\003\"G"
-  "\n\021S2C_PlayAnimation\022\021\n\tremote_id\030\001 \001(\003\022\021"
-  "\n\ttimestamp\030\002 \001(\003\022\014\n\004type\030\003 \001(\005\"^\n\026S2C_D"
-  "etectChangePlayer\022\021\n\tremote_id\030\001 \001(\003\022\036\n\005"
-  "stats\030\002 \003(\0132\017.Protocol.SStat\022\021\n\ttimestam"
-  "p\030\003 \001(\003\"<\n\024C2S_PlayerAutoAttack\022\021\n\ttimes"
-  "tamp\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\"\226\001\n\024S2C_Pl"
-  "ayerAutoAttack\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005com"
-  "bo\030\002 \001(\005\022#\n\010location\030\003 \001(\0132\021.Protocol.SV"
-  "ector\022$\n\010rotation\030\004 \001(\0132\022.Protocol.SRota"
-  "tor\022\021\n\ttimestamp\030\005 \001(\003\"\?\n\027S2C_PlayerEndA"
-  "utoAttack\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimestam"
-  "p\030\002 \001(\003\"P\n\024S2C_UpdateExperience\022\021\n\tremot"
-  "e_id\030\001 \001(\003\022\022\n\nexperience\030\002 \001(\005\022\021\n\ttimest"
-  "amp\030\003 \001(\003\"V\n\013S2C_LevelUp\022\021\n\tremote_id\030\001 "
-  "\001(\003\022\r\n\005level\030\002 \001(\005\022\022\n\nexperience\030\003 \001(\005\022\021"
-  "\n\ttimestamp\030\004 \001(\003\".\n\010C2S_Chat\022\017\n\007message"
-  "\030\001 \001(\014\022\021\n\ttimestamp\030\002 \001(\003\"s\n\010S2C_Chat\022\021\n"
-  "\tremote_id\030\001 \001(\003\022\014\n\004name\030\002 \001(\014\022\017\n\007messag"
-  "e\030\003 \001(\014\022\"\n\tchat_type\030\004 \001(\0162\017.Protocol.EC"
-  "hat\022\021\n\ttimestamp\030\005 \001(\003\":\n\022C2S_LoadFriend"
-  "List\022\021\n\tlist_type\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001"
-  "(\003\"^\n\022S2C_LoadFriendList\022\"\n\007friends\030\001 \003("
-  "\0132\021.Protocol.SFriend\022\021\n\tlist_type\030\002 \001(\005\022"
-  "\021\n\ttimestamp\030\003 \001(\003\"I\n\021C2S_RequestFriend\022"
-  "\021\n\tnick_name\030\001 \001(\014\022\016\n\006action\030\002 \001(\005\022\021\n\tti"
-  "mestamp\030\003 \001(\003\"E\n\021S2C_RequestFriend\022\r\n\005er"
-  "ror\030\001 \001(\005\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003"
-  " \001(\003\"G\n\017C2S_BlockFriend\022\021\n\tnick_name\030\001 \001"
-  "(\014\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"C\n"
-  "\017S2C_BlockFriend\022\r\n\005error\030\001 \001(\005\022\016\n\006actio"
-  "n\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"9\n\021S2C_Connec"
-  "tFriend\022\021\n\tnick_name\030\001 \001(\014\022\021\n\ttimestamp\030"
-  "\002 \001(\003\"<\n\024S2C_DisConnectFriend\022\021\n\tnick_na"
-  "me\030\001 \001(\014\022\021\n\ttimestamp\030\002 \001(\003\"$\n\017C2S_Creat"
-  "eParty\022\021\n\ttimestamp\030\001 \001(\003\"3\n\017S2C_CreateP"
-  "arty\022\r\n\005error\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"="
-  "\n\025C2S_RequestEnterParty\022\021\n\tnick_name\030\001 \001"
-  "(\014\022\021\n\ttimestamp\030\002 \001(\003\"9\n\025S2C_RequestEnte"
-  "rParty\022\r\n\005error\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003"
-  "\"{\n\020S2C_RequestParty\022\021\n\tremote_id\030\001 \001(\003\022"
-  "\021\n\tnick_name\030\002 \001(\014\022\r\n\005level\030\003 \001(\005\0222\n\017cha"
-  "racter_class\030\004 \001(\0162\031.Protocol.ECharacter"
-  "Class\"=\n\025C2S_RequestLeaveParty\022\021\n\tremote"
-  "_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\"H\n\025S2C_Requ"
-  "estLeaveParty\022\r\n\005error\030\001 \001(\005\022\r\n\005cause\030\002 "
-  "\001(\005\022\021\n\ttimestamp\030\003 \001(\003\">\n\026C2S_RequestLea"
-  "derParty\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimestamp"
-  "\030\002 \001(\003\":\n\026S2C_RequestLeaderParty\022\r\n\005erro"
-  "r\030\001 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"H\n\020C2S_Respon"
-  "eParty\022\021\n\tremote_id\030\001 \001(\003\022\016\n\006action\030\002 \001("
-  "\005\022\021\n\ttimestamp\030\003 \001(\003\"W\n\020S2C_ResponeParty"
-  "\022\r\n\005error\030\001 \001(\005\022\021\n\tremote_id\030\002 \001(\003\022\016\n\006ac"
-  "tion\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001(\003\"\255\001\n\rS2C_Lo"
-  "adParty\022\r\n\005error\030\001 \001(\005\022\021\n\tleader_id\030\002 \001("
-  "\003\022\021\n\tremote_id\030\003 \003(\003\022\021\n\tnick_name\030\004 \003(\014\022"
-  "\r\n\005level\030\005 \003(\005\0222\n\017character_class\030\006 \003(\0162"
-  "\031.Protocol.ECharacterClass\022\021\n\ttimestamp\030"
-  "\007 \001(\003\"G\n\017S2C_NotifyParty\022\021\n\tnick_name\030\001 "
-  "\001(\014\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"\245"
-  "\001\n\024S2C_EnterPartyPlayer\022\021\n\tremote_id\030\001 \001"
-  "(\003\022\021\n\tleader_id\030\002 \001(\003\022\021\n\tnick_name\030\003 \001(\014"
-  "\022\r\n\005level\030\004 \001(\005\0222\n\017character_class\030\005 \001(\016"
-  "2\031.Protocol.ECharacterClass\022\021\n\ttimestamp"
-  "\030\006 \001(\003\"<\n\024S2C_LeavePartyPlayer\022\021\n\tremote"
-  "_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\"/\n\016S2C_Appe"
-  "arItem\022\035\n\004item\030\001 \001(\0132\017.Protocol.SItem\"\202\001"
-  "\n\017S2C_AppearArrow\022\021\n\tobject_id\030\001 \001(\003\022#\n\010"
-  "location\030\002 \001(\0132\021.Protocol.SVector\022$\n\010rot"
-  "ation\030\003 \001(\0132\022.Protocol.SRotator\022\021\n\ttimes"
-  "tamp\030\004 \001(\003\"\203\001\n\020S2C_AppearProtal\022\021\n\tobjec"
-  "t_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol."
-  "SVector\022$\n\010rotation\030\003 \001(\0132\022.Protocol.SRo"
-  "tator\022\021\n\ttimestamp\030\004 \001(\003\"\246\001\n\025S2C_AppearO"
-  "bstruction\022\021\n\tobject_id\030\001 \001(\003\022\014\n\004type\030\002 "
-  "\001(\005\022#\n\010location\030\003 \001(\0132\021.Protocol.SVector"
-  "\022$\n\010rotation\030\004 \001(\0132\022.Protocol.SRotator\022!"
-  "\n\006extent\030\005 \001(\0132\021.Protocol.SVector\"*\n\025C2S"
-  "_InteractiveObject\022\021\n\tobject_id\030\001 \001(\003\"\211\001"
-  "\n\026S2C_MovementProjectile\022\021\n\tobject_id\030\001 "
-  "\001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol.SVector"
-  "\022$\n\010rotation\030\003 \001(\0132\022.Protocol.SRotator\022\021"
-  "\n\ttimestamp\030\004 \001(\003\"F\n\014S2C_Teleport\022\021\n\tobj"
-  "ect_id\030\001 \001(\003\022#\n\010location\030\002 \001(\0132\021.Protoco"
-  "l.SVector\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobject_"
-  "id\030\001 \001(\003\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030\003 \001("
-  "\0162\025.Protocol.EEnemyState\022\036\n\005stats\030\004 \003(\0132"
-  "\017.Protocol.SStat\022\'\n\014cur_location\030\005 \001(\0132\021"
-  ".Protocol.SVector\022(\n\rmove_location\030\006 \001(\013"
-  "2\021.Protocol.SVector\022\021\n\ttimestamp\030\007 \001(\003\"\203"
-  "\001\n\025S2C_DetectChangeEnemy\022\021\n\tobject_id\030\001 "
-  "\001(\003\022\036\n\005stats\030\002 \003(\0132\017.Protocol.SStat\022$\n\005s"
-  "tate\030\003 \001(\0162\025.Protocol.EEnemyState\022\021\n\ttim"
-  "estamp\030\004 \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\tob"
-  "ject_id\030\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Pr"
-  "otocol.SVector\022(\n\rmove_location\030\003 \001(\0132\021."
-  "Protocol.SVector\022\021\n\ttimestamp\030\004 \001(\003\"\250\001\n\032"
-  "S2C_AnimationMovementEnemy\022\021\n\tobject_id\030"
-  "\001 \001(\003\022)\n\016start_location\030\002 \001(\0132\021.Protocol"
-  ".SVector\022\'\n\014end_location\030\003 \001(\0132\021.Protoco"
-  "l.SVector\022\020\n\010duration\030\004 \001(\003\022\021\n\ttimestamp"
-  "\030\005 \001(\003\"a\n\023S2C_EnemyAutoAttack\022\021\n\tobject_"
-  "id\030\001 \001(\003\022$\n\010rotation\030\002 \001(\0132\022.Protocol.SR"
-  "otator\022\021\n\ttimestamp\030\003 \001(\003\"4\n\014S2C_HitEnem"
-  "y\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\""
-  "6\n\016S2C_DeathEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\t"
-  "timestamp\030\002 \001(\003\",\n\027S2C_DisAppearGameObje"
-  "ct\022\021\n\tobject_id\030\001 \001(\003\"&\n\021C2S_LoadInvento"
-  "ry\022\021\n\ttimestamp\030\001 \001(\003\"s\n\021S2C_LoadInvento"
-  "ry\022\035\n\004item\030\001 \003(\0132\017.Protocol.SItem\022!\n\010eqi"
-  "pment\030\002 \003(\0132\017.Protocol.SItem\022\r\n\005money\030\003 "
-  "\001(\005\022\r\n\005error\030\004 \001(\005\"G\n\023C2S_InsertInventor"
-  "y\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Pro"
-  "tocol.SItem\"J\n\023S2C_InsertInventory\022\021\n\tre"
-  "mote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005erro"
-  "r\030\003 \001(\005\"G\n\023C2S_UpdateInventory\022\021\n\ttimest"
-  "amp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem"
-  "\"$\n\023S2C_UpdateInventory\022\r\n\005error\030\001 \001(\005\"l"
-  "\n\023C2S_DeleteInventory\022\021\n\ttimestamp\030\001 \001(\003"
-  "\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\022#\n\010locat"
-  "ion\030\003 \001(\0132\021.Protocol.SVector\"V\n\023S2C_Dele"
-  "teInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002"
-  " \001(\0132\017.Protocol.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025"
-  "S2C_RollbackInventory\022\021\n\tremote_id\030\001 \001(\003"
-  "\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"\247\001\n\023C2S_"
-  "ReplaceEqipment\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021in"
-  "sert_inven_item\030\002 \001(\0132\017.Protocol.SItem\022)"
-  "\n\020insert_eqip_item\030\003 \001(\0132\017.Protocol.SIte"
-  "m\022&\n\004part\030\004 \001(\0162\030.Protocol.ECharacterPar"
-  "t\"g\n\023S2C_ReplaceEqipment\022\021\n\tremote_id\030\001 "
-  "\001(\003\022.\n\010eqipment\030\002 \001(\0132\034.Protocol.SCharac"
-  "terEqipment\022\r\n\005error\030\003 \001(\005\"M\n\021S2C_LoadSk"
-  "illTree\022\020\n\010skill_id\030\001 \003(\005\022\023\n\013skill_count"
-  "\030\002 \003(\005\022\021\n\ttimestamp\030\003 \001(\003\"O\n\023C2S_UpdateS"
-  "killTree\022\020\n\010skill_id\030\001 \001(\005\022\023\n\013skill_coun"
-  "t\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"^\n\023S2C_Update"
-  "SkillTree\022\r\n\005error\030\001 \001(\005\022\020\n\010skill_id\030\002 \001"
-  "(\005\022\023\n\013skill_count\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001"
-  "(\003\"w\n\023C2S_SetUseKeyAction\022\016\n\006key_id\030\001 \001("
-  "\005\022\021\n\taction_id\030\002 \001(\005\022*\n\013action_type\030\003 \001("
-  "\0162\025.Protocol.EActionType\022\021\n\ttimestamp\030\004 "
-  "\001(\003\"$\n\023S2C_SetUseKeyAction\022\r\n\005error\030\001 \001("
-  "\005\"<\n\027C2S_PressedUseKeyAction\022\016\n\006key_id\030\001"
-  " \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"<\n\027C2S_ReleaseUs"
-  "eKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttimestamp\030"
-  "\002 \001(\003\"9\n\030S2C_ResponseUseKeyAction\022\016\n\006key"
-  "_id\030\001 \001(\005\022\r\n\005error\030\002 \001(\005\"\246\001\n\017S2C_AppearS"
-  "kill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001"
-  "(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021"
-  ".Protocol.SVector\022$\n\010rotation\030\005 \001(\0132\022.Pr"
-  "otocol.SRotator\022\020\n\010duration\030\006 \001(\003\"\250\001\n\021S2"
-  "C_ReactionSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tob"
-  "ject_id\030\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010locat"
-  "ion\030\004 \001(\0132\021.Protocol.SVector\022$\n\010rotation"
-  "\030\005 \001(\0132\022.Protocol.SRotator\022\020\n\010duration\030\006"
-  " \001(\003\"<\n\024S2C_EndReactionSkill\022\021\n\tremote_i"
-  "d\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\"9\n\021S2C_SkillC"
-  "oolTime\022\020\n\010skill_id\030\001 \003(\005\022\022\n\nskill_time\030"
-  "\002 \003(\003\"D\n\014S2C_PushBuff\022\021\n\tremote_id\030\001 \001(\003"
-  "\022\017\n\007buff_id\030\002 \001(\005\022\020\n\010duration\030\003 \001(\003\"5\n\017S"
-  "2C_ReleaseBuff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buf"
-  "f_id\030\002 \001(\005\"\275\001\n\014S2C_DebugBox\022)\n\016start_loc"
-  "ation\030\001 \001(\0132\021.Protocol.SVector\022\'\n\014end_lo"
-  "cation\030\002 \001(\0132\021.Protocol.SVector\022!\n\006exten"
-  "t\030\003 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\004"
-  " \001(\0132\022.Protocol.SRotator\022\020\n\010duration\030\005 \001"
-  "(\002\"X\n\017S2C_DebugCircle\022#\n\010location\030\001 \001(\0132"
-  "\021.Protocol.SVector\022\016\n\006radius\030\002 \001(\002\022\020\n\010du"
-  "ration\030\003 \001(\002\"/\n\027C2S_RequestEnterDungeon\022"
-  "\024\n\014dungeon_type\030\001 \001(\005\"(\n\027S2C_RequestEnte"
-  "rDungeon\022\r\n\005error\030\001 \001(\005\"L\n\030S2C_ResponseE"
-  "nterDungeon\022\r\n\005error\030\001 \001(\005\022\022\n\ndungeon_id"
-  "\030\002 \001(\005\022\r\n\005level\030\003 \001(\014\"-\n\027C2S_CompleteLoa"
-  "dDungeon\022\022\n\ndungeon_id\030\001 \001(\005\"B\n\026S2C_Wait"
-  "ingLoadDungeon\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014le"
-  "ast_number\030\002 \001(\005\"\031\n\027S2C_CompleteLoadDung"
-  "eon\".\n\017S2C_EnterPortal\022\r\n\005title\030\001 \001(\014\022\014\n"
-  "\004time\030\002 \001(\003\"\021\n\017S2C_LeavePortal\"8\n\020S2C_Pl"
-  "aySequence\022\020\n\010sequence\030\001 \001(\005\022\022\n\nmax_numb"
-  "er\030\002 \001(\005\"&\n\020C2S_SkipSequence\022\022\n\ndungeon_"
-  "id\030\001 \001(\005\"<\n\020S2C_SkipSequence\022\022\n\nmax_numb"
-  "er\030\001 \001(\005\022\024\n\014least_number\030\002 \001(\005\"\021\n\017S2C_En"
-  "dSequenceb\006proto3"
+  "ta\030\005 \001(\0132\030.Protocol.SCharacterData\022\036\n\005st"
+  "ats\030\006 \003(\0132\017.Protocol.SStat\"+\n\026S2C_DisApp"
+  "earCharacter\022\021\n\tremote_id\030\001 \001(\003\"\247\001\n\025C2S_"
+  "MovementCharacter\022\021\n\ttimestamp\030\001 \001(\003\022\'\n\014"
+  "cur_location\030\002 \001(\0132\021.Protocol.SVector\022(\n"
+  "\rmove_location\030\003 \001(\0132\021.Protocol.SVector\022"
+  "(\n\rmove_velocity\030\004 \001(\0132\021.Protocol.SVecto"
+  "r\"\272\001\n\025S2C_MovementCharacter\022\021\n\tremote_id"
+  "\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\022\'\n\014cur_locatio"
+  "n\030\003 \001(\0132\021.Protocol.SVector\022(\n\rmove_locat"
+  "ion\030\004 \001(\0132\021.Protocol.SVector\022(\n\rmove_vel"
+  "ocity\030\005 \001(\0132\021.Protocol.SVector\"&\n\021C2S_Pl"
+  "ayAnimation\022\021\n\ttimestamp\030\001 \001(\003\"G\n\021S2C_Pl"
+  "ayAnimation\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimest"
+  "amp\030\002 \001(\003\022\014\n\004type\030\003 \001(\005\"^\n\026S2C_DetectCha"
+  "ngePlayer\022\021\n\tremote_id\030\001 \001(\003\022\036\n\005stats\030\002 "
+  "\003(\0132\017.Protocol.SStat\022\021\n\ttimestamp\030\003 \001(\003\""
+  "<\n\024C2S_PlayerAutoAttack\022\021\n\ttimestamp\030\001 \001"
+  "(\003\022\021\n\tobject_id\030\002 \001(\003\"\226\001\n\024S2C_PlayerAuto"
+  "Attack\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005combo\030\002 \001(\005"
+  "\022#\n\010location\030\003 \001(\0132\021.Protocol.SVector\022$\n"
+  "\010rotation\030\004 \001(\0132\022.Protocol.SRotator\022\021\n\tt"
+  "imestamp\030\005 \001(\003\"\?\n\027S2C_PlayerEndAutoAttac"
+  "k\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\""
+  "P\n\024S2C_UpdateExperience\022\021\n\tremote_id\030\001 \001"
+  "(\003\022\022\n\nexperience\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001("
+  "\003\"V\n\013S2C_LevelUp\022\021\n\tremote_id\030\001 \001(\003\022\r\n\005l"
+  "evel\030\002 \001(\005\022\022\n\nexperience\030\003 \001(\005\022\021\n\ttimest"
+  "amp\030\004 \001(\003\".\n\010C2S_Chat\022\017\n\007message\030\001 \001(\014\022\021"
+  "\n\ttimestamp\030\002 \001(\003\"s\n\010S2C_Chat\022\021\n\tremote_"
+  "id\030\001 \001(\003\022\014\n\004name\030\002 \001(\014\022\017\n\007message\030\003 \001(\014\022"
+  "\"\n\tchat_type\030\004 \001(\0162\017.Protocol.EChat\022\021\n\tt"
+  "imestamp\030\005 \001(\003\":\n\022C2S_LoadFriendList\022\021\n\t"
+  "list_type\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"^\n\022S2"
+  "C_LoadFriendList\022\"\n\007friends\030\001 \003(\0132\021.Prot"
+  "ocol.SFriend\022\021\n\tlist_type\030\002 \001(\005\022\021\n\ttimes"
+  "tamp\030\003 \001(\003\"I\n\021C2S_RequestFriend\022\021\n\tnick_"
+  "name\030\001 \001(\014\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030"
+  "\003 \001(\003\"E\n\021S2C_RequestFriend\022\r\n\005error\030\001 \001("
+  "\005\022\016\n\006action\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"G\n\017"
+  "C2S_BlockFriend\022\021\n\tnick_name\030\001 \001(\014\022\016\n\006ac"
+  "tion\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"C\n\017S2C_Blo"
+  "ckFriend\022\r\n\005error\030\001 \001(\005\022\016\n\006action\030\002 \001(\005\022"
+  "\021\n\ttimestamp\030\003 \001(\003\"9\n\021S2C_ConnectFriend\022"
+  "\021\n\tnick_name\030\001 \001(\014\022\021\n\ttimestamp\030\002 \001(\003\"<\n"
+  "\024S2C_DisConnectFriend\022\021\n\tnick_name\030\001 \001(\014"
+  "\022\021\n\ttimestamp\030\002 \001(\003\"$\n\017C2S_CreateParty\022\021"
+  "\n\ttimestamp\030\001 \001(\003\"3\n\017S2C_CreateParty\022\r\n\005"
+  "error\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"=\n\025C2S_Re"
+  "questEnterParty\022\021\n\tnick_name\030\001 \001(\014\022\021\n\tti"
+  "mestamp\030\002 \001(\003\"9\n\025S2C_RequestEnterParty\022\r"
+  "\n\005error\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"{\n\020S2C_"
+  "RequestParty\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tnick_"
+  "name\030\002 \001(\014\022\r\n\005level\030\003 \001(\005\0222\n\017character_c"
+  "lass\030\004 \001(\0162\031.Protocol.ECharacterClass\"=\n"
+  "\025C2S_RequestLeaveParty\022\021\n\tremote_id\030\001 \001("
+  "\003\022\021\n\ttimestamp\030\002 \001(\003\"H\n\025S2C_RequestLeave"
+  "Party\022\r\n\005error\030\001 \001(\005\022\r\n\005cause\030\002 \001(\005\022\021\n\tt"
+  "imestamp\030\003 \001(\003\">\n\026C2S_RequestLeaderParty"
+  "\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\":"
+  "\n\026S2C_RequestLeaderParty\022\r\n\005error\030\001 \001(\005\022"
+  "\021\n\ttimestamp\030\003 \001(\003\"H\n\020C2S_ResponeParty\022\021"
+  "\n\tremote_id\030\001 \001(\003\022\016\n\006action\030\002 \001(\005\022\021\n\ttim"
+  "estamp\030\003 \001(\003\"W\n\020S2C_ResponeParty\022\r\n\005erro"
+  "r\030\001 \001(\005\022\021\n\tremote_id\030\002 \001(\003\022\016\n\006action\030\003 \001"
+  "(\005\022\021\n\ttimestamp\030\004 \001(\003\"\255\001\n\rS2C_LoadParty\022"
+  "\r\n\005error\030\001 \001(\005\022\021\n\tleader_id\030\002 \001(\003\022\021\n\trem"
+  "ote_id\030\003 \003(\003\022\021\n\tnick_name\030\004 \003(\014\022\r\n\005level"
+  "\030\005 \003(\005\0222\n\017character_class\030\006 \003(\0162\031.Protoc"
+  "ol.ECharacterClass\022\021\n\ttimestamp\030\007 \001(\003\"G\n"
+  "\017S2C_NotifyParty\022\021\n\tnick_name\030\001 \001(\014\022\016\n\006a"
+  "ction\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\003\"\245\001\n\024S2C_E"
+  "nterPartyPlayer\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tle"
+  "ader_id\030\002 \001(\003\022\021\n\tnick_name\030\003 \001(\014\022\r\n\005leve"
+  "l\030\004 \001(\005\0222\n\017character_class\030\005 \001(\0162\031.Proto"
+  "col.ECharacterClass\022\021\n\ttimestamp\030\006 \001(\003\"<"
+  "\n\024S2C_LeavePartyPlayer\022\021\n\tremote_id\030\001 \001("
+  "\003\022\021\n\ttimestamp\030\002 \001(\003\"/\n\016S2C_AppearItem\022\035"
+  "\n\004item\030\001 \001(\0132\017.Protocol.SItem\"\202\001\n\017S2C_Ap"
+  "pearArrow\022\021\n\tobject_id\030\001 \001(\003\022#\n\010location"
+  "\030\002 \001(\0132\021.Protocol.SVector\022$\n\010rotation\030\003 "
+  "\001(\0132\022.Protocol.SRotator\022\021\n\ttimestamp\030\004 \001"
+  "(\003\"\203\001\n\020S2C_AppearProtal\022\021\n\tobject_id\030\001 \001"
+  "(\003\022#\n\010location\030\002 \001(\0132\021.Protocol.SVector\022"
+  "$\n\010rotation\030\003 \001(\0132\022.Protocol.SRotator\022\021\n"
+  "\ttimestamp\030\004 \001(\003\"\246\001\n\025S2C_AppearObstructi"
+  "on\022\021\n\tobject_id\030\001 \001(\003\022\014\n\004type\030\002 \001(\005\022#\n\010l"
+  "ocation\030\003 \001(\0132\021.Protocol.SVector\022$\n\010rota"
+  "tion\030\004 \001(\0132\022.Protocol.SRotator\022!\n\006extent"
+  "\030\005 \001(\0132\021.Protocol.SVector\"*\n\025C2S_Interac"
+  "tiveObject\022\021\n\tobject_id\030\001 \001(\003\"\211\001\n\026S2C_Mo"
+  "vementProjectile\022\021\n\tobject_id\030\001 \001(\003\022#\n\010l"
+  "ocation\030\002 \001(\0132\021.Protocol.SVector\022$\n\010rota"
+  "tion\030\003 \001(\0132\022.Protocol.SRotator\022\021\n\ttimest"
+  "amp\030\004 \001(\003\"F\n\014S2C_Teleport\022\021\n\tobject_id\030\001"
+  " \001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol.SVecto"
+  "r\"\342\001\n\017S2C_AppearEnemy\022\021\n\tobject_id\030\001 \001(\003"
+  "\022\020\n\010enemy_id\030\002 \001(\005\022$\n\005state\030\003 \001(\0162\025.Prot"
+  "ocol.EEnemyState\022\036\n\005stats\030\004 \003(\0132\017.Protoc"
+  "ol.SStat\022\'\n\014cur_location\030\005 \001(\0132\021.Protoco"
+  "l.SVector\022(\n\rmove_location\030\006 \001(\0132\021.Proto"
+  "col.SVector\022\021\n\ttimestamp\030\007 \001(\003\"\203\001\n\025S2C_D"
+  "etectChangeEnemy\022\021\n\tobject_id\030\001 \001(\003\022\036\n\005s"
+  "tats\030\002 \003(\0132\017.Protocol.SStat\022$\n\005state\030\003 \001"
+  "(\0162\025.Protocol.EEnemyState\022\021\n\ttimestamp\030\004"
+  " \001(\003\"\214\001\n\021S2C_MovementEnemy\022\021\n\tobject_id\030"
+  "\001 \001(\003\022\'\n\014cur_location\030\002 \001(\0132\021.Protocol.S"
+  "Vector\022(\n\rmove_location\030\003 \001(\0132\021.Protocol"
+  ".SVector\022\021\n\ttimestamp\030\004 \001(\003\"\250\001\n\032S2C_Anim"
+  "ationMovementEnemy\022\021\n\tobject_id\030\001 \001(\003\022)\n"
+  "\016start_location\030\002 \001(\0132\021.Protocol.SVector"
+  "\022\'\n\014end_location\030\003 \001(\0132\021.Protocol.SVecto"
+  "r\022\020\n\010duration\030\004 \001(\003\022\021\n\ttimestamp\030\005 \001(\003\"a"
+  "\n\023S2C_EnemyAutoAttack\022\021\n\tobject_id\030\001 \001(\003"
+  "\022$\n\010rotation\030\002 \001(\0132\022.Protocol.SRotator\022\021"
+  "\n\ttimestamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobj"
+  "ect_id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_D"
+  "eathEnemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestam"
+  "p\030\002 \001(\003\",\n\027S2C_DisAppearGameObject\022\021\n\tob"
+  "ject_id\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\tti"
+  "mestamp\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004it"
+  "em\030\001 \003(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 "
+  "\003(\0132\017.Protocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005e"
+  "rror\030\004 \001(\005\"G\n\023C2S_InsertInventory\022\021\n\ttim"
+  "estamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SI"
+  "tem\"J\n\023S2C_InsertInventory\022\021\n\tremote_id\030"
+  "\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\""
+  "G\n\023C2S_UpdateInventory\022\021\n\ttimestamp\030\001 \001("
+  "\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_"
+  "UpdateInventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_De"
+  "leteInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item"
+  "\030\002 \001(\0132\017.Protocol.SItem\022#\n\010location\030\003 \001("
+  "\0132\021.Protocol.SVector\"V\n\023S2C_DeleteInvent"
+  "ory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.P"
+  "rotocol.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_Roll"
+  "backInventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item"
+  "\030\002 \001(\0132\017.Protocol.SItem\"\247\001\n\023C2S_ReplaceE"
+  "qipment\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inv"
+  "en_item\030\002 \001(\0132\017.Protocol.SItem\022)\n\020insert"
+  "_eqip_item\030\003 \001(\0132\017.Protocol.SItem\022&\n\004par"
+  "t\030\004 \001(\0162\030.Protocol.ECharacterPart\"g\n\023S2C"
+  "_ReplaceEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010e"
+  "qipment\030\002 \001(\0132\034.Protocol.SCharacterEqipm"
+  "ent\022\r\n\005error\030\003 \001(\005\"M\n\021S2C_LoadSkillTree\022"
+  "\020\n\010skill_id\030\001 \003(\005\022\023\n\013skill_count\030\002 \003(\005\022\021"
+  "\n\ttimestamp\030\003 \001(\003\"O\n\023C2S_UpdateSkillTree"
+  "\022\020\n\010skill_id\030\001 \001(\005\022\023\n\013skill_count\030\002 \001(\005\022"
+  "\021\n\ttimestamp\030\003 \001(\003\"^\n\023S2C_UpdateSkillTre"
+  "e\022\r\n\005error\030\001 \001(\005\022\020\n\010skill_id\030\002 \001(\005\022\023\n\013sk"
+  "ill_count\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001(\003\"w\n\023C2"
+  "S_SetUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\tact"
+  "ion_id\030\002 \001(\005\022*\n\013action_type\030\003 \001(\0162\025.Prot"
+  "ocol.EActionType\022\021\n\ttimestamp\030\004 \001(\003\"$\n\023S"
+  "2C_SetUseKeyAction\022\r\n\005error\030\001 \001(\005\"<\n\027C2S"
+  "_PressedUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\t"
+  "timestamp\030\002 \001(\003\"<\n\027C2S_ReleaseUseKeyActi"
+  "on\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"9\n"
+  "\030S2C_ResponseUseKeyAction\022\016\n\006key_id\030\001 \001("
+  "\005\022\r\n\005error\030\002 \001(\005\"\246\001\n\017S2C_AppearSkill\022\021\n\t"
+  "remote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\020\n\010sk"
+  "ill_id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021.Protoco"
+  "l.SVector\022$\n\010rotation\030\005 \001(\0132\022.Protocol.S"
+  "Rotator\022\020\n\010duration\030\006 \001(\003\"\250\001\n\021S2C_Reacti"
+  "onSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030"
+  "\002 \001(\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030\004 \001("
+  "\0132\021.Protocol.SVector\022$\n\010rotation\030\005 \001(\0132\022"
+  ".Protocol.SRotator\022\020\n\010duration\030\006 \001(\003\"<\n\024"
+  "S2C_EndReactionSkill\022\021\n\tremote_id\030\001 \001(\003\022"
+  "\021\n\ttimestamp\030\002 \001(\003\"9\n\021S2C_SkillCoolTime\022"
+  "\020\n\010skill_id\030\001 \003(\005\022\022\n\nskill_time\030\002 \003(\003\"D\n"
+  "\014S2C_PushBuff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buff"
+  "_id\030\002 \001(\005\022\020\n\010duration\030\003 \001(\003\"5\n\017S2C_Relea"
+  "seBuff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buff_id\030\002 \001"
+  "(\005\"\275\001\n\014S2C_DebugBox\022)\n\016start_location\030\001 "
+  "\001(\0132\021.Protocol.SVector\022\'\n\014end_location\030\002"
+  " \001(\0132\021.Protocol.SVector\022!\n\006extent\030\003 \001(\0132"
+  "\021.Protocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.P"
+  "rotocol.SRotator\022\020\n\010duration\030\005 \001(\002\"X\n\017S2"
+  "C_DebugCircle\022#\n\010location\030\001 \001(\0132\021.Protoc"
+  "ol.SVector\022\016\n\006radius\030\002 \001(\002\022\020\n\010duration\030\003"
+  " \001(\002\"/\n\027C2S_RequestEnterDungeon\022\024\n\014dunge"
+  "on_type\030\001 \001(\005\"(\n\027S2C_RequestEnterDungeon"
+  "\022\r\n\005error\030\001 \001(\005\"L\n\030S2C_ResponseEnterDung"
+  "eon\022\r\n\005error\030\001 \001(\005\022\022\n\ndungeon_id\030\002 \001(\005\022\r"
+  "\n\005level\030\003 \001(\014\"-\n\027C2S_CompleteLoadDungeon"
+  "\022\022\n\ndungeon_id\030\001 \001(\005\"B\n\026S2C_WaitingLoadD"
+  "ungeon\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014least_numb"
+  "er\030\002 \001(\005\"\031\n\027S2C_CompleteLoadDungeon\".\n\017S"
+  "2C_EnterPortal\022\r\n\005title\030\001 \001(\014\022\014\n\004time\030\002 "
+  "\001(\003\"\021\n\017S2C_LeavePortal\"8\n\020S2C_PlaySequen"
+  "ce\022\020\n\010sequence\030\001 \001(\005\022\022\n\nmax_number\030\002 \001(\005"
+  "\"&\n\020C2S_SkipSequence\022\022\n\ndungeon_id\030\001 \001(\005"
+  "\"<\n\020S2C_SkipSequence\022\022\n\nmax_number\030\001 \001(\005"
+  "\022\024\n\014least_number\030\002 \001(\005\"\021\n\017S2C_EndSequenc"
+  "eb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -2741,7 +2744,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 8377, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 8409, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
     &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 97,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
@@ -3886,6 +3889,9 @@ void S2C_AppearCharacter::clear_character_data() {
   }
   _impl_.character_data_ = nullptr;
 }
+void S2C_AppearCharacter::clear_stats() {
+  _impl_.stats_.Clear();
+}
 S2C_AppearCharacter::S2C_AppearCharacter(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3896,7 +3902,8 @@ S2C_AppearCharacter::S2C_AppearCharacter(const S2C_AppearCharacter& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2C_AppearCharacter* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.cur_location_){nullptr}
+      decltype(_impl_.stats_){from._impl_.stats_}
+    , decltype(_impl_.cur_location_){nullptr}
     , decltype(_impl_.move_location_){nullptr}
     , decltype(_impl_.character_data_){nullptr}
     , decltype(_impl_.remote_id_){}
@@ -3924,7 +3931,8 @@ inline void S2C_AppearCharacter::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.cur_location_){nullptr}
+      decltype(_impl_.stats_){arena}
+    , decltype(_impl_.cur_location_){nullptr}
     , decltype(_impl_.move_location_){nullptr}
     , decltype(_impl_.character_data_){nullptr}
     , decltype(_impl_.remote_id_){int64_t{0}}
@@ -3944,6 +3952,7 @@ S2C_AppearCharacter::~S2C_AppearCharacter() {
 
 inline void S2C_AppearCharacter::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.stats_.~RepeatedPtrField();
   if (this != internal_default_instance()) delete _impl_.cur_location_;
   if (this != internal_default_instance()) delete _impl_.move_location_;
   if (this != internal_default_instance()) delete _impl_.character_data_;
@@ -3959,6 +3968,7 @@ void S2C_AppearCharacter::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.stats_.Clear();
   if (GetArenaForAllocation() == nullptr && _impl_.cur_location_ != nullptr) {
     delete _impl_.cur_location_;
   }
@@ -4020,6 +4030,19 @@ const char* S2C_AppearCharacter::_InternalParse(const char* ptr, ::_pbi::ParseCo
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_character_data(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .Protocol.SStat stats = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_stats(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -4085,6 +4108,14 @@ uint8_t* S2C_AppearCharacter::_InternalSerialize(
         _Internal::character_data(this).GetCachedSize(), target, stream);
   }
 
+  // repeated .Protocol.SStat stats = 6;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_stats_size()); i < n; i++) {
+    const auto& repfield = this->_internal_stats(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(6, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4100,6 +4131,13 @@ size_t S2C_AppearCharacter::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // repeated .Protocol.SStat stats = 6;
+  total_size += 1UL * this->_internal_stats_size();
+  for (const auto& msg : this->_impl_.stats_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
 
   // .Protocol.SVector cur_location = 3;
   if (this->_internal_has_cur_location()) {
@@ -4150,6 +4188,7 @@ void S2C_AppearCharacter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_impl_.stats_.MergeFrom(from._impl_.stats_);
   if (from._internal_has_cur_location()) {
     _this->_internal_mutable_cur_location()->::Protocol::SVector::MergeFrom(
         from._internal_cur_location());
@@ -4185,6 +4224,7 @@ bool S2C_AppearCharacter::IsInitialized() const {
 void S2C_AppearCharacter::InternalSwap(S2C_AppearCharacter* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.stats_.InternalSwap(&other->_impl_.stats_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S2C_AppearCharacter, _impl_.timestamp_)
       + sizeof(S2C_AppearCharacter::_impl_.timestamp_)
