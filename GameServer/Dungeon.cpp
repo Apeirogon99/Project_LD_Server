@@ -164,7 +164,7 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	{
 		return;
 	}
-	party->BroadCastLoadParty();
+	//party->BroadCastLoadParty();
 	
 	int32 max = static_cast<int32>(party->GetPartyPlayers().size());
 	int32 cur = static_cast<int32>(mWorldPlayers.size());

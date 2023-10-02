@@ -198,6 +198,12 @@ void SphereTrigger::OnTick(const int64 inDeltaTime)
         if (false == overlap.second)
         {
             ActorPtr actor = overlap.first;
+            if (nullptr == actor)
+            {
+                ++pos;
+                continue;
+            }
+
             this->OnEndOverlap(actor);
             mOverlapActor.erase(pos++);
         }

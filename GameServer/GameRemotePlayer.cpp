@@ -189,7 +189,7 @@ void GameRemotePlayer::OnLoadComplete()
 	world->PushCharacterIDandRemoteID(this->mToken.GetCharacterID(), character->GetCharacterData().name(), this->GetGameObjectID());
 	world->VisibleAreaInit(playerState);
 
-	party->BroadCastLoadParty();
+	//party->BroadCastLoadParty();
 }
 
 void GameRemotePlayer::LeaveRemotePlayer()

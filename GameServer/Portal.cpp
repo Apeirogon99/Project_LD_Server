@@ -112,7 +112,7 @@ void Portal::OnEndOverlap(ActorPtr inEndOverlapActor)
 {
 	if (true == mIsTeleport)
 	{
-		EndTeleport();
+		LeaveTeleport();
 	}
 }
 

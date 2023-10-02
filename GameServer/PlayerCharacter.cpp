@@ -76,6 +76,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	this->mStatComponent.UpdateStats(inDeltaTime);
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
+
+	printf("[%lld] remote [%d] player : ", this->GetGameObjectID(), this->GetCharacterID()); this->GetLocation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
