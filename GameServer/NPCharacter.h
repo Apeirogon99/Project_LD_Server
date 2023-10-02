@@ -1,17 +1,5 @@
 #pragma once
 
-class NPCQuest
-{
-public:
-	NPCQuest();
-	~NPCQuest();
-
-public:
-
-private:
-	int32 mQuestID;
-	int32 mPreQuestID;
-};
 
 class NPCharacter : public Character
 {
@@ -35,6 +23,5 @@ public:
 
 private:
 	int32 mNPCID;
-	std::vector<NPCQuest> mQuests;
 };
 

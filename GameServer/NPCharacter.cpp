@@ -62,15 +62,15 @@ void NPCharacter::OnAppearActor(ActorPtr inAppearActor)
 	FRotator	rotation = this->GetRotation();
 	const int64	worldTime = this->GetWorld().lock()->GetWorldTime();
 
-	Protocol::S2C_AppearNPC appearPacket;
-	appearPacket.set_object_id(this->GetGameObjectID());
-	appearPacket.set_npc_id(this->mNPCID);
-	appearPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
-	appearPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSVector(rotation));
-	appearPacket.set_timestamp(worldTime);
+	//Protocol::S2C_AppearNPC appearPacket;
+	//appearPacket.set_object_id(this->GetGameObjectID());
+	//appearPacket.set_npc_id(this->mNPCID);
+	//appearPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(location));
+	//appearPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSVector(rotation));
+	//appearPacket.set_timestamp(worldTime);
 
-	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
-	anotherPlayerState->Send(sendBuffer);
+	//SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
+	//anotherPlayerState->Send(sendBuffer);
 }
 
 void NPCharacter::OnDisAppearActor(ActorPtr inDisappearActor)
