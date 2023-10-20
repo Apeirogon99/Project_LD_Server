@@ -77,7 +77,7 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
-	printf("[%lld] remote [%d] player : ", this->GetGameObjectID(), this->GetCharacterID()); this->GetLocation().ToString();
+	//printf("[%lld] remote [%d] player : ", this->GetGameObjectID(), this->GetCharacterID()); this->GetLocation().ToString();
 }
 
 bool PlayerCharacter::IsValid()
@@ -138,18 +138,14 @@ void PlayerCharacter::OnAppearActor(ActorPtr inAppearActor)
 	appearPacket.mutable_character_data()->CopyFrom(this->GetCharacterData());
 
 
-	std::map<EStatType, float> chanageStats;
-	if (true == this->mStatComponent.ExtractChanageMaxStats(chanageStats))
+	const Stats& stats = mStatComponent.GetCurrentStats();
+	for (int32 index = 0; index < MAX_STATS_NUM; ++index)
 	{
-		auto stat = chanageStats.begin();
-		for (stat; stat != chanageStats.end(); ++stat)
-		{
-			Protocol::SStat* addStat = appearPacket.add_stats();
-			addStat->set_stat_type(static_cast<Protocol::EStatType>(stat->first));
-			addStat->set_stat_value(stat->second);
-		}
-
+		Protocol::SStat* addStat = appearPacket.add_stats();
+		addStat->set_stat_type(static_cast<Protocol::EStatType>(index + 1));
+		addStat->set_stat_value(stats.GetStat(index));
 	}
+
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearPacket);
 	anotherPlayerState->Send(sendBuffer);

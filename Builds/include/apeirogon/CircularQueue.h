@@ -29,7 +29,11 @@ public:
 
 	~CircularQueue()
 	{
-		delete[] mQueue;
+		if (mQueue)
+		{
+			delete[] mQueue;
+		}
+		mQueue = nullptr;
 	}
 
 	CircularQueue(CircularQueue&&) = delete;
@@ -76,7 +80,6 @@ public:
 		{
 			mQueue[currentIndex] = std::move(inVariable);
 			mTail = nextIndex;
-
 			return true;
 		}
 

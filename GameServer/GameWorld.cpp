@@ -350,7 +350,17 @@ void GameWorld::VisibleAreaSync(const int64 inDeltaTime)
 	for (player; player != mWorldPlayers.end(); player++)
 	{
 
-		GameRemotePlayerPtr playerRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(player->second->GetRemotePlayer());
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(player->second);
+		if (nullptr == playerState)
+		{
+			continue;
+		}
+
+		GameRemotePlayerPtr playerRemotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+		if (nullptr == playerRemotePlayer)
+		{
+			continue;
+		}
 
 		auto viewPlayer = mWorldPlayers.begin();
 		for (viewPlayer; viewPlayer != mWorldPlayers.end(); viewPlayer++)

@@ -56,7 +56,7 @@ Protocol::SRotator PacketUtils::ToSRotator(const FRotator& inRotator)
 
 void PacketUtils::DebugDrawBox(RemoteClientPtr inClient, const FVector& inStart, const FVector& inEnd, const FVector& inExtent, const float& inDuration)
 {
-#ifdef DEBUG_DRAW
+#if DEBUG_DRAW
     if (inClient)
     {
         Protocol::S2C_DebugBox debugPacket;
@@ -73,7 +73,7 @@ void PacketUtils::DebugDrawBox(RemoteClientPtr inClient, const FVector& inStart,
 
 void PacketUtils::DebugDrawBox(const std::set<RemoteClientPtr>& inClients, const FVector& inStart, const FVector& inEnd, const FVector& inExtent, const float& inDuration)
 {
-#ifdef DEBUG_DRAW
+#if DEBUG_DRAW
     
     Protocol::S2C_DebugBox debugPacket;
     debugPacket.mutable_start_location()->CopyFrom(PacketUtils::ToSVector(inStart));
@@ -85,7 +85,10 @@ void PacketUtils::DebugDrawBox(const std::set<RemoteClientPtr>& inClients, const
 
     for (auto player : inClients)
     {
-        player->Send(sendBuffer);
+        if (player)
+        {
+            player->Send(sendBuffer);
+        }
     }
 
 #endif // DEBUG_DRAW
@@ -93,7 +96,7 @@ void PacketUtils::DebugDrawBox(const std::set<RemoteClientPtr>& inClients, const
 
 void PacketUtils::DebugDrawSphere(RemoteClientPtr inClient, const FVector& inLocation, const float& inRadius, const float& inDuration)
 {
-#ifdef DEBUG_DRAW
+#if DEBUG_DRAW
     if (inClient)
     {
         Protocol::S2C_DebugCircle debugPacket;
@@ -109,7 +112,7 @@ void PacketUtils::DebugDrawSphere(RemoteClientPtr inClient, const FVector& inLoc
 
 void PacketUtils::DebugDrawSphere(const std::set<RemoteClientPtr>& inClients, const FVector& inLocation, const float& inRadius, const float& inDuration)
 {
-#ifdef DEBUG_DRAW
+#if DEBUG_DRAW
 
     Protocol::S2C_DebugCircle debugPacket;
     debugPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(inLocation));
@@ -120,7 +123,10 @@ void PacketUtils::DebugDrawSphere(const std::set<RemoteClientPtr>& inClients, co
 
     for (auto player : inClients)
     {
-        player->Send(sendBuffer);
+        if (player)
+        {
+            player->Send(sendBuffer);
+        }
     }
 
 #endif // DEBUG_DRAW

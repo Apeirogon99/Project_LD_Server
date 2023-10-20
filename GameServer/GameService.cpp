@@ -30,7 +30,8 @@ bool GameService::SettingService()
 	std::wstring ip = L"";
 	int32 port;
 #if NETWORK_LOCAL
-	ip = L"192.168.123.112";
+	//ip = L"192.168.123.112";
+	ip = L"127.0.0.1";
 	port = 10000;
 #else
 	//ip = L"125.180.66.59";
@@ -46,7 +47,7 @@ bool GameService::SettingService()
 	}
 
 	//ThreadManager
-	const uint32 MaxThreadCount = 4;
+	const uint32 MaxThreadCount = 1;
 	const uint32 MaxTimeOut = INFINITE;
 	ThreadManagerPtr threadManager = std::make_shared<ThreadManager>(MaxThreadCount, MaxTimeOut);
 	if (false == SetThreadManager(threadManager))
