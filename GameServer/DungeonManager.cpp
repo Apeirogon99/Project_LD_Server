@@ -23,7 +23,7 @@ void DungeonManager::OnInitialization()
 		return;
 	}
 
-	for (int32 index = 0; index < 1; ++index)
+	for (int32 index = 0; index < 2; ++index)
 	{
 		DungeonPtr newDungeon = std::make_shared<Dungeon>();
 		newDungeon->SetDungeonID(index);

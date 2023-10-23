@@ -234,7 +234,7 @@ void Dungeon::CreateStageA()
 
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 2000.0f, 2000.0f);
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 2000.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 2000.0f, 2000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 5);
