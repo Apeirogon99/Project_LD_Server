@@ -109,7 +109,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
 	this->OnMovementEnemy();
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[0];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[pattern];
 	pattenFunc(*this);
 }
 

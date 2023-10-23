@@ -127,6 +127,9 @@ extern C2S_SetUseKeyActionDefaultTypeInternal _C2S_SetUseKeyAction_default_insta
 class C2S_SkipSequence;
 struct C2S_SkipSequenceDefaultTypeInternal;
 extern C2S_SkipSequenceDefaultTypeInternal _C2S_SkipSequence_default_instance_;
+class C2S_StartPack;
+struct C2S_StartPackDefaultTypeInternal;
+extern C2S_StartPackDefaultTypeInternal _C2S_StartPack_default_instance_;
 class C2S_Tick;
 struct C2S_TickDefaultTypeInternal;
 extern C2S_TickDefaultTypeInternal _C2S_Tick_default_instance_;
@@ -325,6 +328,9 @@ extern S2C_SkillCoolTimeDefaultTypeInternal _S2C_SkillCoolTime_default_instance_
 class S2C_SkipSequence;
 struct S2C_SkipSequenceDefaultTypeInternal;
 extern S2C_SkipSequenceDefaultTypeInternal _S2C_SkipSequence_default_instance_;
+class S2C_StartPack;
+struct S2C_StartPackDefaultTypeInternal;
+extern S2C_StartPackDefaultTypeInternal _S2C_StartPack_default_instance_;
 class S2C_Teleport;
 struct S2C_TeleportDefaultTypeInternal;
 extern S2C_TeleportDefaultTypeInternal _S2C_Teleport_default_instance_;
@@ -370,6 +376,7 @@ template<> ::Protocol::C2S_RequestLeaveParty* Arena::CreateMaybeMessage<::Protoc
 template<> ::Protocol::C2S_ResponeParty* Arena::CreateMaybeMessage<::Protocol::C2S_ResponeParty>(Arena*);
 template<> ::Protocol::C2S_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::C2S_SetUseKeyAction>(Arena*);
 template<> ::Protocol::C2S_SkipSequence* Arena::CreateMaybeMessage<::Protocol::C2S_SkipSequence>(Arena*);
+template<> ::Protocol::C2S_StartPack* Arena::CreateMaybeMessage<::Protocol::C2S_StartPack>(Arena*);
 template<> ::Protocol::C2S_Tick* Arena::CreateMaybeMessage<::Protocol::C2S_Tick>(Arena*);
 template<> ::Protocol::C2S_UpdateInventory* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateInventory>(Arena*);
 template<> ::Protocol::C2S_UpdateSkillTree* Arena::CreateMaybeMessage<::Protocol::C2S_UpdateSkillTree>(Arena*);
@@ -436,6 +443,7 @@ template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protoc
 template<> ::Protocol::S2C_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_SetUseKeyAction>(Arena*);
 template<> ::Protocol::S2C_SkillCoolTime* Arena::CreateMaybeMessage<::Protocol::S2C_SkillCoolTime>(Arena*);
 template<> ::Protocol::S2C_SkipSequence* Arena::CreateMaybeMessage<::Protocol::S2C_SkipSequence>(Arena*);
+template<> ::Protocol::S2C_StartPack* Arena::CreateMaybeMessage<::Protocol::S2C_StartPack>(Arena*);
 template<> ::Protocol::S2C_Teleport* Arena::CreateMaybeMessage<::Protocol::S2C_Teleport>(Arena*);
 template<> ::Protocol::S2C_Tick* Arena::CreateMaybeMessage<::Protocol::S2C_Tick>(Arena*);
 template<> ::Protocol::S2C_UpdateExperience* Arena::CreateMaybeMessage<::Protocol::S2C_UpdateExperience>(Arena*);
@@ -17263,6 +17271,242 @@ class S2C_EndSequence final :
   };
   friend struct ::TableStruct_GamePacket_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C2S_StartPack final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protocol.C2S_StartPack) */ {
+ public:
+  inline C2S_StartPack() : C2S_StartPack(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR C2S_StartPack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_StartPack(const C2S_StartPack& from);
+  C2S_StartPack(C2S_StartPack&& from) noexcept
+    : C2S_StartPack() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_StartPack& operator=(const C2S_StartPack& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_StartPack& operator=(C2S_StartPack&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_StartPack& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_StartPack* internal_default_instance() {
+    return reinterpret_cast<const C2S_StartPack*>(
+               &_C2S_StartPack_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    97;
+
+  friend void swap(C2S_StartPack& a, C2S_StartPack& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_StartPack* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_StartPack* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_StartPack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_StartPack>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C2S_StartPack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C2S_StartPack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_StartPack";
+  }
+  protected:
+  explicit C2S_StartPack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_StartPack)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_StartPack final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protocol.S2C_StartPack) */ {
+ public:
+  inline S2C_StartPack() : S2C_StartPack(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR S2C_StartPack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_StartPack(const S2C_StartPack& from);
+  S2C_StartPack(S2C_StartPack&& from) noexcept
+    : S2C_StartPack() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_StartPack& operator=(const S2C_StartPack& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_StartPack& operator=(S2C_StartPack&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_StartPack& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_StartPack* internal_default_instance() {
+    return reinterpret_cast<const S2C_StartPack*>(
+               &_S2C_StartPack_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    98;
+
+  friend void swap(S2C_StartPack& a, S2C_StartPack& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_StartPack* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_StartPack* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_StartPack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_StartPack>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const S2C_StartPack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const S2C_StartPack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_StartPack";
+  }
+  protected:
+  explicit S2C_StartPack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_StartPack)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
 // ===================================================================
 
 
@@ -27021,9 +27265,21 @@ inline void S2C_SkipSequence::set_least_number(int32_t value) {
 
 // S2C_EndSequence
 
+// -------------------------------------------------------------------
+
+// C2S_StartPack
+
+// -------------------------------------------------------------------
+
+// S2C_StartPack
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

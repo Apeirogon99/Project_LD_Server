@@ -20,6 +20,7 @@ public:
 	bool InsertEqipment(Inventoryptr inInventory, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
 	bool DeleteEqipment(Inventoryptr inInventory, const AItemPtr& inInsertInventoryItem, const Protocol::ECharacterPart& inPart);
 	bool ReplaceEqipment(Inventoryptr inInventory, const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart);
+	void ClearEqipment();
 
 public:
 	const std::vector<AItemPtr>&	GetEqipments() const;

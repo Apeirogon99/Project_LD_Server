@@ -114,6 +114,7 @@ void EqipmentComponent::LoadEqipment(google::protobuf::RepeatedPtrField<Protocol
 		loadEqipment->set_object_id(curEqipment->GetGameObjectID());
 		loadEqipment->set_item_code(curEqipment->GetItemCode());
 	}
+
 }
 
 void EqipmentComponent::CreateEqipment(TaskManagerPtr inTask, const int32& inItemCode, const int32& inPart)
@@ -165,6 +166,14 @@ bool EqipmentComponent::ReplaceEqipment(Inventoryptr inInventory, const AItemPtr
 	const int32 part = static_cast<int32>(inPart);
 	mEqipments[part - 1] = inInsertEqipmentItem;
 	return true;
+}
+
+void EqipmentComponent::ClearEqipment()
+{
+	for (auto eqipment : mEqipments)
+	{
+		eqipment->Clear();
+	}
 }
 
 const std::vector<AItemPtr>& EqipmentComponent::GetEqipments() const

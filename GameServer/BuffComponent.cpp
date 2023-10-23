@@ -67,7 +67,8 @@ void BuffComponent::PushBuff(StatsComponent& inStatsComponent, const EBuffType& 
 		pushBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, pushBuffPacket);
-		playerState->Send(sendBuffer);
+		owner->BrodcastPlayerViewers(sendBuffer);
+		//playerState->BroadcastPlayerMonitors(sendBuffer);
 	}
 }
 
@@ -117,7 +118,8 @@ void BuffComponent::ReleaseBuff(StatsComponent& inStatsComponent, const EBuffTyp
 		releaseBuffPacket.set_buff_id(static_cast<int32>(inBuffID));
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, releaseBuffPacket);
-		playerState->Send(sendBuffer);
+		owner->BrodcastPlayerViewers(sendBuffer);
+		//playerState->BroadcastPlayerMonitors(sendBuffer);
 	}
 }
 

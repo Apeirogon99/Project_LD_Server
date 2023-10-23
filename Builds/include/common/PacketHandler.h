@@ -124,6 +124,8 @@ enum class EPakcetID : uint16
 	C2S_SkipSequence = 2094,
 	S2C_SkipSequence = 2095,
 	S2C_EndSequence = 2096,
+	C2S_StartPack = 2097,
+	S2C_StartPack = 2098,
 
 	C2S_EnterDungeon = 5000,
 	S2C_EnterDungeon = 5001,

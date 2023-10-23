@@ -16,6 +16,9 @@ bool Handle_UpdateInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 bool Handle_DeleteInventory_Requset(PacketSessionPtr& inSession, const int32 inCharacterID, const int32 inItemCode, const Protocol::SVector2D& inInventoryPosition);
 bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
 
+bool Handle_ClearInventory_Request(PacketSessionPtr& inSession, const int32 inCharacterID);
+bool Handle_ClearInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset);
+
 //==========================//
 //		  Eqipment			//
 //==========================//

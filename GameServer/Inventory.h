@@ -40,6 +40,10 @@ public:
 	void UpdateMoney(const int32& inMoeny);
 
 public:
+	void TempStartPack();
+	void UpdateTempStartPack();
+
+public:
 	CSVRow* PeekItemRow(const int32 inItemCode);
 	const int32& GetMoney() const;
 

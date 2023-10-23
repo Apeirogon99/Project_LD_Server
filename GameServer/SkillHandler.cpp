@@ -49,7 +49,7 @@ bool Skill_Warrior_Buff(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     {
         return false;
     }
-    skillComponent.UseSkill(warriorBuff, static_cast<int32>(ESkillID::Skill_Warrior_Buff), 2000);
+    skillComponent.UseSkill(warriorBuff, static_cast<int32>(ESkillID::Skill_Warrior_Buff), 10000);
     skillComponent.SetActiveSkill(warriorBuff);
 
     warriorBuff->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Buff), world->GetWorldTime());
@@ -101,7 +101,7 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     {
         return false;
     }
-    skillComponent.UseSkill(warriorParrying, static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 2000);
+    skillComponent.UseSkill(warriorParrying, static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 3000);
     skillComponent.SetActiveSkill(warriorParrying);
 
     warriorParrying->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), world->GetWorldTime());
@@ -153,7 +153,7 @@ bool Skill_Warrior_ShieldBash(GameRemotePlayerRef& inGameRemotePlayer, bool inIs
     {
         return false;
     }
-    skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 2000);
+    skillComponent.UseSkill(warriorShieldBash, static_cast<int32>(ESkillID::Skill_Warrior_ShieldBash), 15000);
     skillComponent.SetActiveSkill(warriorShieldBash);
 
     warriorShieldBash->SetWarriorShieldBash(200.0f, -50.0f);
@@ -235,7 +235,7 @@ bool Skill_Warrior_SwordBlow(GameRemotePlayerRef& inGameRemotePlayer, bool inIsP
         {
             return true;
         }
-        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 2000);
+        skillComponent.UseSkill(warriorSwordBlow, static_cast<int32>(ESkillID::Skill_Warrior_SwordBlow), 20000);
 
         warriorSwordBlow->PushTask(world->GetNextWorldTime(), &WarriorSwordBlow::Active);
     }

@@ -100,6 +100,8 @@ enum class EPakcetID: uint16
 	C2S_SkipSequence = 2094,
 	S2C_SkipSequence = 2095,
 	S2C_EndSequence = 2096,
+	C2S_StartPack = 2097,
+	S2C_StartPack = 2098,
 };
 */
 
@@ -132,6 +134,7 @@ bool Handle_C2S_ReleaseUseKeyAction(PacketSessionPtr& session, Protocol::C2S_Rel
 bool Handle_C2S_RequestEnterDungeon(PacketSessionPtr& session, Protocol::C2S_RequestEnterDungeon& pkt);
 bool Handle_C2S_CompleteLoadDungeon(PacketSessionPtr& session, Protocol::C2S_CompleteLoadDungeon& pkt);
 bool Handle_C2S_SkipSequence(PacketSessionPtr& session, Protocol::C2S_SkipSequence& pkt);
+bool Handle_C2S_StartPack(PacketSessionPtr& session, Protocol::C2S_StartPack& pkt);
 
 class GameServerPacketHandler
 {
@@ -166,6 +169,7 @@ public:
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_RequestEnterDungeon)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_RequestEnterDungeon>(Handle_C2S_RequestEnterDungeon, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_CompleteLoadDungeon)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_CompleteLoadDungeon>(Handle_C2S_CompleteLoadDungeon, session, buffer, len); };
 		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_SkipSequence)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_SkipSequence>(Handle_C2S_SkipSequence, session, buffer, len); };
+		inPacketFunc[static_cast<uint16>(EPakcetID::C2S_StartPack)] = [](PacketSessionPtr& session, BYTE* buffer, int32 len) { return PacketHandler::HandlePacket<Protocol::C2S_StartPack>(Handle_C2S_StartPack, session, buffer, len); };
 	}
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EnterGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EnterGameServer)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_LeaveGameServer& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_LeaveGameServer)); }
@@ -236,5 +240,6 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_PlaySequence& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_PlaySequence)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SkipSequence& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SkipSequence)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EndSequence& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EndSequence)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_StartPack& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_StartPack)); }
 
 };

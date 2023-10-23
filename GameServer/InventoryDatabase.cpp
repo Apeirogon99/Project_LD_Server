@@ -288,6 +288,61 @@ bool Handle_DeleteInventory_Response(PacketSessionPtr& inSession, ADOConnection&
 	return true;
 }
 
+bool Handle_ClearInventory_Request(PacketSessionPtr& inSession, const int32 inCharacterID)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	RemotePlayerPtr remotePlayer = playerState->GetRemotePlayer();
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	ADOConnectionInfo ConnectionInfo(CommonGameDatabaseInfo);
+	ADOConnection connection;
+	connection.Open(ConnectionInfo);
+
+	ADOVariant character_id = inCharacterID;
+
+	ADOCommand command;
+	command.SetStoredProcedure(connection, L"dbo.clear_inventory_sp");
+	command.SetReturnParam();
+	command.SetInputParam(L"@character_id", character_id);
+
+	ADORecordset recordset;
+	command.ExecuteStoredProcedure(recordset, EExcuteReturnType::Async_Return);
+
+	GameDataBaseHandler::PushAsyncTask(inSession, connection, command, recordset, Handle_ClearInventory_Response);
+	return true;
+}
+
+bool Handle_ClearInventory_Response(PacketSessionPtr& inSession, ADOConnection& inConnection, ADOCommand& inCommand, ADORecordset& inRecordset)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	int32 ret = inCommand.GetReturnParam();
+	if (ret == 0)
+	{
+		remotePlayer->GetInventory()->UpdateTempStartPack();
+	}
+
+	return true;
+}
+
 bool Handle_ReplaceEqipment_Requset(PacketSessionPtr& inSession, AItemPtr inInsertInventoryItem, AItemPtr inInsertEqipmentItem, Protocol::ECharacterPart inPart)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(inSession);

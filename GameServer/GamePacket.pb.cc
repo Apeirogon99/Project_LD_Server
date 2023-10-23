@@ -1471,8 +1471,30 @@ struct S2C_EndSequenceDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_EndSequenceDefaultTypeInternal _S2C_EndSequence_default_instance_;
+PROTOBUF_CONSTEXPR C2S_StartPack::C2S_StartPack(
+    ::_pbi::ConstantInitialized) {}
+struct C2S_StartPackDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C2S_StartPackDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C2S_StartPackDefaultTypeInternal() {}
+  union {
+    C2S_StartPack _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_StartPackDefaultTypeInternal _C2S_StartPack_default_instance_;
+PROTOBUF_CONSTEXPR S2C_StartPack::S2C_StartPack(
+    ::_pbi::ConstantInitialized) {}
+struct S2C_StartPackDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_StartPackDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S2C_StartPackDefaultTypeInternal() {}
+  union {
+    S2C_StartPack _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_StartPackDefaultTypeInternal _S2C_StartPack_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[97];
+static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[99];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_GamePacket_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_GamePacket_2eproto = nullptr;
 
@@ -2324,6 +2346,18 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C2S_StartPack, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_StartPack, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::C2S_EnterGameServer)},
@@ -2423,6 +2457,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 826, -1, -1, sizeof(::Protocol::C2S_SkipSequence)},
   { 833, -1, -1, sizeof(::Protocol::S2C_SkipSequence)},
   { 841, -1, -1, sizeof(::Protocol::S2C_EndSequence)},
+  { 847, -1, -1, sizeof(::Protocol::C2S_StartPack)},
+  { 853, -1, -1, sizeof(::Protocol::S2C_StartPack)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2523,6 +2559,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_C2S_SkipSequence_default_instance_._instance,
   &::Protocol::_S2C_SkipSequence_default_instance_._instance,
   &::Protocol::_S2C_EndSequence_default_instance_._instance,
+  &::Protocol::_C2S_StartPack_default_instance_._instance,
+  &::Protocol::_S2C_StartPack_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -2736,7 +2774,8 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "\"&\n\020C2S_SkipSequence\022\022\n\ndungeon_id\030\001 \001(\005"
   "\"<\n\020S2C_SkipSequence\022\022\n\nmax_number\030\001 \001(\005"
   "\022\024\n\014least_number\030\002 \001(\005\"\021\n\017S2C_EndSequenc"
-  "eb\006proto3"
+  "e\"\017\n\rC2S_StartPack\"\017\n\rS2C_StartPackb\006pro"
+  "to3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -2744,9 +2783,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 8409, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 8443, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
-    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 97,
+    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 99,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
     file_level_metadata_GamePacket_2eproto, file_level_enum_descriptors_GamePacket_2eproto,
     file_level_service_descriptors_GamePacket_2eproto,
@@ -25863,6 +25902,86 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_EndSequence::GetClassData(
       file_level_metadata_GamePacket_2eproto[96]);
 }
 
+// ===================================================================
+
+class C2S_StartPack::_Internal {
+ public:
+};
+
+C2S_StartPack::C2S_StartPack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protocol.C2S_StartPack)
+}
+C2S_StartPack::C2S_StartPack(const C2S_StartPack& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  C2S_StartPack* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protocol.C2S_StartPack)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_StartPack::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_StartPack::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_StartPack::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
+      file_level_metadata_GamePacket_2eproto[97]);
+}
+
+// ===================================================================
+
+class S2C_StartPack::_Internal {
+ public:
+};
+
+S2C_StartPack::S2C_StartPack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_StartPack)
+}
+S2C_StartPack::S2C_StartPack(const S2C_StartPack& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  S2C_StartPack* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_StartPack)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_StartPack::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_StartPack::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_StartPack::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
+      file_level_metadata_GamePacket_2eproto[98]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -26253,6 +26372,14 @@ Arena::CreateMaybeMessage< ::Protocol::S2C_SkipSequence >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_EndSequence*
 Arena::CreateMaybeMessage< ::Protocol::S2C_EndSequence >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_EndSequence >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::C2S_StartPack*
+Arena::CreateMaybeMessage< ::Protocol::C2S_StartPack >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::C2S_StartPack >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_StartPack*
+Arena::CreateMaybeMessage< ::Protocol::S2C_StartPack >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_StartPack >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

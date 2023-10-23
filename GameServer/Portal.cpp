@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Portal.h"
 
-Portal::Portal() : SphereTrigger(), mTeleportLocation(), mMaxTeleportTime(10000), mCurTeleportTime(0), mIsTeleport(false)
+Portal::Portal() : SphereTrigger(), mTeleportLocation(), mMaxTeleportTime(10000), mCurTeleportTime(0), mLastTeleportTime(10), mIsTeleport(false)
 {
 }
 
@@ -137,11 +137,20 @@ void Portal::EnterTeleport()
 	mIsTeleport = true;
 
 	float time = (mMaxTeleportTime - mCurTeleportTime) / 1000.0f;
+	int64 iTime = static_cast<int64>(time + 1);
 	std::string title = "잠시후 다음 지점으로 이동됩니다.";
+
+	if (mLastTeleportTime < iTime)
+	{
+		return;
+	}
+	mLastTeleportTime = iTime - 1;
 
 	Protocol::S2C_EnterPortal enterPortalPacket;
 	enterPortalPacket.set_title(title);
-	enterPortalPacket.set_time(static_cast<int64>(time + 1));
+	enterPortalPacket.set_time(iTime);
+
+	this->GameObjectLog(L"Waiting for teleport %lld\n", iTime);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPortalPacket);
 	this->BroadCastOverlap(sendBuffer);
@@ -152,6 +161,7 @@ void Portal::LeaveTeleport()
 {
 	mIsTeleport = false;
 	mCurTeleportTime = 0;
+	mLastTeleportTime = static_cast<int64>(mMaxTeleportTime / 1000.0f);
 
 	Protocol::S2C_LeavePortal leavePortalPacket;
 

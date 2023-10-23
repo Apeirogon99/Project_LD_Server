@@ -499,6 +499,121 @@ void Inventory::UpdateMoney(const int32& inMoeny)
 	mMoney += inMoeny;
 }
 
+void Inventory::TempStartPack()
+{
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int32	characterID = remotePlayer->GetCharacter()->GetCharacterID();
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+
+	{
+		std::vector<AItemPtr> tempItems;
+		for (auto iter = mItems.begin(); iter != mItems.end(); iter++)
+		{
+			tempItems.push_back(iter->second);
+		}
+
+		for (auto iter = tempItems.begin(); iter != tempItems.end(); iter++)
+		{
+			DeleteItem(*iter);
+		}
+
+		remotePlayer->GetCharacter()->GetEqipmentComponent().ClearEqipment();
+	}
+	Handle_ClearInventory_Request(packetSession, characterID);
+
+}
+
+void Inventory::UpdateTempStartPack()
+{
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+	const int32	characterID = remotePlayer->GetCharacter()->GetCharacterID();
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
+
+	std::vector<int32> startPacksCode;
+	startPacksCode.push_back(31);
+	startPacksCode.push_back(51);
+	startPacksCode.push_back(71);
+	startPacksCode.push_back(91);
+	startPacksCode.push_back(111);
+	startPacksCode.push_back(131);
+	startPacksCode.push_back(151);
+
+	std::vector<int32> startPacksX;
+	startPacksX.push_back(0);
+	startPacksX.push_back(2);
+	startPacksX.push_back(2);
+	startPacksX.push_back(0);
+	startPacksX.push_back(0);
+	startPacksX.push_back(5);
+	startPacksX.push_back(5);
+
+	std::vector<int32> startPacksY;
+	startPacksY.push_back(0);
+	startPacksY.push_back(0);
+	startPacksY.push_back(2);
+	startPacksY.push_back(2);
+	startPacksY.push_back(4);
+	startPacksY.push_back(0);
+	startPacksY.push_back(2);
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
+	GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());
+
+	for (int32 i = 0; i < startPacksCode.size(); ++i)
+	{
+		AItemPtr newItem = std::make_shared<AItem>();
+		GameObjectPtr itemGameObject = newItem->GetGameObjectPtr();
+		task->CreateGameObject(itemGameObject);
+
+		newItem->Init(startPacksCode[i], startPacksX[i], startPacksY[i], 0);
+
+		bool insertResult = InsertItem(newItem);
+		if (insertResult)
+		{
+			Handle_InsertInventory_Requset(packetSession, characterID, newItem->GetItemCode(), newItem->GetInventoryPosition(), newItem->GetInventoryRoation());
+		}
+	}
+
+	{
+		Protocol::S2C_LoadInventory loadInventoryPacket;
+
+		this->LoadItem(loadInventoryPacket.mutable_item());
+		remotePlayer->GetCharacter()->GetEqipmentComponent().LoadEqipment(loadInventoryPacket.mutable_eqipment());
+		loadInventoryPacket.set_money(this->mMoney);
+		loadInventoryPacket.set_error(ErrorToInt(EGameErrorType::SUCCESS));
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, loadInventoryPacket);
+		playerState->Send(sendBuffer);
+	}
+
+	{
+		Protocol::S2C_StartPack packet;
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(packetSession, packet);
+		playerState->Send(sendBuffer);
+	}
+}
+
 CSVRow* Inventory::PeekItemRow(const int32 inItemCode)
 {
 	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock());
