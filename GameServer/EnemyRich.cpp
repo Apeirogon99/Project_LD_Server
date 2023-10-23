@@ -247,7 +247,7 @@ void EnemyRichPhase1::OnReward()
 	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
 
 
-	world->PlaySequence(2, 10000);
+	world->PlaySequence(2, 5000);
 }
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
@@ -605,7 +605,7 @@ void EnemyRichPhase2::OnReward()
 	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
 
 
-	world->PlaySequence(3, 10000);
+	world->PlaySequence(3, 3000);
 }
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
@@ -872,7 +872,7 @@ void EnemyRichPhase3::OnReward()
 	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
 
 
-	world->PlaySequence(4, 10000);
+	world->PlaySequence(4, 5000);
 }
 
 void EnemyRichPhase3::Skill_RiseDarkSkeleton()

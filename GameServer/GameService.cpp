@@ -30,8 +30,8 @@ bool GameService::SettingService()
 	std::wstring ip = L"";
 	int32 port;
 #if NETWORK_LOCAL
-	//ip = L"192.168.123.112";
-	ip = L"127.0.0.1";
+	ip = L"192.168.123.112";
+	//ip = L"127.0.0.1";
 	port = 10000;
 #else
 	//ip = L"125.180.66.59";
