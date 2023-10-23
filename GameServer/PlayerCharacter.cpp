@@ -26,7 +26,7 @@ void PlayerCharacter::OnInitialization()
 	collision->SetBoxCollision(FVector(42.0f, 42.0f, 96.0f));
 
 	this->mStatComponent.SetSyncTime(GAME_TICK);
-	this->mSkillComponent.Init(owner, SECOND_TICK);
+	this->mSkillComponent.Init(owner, GAME_TICK);
 	this->mBuffComponent.Init(owner);
 
 	AttackInfos infos;

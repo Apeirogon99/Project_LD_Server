@@ -101,7 +101,7 @@ bool Skill_Warrior_Parrying(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPr
     {
         return false;
     }
-    skillComponent.UseSkill(warriorParrying, static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 3000);
+    skillComponent.UseSkill(warriorParrying, static_cast<int32>(ESkillID::Skill_Warrior_Parrying), 7000);
     skillComponent.SetActiveSkill(warriorParrying);
 
     warriorParrying->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Parrying), world->GetWorldTime());
@@ -286,7 +286,7 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     {
         return false;
     }
-    skillComponent.UseSkill(warriorDash, static_cast<int32>(ESkillID::Skill_Warrior_Dash), 2000);
+    skillComponent.UseSkill(warriorDash, static_cast<int32>(ESkillID::Skill_Warrior_Dash), 5000);
     skillComponent.SetActiveSkill(warriorDash);
 
     warriorDash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash), world->GetWorldTime());
