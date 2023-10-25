@@ -241,9 +241,9 @@ void Dungeon::CreateStageA()
 
 	this->GameObjectLog(L"Create A Stage\n");
 
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 2000.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 2000.0f, 2000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, false, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, false, 2000.0f, 2000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, false, 2000.0f, 2000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 5);
@@ -256,9 +256,9 @@ void Dungeon::CreateStageB()
 
 	this->GameObjectLog(L"Create B Stage\n");
 
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 5000.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 5000.0f, 5000.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 5000.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, false, 5000.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, false, 5000.0f, 5000.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, false, 5000.0f, 5000.0f);
 
 	{
 		this->MakeWorldObstruction(EGameDataType::DungeonObstruction, 7);
@@ -449,6 +449,8 @@ void Dungeon::SkipSequence(PlayerStatePtr inPlayerState)
 	}
 	const int64& remoteID = remotePlayer->GetGameObjectID();
 
+	this->GameObjectLog(L"Skip Sequence ( %d / %d )\n", this->mSequenceComponent.GetSkipPlayers() + 1, this->mMaxPlayers);
+
 	if (false == this->mSequenceComponent.Skip(remoteID))
 	{
 		Protocol::S2C_SkipSequence skipSequence;
@@ -458,8 +460,6 @@ void Dungeon::SkipSequence(PlayerStatePtr inPlayerState)
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, skipSequence);
 		this->SendWorldPlayers(sendBuffer);
 	}
-
-	this->GameObjectLog(L"Skip Sequence ( %d / %d )\n", this->mSequenceComponent.GetSkipPlayers(), this->mMaxPlayers);
 }
 
 void Dungeon::EndSequence()

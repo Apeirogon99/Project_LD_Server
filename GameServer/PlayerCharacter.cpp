@@ -293,6 +293,26 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 		return;
 	}
 
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	const PlayerMonitors& playerMonitors = playerState->GetPlayerMonitors();
+	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
+	{
+		playerMonitor->get()->ReleasePlayerViewer(playerState);
+		playerState->ReleasePlayerMonitor(*playerMonitor++);
+	}
+
+	const ActorMonitors& actorMonitors = playerState->GetActorMonitors();
+	for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end();)
+	{
+		actorMonitor->get()->ReleasePlayerViewer(playerState);
+		playerState->ReleaseActorMonitor(*actorMonitor++);
+	}
+
 	this->GetMovementComponent().SetNewDestination(this->GetActorPtr(), inDestinationLocation, inDestinationLocation, worldTime, 0.0f);
 
 	remotePlayer->OnLoadComplete();

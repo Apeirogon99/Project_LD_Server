@@ -216,7 +216,7 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[pattern];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -893,7 +893,7 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 		{
 			return;
 		}
-		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, true, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
+		newRise->SetSpawnInfo(EnemyID::Enemy_Dark_Skeleton, 3, 1, false, 0.0f, 1500.0f, static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkSkeleton));
 		newRise->PushTask(worldTime + 3000, &Rise::SpawnEnemy);
 	}
 

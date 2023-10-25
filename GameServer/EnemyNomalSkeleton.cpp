@@ -84,8 +84,16 @@ void EnemyNomalSkeleton::OnAutoAttackTargeting(const float inDamage, const FVect
 
 void EnemyNomalSkeleton::OnAutoAttackOver()
 {
-	this->mAutoAttackComponent.OnOverAutoAttack();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+	world->DestroyActor(mMeleeAttack->GetGameObjectID());
 	mMeleeAttack.reset();
+
+	this->mAutoAttackComponent.OnOverAutoAttack();
 
 	if (false == this->IsDeath())
 	{
