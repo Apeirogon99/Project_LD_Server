@@ -167,6 +167,9 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 	
 	int32 max = static_cast<int32>(party->GetPartyPlayers().size());
 	int32 cur = static_cast<int32>(mWorldPlayers.size());
+
+	this->GameObjectLog(L"Wating load dungeon (%d / %d)\n", cur, max);
+
 	if (max == cur)
 	{
 		mMaxPlayers = max;
@@ -177,6 +180,8 @@ void Dungeon::CompleteLoadDungeon(PlayerStatePtr inPlayerState)
 		this->CreateBossStage();
 		
 		party->BroadCastLoadParty();
+
+		this->GameObjectLog(L"Complete load dungeon\n", cur, max);
 
 		Protocol::S2C_CompleteLoadDungeon completePacket;
 
@@ -232,6 +237,8 @@ void Dungeon::InitDungeon()
 void Dungeon::CreateStageA()
 {
 
+	this->GameObjectLog(L"Create A Stage\n");
+
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+600.0f, -650.0f, +474.0f), 700.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 1, true, true, 2000.0f, 2000.0f);
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-100.0f, +300.0f, +474.0f), 400.0f, EnemyID::Enemy_Archer_Skeleton, 2, 1, true, true, 2000.0f, 2000.0f);
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(+800.0f, +600.0f, +474.0f), 500.0f, EnemyID::Enemy_Warrior_Skeleton, 1, 1, true, true, 2000.0f, 2000.0f);
@@ -244,6 +251,9 @@ void Dungeon::CreateStageA()
 
 void Dungeon::CreateStageB()
 {
+
+	this->GameObjectLog(L"Create B Stage\n");
+
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5000.0f, +600.0f, +474.0f), 700.0f, EnemyID::Enemy_Warrior_Skeleton, 4, 3, true, true, 5000.0f, 5000.0f);
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-6500.0f, +600.0f, +474.0f), 400.0f, EnemyID::Enemy_Nomal_Skeleton, 3, 3, true, true, 5000.0f, 5000.0f);
 	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(-5750.0f, -200.0f, +474.0f), 500.0f, EnemyID::Enemy_Archer_Skeleton, 2, 3, true, true, 5000.0f, 5000.0f);
@@ -255,6 +265,8 @@ void Dungeon::CreateStageB()
 
 void Dungeon::CreateBossStage()
 {
+
+	this->GameObjectLog(L"Create Boss Stage\n");
 
 	//TEMP
 	std::shared_ptr<Portal> portal = std::static_pointer_cast<Portal>(SpawnActor<Portal>(this->GetGameObjectRef(), Location(1500.0f, 1500.0f, 500.0f), FRotator(), Scale()));
@@ -320,6 +332,8 @@ bool Dungeon::CheackBossStage()
 void Dungeon::ClearStageA()
 {
 	
+	this->GameObjectLog(L"Clear A Stage\n");
+
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
 	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 		
@@ -346,6 +360,8 @@ void Dungeon::ClearStageA()
 void Dungeon::ClearStageB()
 {
 
+	this->GameObjectLog(L"Clear B Stage\n");
+
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
 	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 
@@ -363,6 +379,9 @@ void Dungeon::ClearStageB()
 
 void Dungeon::ClearBossStage()
 {
+
+	this->GameObjectLog(L"Clear Boss Stage\n");
+
 	this->DestroyActors(static_cast<uint8>(EActorType::Obstruction));
 	this->DestroyActors(static_cast<uint8>(EActorType::EnemyAttack));
 

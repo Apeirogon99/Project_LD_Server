@@ -163,6 +163,8 @@ void Portal::LeaveTeleport()
 	mCurTeleportTime = 0;
 	mLastTeleportTime = static_cast<int64>(mMaxTeleportTime / 1000.0f);
 
+	this->GameObjectLog(L"Cancle teleport\n");
+
 	Protocol::S2C_LeavePortal leavePortalPacket;
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, leavePortalPacket);
