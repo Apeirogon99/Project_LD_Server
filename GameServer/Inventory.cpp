@@ -558,6 +558,8 @@ void Inventory::UpdateTempStartPack()
 	startPacksCode.push_back(111);
 	startPacksCode.push_back(131);
 	startPacksCode.push_back(151);
+	startPacksCode.push_back(181);
+	startPacksCode.push_back(191);
 
 	std::vector<int32> startPacksX;
 	startPacksX.push_back(0);
@@ -567,6 +569,8 @@ void Inventory::UpdateTempStartPack()
 	startPacksX.push_back(0);
 	startPacksX.push_back(5);
 	startPacksX.push_back(5);
+	startPacksX.push_back(7);
+	startPacksX.push_back(9);
 
 	std::vector<int32> startPacksY;
 	startPacksY.push_back(0);
@@ -576,6 +580,8 @@ void Inventory::UpdateTempStartPack()
 	startPacksY.push_back(4);
 	startPacksY.push_back(0);
 	startPacksY.push_back(2);
+	startPacksY.push_back(0);
+	startPacksY.push_back(0);
 
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(remotePlayer->GetWorld().lock());
 	GameTaskPtr task = std::static_pointer_cast<GameTask>(world->GetTaskManagerRef().lock());

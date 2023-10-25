@@ -1,6 +1,6 @@
-id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,size_x,size_y,icon,mesh
-1,10,1,1,1,기본 상의,기본 상의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Male/SK_Nothing_2.SK_Nothing_2'
-2,10,1,1,1,기본 하의,기본 하의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Male/SK_Nothing_2.SK_Nothing_2'
+,category_id,character_class_id,race_id,tier_id,name,description,cost,level,size_x,size_y,icon,mesh
+1,10,1,1,1,기본 상의 (남),기본 상의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Male/SK_Nothing_2.SK_Nothing_2'
+2,10,1,1,1,기본 하의 (남),기본 하의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Male/SK_Nothing_2.SK_Nothing_2'
 3,10,1,1,1,남자 머리1,남자 머리1,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_MaleHair_1.T_MaleHair_1',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Male/SK_MaleHair_3.SK_MaleHair_3'
 4,10,1,1,1,남자 머리2,남자 머리2,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_MaleHair_2.T_MaleHair_2',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Male/SK_MaleHair_4.SK_MaleHair_4'
 5,10,1,1,1,남자 머리3,남자 머리3,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_MaleHair_3.T_MaleHair_3',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Male/SK_MaleHair_5.SK_MaleHair_5'
@@ -9,19 +9,19 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 8,,,,,,,,,,,,
 9,,,,,,,,,,,,
 10,,,,,,,,,,,,
-11,10,1,2,1,기본 상의,기본 상의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Female/SK_Nothing_12.SK_Nothing_12'
-12,10,1,2,1,기본 하의,기본 하의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Female/SK_Nothing_12.SK_Nothing_12'
-13,10,1,2,1,여자 머리1,여자 머리1,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_1.T_FemaleHair_1',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_14.SK_FemaleHair_14'
-14,10,1,2,1,여자 머리2,여자 머리2,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_2.T_FemaleHair_2',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_15.SK_FemaleHair_15'
-15,10,1,2,1,여자 머리3,여자 머리3,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_3.T_FemaleHair_3',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_16.SK_FemaleHair_16'
-16,10,1,2,1,여자 머리4,여자 머리4,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_4.T_FemaleHair_4',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_17.SK_FemaleHair_17'
-17,10,1,2,1,여자 머리5,여자 머리5,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_5.T_FemaleHair_5',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_18.SK_FemaleHair_18'
+11,10,1,2,1,기본 상의 (여),기본 상의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Female/SK_Nothing_12.SK_Nothing_12'
+12,10,1,2,1,기본 하의 (여),기본 하의,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_Option.T_Option',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Nothing/Female/SK_Nothing_12.SK_Nothing_12'
+13,10,1,2,1,여자 머리1,여자 머리1,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_1.T_FemaleHair_1',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_13.SK_FemaleHair_13'
+14,10,1,2,1,여자 머리2,여자 머리2,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_2.T_FemaleHair_2',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_14.SK_FemaleHair_14'
+15,10,1,2,1,여자 머리3,여자 머리3,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_3.T_FemaleHair_3',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_15.SK_FemaleHair_15'
+16,10,1,2,1,여자 머리4,여자 머리4,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_4.T_FemaleHair_4',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_16.SK_FemaleHair_16'
+17,10,1,2,1,여자 머리5,여자 머리5,1,1,1,1,Texture2D'/Game/GameContent/WidgetAssets/T_FemaleHair_5.T_FemaleHair_5',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hair/Female/SK_FemaleHair_17.SK_FemaleHair_17'
 18,,,,,,,,,,,,
 19,,,,,,,,,,,,
 20,,,,,,,,,,,,
-21,2,1,1,1,견습생 견갑,MaleShoulder1,1,1,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_02.T_Inv_Shoulder_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_430.SK_Shoulders_430'
-22,2,1,1,2,정규 기사 견갑,MaleShoulder2,1,10,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_03.T_Inv_Shoulder_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_431.SK_Shoulders_431'
-23,2,1,1,3,기사 단장 견갑,MaleShoulder3,1,25,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_01.T_Inv_Shoulder_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_432.SK_Shoulders_432'
+21,,,,,,,,,,,,
+22,,,,,,,,,,,,
+23,,,,,,,,,,,,
 24,,,,,,,,,,,,
 25,,,,,,,,,,,,
 26,,,,,,,,,,,,
@@ -29,9 +29,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 28,,,,,,,,,,,,
 29,,,,,,,,,,,,
 30,,,,,,,,,,,,
-31,1,1,1,1,견습생 투구,MaleHelemet1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_A_02.T_Inv_Helm_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_330.SK_Helmet_330'
-32,1,1,1,2,정규 기사 투구,MaleHelemet2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_B_03.T_Inv_Helm_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_334.SK_Helmet_334'
-33,1,1,1,3,기사 단장 투구,MaleHelemet3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_C_01.T_Inv_Helm_Footman_C_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_338.SK_Helmet_338'
+31,1,1,1,1,견습생 투구 (남),MaleHelmet1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_A_02.T_Inv_Helm_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_330.SK_Helmet_330'
+32,1,1,1,2,정규 기사 투구 (남),MaleHelmet2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_B_03.T_Inv_Helm_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_334.SK_Helmet_334'
+33,1,1,1,3,기사 단장 투구 (남),MaleHelmet3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_C_01.T_Inv_Helm_Footman_C_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Male/SK_Helmet_338.SK_Helmet_338'
 34,,,,,,,,,,,,
 35,,,,,,,,,,,,
 36,,,,,,,,,,,,
@@ -39,9 +39,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 38,,,,,,,,,,,,
 39,,,,,,,,,,,,
 40,,,,,,,,,,,,
-41,1,1,2,1,견습생 투구,FemaleHelemet1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_A_02.T_Inv_Helm_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_300.SK_Helmet_300'
-42,1,1,2,2,정규 기사 투구,FemaleHelemet2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_B_03.T_Inv_Helm_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_304.SK_Helmet_304'
-43,1,1,2,3,기사 단장 투구,FemaleHelemet3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_C_01.T_Inv_Helm_Footman_C_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_308.SK_Helmet_308'
+41,1,1,2,1,견습생 투구 (여),FemaleHelmet1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_A_02.T_Inv_Helm_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_300.SK_Helmet_300'
+42,1,1,2,2,정규 기사 투구 (여),FemaleHelmet2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_B_03.T_Inv_Helm_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_304.SK_Helmet_304'
+43,1,1,2,3,기사 단장 투구 (여),FemaleHelmet3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Helm/T_Inv_Helm_Footman_C_01.T_Inv_Helm_Footman_C_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Halmet/Female/SK_Helmet_308.SK_Helmet_308'
 44,,,,,,,,,,,,
 45,,,,,,,,,,,,
 46,,,,,,,,,,,,
@@ -49,9 +49,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 48,,,,,,,,,,,,
 49,,,,,,,,,,,,
 50,,,,,,,,,,,,
-51,2,1,1,1,견습생 견갑,MaleShoulder1,1,1,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_02.T_Inv_Shoulder_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_430.SK_Shoulders_430'
-52,2,1,1,2,정규 기사 견갑,MaleShoulder2,1,10,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_03.T_Inv_Shoulder_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_431.SK_Shoulders_431'
-53,2,1,1,3,기사 단장 견갑,MaleShoulder3,1,25,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_01.T_Inv_Shoulder_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_432.SK_Shoulders_432'
+51,2,1,1,1,견습생 견갑 (남),MaleShoulder1,1,1,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_02.T_Inv_Shoulder_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_430.SK_Shoulders_430'
+52,2,1,1,2,정규 기사 견갑 (남),MaleShoulder2,1,10,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_03.T_Inv_Shoulder_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_431.SK_Shoulders_431'
+53,2,1,1,3,기사 단장 견갑 (남),MaleShoulder3,1,25,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_01.T_Inv_Shoulder_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Male/SK_Shoulders_432.SK_Shoulders_432'
 54,,,,,,,,,,,,
 55,,,,,,,,,,,,
 56,,,,,,,,,,,,
@@ -59,9 +59,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 58,,,,,,,,,,,,
 59,,,,,,,,,,,,
 60,,,,,,,,,,,,
-61,2,1,2,1,견습생 견갑,FemaleShoulder1,1,1,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_02.T_Inv_Shoulder_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_400.SK_Shoulders_400'
-62,2,1,2,2,정규 기사 견갑,FemaleShoulder2,1,10,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_03.T_Inv_Shoulder_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_401.SK_Shoulders_401'
-63,2,1,2,3,기사 단장 견갑,FemaleShoulder3,1,25,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_01.T_Inv_Shoulder_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_401.SK_Shoulders_401'
+61,2,1,2,1,견습생 견갑 (여),FemaleShoulder1,1,1,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_02.T_Inv_Shoulder_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_400.SK_Shoulders_400'
+62,2,1,2,2,정규 기사 견갑 (여),FemaleShoulder2,1,10,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_03.T_Inv_Shoulder_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_401.SK_Shoulders_401'
+63,2,1,2,3,기사 단장 견갑 (여),FemaleShoulder3,1,25,3,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Shoulder/T_Inv_Shoulder_Footman_A_01.T_Inv_Shoulder_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Shoulders/Female/SK_Shoulders_401.SK_Shoulders_401'
 64,,,,,,,,,,,,
 65,,,,,,,,,,,,
 66,,,,,,,,,,,,
@@ -69,9 +69,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 68,,,,,,,,,,,,
 69,,,,,,,,,,,,
 70,,,,,,,,,,,,
-71,3,1,1,1,견습생 갑옷,MaleChest1,1,1,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_02.T_Inv_Chest_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_530.SK_Chest_530'
-72,3,1,1,2,정규 기사 갑옷,MaleChest2,1,10,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_03.T_Inv_Chest_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_531.SK_Chest_531'
-73,3,1,1,3,기사 단장 갑옷,MaleChest3,1,25,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_01.T_Inv_Chest_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_532.SK_Chest_532'
+71,3,1,1,1,견습생 갑옷 (남),MaleChest1,1,1,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_02.T_Inv_Chest_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_530.SK_Chest_530'
+72,3,1,1,2,정규 기사 갑옷 (남),MaleChest2,1,10,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_03.T_Inv_Chest_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_531.SK_Chest_531'
+73,3,1,1,3,기사 단장 갑옷 (남),MaleChest3,1,25,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_A_01.T_Inv_Chest_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Male/SK_Chest_532.SK_Chest_532'
 74,,,,,,,,,,,,
 75,,,,,,,,,,,,
 76,,,,,,,,,,,,
@@ -79,9 +79,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 78,,,,,,,,,,,,
 79,,,,,,,,,,,,
 80,,,,,,,,,,,,
-81,3,1,2,1,견습생 갑옷,FemaleChest1,1,1,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_02.T_Inv_Chest_Footman_B_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_500.SK_Chest_500'
-82,3,1,2,2,정규 기사 갑옷,FemaleChest2,1,10,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_03.T_Inv_Chest_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_501.SK_Chest_501'
-83,3,1,2,3,기사 단장 갑옷,FemaleChest3,1,25,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_01.T_Inv_Chest_Footman_B_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_502.SK_Chest_502'
+81,3,1,2,1,견습생 갑옷 (여),FemaleChest1,1,1,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_02.T_Inv_Chest_Footman_B_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_500.SK_Chest_500'
+82,3,1,2,2,정규 기사 갑옷 (여),FemaleChest2,1,10,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_03.T_Inv_Chest_Footman_B_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_501.SK_Chest_501'
+83,3,1,2,3,기사 단장 갑옷 (여),FemaleChest3,1,25,3,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Chest/T_Inv_Chest_Footman_B_01.T_Inv_Chest_Footman_B_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Chest/Female/SK_Chest_502.SK_Chest_502'
 84,,,,,,,,,,,,
 85,,,,,,,,,,,,
 86,,,,,,,,,,,,
@@ -89,9 +89,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 88,,,,,,,,,,,,
 89,,,,,,,,,,,,
 90,,,,,,,,,,,,
-91,4,1,1,1,견습생 팔 보호구,MaleBracers1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_02.T_Inv_Gloves_Ghost_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_630.SK_Bracers_630'
-92,4,1,1,2,정규 기사 팔 보호구,MaleBracers2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_01.T_Inv_Gloves_Ghost_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_631.SK_Bracers_631'
-93,4,1,1,3,기사 단장 팔 보호구,MaleBracers3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_03.T_Inv_Gloves_Ghost_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_632.SK_Bracers_632'
+91,4,1,1,1,견습생 팔 보호구 (남),MaleBracers1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_02.T_Inv_Gloves_Ghost_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_630.SK_Bracers_630'
+92,4,1,1,2,정규 기사 팔 보호구 (남),MaleBracers2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_01.T_Inv_Gloves_Ghost_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_631.SK_Bracers_631'
+93,4,1,1,3,기사 단장 팔 보호구 (남),MaleBracers3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_03.T_Inv_Gloves_Ghost_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Male/SK_Bracers_632.SK_Bracers_632'
 94,,,,,,,,,,,,
 95,,,,,,,,,,,,
 96,,,,,,,,,,,,
@@ -99,9 +99,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 98,,,,,,,,,,,,
 99,,,,,,,,,,,,
 100,,,,,,,,,,,,
-101,4,1,2,1,견습생 팔 보호구,FemaleBracers1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_02.T_Inv_Gloves_Ghost_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_600.SK_Bracers_600'
-102,4,1,2,2,정규 기사 팔 보호구,FemaleBracers2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_01.T_Inv_Gloves_Ghost_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_601.SK_Bracers_601'
-103,4,1,2,3,기사 단장 팔 보호구,FemaleBracers3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_03.T_Inv_Gloves_Ghost_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_602.SK_Bracers_602'
+101,4,1,2,1,견습생 팔 보호구 (여),FemaleBracers1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_02.T_Inv_Gloves_Ghost_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_600.SK_Bracers_600'
+102,4,1,2,2,정규 기사 팔 보호구 (여),FemaleBracers2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_01.T_Inv_Gloves_Ghost_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_601.SK_Bracers_601'
+103,4,1,2,3,기사 단장 팔 보호구 (여),FemaleBracers3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Ghost_A_03.T_Inv_Gloves_Ghost_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Bracers/Female/SK_Bracers_602.SK_Bracers_602'
 104,,,,,,,,,,,,
 105,,,,,,,,,,,,
 106,,,,,,,,,,,,
@@ -109,9 +109,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 108,,,,,,,,,,,,
 109,,,,,,,,,,,,
 110,,,,,,,,,,,,
-111,5,1,1,1,견습생 장갑,MaleHands1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_02.T_Inv_Gloves_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_730.SK_Hands_730'
-112,5,1,1,2,정규 기사 장갑,MaleHands2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_03.T_Inv_Gloves_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_731.SK_Hands_731'
-113,5,1,1,3,기사 단장 장갑,MaleHands3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_01.T_Inv_Gloves_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_732.SK_Hands_732'
+111,5,1,1,1,견습생 장갑 (남),MaleHands1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_02.T_Inv_Gloves_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_730.SK_Hands_730'
+112,5,1,1,2,정규 기사 장갑 (남),MaleHands2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_03.T_Inv_Gloves_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_731.SK_Hands_731'
+113,5,1,1,3,기사 단장 장갑 (남),MaleHands3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_01.T_Inv_Gloves_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Male/SK_Hands_732.SK_Hands_732'
 114,,,,,,,,,,,,
 115,,,,,,,,,,,,
 116,,,,,,,,,,,,
@@ -119,9 +119,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 118,,,,,,,,,,,,
 119,,,,,,,,,,,,
 120,,,,,,,,,,,,
-121,5,1,2,1,견습생 장갑,FemaleHand1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_02.T_Inv_Gloves_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_700.SK_Hands_700'
-122,5,1,2,2,정규 기사 장갑,FemaleHand2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_03.T_Inv_Gloves_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_701.SK_Hands_701'
-123,5,1,2,3,기사 단장 장갑,FemaleHand3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_01.T_Inv_Gloves_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_702.SK_Hands_702'
+121,5,1,2,1,견습생 장갑 (여),FemaleHand1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_02.T_Inv_Gloves_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_700.SK_Hands_700'
+122,5,1,2,2,정규 기사 장갑 (여),FemaleHand2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_03.T_Inv_Gloves_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_701.SK_Hands_701'
+123,5,1,2,3,기사 단장 장갑 (여),FemaleHand3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Gloves/T_Inv_Gloves_Footman_A_01.T_Inv_Gloves_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Hands/Female/SK_Hands_702.SK_Hands_702'
 124,,,,,,,,,,,,
 125,,,,,,,,,,,,
 126,,,,,,,,,,,,
@@ -129,9 +129,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 128,,,,,,,,,,,,
 129,,,,,,,,,,,,
 130,,,,,,,,,,,,
-131,6,1,1,1,견습생 장갑,MalePants1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_02.T_Inv_Pants_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_830.SK_Pants_830'
-132,6,1,1,2,정규 기사 장갑,MalePants2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_03.T_Inv_Pants_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_831.SK_Pants_831'
-133,6,1,1,3,기사 단장 장갑,MalePants3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_01.T_Inv_Pants_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_832.SK_Pants_832'
+131,6,1,1,1,견습생 하의 (남),MalePants1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_02.T_Inv_Pants_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_830.SK_Pants_830'
+132,6,1,1,2,정규 기사 하의 (남),MalePants2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_03.T_Inv_Pants_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_831.SK_Pants_831'
+133,6,1,1,3,기사 단장 하의 (남),MalePants3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_01.T_Inv_Pants_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Male/SK_Pants_832.SK_Pants_832'
 134,,,,,,,,,,,,
 135,,,,,,,,,,,,
 136,,,,,,,,,,,,
@@ -139,9 +139,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 138,,,,,,,,,,,,
 139,,,,,,,,,,,,
 140,,,,,,,,,,,,
-141,6,1,2,1,FemalePants1,FemalePants1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_02.T_Inv_Pants_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_800.SK_Pants_800'
-142,6,1,2,2,FemalePants2,FemalePants2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_03.T_Inv_Pants_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_801.SK_Pants_801'
-143,6,1,2,3,FemalePants3,FemalePants3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_01.T_Inv_Pants_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_802.SK_Pants_802'
+141,6,1,2,1,견습생 하의 (여),FemalePants1,1,1,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_02.T_Inv_Pants_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_800.SK_Pants_800'
+142,6,1,2,2,정규 기사 하의 (여),FemalePants2,1,10,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_03.T_Inv_Pants_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_801.SK_Pants_801'
+143,6,1,2,3,기사 단장 하의 (여),FemalePants3,1,25,2,2,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Pants/T_Inv_Pants_Footman_A_01.T_Inv_Pants_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Pants/Female/SK_Pants_802.SK_Pants_802'
 144,,,,,,,,,,,,
 145,,,,,,,,,,,,
 146,,,,,,,,,,,,
@@ -149,9 +149,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 148,,,,,,,,,,,,
 149,,,,,,,,,,,,
 150,,,,,,,,,,,,
-151,7,1,1,1,견습생 장화,MaleBoots1,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_02.T_Inv_Boots_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_930.SK_Boots_930'
-152,7,1,1,2,정규 기사 장화,MaleBoots2,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_03.T_Inv_Boots_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_931.SK_Boots_931'
-153,7,1,1,3,기사 단장 장화,MaleBoots3,1,25,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_01.T_Inv_Boots_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_932.SK_Boots_932'
+151,7,1,1,1,견습생 장화 (남),MaleBoots1,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_02.T_Inv_Boots_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_930.SK_Boots_930'
+152,7,1,1,2,정규 기사 장화 (남),MaleBoots2,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_03.T_Inv_Boots_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_931.SK_Boots_931'
+153,7,1,1,3,기사 단장 장화 (남),MaleBoots3,1,25,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_01.T_Inv_Boots_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Male/SK_Boots_932.SK_Boots_932'
 154,,,,,,,,,,,,
 155,,,,,,,,,,,,
 156,,,,,,,,,,,,
@@ -159,9 +159,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 158,,,,,,,,,,,,
 159,,,,,,,,,,,,
 160,,,,,,,,,,,,
-161,7,1,2,1,견습생 장화,FemaleBoots1,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_02.T_Inv_Boots_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_900.SK_Boots_900'
-162,7,1,2,2,정규 기사 장화,FemaleBoots2,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_03.T_Inv_Boots_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_901.SK_Boots_901'
-163,7,1,2,3,기사 단장 장화,FemaleBoots3,1,25,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_01.T_Inv_Boots_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_902.SK_Boots_902'
+161,7,1,2,1,견습생 장화 (여),FemaleBoots1,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_02.T_Inv_Boots_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_900.SK_Boots_900'
+162,7,1,2,2,정규 기사 장화 (여),FemaleBoots2,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_03.T_Inv_Boots_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_901.SK_Boots_901'
+163,7,1,2,3,기사 단장 장화 (여),FemaleBoots3,1,25,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Boots/T_Inv_Boots_Footman_A_01.T_Inv_Boots_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Equipment/Boost/Female/SK_Boots_902.SK_Boots_902'
 164,,,,,,,,,,,,
 165,,,,,,,,,,,,
 166,,,,,,,,,,,,
@@ -179,9 +179,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 178,,,,,,,,,,,,
 179,,,,,,,,,,,,
 180,,,,,,,,,,,,
-181,,,,,,,,,,,,
-182,,,,,,,,,,,,
-183,,,,,,,,,,,,
+181,8,1,1,1,견습생의 검,견습생의 검,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Sword1H_Dung_A_01.T_Inv_Sword1H_Dung_A_01',StaticMesh'/Game/GameContent/Actor/Sword/SM_Sword1.SM_Sword1'
+182,8,1,1,2,정식 기사의 검,정식 기사의 검,1,5,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Sword1H_Footman_A_01.T_Inv_Sword1H_Footman_A_01',StaticMesh'/Game/GameContent/Actor/Sword/SM_Sword2.SM_Sword2'
+183,8,1,1,3,기사 단장의 검,기사 단장의 검,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Sword1H_Newbie_A_01.T_Inv_Sword1H_Newbie_A_01',StaticMesh'/Game/GameContent/Actor/Sword/SM_Sword3.SM_Sword3'
 184,,,,,,,,,,,,
 185,,,,,,,,,,,,
 186,,,,,,,,,,,,
@@ -189,9 +189,9 @@ id,category_id,character_class_id,race_id,tier_id,name,description,cost,level,si
 188,,,,,,,,,,,,
 189,,,,,,,,,,,,
 190,,,,,,,,,,,,
-191,,,,,,,,,,,,
-192,,,,,,,,,,,,
-193,,,,,,,,,,,,
+191,9,1,1,1,견습생의 방패,견습생의 방패,1,1,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Shield_Footman_A_02.T_Inv_Shield_Footman_A_02',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Weapon/Shield/SK_Shield_1000.SK_Shield_1000'
+192,9,1,1,2,정식 기사의 방패,정식 기사의 방패,1,5,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Shield_Footman_A_03.T_Inv_Shield_Footman_A_03',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Weapon/Shield/SK_Shield_1001.SK_Shield_1001'
+193,9,1,1,3,기사 단장의 방패,기사 단장의 방패,1,10,2,3,Texture2D'/Game/NhanceRPGEquipmenticons/NhanceRPGEquipmenticons/Transparent/Weapons/T_Inv_Shield_Footman_A_01.T_Inv_Shield_Footman_A_01',SkeletalMesh'/Game/GameContent/SkeletalMeshItem/Weapon/Shield/SK_Shield_1002.SK_Shield_1002'
 194,,,,,,,,,,,,
 195,,,,,,,,,,,,
 196,,,,,,,,,,,,

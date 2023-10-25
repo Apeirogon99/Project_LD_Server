@@ -232,6 +232,8 @@ void Dungeon::InitDungeon()
 	}
 
 	mState = EDungeonState::State_Ready;
+
+	this->GameObjectLog(L"Init Dungeon\n");
 }
 
 void Dungeon::CreateStageA()
@@ -456,6 +458,8 @@ void Dungeon::SkipSequence(PlayerStatePtr inPlayerState)
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, skipSequence);
 		this->SendWorldPlayers(sendBuffer);
 	}
+
+	this->GameObjectLog(L"Skip Sequence ( %d / %d )\n", this->mSequenceComponent.GetSkipPlayers(), this->mMaxPlayers);
 }
 
 void Dungeon::EndSequence()
@@ -478,6 +482,8 @@ void Dungeon::EndSequence()
 	default:
 		break;
 	}
+
+	this->GameObjectLog(L"End Sequence %d\n", sequence);
 
 	Protocol::S2C_EndSequence endSequencePacket;
 
