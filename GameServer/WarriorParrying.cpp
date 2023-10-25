@@ -28,6 +28,9 @@ void WarriorParrying::OnInitialization()
 
 void WarriorParrying::OnDestroy()
 {
+
+	this->EndCastingSkill();
+
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
 	disappearGameObjectPacket.set_object_id(this->GetGameObjectID());
 
@@ -254,7 +257,7 @@ void WarriorParrying::EndParrying()
 		return;
 	}
 
-	this->PushTask(worldTime + 700, &ActiveSkill::EndCastingSkill);
+	//this->PushTask(worldTime + 700, &ActiveSkill::EndCastingSkill);
 	world->PushTask(nextWorldTime + 700, &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 

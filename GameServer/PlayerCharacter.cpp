@@ -432,8 +432,6 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 	const Stats&	currentStat = mStatComponent.GetCurrentStats();
 	const float		damage		= currentStat.GetAttackDamage();
 
-	this->GetLocation().ToString();
-
 	const int32 autoAttackCount = this->mAutoAttackComponent.GetAutoAttackCount();
 	this->mAutoAttackComponent.DoComboMeleeAutoAttack(this->GetActorPtr(), inVictimActor, damage);
 
