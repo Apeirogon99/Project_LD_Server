@@ -38,6 +38,9 @@ void WarriorDash::OnDestroy()
     StatsComponent& playerStats = instigated->GetStatComponent();
     BuffComponent& playerbuff = instigated->GetBuffComponent();
     playerbuff.ReleaseBuff(playerStats, EBuffType::Buff_Dash, EStatType::Stat_MovementSpeed, mDashSpeed);
+
+    this->EndCastingSkill();
+
     instigated->DetectChangePlayer();
 
 	Protocol::S2C_DisAppearGameObject disappearGameObjectPacket;
@@ -126,7 +129,7 @@ void WarriorDash::Active()
 
     float time = (mDashDistance / mInitDashSpeed) * 1000.0f;
     const int64 iTime = static_cast<int64>(time);
-    this->PushTask(world->GetWorldTime() + iTime, &ActiveSkill::EndCastingSkill);
+    //this->PushTask(world->GetWorldTime() + iTime, &ActiveSkill::EndCastingSkill);
     this->DeActive(iTime);
 
     Protocol::S2C_ReactionSkill reactionSkill;

@@ -259,6 +259,7 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
         return false;
     }
     const int64 worldTime = world->GetWorldTime();
+    const int64 nextWorldTime = world->GetNextWorldTime();
 
     PlayerCharacterPtr character = remotePlayer->GetCharacter();
     if (nullptr == character)
@@ -290,7 +291,7 @@ bool Skill_Warrior_Dash(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPresse
     skillComponent.SetActiveSkill(warriorDash);
 
     warriorDash->SetActiveSkill(static_cast<int32>(ESkillID::Skill_Warrior_Dash), world->GetWorldTime());
-    warriorDash->SetWarriorDash(400.0f, 1000.0f);
-    warriorDash->PushTask(worldTime + 200, &WarriorDash::Active);
+    warriorDash->SetWarriorDash(400.0f, 4000.0f);
+    warriorDash->PushTask(nextWorldTime, &WarriorDash::Active);
     return true;
 }

@@ -288,6 +288,14 @@ void EnemyCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 	{
 		this->DetectChangeEnemy();
 	}
+
+	{
+		Protocol::S2C_HitEnemy hitPacket;
+		hitPacket.set_object_id(this->GetGameObjectID());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
+	}
 }
 
 void EnemyCharacter::OnDeath()

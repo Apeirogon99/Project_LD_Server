@@ -20,6 +20,8 @@ void WarriorParrying::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
+	this->BeginCastingSkill();
+
 	this->PushTask(worldTime + mStartParryingTime, &WarriorParrying::StartParrying);
 	this->PushTask(worldTime + mEndParryingTime, &WarriorParrying::EndParrying);
 }
@@ -216,7 +218,6 @@ void WarriorParrying::StartParrying()
 	{
 		return;
 	}
-	this->BeginCastingSkill();
 
 	FVector boxExtent(30.0f, 80.0f, 100.0f);
 
