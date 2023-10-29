@@ -299,21 +299,15 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 		return;
 	}
 
-	const PlayerMonitors& playerMonitors = playerState->GetPlayerMonitors();
-	for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
-	{
-		playerMonitor->get()->ReleasePlayerViewer(playerState);
-		playerState->ReleasePlayerMonitor(*playerMonitor++);
-	}
+	Protocol::S2C_DisAppearCharacter disappearCharacterPacket;
+	disappearCharacterPacket.set_remote_id(remotePlayer->GetGameObjectID());
 
-	const ActorMonitors& actorMonitors = playerState->GetActorMonitors();
-	for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end();)
-	{
-		actorMonitor->get()->ReleasePlayerViewer(playerState);
-		playerState->ReleaseActorMonitor(*actorMonitor++);
-	}
+	SendBufferPtr disappearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, disappearCharacterPacket);
+	playerState->BroadcastPlayerMonitors(disappearSendBuffer);
 
 	this->GetMovementComponent().SetNewDestination(this->GetActorPtr(), inDestinationLocation, inDestinationLocation, worldTime, 0.0f);
+
+	//world->VisibleAreaInit(playerState);
 
 	remotePlayer->OnLoadComplete();
 	
@@ -379,6 +373,7 @@ void PlayerCharacter::OnMovement()
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 		remotePlayer->BrodcastPlayerViewers(sendBuffer);
+		printf("MOVE SEND %zd\n", remotePlayer->GetViewers().size());
 	}
 }
 

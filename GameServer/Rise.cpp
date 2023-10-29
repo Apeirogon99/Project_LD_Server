@@ -2,7 +2,7 @@
 #include "Rise.h"
 #include "LichLifeVessel.h"
 
-Rise::Rise() : EnemyAttack(L"Rise"), mEnemyID(EnemyID::Enemy_Slime), mSpawnCount(0), mSpawnLoop(0), mSpawnRadius(0.0f), mMaxRange(0.0f), mSkillID(0)
+Rise::Rise() : EnemyAttack(L"Rise"), mEnemyID(EnemyID::Enemy_Slime), mSpawnCount(0), mSpawnLoop(0), mSpawnRadius(0.0f), mMaxRange(0.0f), mSkillID(0), mEndTime(0), mIsReward(false), mStartTime(0)
 {
 	this->mDefaultCollisionComponent = new SphereCollisionComponent;
 }

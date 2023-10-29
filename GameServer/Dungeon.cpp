@@ -468,13 +468,13 @@ void Dungeon::EndSequence()
 	switch (sequence)
 	{
 	case 1:
-		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 205.0f), 0.0f, EnemyID::Enemy_Lich_Phase1, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 2:
-		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 205.0f), 0.0f, EnemyID::Enemy_Lich_Phase2, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 3:
-		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 200.0f), 0.0f, EnemyID::Enemy_Lich_Phase3, 1, 1, true, true, 1500.0f, 1500.0f);
+		mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 205.0f), 0.0f, EnemyID::Enemy_Lich_Phase3, 1, 1, true, true, 1500.0f, 1500.0f);
 		break;
 	case 4:
 		this->ClearBossStage();

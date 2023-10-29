@@ -40,6 +40,7 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 	}
 
 	this->mStateManager.UpdateState(inDeltaTime);
+	mStateManager.StateChangeDebugPrint();
 
 	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
 	if (aggroCharacter)
@@ -71,8 +72,8 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 		this->DetectChangeEnemy();
 	}
 
-	const float debugDuration = 0.1f;
-	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 100.0f, debugDuration);
+	//const float debugDuration = 0.1f;
+	//PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 100.0f, debugDuration);
 
 }
 
@@ -186,7 +187,7 @@ void EnemyRichPhase1::OnInitialization()
 		return;
 	}
 
-	SetTick(true, SYSTEM_TICK);
+	SetTick(true, GAME_TICK);
 
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Lich_Phase1));
 	this->SetAggressive(true);
@@ -202,7 +203,7 @@ void EnemyRichPhase1::OnInitialization()
 	collision->SetOwner(this->GetActorRef());
 	collision->SetBoxCollision(FVector(90.0f, 90.0f, 200.0f));
 
-	this->mMovementComponent.InitMovement(this->GetLocation(), SYSTEM_TICK, world->GetWorldTime());
+	this->mMovementComponent.InitMovement(this->GetLocation(), GAME_TICK, world->GetWorldTime());
 
 	AttackInfos attackInfos;
 	this->mAutoAttackComponent.InitAutoAttack(EAutoAttackType::Attack_Pattern, attackInfos);
@@ -215,9 +216,19 @@ void EnemyRichPhase1::OnInitialization()
 
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
-	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
-	pattenFunc(*this);
+	//int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+	//std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
+	//pattenFunc(*this);
+
+	DungeonPtr world = std::static_pointer_cast<Dungeon>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::OnPatternOver()

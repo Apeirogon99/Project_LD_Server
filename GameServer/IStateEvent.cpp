@@ -213,10 +213,11 @@ void SearchState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	const int64 worldTime = world->GetWorldTime();
 
 	std::vector<ActorPtr> targetActors;
-	bool result = world->FindActors(enemy->GetLocation(), enemy->GetMaxSearchRange(), static_cast<uint8>(EActorType::Player), targetActors, 1);
+	bool result = world->FindActors(enemy->GetLocation(), enemy->GetMaxSearchRange(), static_cast<uint8>(EActorType::Player), targetActors);
 	if (true == result)
 	{
-		enemy->SetAggroActor(targetActors.at(0));
+		const int32 rValue = Random::GetIntUniformDistribution(0, static_cast<int32>(targetActors.size()));
+		enemy->SetAggroActor(targetActors.at(rValue));
 		enemy->GetStateManager().SetState(EStateType::State_Chase);
 	}
 

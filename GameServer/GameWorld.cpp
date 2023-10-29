@@ -232,6 +232,8 @@ void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
 	{
 		return;
 	}
+	const Token& token = remotePlayer->GetToken();
+	const int64& remoteID = remotePlayer->GetGameObjectID();
 	PacketSessionPtr packetSession = std::static_pointer_cast<PacketSession>(playerState);
 
 	PlayerCharacterPtr character = remotePlayer->GetCharacter();
@@ -240,6 +242,7 @@ void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
 		return;
 	}
 	const int64& characterID = character->GetGameObjectID();
+	const std::string& characterName = character->GetCharacterData().name();
 
 	Protocol::S2C_DisAppearCharacter disappearCharacterPacket;
 	disappearCharacterPacket.set_remote_id(remotePlayer->GetGameObjectID());
@@ -267,6 +270,9 @@ void GameWorld::LevelTravel(GameWorldPtr inTravelWorld, int64 inLeaveRemoteID)
 
 	mWorldActors.erase(characterID);
 	inTravelWorld->mWorldActors.insert(std::make_pair(characterID, character));
+
+	this->ReleaseCharacterIDandRemoteID(token.GetCharacterID());
+	inTravelWorld->PushCharacterIDandRemoteID(token.GetCharacterID(), characterName, remoteID);
 }
 
 void GameWorld::WorldChat(PlayerStatePtr inPlayerState, const int64 inWorldTime, std::string inMessage)

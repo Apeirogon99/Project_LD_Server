@@ -223,8 +223,50 @@ void Portal::EndTeleport()
 		{
 			return;
 		}
-		character->PushTask(worldTime, &PlayerCharacter::Teleport, mTeleportLocation);
+		character->Teleport(mTeleportLocation);
 
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(character->GetOwner().lock());
+		if (nullptr == remotePlayer)
+		{
+			return;
+		}
+		//remotePlayer->PushTask(worldTime, &GameRemotePlayer::OnLoadComplete);
+
+	}
+
+	for (auto overlap : mOverlapActor)
+	{
+		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(overlap.first);
+		if (nullptr == character)
+		{
+			return;
+		}
+
+		GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(character->GetOwner().lock());
+		if (nullptr == remotePlayer)
+		{
+			return;
+		}
+
+		PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+		if (nullptr == playerState)
+		{
+			return;
+		}
+
+		const PlayerMonitors& playerMonitors = playerState->GetPlayerMonitors();
+		for (auto playerMonitor = playerMonitors.begin(); playerMonitor != playerMonitors.end();)
+		{
+			playerMonitor->get()->ReleasePlayerViewer(playerState);
+			playerState->ReleasePlayerMonitor(*playerMonitor++);
+		}
+
+		const ActorMonitors& actorMonitors = playerState->GetActorMonitors();
+		for (auto actorMonitor = actorMonitors.begin(); actorMonitor != actorMonitors.end();)
+		{
+			actorMonitor->get()->ReleasePlayerViewer(playerState);
+			playerState->ReleaseActorMonitor(*actorMonitor++);
+		}
 	}
 
 	LeaveTeleport();
