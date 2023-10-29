@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WorldPortal.h"
 
-WorldPortal::WorldPortal():SphereTrigger(), mTeleportLevel(), mMaxTeleportTime(10000), mCurTeleportTime(0), mIsTeleport(false)
+WorldPortal::WorldPortal():SphereTrigger(), mTeleportLevel(), mMaxTeleportTime(10000), mCurTeleportTime(0), mLastTeleportTime(15), mIsTeleport(false)
 {
 }
 
@@ -69,11 +69,20 @@ void WorldPortal::EnterWorldTeleport()
 	mIsTeleport = true;
 
 	float time = (mMaxTeleportTime - mCurTeleportTime) / 1000.0f;
+	int64 iTime = static_cast<int64>(time + 1);
 	std::string title = "잠시후 다음 월드로 이동됩니다.";
+
+	if (mLastTeleportTime < iTime)
+	{
+		return;
+	}
+	mLastTeleportTime = iTime - 1;
 
 	Protocol::S2C_EnterPortal enterPortalPacket;
 	enterPortalPacket.set_title(title);
-	enterPortalPacket.set_time(static_cast<int64>(time + 1));
+	enterPortalPacket.set_time(iTime);
+
+	this->GameObjectLog(L"Waiting for world teleport %lld\n", iTime);
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, enterPortalPacket);
 	this->BroadCastOverlap(sendBuffer);
@@ -83,6 +92,7 @@ void WorldPortal::EndWorldTeleport()
 {
 	mIsTeleport = false;
 	mCurTeleportTime = 0;
+	mLastTeleportTime = static_cast<int64>(mMaxTeleportTime / 1000.0f);
 
 	Protocol::S2C_LeavePortal leavePortalPacket;
 
@@ -143,6 +153,7 @@ void WorldPortal::WorldTeleport()
 void WorldPortal::SetWaitWorldTeleprotTime(int64 inMaxTeleportTime)
 {
 	mMaxTeleportTime = inMaxTeleportTime;
+	mLastTeleportTime = static_cast<int64>(inMaxTeleportTime / 1000.0f);
 }
 
 void WorldPortal::SetTeleportWorld(GameWorldRef inGameWorldRef)

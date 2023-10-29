@@ -277,6 +277,7 @@ void Portal::EndTeleport()
 void Portal::SetWaitTeleprotTime(int64 inMaxTeleportTime)
 {
 	mMaxTeleportTime = inMaxTeleportTime;
+	mLastTeleportTime = static_cast<int64>(inMaxTeleportTime / 1000.0f);
 }
 
 void Portal::SetTeleportLocation(const FVector& inLocation)

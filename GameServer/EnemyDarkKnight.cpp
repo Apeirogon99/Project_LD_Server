@@ -34,7 +34,7 @@ void EnemyDarkKnight::OnInitialization()
 		assert(!world);
 	}
 
-	SetTick(true, SYSTEM_TICK);
+	SetTick(true, GAME_TICK);
 	this->mSpawnParticle = static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight);
 	this->mSpawnParticleDelay = 3000;
 

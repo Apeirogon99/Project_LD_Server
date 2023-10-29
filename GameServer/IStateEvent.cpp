@@ -216,7 +216,7 @@ void SearchState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	bool result = world->FindActors(enemy->GetLocation(), enemy->GetMaxSearchRange(), static_cast<uint8>(EActorType::Player), targetActors);
 	if (true == result)
 	{
-		const int32 rValue = Random::GetIntUniformDistribution(0, static_cast<int32>(targetActors.size()));
+		const int32 rValue = Random::GetIntUniformDistribution(0, static_cast<int32>(targetActors.size() - 1));
 		enemy->SetAggroActor(targetActors.at(rValue));
 		enemy->GetStateManager().SetState(EStateType::State_Chase);
 	}

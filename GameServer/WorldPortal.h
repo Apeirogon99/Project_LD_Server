@@ -40,6 +40,8 @@ private:
 
 	int64	mMaxTeleportTime;
 	int64	mCurTeleportTime;
+	int64	mLastTeleportTime;
+
 	bool	mIsTeleport;
 };
 
