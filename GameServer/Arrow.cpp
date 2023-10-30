@@ -70,9 +70,24 @@ void Arrow::OnTick(const int64 inDeltaTime)
 
 bool Arrow::IsValid()
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return false;
+	}
 
 	if (true == mIsCollision)
 	{
+		return false;
+	}
+
+	if (nullptr == this->GetOwner().lock())
+	{
+		bool ret = world->DestroyActor(this->GetGameObjectID());
+		if (false == ret)
+		{
+			this->GameObjectLog(L"Can't destroy arrow\n");
+		}
 		return false;
 	}
 

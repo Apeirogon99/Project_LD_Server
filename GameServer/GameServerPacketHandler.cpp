@@ -135,19 +135,13 @@ bool Handle_C2S_Chat(PacketSessionPtr& session, Protocol::C2S_Chat& pkt)
 		return false;
 	}
 
-	GameStatePtr gameState = std::static_pointer_cast<GameState>(playerState->GetSessionManager());
-	if (nullptr == gameState)
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
 	{
 		return false;
 	}
 
-	GameTaskPtr task = gameState->GetGameTask();
-	if (nullptr == task)
-	{
-		return false;
-	}
-
-	WorldPtr world = task->GetWorld();
+	WorldPtr world = remotePlayer->GetWorld().lock();
 	if (nullptr == world)
 	{
 		return false;
