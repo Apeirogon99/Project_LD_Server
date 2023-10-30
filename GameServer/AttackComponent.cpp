@@ -102,8 +102,6 @@ bool AttackComponent::DoComboMeleeAutoAttack(ActorPtr inInstigated, ActorPtr inV
 
 	victimLocation.SetZ(instigatedLocation.GetZ());
 
-	instigatedLocation.ToString();
-
 	FVector		direction			= victimLocation - instigatedLocation;
 	FRotator	rotation			= direction.Rotator();
 	inInstigated->SetRotation(rotation);

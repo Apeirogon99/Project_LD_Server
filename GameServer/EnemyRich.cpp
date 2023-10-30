@@ -40,7 +40,6 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 	}
 
 	this->mStateManager.UpdateState(inDeltaTime);
-	mStateManager.StateChangeDebugPrint();
 
 	CharacterPtr aggroCharacter = std::static_pointer_cast<Character>(this->GetAggroActor().lock());
 	if (aggroCharacter)
@@ -171,7 +170,7 @@ void EnemyRich::MoveDone()
 //       Rich | Phase1		//
 //==========================//
 
-EnemyRichPhase1::EnemyRichPhase1() : EnemyRich(L"EnemyRichPhase1")
+EnemyRichPhase1::EnemyRichPhase1() : EnemyRich(L"EnemyLichPhase1")
 {
 }
 
@@ -253,6 +252,9 @@ void EnemyRichPhase1::OnReward()
 
 void EnemyRichPhase1::Skill_RiseSkeleton()
 {
+
+	this->GameObjectLog(L"Skill_RiseSkeleton\n");
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -289,6 +291,9 @@ void EnemyRichPhase1::Skill_RiseSkeleton()
 
 void EnemyRichPhase1::Skill_BlinkAttack()
 {
+
+	this->GameObjectLog(L"Skill_BlinkAttack\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -357,13 +362,16 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	//공격후 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime + attackEnd, &BlinkAttack::TeleportSafeLocation, safeLocation, FRotator::TurnRotator(playerRotation));
 
-	world->PushTask(world->GetNextWorldTime() + blinkTime + attackEnd, &GameWorld::DestroyActor, newBlinkAttack->GetGameObjectID());
+	world->PushTask(world->GetNextWorldTime() + blinkTime + attackEnd + 1000, &GameWorld::DestroyActor, newBlinkAttack->GetGameObjectID());
 
 	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
 }
 
 void EnemyRichPhase1::Skill_Explosion()
 {
+
+	this->GameObjectLog(L"Skill_Explosion\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -403,6 +411,9 @@ void EnemyRichPhase1::Skill_Explosion()
 
 void EnemyRichPhase1::Skill_MultiCasting()
 {
+
+	this->GameObjectLog(L"Skill_MultiCasting\n");
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -487,6 +498,9 @@ void EnemyRichPhase1::Skill_MultiCasting()
 
 void EnemyRichPhase1::Skill_SourSpear(ActorPtr inPlayer, Location inLocation)
 {
+
+	this->GameObjectLog(L"Skill_SourSpear\n");
+	
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -514,7 +528,7 @@ void EnemyRichPhase1::Skill_SourSpear(ActorPtr inPlayer, Location inLocation)
 //       Rich | Phase2		//
 //==========================//
 
-EnemyRichPhase2::EnemyRichPhase2() : EnemyRich(L"EnemyRichPhase2"), mSpawnDarkKnight(false)
+EnemyRichPhase2::EnemyRichPhase2() : EnemyRich(L"EnemyLichPhase2"), mSpawnDarkKnight(false)
 {
 }
 
@@ -611,6 +625,9 @@ void EnemyRichPhase2::OnReward()
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
 {
+
+	this->GameObjectLog(L"Skill_RiseDarkKnight\n");
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -632,6 +649,9 @@ void EnemyRichPhase2::Skill_RiseDarkKnight()
 
 void EnemyRichPhase2::Skill_BlinkSturn()
 {
+
+	this->GameObjectLog(L"Skill_BlinkSturn\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -711,6 +731,9 @@ void EnemyRichPhase2::Skill_BlinkSturn()
 
 void EnemyRichPhase2::Skill_SoulSpark()
 {
+
+	this->GameObjectLog(L"Skill_SoulSpark\n");
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -782,7 +805,7 @@ void EnemyRichPhase2::Skill_SoulShackles()
 //       Rich | Phase3		//
 //==========================//
 
-EnemyRichPhase3::EnemyRichPhase3() : EnemyRich(L"EnemyRichPhase3"), mSpawnLifeVessel(false)
+EnemyRichPhase3::EnemyRichPhase3() : EnemyRich(L"EnemyLichPhase3"), mSpawnLifeVessel(false)
 {
 }
 
@@ -878,6 +901,9 @@ void EnemyRichPhase3::OnReward()
 
 void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 {
+
+	this->GameObjectLog(L"Skill_RiseDarkSkeleton\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -914,6 +940,9 @@ void EnemyRichPhase3::Skill_RiseDarkSkeleton()
 
 void EnemyRichPhase3::Skill_RealmOfDeath()
 {
+
+	this->GameObjectLog(L"Skill_RealmOfDeath\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -933,6 +962,9 @@ void EnemyRichPhase3::Skill_RealmOfDeath()
 
 void EnemyRichPhase3::Skill_OnslaughtOfShadows()
 {
+
+	this->GameObjectLog(L"Skill_OnslaughtOfShadows\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -974,6 +1006,9 @@ void EnemyRichPhase3::Skill_OnslaughtOfShadows()
 
 void EnemyRichPhase3::Skill_LifeVessel()
 {
+
+	this->GameObjectLog(L"Skill_LifeVessel\n");
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{

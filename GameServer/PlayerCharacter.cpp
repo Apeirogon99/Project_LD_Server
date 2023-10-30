@@ -373,7 +373,8 @@ void PlayerCharacter::OnMovement()
 
 		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, movementPacket);
 		remotePlayer->BrodcastPlayerViewers(sendBuffer);
-		printf("MOVE SEND %zd\n", remotePlayer->GetViewers().size());
+
+		this->GameObjectLog(L"Movement Character (%f, %f)\n", currentLocation.x(), currentLocation.y());
 	}
 }
 
@@ -453,6 +454,9 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 	FVector destinationLocation = this->GetLocation() + this->GetRotation().GetForwardVector() * 1.0f;
 	this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), destinationLocation, worldTime, 0.0f);
 	this->OnMovement();
+
+
+	this->GameObjectLog(L"Attack Character (Combo:%d)\n", autoAttackCount);
 
 	{
 		Protocol::SRotator	rotation = PacketUtils::ToSRotator(FRotator(0.0f, this->GetRotation().GetYaw(), 0.0f));
