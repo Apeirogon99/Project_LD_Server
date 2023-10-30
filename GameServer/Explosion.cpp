@@ -166,9 +166,15 @@ void Explosion::CheackCollision()
 		return;
 	}
 	const int64 worldTime = world->GetWorldTime();
+	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
+	{
+		return;
+	}
+
+	if (!owner->IsValid())
 	{
 		return;
 	}
@@ -191,13 +197,12 @@ void Explosion::CheackCollision()
 
 	for (ActorPtr actor : findActors)
 	{
-		if (actor)
+		if (actor->IsValid())
 		{
 			actor->PushTask(worldTime, &Actor::OnHit, owner, this->GetDamage());
 		}
 	}
 
-	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 void Explosion::OnParrying(ActorPtr inActor)

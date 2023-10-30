@@ -166,14 +166,14 @@ void EnemyDarkKnight::OnHit(ActorPtr inInstigated, const float inDamage)
 		this->mStateManager.SetState(EStateType::State_Death);
 		return;
 	}
+	this->DetectChangeEnemy();
 
-	if (this->mStateManager.GetCurrentStateType() != EStateType::State_Attack && this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
 	{
-		this->mStateManager.SetState(EStateType::State_Hit);
-	}
-	else
-	{
-		this->DetectChangeEnemy();
+		Protocol::S2C_HitEnemy hitPacket;
+		hitPacket.set_object_id(this->GetGameObjectID());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
+		this->BrodcastPlayerViewers(sendBuffer);
 	}
 }
 

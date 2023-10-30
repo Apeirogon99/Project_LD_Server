@@ -426,7 +426,7 @@ bool Dungeon::IsEmptyEnemy()
 	return false;
 }
 
-void Dungeon::PlaySequence(int32 inSequenceID, int64 inSequencePlayTime)
+void Dungeon::PlaySequence(const int32 inSequenceID, const int64 inSequencePlayTime)
 {
 	this->mSequenceComponent.SetSequenceID(inSequenceID);
 	this->mSequenceComponent.SetPlayTime(inSequencePlayTime);

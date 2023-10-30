@@ -76,6 +76,43 @@ void EnemyRich::OnTick(const int64 inDeltaTime)
 
 }
 
+void EnemyRich::OnHit(ActorPtr inInstigated, const float inDamage)
+{
+	if (IsDeath())
+	{
+		return;
+	}
+
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	if (false == this->GetAggressive())
+	{
+		this->SetAggroActor(inInstigated);
+	}
+
+	const float curArmor = this->mStatsComponent.GetCurrentStats().GetArmor();
+	const float era = curArmor / (curArmor + 100.0f);
+
+	const float curHealth = this->mStatsComponent.GetCurrentStats().GetHealth() - inDamage * (1.0f - era);
+	this->mStatsComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
+	if (curHealth <= 0.0f)
+	{
+		this->mStateManager.SetState(EStateType::State_Death);
+		return;
+	}
+	this->DetectChangeEnemy();
+
+	Protocol::S2C_HitEnemy hitPacket;
+	hitPacket.set_object_id(this->GetGameObjectID());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, hitPacket);
+	this->BrodcastPlayerViewers(sendBuffer);
+}
+
 void EnemyRich::DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration, float inSpeed)
 {
 	mMove = true;
@@ -216,7 +253,7 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[pattern];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[2];
 	pattenFunc(*this);
 }
 
@@ -236,18 +273,19 @@ void EnemyRichPhase1::OnReward()
 		return;
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
 	{
 		return;
 	}
-	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+	spawner->PushTask(worldNextTime + 100, &EnemySpawnerManager::ClearEnemySpawner);
 
-
-	world->PlaySequence(2, 5000);
+	int32 seqID = 2;
+	int64 playTime = 5000;
+	world->PushTask(worldNextTime + 200, &Dungeon::PlaySequence, seqID, playTime);
 }
 
 void EnemyRichPhase1::Skill_RiseSkeleton()

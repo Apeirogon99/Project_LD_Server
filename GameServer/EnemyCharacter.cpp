@@ -41,10 +41,10 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	if (this->GetPlayerViewers().size() == 0)
-	{
-		return;
-	}
+	//if (this->GetPlayerViewers().size() == 0)
+	//{
+	//	return;
+	//}
 
 	//if (false == this->mIsSpawn)
 	//{

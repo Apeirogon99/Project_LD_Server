@@ -50,7 +50,7 @@ protected:
 	bool IsEmptyEnemy();
 
 public:
-	void PlaySequence(int32 inSequenceID, int64 inSequencePlayTime);
+	void PlaySequence(const int32 inSequenceID, const int64 inSequencePlayTime);
 	void SkipSequence(PlayerStatePtr inPlayerState);
 	void EndSequence();
 

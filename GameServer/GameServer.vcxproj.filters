@@ -55,15 +55,6 @@
     <Filter Include="Content\Enemy\Private">
       <UniqueIdentifier>{b666c806-b309-44a0-8239-96cb9cfe02a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Player">
-      <UniqueIdentifier>{bf7c2e64-0555-4bb5-96a7-0b69909893d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Player\Public">
-      <UniqueIdentifier>{6a8d97e9-5b83-4a4b-9e82-2c24dae84fb0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Player\Private">
-      <UniqueIdentifier>{2ed8c19e-ad89-4d4b-8ef5-785171021fea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\World">
       <UniqueIdentifier>{2939ced2-3673-4717-a353-39c71f64e128}</UniqueIdentifier>
     </Filter>
@@ -135,6 +126,15 @@
     </Filter>
     <Filter Include="Content\Dungeon">
       <UniqueIdentifier>{bc0a0c01-3c98-497d-a6ad-5cf1c9b76c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player">
+      <UniqueIdentifier>{bf7c2e64-0555-4bb5-96a7-0b69909893d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player\Public">
+      <UniqueIdentifier>{6a8d97e9-5b83-4a4b-9e82-2c24dae84fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Player\Private">
+      <UniqueIdentifier>{2ed8c19e-ad89-4d4b-8ef5-785171021fea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

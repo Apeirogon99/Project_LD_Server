@@ -198,6 +198,8 @@ void SoulSpark::CheackCollision()
 	const int64& worldTime = world->GetWorldTime();
 	const int64& duration = mStartTime + 3000 - worldTime;
 
+	world->PushTask(worldTime + 100, &World::DestroyActor, this->GetGameObjectID());
+
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
 	{
@@ -239,7 +241,6 @@ void SoulSpark::CheackCollision()
 		}
 	}
 
-	world->PushTask(worldTime, &World::DestroyActor, this->GetGameObjectID());
 
 }
 

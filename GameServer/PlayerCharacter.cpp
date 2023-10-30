@@ -307,8 +307,6 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 
 	this->GetMovementComponent().SetNewDestination(this->GetActorPtr(), inDestinationLocation, inDestinationLocation, worldTime, 0.0f);
 
-	//world->VisibleAreaInit(playerState);
-
 	remotePlayer->OnLoadComplete();
 	
 }
