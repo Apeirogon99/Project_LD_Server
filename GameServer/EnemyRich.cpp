@@ -647,18 +647,19 @@ void EnemyRichPhase2::OnReward()
 		return;
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
 	{
 		return;
 	}
-	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+	spawner->PushTask(worldNextTime + 100, &EnemySpawnerManager::ClearEnemySpawner);
 
-
-	world->PlaySequence(3, 3000);
+	int32 seqID = 3;
+	int64 playTime = 3000;
+	world->PushTask(worldNextTime + 200, &Dungeon::PlaySequence, seqID, playTime);
 }
 
 void EnemyRichPhase2::Skill_RiseDarkKnight()
@@ -923,18 +924,19 @@ void EnemyRichPhase3::OnReward()
 		return;
 	}
 	const int64& worldNextTime = world->GetNextWorldTime();
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
-	world->PushTask(worldNextTime, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::Enemy));
+	world->PushTask(worldNextTime + 100, &World::DestroyActors, static_cast<uint8>(EActorType::EnemyAttack));
 
 	EnemySpawnerManagerPtr spawner = world->GetEnemySpawnerManager();
 	if (nullptr == spawner)
 	{
 		return;
 	}
-	spawner->PushTask(worldNextTime, &EnemySpawnerManager::ClearEnemySpawner);
+	spawner->PushTask(worldNextTime + 100, &EnemySpawnerManager::ClearEnemySpawner);
 
-
-	world->PlaySequence(4, 5000);
+	int32 seqID = 4;
+	int64 playTime = 5000;
+	world->PushTask(worldNextTime + 200, &Dungeon::PlaySequence, seqID, playTime);
 }
 
 void EnemyRichPhase3::Skill_RiseDarkSkeleton()

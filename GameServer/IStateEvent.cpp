@@ -83,7 +83,6 @@ void RoundState::Enter(EnemyCharacterRef inEnemy)
 
 	Location currentLocation	= enemy->GetLocation();
 	Location nextLocation		= Random::GetRandomVectorInRange2D(spawner->GetLocation(), spawner->GetSpawnRange());
-	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, nextLocation, world->GetWorldTime(), 0.0f);
 	enemy->SetRecoveryLocation(nextLocation);
@@ -98,7 +97,8 @@ void RoundState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 5.0f))
+	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), collisionRadius))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
 	}
@@ -154,7 +154,8 @@ void RecoveryState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 
-	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f))
+	const float collisionRadius = enemy->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+	if (false == enemy->GetMovementComponent().Update(enemy->GetActorPtr(), collisionRadius))
 	{
 		enemy->GetStateManager().SetState(EStateType::State_Idle);
 		const float fullHealth = enemy->GetEnemyStatsComponent().GetMaxStats().GetHealth();
@@ -317,6 +318,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		return;
 	}
 	const float aggroCharacterHalf = aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetZ();
+	const float aggroCharacterRadius = aggroCharacter->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
 
 	//DEBUG
 	const float debugDuration = 0.05f;
@@ -342,7 +344,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 		enemy->GetStateManager().SetState(EStateType::State_Attack);
 		return;
 	}
-	enemy->GetMovementComponent().Update(enemy->GetActorPtr(), 10.0f);
+	enemy->GetMovementComponent().Update(enemy->GetActorPtr(), aggroCharacterRadius);
 
 	Location currentLocation = enemy->GetLocation();
 	Location aggroLocation = aggroCharacter->GetLocation();

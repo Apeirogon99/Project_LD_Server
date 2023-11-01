@@ -59,6 +59,10 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangeEnemy();
 	}
+
+	const float debugDuration = 0.02f;
+	const float collisionRadius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
+	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), collisionRadius, debugDuration);
 }
 
 bool EnemyCharacter::IsValid()
