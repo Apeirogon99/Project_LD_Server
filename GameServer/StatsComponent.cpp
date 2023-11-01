@@ -329,7 +329,7 @@ const Stats& StatsComponent::GetCurrentStats() const
 void StatsComponent::UpdateStats(const int64 inDeletaTime)
 {
 	mUpdateStatTime += inDeletaTime;
-	if (mUpdateStatTime < SECOND_TICK)
+	if (mUpdateStatTime < GAME_TICK)
 	{
 		return;
 	}

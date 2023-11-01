@@ -239,7 +239,7 @@ public:
 		return mCapcity;
 	}
 
-protected:
+public:
 	int32 GetUsedSize()
 	{
 		int32 Count = 0;

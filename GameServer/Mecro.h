@@ -1,6 +1,6 @@
 #pragma once
 
-#define SYSTEM_TICK 30
+#define SYSTEM_TICK 33
 #define GAME_TICK 350
 
 #define SECOND_TICK 1000

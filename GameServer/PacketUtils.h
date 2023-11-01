@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEBUG_DRAW 0
+#define DEBUG_DRAW 1
 
 class PacketUtils
 {
