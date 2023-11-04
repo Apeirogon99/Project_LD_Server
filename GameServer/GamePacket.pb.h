@@ -121,6 +121,9 @@ extern C2S_RequestLeavePartyDefaultTypeInternal _C2S_RequestLeaveParty_default_i
 class C2S_ResponeParty;
 struct C2S_ResponePartyDefaultTypeInternal;
 extern C2S_ResponePartyDefaultTypeInternal _C2S_ResponeParty_default_instance_;
+class C2S_RevivePlayer;
+struct C2S_RevivePlayerDefaultTypeInternal;
+extern C2S_RevivePlayerDefaultTypeInternal _C2S_RevivePlayer_default_instance_;
 class C2S_SetUseKeyAction;
 struct C2S_SetUseKeyActionDefaultTypeInternal;
 extern C2S_SetUseKeyActionDefaultTypeInternal _C2S_SetUseKeyAction_default_instance_;
@@ -181,6 +184,9 @@ extern S2C_CreatePartyDefaultTypeInternal _S2C_CreateParty_default_instance_;
 class S2C_DeathEnemy;
 struct S2C_DeathEnemyDefaultTypeInternal;
 extern S2C_DeathEnemyDefaultTypeInternal _S2C_DeathEnemy_default_instance_;
+class S2C_DeathPlayer;
+struct S2C_DeathPlayerDefaultTypeInternal;
+extern S2C_DeathPlayerDefaultTypeInternal _S2C_DeathPlayer_default_instance_;
 class S2C_DebugBox;
 struct S2C_DebugBoxDefaultTypeInternal;
 extern S2C_DebugBoxDefaultTypeInternal _S2C_DebugBox_default_instance_;
@@ -316,6 +322,9 @@ extern S2C_ResponseEnterDungeonDefaultTypeInternal _S2C_ResponseEnterDungeon_def
 class S2C_ResponseUseKeyAction;
 struct S2C_ResponseUseKeyActionDefaultTypeInternal;
 extern S2C_ResponseUseKeyActionDefaultTypeInternal _S2C_ResponseUseKeyAction_default_instance_;
+class S2C_RevivePlayer;
+struct S2C_RevivePlayerDefaultTypeInternal;
+extern S2C_RevivePlayerDefaultTypeInternal _S2C_RevivePlayer_default_instance_;
 class S2C_RollbackInventory;
 struct S2C_RollbackInventoryDefaultTypeInternal;
 extern S2C_RollbackInventoryDefaultTypeInternal _S2C_RollbackInventory_default_instance_;
@@ -374,6 +383,7 @@ template<> ::Protocol::C2S_RequestFriend* Arena::CreateMaybeMessage<::Protocol::
 template<> ::Protocol::C2S_RequestLeaderParty* Arena::CreateMaybeMessage<::Protocol::C2S_RequestLeaderParty>(Arena*);
 template<> ::Protocol::C2S_RequestLeaveParty* Arena::CreateMaybeMessage<::Protocol::C2S_RequestLeaveParty>(Arena*);
 template<> ::Protocol::C2S_ResponeParty* Arena::CreateMaybeMessage<::Protocol::C2S_ResponeParty>(Arena*);
+template<> ::Protocol::C2S_RevivePlayer* Arena::CreateMaybeMessage<::Protocol::C2S_RevivePlayer>(Arena*);
 template<> ::Protocol::C2S_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::C2S_SetUseKeyAction>(Arena*);
 template<> ::Protocol::C2S_SkipSequence* Arena::CreateMaybeMessage<::Protocol::C2S_SkipSequence>(Arena*);
 template<> ::Protocol::C2S_StartPack* Arena::CreateMaybeMessage<::Protocol::C2S_StartPack>(Arena*);
@@ -394,6 +404,7 @@ template<> ::Protocol::S2C_CompleteLoadDungeon* Arena::CreateMaybeMessage<::Prot
 template<> ::Protocol::S2C_ConnectFriend* Arena::CreateMaybeMessage<::Protocol::S2C_ConnectFriend>(Arena*);
 template<> ::Protocol::S2C_CreateParty* Arena::CreateMaybeMessage<::Protocol::S2C_CreateParty>(Arena*);
 template<> ::Protocol::S2C_DeathEnemy* Arena::CreateMaybeMessage<::Protocol::S2C_DeathEnemy>(Arena*);
+template<> ::Protocol::S2C_DeathPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_DeathPlayer>(Arena*);
 template<> ::Protocol::S2C_DebugBox* Arena::CreateMaybeMessage<::Protocol::S2C_DebugBox>(Arena*);
 template<> ::Protocol::S2C_DebugCircle* Arena::CreateMaybeMessage<::Protocol::S2C_DebugCircle>(Arena*);
 template<> ::Protocol::S2C_DeleteInventory* Arena::CreateMaybeMessage<::Protocol::S2C_DeleteInventory>(Arena*);
@@ -439,6 +450,7 @@ template<> ::Protocol::S2C_RequestParty* Arena::CreateMaybeMessage<::Protocol::S
 template<> ::Protocol::S2C_ResponeParty* Arena::CreateMaybeMessage<::Protocol::S2C_ResponeParty>(Arena*);
 template<> ::Protocol::S2C_ResponseEnterDungeon* Arena::CreateMaybeMessage<::Protocol::S2C_ResponseEnterDungeon>(Arena*);
 template<> ::Protocol::S2C_ResponseUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_ResponseUseKeyAction>(Arena*);
+template<> ::Protocol::S2C_RevivePlayer* Arena::CreateMaybeMessage<::Protocol::S2C_RevivePlayer>(Arena*);
 template<> ::Protocol::S2C_RollbackInventory* Arena::CreateMaybeMessage<::Protocol::S2C_RollbackInventory>(Arena*);
 template<> ::Protocol::S2C_SetUseKeyAction* Arena::CreateMaybeMessage<::Protocol::S2C_SetUseKeyAction>(Arena*);
 template<> ::Protocol::S2C_SkillCoolTime* Arena::CreateMaybeMessage<::Protocol::S2C_SkillCoolTime>(Arena*);
@@ -3600,6 +3612,450 @@ class S2C_LevelUp final :
 };
 // -------------------------------------------------------------------
 
+class S2C_DeathPlayer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DeathPlayer) */ {
+ public:
+  inline S2C_DeathPlayer() : S2C_DeathPlayer(nullptr) {}
+  ~S2C_DeathPlayer() override;
+  explicit PROTOBUF_CONSTEXPR S2C_DeathPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_DeathPlayer(const S2C_DeathPlayer& from);
+  S2C_DeathPlayer(S2C_DeathPlayer&& from) noexcept
+    : S2C_DeathPlayer() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_DeathPlayer& operator=(const S2C_DeathPlayer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_DeathPlayer& operator=(S2C_DeathPlayer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_DeathPlayer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_DeathPlayer* internal_default_instance() {
+    return reinterpret_cast<const S2C_DeathPlayer*>(
+               &_S2C_DeathPlayer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    18;
+
+  friend void swap(S2C_DeathPlayer& a, S2C_DeathPlayer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_DeathPlayer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_DeathPlayer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_DeathPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_DeathPlayer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_DeathPlayer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_DeathPlayer& from) {
+    S2C_DeathPlayer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_DeathPlayer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_DeathPlayer";
+  }
+  protected:
+  explicit S2C_DeathPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRemoteIdFieldNumber = 1,
+  };
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_DeathPlayer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t remote_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2S_RevivePlayer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_RevivePlayer) */ {
+ public:
+  inline C2S_RevivePlayer() : C2S_RevivePlayer(nullptr) {}
+  ~C2S_RevivePlayer() override;
+  explicit PROTOBUF_CONSTEXPR C2S_RevivePlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2S_RevivePlayer(const C2S_RevivePlayer& from);
+  C2S_RevivePlayer(C2S_RevivePlayer&& from) noexcept
+    : C2S_RevivePlayer() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_RevivePlayer& operator=(const C2S_RevivePlayer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_RevivePlayer& operator=(C2S_RevivePlayer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2S_RevivePlayer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2S_RevivePlayer* internal_default_instance() {
+    return reinterpret_cast<const C2S_RevivePlayer*>(
+               &_C2S_RevivePlayer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  friend void swap(C2S_RevivePlayer& a, C2S_RevivePlayer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_RevivePlayer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2S_RevivePlayer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2S_RevivePlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2S_RevivePlayer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2S_RevivePlayer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2S_RevivePlayer& from) {
+    C2S_RevivePlayer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_RevivePlayer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C2S_RevivePlayer";
+  }
+  protected:
+  explicit C2S_RevivePlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTimestampFieldNumber = 1,
+  };
+  // int64 timestamp = 1;
+  void clear_timestamp();
+  int64_t timestamp() const;
+  void set_timestamp(int64_t value);
+  private:
+  int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C2S_RevivePlayer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t timestamp_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_RevivePlayer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_RevivePlayer) */ {
+ public:
+  inline S2C_RevivePlayer() : S2C_RevivePlayer(nullptr) {}
+  ~S2C_RevivePlayer() override;
+  explicit PROTOBUF_CONSTEXPR S2C_RevivePlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_RevivePlayer(const S2C_RevivePlayer& from);
+  S2C_RevivePlayer(S2C_RevivePlayer&& from) noexcept
+    : S2C_RevivePlayer() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_RevivePlayer& operator=(const S2C_RevivePlayer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_RevivePlayer& operator=(S2C_RevivePlayer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_RevivePlayer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_RevivePlayer* internal_default_instance() {
+    return reinterpret_cast<const S2C_RevivePlayer*>(
+               &_S2C_RevivePlayer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(S2C_RevivePlayer& a, S2C_RevivePlayer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_RevivePlayer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_RevivePlayer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_RevivePlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_RevivePlayer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_RevivePlayer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_RevivePlayer& from) {
+    S2C_RevivePlayer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_RevivePlayer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_RevivePlayer";
+  }
+  protected:
+  explicit S2C_RevivePlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRemoteIdFieldNumber = 1,
+  };
+  // int64 remote_id = 1;
+  void clear_remote_id();
+  int64_t remote_id() const;
+  void set_remote_id(int64_t value);
+  private:
+  int64_t _internal_remote_id() const;
+  void _internal_set_remote_id(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_RevivePlayer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int64_t remote_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class C2S_Chat final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C2S_Chat) */ {
  public:
@@ -3648,7 +4104,7 @@ class C2S_Chat final :
                &_C2S_Chat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    21;
 
   friend void swap(C2S_Chat& a, C2S_Chat& b) {
     a.Swap(&b);
@@ -3812,7 +4268,7 @@ class S2C_Chat final :
                &_S2C_Chat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    22;
 
   friend void swap(S2C_Chat& a, S2C_Chat& b) {
     a.Swap(&b);
@@ -4014,7 +4470,7 @@ class C2S_LoadFriendList final :
                &_C2S_LoadFriendList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    23;
 
   friend void swap(C2S_LoadFriendList& a, C2S_LoadFriendList& b) {
     a.Swap(&b);
@@ -4173,7 +4629,7 @@ class S2C_LoadFriendList final :
                &_S2C_LoadFriendList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    24;
 
   friend void swap(S2C_LoadFriendList& a, S2C_LoadFriendList& b) {
     a.Swap(&b);
@@ -4352,7 +4808,7 @@ class C2S_RequestFriend final :
                &_C2S_RequestFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    25;
 
   friend void swap(C2S_RequestFriend& a, C2S_RequestFriend& b) {
     a.Swap(&b);
@@ -4527,7 +4983,7 @@ class S2C_RequestFriend final :
                &_S2C_RequestFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    26;
 
   friend void swap(S2C_RequestFriend& a, S2C_RequestFriend& b) {
     a.Swap(&b);
@@ -4697,7 +5153,7 @@ class C2S_BlockFriend final :
                &_C2S_BlockFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    27;
 
   friend void swap(C2S_BlockFriend& a, C2S_BlockFriend& b) {
     a.Swap(&b);
@@ -4872,7 +5328,7 @@ class S2C_BlockFriend final :
                &_S2C_BlockFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    28;
 
   friend void swap(S2C_BlockFriend& a, S2C_BlockFriend& b) {
     a.Swap(&b);
@@ -5042,7 +5498,7 @@ class S2C_ConnectFriend final :
                &_S2C_ConnectFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    29;
 
   friend void swap(S2C_ConnectFriend& a, S2C_ConnectFriend& b) {
     a.Swap(&b);
@@ -5206,7 +5662,7 @@ class S2C_DisConnectFriend final :
                &_S2C_DisConnectFriend_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    30;
 
   friend void swap(S2C_DisConnectFriend& a, S2C_DisConnectFriend& b) {
     a.Swap(&b);
@@ -5370,7 +5826,7 @@ class C2S_CreateParty final :
                &_C2S_CreateParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    31;
 
   friend void swap(C2S_CreateParty& a, C2S_CreateParty& b) {
     a.Swap(&b);
@@ -5518,7 +5974,7 @@ class S2C_CreateParty final :
                &_S2C_CreateParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    32;
 
   friend void swap(S2C_CreateParty& a, S2C_CreateParty& b) {
     a.Swap(&b);
@@ -5677,7 +6133,7 @@ class C2S_RequestEnterParty final :
                &_C2S_RequestEnterParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    33;
 
   friend void swap(C2S_RequestEnterParty& a, C2S_RequestEnterParty& b) {
     a.Swap(&b);
@@ -5841,7 +6297,7 @@ class S2C_RequestEnterParty final :
                &_S2C_RequestEnterParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    34;
 
   friend void swap(S2C_RequestEnterParty& a, S2C_RequestEnterParty& b) {
     a.Swap(&b);
@@ -6000,7 +6456,7 @@ class S2C_RequestParty final :
                &_S2C_RequestParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    35;
 
   friend void swap(S2C_RequestParty& a, S2C_RequestParty& b) {
     a.Swap(&b);
@@ -6186,7 +6642,7 @@ class C2S_RequestLeaveParty final :
                &_C2S_RequestLeaveParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    36;
 
   friend void swap(C2S_RequestLeaveParty& a, C2S_RequestLeaveParty& b) {
     a.Swap(&b);
@@ -6345,7 +6801,7 @@ class S2C_RequestLeaveParty final :
                &_S2C_RequestLeaveParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    37;
 
   friend void swap(S2C_RequestLeaveParty& a, S2C_RequestLeaveParty& b) {
     a.Swap(&b);
@@ -6515,7 +6971,7 @@ class C2S_RequestLeaderParty final :
                &_C2S_RequestLeaderParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    38;
 
   friend void swap(C2S_RequestLeaderParty& a, C2S_RequestLeaderParty& b) {
     a.Swap(&b);
@@ -6674,7 +7130,7 @@ class S2C_RequestLeaderParty final :
                &_S2C_RequestLeaderParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    39;
 
   friend void swap(S2C_RequestLeaderParty& a, S2C_RequestLeaderParty& b) {
     a.Swap(&b);
@@ -6833,7 +7289,7 @@ class C2S_ResponeParty final :
                &_C2S_ResponeParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    40;
 
   friend void swap(C2S_ResponeParty& a, C2S_ResponeParty& b) {
     a.Swap(&b);
@@ -7003,7 +7459,7 @@ class S2C_ResponeParty final :
                &_S2C_ResponeParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    41;
 
   friend void swap(S2C_ResponeParty& a, S2C_ResponeParty& b) {
     a.Swap(&b);
@@ -7184,7 +7640,7 @@ class S2C_LoadParty final :
                &_S2C_LoadParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    42;
 
   friend void swap(S2C_LoadParty& a, S2C_LoadParty& b) {
     a.Swap(&b);
@@ -7450,7 +7906,7 @@ class S2C_NotifyParty final :
                &_S2C_NotifyParty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    43;
 
   friend void swap(S2C_NotifyParty& a, S2C_NotifyParty& b) {
     a.Swap(&b);
@@ -7625,7 +8081,7 @@ class S2C_EnterPartyPlayer final :
                &_S2C_EnterPartyPlayer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    44;
 
   friend void swap(S2C_EnterPartyPlayer& a, S2C_EnterPartyPlayer& b) {
     a.Swap(&b);
@@ -7833,7 +8289,7 @@ class S2C_LeavePartyPlayer final :
                &_S2C_LeavePartyPlayer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    45;
 
   friend void swap(S2C_LeavePartyPlayer& a, S2C_LeavePartyPlayer& b) {
     a.Swap(&b);
@@ -7992,7 +8448,7 @@ class S2C_AppearItem final :
                &_S2C_AppearItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    46;
 
   friend void swap(S2C_AppearItem& a, S2C_AppearItem& b) {
     a.Swap(&b);
@@ -8149,7 +8605,7 @@ class S2C_AppearArrow final :
                &_S2C_AppearArrow_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    47;
 
   friend void swap(S2C_AppearArrow& a, S2C_AppearArrow& b) {
     a.Swap(&b);
@@ -8348,7 +8804,7 @@ class S2C_AppearProtal final :
                &_S2C_AppearProtal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    48;
 
   friend void swap(S2C_AppearProtal& a, S2C_AppearProtal& b) {
     a.Swap(&b);
@@ -8547,7 +9003,7 @@ class S2C_AppearObstruction final :
                &_S2C_AppearObstruction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    49;
 
   friend void swap(S2C_AppearObstruction& a, S2C_AppearObstruction& b) {
     a.Swap(&b);
@@ -8766,7 +9222,7 @@ class C2S_InteractiveObject final :
                &_C2S_InteractiveObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    50;
 
   friend void swap(C2S_InteractiveObject& a, C2S_InteractiveObject& b) {
     a.Swap(&b);
@@ -8914,7 +9370,7 @@ class S2C_MovementProjectile final :
                &_S2C_MovementProjectile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    51;
 
   friend void swap(S2C_MovementProjectile& a, S2C_MovementProjectile& b) {
     a.Swap(&b);
@@ -9113,7 +9569,7 @@ class S2C_Teleport final :
                &_S2C_Teleport_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    52;
 
   friend void swap(S2C_Teleport& a, S2C_Teleport& b) {
     a.Swap(&b);
@@ -9281,7 +9737,7 @@ class S2C_AppearEnemy final :
                &_S2C_AppearEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    53;
 
   friend void swap(S2C_AppearEnemy& a, S2C_AppearEnemy& b) {
     a.Swap(&b);
@@ -9522,7 +9978,7 @@ class S2C_DetectChangeEnemy final :
                &_S2C_DetectChangeEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    54;
 
   friend void swap(S2C_DetectChangeEnemy& a, S2C_DetectChangeEnemy& b) {
     a.Swap(&b);
@@ -9712,7 +10168,7 @@ class S2C_MovementEnemy final :
                &_S2C_MovementEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    55;
 
   friend void swap(S2C_MovementEnemy& a, S2C_MovementEnemy& b) {
     a.Swap(&b);
@@ -9911,7 +10367,7 @@ class S2C_AnimationMovementEnemy final :
                &_S2C_AnimationMovementEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    56;
 
   friend void swap(S2C_AnimationMovementEnemy& a, S2C_AnimationMovementEnemy& b) {
     a.Swap(&b);
@@ -10121,7 +10577,7 @@ class S2C_EnemyAutoAttack final :
                &_S2C_EnemyAutoAttack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    57;
 
   friend void swap(S2C_EnemyAutoAttack& a, S2C_EnemyAutoAttack& b) {
     a.Swap(&b);
@@ -10300,7 +10756,7 @@ class S2C_HitEnemy final :
                &_S2C_HitEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    58;
 
   friend void swap(S2C_HitEnemy& a, S2C_HitEnemy& b) {
     a.Swap(&b);
@@ -10459,7 +10915,7 @@ class S2C_DeathEnemy final :
                &_S2C_DeathEnemy_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    59;
 
   friend void swap(S2C_DeathEnemy& a, S2C_DeathEnemy& b) {
     a.Swap(&b);
@@ -10618,7 +11074,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    60;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -10766,7 +11222,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    61;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -10914,7 +11370,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    62;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -11113,7 +11569,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    63;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -11281,7 +11737,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    64;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -11451,7 +11907,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    65;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -11619,7 +12075,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    66;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -11767,7 +12223,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    67;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -11955,7 +12411,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    68;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -12134,7 +12590,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    69;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -12302,7 +12758,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    70;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -12501,7 +12957,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    71;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -12680,7 +13136,7 @@ class S2C_LoadSkillTree final :
                &_S2C_LoadSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    72;
 
   friend void swap(S2C_LoadSkillTree& a, S2C_LoadSkillTree& b) {
     a.Swap(&b);
@@ -12878,7 +13334,7 @@ class C2S_UpdateSkillTree final :
                &_C2S_UpdateSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    73;
 
   friend void swap(C2S_UpdateSkillTree& a, C2S_UpdateSkillTree& b) {
     a.Swap(&b);
@@ -13048,7 +13504,7 @@ class S2C_UpdateSkillTree final :
                &_S2C_UpdateSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    74;
 
   friend void swap(S2C_UpdateSkillTree& a, S2C_UpdateSkillTree& b) {
     a.Swap(&b);
@@ -13229,7 +13685,7 @@ class C2S_SetUseKeyAction final :
                &_C2S_SetUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    75;
 
   friend void swap(C2S_SetUseKeyAction& a, C2S_SetUseKeyAction& b) {
     a.Swap(&b);
@@ -13410,7 +13866,7 @@ class S2C_SetUseKeyAction final :
                &_S2C_SetUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    76;
 
   friend void swap(S2C_SetUseKeyAction& a, S2C_SetUseKeyAction& b) {
     a.Swap(&b);
@@ -13558,7 +14014,7 @@ class C2S_PressedUseKeyAction final :
                &_C2S_PressedUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    77;
 
   friend void swap(C2S_PressedUseKeyAction& a, C2S_PressedUseKeyAction& b) {
     a.Swap(&b);
@@ -13717,7 +14173,7 @@ class C2S_ReleaseUseKeyAction final :
                &_C2S_ReleaseUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    78;
 
   friend void swap(C2S_ReleaseUseKeyAction& a, C2S_ReleaseUseKeyAction& b) {
     a.Swap(&b);
@@ -13876,7 +14332,7 @@ class S2C_ResponseUseKeyAction final :
                &_S2C_ResponseUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    79;
 
   friend void swap(S2C_ResponseUseKeyAction& a, S2C_ResponseUseKeyAction& b) {
     a.Swap(&b);
@@ -14035,7 +14491,7 @@ class S2C_AppearSkill final :
                &_S2C_AppearSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    80;
 
   friend void swap(S2C_AppearSkill& a, S2C_AppearSkill& b) {
     a.Swap(&b);
@@ -14256,7 +14712,7 @@ class S2C_ReactionSkill final :
                &_S2C_ReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    81;
 
   friend void swap(S2C_ReactionSkill& a, S2C_ReactionSkill& b) {
     a.Swap(&b);
@@ -14477,7 +14933,7 @@ class S2C_EndReactionSkill final :
                &_S2C_EndReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    82;
 
   friend void swap(S2C_EndReactionSkill& a, S2C_EndReactionSkill& b) {
     a.Swap(&b);
@@ -14636,7 +15092,7 @@ class S2C_SkillCoolTime final :
                &_S2C_SkillCoolTime_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    83;
 
   friend void swap(S2C_SkillCoolTime& a, S2C_SkillCoolTime& b) {
     a.Swap(&b);
@@ -14823,7 +15279,7 @@ class S2C_PushBuff final :
                &_S2C_PushBuff_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    84;
 
   friend void swap(S2C_PushBuff& a, S2C_PushBuff& b) {
     a.Swap(&b);
@@ -14993,7 +15449,7 @@ class S2C_ReleaseBuff final :
                &_S2C_ReleaseBuff_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    85;
 
   friend void swap(S2C_ReleaseBuff& a, S2C_ReleaseBuff& b) {
     a.Swap(&b);
@@ -15152,7 +15608,7 @@ class S2C_DebugBox final :
                &_S2C_DebugBox_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    86;
 
   friend void swap(S2C_DebugBox& a, S2C_DebugBox& b) {
     a.Swap(&b);
@@ -15380,7 +15836,7 @@ class S2C_DebugCircle final :
                &_S2C_DebugCircle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    87;
 
   friend void swap(S2C_DebugCircle& a, S2C_DebugCircle& b) {
     a.Swap(&b);
@@ -15559,7 +16015,7 @@ class C2S_RequestEnterDungeon final :
                &_C2S_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    88;
 
   friend void swap(C2S_RequestEnterDungeon& a, C2S_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -15707,7 +16163,7 @@ class S2C_RequestEnterDungeon final :
                &_S2C_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    89;
 
   friend void swap(S2C_RequestEnterDungeon& a, S2C_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -15855,7 +16311,7 @@ class S2C_ResponseEnterDungeon final :
                &_S2C_ResponseEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    90;
 
   friend void swap(S2C_ResponseEnterDungeon& a, S2C_ResponseEnterDungeon& b) {
     a.Swap(&b);
@@ -16030,7 +16486,7 @@ class C2S_CompleteLoadDungeon final :
                &_C2S_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    91;
 
   friend void swap(C2S_CompleteLoadDungeon& a, C2S_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -16178,7 +16634,7 @@ class S2C_WaitingLoadDungeon final :
                &_S2C_WaitingLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    92;
 
   friend void swap(S2C_WaitingLoadDungeon& a, S2C_WaitingLoadDungeon& b) {
     a.Swap(&b);
@@ -16336,7 +16792,7 @@ class S2C_CompleteLoadDungeon final :
                &_S2C_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    93;
 
   friend void swap(S2C_CompleteLoadDungeon& a, S2C_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -16455,7 +16911,7 @@ class S2C_EnterPortal final :
                &_S2C_EnterPortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    94;
 
   friend void swap(S2C_EnterPortal& a, S2C_EnterPortal& b) {
     a.Swap(&b);
@@ -16618,7 +17074,7 @@ class S2C_LeavePortal final :
                &_S2C_LeavePortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    95;
 
   friend void swap(S2C_LeavePortal& a, S2C_LeavePortal& b) {
     a.Swap(&b);
@@ -16737,7 +17193,7 @@ class S2C_PlaySequence final :
                &_S2C_PlaySequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    93;
+    96;
 
   friend void swap(S2C_PlaySequence& a, S2C_PlaySequence& b) {
     a.Swap(&b);
@@ -16896,7 +17352,7 @@ class C2S_SkipSequence final :
                &_C2S_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    94;
+    97;
 
   friend void swap(C2S_SkipSequence& a, C2S_SkipSequence& b) {
     a.Swap(&b);
@@ -17044,7 +17500,7 @@ class S2C_SkipSequence final :
                &_S2C_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    95;
+    98;
 
   friend void swap(S2C_SkipSequence& a, S2C_SkipSequence& b) {
     a.Swap(&b);
@@ -17202,7 +17658,7 @@ class S2C_EndSequence final :
                &_S2C_EndSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    96;
+    99;
 
   friend void swap(S2C_EndSequence& a, S2C_EndSequence& b) {
     a.Swap(&b);
@@ -17320,7 +17776,7 @@ class C2S_StartPack final :
                &_C2S_StartPack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    97;
+    100;
 
   friend void swap(C2S_StartPack& a, C2S_StartPack& b) {
     a.Swap(&b);
@@ -17438,7 +17894,7 @@ class S2C_StartPack final :
                &_S2C_StartPack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    98;
+    101;
 
   friend void swap(S2C_StartPack& a, S2C_StartPack& b) {
     a.Swap(&b);
@@ -19592,6 +20048,78 @@ inline void S2C_LevelUp::_internal_set_timestamp(int64_t value) {
 inline void S2C_LevelUp::set_timestamp(int64_t value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S2C_LevelUp.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_DeathPlayer
+
+// int64 remote_id = 1;
+inline void S2C_DeathPlayer::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_DeathPlayer::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_DeathPlayer::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_DeathPlayer.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_DeathPlayer::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_DeathPlayer::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_DeathPlayer.remote_id)
+}
+
+// -------------------------------------------------------------------
+
+// C2S_RevivePlayer
+
+// int64 timestamp = 1;
+inline void C2S_RevivePlayer::clear_timestamp() {
+  _impl_.timestamp_ = int64_t{0};
+}
+inline int64_t C2S_RevivePlayer::_internal_timestamp() const {
+  return _impl_.timestamp_;
+}
+inline int64_t C2S_RevivePlayer::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C2S_RevivePlayer.timestamp)
+  return _internal_timestamp();
+}
+inline void C2S_RevivePlayer::_internal_set_timestamp(int64_t value) {
+  
+  _impl_.timestamp_ = value;
+}
+inline void C2S_RevivePlayer::set_timestamp(int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C2S_RevivePlayer.timestamp)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_RevivePlayer
+
+// int64 remote_id = 1;
+inline void S2C_RevivePlayer::clear_remote_id() {
+  _impl_.remote_id_ = int64_t{0};
+}
+inline int64_t S2C_RevivePlayer::_internal_remote_id() const {
+  return _impl_.remote_id_;
+}
+inline int64_t S2C_RevivePlayer::remote_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_RevivePlayer.remote_id)
+  return _internal_remote_id();
+}
+inline void S2C_RevivePlayer::_internal_set_remote_id(int64_t value) {
+  
+  _impl_.remote_id_ = value;
+}
+inline void S2C_RevivePlayer::set_remote_id(int64_t value) {
+  _internal_set_remote_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_RevivePlayer.remote_id)
 }
 
 // -------------------------------------------------------------------
@@ -27276,6 +27804,12 @@ inline void S2C_SkipSequence::set_least_number(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

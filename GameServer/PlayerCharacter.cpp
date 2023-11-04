@@ -73,7 +73,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangePlayer();
 	}
-	this->mStatComponent.UpdateStats(inDeltaTime);
+	//this->mStatComponent.UpdateStats(inDeltaTime);
+	OnHit(this->GetActorPtr(), 20.0f);					//이거 제거하고 위에 주석 풀면 정상작동
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 
@@ -278,6 +279,37 @@ void PlayerCharacter::DetectChangePlayer()
 	remotePlayer->BrodcastPlayerViewers(sendBuffer);
 }
 
+void PlayerCharacter::RevivePlayer()
+{
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	float baseHP = this->mStatComponent.GetMaxStats().GetHealth();
+	float baseMP = this->mStatComponent.GetMaxStats().GetMana();
+
+	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, baseHP);
+	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Mana, baseMP);
+
+	this->GetMovementComponent().SetRestrictMovement(false);
+
+	DetectChangePlayer();
+
+	Protocol::S2C_RevivePlayer revivePlayerPacket;
+	revivePlayerPacket.set_remote_id(remotePlayer->GetGameObjectID());
+
+	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, revivePlayerPacket);
+	playerState->BroadcastPlayerMonitors(sendBuffer);
+}
+
 void PlayerCharacter::Teleport(FVector inDestinationLocation)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -313,6 +345,12 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)
 {
+
+	if (false == IsValid())
+	{
+		return;
+	}
+
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
@@ -474,6 +512,29 @@ void PlayerCharacter::DoAutoAttack(ActorPtr inVictimActor)
 
 void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 {
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64 worldTime = world->GetWorldTime();
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(GetOwner().lock());
+	if (nullptr == remotePlayer)
+	{
+		return;
+	}
+
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(remotePlayer->GetRemoteClient().lock());
+	if (nullptr == playerState)
+	{
+		return;
+	}
+
+	if (!IsValid())
+	{
+		return;
+	}
 
 	ActiveSkillPtr activeSKill = this->GetSkillComponent().GetActiveSkill().lock();
 	if (nullptr != activeSKill)
@@ -482,8 +543,26 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth();
-	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP - inDamage);
+	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth() - inDamage;
+	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP);
+
+	if (currentHP <= 0.0f)
+	{
+		this->GetMovementComponent().SetRestrictMovement(true);
+
+		this->mMovementComponent.SetNewDestination(this->GetActorPtr(), this->GetLocation(), this->GetLocation(), worldTime, 0.0f);
+
+		this->OnMovement();
+
+		this->DetectChangePlayer();
+
+		Protocol::S2C_DeathPlayer deathPlayer;
+		deathPlayer.set_remote_id(remotePlayer->GetGameObjectID());
+
+		SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, deathPlayer);
+		playerState->BroadcastPlayerMonitors(sendBuffer);
+	}
+
 }
 
 void PlayerCharacter::OnAutoAttackShot(ActorPtr inVictim)

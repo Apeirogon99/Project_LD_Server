@@ -36,6 +36,7 @@ public:
 	void NextPlayerMode();
 	void SyncLocation(const int64 inDeltaTime);
 	void DetectChangePlayer();
+	void RevivePlayer();
 
 public:
 	void SetCharacterID(const int32& inCharacterID);

@@ -127,6 +127,31 @@ bool Handle_C2S_PlayerAutoAttack(PacketSessionPtr& session, Protocol::C2S_Player
 	return true;
 }
 
+bool Handle_C2S_RevivePlayer(PacketSessionPtr& session, Protocol::C2S_RevivePlayer& pkt)
+{
+	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
+	if (nullptr == playerState)
+	{
+		return false;
+	}
+
+	GameRemotePlayerPtr remotePlayer = std::static_pointer_cast<GameRemotePlayer>(playerState->GetRemotePlayer());
+	if (nullptr == remotePlayer)
+	{
+		return false;
+	}
+
+	PlayerCharacterPtr character = remotePlayer->GetCharacter();
+	if (nullptr == character)
+	{
+		return false;
+	}
+
+
+	character->PushTask(pkt.timestamp(), &PlayerCharacter::RevivePlayer);
+	return true;
+}
+
 bool Handle_C2S_Chat(PacketSessionPtr& session, Protocol::C2S_Chat& pkt)
 {
 	PlayerStatePtr playerState = std::static_pointer_cast<PlayerState>(session);
