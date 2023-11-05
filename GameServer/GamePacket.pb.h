@@ -220,6 +220,9 @@ extern S2C_EndSequenceDefaultTypeInternal _S2C_EndSequence_default_instance_;
 class S2C_EnemyAutoAttack;
 struct S2C_EnemyAutoAttackDefaultTypeInternal;
 extern S2C_EnemyAutoAttackDefaultTypeInternal _S2C_EnemyAutoAttack_default_instance_;
+class S2C_EnemyTeleport;
+struct S2C_EnemyTeleportDefaultTypeInternal;
+extern S2C_EnemyTeleportDefaultTypeInternal _S2C_EnemyTeleport_default_instance_;
 class S2C_EnterGameServer;
 struct S2C_EnterGameServerDefaultTypeInternal;
 extern S2C_EnterGameServerDefaultTypeInternal _S2C_EnterGameServer_default_instance_;
@@ -416,6 +419,7 @@ template<> ::Protocol::S2C_DisConnectFriend* Arena::CreateMaybeMessage<::Protoco
 template<> ::Protocol::S2C_EndReactionSkill* Arena::CreateMaybeMessage<::Protocol::S2C_EndReactionSkill>(Arena*);
 template<> ::Protocol::S2C_EndSequence* Arena::CreateMaybeMessage<::Protocol::S2C_EndSequence>(Arena*);
 template<> ::Protocol::S2C_EnemyAutoAttack* Arena::CreateMaybeMessage<::Protocol::S2C_EnemyAutoAttack>(Arena*);
+template<> ::Protocol::S2C_EnemyTeleport* Arena::CreateMaybeMessage<::Protocol::S2C_EnemyTeleport>(Arena*);
 template<> ::Protocol::S2C_EnterGameServer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterGameServer>(Arena*);
 template<> ::Protocol::S2C_EnterPartyPlayer* Arena::CreateMaybeMessage<::Protocol::S2C_EnterPartyPlayer>(Arena*);
 template<> ::Protocol::S2C_EnterPortal* Arena::CreateMaybeMessage<::Protocol::S2C_EnterPortal>(Arena*);
@@ -11026,6 +11030,194 @@ class S2C_DeathEnemy final :
 };
 // -------------------------------------------------------------------
 
+class S2C_EnemyTeleport final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_EnemyTeleport) */ {
+ public:
+  inline S2C_EnemyTeleport() : S2C_EnemyTeleport(nullptr) {}
+  ~S2C_EnemyTeleport() override;
+  explicit PROTOBUF_CONSTEXPR S2C_EnemyTeleport(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S2C_EnemyTeleport(const S2C_EnemyTeleport& from);
+  S2C_EnemyTeleport(S2C_EnemyTeleport&& from) noexcept
+    : S2C_EnemyTeleport() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_EnemyTeleport& operator=(const S2C_EnemyTeleport& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_EnemyTeleport& operator=(S2C_EnemyTeleport&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S2C_EnemyTeleport& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S2C_EnemyTeleport* internal_default_instance() {
+    return reinterpret_cast<const S2C_EnemyTeleport*>(
+               &_S2C_EnemyTeleport_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    60;
+
+  friend void swap(S2C_EnemyTeleport& a, S2C_EnemyTeleport& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_EnemyTeleport* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S2C_EnemyTeleport* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S2C_EnemyTeleport* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S2C_EnemyTeleport>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S2C_EnemyTeleport& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S2C_EnemyTeleport& from) {
+    S2C_EnemyTeleport::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_EnemyTeleport* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S2C_EnemyTeleport";
+  }
+  protected:
+  explicit S2C_EnemyTeleport(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLocationFieldNumber = 2,
+    kRotationFieldNumber = 3,
+    kObjectIdFieldNumber = 1,
+  };
+  // .Protocol.SVector location = 2;
+  bool has_location() const;
+  private:
+  bool _internal_has_location() const;
+  public:
+  void clear_location();
+  const ::Protocol::SVector& location() const;
+  PROTOBUF_NODISCARD ::Protocol::SVector* release_location();
+  ::Protocol::SVector* mutable_location();
+  void set_allocated_location(::Protocol::SVector* location);
+  private:
+  const ::Protocol::SVector& _internal_location() const;
+  ::Protocol::SVector* _internal_mutable_location();
+  public:
+  void unsafe_arena_set_allocated_location(
+      ::Protocol::SVector* location);
+  ::Protocol::SVector* unsafe_arena_release_location();
+
+  // .Protocol.SRotator rotation = 3;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::Protocol::SRotator& rotation() const;
+  PROTOBUF_NODISCARD ::Protocol::SRotator* release_rotation();
+  ::Protocol::SRotator* mutable_rotation();
+  void set_allocated_rotation(::Protocol::SRotator* rotation);
+  private:
+  const ::Protocol::SRotator& _internal_rotation() const;
+  ::Protocol::SRotator* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::Protocol::SRotator* rotation);
+  ::Protocol::SRotator* unsafe_arena_release_rotation();
+
+  // int64 object_id = 1;
+  void clear_object_id();
+  int64_t object_id() const;
+  void set_object_id(int64_t value);
+  private:
+  int64_t _internal_object_id() const;
+  void _internal_set_object_id(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S2C_EnemyTeleport)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Protocol::SVector* location_;
+    ::Protocol::SRotator* rotation_;
+    int64_t object_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_GamePacket_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S2C_DisAppearGameObject final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S2C_DisAppearGameObject) */ {
  public:
@@ -11074,7 +11266,7 @@ class S2C_DisAppearGameObject final :
                &_S2C_DisAppearGameObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    61;
 
   friend void swap(S2C_DisAppearGameObject& a, S2C_DisAppearGameObject& b) {
     a.Swap(&b);
@@ -11222,7 +11414,7 @@ class C2S_LoadInventory final :
                &_C2S_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    62;
 
   friend void swap(C2S_LoadInventory& a, C2S_LoadInventory& b) {
     a.Swap(&b);
@@ -11370,7 +11562,7 @@ class S2C_LoadInventory final :
                &_S2C_LoadInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    63;
 
   friend void swap(S2C_LoadInventory& a, S2C_LoadInventory& b) {
     a.Swap(&b);
@@ -11569,7 +11761,7 @@ class C2S_InsertInventory final :
                &_C2S_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    64;
 
   friend void swap(C2S_InsertInventory& a, C2S_InsertInventory& b) {
     a.Swap(&b);
@@ -11737,7 +11929,7 @@ class S2C_InsertInventory final :
                &_S2C_InsertInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    65;
 
   friend void swap(S2C_InsertInventory& a, S2C_InsertInventory& b) {
     a.Swap(&b);
@@ -11907,7 +12099,7 @@ class C2S_UpdateInventory final :
                &_C2S_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    66;
 
   friend void swap(C2S_UpdateInventory& a, C2S_UpdateInventory& b) {
     a.Swap(&b);
@@ -12075,7 +12267,7 @@ class S2C_UpdateInventory final :
                &_S2C_UpdateInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    67;
 
   friend void swap(S2C_UpdateInventory& a, S2C_UpdateInventory& b) {
     a.Swap(&b);
@@ -12223,7 +12415,7 @@ class C2S_DeleteInventory final :
                &_C2S_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    68;
 
   friend void swap(C2S_DeleteInventory& a, C2S_DeleteInventory& b) {
     a.Swap(&b);
@@ -12411,7 +12603,7 @@ class S2C_DeleteInventory final :
                &_S2C_DeleteInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    69;
 
   friend void swap(S2C_DeleteInventory& a, S2C_DeleteInventory& b) {
     a.Swap(&b);
@@ -12590,7 +12782,7 @@ class S2C_RollbackInventory final :
                &_S2C_RollbackInventory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    70;
 
   friend void swap(S2C_RollbackInventory& a, S2C_RollbackInventory& b) {
     a.Swap(&b);
@@ -12758,7 +12950,7 @@ class C2S_ReplaceEqipment final :
                &_C2S_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    71;
 
   friend void swap(C2S_ReplaceEqipment& a, C2S_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -12957,7 +13149,7 @@ class S2C_ReplaceEqipment final :
                &_S2C_ReplaceEqipment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    72;
 
   friend void swap(S2C_ReplaceEqipment& a, S2C_ReplaceEqipment& b) {
     a.Swap(&b);
@@ -13136,7 +13328,7 @@ class S2C_LoadSkillTree final :
                &_S2C_LoadSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    73;
 
   friend void swap(S2C_LoadSkillTree& a, S2C_LoadSkillTree& b) {
     a.Swap(&b);
@@ -13334,7 +13526,7 @@ class C2S_UpdateSkillTree final :
                &_C2S_UpdateSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    74;
 
   friend void swap(C2S_UpdateSkillTree& a, C2S_UpdateSkillTree& b) {
     a.Swap(&b);
@@ -13504,7 +13696,7 @@ class S2C_UpdateSkillTree final :
                &_S2C_UpdateSkillTree_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    75;
 
   friend void swap(S2C_UpdateSkillTree& a, S2C_UpdateSkillTree& b) {
     a.Swap(&b);
@@ -13685,7 +13877,7 @@ class C2S_SetUseKeyAction final :
                &_C2S_SetUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    76;
 
   friend void swap(C2S_SetUseKeyAction& a, C2S_SetUseKeyAction& b) {
     a.Swap(&b);
@@ -13866,7 +14058,7 @@ class S2C_SetUseKeyAction final :
                &_S2C_SetUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    77;
 
   friend void swap(S2C_SetUseKeyAction& a, S2C_SetUseKeyAction& b) {
     a.Swap(&b);
@@ -14014,7 +14206,7 @@ class C2S_PressedUseKeyAction final :
                &_C2S_PressedUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    78;
 
   friend void swap(C2S_PressedUseKeyAction& a, C2S_PressedUseKeyAction& b) {
     a.Swap(&b);
@@ -14173,7 +14365,7 @@ class C2S_ReleaseUseKeyAction final :
                &_C2S_ReleaseUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    79;
 
   friend void swap(C2S_ReleaseUseKeyAction& a, C2S_ReleaseUseKeyAction& b) {
     a.Swap(&b);
@@ -14332,7 +14524,7 @@ class S2C_ResponseUseKeyAction final :
                &_S2C_ResponseUseKeyAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    80;
 
   friend void swap(S2C_ResponseUseKeyAction& a, S2C_ResponseUseKeyAction& b) {
     a.Swap(&b);
@@ -14491,7 +14683,7 @@ class S2C_AppearSkill final :
                &_S2C_AppearSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    81;
 
   friend void swap(S2C_AppearSkill& a, S2C_AppearSkill& b) {
     a.Swap(&b);
@@ -14712,7 +14904,7 @@ class S2C_ReactionSkill final :
                &_S2C_ReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    82;
 
   friend void swap(S2C_ReactionSkill& a, S2C_ReactionSkill& b) {
     a.Swap(&b);
@@ -14933,7 +15125,7 @@ class S2C_EndReactionSkill final :
                &_S2C_EndReactionSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    83;
 
   friend void swap(S2C_EndReactionSkill& a, S2C_EndReactionSkill& b) {
     a.Swap(&b);
@@ -15092,7 +15284,7 @@ class S2C_SkillCoolTime final :
                &_S2C_SkillCoolTime_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    84;
 
   friend void swap(S2C_SkillCoolTime& a, S2C_SkillCoolTime& b) {
     a.Swap(&b);
@@ -15279,7 +15471,7 @@ class S2C_PushBuff final :
                &_S2C_PushBuff_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    85;
 
   friend void swap(S2C_PushBuff& a, S2C_PushBuff& b) {
     a.Swap(&b);
@@ -15449,7 +15641,7 @@ class S2C_ReleaseBuff final :
                &_S2C_ReleaseBuff_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    86;
 
   friend void swap(S2C_ReleaseBuff& a, S2C_ReleaseBuff& b) {
     a.Swap(&b);
@@ -15608,7 +15800,7 @@ class S2C_DebugBox final :
                &_S2C_DebugBox_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    87;
 
   friend void swap(S2C_DebugBox& a, S2C_DebugBox& b) {
     a.Swap(&b);
@@ -15836,7 +16028,7 @@ class S2C_DebugCircle final :
                &_S2C_DebugCircle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    88;
 
   friend void swap(S2C_DebugCircle& a, S2C_DebugCircle& b) {
     a.Swap(&b);
@@ -16015,7 +16207,7 @@ class C2S_RequestEnterDungeon final :
                &_C2S_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    89;
 
   friend void swap(C2S_RequestEnterDungeon& a, C2S_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -16163,7 +16355,7 @@ class S2C_RequestEnterDungeon final :
                &_S2C_RequestEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    90;
 
   friend void swap(S2C_RequestEnterDungeon& a, S2C_RequestEnterDungeon& b) {
     a.Swap(&b);
@@ -16311,7 +16503,7 @@ class S2C_ResponseEnterDungeon final :
                &_S2C_ResponseEnterDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    91;
 
   friend void swap(S2C_ResponseEnterDungeon& a, S2C_ResponseEnterDungeon& b) {
     a.Swap(&b);
@@ -16486,7 +16678,7 @@ class C2S_CompleteLoadDungeon final :
                &_C2S_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    92;
 
   friend void swap(C2S_CompleteLoadDungeon& a, C2S_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -16634,7 +16826,7 @@ class S2C_WaitingLoadDungeon final :
                &_S2C_WaitingLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    93;
 
   friend void swap(S2C_WaitingLoadDungeon& a, S2C_WaitingLoadDungeon& b) {
     a.Swap(&b);
@@ -16792,7 +16984,7 @@ class S2C_CompleteLoadDungeon final :
                &_S2C_CompleteLoadDungeon_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    93;
+    94;
 
   friend void swap(S2C_CompleteLoadDungeon& a, S2C_CompleteLoadDungeon& b) {
     a.Swap(&b);
@@ -16911,7 +17103,7 @@ class S2C_EnterPortal final :
                &_S2C_EnterPortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    94;
+    95;
 
   friend void swap(S2C_EnterPortal& a, S2C_EnterPortal& b) {
     a.Swap(&b);
@@ -17074,7 +17266,7 @@ class S2C_LeavePortal final :
                &_S2C_LeavePortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    95;
+    96;
 
   friend void swap(S2C_LeavePortal& a, S2C_LeavePortal& b) {
     a.Swap(&b);
@@ -17193,7 +17385,7 @@ class S2C_PlaySequence final :
                &_S2C_PlaySequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    96;
+    97;
 
   friend void swap(S2C_PlaySequence& a, S2C_PlaySequence& b) {
     a.Swap(&b);
@@ -17352,7 +17544,7 @@ class C2S_SkipSequence final :
                &_C2S_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    97;
+    98;
 
   friend void swap(C2S_SkipSequence& a, C2S_SkipSequence& b) {
     a.Swap(&b);
@@ -17500,7 +17692,7 @@ class S2C_SkipSequence final :
                &_S2C_SkipSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    98;
+    99;
 
   friend void swap(S2C_SkipSequence& a, S2C_SkipSequence& b) {
     a.Swap(&b);
@@ -17658,7 +17850,7 @@ class S2C_EndSequence final :
                &_S2C_EndSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    99;
+    100;
 
   friend void swap(S2C_EndSequence& a, S2C_EndSequence& b) {
     a.Swap(&b);
@@ -17776,7 +17968,7 @@ class C2S_StartPack final :
                &_C2S_StartPack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    100;
+    101;
 
   friend void swap(C2S_StartPack& a, C2S_StartPack& b) {
     a.Swap(&b);
@@ -17894,7 +18086,7 @@ class S2C_StartPack final :
                &_S2C_StartPack_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    101;
+    102;
 
   friend void swap(S2C_StartPack& a, S2C_StartPack& b) {
     a.Swap(&b);
@@ -24383,6 +24575,200 @@ inline void S2C_DeathEnemy::set_timestamp(int64_t value) {
 
 // -------------------------------------------------------------------
 
+// S2C_EnemyTeleport
+
+// int64 object_id = 1;
+inline void S2C_EnemyTeleport::clear_object_id() {
+  _impl_.object_id_ = int64_t{0};
+}
+inline int64_t S2C_EnemyTeleport::_internal_object_id() const {
+  return _impl_.object_id_;
+}
+inline int64_t S2C_EnemyTeleport::object_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyTeleport.object_id)
+  return _internal_object_id();
+}
+inline void S2C_EnemyTeleport::_internal_set_object_id(int64_t value) {
+  
+  _impl_.object_id_ = value;
+}
+inline void S2C_EnemyTeleport::set_object_id(int64_t value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.S2C_EnemyTeleport.object_id)
+}
+
+// .Protocol.SVector location = 2;
+inline bool S2C_EnemyTeleport::_internal_has_location() const {
+  return this != internal_default_instance() && _impl_.location_ != nullptr;
+}
+inline bool S2C_EnemyTeleport::has_location() const {
+  return _internal_has_location();
+}
+inline const ::Protocol::SVector& S2C_EnemyTeleport::_internal_location() const {
+  const ::Protocol::SVector* p = _impl_.location_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SVector&>(
+      ::Protocol::_SVector_default_instance_);
+}
+inline const ::Protocol::SVector& S2C_EnemyTeleport::location() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyTeleport.location)
+  return _internal_location();
+}
+inline void S2C_EnemyTeleport::unsafe_arena_set_allocated_location(
+    ::Protocol::SVector* location) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  _impl_.location_ = location;
+  if (location) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_EnemyTeleport.location)
+}
+inline ::Protocol::SVector* S2C_EnemyTeleport::release_location() {
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SVector* S2C_EnemyTeleport::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_EnemyTeleport.location)
+  
+  ::Protocol::SVector* temp = _impl_.location_;
+  _impl_.location_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SVector* S2C_EnemyTeleport::_internal_mutable_location() {
+  
+  if (_impl_.location_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SVector>(GetArenaForAllocation());
+    _impl_.location_ = p;
+  }
+  return _impl_.location_;
+}
+inline ::Protocol::SVector* S2C_EnemyTeleport::mutable_location() {
+  ::Protocol::SVector* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_EnemyTeleport.location)
+  return _msg;
+}
+inline void S2C_EnemyTeleport::set_allocated_location(::Protocol::SVector* location) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.location_);
+  }
+  if (location) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(location));
+    if (message_arena != submessage_arena) {
+      location = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, location, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.location_ = location;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnemyTeleport.location)
+}
+
+// .Protocol.SRotator rotation = 3;
+inline bool S2C_EnemyTeleport::_internal_has_rotation() const {
+  return this != internal_default_instance() && _impl_.rotation_ != nullptr;
+}
+inline bool S2C_EnemyTeleport::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline const ::Protocol::SRotator& S2C_EnemyTeleport::_internal_rotation() const {
+  const ::Protocol::SRotator* p = _impl_.rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::SRotator&>(
+      ::Protocol::_SRotator_default_instance_);
+}
+inline const ::Protocol::SRotator& S2C_EnemyTeleport::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.S2C_EnemyTeleport.rotation)
+  return _internal_rotation();
+}
+inline void S2C_EnemyTeleport::unsafe_arena_set_allocated_rotation(
+    ::Protocol::SRotator* rotation) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  _impl_.rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S2C_EnemyTeleport.rotation)
+}
+inline ::Protocol::SRotator* S2C_EnemyTeleport::release_rotation() {
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_EnemyTeleport::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:Protocol.S2C_EnemyTeleport.rotation)
+  
+  ::Protocol::SRotator* temp = _impl_.rotation_;
+  _impl_.rotation_ = nullptr;
+  return temp;
+}
+inline ::Protocol::SRotator* S2C_EnemyTeleport::_internal_mutable_rotation() {
+  
+  if (_impl_.rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::SRotator>(GetArenaForAllocation());
+    _impl_.rotation_ = p;
+  }
+  return _impl_.rotation_;
+}
+inline ::Protocol::SRotator* S2C_EnemyTeleport::mutable_rotation() {
+  ::Protocol::SRotator* _msg = _internal_mutable_rotation();
+  // @@protoc_insertion_point(field_mutable:Protocol.S2C_EnemyTeleport.rotation)
+  return _msg;
+}
+inline void S2C_EnemyTeleport::set_allocated_rotation(::Protocol::SRotator* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rotation_);
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rotation));
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S2C_EnemyTeleport.rotation)
+}
+
+// -------------------------------------------------------------------
+
 // S2C_DisAppearGameObject
 
 // int64 object_id = 1;
@@ -27804,6 +28190,8 @@ inline void S2C_SkipSequence::set_least_number(int32_t value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

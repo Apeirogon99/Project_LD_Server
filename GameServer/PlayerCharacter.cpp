@@ -73,8 +73,8 @@ void PlayerCharacter::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangePlayer();
 	}
-	//this->mStatComponent.UpdateStats(inDeltaTime);
-	OnHit(this->GetActorPtr(), 20.0f);					//이거 제거하고 위에 주석 풀면 정상작동
+	this->mStatComponent.UpdateStats(inDeltaTime);
+	//OnHit(this->GetActorPtr(), 20.0f);					//이거 제거하고 위에 주석 풀면 정상작동
 
 	this->mSkillComponent.UpdateSkillCoolTime(inDeltaTime);
 

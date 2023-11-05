@@ -935,6 +935,21 @@ struct S2C_DeathEnemyDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_DeathEnemyDefaultTypeInternal _S2C_DeathEnemy_default_instance_;
+PROTOBUF_CONSTEXPR S2C_EnemyTeleport::S2C_EnemyTeleport(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.location_)*/nullptr
+  , /*decltype(_impl_.rotation_)*/nullptr
+  , /*decltype(_impl_.object_id_)*/int64_t{0}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S2C_EnemyTeleportDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S2C_EnemyTeleportDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S2C_EnemyTeleportDefaultTypeInternal() {}
+  union {
+    S2C_EnemyTeleport _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_EnemyTeleportDefaultTypeInternal _S2C_EnemyTeleport_default_instance_;
 PROTOBUF_CONSTEXPR S2C_DisAppearGameObject::S2C_DisAppearGameObject(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.object_id_)*/int64_t{0}
@@ -1533,7 +1548,7 @@ struct S2C_StartPackDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_StartPackDefaultTypeInternal _S2C_StartPack_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[102];
+static ::_pb::Metadata file_level_metadata_GamePacket_2eproto[103];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_GamePacket_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_GamePacket_2eproto = nullptr;
 
@@ -2073,6 +2088,15 @@ const uint32_t TableStruct_GamePacket_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeathEnemy, _impl_.object_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DeathEnemy, _impl_.timestamp_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyTeleport, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyTeleport, _impl_.object_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyTeleport, _impl_.location_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S2C_EnemyTeleport, _impl_.rotation_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S2C_DisAppearGameObject, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2480,48 +2504,49 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 509, -1, -1, sizeof(::Protocol::S2C_EnemyAutoAttack)},
   { 518, -1, -1, sizeof(::Protocol::S2C_HitEnemy)},
   { 526, -1, -1, sizeof(::Protocol::S2C_DeathEnemy)},
-  { 534, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
-  { 541, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
-  { 548, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
-  { 558, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
-  { 566, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
-  { 575, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
-  { 583, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
-  { 590, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
-  { 599, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
-  { 608, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
-  { 616, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
-  { 626, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
-  { 635, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
-  { 644, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
-  { 653, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
-  { 663, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
-  { 673, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
-  { 680, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
-  { 688, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
-  { 696, -1, -1, sizeof(::Protocol::S2C_ResponseUseKeyAction)},
-  { 704, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
-  { 716, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
-  { 728, -1, -1, sizeof(::Protocol::S2C_EndReactionSkill)},
-  { 736, -1, -1, sizeof(::Protocol::S2C_SkillCoolTime)},
-  { 744, -1, -1, sizeof(::Protocol::S2C_PushBuff)},
-  { 753, -1, -1, sizeof(::Protocol::S2C_ReleaseBuff)},
-  { 761, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
-  { 772, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
-  { 781, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
-  { 788, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
-  { 795, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
-  { 804, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
-  { 811, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
-  { 819, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
-  { 825, -1, -1, sizeof(::Protocol::S2C_EnterPortal)},
-  { 833, -1, -1, sizeof(::Protocol::S2C_LeavePortal)},
-  { 839, -1, -1, sizeof(::Protocol::S2C_PlaySequence)},
-  { 847, -1, -1, sizeof(::Protocol::C2S_SkipSequence)},
-  { 854, -1, -1, sizeof(::Protocol::S2C_SkipSequence)},
-  { 862, -1, -1, sizeof(::Protocol::S2C_EndSequence)},
-  { 868, -1, -1, sizeof(::Protocol::C2S_StartPack)},
-  { 874, -1, -1, sizeof(::Protocol::S2C_StartPack)},
+  { 534, -1, -1, sizeof(::Protocol::S2C_EnemyTeleport)},
+  { 543, -1, -1, sizeof(::Protocol::S2C_DisAppearGameObject)},
+  { 550, -1, -1, sizeof(::Protocol::C2S_LoadInventory)},
+  { 557, -1, -1, sizeof(::Protocol::S2C_LoadInventory)},
+  { 567, -1, -1, sizeof(::Protocol::C2S_InsertInventory)},
+  { 575, -1, -1, sizeof(::Protocol::S2C_InsertInventory)},
+  { 584, -1, -1, sizeof(::Protocol::C2S_UpdateInventory)},
+  { 592, -1, -1, sizeof(::Protocol::S2C_UpdateInventory)},
+  { 599, -1, -1, sizeof(::Protocol::C2S_DeleteInventory)},
+  { 608, -1, -1, sizeof(::Protocol::S2C_DeleteInventory)},
+  { 617, -1, -1, sizeof(::Protocol::S2C_RollbackInventory)},
+  { 625, -1, -1, sizeof(::Protocol::C2S_ReplaceEqipment)},
+  { 635, -1, -1, sizeof(::Protocol::S2C_ReplaceEqipment)},
+  { 644, -1, -1, sizeof(::Protocol::S2C_LoadSkillTree)},
+  { 653, -1, -1, sizeof(::Protocol::C2S_UpdateSkillTree)},
+  { 662, -1, -1, sizeof(::Protocol::S2C_UpdateSkillTree)},
+  { 672, -1, -1, sizeof(::Protocol::C2S_SetUseKeyAction)},
+  { 682, -1, -1, sizeof(::Protocol::S2C_SetUseKeyAction)},
+  { 689, -1, -1, sizeof(::Protocol::C2S_PressedUseKeyAction)},
+  { 697, -1, -1, sizeof(::Protocol::C2S_ReleaseUseKeyAction)},
+  { 705, -1, -1, sizeof(::Protocol::S2C_ResponseUseKeyAction)},
+  { 713, -1, -1, sizeof(::Protocol::S2C_AppearSkill)},
+  { 725, -1, -1, sizeof(::Protocol::S2C_ReactionSkill)},
+  { 737, -1, -1, sizeof(::Protocol::S2C_EndReactionSkill)},
+  { 745, -1, -1, sizeof(::Protocol::S2C_SkillCoolTime)},
+  { 753, -1, -1, sizeof(::Protocol::S2C_PushBuff)},
+  { 762, -1, -1, sizeof(::Protocol::S2C_ReleaseBuff)},
+  { 770, -1, -1, sizeof(::Protocol::S2C_DebugBox)},
+  { 781, -1, -1, sizeof(::Protocol::S2C_DebugCircle)},
+  { 790, -1, -1, sizeof(::Protocol::C2S_RequestEnterDungeon)},
+  { 797, -1, -1, sizeof(::Protocol::S2C_RequestEnterDungeon)},
+  { 804, -1, -1, sizeof(::Protocol::S2C_ResponseEnterDungeon)},
+  { 813, -1, -1, sizeof(::Protocol::C2S_CompleteLoadDungeon)},
+  { 820, -1, -1, sizeof(::Protocol::S2C_WaitingLoadDungeon)},
+  { 828, -1, -1, sizeof(::Protocol::S2C_CompleteLoadDungeon)},
+  { 834, -1, -1, sizeof(::Protocol::S2C_EnterPortal)},
+  { 842, -1, -1, sizeof(::Protocol::S2C_LeavePortal)},
+  { 848, -1, -1, sizeof(::Protocol::S2C_PlaySequence)},
+  { 856, -1, -1, sizeof(::Protocol::C2S_SkipSequence)},
+  { 863, -1, -1, sizeof(::Protocol::S2C_SkipSequence)},
+  { 871, -1, -1, sizeof(::Protocol::S2C_EndSequence)},
+  { 877, -1, -1, sizeof(::Protocol::C2S_StartPack)},
+  { 883, -1, -1, sizeof(::Protocol::S2C_StartPack)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2585,6 +2610,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_S2C_EnemyAutoAttack_default_instance_._instance,
   &::Protocol::_S2C_HitEnemy_default_instance_._instance,
   &::Protocol::_S2C_DeathEnemy_default_instance_._instance,
+  &::Protocol::_S2C_EnemyTeleport_default_instance_._instance,
   &::Protocol::_S2C_DisAppearGameObject_default_instance_._instance,
   &::Protocol::_C2S_LoadInventory_default_instance_._instance,
   &::Protocol::_S2C_LoadInventory_default_instance_._instance,
@@ -2767,83 +2793,86 @@ const char descriptor_table_protodef_GamePacket_2eproto[] PROTOBUF_SECTION_VARIA
   "mestamp\030\003 \001(\003\"4\n\014S2C_HitEnemy\022\021\n\tobject_"
   "id\030\001 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"6\n\016S2C_Death"
   "Enemy\022\021\n\tobject_id\030\001 \001(\003\022\021\n\ttimestamp\030\002 "
-  "\001(\003\",\n\027S2C_DisAppearGameObject\022\021\n\tobject"
-  "_id\030\001 \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimest"
-  "amp\030\001 \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004item\030\001"
-  " \003(\0132\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132"
-  "\017.Protocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005error"
-  "\030\004 \001(\005\"G\n\023C2S_InsertInventory\022\021\n\ttimesta"
-  "mp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\""
-  "J\n\023S2C_InsertInventory\022\021\n\tremote_id\030\001 \001("
-  "\003\022\021\n\tobject_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C"
-  "2S_UpdateInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n"
-  "\004item\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_Upda"
-  "teInventory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_Delete"
-  "Inventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001"
-  "(\0132\017.Protocol.SItem\022#\n\010location\030\003 \001(\0132\021."
-  "Protocol.SVector\"V\n\023S2C_DeleteInventory\022"
-  "\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Proto"
-  "col.SItem\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_Rollback"
-  "Inventory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001"
-  "(\0132\017.Protocol.SItem\"\247\001\n\023C2S_ReplaceEqipm"
-  "ent\022\021\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_i"
-  "tem\030\002 \001(\0132\017.Protocol.SItem\022)\n\020insert_eqi"
-  "p_item\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 "
-  "\001(\0162\030.Protocol.ECharacterPart\"g\n\023S2C_Rep"
-  "laceEqipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eqipm"
-  "ent\030\002 \001(\0132\034.Protocol.SCharacterEqipment\022"
-  "\r\n\005error\030\003 \001(\005\"M\n\021S2C_LoadSkillTree\022\020\n\010s"
-  "kill_id\030\001 \003(\005\022\023\n\013skill_count\030\002 \003(\005\022\021\n\tti"
-  "mestamp\030\003 \001(\003\"O\n\023C2S_UpdateSkillTree\022\020\n\010"
-  "skill_id\030\001 \001(\005\022\023\n\013skill_count\030\002 \001(\005\022\021\n\tt"
-  "imestamp\030\003 \001(\003\"^\n\023S2C_UpdateSkillTree\022\r\n"
-  "\005error\030\001 \001(\005\022\020\n\010skill_id\030\002 \001(\005\022\023\n\013skill_"
-  "count\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001(\003\"w\n\023C2S_Se"
-  "tUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\taction_"
-  "id\030\002 \001(\005\022*\n\013action_type\030\003 \001(\0162\025.Protocol"
-  ".EActionType\022\021\n\ttimestamp\030\004 \001(\003\"$\n\023S2C_S"
-  "etUseKeyAction\022\r\n\005error\030\001 \001(\005\"<\n\027C2S_Pre"
-  "ssedUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttime"
-  "stamp\030\002 \001(\003\"<\n\027C2S_ReleaseUseKeyAction\022\016"
-  "\n\006key_id\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"9\n\030S2C"
-  "_ResponseUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\r\n"
-  "\005error\030\002 \001(\005\"\246\001\n\017S2C_AppearSkill\022\021\n\tremo"
-  "te_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\020\n\010skill_"
-  "id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021.Protocol.SV"
-  "ector\022$\n\010rotation\030\005 \001(\0132\022.Protocol.SRota"
-  "tor\022\020\n\010duration\030\006 \001(\003\"\250\001\n\021S2C_ReactionSk"
-  "ill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001("
-  "\003\022\020\n\010skill_id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021."
-  "Protocol.SVector\022$\n\010rotation\030\005 \001(\0132\022.Pro"
-  "tocol.SRotator\022\020\n\010duration\030\006 \001(\003\"<\n\024S2C_"
-  "EndReactionSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\tt"
-  "imestamp\030\002 \001(\003\"9\n\021S2C_SkillCoolTime\022\020\n\010s"
-  "kill_id\030\001 \003(\005\022\022\n\nskill_time\030\002 \003(\003\"D\n\014S2C"
-  "_PushBuff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buff_id\030"
-  "\002 \001(\005\022\020\n\010duration\030\003 \001(\003\"5\n\017S2C_ReleaseBu"
-  "ff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buff_id\030\002 \001(\005\"\275"
-  "\001\n\014S2C_DebugBox\022)\n\016start_location\030\001 \001(\0132"
-  "\021.Protocol.SVector\022\'\n\014end_location\030\002 \001(\013"
-  "2\021.Protocol.SVector\022!\n\006extent\030\003 \001(\0132\021.Pr"
-  "otocol.SVector\022$\n\010rotation\030\004 \001(\0132\022.Proto"
-  "col.SRotator\022\020\n\010duration\030\005 \001(\002\"X\n\017S2C_De"
-  "bugCircle\022#\n\010location\030\001 \001(\0132\021.Protocol.S"
-  "Vector\022\016\n\006radius\030\002 \001(\002\022\020\n\010duration\030\003 \001(\002"
-  "\"/\n\027C2S_RequestEnterDungeon\022\024\n\014dungeon_t"
-  "ype\030\001 \001(\005\"(\n\027S2C_RequestEnterDungeon\022\r\n\005"
-  "error\030\001 \001(\005\"L\n\030S2C_ResponseEnterDungeon\022"
-  "\r\n\005error\030\001 \001(\005\022\022\n\ndungeon_id\030\002 \001(\005\022\r\n\005le"
-  "vel\030\003 \001(\014\"-\n\027C2S_CompleteLoadDungeon\022\022\n\n"
-  "dungeon_id\030\001 \001(\005\"B\n\026S2C_WaitingLoadDunge"
-  "on\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014least_number\030\002"
-  " \001(\005\"\031\n\027S2C_CompleteLoadDungeon\".\n\017S2C_E"
-  "nterPortal\022\r\n\005title\030\001 \001(\014\022\014\n\004time\030\002 \001(\003\""
-  "\021\n\017S2C_LeavePortal\"8\n\020S2C_PlaySequence\022\020"
-  "\n\010sequence\030\001 \001(\005\022\022\n\nmax_number\030\002 \001(\005\"&\n\020"
-  "C2S_SkipSequence\022\022\n\ndungeon_id\030\001 \001(\005\"<\n\020"
-  "S2C_SkipSequence\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014"
-  "least_number\030\002 \001(\005\"\021\n\017S2C_EndSequence\"\017\n"
-  "\rC2S_StartPack\"\017\n\rS2C_StartPackb\006proto3"
+  "\001(\003\"q\n\021S2C_EnemyTeleport\022\021\n\tobject_id\030\001 "
+  "\001(\003\022#\n\010location\030\002 \001(\0132\021.Protocol.SVector"
+  "\022$\n\010rotation\030\003 \001(\0132\022.Protocol.SRotator\","
+  "\n\027S2C_DisAppearGameObject\022\021\n\tobject_id\030\001"
+  " \001(\003\"&\n\021C2S_LoadInventory\022\021\n\ttimestamp\030\001"
+  " \001(\003\"s\n\021S2C_LoadInventory\022\035\n\004item\030\001 \003(\0132"
+  "\017.Protocol.SItem\022!\n\010eqipment\030\002 \003(\0132\017.Pro"
+  "tocol.SItem\022\r\n\005money\030\003 \001(\005\022\r\n\005error\030\004 \001("
+  "\005\"G\n\023C2S_InsertInventory\022\021\n\ttimestamp\030\001 "
+  "\001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.SItem\"J\n\023S2"
+  "C_InsertInventory\022\021\n\tremote_id\030\001 \001(\003\022\021\n\t"
+  "object_id\030\002 \001(\003\022\r\n\005error\030\003 \001(\005\"G\n\023C2S_Up"
+  "dateInventory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item"
+  "\030\002 \001(\0132\017.Protocol.SItem\"$\n\023S2C_UpdateInv"
+  "entory\022\r\n\005error\030\001 \001(\005\"l\n\023C2S_DeleteInven"
+  "tory\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017."
+  "Protocol.SItem\022#\n\010location\030\003 \001(\0132\021.Proto"
+  "col.SVector\"V\n\023S2C_DeleteInventory\022\021\n\tre"
+  "mote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017.Protocol.S"
+  "Item\022\r\n\005error\030\003 \001(\005\"I\n\025S2C_RollbackInven"
+  "tory\022\021\n\tremote_id\030\001 \001(\003\022\035\n\004item\030\002 \001(\0132\017."
+  "Protocol.SItem\"\247\001\n\023C2S_ReplaceEqipment\022\021"
+  "\n\ttimestamp\030\001 \001(\003\022*\n\021insert_inven_item\030\002"
+  " \001(\0132\017.Protocol.SItem\022)\n\020insert_eqip_ite"
+  "m\030\003 \001(\0132\017.Protocol.SItem\022&\n\004part\030\004 \001(\0162\030"
+  ".Protocol.ECharacterPart\"g\n\023S2C_ReplaceE"
+  "qipment\022\021\n\tremote_id\030\001 \001(\003\022.\n\010eqipment\030\002"
+  " \001(\0132\034.Protocol.SCharacterEqipment\022\r\n\005er"
+  "ror\030\003 \001(\005\"M\n\021S2C_LoadSkillTree\022\020\n\010skill_"
+  "id\030\001 \003(\005\022\023\n\013skill_count\030\002 \003(\005\022\021\n\ttimesta"
+  "mp\030\003 \001(\003\"O\n\023C2S_UpdateSkillTree\022\020\n\010skill"
+  "_id\030\001 \001(\005\022\023\n\013skill_count\030\002 \001(\005\022\021\n\ttimest"
+  "amp\030\003 \001(\003\"^\n\023S2C_UpdateSkillTree\022\r\n\005erro"
+  "r\030\001 \001(\005\022\020\n\010skill_id\030\002 \001(\005\022\023\n\013skill_count"
+  "\030\003 \001(\005\022\021\n\ttimestamp\030\004 \001(\003\"w\n\023C2S_SetUseK"
+  "eyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\taction_id\030\002 "
+  "\001(\005\022*\n\013action_type\030\003 \001(\0162\025.Protocol.EAct"
+  "ionType\022\021\n\ttimestamp\030\004 \001(\003\"$\n\023S2C_SetUse"
+  "KeyAction\022\r\n\005error\030\001 \001(\005\"<\n\027C2S_PressedU"
+  "seKeyAction\022\016\n\006key_id\030\001 \001(\005\022\021\n\ttimestamp"
+  "\030\002 \001(\003\"<\n\027C2S_ReleaseUseKeyAction\022\016\n\006key"
+  "_id\030\001 \001(\005\022\021\n\ttimestamp\030\002 \001(\003\"9\n\030S2C_Resp"
+  "onseUseKeyAction\022\016\n\006key_id\030\001 \001(\005\022\r\n\005erro"
+  "r\030\002 \001(\005\"\246\001\n\017S2C_AppearSkill\022\021\n\tremote_id"
+  "\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\020\n\010skill_id\030\003 "
+  "\001(\005\022#\n\010location\030\004 \001(\0132\021.Protocol.SVector"
+  "\022$\n\010rotation\030\005 \001(\0132\022.Protocol.SRotator\022\020"
+  "\n\010duration\030\006 \001(\003\"\250\001\n\021S2C_ReactionSkill\022\021"
+  "\n\tremote_id\030\001 \001(\003\022\021\n\tobject_id\030\002 \001(\003\022\020\n\010"
+  "skill_id\030\003 \001(\005\022#\n\010location\030\004 \001(\0132\021.Proto"
+  "col.SVector\022$\n\010rotation\030\005 \001(\0132\022.Protocol"
+  ".SRotator\022\020\n\010duration\030\006 \001(\003\"<\n\024S2C_EndRe"
+  "actionSkill\022\021\n\tremote_id\030\001 \001(\003\022\021\n\ttimest"
+  "amp\030\002 \001(\003\"9\n\021S2C_SkillCoolTime\022\020\n\010skill_"
+  "id\030\001 \003(\005\022\022\n\nskill_time\030\002 \003(\003\"D\n\014S2C_Push"
+  "Buff\022\021\n\tremote_id\030\001 \001(\003\022\017\n\007buff_id\030\002 \001(\005"
+  "\022\020\n\010duration\030\003 \001(\003\"5\n\017S2C_ReleaseBuff\022\021\n"
+  "\tremote_id\030\001 \001(\003\022\017\n\007buff_id\030\002 \001(\005\"\275\001\n\014S2"
+  "C_DebugBox\022)\n\016start_location\030\001 \001(\0132\021.Pro"
+  "tocol.SVector\022\'\n\014end_location\030\002 \001(\0132\021.Pr"
+  "otocol.SVector\022!\n\006extent\030\003 \001(\0132\021.Protoco"
+  "l.SVector\022$\n\010rotation\030\004 \001(\0132\022.Protocol.S"
+  "Rotator\022\020\n\010duration\030\005 \001(\002\"X\n\017S2C_DebugCi"
+  "rcle\022#\n\010location\030\001 \001(\0132\021.Protocol.SVecto"
+  "r\022\016\n\006radius\030\002 \001(\002\022\020\n\010duration\030\003 \001(\002\"/\n\027C"
+  "2S_RequestEnterDungeon\022\024\n\014dungeon_type\030\001"
+  " \001(\005\"(\n\027S2C_RequestEnterDungeon\022\r\n\005error"
+  "\030\001 \001(\005\"L\n\030S2C_ResponseEnterDungeon\022\r\n\005er"
+  "ror\030\001 \001(\005\022\022\n\ndungeon_id\030\002 \001(\005\022\r\n\005level\030\003"
+  " \001(\014\"-\n\027C2S_CompleteLoadDungeon\022\022\n\ndunge"
+  "on_id\030\001 \001(\005\"B\n\026S2C_WaitingLoadDungeon\022\022\n"
+  "\nmax_number\030\001 \001(\005\022\024\n\014least_number\030\002 \001(\005\""
+  "\031\n\027S2C_CompleteLoadDungeon\".\n\017S2C_EnterP"
+  "ortal\022\r\n\005title\030\001 \001(\014\022\014\n\004time\030\002 \001(\003\"\021\n\017S2"
+  "C_LeavePortal\"8\n\020S2C_PlaySequence\022\020\n\010seq"
+  "uence\030\001 \001(\005\022\022\n\nmax_number\030\002 \001(\005\"&\n\020C2S_S"
+  "kipSequence\022\022\n\ndungeon_id\030\001 \001(\005\"<\n\020S2C_S"
+  "kipSequence\022\022\n\nmax_number\030\001 \001(\005\022\024\n\014least"
+  "_number\030\002 \001(\005\"\021\n\017S2C_EndSequence\"\017\n\rC2S_"
+  "StartPack\"\017\n\rS2C_StartPackb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_deps[2] = {
   &::descriptor_table_PacketEnum_2eproto,
@@ -2851,9 +2880,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_GamePacket_2eproto_
 };
 static ::_pbi::once_flag descriptor_table_GamePacket_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_GamePacket_2eproto = {
-    false, false, 8559, descriptor_table_protodef_GamePacket_2eproto,
+    false, false, 8674, descriptor_table_protodef_GamePacket_2eproto,
     "GamePacket.proto",
-    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 102,
+    &descriptor_table_GamePacket_2eproto_once, descriptor_table_GamePacket_2eproto_deps, 2, 103,
     schemas, file_default_instances, TableStruct_GamePacket_2eproto::offsets,
     file_level_metadata_GamePacket_2eproto, file_level_enum_descriptors_GamePacket_2eproto,
     file_level_service_descriptors_GamePacket_2eproto,
@@ -17621,6 +17650,283 @@ void S2C_DeathEnemy::InternalSwap(S2C_DeathEnemy* other) {
 
 // ===================================================================
 
+class S2C_EnemyTeleport::_Internal {
+ public:
+  static const ::Protocol::SVector& location(const S2C_EnemyTeleport* msg);
+  static const ::Protocol::SRotator& rotation(const S2C_EnemyTeleport* msg);
+};
+
+const ::Protocol::SVector&
+S2C_EnemyTeleport::_Internal::location(const S2C_EnemyTeleport* msg) {
+  return *msg->_impl_.location_;
+}
+const ::Protocol::SRotator&
+S2C_EnemyTeleport::_Internal::rotation(const S2C_EnemyTeleport* msg) {
+  return *msg->_impl_.rotation_;
+}
+void S2C_EnemyTeleport::clear_location() {
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
+}
+void S2C_EnemyTeleport::clear_rotation() {
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
+}
+S2C_EnemyTeleport::S2C_EnemyTeleport(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S2C_EnemyTeleport)
+}
+S2C_EnemyTeleport::S2C_EnemyTeleport(const S2C_EnemyTeleport& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S2C_EnemyTeleport* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_location()) {
+    _this->_impl_.location_ = new ::Protocol::SVector(*from._impl_.location_);
+  }
+  if (from._internal_has_rotation()) {
+    _this->_impl_.rotation_ = new ::Protocol::SRotator(*from._impl_.rotation_);
+  }
+  _this->_impl_.object_id_ = from._impl_.object_id_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.S2C_EnemyTeleport)
+}
+
+inline void S2C_EnemyTeleport::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.location_){nullptr}
+    , decltype(_impl_.rotation_){nullptr}
+    , decltype(_impl_.object_id_){int64_t{0}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+S2C_EnemyTeleport::~S2C_EnemyTeleport() {
+  // @@protoc_insertion_point(destructor:Protocol.S2C_EnemyTeleport)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S2C_EnemyTeleport::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.location_;
+  if (this != internal_default_instance()) delete _impl_.rotation_;
+}
+
+void S2C_EnemyTeleport::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S2C_EnemyTeleport::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S2C_EnemyTeleport)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.location_ != nullptr) {
+    delete _impl_.location_;
+  }
+  _impl_.location_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.rotation_ != nullptr) {
+    delete _impl_.rotation_;
+  }
+  _impl_.rotation_ = nullptr;
+  _impl_.object_id_ = int64_t{0};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S2C_EnemyTeleport::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 object_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.object_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SVector location = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_location(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protocol.SRotator rotation = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_rotation(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S2C_EnemyTeleport::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S2C_EnemyTeleport)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 object_id = 1;
+  if (this->_internal_object_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
+  }
+
+  // .Protocol.SVector location = 2;
+  if (this->_internal_has_location()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::location(this),
+        _Internal::location(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protocol.SRotator rotation = 3;
+  if (this->_internal_has_rotation()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::rotation(this),
+        _Internal::rotation(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S2C_EnemyTeleport)
+  return target;
+}
+
+size_t S2C_EnemyTeleport::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S2C_EnemyTeleport)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protocol.SVector location = 2;
+  if (this->_internal_has_location()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.location_);
+  }
+
+  // .Protocol.SRotator rotation = 3;
+  if (this->_internal_has_rotation()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.rotation_);
+  }
+
+  // int64 object_id = 1;
+  if (this->_internal_object_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_object_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_EnemyTeleport::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S2C_EnemyTeleport::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_EnemyTeleport::GetClassData() const { return &_class_data_; }
+
+
+void S2C_EnemyTeleport::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S2C_EnemyTeleport*>(&to_msg);
+  auto& from = static_cast<const S2C_EnemyTeleport&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S2C_EnemyTeleport)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_location()) {
+    _this->_internal_mutable_location()->::Protocol::SVector::MergeFrom(
+        from._internal_location());
+  }
+  if (from._internal_has_rotation()) {
+    _this->_internal_mutable_rotation()->::Protocol::SRotator::MergeFrom(
+        from._internal_rotation());
+  }
+  if (from._internal_object_id() != 0) {
+    _this->_internal_set_object_id(from._internal_object_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_EnemyTeleport::CopyFrom(const S2C_EnemyTeleport& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S2C_EnemyTeleport)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_EnemyTeleport::IsInitialized() const {
+  return true;
+}
+
+void S2C_EnemyTeleport::InternalSwap(S2C_EnemyTeleport* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(S2C_EnemyTeleport, _impl_.object_id_)
+      + sizeof(S2C_EnemyTeleport::_impl_.object_id_)
+      - PROTOBUF_FIELD_OFFSET(S2C_EnemyTeleport, _impl_.location_)>(
+          reinterpret_cast<char*>(&_impl_.location_),
+          reinterpret_cast<char*>(&other->_impl_.location_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_EnemyTeleport::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
+      file_level_metadata_GamePacket_2eproto[60]);
+}
+
+// ===================================================================
+
 class S2C_DisAppearGameObject::_Internal {
  public:
 };
@@ -17794,7 +18100,7 @@ void S2C_DisAppearGameObject::InternalSwap(S2C_DisAppearGameObject* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_DisAppearGameObject::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[60]);
+      file_level_metadata_GamePacket_2eproto[61]);
 }
 
 // ===================================================================
@@ -17972,7 +18278,7 @@ void C2S_LoadInventory::InternalSwap(C2S_LoadInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoadInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[61]);
+      file_level_metadata_GamePacket_2eproto[62]);
 }
 
 // ===================================================================
@@ -18257,7 +18563,7 @@ void S2C_LoadInventory::InternalSwap(S2C_LoadInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoadInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[62]);
+      file_level_metadata_GamePacket_2eproto[63]);
 }
 
 // ===================================================================
@@ -18487,7 +18793,7 @@ void C2S_InsertInventory::InternalSwap(C2S_InsertInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_InsertInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[63]);
+      file_level_metadata_GamePacket_2eproto[64]);
 }
 
 // ===================================================================
@@ -18722,7 +19028,7 @@ void S2C_InsertInventory::InternalSwap(S2C_InsertInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_InsertInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[64]);
+      file_level_metadata_GamePacket_2eproto[65]);
 }
 
 // ===================================================================
@@ -18952,7 +19258,7 @@ void C2S_UpdateInventory::InternalSwap(C2S_UpdateInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_UpdateInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[65]);
+      file_level_metadata_GamePacket_2eproto[66]);
 }
 
 // ===================================================================
@@ -19130,7 +19436,7 @@ void S2C_UpdateInventory::InternalSwap(S2C_UpdateInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_UpdateInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[66]);
+      file_level_metadata_GamePacket_2eproto[67]);
 }
 
 // ===================================================================
@@ -19407,7 +19713,7 @@ void C2S_DeleteInventory::InternalSwap(C2S_DeleteInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_DeleteInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[67]);
+      file_level_metadata_GamePacket_2eproto[68]);
 }
 
 // ===================================================================
@@ -19665,7 +19971,7 @@ void S2C_DeleteInventory::InternalSwap(S2C_DeleteInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_DeleteInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[68]);
+      file_level_metadata_GamePacket_2eproto[69]);
 }
 
 // ===================================================================
@@ -19895,7 +20201,7 @@ void S2C_RollbackInventory::InternalSwap(S2C_RollbackInventory* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_RollbackInventory::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[69]);
+      file_level_metadata_GamePacket_2eproto[70]);
 }
 
 // ===================================================================
@@ -20203,7 +20509,7 @@ void C2S_ReplaceEqipment::InternalSwap(C2S_ReplaceEqipment* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_ReplaceEqipment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[70]);
+      file_level_metadata_GamePacket_2eproto[71]);
 }
 
 // ===================================================================
@@ -20461,7 +20767,7 @@ void S2C_ReplaceEqipment::InternalSwap(S2C_ReplaceEqipment* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReplaceEqipment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[71]);
+      file_level_metadata_GamePacket_2eproto[72]);
 }
 
 // ===================================================================
@@ -20723,7 +21029,7 @@ void S2C_LoadSkillTree::InternalSwap(S2C_LoadSkillTree* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoadSkillTree::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[72]);
+      file_level_metadata_GamePacket_2eproto[73]);
 }
 
 // ===================================================================
@@ -20958,7 +21264,7 @@ void C2S_UpdateSkillTree::InternalSwap(C2S_UpdateSkillTree* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_UpdateSkillTree::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[73]);
+      file_level_metadata_GamePacket_2eproto[74]);
 }
 
 // ===================================================================
@@ -21217,7 +21523,7 @@ void S2C_UpdateSkillTree::InternalSwap(S2C_UpdateSkillTree* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_UpdateSkillTree::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[74]);
+      file_level_metadata_GamePacket_2eproto[75]);
 }
 
 // ===================================================================
@@ -21479,7 +21785,7 @@ void C2S_SetUseKeyAction::InternalSwap(C2S_SetUseKeyAction* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_SetUseKeyAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[75]);
+      file_level_metadata_GamePacket_2eproto[76]);
 }
 
 // ===================================================================
@@ -21657,7 +21963,7 @@ void S2C_SetUseKeyAction::InternalSwap(S2C_SetUseKeyAction* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_SetUseKeyAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[76]);
+      file_level_metadata_GamePacket_2eproto[77]);
 }
 
 // ===================================================================
@@ -21868,7 +22174,7 @@ void C2S_PressedUseKeyAction::InternalSwap(C2S_PressedUseKeyAction* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_PressedUseKeyAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[77]);
+      file_level_metadata_GamePacket_2eproto[78]);
 }
 
 // ===================================================================
@@ -22079,7 +22385,7 @@ void C2S_ReleaseUseKeyAction::InternalSwap(C2S_ReleaseUseKeyAction* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_ReleaseUseKeyAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[78]);
+      file_level_metadata_GamePacket_2eproto[79]);
 }
 
 // ===================================================================
@@ -22290,7 +22596,7 @@ void S2C_ResponseUseKeyAction::InternalSwap(S2C_ResponseUseKeyAction* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ResponseUseKeyAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[79]);
+      file_level_metadata_GamePacket_2eproto[80]);
 }
 
 // ===================================================================
@@ -22643,7 +22949,7 @@ void S2C_AppearSkill::InternalSwap(S2C_AppearSkill* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_AppearSkill::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[80]);
+      file_level_metadata_GamePacket_2eproto[81]);
 }
 
 // ===================================================================
@@ -22996,7 +23302,7 @@ void S2C_ReactionSkill::InternalSwap(S2C_ReactionSkill* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReactionSkill::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[81]);
+      file_level_metadata_GamePacket_2eproto[82]);
 }
 
 // ===================================================================
@@ -23207,7 +23513,7 @@ void S2C_EndReactionSkill::InternalSwap(S2C_EndReactionSkill* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_EndReactionSkill::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[82]);
+      file_level_metadata_GamePacket_2eproto[83]);
 }
 
 // ===================================================================
@@ -23442,7 +23748,7 @@ void S2C_SkillCoolTime::InternalSwap(S2C_SkillCoolTime* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_SkillCoolTime::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[83]);
+      file_level_metadata_GamePacket_2eproto[84]);
 }
 
 // ===================================================================
@@ -23677,7 +23983,7 @@ void S2C_PushBuff::InternalSwap(S2C_PushBuff* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_PushBuff::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[84]);
+      file_level_metadata_GamePacket_2eproto[85]);
 }
 
 // ===================================================================
@@ -23888,7 +24194,7 @@ void S2C_ReleaseBuff::InternalSwap(S2C_ReleaseBuff* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ReleaseBuff::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[85]);
+      file_level_metadata_GamePacket_2eproto[86]);
 }
 
 // ===================================================================
@@ -24271,7 +24577,7 @@ void S2C_DebugBox::InternalSwap(S2C_DebugBox* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_DebugBox::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[86]);
+      file_level_metadata_GamePacket_2eproto[87]);
 }
 
 // ===================================================================
@@ -24553,7 +24859,7 @@ void S2C_DebugCircle::InternalSwap(S2C_DebugCircle* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_DebugCircle::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[87]);
+      file_level_metadata_GamePacket_2eproto[88]);
 }
 
 // ===================================================================
@@ -24731,7 +25037,7 @@ void C2S_RequestEnterDungeon::InternalSwap(C2S_RequestEnterDungeon* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_RequestEnterDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[88]);
+      file_level_metadata_GamePacket_2eproto[89]);
 }
 
 // ===================================================================
@@ -24909,7 +25215,7 @@ void S2C_RequestEnterDungeon::InternalSwap(S2C_RequestEnterDungeon* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_RequestEnterDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[89]);
+      file_level_metadata_GamePacket_2eproto[90]);
 }
 
 // ===================================================================
@@ -25167,7 +25473,7 @@ void S2C_ResponseEnterDungeon::InternalSwap(S2C_ResponseEnterDungeon* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_ResponseEnterDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[90]);
+      file_level_metadata_GamePacket_2eproto[91]);
 }
 
 // ===================================================================
@@ -25345,7 +25651,7 @@ void C2S_CompleteLoadDungeon::InternalSwap(C2S_CompleteLoadDungeon* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_CompleteLoadDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[91]);
+      file_level_metadata_GamePacket_2eproto[92]);
 }
 
 // ===================================================================
@@ -25556,7 +25862,7 @@ void S2C_WaitingLoadDungeon::InternalSwap(S2C_WaitingLoadDungeon* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_WaitingLoadDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[92]);
+      file_level_metadata_GamePacket_2eproto[93]);
 }
 
 // ===================================================================
@@ -25596,7 +25902,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_CompleteLoadDungeon::GetCl
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_CompleteLoadDungeon::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[93]);
+      file_level_metadata_GamePacket_2eproto[94]);
 }
 
 // ===================================================================
@@ -25821,7 +26127,7 @@ void S2C_EnterPortal::InternalSwap(S2C_EnterPortal* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_EnterPortal::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[94]);
+      file_level_metadata_GamePacket_2eproto[95]);
 }
 
 // ===================================================================
@@ -25861,7 +26167,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_LeavePortal::GetClassData(
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LeavePortal::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[95]);
+      file_level_metadata_GamePacket_2eproto[96]);
 }
 
 // ===================================================================
@@ -26072,7 +26378,7 @@ void S2C_PlaySequence::InternalSwap(S2C_PlaySequence* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_PlaySequence::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[96]);
+      file_level_metadata_GamePacket_2eproto[97]);
 }
 
 // ===================================================================
@@ -26250,7 +26556,7 @@ void C2S_SkipSequence::InternalSwap(C2S_SkipSequence* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_SkipSequence::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[97]);
+      file_level_metadata_GamePacket_2eproto[98]);
 }
 
 // ===================================================================
@@ -26461,7 +26767,7 @@ void S2C_SkipSequence::InternalSwap(S2C_SkipSequence* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_SkipSequence::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[98]);
+      file_level_metadata_GamePacket_2eproto[99]);
 }
 
 // ===================================================================
@@ -26501,7 +26807,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_EndSequence::GetClassData(
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_EndSequence::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[99]);
+      file_level_metadata_GamePacket_2eproto[100]);
 }
 
 // ===================================================================
@@ -26541,7 +26847,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_StartPack::GetClassData() 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_StartPack::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[100]);
+      file_level_metadata_GamePacket_2eproto[101]);
 }
 
 // ===================================================================
@@ -26581,7 +26887,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_StartPack::GetClassData() 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_StartPack::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_GamePacket_2eproto_getter, &descriptor_table_GamePacket_2eproto_once,
-      file_level_metadata_GamePacket_2eproto[101]);
+      file_level_metadata_GamePacket_2eproto[102]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -26826,6 +27132,10 @@ Arena::CreateMaybeMessage< ::Protocol::S2C_HitEnemy >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_DeathEnemy*
 Arena::CreateMaybeMessage< ::Protocol::S2C_DeathEnemy >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S2C_DeathEnemy >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S2C_EnemyTeleport*
+Arena::CreateMaybeMessage< ::Protocol::S2C_EnemyTeleport >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S2C_EnemyTeleport >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protocol::S2C_DisAppearGameObject*
 Arena::CreateMaybeMessage< ::Protocol::S2C_DisAppearGameObject >(Arena* arena) {
