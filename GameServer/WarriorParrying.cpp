@@ -45,7 +45,10 @@ void WarriorParrying::OnTick(const int64 inDeltaTime)
 		return;
 	}
 
-	this->Active();
+	if (mIsParrying)
+	{
+		this->Active();
+	}
 }
 
 bool WarriorParrying::IsValid()
@@ -161,7 +164,10 @@ void WarriorParrying::Active()
 
 		if (attackType == EEnemyAttackType::Enemy_Attack_Nomal_Melee)
 		{
-			enemyAttack->OnParrying(instigated);
+			if (false == enemyAttack->OnParrying(instigated))
+			{
+				continue;
+			}
 
 			enemyOwner->GetStateManager().SetState(EStateType::State_Stun);
 			StunState* stunState = static_cast<StunState*>(enemyOwner->GetStateManager().GetCurrentStateEvent());

@@ -35,11 +35,12 @@ public:
 
 public:
 	virtual void CheackCollision() abstract;
-	virtual void OnParrying(ActorPtr inActor) abstract;
+	virtual bool OnParrying(ActorPtr inActor) abstract;
 	virtual void OnMovement() {}
 
 public:
 	void ReserveDestroy(const int64& inDelay);
+	void PushReserveDestroy(const int64& inDelay);
 	void SetEnemyAttackType(const EEnemyAttackType& inEnemyAttackType);
 	void SetTargetActorType(const EActorType& inTargetActorType);
 	void SetDamage(const float& inDamage);

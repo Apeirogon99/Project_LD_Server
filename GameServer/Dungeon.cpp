@@ -277,7 +277,7 @@ void Dungeon::CreateBossStage()
 	portal->SetSphereTriggerRadius(300.0f);
 	portal->SetWaitTeleprotTime(10000);
 	portal->SetOverlapType(EActorType::Player);
-	portal->SetTeleportLocation(FVector(10050.0f, 10050.0f, 96.0f));
+	portal->SetTeleportLocation(FVector(10070.0f, 10600.0f, 96.0f));
 
 	ActorPtr newActor = this->SpawnActor<Trap<Dungeon, int32, int64>>(this->GetGameObjectRef(), Location(10050.0f, 10050.0f, 100.0f), Rotation(), Scale(1.0f, 1.0f, 1.0f));
 	if (nullptr == newActor)

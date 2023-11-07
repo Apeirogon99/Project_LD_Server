@@ -256,19 +256,19 @@ void Arrow::CheackCollision()
 
 }
 
-void Arrow::OnParrying(ActorPtr inActor)
+bool Arrow::OnParrying(ActorPtr inActor)
 {
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
-		return;
+		return false;
 	}
 
 	ActorPtr actor = world->SpawnActor<Arrow>(inActor->GetGameObjectRef(), this->GetLocation(), FRotator::TurnRotator(this->GetRotation()), Scale(1.0f, 1.0f, 1.0f));
 	ArrowPtr arrow = std::static_pointer_cast<Arrow>(actor);
 	if (nullptr == arrow)
 	{
-		return;
+		return false;
 	}
 
 	arrow->SetDamage(this->GetDamage());
@@ -279,7 +279,10 @@ void Arrow::OnParrying(ActorPtr inActor)
 	if (false == ret)
 	{
 		this->GameObjectLog(L"Can't destroy parrying\n");
+		return false;
 	}
+
+	return true;
 }
 
 ProjectileComponent& Arrow::GetProjectileComponent()

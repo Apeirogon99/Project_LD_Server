@@ -27,7 +27,8 @@ void Blink::OnInitialization()
 
 	BoxCollisionComponent* collision = this->GetBoxCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
-	collision->SetBoxCollision(FVector(50.0f, 80.0f, 100.0f));
+	collision->SetBoxCollision(FVector(100.0f, 160.0f, 100.0f));
+
 }
 
 void Blink::OnDestroy()
@@ -249,7 +250,7 @@ void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRota
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
 
-	//rich->OnMovementEnemy();
+	world->PushTask(world->GetNextWorldTime() + 1000, &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 BoxCollisionComponent* Blink::GetBoxCollisionComponent() const
@@ -323,24 +324,27 @@ void BlinkAttack::CheackCollision()
 	}
 }
 
-void BlinkAttack::OnParrying(ActorPtr inActor)
+bool BlinkAttack::OnParrying(ActorPtr inActor)
 {
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
-		return;
+		return false;
 	}
 
 	if (false == this->CanParrying())
 	{
-		return;
+		return false;
 	}
 
 	bool ret = world->DestroyActor(this->GetGameObjectID());
 	if (false == ret)
 	{
 		this->GameObjectLog(L"Can't destroy parrying\n");
+		return true;
 	}
+
+	return true;
 }
 
 //==========================//
@@ -413,8 +417,9 @@ void BlinkSturn::CheackCollision()
 	}
 }
 
-void BlinkSturn::OnParrying(ActorPtr inActor)
+bool BlinkSturn::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 void BlinkSturn::SturnBeign(PlayerCharacterPtr inPlayer, float inMovementSpeed)

@@ -24,7 +24,7 @@ public:
 public:
 	void CheackTargeting();
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 public:
 	bool SearchTarget();

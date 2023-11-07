@@ -23,7 +23,7 @@ public:
 
 public:
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 public:
 	void SetAttackExtent(const FVector inExtent);
@@ -31,5 +31,7 @@ public:
 public:
 	BoxCollisionComponent* GetBoxCollisionComponent() const;
 
+public:
+	bool mIsParrying;
 };
 

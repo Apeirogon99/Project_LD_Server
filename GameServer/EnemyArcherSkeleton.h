@@ -14,5 +14,6 @@ public:
 	virtual void	OnAutoAttackOver() override;
 
 public:
+	virtual void OnStunWakeUp() override;
 	virtual void OnReward() override;
 };

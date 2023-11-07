@@ -17,6 +17,36 @@ void EnemyAttack::ReserveDestroy(const int64& inDelay)
 	mCurrentLifeTime = 0;
 }
 
+void EnemyAttack::PushReserveDestroy(const int64& inDelay)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	std::shared_ptr<EnemyCharacter> enemy = std::static_pointer_cast<EnemyCharacter>(owner);
+	if (nullptr == enemy)
+	{
+		return;
+	}
+
+	if (enemy->GetAutoAttackComponent().GetAttackType() == EAutoAttackType::Attack_Pattern)
+	{
+		enemy->PushTask(inDelay, &EnemyCharacter::OnPatternOver);
+	}
+	else
+	{
+		enemy->PushTask(inDelay, &EnemyCharacter::OnAutoAttackOver);
+	}
+}
+
 void EnemyAttack::SetEnemyAttackType(const EEnemyAttackType& inEnemyAttackType)
 {
 	mEnemyAttackType = inEnemyAttackType;

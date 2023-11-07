@@ -130,20 +130,24 @@ void WarriorShieldBash::SkillActive()
 
         float distance2D = FVector::Distance2D(location, enemy->GetLocation());
         float distanceDamage = mDamage * (1.0f - (distance2D / mSlowRadius));
-        if (distance2D <= mSturnRadius)
-        {
-            enemy->GetStateManager().SetState(EStateType::State_Stun);
 
-            StunState* stunState = static_cast<StunState*>(enemy->GetStateManager().GetCurrentStateEvent());
-            if (nullptr != stunState)
-            {
-                stunState->SetStunTime(mSturnDuration);
-            }
-        }
-        else if (distance2D <= mSlowRadius)
+        if (enemy->GetEnemyType() == EnemyType::Nomal)
         {
-            enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
-            enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, false);
+            if (distance2D <= mSturnRadius)
+            {
+                enemy->GetStateManager().SetState(EStateType::State_Stun);
+
+                StunState* stunState = static_cast<StunState*>(enemy->GetStateManager().GetCurrentStateEvent());
+                if (nullptr != stunState)
+                {
+                    stunState->SetStunTime(mSturnDuration);
+                }
+            }
+            else if (distance2D <= mSlowRadius)
+            {
+                enemy->PushTask(worldTime + 0, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, true);
+                enemy->PushTask(worldTime + mSlowDuration, &EnemyCharacter::OnBuffChanage, EBuffType::DeBuff_WarriorShiedBash, EStatType::Stat_MovementSpeed, mDebuffMovement, false);
+            }
         }
 
         enemy->PushTask(worldTime, &Actor::OnHit, instigated->GetActorPtr(), distanceDamage);

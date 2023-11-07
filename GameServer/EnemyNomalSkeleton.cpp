@@ -21,6 +21,8 @@ void EnemyNomalSkeleton::OnInitialization()
 	this->mSpawnParticle = static_cast<int32>(ESkillID::Skill_Rich_Rise_Skeleton);
 	this->mSpawnParticleDelay = 3000;
 
+	this->SetEnemyType(EnemyType::Nomal);
+
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);
 
@@ -79,7 +81,7 @@ void EnemyNomalSkeleton::OnAutoAttackTargeting(const float inDamage, const FVect
 	mMeleeAttack->SetDamage(inDamage);
 	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
-	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
+	mMeleeAttack->PushTask(worldTime + 250, &EnemyMeleeAttack::CheackCollision);
 }
 
 void EnemyNomalSkeleton::OnAutoAttackOver()
@@ -89,15 +91,26 @@ void EnemyNomalSkeleton::OnAutoAttackOver()
 	{
 		return;
 	}
-	const int64 worldTime = world->GetWorldTime();
-	world->DestroyActor(mMeleeAttack->GetGameObjectID());
 	mMeleeAttack.reset();
-
 	this->mAutoAttackComponent.OnOverAutoAttack();
 
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Chase);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Chase);
+		}
+	}
+}
+
+void EnemyNomalSkeleton::OnStunWakeUp()
+{
+	if (false == this->IsDeath())
+	{
+		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Chase);
+		}
 	}
 }
 

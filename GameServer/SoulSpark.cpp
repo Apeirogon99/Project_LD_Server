@@ -244,8 +244,9 @@ void SoulSpark::CheackCollision()
 
 }
 
-void SoulSpark::OnParrying(ActorPtr inActor)
+bool SoulSpark::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 bool SoulSpark::SearchTarget()

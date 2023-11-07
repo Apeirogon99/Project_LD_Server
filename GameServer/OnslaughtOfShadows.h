@@ -36,7 +36,7 @@ public:
 	void SetOnslaughtOfShadows(FVector inLU, FVector inRU, FVector inRD, FVector inLD, FVector inOriginLocation);
 	
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 protected:
 	bool GetIntersection(FVector inPointA1, FVector inPointA2, FVector inPointB1, FVector inPointB2, FVector& outIntersection);

@@ -16,8 +16,9 @@ void Rise::CheackCollision()
 {
 }
 
-void Rise::OnParrying(ActorPtr inActor)
+bool Rise::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 void Rise::SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, bool inIsReward, float inSpawnRadius, float inMaxRange, int32 inSKillID)

@@ -62,7 +62,7 @@ void EnemyCharacter::OnTick(const int64 inDeltaTime)
 
 	const float debugDuration = 0.02f;
 	const float collisionRadius = this->GetCapsuleCollisionComponent()->GetBoxCollision().GetBoxExtent().GetX();
-	PacketUtils::DebugDrawSphere(std::static_pointer_cast<GameRemotePlayer>(this->GetOwner().lock())->GetViewers(), this->GetLocation(), collisionRadius, debugDuration);
+	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), collisionRadius, debugDuration);
 }
 
 bool EnemyCharacter::IsValid()
@@ -359,6 +359,11 @@ void EnemyCharacter::SetAggressive(const bool& inIsAggressive)
 void EnemyCharacter::SetEnemeyID(const int32 inEnemyID)
 {
 	mEnemyID = inEnemyID;
+}
+
+void EnemyCharacter::SetEnemyType(const EnemyType inEnemyType)
+{
+	mEnemyType = inEnemyType;
 }
 
 void EnemyCharacter::SetSpawner(EnemySpawnerRef inSpawner)

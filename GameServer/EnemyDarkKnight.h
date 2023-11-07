@@ -47,6 +47,7 @@ public:
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 	virtual void OnPatternOver() override;
+	virtual void OnStunWakeUp() override;
 	virtual void OnReward() override;
 
 	virtual void OnHit(ActorPtr inInstigated, const float inDamage) override;
@@ -63,7 +64,7 @@ public:
 	void HandAndSwordSwipeAttack();
 
 public:
-	void DoMeleeAttack(DarkKnightAttackInfo inAttackInfo);
+	void DoMeleeAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation);
 	
 	void MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes);
 	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration);

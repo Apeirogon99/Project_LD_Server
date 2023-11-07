@@ -205,8 +205,9 @@ void Explosion::CheackCollision()
 
 }
 
-void Explosion::OnParrying(ActorPtr inActor)
+bool Explosion::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 SphereCollisionComponent* Explosion::GetSphereCollisionComponent()

@@ -23,7 +23,7 @@ public:
 
 public:
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 public:
 	void SetSpawnInfo(EnemyID inEnemyID, int32 inSpawnCount, int32 inSpawnLoop, bool inIsReward, float inSpawnRadius, float inMaxRange, int32 inSKillID);

@@ -349,8 +349,9 @@ void SoulShackles::CheackCollision()
 
 }
 
-void SoulShackles::OnParrying(ActorPtr inActor)
+bool SoulShackles::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 SphereCollisionComponent* SoulShackles::GetSphereCollisionComponent()

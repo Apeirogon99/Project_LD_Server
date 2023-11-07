@@ -225,6 +225,8 @@ void EnemyRichPhase1::OnInitialization()
 
 	SetTick(true, GAME_TICK);
 
+	this->SetEnemyType(EnemyType::Boss);
+
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Lich_Phase1));
 	this->SetAggressive(true);
 
@@ -259,9 +261,29 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 
 void EnemyRichPhase1::OnPatternOver()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Search);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
+	}
+}
+
+void EnemyRichPhase1::OnStunWakeUp()
+{
+	if (false == this->IsDeath())
+	{
+		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
 	}
 }
 
@@ -364,7 +386,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	const Location blinkLocation	= FVector(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ() + diffHalf) - (foward * 80.0f);
 	const Location safeLocation		= Random::GetRandomVectorInRange2D(FVector(mTempStage.GetX(), mTempStage.GetY(), enemyHalf), mTempStageLenght);
 
-	ActorPtr actor = world->SpawnActor<BlinkAttack>(this->GetGameObjectRef(), spawnLocation, this->GetRotation(), Scale(1.0f, 1.0f, 1.0f));
+	ActorPtr actor = world->SpawnActor<BlinkAttack>(this->GetGameObjectRef(), blinkLocation, this->GetRotation(), Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<BlinkAttack> newBlinkAttack = std::static_pointer_cast<BlinkAttack>(actor);
 	if (nullptr == newBlinkAttack)
 	{
@@ -373,10 +395,10 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	newBlinkAttack->SetBlinkID(ESkillID::Skill_Rich_Blink_Attack);
 	newBlinkAttack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
 	newBlinkAttack->SetTargetActorType(EActorType::Player);
-	newBlinkAttack->SetDamage(150.0f);
+	newBlinkAttack->SetDamage(this->GetEnemyStatsComponent().GetCurrentStats().GetAttackDamage());
 
 	static int64 blinkTime		= 2000;
-	static int64 parryingStart	= 780;
+	static int64 parryingStart	= 480;
 	static int64 parryingEnd	= 880;
 	static int64 attackEnd		= 1830;
 
@@ -391,7 +413,7 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	//공격전 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime, &BlinkAttack::TeleportPlayerLocation, blinkLocation, playerRotation);
 
-	//리액션
+	//리액션 (연기 나옴)
 	newBlinkAttack->PushTask(worldTime + blinkTime, &BlinkAttack::ReActionSkill, blinkLocation, playerRotation);
 
 	//공격
@@ -400,9 +422,8 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	//공격후 이동
 	newBlinkAttack->PushTask(worldTime + blinkTime + attackEnd, &BlinkAttack::TeleportSafeLocation, safeLocation, FRotator::TurnRotator(playerRotation));
 
-	world->PushTask(world->GetNextWorldTime() + blinkTime + attackEnd + 1000, &GameWorld::DestroyActor, newBlinkAttack->GetGameObjectID());
-
-	this->PushTask(worldTime + 10000, &EnemyRichPhase1::OnPatternOver);
+	//삭제
+	newBlinkAttack->PushReserveDestroy(worldTime + 10000);
 }
 
 void EnemyRichPhase1::Skill_Explosion()
@@ -516,7 +537,7 @@ void EnemyRichPhase1::Skill_MultiCasting()
 			break;
 		}
 		
-		this->PushTask(worldTime + (count * 200), &EnemyRichPhase1::Skill_SourSpear, aggroActor, sourSpearLocation);
+		this->PushTask(worldTime + (count * 700), &EnemyRichPhase1::Skill_SourSpear, aggroActor, sourSpearLocation);
 
 	}
 
@@ -584,6 +605,8 @@ void EnemyRichPhase2::OnInitialization()
 
 	SetTick(true, GAME_TICK);
 
+	this->SetEnemyType(EnemyType::Boss);
+
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Lich_Phase2));
 	this->SetAggressive(true);
 
@@ -625,17 +648,37 @@ void EnemyRichPhase2::OnPatternShot(ActorPtr inVictim)
 	}
 	else
 	{
-		int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-		std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[pattern];
-		pattenFunc(*this);
+		//int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
+		//std::function<void(EnemyRichPhase2&)> pattenFunc = mPatternInfos[2];
+		//pattenFunc(*this);
 	}
 }
 
 void EnemyRichPhase2::OnPatternOver()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Search);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
+	}
+}
+
+void EnemyRichPhase2::OnStunWakeUp()
+{
+	if (false == this->IsDeath())
+	{
+		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
 	}
 }
 
@@ -862,6 +905,8 @@ void EnemyRichPhase3::OnInitialization()
 
 	SetTick(true, GAME_TICK);
 
+	this->SetEnemyType(EnemyType::Boss);
+
 	this->SetEnemeyID(static_cast<int32>(EnemyID::Enemy_Lich_Phase3));
 	this->SetAggressive(true);
 
@@ -903,16 +948,36 @@ void EnemyRichPhase3::OnPatternShot(ActorPtr inVictim)
 	else
 	{
 		int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-		std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[pattern];
+		std::function<void(EnemyRichPhase3&)> pattenFunc = mPatternInfos[0];
 		pattenFunc(*this);
 	}
 }
 
 void EnemyRichPhase3::OnPatternOver()
 {
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Search);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
+	}
+}
+
+void EnemyRichPhase3::OnStunWakeUp()
+{
+	if (false == this->IsDeath())
+	{
+		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Search);
+		}
 	}
 }
 

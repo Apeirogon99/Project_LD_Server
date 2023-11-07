@@ -32,7 +32,7 @@ void SourSpear::OnInitialization()
 	this->SetDamage(100.0f);
 	this->ReserveDestroy(5000);
 
-	this->PushTask(mStartTime + 1500, &SourSpear::Active);
+	this->PushTask(mStartTime + 100, &SourSpear::Active);
 }
 
 void SourSpear::OnDestroy()
@@ -252,19 +252,19 @@ void SourSpear::CheackCollision()
 	}
 }
 
-void SourSpear::OnParrying(ActorPtr inActor)
+bool SourSpear::OnParrying(ActorPtr inActor)
 {
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
-		return;
+		return false;
 	}
 
 	ActorPtr actor = world->SpawnActor<SourSpear>(inActor->GetGameObjectRef(), this->GetLocation(), FRotator::TurnRotator(this->GetRotation()), Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<SourSpear> sourSpear = std::static_pointer_cast<SourSpear>(actor);
 	if (nullptr == sourSpear)
 	{
-		return;
+		return false;
 	}
 
 	sourSpear->SetDamage(this->GetDamage());
@@ -275,7 +275,10 @@ void SourSpear::OnParrying(ActorPtr inActor)
 	if (false == ret)
 	{
 		this->GameObjectLog(L"Can't destroy parrying\n");
+		return false;
 	}
+
+	return true;
 }
 
 void SourSpear::OnMovement()

@@ -42,14 +42,14 @@ void EqipmentComponent::UpdateEqipmentStats(ActorPtr inActor, Inventoryptr inInv
 	for (AItemPtr eqipment : mEqipments)
 	{
 		const Stats& eqipmentStats = dataManager->GetEqipmentStat(eqipment->GetItemCode());
-		mEqipmentStats = eqipmentStats;
-
+		mEqipmentStats += eqipmentStats;
 		maxStat += eqipmentStats;
 
 		velocity = velocity + eqipmentStats.GetMovementSpeed();
 	}
 
 	character->SetVelocity(velocity);
+	statsComponent.InitMaxStats(maxStat);
 }
 
 void EqipmentComponent::UpdateEqipment(Protocol::SCharacterData& inCharacterData, const AItemPtr& inInsertInventoryItem, const AItemPtr& inInsertEqipmentItem, const Protocol::ECharacterPart& inPart)

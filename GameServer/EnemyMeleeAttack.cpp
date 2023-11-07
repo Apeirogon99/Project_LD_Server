@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyMeleeAttack.h"
 
-EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee")
+EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee"), mIsParrying(false)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
@@ -33,6 +33,12 @@ bool EnemyMeleeAttack::IsValid()
 
 void EnemyMeleeAttack::CheackCollision()
 {
+
+	if (mIsParrying)
+	{
+		return;
+	}
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -83,26 +89,41 @@ void EnemyMeleeAttack::CheackCollision()
 		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
 
 	}
+
+	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
-void EnemyMeleeAttack::OnParrying(ActorPtr inActor)
+bool EnemyMeleeAttack::OnParrying(ActorPtr inActor)
 {
 	WorldPtr world = GetWorld().lock();
 	if (nullptr == world)
 	{
-		return;
+		return false;
 	}
 
 	if (false == this->CanParrying())
 	{
-		return;
+		return false;
 	}
+
+	EnemyCharacterPtr owner = std::static_pointer_cast<EnemyCharacter>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return false;
+	}
+	owner->GetMovementComponent().SetNewDestination(this->GetActorPtr(), owner->GetLocation(), owner->GetLocation(), world->GetWorldTime(), 0.0f);
+	owner->OnMovementEnemy();
 
 	bool ret = world->DestroyActor(this->GetGameObjectID());
 	if (false == ret)
 	{
 		this->GameObjectLog(L"Can't destroy parrying\n");
+		return false;
 	}
+
+	mIsParrying = true;
+
+	return true;
 }
 
 void EnemyMeleeAttack::SetAttackExtent(const FVector inExtent)

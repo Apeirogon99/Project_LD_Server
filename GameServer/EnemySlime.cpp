@@ -19,6 +19,8 @@ void EnemySlime::OnInitialization()
 
 	SetTick(true, SYSTEM_TICK);
 
+	this->SetEnemyType(EnemyType::Nomal);
+
 	this->mStateManager.SetEnemy(GetEnemyCharacterRef());
 	this->mStateManager.SetState(EStateType::State_Idle);
 
@@ -86,12 +88,31 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 
 void EnemySlime::OnAutoAttackOver()
 {
-	this->mAutoAttackComponent.OnOverAutoAttack();
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
 	mMeleeAttack.reset();
+	this->mAutoAttackComponent.OnOverAutoAttack();
 
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Chase);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Chase);
+		}
+	}
+}
+
+void EnemySlime::OnStunWakeUp()
+{
+	if (false == this->IsDeath())
+	{
+		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Chase);
+		}
 	}
 }
 

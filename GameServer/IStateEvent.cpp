@@ -512,7 +512,8 @@ void StunState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 	mStunToChaseTime += inDeltaTime;
 	if (mStunToChaseTime >= mStunTime)
 	{
-		enemy->GetStateManager().SetState(EStateType::State_Chase);
+		//enemy->GetStateManager().SetState(EStateType::State_Unspecified);
+		enemy->OnStunWakeUp();
 	}
 }
 

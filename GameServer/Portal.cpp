@@ -188,7 +188,8 @@ void Portal::BeginTeleport()
 			return;
 		}
 
-		FVector newTeleportLocation = Random::GetRandomVectorInRange2D(mTeleportLocation, 300.0f);
+		//FVector newTeleportLocation = Random::GetRandomVectorInRange2D(mTeleportLocation, 300.0f);
+		FVector newTeleportLocation = mTeleportLocation;
 
 		Protocol::S2C_Teleport teleportPacket;
 		teleportPacket.set_object_id(character->GetGameObjectID());

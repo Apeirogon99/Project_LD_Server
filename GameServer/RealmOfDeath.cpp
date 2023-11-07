@@ -288,8 +288,9 @@ void RealmOfDeath::CheackCollision()
 	}
 }
 
-void RealmOfDeath::OnParrying(ActorPtr inActor)
+bool RealmOfDeath::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 SphereCollisionComponent* RealmOfDeath::GetSphereCollisionComponent()

@@ -341,6 +341,13 @@ void PlayerCharacter::Teleport(FVector inDestinationLocation)
 
 	remotePlayer->OnLoadComplete();
 	
+	PartyPtr party = remotePlayer->GetParty();
+	if (false == party->IsValid())
+	{
+		return;
+	}
+
+	party->BroadCastLoadParty();
 }
 
 void PlayerCharacter::MovementCharacter(Protocol::C2S_MovementCharacter pkt)

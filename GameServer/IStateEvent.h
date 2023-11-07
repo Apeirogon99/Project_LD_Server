@@ -187,8 +187,11 @@ public:
 
 	void UpdateState(const int64 inDeltaTime)
 	{
-		IStateEvent* curState = mStateTypes.at(mCurrentState);
-		curState->Update(mEnemy, inDeltaTime);
+		if (mCurrentState != EStateType::State_Unspecified)
+		{
+			IStateEvent* curState = mStateTypes.at(mCurrentState);
+			curState->Update(mEnemy, inDeltaTime);
+		}
 	}
 
 	void ExitState()

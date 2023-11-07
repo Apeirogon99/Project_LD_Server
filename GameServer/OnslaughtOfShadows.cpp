@@ -370,8 +370,9 @@ void OnslaughtOfShadows::CheackCollision()
 
 }
 
-void OnslaughtOfShadows::OnParrying(ActorPtr inActor)
+bool OnslaughtOfShadows::OnParrying(ActorPtr inActor)
 {
+	return false;
 }
 
 bool OnslaughtOfShadows::GetIntersection(FVector inP1, FVector inP2, FVector inQ1, FVector inQ2, FVector& outIntersection)

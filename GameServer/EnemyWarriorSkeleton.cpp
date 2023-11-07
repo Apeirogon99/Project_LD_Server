@@ -77,7 +77,7 @@ void EnemyWarriorSkeleton::OnAutoAttackTargeting(const float inDamage, const FVe
 	mMeleeAttack->SetDamage(inDamage);
 	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
-	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
+	mMeleeAttack->PushTask(worldTime + 250, &EnemyMeleeAttack::CheackCollision);
 }
 
 void EnemyWarriorSkeleton::OnAutoAttackOver()
@@ -87,16 +87,20 @@ void EnemyWarriorSkeleton::OnAutoAttackOver()
 	{
 		return;
 	}
-	const int64 worldTime = world->GetWorldTime();
-	world->DestroyActor(mMeleeAttack->GetGameObjectID());
 	mMeleeAttack.reset();
-
 	this->mAutoAttackComponent.OnOverAutoAttack();
 
 	if (false == this->IsDeath())
 	{
-		this->mStateManager.SetState(EStateType::State_Chase);
+		if (this->mStateManager.GetCurrentStateType() != EStateType::State_Stun)
+		{
+			this->mStateManager.SetState(EStateType::State_Chase);
+		}
 	}
+}
+
+void EnemyWarriorSkeleton::OnStunWakeUp()
+{
 }
 
 void EnemyWarriorSkeleton::OnReward()

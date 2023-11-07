@@ -1,5 +1,11 @@
 #pragma once
 
+enum class EnemyType
+{
+	Nomal,
+	Boss,
+};
+
 class EnemyCharacter : public Character
 {
 public:
@@ -27,6 +33,8 @@ public:
 
 	virtual void OnReward() abstract;
 
+	virtual void OnStunWakeUp() abstract;
+
 	virtual void OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush);
 
 public:
@@ -41,6 +49,7 @@ public:
 	void SetReward(const bool& inIsReward);
 	void SetAggressive(const bool& inIsAggressive);
 	void SetEnemeyID(const int32 inEnemyID);
+	void SetEnemyType(const EnemyType inEnemyType);
 	void SetSpawner(EnemySpawnerRef inSpawner);
 	void SetRecoveryLocation(const Location& inRecoveryLocation);
 	void SetEnemyStats(const Stats& inEnemyStats);
@@ -52,6 +61,7 @@ public:
 
 public:
 	EnemyCharacterRef			GetEnemyCharacterRef()		{ return std::static_pointer_cast<EnemyCharacter>(shared_from_this()); }
+	const EnemyType&			GetEnemyType()				{ return mEnemyType; }
 	const bool&					GetReward()					{ return mIsReward; }
 	const bool&					GetAggressive()				{ return mAggressive; }
 	const int32					GetEnemyID()				{ return mEnemyID; }
@@ -67,6 +77,7 @@ public:
 
 protected:
 	int32						mEnemyID;
+	EnemyType					mEnemyType;
 	EnemySpawnerRef				mSpawner;
 	int32						mSpawnParticle;
 	int64						mSpawnParticleDelay;

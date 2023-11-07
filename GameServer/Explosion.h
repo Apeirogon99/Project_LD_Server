@@ -23,7 +23,7 @@ public:
 
 public:
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 public:
 	SphereCollisionComponent* GetSphereCollisionComponent();

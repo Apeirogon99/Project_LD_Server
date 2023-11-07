@@ -49,7 +49,7 @@ public:
 
 public:
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 };
 
@@ -67,7 +67,7 @@ public:
 
 public:
 	virtual void CheackCollision() override;
-	virtual void OnParrying(ActorPtr inActor) override;
+	virtual bool OnParrying(ActorPtr inActor) override;
 
 public:
 	void SturnBeign(PlayerCharacterPtr inPlayer, float inMovementSpeed);

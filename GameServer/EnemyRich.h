@@ -32,6 +32,7 @@ public:
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 	virtual void OnPatternOver() override;
+	virtual void OnStunWakeUp() override;
 	virtual void OnReward() override;
 
 public:
@@ -57,6 +58,7 @@ public:
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 	virtual void OnPatternOver() override;
+	virtual void OnStunWakeUp() override;
 	virtual void OnReward() override;
 
 public:
@@ -82,6 +84,7 @@ public:
 public:
 	virtual void OnPatternShot(ActorPtr inVictim) override;
 	virtual void OnPatternOver() override;
+	virtual void OnStunWakeUp() override;
 	virtual void OnReward() override;
 
 public:
