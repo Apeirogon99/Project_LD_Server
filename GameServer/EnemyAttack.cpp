@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyAttack.h"
 
-EnemyAttack::EnemyAttack(const WCHAR* inName) : Actor(inName), mEnemyAttackType(EEnemyAttackType::Enemy_Attack_Unspecified), mTargetActorType(EActorType::Unspecified), mDamage(0.0f), mCancel(false), mMaxLifeTime(INFINITE), mCurrentLifeTime(0), mParryingStart(0), mParryingEnd(0)
+EnemyAttack::EnemyAttack(const WCHAR* inName) : Actor(inName), mEnemyAttackType(EEnemyAttackType::Enemy_Attack_Unspecified), mTargetActorType(EActorType::Unspecified), mDamage(0.0f), mCancel(false), mMaxLifeTime(INFINITE), mCurrentLifeTime(0), mIsParrying(false), mParryingStart(0), mParryingEnd(0)
 {
 	this->SetActorType(static_cast<uint8>(EActorType::EnemyAttack));
 }
@@ -17,13 +17,14 @@ void EnemyAttack::ReserveDestroy(const int64& inDelay)
 	mCurrentLifeTime = 0;
 }
 
-void EnemyAttack::PushReserveDestroy(const int64& inDelay)
+void EnemyAttack::PushReserveDestroy()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
 		return;
 	}
+	const int64& worldTime = world->GetWorldTime();
 
 	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
 	if (nullptr == owner)
@@ -39,11 +40,17 @@ void EnemyAttack::PushReserveDestroy(const int64& inDelay)
 
 	if (enemy->GetAutoAttackComponent().GetAttackType() == EAutoAttackType::Attack_Pattern)
 	{
-		enemy->PushTask(inDelay, &EnemyCharacter::OnPatternOver);
+		enemy->PushTask(worldTime, &EnemyCharacter::OnPatternOver);
 	}
 	else
 	{
-		enemy->PushTask(inDelay, &EnemyCharacter::OnAutoAttackOver);
+		enemy->PushTask(worldTime, &EnemyCharacter::OnAutoAttackOver);
+	}
+
+	bool ret = world->DestroyActor(this->GetGameObjectID());
+	if (false == ret)
+	{
+		this->GameObjectLog(L"Can't destroy enemy attack\n");
 	}
 }
 

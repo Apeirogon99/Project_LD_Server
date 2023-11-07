@@ -65,12 +65,12 @@ void EnemyDarkKnight::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyDarkKnight::HandAndSwordSwipeAttack);
 
 	//																														범위	 - 대미지 증가량 - 패링 - 타겟 타이밍
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(400.0f, 100.0f, 100.0f), 1.0f, 750, 700)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(140.0f, 100.0f, 100.0f), 1.0f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.0f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.0f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(FVector(160.0f, 100.0f, 100.0f), 1.0f, 250, 300)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(FVector(70.0f, 100.0f, 100.0f), 1.0f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(400.0f, 100.0f, 100.0f), 3.0f, 300, 500)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(140.0f, 100.0f, 100.0f), 1.8f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(FVector(160.0f, 100.0f, 100.0f), 2.0f, 250, 300)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(FVector(70.0f, 100.0f, 100.0f), 1.2f, 0, 200)));
 }
 
 void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
@@ -256,7 +256,7 @@ void EnemyDarkKnight::RunningAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1300, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running), this->GetRotation());
+	this->PushTask(worldTime + 1500, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running), this->GetRotation());
 	this->PushTask(world->GetNextWorldTime() + 6500, &EnemyDarkKnight::OnPatternOver);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;

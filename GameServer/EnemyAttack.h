@@ -40,7 +40,7 @@ public:
 
 public:
 	void ReserveDestroy(const int64& inDelay);
-	void PushReserveDestroy(const int64& inDelay);
+	void PushReserveDestroy();
 	void SetEnemyAttackType(const EEnemyAttackType& inEnemyAttackType);
 	void SetTargetActorType(const EActorType& inTargetActorType);
 	void SetDamage(const float& inDamage);
@@ -67,6 +67,7 @@ protected:
 	int64				mMaxLifeTime;
 	int64				mCurrentLifeTime;
 
+	bool				mIsParrying;
 	int64				mParryingStart;
 	int64				mParryingEnd;
 };

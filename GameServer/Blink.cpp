@@ -5,7 +5,7 @@
 //          Blink			//
 //==========================//
 
-Blink::Blink(const WCHAR* inName) : EnemyAttack(inName), mStartTime(0), mBlinkID(0)
+Blink::Blink(const WCHAR* inName) : EnemyAttack(inName), mStartTime(0), mBlinkID(0), mSafeTime(0), mDestroyTime(0)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
@@ -249,8 +249,6 @@ void Blink::TeleportSafeLocation(const FVector inLocation, const FRotator inRota
 
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, teleportPacket);
 	this->BrodcastPlayerViewers(sendBuffer);
-
-	world->PushTask(world->GetNextWorldTime() + 1000, &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 BoxCollisionComponent* Blink::GetBoxCollisionComponent() const
@@ -279,6 +277,11 @@ void BlinkAttack::CheackCollision()
 	}
 	const int64 worldTime = world->GetNextWorldTime();
 
+	if (mIsParrying)
+	{
+		return;
+	}
+
 	EnemyCharacterPtr owner = std::static_pointer_cast<EnemyCharacter>(this->GetOwner().lock());
 	if (nullptr == owner)
 	{
@@ -301,6 +304,9 @@ void BlinkAttack::CheackCollision()
 	const float debugDuration = 1.0f;
 	PacketUtils::DebugDrawBox(owner->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
 	PacketUtils::DebugDrawSphere(owner->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
+
+	this->PushTask(worldTime + mSafeTime, &BlinkAttack::TeleportSafeLocation, mSafeLocation, mSafeRotation);
+	this->PushTask(worldTime + mDestroyTime, &BlinkAttack::PushReserveDestroy);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
@@ -336,6 +342,8 @@ bool BlinkAttack::OnParrying(ActorPtr inActor)
 	{
 		return false;
 	}
+
+	mIsParrying = true;
 
 	bool ret = world->DestroyActor(this->GetGameObjectID());
 	if (false == ret)

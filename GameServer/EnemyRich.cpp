@@ -261,6 +261,9 @@ void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 
 void EnemyRichPhase1::OnPatternOver()
 {
+
+	printf("OnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOver\n");
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -278,6 +281,9 @@ void EnemyRichPhase1::OnPatternOver()
 
 void EnemyRichPhase1::OnStunWakeUp()
 {
+
+	printf("OnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUp\n");
+
 	if (false == this->IsDeath())
 	{
 		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)
@@ -420,10 +426,12 @@ void EnemyRichPhase1::Skill_BlinkAttack()
 	newBlinkAttack->PushTask(worldTime + blinkTime + parryingEnd, &BlinkAttack::CheackCollision);
 
 	//공격후 이동
-	newBlinkAttack->PushTask(worldTime + blinkTime + attackEnd, &BlinkAttack::TeleportSafeLocation, safeLocation, FRotator::TurnRotator(playerRotation));
+	newBlinkAttack->mSafeTime = attackEnd - parryingEnd;
+	newBlinkAttack->mSafeLocation = safeLocation;
+	newBlinkAttack->mSafeRotation = FRotator::TurnRotator(playerRotation);
 
 	//삭제
-	newBlinkAttack->PushReserveDestroy(worldTime + 10000);
+	newBlinkAttack->mDestroyTime = 10000 - (blinkTime + parryingStart + parryingEnd + attackEnd);
 }
 
 void EnemyRichPhase1::Skill_Explosion()
@@ -769,7 +777,7 @@ void EnemyRichPhase2::Skill_BlinkSturn()
 	const Location blinkLocation = FVector(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ() + diffHalf) - (foward * 80.0f);
 	const Location safeLocation = Random::GetRandomVectorInRange2D(FVector(mTempStage.GetX(), mTempStage.GetY(), enemyHalf), mTempStageLenght);
 
-	ActorPtr actor = world->SpawnActor<BlinkSturn>(this->GetGameObjectRef(), spawnLocation, playerRotation, Scale(1.0f, 1.0f, 1.0f));
+	ActorPtr actor = world->SpawnActor<BlinkSturn>(this->GetGameObjectRef(), blinkLocation, playerRotation, Scale(1.0f, 1.0f, 1.0f));
 	std::shared_ptr<BlinkSturn> newBlinkSturn = std::static_pointer_cast<BlinkSturn>(actor);
 	if (nullptr == newBlinkSturn)
 	{

@@ -30,9 +30,15 @@ public:
 public:
 	BoxCollisionComponent* GetBoxCollisionComponent() const;
 
-protected:
+public:
 	int64 mStartTime;
 	int32 mBlinkID;
+
+	int64		mSafeTime;
+	FVector		mSafeLocation;
+	FRotator	mSafeRotation;
+
+	int64		mDestroyTime;
 };
 
 class BlinkAttack : public Blink
