@@ -18,7 +18,7 @@ void Extermination::OnInitialization()
 		assert(!world);
 	}
 
-	SetTick(true, 100);
+	SetTick(true, SYSTEM_TICK);
 
 	SphereCollisionComponent* collision = GetSphereCollisionComponent();
 	collision->SetOwner(this->GetActorRef());
@@ -190,7 +190,7 @@ void Extermination::CheackCollision()
 	FVector						location = this->GetLocation();
 	SphereTrace					sphereTrace(this->GetActorRef(), location, true, mStartSphereSize);
 
-	const float debugDuration = 1.0f;
+	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, mStartSphereSize, debugDuration);
 
 	Protocol::S2C_ReactionSkill reactionSkill;
@@ -204,8 +204,7 @@ void Extermination::CheackCollision()
 	SendBufferPtr sendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, reactionSkill);
 	this->BrodcastPlayerViewers(sendBuffer);
 
-	printf("SZIE %f [%lld]\n", mStartSphereSize, this->GetPlayerViewers().size());
-	mStartSphereSize += 100.0f;
+	mStartSphereSize += 50.0f;
 
 	uint8 findActorType = static_cast<uint8>(this->mTargetActorType);
 	std::vector<ActorPtr> findActors;

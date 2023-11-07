@@ -469,9 +469,9 @@ void EnemyDarkKnight::ExterminationAttack()
 	}
 	const int64& worldTime = world->GetWorldTime();
 
-	Location swordLocation = this->GetLocation() + (this->GetRotation().GetForwardVector() * 100.0f);
+	Location swordLocation = this->GetLocation() - (this->GetRotation().GetForwardVector() * 250.0f);
 
-	ActorPtr actor = world->SpawnActor<Extermination>(this->GetGameObjectRef(), this->GetLocation(), Rotation(), Scale(0.0f, 0.0f, 0.0f));
+	ActorPtr actor = world->SpawnActor<Extermination>(this->GetGameObjectRef(), swordLocation, Rotation(), Scale(0.0f, 0.0f, 0.0f));
 	std::shared_ptr<Extermination> newExplosion = std::static_pointer_cast<Extermination>(actor);
 	if (nullptr == newExplosion)
 	{
