@@ -34,7 +34,7 @@ void EnemyDarkKnight::OnInitialization()
 		assert(!world);
 	}
 
-	SetTick(true, GAME_TICK);
+	SetTick(true, SYSTEM_TICK);
 	this->mSpawnParticle = static_cast<int32>(ESkillID::Skill_Rich_Rise_DarkKnight);
 	this->mSpawnParticleDelay = 3000;
 
@@ -102,8 +102,6 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 	{
 		this->DetectChangeEnemy();
 	}
-
-	this->GetVelocity().ToString();
 
 	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 63.0f, debugDuration);

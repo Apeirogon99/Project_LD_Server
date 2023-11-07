@@ -223,7 +223,7 @@ void EnemyRichPhase1::OnInitialization()
 		return;
 	}
 
-	SetTick(true, GAME_TICK);
+	SetTick(true, SYSTEM_TICK);
 
 	this->SetEnemyType(EnemyType::Boss);
 
@@ -611,7 +611,7 @@ void EnemyRichPhase2::OnInitialization()
 		return;
 	}
 
-	SetTick(true, GAME_TICK);
+	SetTick(true, SYSTEM_TICK);
 
 	this->SetEnemyType(EnemyType::Boss);
 
@@ -911,7 +911,7 @@ void EnemyRichPhase3::OnInitialization()
 		assert(!world);
 	}
 
-	SetTick(true, GAME_TICK);
+	SetTick(true, SYSTEM_TICK);
 
 	this->SetEnemyType(EnemyType::Boss);
 
