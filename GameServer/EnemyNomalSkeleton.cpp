@@ -82,6 +82,8 @@ void EnemyNomalSkeleton::OnAutoAttackTargeting(const float inDamage, const FVect
 	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
 	mMeleeAttack->PushTask(worldTime + 250, &EnemyMeleeAttack::CheackCollision);
+
+	mMeleeAttack->PushTask(worldTime + 300, &EnemyMeleeAttack::PushReserveDestroy);
 }
 
 void EnemyNomalSkeleton::OnAutoAttackOver()

@@ -103,6 +103,8 @@ void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
 		this->DetectChangeEnemy();
 	}
 
+	this->GetVelocity().ToString();
+
 	const float debugDuration = 0.05f;
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), this->GetLocation(), 63.0f, debugDuration);
 }
@@ -111,7 +113,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
 	this->OnMovementEnemy();
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 

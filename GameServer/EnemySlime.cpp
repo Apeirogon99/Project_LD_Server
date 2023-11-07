@@ -80,9 +80,11 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	mMeleeAttack->SetTargetActorType(EActorType::Player);
 	mMeleeAttack->SetAttackExtent(inRange);
 	mMeleeAttack->SetDamage(inDamage);
-	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
+	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 150);
 
 	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
+
+	mMeleeAttack->PushTask(worldTime + 300, &EnemyMeleeAttack::PushReserveDestroy);
 
 }
 

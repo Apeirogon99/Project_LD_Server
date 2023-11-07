@@ -82,6 +82,8 @@ void EnemyDarkSkeleton::OnAutoAttackTargeting(const float inDamage, const FVecto
 	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 200);
 
 	mMeleeAttack->PushTask(worldTime + 250, &EnemyMeleeAttack::CheackCollision);
+
+	mMeleeAttack->PushTask(worldTime + 300, &EnemyMeleeAttack::PushReserveDestroy);
 }
 
 void EnemyDarkSkeleton::OnAutoAttackOver()

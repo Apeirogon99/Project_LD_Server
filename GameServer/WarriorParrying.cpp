@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WarriorParrying.h"
 
-WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mStartParryingTime(200), mEndParryingTime(300), mSturnDuration(3000), mParryingDamage(1.8f)
+WarriorParrying::WarriorParrying() : ActiveSkill(L"WarriorParrying"), mIsParrying(false), mStartParryingTime(200), mEndParryingTime(300), mSturnDuration(3000), mParryingDamage(0.2f)
 {
 }
 
