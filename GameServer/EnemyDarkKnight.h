@@ -25,9 +25,10 @@ class DarkKnightAttackInfo
 {
 public:
 	DarkKnightAttackInfo();
-	DarkKnightAttackInfo(const FVector& inExtent, const float& inDamage, const int64& inParryingTime, const int64& inCheckCollisionTime);
+	DarkKnightAttackInfo(const EDarkKnightAttackType& inSkillID, const FVector& inExtent, const float& inDamage, const int64& inParryingTime, const int64& inCheckCollisionTime);
 	~DarkKnightAttackInfo();
 
+	EDarkKnightAttackType mSkillID;
 	FVector mExtent;
 	float	mMulDamage;
 	int64	mParryingTime;
@@ -63,12 +64,15 @@ public:
 	void SwingAndSlamAttack();
 	void HandAndSwordSwipeAttack();
 
+	virtual void ExterminationAttack() override;
+
 public:
 	void DoMeleeHardAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation);
 	void DoMeleeNomalAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation, int64 inDestroyTime);
 
 	void MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes);
 	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration);
+	void StopMovement();
 
 private:
 	PatternInfos<EnemyDarkKnight> mPatternInfos;

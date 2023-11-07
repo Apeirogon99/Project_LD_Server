@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "EnemyDarkKnight.h"
+#include "Extermination.h"
 
 DarkKnightAttackInfo::DarkKnightAttackInfo() : mExtent(), mMulDamage(0.0f), mParryingTime(0), mCheckCollisionTime(0)
 {
 }
 
-DarkKnightAttackInfo::DarkKnightAttackInfo(const FVector& inExtent, const float& inDamage, const int64& inParryingTime, const int64& inCheckCollisionTime)
+DarkKnightAttackInfo::DarkKnightAttackInfo(const EDarkKnightAttackType& inSkillID, const FVector& inExtent, const float& inDamage, const int64& inParryingTime, const int64& inCheckCollisionTime)
 {
+	mSkillID = inSkillID;
 	mExtent = inExtent;
 	mMulDamage = inDamage;
 	mParryingTime = inParryingTime;
@@ -65,12 +67,12 @@ void EnemyDarkKnight::OnInitialization()
 	this->mPatternInfos.push_back(&EnemyDarkKnight::HandAndSwordSwipeAttack);
 
 	//																														범위	 - 대미지 증가량 - 패링 - 타겟 타이밍
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(FVector(400.0f, 100.0f, 100.0f), 3.0f, 300, 500)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(FVector(140.0f, 100.0f, 100.0f), 1.8f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing, DarkKnightAttackInfo(FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(FVector(160.0f, 100.0f, 100.0f), 2.0f, 250, 300)));
-	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(FVector(70.0f, 100.0f, 100.0f), 1.2f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Running,			DarkKnightAttackInfo(EDarkKnightAttackType::Running,			FVector(400.0f, 100.0f, 100.0f), 3.0f, 300, 500)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::UpperCut,			DarkKnightAttackInfo(EDarkKnightAttackType::UpperCut,			FVector(140.0f, 100.0f, 100.0f), 1.8f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::LeftToRightSwing, DarkKnightAttackInfo(EDarkKnightAttackType::LeftToRightSwing, FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::RightToLeftSwing, DarkKnightAttackInfo(EDarkKnightAttackType::RightToLeftSwing, FVector(140.0f, 180.0f, 100.0f), 1.5f, 0, 200)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Slam,				DarkKnightAttackInfo(EDarkKnightAttackType::Slam,				FVector(160.0f, 100.0f, 100.0f), 2.0f, 250, 300)));
+	this->mDarkKnightAttacks.insert(std::make_pair(EDarkKnightAttackType::Hand,				DarkKnightAttackInfo(EDarkKnightAttackType::Hand,				FVector(70.0f, 100.0f, 100.0f), 1.2f, 0, 200)));
 }
 
 void EnemyDarkKnight::OnTick(const int64 inDeltaTime)
@@ -111,7 +113,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
 	this->OnMovementEnemy();
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[0];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[1];
 	pattenFunc(*this);
 }
 
@@ -456,6 +458,40 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	this->BrodcastPlayerViewers(appearSendBuffer);
 }
 
+void EnemyDarkKnight::ExterminationAttack()
+{
+	this->GameObjectLog(L"Skill_ExterminationAttack\n");
+
+	WorldPtr world = GetWorld().lock();
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	Location swordLocation = this->GetLocation() + (this->GetRotation().GetForwardVector() * 100.0f);
+
+	ActorPtr actor = world->SpawnActor<Extermination>(this->GetGameObjectRef(), this->GetLocation(), Rotation(), Scale(0.0f, 0.0f, 0.0f));
+	std::shared_ptr<Extermination> newExplosion = std::static_pointer_cast<Extermination>(actor);
+	if (nullptr == newExplosion)
+	{
+		return;
+	}
+	newExplosion->PushTask(worldTime + 5000, &Extermination::PushReserveDestroy);
+
+	Protocol::S2C_AppearSkill appearSkillPacket;
+	appearSkillPacket.set_remote_id(this->GetGameObjectID());
+	appearSkillPacket.set_object_id(this->GetGameObjectID());
+	appearSkillPacket.set_skill_id(static_cast<int32>(ESkillID::Skill_DarkKnight_Uppercut_Attack));
+	appearSkillPacket.mutable_location()->CopyFrom(PacketUtils::ToSVector(this->GetLocation()));
+	appearSkillPacket.mutable_rotation()->CopyFrom(PacketUtils::ToSRotator(this->GetRotation()));
+	appearSkillPacket.set_duration(worldTime);
+
+	SendBufferPtr appearSendBuffer = GameServerPacketHandler::MakeSendBuffer(nullptr, appearSkillPacket);
+	this->BrodcastPlayerViewers(appearSendBuffer);
+
+}
+
 void EnemyDarkKnight::DoMeleeHardAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
@@ -537,6 +573,11 @@ void EnemyDarkKnight::DoMeleeNomalAttack(DarkKnightAttackInfo inAttackInfo, Rota
 	attack->SetAttackExtent(inAttackInfo.mExtent);
 	attack->SetDamage(randomDamage);
 	attack->SetParryinglTime(worldTime, worldTime + inAttackInfo.mParryingTime);
+
+	if (inAttackInfo.mSkillID == EDarkKnightAttackType::Slam)
+	{
+		attack->mIsExtermination = true;
+	}
 
 	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
 

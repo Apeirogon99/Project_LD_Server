@@ -32,6 +32,7 @@ enum class ESkillID : uint16
 	Skill_DarkKnight_Swing_And_Slam_Attack,
 	Skill_DarkKnight_Hand_And_Sword_Swipe_Attack,
 	Skill_DarkKnight_Berserk,
+	Skill_DarkKnight_Extermination
 };
 
 bool Skill_INVALID(GameRemotePlayerRef& inGameRemotePlayer, bool inIsPressed);

@@ -30,5 +30,8 @@ public:
 
 public:
 	BoxCollisionComponent* GetBoxCollisionComponent() const;
+
+public:
+	bool mIsExtermination;
 };
 

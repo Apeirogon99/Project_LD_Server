@@ -38,6 +38,7 @@ public:
 	virtual void OnBuffChanage(const EBuffType inBuffType, const EStatType inStatType, const float inValue, bool inIsPush);
 
 public:
+	virtual void ExterminationAttack() {};
 	virtual void OnPatternShot(ActorPtr inVictim) {}
 	//virtual void OnPatternShot(ActorPtr inVictim) {}
 	virtual void OnPatternOver() {}

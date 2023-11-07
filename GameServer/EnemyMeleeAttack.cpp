@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyMeleeAttack.h"
 
-EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee")
+EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee"), mIsExtermination(false)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
@@ -56,45 +56,53 @@ void EnemyMeleeAttack::CheackCollision()
 	FVector		location	= this->GetLocation();
 	FRotator	rotation	= this->GetRotation();
 	FVector		foward		= rotation.GetForwardVector();
-	FVector		boxExtent	= collision->GetBoxCollision().GetBoxExtent();
-	const float radius		= std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
-
-	Location boxStartLocation = location;
-	Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
-	Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
-	BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
-
-	//DEBUG
-	const float debugDuration = 1.0f;
-	PacketUtils::DebugDrawBox(owner->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
-	PacketUtils::DebugDrawSphere(owner->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
 	if (mEnemyAttackType == EEnemyAttackType::Enemy_Attack_Hard_Melee)
 	{
 		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 	}
 
-	uint8 findActorType = static_cast<uint8>(EActorType::Player);
-	std::vector<ActorPtr> findActors;
-	bool result = world->FindActors(boxTrace, findActorType, findActors);
-	if (!result)
+	if (mIsExtermination)
 	{
-		return;
+		owner->ExterminationAttack();
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 	}
-
-	for (ActorPtr actor : findActors)
+	else
 	{
+		FVector		boxExtent = collision->GetBoxCollision().GetBoxExtent();
+		const float radius = std::sqrtf(std::powf(boxExtent.GetX(), 2) + std::powf(boxExtent.GetY(), 2));	//외접원 반지름
 
-		PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(actor);
-		if (nullptr == character)
+		Location boxStartLocation = location;
+		Location boxEndLocation = boxStartLocation + (foward * (boxExtent.GetX() * 2));
+		Location boxCenterLocation = (boxStartLocation + boxEndLocation) / 2.0f;
+		BoxTrace boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
+
+		//DEBUG
+		const float debugDuration = 1.0f;
+		PacketUtils::DebugDrawBox(owner->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
+		PacketUtils::DebugDrawSphere(owner->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
+
+		uint8 findActorType = static_cast<uint8>(EActorType::Player);
+		std::vector<ActorPtr> findActors;
+		bool result = world->FindActors(boxTrace, findActorType, findActors);
+		if (!result)
 		{
-			continue;
+			return;
 		}
 
-		character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
+		for (ActorPtr actor : findActors)
+		{
 
+			PlayerCharacterPtr character = std::static_pointer_cast<PlayerCharacter>(actor);
+			if (nullptr == character)
+			{
+				continue;
+			}
+
+			character->PushTask(worldTime, &Actor::OnHit, this->GetActorPtr(), this->GetDamage());
+
+		}
 	}
-
 }
 
 bool EnemyMeleeAttack::OnParrying(ActorPtr inActor)

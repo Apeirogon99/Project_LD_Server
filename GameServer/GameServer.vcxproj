@@ -182,6 +182,7 @@
     <ClCompile Include="EnemyWarriorSkeleton.cpp" />
     <ClCompile Include="EqipmentComponent.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Extermination.cpp" />
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="friendDatabase.cpp" />
     <ClCompile Include="ItemHandler.cpp" />
@@ -384,6 +385,7 @@
     <ClInclude Include="EnemyWarriorSkeleton.h" />
     <ClInclude Include="EqipmentComponent.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Extermination.h" />
     <ClInclude Include="Friend.h" />
     <ClInclude Include="friendDatabase.h" />
     <ClInclude Include="ItemHandler.h" />

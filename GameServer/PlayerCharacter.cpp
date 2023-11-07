@@ -555,10 +555,14 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	float currentHP = this->mStatComponent.GetCurrentStats().GetHealth() - inDamage;
-	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, currentHP);
+	const float curArmor = this->mStatComponent.GetCurrentStats().GetArmor();
+	const float era = curArmor / (curArmor + 100.0f);
 
-	if (currentHP <= 0.0f)
+	const float curHealth = this->mStatComponent.GetCurrentStats().GetHealth() - inDamage * (1.0f - era);
+
+	this->mStatComponent.UpdateCurrentStat(EStatType::Stat_Health, curHealth);
+
+	if (curHealth <= 0.0f)
 	{
 		this->GetMovementComponent().SetRestrictMovement(true);
 
