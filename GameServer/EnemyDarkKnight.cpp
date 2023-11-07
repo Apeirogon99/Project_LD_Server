@@ -256,8 +256,8 @@ void EnemyDarkKnight::RunningAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1500, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 6500, &EnemyDarkKnight::OnPatternOver);
+	const int64 lastTime = 6500 - 1500;
+	this->PushTask(worldTime + 1500, &EnemyDarkKnight::DoMeleeNomalAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Running), this->GetRotation(), lastTime);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -301,11 +301,13 @@ void EnemyDarkKnight::ChargedComboAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 7300, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
-	this->PushTask(worldTime + 8350, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing), this->GetRotation());
-	this->PushTask(worldTime + 9720, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut), this->GetRotation());
-	this->PushTask(worldTime + 11550, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 17100, &EnemyDarkKnight::OnPatternOver);
+
+	this->PushTask(worldTime + 7300, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
+	this->PushTask(worldTime + 8350, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing), this->GetRotation());
+	this->PushTask(worldTime + 9720, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut), this->GetRotation());
+
+	int64 lastTime = 17100 - 11550;
+	this->PushTask(worldTime + 11550, &EnemyDarkKnight::DoMeleeNomalAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam), this->GetRotation(), lastTime);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -337,8 +339,7 @@ void EnemyDarkKnight::UppercutAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 2900, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 6400, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(worldTime + 2900, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::UpperCut), this->GetRotation());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -369,8 +370,7 @@ void EnemyDarkKnight::SwingAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1950, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 5870, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(worldTime + 1950, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -405,9 +405,8 @@ void EnemyDarkKnight::SwingAndSlamAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 1650, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
-	this->PushTask(worldTime + 3840, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 6730, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(worldTime + 1650, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::RightToLeftSwing), this->GetRotation());
+	this->PushTask(worldTime + 3840, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Slam), this->GetRotation());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -442,9 +441,8 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	this->MakeMovePlane(worldTime, planes);
 
 	ActorPtr targetActor = this->GetAggroActor().lock();
-	this->PushTask(worldTime + 2400, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Hand), this->GetRotation());
-	this->PushTask(worldTime + 3800, &EnemyDarkKnight::DoMeleeAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing), this->GetRotation());
-	this->PushTask(world->GetNextWorldTime() + 6570, &EnemyDarkKnight::OnPatternOver);
+	this->PushTask(worldTime + 2400, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::Hand), this->GetRotation());
+	this->PushTask(worldTime + 3800, &EnemyDarkKnight::DoMeleeHardAttack, mDarkKnightAttacks.at(EDarkKnightAttackType::LeftToRightSwing), this->GetRotation());
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -458,7 +456,7 @@ void EnemyDarkKnight::HandAndSwordSwipeAttack()
 	this->BrodcastPlayerViewers(appearSendBuffer);
 }
 
-void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation)
+void EnemyDarkKnight::DoMeleeHardAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation)
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -490,21 +488,62 @@ void EnemyDarkKnight::DoMeleeAttack(DarkKnightAttackInfo inAttackInfo, Rotation 
 		return;
 	}
 
-	if (inAttackInfo.mParryingTime > 0)
+
+	attack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Hard_Melee);
+	
+
+	attack->SetTargetActorType(EActorType::Player);
+	attack->SetAttackExtent(inAttackInfo.mExtent);
+	attack->SetDamage(randomDamage);
+
+	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
+}
+
+void EnemyDarkKnight::DoMeleeNomalAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation, int64 inDestroyTime)
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
 	{
-		attack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
+		return;
 	}
-	else
+	const int64 worldTime = world->GetWorldTime();
+
+	if (false == this->IsValid())
 	{
-		attack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Hard_Melee);
+		return;
 	}
 
+	Location location = this->GetLocation();
+	Rotation rotation = inRotation;
+
+	StatsComponent& stat = this->GetEnemyStatsComponent();
+	float randomDamage = StatUtils::RandomDamage(stat.GetCurrentStats().GetAttackDamage()) * inAttackInfo.mMulDamage;
+
+	ActorPtr actor = world->SpawnActor<EnemyMeleeAttack>(this->GetActorRef(), location, rotation, FVector(1.0f, 1.0f, 1.0f));
+	if (nullptr == actor)
+	{
+		return;
+	}
+
+	std::shared_ptr<EnemyMeleeAttack> attack = std::static_pointer_cast<EnemyMeleeAttack>(actor);
+	if (nullptr == attack)
+	{
+		return;
+	}
+
+
+	attack->SetEnemyAttackType(EEnemyAttackType::Enemy_Attack_Nomal_Melee);
 	attack->SetTargetActorType(EActorType::Player);
 	attack->SetAttackExtent(inAttackInfo.mExtent);
 	attack->SetDamage(randomDamage);
 	attack->SetParryinglTime(worldTime, worldTime + inAttackInfo.mParryingTime);
 
 	attack->PushTask(worldTime + inAttackInfo.mCheckCollisionTime, &EnemyMeleeAttack::CheackCollision);
+
+	if (inDestroyTime != 0)
+	{
+		attack->PushTask(worldTime + inDestroyTime, &EnemyMeleeAttack::PushReserveDestroy);
+	}
 }
 
 void EnemyDarkKnight::MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes)

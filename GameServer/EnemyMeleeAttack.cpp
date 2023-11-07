@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyMeleeAttack.h"
 
-EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee"), mIsParrying(false)
+EnemyMeleeAttack::EnemyMeleeAttack() : EnemyAttack(L"EnemyAttack::Melee")
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
@@ -69,6 +69,11 @@ void EnemyMeleeAttack::CheackCollision()
 	PacketUtils::DebugDrawBox(owner->GetPlayerViewers(), boxStartLocation, boxEndLocation, boxExtent, debugDuration);
 	PacketUtils::DebugDrawSphere(owner->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
+	if (mEnemyAttackType == EEnemyAttackType::Enemy_Attack_Hard_Melee)
+	{
+		world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
+	}
+
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;
 	bool result = world->FindActors(boxTrace, findActorType, findActors);
@@ -90,7 +95,6 @@ void EnemyMeleeAttack::CheackCollision()
 
 	}
 
-	world->PushTask(world->GetNextWorldTime(), &GameWorld::DestroyActor, this->GetGameObjectID());
 }
 
 bool EnemyMeleeAttack::OnParrying(ActorPtr inActor)

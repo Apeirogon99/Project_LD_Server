@@ -203,6 +203,11 @@ void PlayerCharacter::NextPlayerMode()
 	}
 	this->SetPlayerMode(EPlayerMode::Move_MODE);
 
+	if (mMovementComponent.GetRestrictMovement() == true)
+	{
+		return;
+	}
+
 	ActorPtr target = mTargetActor.lock();
 	if (nullptr != target)
 	{

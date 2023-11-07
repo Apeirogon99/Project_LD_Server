@@ -64,8 +64,9 @@ public:
 	void HandAndSwordSwipeAttack();
 
 public:
-	void DoMeleeAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation);
-	
+	void DoMeleeHardAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation);
+	void DoMeleeNomalAttack(DarkKnightAttackInfo inAttackInfo, Rotation inRotation, int64 inDestroyTime);
+
 	void MakeMovePlane(const int64& inWorldTime, std::vector<MovePlane> inMovePlanes);
 	void DoMoveLocation(FVector inStartLocation, FVector inEndLocation, int64 inDuration);
 
