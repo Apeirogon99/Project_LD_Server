@@ -548,12 +548,12 @@ void PlayerCharacter::OnHit(ActorPtr inInstigated, const float inDamage)
 		return;
 	}
 
-	ActiveSkillPtr activeSKill = this->GetSkillComponent().GetActiveSkill().lock();
-	if (nullptr != activeSKill)
-	{
-		activeSKill->OnHit(inInstigated, inDamage);
-		return;
-	}
+	//ActiveSkillPtr activeSKill = this->GetSkillComponent().GetActiveSkill().lock();
+	//if (nullptr != activeSKill)
+	//{
+	//	activeSKill->OnHit(inInstigated, inDamage);
+	//	return;
+	//}
 
 	const float curArmor = this->mStatComponent.GetCurrentStats().GetArmor();
 	const float era = curArmor / (curArmor + 100.0f);
