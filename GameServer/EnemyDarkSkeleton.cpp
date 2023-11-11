@@ -83,7 +83,8 @@ void EnemyDarkSkeleton::OnAutoAttackTargeting(const float inDamage, const FVecto
 
 	AttackInfo info = mAutoAttackComponent.GetAttackInfo(0);
 	mMeleeAttack->PushTask(worldTime + 250, &EnemyMeleeAttack::CheackCollision);
-	mMeleeAttack->PushTask(worldTime + info.GetOverTime() - info.GetTargetingTime(), &EnemyMeleeAttack::PushReserveDestroy);
+	mMeleeAttack->PushTask(worldTime + 300, &EnemyMeleeAttack::PushReserveDestroy);
+
 }
 
 void EnemyDarkSkeleton::OnAutoAttackOver()

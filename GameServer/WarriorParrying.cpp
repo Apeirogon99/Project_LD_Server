@@ -162,6 +162,17 @@ void WarriorParrying::Active()
 			continue;
 		}
 
+		const Rotation& enemyRot		= enemyOwner->GetRotation();
+		const float enemyMinRot			= fmodf(enemyRot.GetYaw() - 20, 180);
+		const float enemyMaxRot			= fmodf(enemyRot.GetYaw() + 20, 180);
+
+		const Rotation& instigatedTRot	= FRotator::TurnRotator(instigated->GetRotation());
+
+		if (enemyMinRot > instigatedTRot.GetYaw() || instigatedTRot.GetYaw() > enemyMaxRot)
+		{
+			continue;
+		}
+
 		if (attackType == EEnemyAttackType::Enemy_Attack_Nomal_Melee)
 		{
 			if (false == enemyAttack->OnParrying(instigated))

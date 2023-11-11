@@ -354,7 +354,7 @@ void ChaseState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
 
 	enemy->SetVelocity(velocity, velocity, velocity);
 	enemy->GetMovementComponent().SetNewDestination(enemy->GetActorPtr(), currentLocation, aggroLocation, worldTime, 0.0f);
-
+	enemy->OnMovementEnemy();
 
 	mChaseToRecoveryTime += inDeltaTime;
 	if (mChaseToRecoveryTime >= CHASE_TO_RECOVERY_TIME)
@@ -498,7 +498,7 @@ void StunState::Enter(EnemyCharacterRef inEnemy)
 	}
 
 	enemy->SetVelocity(0.0f, 0.0f, 0.0f);
-
+	
 }
 
 void StunState::Update(EnemyCharacterRef inEnemy, const int64 inDeltaTime)
