@@ -255,15 +255,12 @@ void EnemyRichPhase1::OnInitialization()
 void EnemyRichPhase1::OnPatternShot(ActorPtr inVictim)
 {
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyRichPhase1&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
 void EnemyRichPhase1::OnPatternOver()
 {
-
-	printf("OnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOverOnPatternOver\n");
-
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -281,9 +278,6 @@ void EnemyRichPhase1::OnPatternOver()
 
 void EnemyRichPhase1::OnStunWakeUp()
 {
-
-	printf("OnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUpOnStunWakeUp\n");
-
 	if (false == this->IsDeath())
 	{
 		if (this->mStateManager.GetCurrentStateType() == EStateType::State_Stun)

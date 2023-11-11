@@ -40,6 +40,7 @@ public:
 
 public:
 	void ReserveDestroy(const int64& inDelay);
+	void PushReserveDestroyWithNext();
 	void PushReserveDestroy();
 	void SetEnemyAttackType(const EEnemyAttackType& inEnemyAttackType);
 	void SetTargetActorType(const EActorType& inTargetActorType);

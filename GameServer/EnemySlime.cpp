@@ -82,9 +82,9 @@ void EnemySlime::OnAutoAttackTargeting(const float inDamage, const FVector inRan
 	mMeleeAttack->SetDamage(inDamage);
 	mMeleeAttack->SetParryinglTime(worldTime, worldTime + 150);
 
+	AttackInfo info = mAutoAttackComponent.GetAttackInfo(0);
 	mMeleeAttack->PushTask(worldTime + 200, &EnemyMeleeAttack::CheackCollision);
-
-	mMeleeAttack->PushTask(worldTime + 300, &EnemyMeleeAttack::PushReserveDestroy);
+	mMeleeAttack->PushTask(worldTime + info.GetOverTime() - info.GetTargetingTime(), &EnemyMeleeAttack::PushReserveDestroy);
 
 }
 

@@ -17,7 +17,7 @@ void EnemyAttack::ReserveDestroy(const int64& inDelay)
 	mCurrentLifeTime = 0;
 }
 
-void EnemyAttack::PushReserveDestroy()
+void EnemyAttack::PushReserveDestroyWithNext()
 {
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
@@ -45,6 +45,34 @@ void EnemyAttack::PushReserveDestroy()
 	else
 	{
 		enemy->PushTask(worldTime, &EnemyCharacter::OnAutoAttackOver);
+	}
+
+	bool ret = world->DestroyActor(this->GetGameObjectID());
+	if (false == ret)
+	{
+		this->GameObjectLog(L"Can't destroy enemy attack\n");
+	}
+}
+
+void EnemyAttack::PushReserveDestroy()
+{
+	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
+	if (nullptr == world)
+	{
+		return;
+	}
+	const int64& worldTime = world->GetWorldTime();
+
+	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	if (nullptr == owner)
+	{
+		return;
+	}
+
+	std::shared_ptr<EnemyCharacter> enemy = std::static_pointer_cast<EnemyCharacter>(owner);
+	if (nullptr == enemy)
+	{
+		return;
 	}
 
 	bool ret = world->DestroyActor(this->GetGameObjectID());

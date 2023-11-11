@@ -306,7 +306,7 @@ void BlinkAttack::CheackCollision()
 	PacketUtils::DebugDrawSphere(owner->GetPlayerViewers(), boxCenterLocation, radius, debugDuration);
 
 	this->PushTask(worldTime + mSafeTime, &BlinkAttack::TeleportSafeLocation, mSafeLocation, mSafeRotation);
-	this->PushTask(worldTime + mDestroyTime, &BlinkAttack::PushReserveDestroy);
+	this->PushTask(worldTime + mDestroyTime, &BlinkAttack::PushReserveDestroyWithNext);
 
 	uint8 findActorType = static_cast<uint8>(EActorType::Player);
 	std::vector<ActorPtr> findActors;

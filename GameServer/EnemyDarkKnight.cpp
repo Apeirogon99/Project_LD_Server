@@ -113,7 +113,7 @@ void EnemyDarkKnight::OnPatternShot(ActorPtr inVictim)
 {
 	this->OnMovementEnemy();
 	int32 pattern = Random::GetIntUniformDistribution(0, static_cast<int32>(mPatternInfos.size() - 1));
-	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[1];
+	std::function<void(EnemyDarkKnight&)> pattenFunc = mPatternInfos[0];
 	pattenFunc(*this);
 }
 
@@ -477,7 +477,7 @@ void EnemyDarkKnight::ExterminationAttack()
 	{
 		return;
 	}
-	newExplosion->PushTask(worldTime + 5000, &Extermination::PushReserveDestroy);
+	newExplosion->PushTask(worldTime + 5000, &Extermination::PushReserveDestroyWithNext);
 
 	Protocol::S2C_AppearSkill appearSkillPacket;
 	appearSkillPacket.set_remote_id(this->GetGameObjectID());
@@ -583,7 +583,7 @@ void EnemyDarkKnight::DoMeleeNomalAttack(DarkKnightAttackInfo inAttackInfo, Rota
 
 	if (inDestroyTime != 0)
 	{
-		attack->PushTask(worldTime + inDestroyTime, &EnemyMeleeAttack::PushReserveDestroy);
+		attack->PushTask(worldTime + inDestroyTime, &EnemyMeleeAttack::PushReserveDestroyWithNext);
 	}
 }
 
