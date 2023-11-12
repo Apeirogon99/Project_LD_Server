@@ -136,6 +136,9 @@
     <Filter Include="Content\Player\Private">
       <UniqueIdentifier>{2ed8c19e-ad89-4d4b-8ef5-785171021fea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Test">
+      <UniqueIdentifier>{3077699d-0805-4bd2-b738-40692c711a88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -381,6 +384,12 @@
     </ClCompile>
     <ClCompile Include="Extermination.cpp">
       <Filter>Content\Enemy\Private\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackTestUnit.cpp">
+      <Filter>Content\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackTestUnitSpanwer.cpp">
+      <Filter>Content\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -632,6 +641,12 @@
     </ClInclude>
     <ClInclude Include="Extermination.h">
       <Filter>Content\Enemy\Public\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackTestUnit.h">
+      <Filter>Content\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackTestUnitSpanwer.h">
+      <Filter>Content\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

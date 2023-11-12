@@ -106,6 +106,10 @@ enum class EPakcetID: uint16
 	S2C_EndSequence = 2100,
 	C2S_StartPack = 2101,
 	S2C_StartPack = 2102,
+	S2C_ApeearAttackTestUnit = 2103,
+	S2C_MovementAttackTestUnit = 2104,
+	S2C_BeginOverlapAttackTestUnit = 2105,
+	S2C_EndOverlapAttackTestUnit = 2106,
 };
 */
 
@@ -250,5 +254,9 @@ public:
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_SkipSequence& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_SkipSequence)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EndSequence& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EndSequence)); }
 	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_StartPack& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_StartPack)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_ApeearAttackTestUnit& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_ApeearAttackTestUnit)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_MovementAttackTestUnit& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_MovementAttackTestUnit)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_BeginOverlapAttackTestUnit& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_BeginOverlapAttackTestUnit)); }
+	static SendBufferPtr MakeSendBuffer(PacketSessionPtr session, Protocol::S2C_EndOverlapAttackTestUnit& pkt) { return PacketHandler::MakeSendBuffer(session, pkt, static_cast<uint16>(EPakcetID::S2C_EndOverlapAttackTestUnit)); }
 
 };

@@ -130,6 +130,10 @@ enum class EPakcetID : uint16
 	S2C_EndSequence = 2100,
 	C2S_StartPack = 2101,
 	S2C_StartPack = 2102,
+	S2C_ApeearAttackTestUnit = 2103,
+	S2C_MovementAttackTestUnit = 2104,
+	S2C_BeginOverlapAttackTestUnit = 2105,
+	S2C_EndOverlapAttackTestUnit = 2106,
 
 	C2S_EnterDungeon = 5000,
 	S2C_EnterDungeon = 5001,

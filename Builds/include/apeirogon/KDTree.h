@@ -275,6 +275,7 @@ public:
 
 		const Location& sphereLocation = inSphereTrace.GetCenterLocation();
 		const float radius = inSphereTrace.GetSphereCollision().GetRadius();
+		const ActorPtr self = inSphereTrace.GetOwner().lock();
 
 		std::vector<int64> findNodeIDs;
 		SearchNodePreOrder(sphereLocation, radius, inActorType, mUseNode[0], findNodeIDs);
@@ -284,6 +285,11 @@ public:
 			const int64& gameObjectID = findNodeIDs[index];
 			ActorPtr actor = mNodesPool[gameObjectID]->GetActorRef().lock();
 			if (nullptr == actor)
+			{
+				continue;
+			}
+
+			if (self == actor)
 			{
 				continue;
 			}

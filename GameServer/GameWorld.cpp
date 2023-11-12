@@ -20,18 +20,20 @@ void GameWorld::OnInitialization()
 	{
 		return;
 	}
-	mEnemySpawnerManger = std::make_shared<EnemySpawnerManager>();
-	mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
-	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
+	//mEnemySpawnerManger = std::make_shared<EnemySpawnerManager>();
+	//mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
+	//task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
+	//
+	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-15000.0f, 27000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-17500.0f, 31000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-27870.0f, 36810.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
+	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-30500.0f, 31350.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
 
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-15000.0f, 27000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-17500.0f, 31000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-27870.0f, 36810.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
-	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-30500.0f, 31350.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
+	//mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 
-	mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
+	//this->MakeWorldObstruction(EGameDataType::Obstruction);
 
-	this->MakeWorldObstruction(EGameDataType::Obstruction);
+	this->SpawnActor<AttackTestUnitSpanwer>(this->GetGameObjectRef(), Location(0.0f, 0.0f, 100.0f), Rotation(0.0f, 0.0f, 0.0f), Scale(1.0f, 1.0f, 1.0f));
 }
 
 void GameWorld::OnDestroy()

@@ -83,6 +83,9 @@
 #include "EnemyRich.h"
 #include "EnemyChest.h"
 
+#include "AttackTestUnitSpanwer.h"
+#include "AttackTestUnit.h"
+
 //==========================//
 //   GameContent | Skill	//
 //==========================//

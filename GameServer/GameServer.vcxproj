@@ -166,6 +166,8 @@
     <ClCompile Include="ActiveSkill.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="AttackTestUnit.cpp" />
+    <ClCompile Include="AttackTestUnitSpanwer.cpp" />
     <ClCompile Include="Blink.cpp" />
     <ClCompile Include="BuffComponent.cpp" />
     <ClCompile Include="Dungeon.cpp" />
@@ -369,6 +371,8 @@
     <ClInclude Include="ActiveSkill.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="AttackTestUnit.h" />
+    <ClInclude Include="AttackTestUnitSpanwer.h" />
     <ClInclude Include="Blink.h" />
     <ClInclude Include="BuffComponent.h" />
     <ClInclude Include="Dungeon.h" />
