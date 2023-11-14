@@ -2,7 +2,7 @@
 #include "AttackTestUnit.h"
 #include "AttackTestUnitSpanwer.h"
 
-AttackTestUnit::AttackTestUnit() : Actor(L"TestOBB"), mOverlap(false), mTimeStamp(L"Search")
+AttackTestUnit::AttackTestUnit() : Actor(L"TestOBB"), mOverlap(false), mTimeStamp(L"Search"), mSyncTime(100)
 {
 	this->mDefaultCollisionComponent = new BoxCollisionComponent;
 }
@@ -58,6 +58,14 @@ void AttackTestUnit::OnDestroy()
 
 void AttackTestUnit::OnTick(const int64 inDeltaTime)
 {
+
+	mSyncTime -= inDeltaTime;
+	if (mSyncTime > 0)
+	{
+		return;
+	}
+	mSyncTime = Random::GetIntUniformDistribution(10, 100);
+
 	this->TickUnitCollision();
 	this->TickWallCollision();
 
@@ -199,6 +207,8 @@ void AttackTestUnit::TickWallCollision()
 
 void AttackTestUnit::TickUnitCollision()
 {
+	mTimeStamp.StartTimeStamp();
+
 	GameWorldPtr world = std::static_pointer_cast<GameWorld>(GetWorld().lock());
 	if (nullptr == world)
 	{
@@ -220,45 +230,48 @@ void AttackTestUnit::TickUnitCollision()
 	BoxTrace	boxTrace(this->GetActorRef(), boxStartLocation, boxEndLocation, true, boxExtent, rotation);
 	SphereTrace	sphereTrace(this->GetActorRef(), location, true, radius);
 
-	//uint8 findActorType = static_cast<uint8>(EActorType::EnemyAttack);
-	uint8 findActorType = static_cast<uint8>(EActorType::Player);
+	uint8 findActorType = static_cast<uint8>(EActorType::EnemyAttack);
+	//uint8 findActorType = static_cast<uint8>(EActorType::Player);
 
-	mTimeStamp.StartTimeStamp();
 	bool result = world->FindActors(sphereTrace, findActorType, findActors);
 	const int64 searchTime = mTimeStamp.GetTimeStamp();
 
-	this->GameObjectLog(L"UnitCollision Result : SearchTime [%lld ms], FindActor [%lld]\n", searchTime, findActors.size());
+	//if (findActors.size() > 30)
+	//{
+	//	this->GameObjectLog(L"UnitCollision Result : SearchTime [%lld ms], FindActor [%lld]\n", searchTime, findActors.size());
+	//}
+	
 	PacketUtils::DebugDrawSphere(this->GetPlayerViewers(), location, radius, 0.05f);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
-	if (nullptr == owner)
-	{
-		return;
-	}
-	std::shared_ptr<AttackTestUnitSpanwer> spawner = std::static_pointer_cast<AttackTestUnitSpanwer>(owner);
+	//ActorPtr owner = std::static_pointer_cast<Actor>(this->GetOwner().lock());
+	//if (nullptr == owner)
+	//{
+	//	return;
+	//}
+	//std::shared_ptr<AttackTestUnitSpanwer> spawner = std::static_pointer_cast<AttackTestUnitSpanwer>(owner);
 
-	if (!result)
-	{
-		if (false == mOverlap)
-		{
-			return;
-		}
-		mOverlap = false;
+	//if (!result)
+	//{
+	//	if (false == mOverlap)
+	//	{
+	//		return;
+	//	}
+	//	mOverlap = false;
 
-		spawner->MakeEndOverlapPacket(this->GetGameObjectID());
+	//	spawner->MakeEndOverlapPacket(this->GetGameObjectID());
 
-	}
-	else
-	{
-		if (true == mOverlap)
-		{
-			return;
-		}
-		mOverlap = true;
+	//}
+	//else
+	//{
+	//	if (true == mOverlap)
+	//	{
+	//		return;
+	//	}
+	//	mOverlap = true;
 
-		spawner->MakeBeginOverlapPacket(this->GetGameObjectID());
-	}
+	//	spawner->MakeBeginOverlapPacket(this->GetGameObjectID());
+	//}
 
 }

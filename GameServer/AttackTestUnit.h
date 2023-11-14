@@ -32,4 +32,6 @@ private:
 	bool					mOverlap;
 	ProjectileComponent		mProjectileComponent;
 	TimeStamp				mTimeStamp;
+
+	int64 mSyncTime;
 };

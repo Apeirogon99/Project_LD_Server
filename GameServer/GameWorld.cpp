@@ -20,20 +20,20 @@ void GameWorld::OnInitialization()
 	{
 		return;
 	}
-	//mEnemySpawnerManger = std::make_shared<EnemySpawnerManager>();
-	//mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
-	//task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
-	//
-	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-15000.0f, 27000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-17500.0f, 31000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-27870.0f, 36810.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
-	//mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-30500.0f, 31350.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
+	mEnemySpawnerManger = std::make_shared<EnemySpawnerManager>();
+	mEnemySpawnerManger->SetOwner(this->GetGameObjectRef());
+	task->PushTask(mEnemySpawnerManger->GetGameObjectPtr());
+	
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-15000.0f, 27000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-17500.0f, 31000.0f, -104.0f), 1000.0f, EnemyID::Enemy_Slime, 5, -1, false, true,				2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-27870.0f, 36810.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
+	mEnemySpawnerManger->CreateEnemySpawner(this->GetGameObjectRef(), FVector(-30500.0f, 31350.0f, 38.0f),	 1000.0f, EnemyID::Enemy_Nomal_Skeleton, 5, -1, false, true,	2000.0f, 0.0f);
 
-	//mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
+	mDungeonManager = std::static_pointer_cast<DungeonManager>(SpawnActor<DungeonManager>(this->GetGameObjectRef(), Location(), FRotator(), Scale()));
 
-	//this->MakeWorldObstruction(EGameDataType::Obstruction);
+	this->MakeWorldObstruction(EGameDataType::Obstruction);
 
-	this->SpawnActor<AttackTestUnitSpanwer>(this->GetGameObjectRef(), Location(0.0f, 0.0f, 100.0f), Rotation(0.0f, 0.0f, 0.0f), Scale(1.0f, 1.0f, 1.0f));
+	//this->SpawnActor<AttackTestUnitSpanwer>(this->GetGameObjectRef(), Location(0.0f, 0.0f, 100.0f), Rotation(0.0f, 0.0f, 0.0f), Scale(1.0f, 1.0f, 1.0f));
 }
 
 void GameWorld::OnDestroy()
@@ -54,6 +54,7 @@ bool GameWorld::IsValid()
 
 void GameWorld::OnTick(const int64 inDeltaTime)
 {
+
 	const int64 nextWorldTime = this->GetNextWorldTime();
 
 	VisibleAreaSync(inDeltaTime);
@@ -135,15 +136,17 @@ void GameWorld::Enter(PlayerStatePtr inPlayerState, Protocol::C2S_EnterGameServe
 			token.SetGlobalID(2);
 		}
 	}
-
-	for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
+	else
 	{
-		if (curToken->CompareToken(inPacket.token()))
+		for (auto curToken = mTokens.begin(); curToken != mTokens.end(); curToken++)
 		{
-			token = *curToken;
-			//mTokens.erase(curToken);
-			isToken = true;
-			break;
+			if (curToken->CompareToken(inPacket.token()))
+			{
+				token = *curToken;
+				//mTokens.erase(curToken);
+				isToken = true;
+				break;
+			}
 		}
 	}
 
@@ -488,6 +491,9 @@ bool GameWorld::IsValidPlayer(const int64& inRemoteID, GameRemotePlayerPtr& outR
 
 void GameWorld::RefreshWorldObserver()
 {
+	TimeStamp mTimeStamp(L"TEMP");
+	mTimeStamp.StartTimeStamp();
+
 	mWorldObserver.DeleteTree();
 
 	for (auto& worldActor : mWorldActors)
@@ -500,6 +506,10 @@ void GameWorld::RefreshWorldObserver()
 
 		mWorldObserver.InsertNode(actor);
 	}
+
+	const int64 searchTime = mTimeStamp.GetTimeStamp();
+
+	//this->GameObjectLog(L"RefreshWorldObserver Result : Time [%lld ms], ActorSize [%lld]\n", searchTime, mWorldActors.size());
 
 	//mWorldObserver.DebugKDTree();
 

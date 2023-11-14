@@ -123,8 +123,8 @@ bool Handle_LoadCharacter_Response(PacketSessionPtr& inSession, ADOConnection& i
 	character->SetCharacterID(id);
 	character->SetCharacterData(loadCharacterData);
 
-	character->SetLocation(0.0f, 0.0f, 100.0f);
-	//character->SetLocation(-8000.0f, 30000.0f, -68.0f);
+	//character->SetLocation(0.0f, 0.0f, 100.0f);
+	character->SetLocation(-8000.0f, 30000.0f, -68.0f);
 
 	character->GetMovementComponent().InitMovement(character->GetLocation(), GAME_TICK, world->GetWorldTime());
 	character->SetRotation(0.0f, 0.0f, 0.0f);

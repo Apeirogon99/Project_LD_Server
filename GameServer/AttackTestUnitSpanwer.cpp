@@ -25,12 +25,12 @@ void AttackTestUnitSpanwer::OnInitialization()
 	mMaxSpawnRange	= 800.0f;
 	mMaxGroundRange = 1000.0f;
 
-	mMaxUnit	= 1;
-	mAddUint	= 1;
+	mMaxUnit	= 1000;
+	mAddUint	= 100;
 	mCountUnit	= 0;
 
 	mCreateSpawnCurrentTime = 0;
-	mCreateSpawnCoolTime	= 5000;
+	mCreateSpawnCoolTime	= 1000;
 }
 
 void AttackTestUnitSpanwer::OnDestroy()
@@ -41,6 +41,12 @@ void AttackTestUnitSpanwer::OnTick(const int64 inDeltaTime)
 {
 
 	this->SendQueue();
+
+	WorldPtr world = this->GetWorld().lock();
+	if (nullptr == world)
+	{
+		assert(!world);
+	}
 
 	mCreateSpawnCurrentTime += inDeltaTime;
 	if (mCreateSpawnCurrentTime <= mCreateSpawnCoolTime)
@@ -57,7 +63,8 @@ void AttackTestUnitSpanwer::OnTick(const int64 inDeltaTime)
 			return;
 		}
 
-		this->CreateUnit();
+		int64 time = static_cast<int64>(Random::GetIntUniformDistribution(100, mCreateSpawnCoolTime));
+		this->PushTask(world->GetWorldTime() + time, &AttackTestUnitSpanwer::CreateUnit);
 
 		createUnitCount++;
 		mCountUnit++;
