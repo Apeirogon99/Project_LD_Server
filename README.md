@@ -50,7 +50,7 @@
 # 패턴
 
 # 버프 디버프
-<img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300">
+<img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300" />
 
 <div align="center"> <h2> SNS </h2> </div>
 
@@ -88,13 +88,13 @@
 <div align="center"> <h2> 아이템 </h2> </div>
 
 # 루팅
-<img src="https://github.com/user-attachments/assets/351a3709-78df-4fbd-b09a-2caab1d6a914" alt="Video Label" width="400" height="300">
+<img src="https://github.com/user-attachments/assets/351a3709-78df-4fbd-b09a-2caab1d6a914" alt="Video Label" width="400" height="300" />
 
 # 장비
-<img src="https://github.com/user-attachments/assets/d5d4367a-baa0-4a8c-b9b5-eeacdd3a3c69" alt="Video Label" width="400" height="300">
+<img src="https://github.com/user-attachments/assets/d5d4367a-baa0-4a8c-b9b5-eeacdd3a3c69" alt="Video Label" width="400" height="300" />
 
 # 인벤토리
-<img src="https://github.com/user-attachments/assets/6045c1ad-1ad7-4168-a742-3d2a17c62b08" alt="Video Label" width="400" height="300">
+<img src="https://github.com/user-attachments/assets/6045c1ad-1ad7-4168-a742-3d2a17c62b08" alt="Video Label" width="400" height="300" />
 
 <div align="center"> <h2> 계정 </h2> </div>
 
