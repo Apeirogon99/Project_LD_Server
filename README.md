@@ -9,14 +9,14 @@
   ### 📋구현 요약 : </br>
   #### System
   - 전투 시스템
-    - [몬스터 인공지능](https://github.com/Apeirogon99/Project_LD_Server) : FSM을 이용한 단순한 인공지능 적용
-    - [충돌 감지](https://github.com/Apeirogon99/Project_LD_Server) : KD-Tree를 이용하여 충돌 감지
-    - [기본/패턴 공격](https://github.com/Apeirogon99/Project_LD_Server) : Shot -> Target -> Over 순서 적용
+    - [몬스터 인공지능](#몬스터-인공지능) : FSM을 이용한 단순한 인공지능 적용
+    - [충돌 감지](#충돌-감지) : KD-Tree를 이용하여 충돌 감지
+    - [공격 방식](#공격-방식) : Shot -> Target -> Over 순서 적용
   - 동기화
-    - [이동 동기화](https://github.com/Apeirogon99/Project_LD_Server) : 데드레커닝을 이용한 동기화
-    - [애니메이션 동기화](https://github.com/Apeirogon99/Project_LD_Server) : 애니메이션 배속 또는 생략
+    - [이동 동기화](#이동-동기화) : 데드레커닝을 이용한 동기화
+    - [애니메이션 동기화](#애니메이션-동기화) : 애니메이션 배속 또는 생략
   - 최적화
-    - [가시거리](https://github.com/Apeirogon99/Project_LD_Server) : 대역폭을 줄이기 위한 가시거리 제작 및 활용
+    - [가시거리](#가시거리) : 대역폭을 줄이기 위한 가시거리 제작 및 활용
   #### Content
   - 전투
     - [스킬](#스킬) : 설치형, 차징, 대쉬, 패링 스킬 구현
@@ -36,6 +36,27 @@
     - [회원가입 및 인증](#회원가입-및-인증) : 회원가입하고 이메일로 인증해야 최종적으로 가입되는 시스템
       
 </div>
+
+<div align="center"> <h1> System </h1> </div>
+<div align="center"> <h2> 전투 시스템 </h2> </div>
+
+# 몬스터 인공지능
+
+# 충돌 감지
+
+# 공격 방식
+
+<div align="center"> <h2> 동기화 </h2> </div>
+
+# 이동 동기화
+
+# 애니메이션 동기화
+
+<div align="center"> <h2> 최적화 </h2> </div>
+
+# 가시거리
+
+------
 
 <div align="center"> <h1> Content </h1> </div>
 <div align="center"> <h2> 전투 </h2> </div>
