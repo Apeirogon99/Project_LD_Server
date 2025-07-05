@@ -50,7 +50,7 @@
 # 패턴
 
 # 버프 디버프
-![image](https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05)
+<img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300">
 
 <div align="center"> <h2> SNS </h2> </div>
 
