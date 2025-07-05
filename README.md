@@ -42,6 +42,10 @@
 
 # 스킬
 ![parrying](https://github.com/user-attachments/assets/d2a0d1e4-94fb-4c80-8300-ebc8bf6e331a)
+![charging](https://github.com/user-attachments/assets/885d132f-07b6-437c-ba42-e3b2590f025a)
+![slam](https://github.com/user-attachments/assets/d99e45ef-5a92-4799-8a70-880fec0c87eb)
+![buff](https://github.com/user-attachments/assets/23160613-489e-424b-81c7-237fb5cac51d)
+![dash](https://github.com/user-attachments/assets/3b2a0249-5ca7-4568-8e2c-f09dbcea05c1)
 
 # 패턴
 
@@ -75,16 +79,29 @@
 <div align="center"> <h2> 캐릭터 </h2> </div>
 
 # 캐릭터 커스텀
+<a href="https://youtu.be/V_tvPMT1-Mk?si=fdfGr-h5dcJqIC_2&t=19">
+  <img src="https://github.com/user-attachments/assets/ad7269f8-ba6b-4674-bd5c-d7a3c85a4b02" alt="Video Label" width="400" height="300">
+</a>
+<br>
+🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 19초부터 시작)</em>
 
 <div align="center"> <h2> 아이템 </h2> </div>
 
 # 루팅
+<img src="https://github.com/user-attachments/assets/351a3709-78df-4fbd-b09a-2caab1d6a914" alt="Video Label" width="400" height="300">
 
 # 장비
+<img src="https://github.com/user-attachments/assets/d5d4367a-baa0-4a8c-b9b5-eeacdd3a3c69" alt="Video Label" width="400" height="300">
 
 # 인벤토리
+<img src="https://github.com/user-attachments/assets/6045c1ad-1ad7-4168-a742-3d2a17c62b08" alt="Video Label" width="400" height="300">
 
 <div align="center"> <h2> 계정 </h2> </div>
 
 # 회원가입 및 인증
+<a href="https://youtu.be/V_tvPMT1-Mk?si=QOYz4I2tYBmWb9ss&t=9">
+  <img src="https://github.com/user-attachments/assets/8682c1d0-48fc-4bdd-b104-5729ec97e091" alt="Video Label" width="400" height="300">
+</a>
+<br>
+🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 09초부터 시작)</em>
 
