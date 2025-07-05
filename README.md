@@ -41,18 +41,36 @@
 <div align="center"> <h2> 전투 </h2> </div>
 
 # 스킬
+![parrying](https://github.com/user-attachments/assets/d2a0d1e4-94fb-4c80-8300-ebc8bf6e331a)
 
 # 패턴
 
 # 버프 디버프
+![image](https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05)
 
 <div align="center"> <h2> SNS </h2> </div>
 
 # 채팅
+<a href="https://youtu.be/V_tvPMT1-Mk?si=5YUewK7-nNEPqBQU&t=55">
+  <img src="https://github.com/user-attachments/assets/b99b5e6d-994f-41ce-b270-cdd119cd8db5" alt="Video Label" width="400" height="300">
+</a>
+<br>
+🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 55초부터 시작)</em>
 
 # 파티
+<a href="https://youtu.be/V_tvPMT1-Mk?si=Y0_Fd4UF8YmNELK4&t=78">
+  <img src="https://github.com/user-attachments/assets/58b00dd4-72b9-49c6-a233-1c34d522975b" alt="Video Label" width="400" height="300">
+</a>
+<br>
+🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (1분 18초부터 시작)</em>
 
 # 친구
+<a href="https://youtu.be/V_tvPMT1-Mk?si=bAHyILk5hUkYY-zg&t=65">
+  <img src="https://github.com/user-attachments/assets/2a318941-19cc-44d6-8e9c-79f4616860fe" alt="Video Label" width="400" height="300">
+</a>
+<br>
+🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (1분 05초부터 시작)</em>
+
 
 <div align="center"> <h2> 캐릭터 </h2> </div>
 
