@@ -11,7 +11,7 @@
     - [몬스터 인공지능](#몬스터-인공지능) : FSM을 이용한 단순한 인공지능 적용
     - [충돌 감지](#충돌-감지) : KD-Tree를 이용하여 충돌 감지
       - [충돌 테스트](https://github.com/Apeirogon99/CollisionDetection) : Array, Quad-Tree, KD-Tree 비교 및 분석
-    - [공격 방식](#공격-방식) : Shot -> Target -> Over 순서 적용
+    - [공격 방식](#공격-방식) : Shot -> Target -> Over 통일된 공격 순서 적용
   - [이동 동기화](#이동-동기화) : 데드레커닝을 이용한 동기화
     - [데드레커닝 개선](https://github.com/Apeirogon99/MovementSync) : 데드레커닝 방향전환으로 인한 위치 오차를 줄이기 위한 동적 동기화 적용
   - [가시거리](#가시거리) : 트래픽을 줄이기 위한 가시거리 제작 및 활용
