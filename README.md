@@ -542,11 +542,29 @@ void EnemySlime::OnAutoAttackOver()
 <div align="center"> <h2> 캐릭터 </h2> </div>
 
 # 캐릭터 커스텀
+
+### 설계 목표
+플레이어의 캐릭터를 커스텀할 수 있도록 구현 </br>
+
 <a href="https://youtu.be/V_tvPMT1-Mk?si=fdfGr-h5dcJqIC_2&t=19">
   <img src="https://github.com/user-attachments/assets/ad7269f8-ba6b-4674-bd5c-d7a3c85a4b02" alt="Video Label" width="400" height="300">
 </a>
 <br>
 🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 19초부터 시작)</em>
+
+### 캐릭터 생성
+캐릭터를 커스텀한 결과를 서버가 받아 DB에 저장합니다.
+<img width="2482" height="1740" alt="image" src="https://github.com/user-attachments/assets/11af23f7-01fd-456b-89e8-89f3eadd81b1" />
+
+### 캐릭터 로드
+캐릭터의 정보를 DB를 통해 가져오고 크게 유형을 나누어 보냅니다.
+1. 캐릭터 기본 정보 (이름, 레벨, 클래스)
+2. 캐릭터 외형 (종족, 스킨 색깔)
+3. 캐릭터가 착용한 장비
+
+<img width="2482" height="2674" alt="image" src="https://github.com/user-attachments/assets/ed6d24ff-acbb-4d88-aa7e-0318e37cad71" />
+
+
 
 <div align="center"> <h2> 아이템 </h2> </div>
 
