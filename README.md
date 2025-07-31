@@ -413,10 +413,57 @@ void EnemySlime::OnAutoAttackOver()
 위의 스킬들을 대부분 응용한 것이기에 짧은 설명과 필요에 따라 간단한 코드를 넣었습니다. </br>
 
 ### 페이즈 1
+처음은 리치를 상대하게 됩니다. </br>
+
+![phase1-1](https://github.com/user-attachments/assets/5f4428da-f469-4cf3-b3ce-d19d8d09374a)
+
+![phase1-2](https://github.com/user-attachments/assets/661456aa-d441-45a5-aa6e-3dffa632207e)
+
+![phase1-3](https://github.com/user-attachments/assets/0f5f8a04-70ce-47f9-8961-bfe07e705526)
+
+![phase1-4](https://github.com/user-attachments/assets/3f1c1501-539b-4148-abfd-6b08e86b81a9)
+
 
 ### 페이즈 2
+리치는 다크나이트를 소환하고 무적상태에 돌입합니다. </br>
+다크나이트를 물리치면 페이즈가 넘어갑니다. </br>
+
+![phase2-1](https://github.com/user-attachments/assets/78245cbb-9d2c-451d-a96e-744a585e7729)
+
+![phase2-2](https://github.com/user-attachments/assets/77ad4d41-5028-40ab-b1ed-e97eae8b3884)
+
+![phase2-3](https://github.com/user-attachments/assets/a98caaf1-88ae-48fc-abca-b63dec0ff0b3)
+
+![phase2-4](https://github.com/user-attachments/assets/445524e5-9747-4f26-89a3-bbe68b506e33)
+
+![phase2-5](https://github.com/user-attachments/assets/adccdadd-662a-46cc-a593-23d0421e89b5)
+
+![phase2-6](https://github.com/user-attachments/assets/81ffe7df-71ae-4b50-865b-2a9436cf44d6)
+
+![phase2-7](https://github.com/user-attachments/assets/2cba7196-5dde-4698-9444-d3df1851bfe0)
+
+![phase2-8](https://github.com/user-attachments/assets/5a0d51f3-3dfe-4eb3-ab67-f4cb27f9fd95)
+
+![phase2-9](https://github.com/user-attachments/assets/49816256-8c88-44da-9774-dc112d75ca3b)
+
+![phase2-10](https://github.com/user-attachments/assets/07a82d5f-863f-4175-857f-534a3fe2e858)
 
 ### 페이즈 3
+마지막 페이즈는 가려진 안개속에서 리치의 심장을 찾아 부수면 클리어됩니다.
+
+![phase3-1](https://github.com/user-attachments/assets/c32c4209-763a-4ce1-a3e6-99e4f13269c0)
+
+![phase3-2](https://github.com/user-attachments/assets/13718400-d42b-4a5f-8b91-4a8b5584e443)
+
+![phase3-3](https://github.com/user-attachments/assets/63a9e437-ece8-4695-9e4f-91687bf24a3b)
+
+![phase3-4](https://github.com/user-attachments/assets/66b2f495-8d68-4d2e-b5d0-3e420448858d)
+
+### 다크 나이트 애니메이션 동기화
+다크 나이트 애니메이션은 클라이언트에 있고 이것을 서버에 어떻게 동기화 시
+
+<img width="1174" height="512" alt="image" src="https://github.com/user-attachments/assets/b6fa964a-fb75-4755-bb44-60b62143e138" />
+
 
 # 버프 디버프
 <img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300" />
