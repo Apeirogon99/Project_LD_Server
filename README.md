@@ -470,11 +470,25 @@ void EnemySlime::OnAutoAttackOver()
 <img width="2210" height="1270" alt="image" src="https://github.com/user-attachments/assets/dbf6c801-5dc8-4613-b8db-06b06c82a48d" />
 
 # 버프 디버프
+
+### 설계 목표
+플레이어의 버프와 디버프를 관리하는 컴포넌트 구현 </br>
+
 <img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300" />
+
+### 버프 및 디버프 적용
+버프의 타입으로 해당 버프가 있는지 체크하여 적용합니다 </br>
+만약 이동과 같이 속도를 변경시켜야 하는경우 ApplyBuff에서 값을 변경시킵니다. </br>
+
+<img width="2392" height="2258" alt="image" src="https://github.com/user-attachments/assets/83448944-e4be-497f-a982-5e1ac90e80ec" />
 
 <div align="center"> <h2> SNS </h2> </div>
 
 # 채팅
+
+### 설계 목표
+유저들과 소통할 수 있는 채팅 구현 </br>
+
 <a href="https://youtu.be/V_tvPMT1-Mk?si=5YUewK7-nNEPqBQU&t=55">
   <img src="https://github.com/user-attachments/assets/b99b5e6d-994f-41ce-b270-cdd119cd8db5" alt="Video Label" width="400" height="300">
 </a>
@@ -482,18 +496,47 @@ void EnemySlime::OnAutoAttackOver()
 🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 55초부터 시작)</em>
 
 # 파티
+
+### 설계 목표
+파티의 상태를 안정적으로 관리하고 동기화하는 시스템 구현 </br>
+
 <a href="https://youtu.be/V_tvPMT1-Mk?si=Y0_Fd4UF8YmNELK4&t=78">
   <img src="https://github.com/user-attachments/assets/58b00dd4-72b9-49c6-a233-1c34d522975b" alt="Video Label" width="400" height="300">
 </a>
 <br>
 🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (1분 18초부터 시작)</em>
 
+### 권한 기반 명령 처리
+파티장 권한을 체크하여 민감한 작업을 처리하였습니다. </br>
+
+<img width="762" height="167" alt="image" src="https://github.com/user-attachments/assets/e00a7ee0-dd4b-4e2d-bfd3-ac12d5cf55b7" />
+
+### 다양한 테스트
+파티 참가 가능 여부를 단순한 인원 체크로 판단하지 않고 </br>
+다양한 관점에서 발생 할 수 있는 예외 상황들을 꼼꼼하게 검증하며 </br>
+방어적으로 작성할 수 있도록 하였습니다. </br>
+
+<img width="764" height="554" alt="image" src="https://github.com/user-attachments/assets/b89a9e05-b1df-49fa-afbc-6b0042749cdf" />
+
+또한 에러 코드를 클라이언트에게 전달해 피드백하였습니다. </br>
+
+<img width="337" height="127" alt="image" src="https://github.com/user-attachments/assets/d18593e2-ebbd-4cfb-8cc7-cc579b46f1ee" />
+
 # 친구
+
+### 설계 목표
+친구의 상태를 관리하며 친구가 게임에 접속 했는지 확인 가능한 시스템 구현 </br>
+
 <a href="https://youtu.be/V_tvPMT1-Mk?si=bAHyILk5hUkYY-zg&t=65">
   <img src="https://github.com/user-attachments/assets/2a318941-19cc-44d6-8e9c-79f4616860fe" alt="Video Label" width="400" height="300">
 </a>
 <br>
 🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (1분 05초부터 시작)</em>
+
+### 친구 접속 시 알림
+게임에 접속 시 친구 리스트를 로드하여 현재 접속중인 친구가 있다면 알리기
+
+<img width="2482" height="1462" alt="image" src="https://github.com/user-attachments/assets/d482d085-d0b3-45fa-a1d0-80fb703d0daf" />
 
 
 <div align="center"> <h2> 캐릭터 </h2> </div>
