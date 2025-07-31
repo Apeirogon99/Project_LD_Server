@@ -330,13 +330,93 @@ void EnemySlime::OnAutoAttackOver()
 <div align="center"> <h2> 전투 </h2> </div>
 
 # 스킬
+
+### 설계 목표
+패링, 차징, 찍기, 버프, 대쉬를 제작 및 키 입력 처리 </br>
+
+### 키 입력
+다른 게임들을 보면 키 세팅이라는 것이 존재합니다  </br>
+그렇기 때문에 키를 바꿔도 동작이 되어야 한다는 것을 중점으로 설계를 하였습니다. </br>
+
+아이템 아이디, 스킬 아이디는 고유하기 때문에 다음과 같이 아이디값을 key로 주고 value를 BindAction(아이템, 스킬등..)을 넣어 키에 대한 정보를 확인할 수 있도록 하였습니다  </br>
+<img width="323" height="23" alt="image" src="https://github.com/user-attachments/assets/56a2d54d-8fe9-4094-ae0a-cd0cf2db36ca" />
+
+그럼 다음 문제는 "어떻게 실행을 하지?" 였습니다. </br>
+입력에 대한 정보를 얻고 Key(아이디) 값을 넣어 실행하기 위해서는 이전에 루키스 강의를 보면서 배운 Handler를 사용하면 좋겠다고 생각하였습니다 </br>
+<img width="614" height="113" alt="image" src="https://github.com/user-attachments/assets/68a3a9a4-16db-43bb-b647-d906b331e591" />
+
+그리고 이를 배열에 넣은 함수를 호출하여 사용하였습니다
+<img width="705" height="98" alt="image" src="https://github.com/user-attachments/assets/d3aa5403-550b-4d6b-b3ef-b668f86e9c25" />
+
+### 패링
+공격 또는 카운터 패턴을 파훼하기 위한 패링 스킬 </br>
 ![parrying](https://github.com/user-attachments/assets/d2a0d1e4-94fb-4c80-8300-ebc8bf6e331a)
+
+#### 의도치 않은 옆, 뒤 공격도 패링하는 문제
+계획한 패링은 정밀한 각도와 타이밍을 요구하였습니다. </br>
+
+그래서 적의 공격 방향과 패링의 방향을 비교하였으며 </br>
+원하는 패링 각도를 설정하여 패링을 처리하였습니다. </br>
+
+<img width="570" height="316" alt="image" src="https://github.com/user-attachments/assets/6b524b34-3efb-45f4-a839-e07af675c1fc" />
+<img width="575" height="159" alt="image" src="https://github.com/user-attachments/assets/a7630cb1-3b15-4e7f-9bde-f853a2647e54" />
+
+### 차징
+차징 스킬로 길게 누르면 대미지와 범위가 늘어나게 됩니다. </br>
 ![charging](https://github.com/user-attachments/assets/885d132f-07b6-437c-ba42-e3b2590f025a)
+
+키를 눌렀을때 서버에 보내게 되고 서버에서는 시간을 측정합니다. </br>
+키에서 손을 놓게 된다면 서버는 최대 시간을 생각하여 검기의 대미지와 범위를 늘려줍니다. </br>
+<img width="1756" height="512" alt="image" src="https://github.com/user-attachments/assets/28067070-c95f-4d18-a1b7-5825387b9d6f" />
+
+### 찍기
+범위에 따라서 좁은 범위에는 스턴이, 큰 범위에는 슬로우가 걸리게 됩니다. </br>
+거리가 멀수록 대미지가 약해집니다 </br>
 ![slam](https://github.com/user-attachments/assets/d99e45ef-5a92-4799-8a70-880fec0c87eb)
+
+<img width="2560" height="952" alt="image" src="https://github.com/user-attachments/assets/8e668759-dc0e-4042-a14b-0013af0d69d7" />
+
+### 버프
+플레이어 및 파티에게 마법진 안에 들어가 있으면 이로운 버프를 줍니다. </br>
+버프의 아이콘의 경우 들어온 버프에따라 Ex) "공격력 10퍼 증가" 라면 buff id를 보내 버프가 사라질때까지 플레이어 정보에 뜨게 해줍니다. </br>
+이는 디버프도 마찬가지입니다. </br>
 ![buff](https://github.com/user-attachments/assets/23160613-489e-424b-81c7-237fb5cac51d)
+
+버프는 장판 지속이기 때문에 이미 버프를 받았다면 중첩되어 받지 않게 관리했습니다
+<img width="2442" height="792" alt="image" src="https://github.com/user-attachments/assets/4e011317-7f3d-49fc-93c5-acca19b7a221" />
+
+### 대쉬
+플레이어가 바라보는 방향으로 짧게 돌진합니다. </br>
+앞에 장애물이 있다면 장애물 앞까지만 돌진합니다. </br>
 ![dash](https://github.com/user-attachments/assets/3b2a0249-5ca7-4568-8e2c-f09dbcea05c1)
 
+장애물까지의 거리를 측정하기 위해서는 장애물에 대한 정보가 필요했고 </br>
+다음과 같이 플레이어가 바라보는 방향에서 직선의 형태의 선을 그어서 장애물이 존재한다면 그 앞에 멈추도록 하였습니다 </br>
+플레이어의 반지름을 구해 주황색처럼 막힌 부분이 아니라 초록색 처럼 처리하였습니다 </br>
+
+<img width="2442" height="712" alt="image" src="https://github.com/user-attachments/assets/91a38619-fea7-44fe-a108-aa79a2d9b7b4" />
+
+<img width="868" height="318" alt="image" src="https://github.com/user-attachments/assets/7ca3b7ce-9b08-484c-94a1-d0c0af199622" />
+
+
 # 패턴
+
+### 설계 목표
+공격 방식을 응용하여 패턴을 적용하고자 하였습니다. </br>
+마찬가지로 몬스터 초기화 시점에 패턴에 대한 정보를 넣습니다. </br>
+<img width="1826" height="394" alt="image" src="https://github.com/user-attachments/assets/b9bb4f0a-e8a2-42aa-8a1d-f5140b9300a5" />
+
+그리고 Shot에서 랜덤으로 패턴을 실행하게 하여 처리하였습니다. </br>
+<img width="1906" height="394" alt="image" src="https://github.com/user-attachments/assets/67b2d62f-66b5-41a6-9be7-5bed2a4932b6" />
+
+다음은 페이즈별 스킬입니다. </br>
+위의 스킬들을 대부분 응용한 것이기에 짧은 설명과 필요에 따라 간단한 코드를 넣었습니다. </br>
+
+### 페이즈 1
+
+### 페이즈 2
+
+### 페이즈 3
 
 # 버프 디버프
 <img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300" />
