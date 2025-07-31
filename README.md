@@ -592,10 +592,43 @@ void EnemySlime::OnAutoAttackOver()
 <img width="2482" height="1014" alt="image" src="https://github.com/user-attachments/assets/c85fd52d-fb3d-4b72-965f-268ddd56d3df" />
 
 # 장비
+
+### 설계 목표
+장비를 장착 및 해제가 가능하고 장비에 따라 스텟이 변화할 수 있도록 구현 </br>
+
 <img src="https://github.com/user-attachments/assets/d5d4367a-baa0-4a8c-b9b5-eeacdd3a3c69" alt="Video Label" width="400" height="300" />
 
+### 장비 스텟 적용
+제가 했던 게임을 보았을 때 대부분 아이템을 교채하면 최대값만 증가하는 것을 확인하였습니다.
+
+그래서 장비를 장착 및 해제 또는 로드할 때 마다 장비의 스텟 값을 캐릭터의 최대 스텟에 더하고자 하였습니다.
+기존에 캐릭터나 몬스터에 사용하던 스텟이라는 데이터가 있었기에 비교적 간단하게 적용할 수 있었습니다.
+사용법은 아이템 코드에 따라 장비의 데이터(스텟)을 얻을 수 있었고 이것을 캐릭터의 최대 스텟에 반복하여 더하였습니다.
+<img width="1864" height="97" alt="image" src="https://github.com/user-attachments/assets/bd04d71f-2c87-4d41-85c5-407e3b0446af" />
+
+<img width="1710" height="784" alt="image" src="https://github.com/user-attachments/assets/79a21768-3e41-4f3d-8aab-2d4a40634bf6" />
+
+### 장착 및 해제
+장비는 1 ~ 9부터 장착 가능한 위치가 존재합니다.
+장착 및 해제할 때 넣을 수 있는지 제거할 수 있는지 확인할 수 있도록 하였습니다. </br>
+<img width="1610" height="1194" alt="image" src="https://github.com/user-attachments/assets/93014018-919c-45ec-b58e-1198bfa7db63" />
+
+
 # 인벤토리
+
+### 설계 목표
+그리드 형식의 인벤토리를 제작하여 자유롭게 배치할 수 있도록 구현하였습니다. </br>
+
 <img src="https://github.com/user-attachments/assets/6045c1ad-1ad7-4168-a742-3d2a17c62b08" alt="Video Label" width="400" height="300" />
+
+### 아이템 추가
+아이템의 코드를 이용하여 크기를 얻어내고 회전을 확인하여 넣을 수 있는지 없는지 체크하였습니다.
+아이템의 변경은 빈번하게 일어날 것이기 때문에 클라이언트에서 엄격하게 검사합니다.
+그렇다고 클라이언트를 믿을 수 있는 것은 아니기에 서버에서도 간단한 검사를 하였습니다.
+
+<img width="2422" height="1866" alt="image" src="https://github.com/user-attachments/assets/39de2e3c-a4e7-499b-94eb-b178432346b3" />
+<img width="441" height="423" alt="image" src="https://github.com/user-attachments/assets/8a575b6a-7d50-4c76-94e3-4f2bd9e4dea9" />
+
 
 <div align="center"> <h2> 계정 </h2> </div>
 
