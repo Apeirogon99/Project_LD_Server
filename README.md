@@ -622,9 +622,9 @@ void EnemySlime::OnAutoAttackOver()
 <img src="https://github.com/user-attachments/assets/6045c1ad-1ad7-4168-a742-3d2a17c62b08" alt="Video Label" width="400" height="300" />
 
 ### 아이템 추가
-아이템의 코드를 이용하여 크기를 얻어내고 회전을 확인하여 넣을 수 있는지 없는지 체크하였습니다.
-아이템의 변경은 빈번하게 일어날 것이기 때문에 클라이언트에서 엄격하게 검사합니다.
-그렇다고 클라이언트를 믿을 수 있는 것은 아니기에 서버에서도 간단한 검사를 하였습니다.
+아이템의 코드를 이용하여 크기를 얻어내고 회전을 확인하여 넣을 수 있는지 없는지 체크하였습니다. </br>
+아이템의 변경은 빈번하게 일어날 것이기 때문에 클라이언트에서 엄격하게 검사합니다. </br>
+그렇다고 클라이언트를 믿을 수 있는 것은 아니기에 서버에서도 간단한 검사를 하였습니다. </br>
 
 <img width="2422" height="1866" alt="image" src="https://github.com/user-attachments/assets/39de2e3c-a4e7-499b-94eb-b178432346b3" />
 <img width="441" height="423" alt="image" src="https://github.com/user-attachments/assets/8a575b6a-7d50-4c76-94e3-4f2bd9e4dea9" />
