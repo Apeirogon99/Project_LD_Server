@@ -557,10 +557,10 @@ void EnemySlime::OnAutoAttackOver()
 <img width="2482" height="1740" alt="image" src="https://github.com/user-attachments/assets/11af23f7-01fd-456b-89e8-89f3eadd81b1" />
 
 ### 캐릭터 로드
-캐릭터의 정보를 DB를 통해 가져오고 크게 유형을 나누어 보냅니다.
-1. 캐릭터 기본 정보 (이름, 레벨, 클래스)
-2. 캐릭터 외형 (종족, 스킨 색깔)
-3. 캐릭터가 착용한 장비
+캐릭터의 정보를 DB를 통해 가져오고 크게 유형을 나누어 보냅니다. </br>
+1. 캐릭터 기본 정보 (이름, 레벨, 클래스) </br>
+2. 캐릭터 외형 (종족, 스킨 색깔) </br>
+3. 캐릭터가 착용한 장비 </br>
 
 <img width="2482" height="2674" alt="image" src="https://github.com/user-attachments/assets/ed6d24ff-acbb-4d88-aa7e-0318e37cad71" />
 
@@ -569,7 +569,27 @@ void EnemySlime::OnAutoAttackOver()
 <div align="center"> <h2> 아이템 </h2> </div>
 
 # 루팅
+
+### 설계 목표
+아이템이 드랍되면 해당 아이템을 주울 수 있도록 하고 싶었습니다. </br>
+
 <img src="https://github.com/user-attachments/assets/351a3709-78df-4fbd-b09a-2caab1d6a914" alt="Video Label" width="400" height="300" />
+
+### 아이템 드랍
+몬스터가 죽거나 플레이어가 아이템을 떨어뜨린다면 해당 위치에 아이템이 떨어졌다는 패킷을 보내게 됩니다. </br>
+
+하지만 재접속 시 아이템이 유지가 되지 않거나 가시거리에서 벗어났다가 다시 돌아오면 보이지 않았습니다. </br>
+그래서 아이템을 떨어뜨릴때 해당 정보를 객체로 담아 월드에 넣어 관리함으로써 유지할 수 있도록 하였습니다. </br>
+
+<img width="307" height="68" alt="image" src="https://github.com/user-attachments/assets/44b345df-1158-4062-9939-7a6c9361e3c4" />
+
+### 아이템 픽업
+해당 게임은 탑뷰 게임인데 아이템을 클릭하였을 때 거리에 닿지 않는다고 클라이언트에게 전달하는 것은 뭔가 이상했습니다. </br>
+그래서 플레이어의 행동 (공격, 줍기, ...)을 설정하여 내가 이동하고나서 이어서 해야할 행동을 지정하게 하여 </br>
+
+자연스럽게 아이템이 있는 곳까지 이동하여 거리에 닿으면 픽업 할 수 있도록 하였습니다. </br>
+
+<img width="2482" height="1014" alt="image" src="https://github.com/user-attachments/assets/c85fd52d-fb3d-4b72-965f-268ddd56d3df" />
 
 # 장비
 <img src="https://github.com/user-attachments/assets/d5d4367a-baa0-4a8c-b9b5-eeacdd3a3c69" alt="Video Label" width="400" height="300" />
@@ -580,9 +600,30 @@ void EnemySlime::OnAutoAttackOver()
 <div align="center"> <h2> 계정 </h2> </div>
 
 # 회원가입 및 인증
+
+### 설계 목표
+최근 회원 가입은 SNS를 많이 사용하기도 하지만 </br>
+이메일을 통해 인증하거나 2차 코드로 사용되어 지기에 만들어보고자 하였습니다. </br>
+
 <a href="https://youtu.be/V_tvPMT1-Mk?si=QOYz4I2tYBmWb9ss&t=9">
   <img src="https://github.com/user-attachments/assets/8682c1d0-48fc-4bdd-b104-5729ec97e091" alt="Video Label" width="400" height="300">
 </a>
 <br>
 🎥 <em>이미지를 클릭하면 영상을 볼 수 있습니다 (0분 09초부터 시작)</em>
+
+### 인증 코드
+인증 코드는 C++ 서버에서 보내는 방식과 MS-SQL에서 보내는 방식 두개를 사용해보았습니다.  </br>
+SMTP에 대한 글을 보면서 따라서 제작하였습니다.  </br>
+
+데이터 베이스는 MS-SQL에 있는 메일 시스템을 사용하였습니다 </br>
+두개의 시스템을 이용하면서 이메일이 잘 보내지지 않아 고생을 했지만 </br>
+결국에는 SMTP 설정과 보안 연결(SSL)에 대한 문제가 있었습니다 </br>
+네이버는 해결했지만 구글을 계속 다른 방법을 사용해도 되지 않아서 해결하지 못했습니다. </br>
+
+<img width="1041" height="299" alt="image" src="https://github.com/user-attachments/assets/2b9468bd-deec-44ef-8197-bc53b856eeee" />
+
+이후 인증을 통해 완전한 가입을 할 수 있도록 하였습니다. </br>
+
+<img width="531" height="41" alt="image" src="https://github.com/user-attachments/assets/a50c2b3f-614c-4420-940c-03a230990981" />
+
 
