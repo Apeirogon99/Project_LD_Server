@@ -410,7 +410,7 @@ void EnemySlime::OnAutoAttackOver()
 <img width="1906" height="394" alt="image" src="https://github.com/user-attachments/assets/67b2d62f-66b5-41a6-9be7-5bed2a4932b6" />
 
 다음은 페이즈별 스킬입니다. </br>
-위의 스킬들을 대부분 응용한 것이기에 짧은 설명과 필요에 따라 간단한 코드를 넣었습니다. </br>
+위의 스킬들을 대부분 응용한 것이기에 영상만 넣었습니다. </br>
 
 ### 페이즈 1
 처음은 리치를 상대하게 됩니다. </br>
@@ -460,10 +460,14 @@ void EnemySlime::OnAutoAttackOver()
 ![phase3-4](https://github.com/user-attachments/assets/66b2f495-8d68-4d2e-b5d0-3e420448858d)
 
 ### 다크 나이트 애니메이션 동기화
-다크 나이트 애니메이션은 클라이언트에 있고 이것을 서버에 어떻게 동기화 시
+다크 나이트 애니메이션은 클라이언트에 있고 이것을 서버에 어떻게 동기화 시킬 것인지 고민이 많았습니다. </br>
+고정된 위치라면 그냥 애니메이션을 실행시켰겠지만 그것이 아닌 이동하는 애니메이션 이여서 문제였습니다. </br>
+이동하는 애니메이션을 고정시켜 서버에서 동작하게도 하였지만 너무 어색하여 다른 방법을 찾아야 했습니다. </br>
 
-<img width="1174" height="512" alt="image" src="https://github.com/user-attachments/assets/b6fa964a-fb75-4755-bb44-60b62143e138" />
+그래서 해결방법은 아니지만 애니메이션의 단계별로 나누어 A -> B 위치까지 몇초 걸리는지 측정하여 이동 계획을 만들어서 위치를 완전히 동기화 할 수 있었습니다. </br>
+이 방법으로 만들긴 하였지만 시간이 많았다면 툴을 만들어 데이터로 추출하여 적용했다면 좋지 않았을까 싶습니다.</br>
 
+<img width="2210" height="1270" alt="image" src="https://github.com/user-attachments/assets/dbf6c801-5dc8-4613-b8db-06b06c82a48d" />
 
 # 버프 디버프
 <img src="https://github.com/user-attachments/assets/c94335f4-5bf0-43d9-a82b-4d4f3566eb05" alt="Video Label" width="400" height="300" />
